@@ -13,8 +13,9 @@
   <span class="badge tier">{{ p.format }}</span>
   {% if p.macron_matters %}<span class="badge err">macron matters</span>{% endif %}
   {% if p.paper_ok is defined and not p.paper_ok %}<span class="badge tier">screen only</span>{% endif %}
-  <span class="muted small">{{ remaining }} left</span>
+  <span class="muted small">{{ remaining }} left {{ 'in this node' if queue == 'node' else 'flagged' }}</span>
 </div>
+<div class="small muted" style="margin:-2px 0 6px">keys: <b>A</b>pprove · <b>E</b>dit · <b>R</b>eject · <b>S</b>kip</div>
 
 {% if item.flags %}
 <div class="flags">
@@ -95,29 +96,43 @@
 
 {% block actionbar %}
 <div class="actionbar">
-  <form method="post" action="{{ url_for('review_action') }}">
+  <form id="form-approve" method="post" action="{{ url_for('review_action') }}">
     <input type="hidden" name="item_id" value="{{ item.item_id }}">
     <input type="hidden" name="queue" value="{{ queue }}">
     <input type="hidden" name="node_id" value="{{ node_id }}">
     <input type="hidden" name="action" value="approve">
-    <button class="act approve" type="submit">Approve</button>
+    <button class="act approve" type="submit"><u>A</u>pprove</button>
   </form>
-  <a class="act edit" style="text-decoration:none;display:flex;align-items:center;justify-content:center"
-     href="{{ url_for('review_edit', item_id=item.item_id, queue=queue, node_id=node_id) }}">Edit</a>
-  <form method="post" action="{{ url_for('review_action') }}">
+  <a id="link-edit" class="act edit" style="text-decoration:none;display:flex;align-items:center;justify-content:center"
+     href="{{ url_for('review_edit', item_id=item.item_id, queue=queue, node_id=node_id) }}"><u>E</u>dit</a>
+  <form id="form-reject" method="post" action="{{ url_for('review_action') }}">
     <input type="hidden" name="item_id" value="{{ item.item_id }}">
     <input type="hidden" name="queue" value="{{ queue }}">
     <input type="hidden" name="node_id" value="{{ node_id }}">
     <input type="hidden" name="action" value="reject">
     <input type="hidden" name="reason" value="rejected">
-    <button class="act reject" type="submit">Reject</button>
+    <button class="act reject" type="submit"><u>R</u>eject</button>
   </form>
-  <form method="post" action="{{ url_for('review_action') }}">
+  <form id="form-skip" method="post" action="{{ url_for('review_action') }}">
     <input type="hidden" name="item_id" value="{{ item.item_id }}">
     <input type="hidden" name="queue" value="{{ queue }}">
     <input type="hidden" name="node_id" value="{{ node_id }}">
     <input type="hidden" name="action" value="skip">
-    <button class="act skip" type="submit">Skip</button>
+    <button class="act skip" type="submit"><u>S</u>kip</button>
   </form>
 </div>
+<script>
+  // Desktop keyboard shortcuts: a approve · e edit · r reject · s skip.
+  // Ignored while typing in a field, so they never fire on the edit screen.
+  document.addEventListener('keydown', function (ev) {
+    if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
+    var t = ev.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    var k = ev.key.toLowerCase();
+    if (k === 'a') { document.getElementById('form-approve').submit(); ev.preventDefault(); }
+    else if (k === 'e') { window.location = document.getElementById('link-edit').href; ev.preventDefault(); }
+    else if (k === 'r') { document.getElementById('form-reject').submit(); ev.preventDefault(); }
+    else if (k === 's') { document.getElementById('form-skip').submit(); ev.preventDefault(); }
+  });
+</script>
 {% endblock %}

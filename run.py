@@ -29,4 +29,10 @@ if __name__ == "__main__":
     print("Latin I — review tool + vocabulary drill")
     print(f"  this laptop : http://localhost:{port}")
     print(f"  on a phone  : http://{_lan_ip()}:{port}   (same wifi)")
+    print("  (ctrl-C to stop)")
+    # Open a browser on the laptop unless asked not to (NO_BROWSER=1).
+    if os.environ.get("NO_BROWSER") != "1" and not os.environ.get("WERKZEUG_RUN_MAIN"):
+        import threading
+        import webbrowser
+        threading.Timer(1.0, lambda: webbrowser.open(f"http://localhost:{port}")).start()
     app.run(host="0.0.0.0", port=port, debug=False)

@@ -69,9 +69,22 @@ def index():
 # Application 1 — the review tool
 # ==========================================================================
 
+def ensure_seeded(db):
+    """On first use, import the generated bank automatically so the teacher
+    lands straight in a working queue instead of an empty screen. Runs the
+    mechanical checks exactly as a manual import would. No-op once seeded."""
+    if store.counts(db)["total"] > 0:
+        return None
+    items = dataio.load_bank()
+    flags_by_item, report = checks.run_all(items, _VALID_NODES, _ALLOWED_LATIN)
+    store.import_items(db, items, flags_by_item, os.path.basename(dataio.BANK_FILE))
+    return report
+
+
 @app.route("/review")
 def review_queue():
     db = get_db()
+    ensure_seeded(db)
     nodes = store.node_queue_counts(db)
     node_rows = [{"node": n, "label": _NODE_LABEL.get(n, ""), "count": c} for n, c in nodes]
     return render_template("review_queue.html", nodes=node_rows,
