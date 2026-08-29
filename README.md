@@ -39,8 +39,11 @@ python3 -m pip install -r requirements.txt
 python3 run.py
 ```
 
-Whichever route, you land at `http://localhost:5000` on the laptop, and the
-terminal prints a `http://<your-ip>:5000` address for a phone on the same wifi.
+Whichever route, the terminal prints the two addresses to use: one for this
+laptop and one for a phone on the same wifi. It starts on port 5000 when that
+is free and moves to 5050 when it isn't — macOS runs AirPlay Receiver on 5000,
+so a Mac usually lands on 5050. Force a specific port with `PORT=8000 python3
+run.py`.
 The review bank imports itself on first visit, so you go straight to a working
 queue.
 
