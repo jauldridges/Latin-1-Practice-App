@@ -13,14 +13,39 @@ grading. Those are out of scope by design.
 
 ## Run it
 
+### Easiest (macOS): double-click `start.command`
+
+In Finder, open the project folder and double-click **`start.command`**. It sets
+itself up the first time (about a minute), then opens the app in your browser.
+Double-click it again any time you want to start.
+
+*If macOS says it can't be opened because it's from an unidentified developer:*
+right-click the file → **Open** → **Open**. You only do that once.
+
+### Or from Terminal
+
 ```bash
-pip install -r requirements.txt      # Flask + PyYAML
-python run.py
+cd Latin-1-Practice-App
+./start.command
 ```
 
-Open `http://localhost:5000` on the laptop, or `http://<laptop-ip>:5000` on a
-phone on the same wifi (the launcher prints the address). First time in the
-review tool, tap **Import the generated bank**.
+### Or by hand
+
+On a Mac the commands are `python3` and `pip3` — plain `python`/`pip` usually
+don't exist, which is the most common first-run stumble:
+
+```bash
+python3 -m pip install -r requirements.txt
+python3 run.py
+```
+
+Whichever route, you land at `http://localhost:5000` on the laptop, and the
+terminal prints a `http://<your-ip>:5000` address for a phone on the same wifi.
+The review bank imports itself on first visit, so you go straight to a working
+queue.
+
+**No Python on the Mac?** Run `xcode-select --install` in Terminal, or download
+it from [python.org/downloads](https://www.python.org/downloads/).
 
 Everything is local: source YAML is read-only, and the app's own data (review
 decisions + practice events) lives in `data/review.sqlite`. Delete that file to
@@ -39,7 +64,7 @@ start clean.
 | `run.py` | Launcher. |
 | `vocab.yaml` | The drill's 80 words **with glosses** (see the caveat below). |
 | `templates/`, `static/` | Mobile-first UI. |
-| `tests/` | 50 tests. `python -m unittest discover -s tests`. |
+| `tests/` | 50 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The three source files (never modified by the apps). |
 
 ## The shared answer-checker
@@ -130,7 +155,7 @@ All five build steps, verified in order:
 4. Drill: both directions, close→retype, macron-optional, event logging.
 5. Event record + solid/shaky/not-yet, derived from history.
 
-50 tests pass (`python -m unittest discover -s tests`).
+50 tests pass (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 
