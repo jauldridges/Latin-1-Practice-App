@@ -1,0 +1,3466 @@
+# ============================================================
+# Latin I — Spec Node List
+# Libertas Academy Charter School · FY27 · J. Sullivan
+# Draft v1 · August 2026
+#
+# CANONICAL SOURCE OF TRUTH.
+# Both the human scope-and-sequence and the app's item tagging
+# derive from this file. Nothing is defined twice.
+#
+# ID RULE: IDs are opaque, sequential within strand, and PERMANENT.
+# Unit assignment is a field, not part of the ID. Nodes will move
+# between units; IDs must never change once an item references them.
+# New nodes append at the end of their strand. Never renumber.
+# ============================================================
+
+meta:
+  course: Latin I
+  school: Libertas Academy Charter School
+  year: FY27
+  teacher: J. Sullivan
+  sections: [Block 3, Block 4, Block 5, Block 7]
+  external_anchor: National Latin Exam, Introduction to Latin / Latin I
+  nle_window: 2027-03-08/2027-03-12
+  version: 2.0
+  updated: 2026-08-20
+
+strands:
+  MS:
+    name: Morphosyntax
+    pacing: cohort-locked
+    description: Forms, endings, syntax, agreement.
+  VO:
+    name: Vocabulary
+    pacing: floor-plus-ceiling
+    description: >
+      Knowing the Latin word. Handled by weekly core lists rather than
+      spec nodes; individual headwords are their own items. See vocabulary
+      section at end of file.
+  RW:
+    name: Roman World
+    pacing: self-paced-modules
+    description: The ancient world on its own terms.
+  MW:
+    name: Modern World
+    pacing: daily-opener-plus-modules
+    description: The through-line to now. Etymology, descent, application, reception.
+  CR:
+    name: Connected Reading
+    pacing: cohort-floor-individual-ceiling
+    description: Strategies and stamina for reading sustained Latin prose.
+
+# Item types referenced by the `assess` field:
+#   recall     - retrieve a fact or form from memory
+#   recognize  - identify a form/feature when shown it
+#   produce    - generate a form from a stem or rule
+#   parse      - state case/number/gender or person/number/tense/voice
+#   translate  - render Latin into English or English into Latin
+#   apply      - use the knowledge in a novel sentence or context
+#   explain    - articulate the reason or rule
+#
+# PLACEMENT FIELDS (v1.1):
+#   week      - ISO Monday date of the teaching week. Dated, not ordinal,
+#               so a cancellation shifts one field instead of renumbering.
+#   day       - ISO date. Null only for module-paced nodes.
+#   vehicle   - where in the lesson the node is delivered:
+#               lesson        body of the lesson
+#               reading       carried by the connected reading passage
+#               vocab         carried by the core word it attaches to
+#               do_now        introduced as a Do Now item, then stays in
+#                             the cumulative retrieval pool
+#               opener        the daily 3-4 minute opener
+#               consolidation Friday, after the quiz
+#               module        self-paced, no fixed day
+
+# Mastery thresholds (see Project Brief §4):
+#   4 of last 5 correct, across 2+ sessions, 1+ proctored,
+#   1+ attempt 7 days after first exposure. Decays after 45 days idle.
+
+nodes:
+
+# ============================================================
+# MORPHOSYNTAX — Unit 0: Phonology (MS-001 – MS-010)
+# ============================================================
+
+  - id: MS-001
+    label: Latin alphabet — letter inventory and differences from English
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-24
+    vehicle: lesson
+    prereqs: []
+    assess: [recall, recognize]
+
+  - id: MS-002
+    label: Consonants c and g are always hard
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-24
+    vehicle: lesson
+    prereqs: [MS-001]
+    assess: [apply]
+
+  - id: MS-003
+    label: Consonantal v (= w) and consonantal i (= y)
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-24
+    vehicle: lesson
+    prereqs: [MS-001]
+    assess: [apply]
+
+  - id: MS-004
+    label: Consonant clusters — qu, gn, ch, ph, th
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-24
+    vehicle: lesson
+    prereqs: [MS-001]
+    assess: [apply]
+
+  - id: MS-005
+    label: Vowel sounds — long and short a, e, i, o, u
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-25
+    vehicle: lesson
+    prereqs: [MS-001]
+    assess: [recognize, apply]
+
+  - id: MS-006
+    label: Macrons — notation and what they mark
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-25
+    vehicle: lesson
+    prereqs: [MS-005]
+    assess: [recognize, explain]
+
+  - id: MS-007
+    label: Diphthongs — ae, oe, au, ei, eu, ui
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-25
+    vehicle: lesson
+    prereqs: [MS-005]
+    assess: [recognize, apply]
+
+  - id: MS-008
+    label: Syllable division
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-26
+    vehicle: lesson
+    prereqs: [MS-005, MS-007]
+    assess: [apply]
+
+  - id: MS-009
+    label: Syllable weight — long by nature and long by position
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-26
+    vehicle: lesson
+    prereqs: [MS-008]
+    assess: [recognize, explain]
+
+  - id: MS-010
+    label: Stress accent — the penult rule
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-26
+    vehicle: lesson
+    prereqs: [MS-009]
+    assess: [apply, explain]
+
+# ============================================================
+# MORPHOSYNTAX — Unit 1: The Sentence Core (MS-011 – MS-049)
+# ============================================================
+
+  - id: MS-011
+    label: Inflection — endings carry grammatical function
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-08
+    vehicle: lesson
+    prereqs: []
+    assess: [explain, apply]
+
+  - id: MS-012
+    label: Latin word order signals emphasis, not grammatical role
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-08
+    vehicle: lesson
+    prereqs: [MS-011]
+    assess: [explain, translate]
+
+  - id: MS-013
+    label: The concept of case
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-08
+    vehicle: lesson
+    prereqs: [MS-011]
+    assess: [explain]
+
+  - id: MS-014
+    label: Nominative case — subject function
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-09
+    vehicle: lesson
+    prereqs: [MS-013]
+    assess: [recognize, explain, translate]
+
+  - id: MS-015
+    label: Accusative case — direct object function
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-09
+    vehicle: lesson
+    prereqs: [MS-013]
+    assess: [recognize, explain, translate]
+
+  - id: MS-016
+    label: Noun dictionary entry — nominative, genitive, gender
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-09
+    vehicle: lesson
+    prereqs: [MS-013]
+    assess: [recall, explain]
+
+  - id: MS-017
+    label: Finding a noun stem from the genitive singular
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-09
+    vehicle: lesson
+    prereqs: [MS-016]
+    assess: [produce, explain]
+
+  - id: MS-018
+    label: First declension — nominative singular
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-09
+    vehicle: lesson
+    prereqs: [MS-014]
+    assess: [recognize, produce, parse]
+
+  - id: MS-019
+    label: First declension — accusative singular
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-09
+    vehicle: lesson
+    prereqs: [MS-015]
+    assess: [recognize, produce, parse]
+
+  - id: MS-020
+    label: First declension — nominative plural
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-10
+    vehicle: lesson
+    prereqs: [MS-018]
+    assess: [recognize, produce, parse]
+
+  - id: MS-021
+    label: First declension — accusative plural
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-10
+    vehicle: lesson
+    prereqs: [MS-019]
+    assess: [recognize, produce, parse]
+
+  - id: MS-022
+    label: First declension gender — default feminine, masculine exceptions
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-10
+    vehicle: lesson
+    prereqs: [MS-018]
+    assess: [recall, apply]
+
+  - id: MS-023
+    label: Second declension masculine in -us — nominative and accusative singular
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-14
+    vehicle: lesson
+    prereqs: [MS-014, MS-015]
+    assess: [recognize, produce, parse]
+
+  - id: MS-024
+    label: Second declension masculine in -us — nominative and accusative plural
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-14
+    vehicle: lesson
+    prereqs: [MS-023]
+    assess: [recognize, produce, parse]
+
+  - id: MS-025
+    label: Second declension nouns in -er — stem behavior (puer vs ager)
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-14
+    vehicle: lesson
+    prereqs: [MS-023, MS-017]
+    assess: [produce, explain]
+
+  - id: MS-026
+    label: Second declension neuter — nominative and accusative singular
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-15
+    vehicle: lesson
+    prereqs: [MS-023]
+    assess: [recognize, produce, parse]
+
+  - id: MS-027
+    label: Second declension neuter — nominative and accusative plural
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-15
+    vehicle: lesson
+    prereqs: [MS-026]
+    assess: [recognize, produce, parse]
+
+  - id: MS-028
+    label: The neuter rule — nominative equals accusative, plural in -a
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-15
+    vehicle: lesson
+    prereqs: [MS-026, MS-027]
+    assess: [explain, apply]
+
+  - id: MS-029
+    label: Ambiguity of syncretic forms — using context to resolve
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-15
+    vehicle: lesson
+    prereqs: [MS-028]
+    assess: [apply, explain]
+
+  - id: MS-030
+    label: Verb person and number — the concept
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-16
+    vehicle: lesson
+    prereqs: [MS-011]
+    assess: [explain]
+
+  - id: MS-031
+    label: Personal endings, active — o/m, s, t, mus, tis, nt
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-16
+    vehicle: lesson
+    prereqs: [MS-030]
+    assess: [recall, parse]
+
+  - id: MS-032
+    label: Verb dictionary entry — first two principal parts
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-16
+    vehicle: lesson
+    prereqs: [MS-030]
+    assess: [recall, explain]
+
+  - id: MS-033
+    label: Present stem from the second principal part
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-16
+    vehicle: lesson
+    prereqs: [MS-032]
+    assess: [produce, explain]
+
+  - id: MS-034
+    label: Present active indicative — first conjugation
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-16
+    vehicle: lesson
+    prereqs: [MS-031, MS-033]
+    assess: [produce, parse, translate]
+
+  - id: MS-035
+    label: Present active indicative — second conjugation
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-17
+    vehicle: lesson
+    prereqs: [MS-034]
+    assess: [produce, parse, translate]
+
+  - id: MS-036
+    label: Distinguishing first from second conjugation by infinitive
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-17
+    vehicle: lesson
+    prereqs: [MS-035]
+    assess: [recognize, explain]
+
+  - id: MS-037
+    label: Subject-verb agreement in person and number
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-17
+    vehicle: lesson
+    prereqs: [MS-031, MS-014]
+    assess: [apply, explain]
+
+  - id: MS-038
+    label: Latin verbs carry their own subject — pronoun not required
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-17
+    vehicle: lesson
+    prereqs: [MS-037]
+    assess: [explain, translate]
+
+  - id: MS-039
+    label: Three English translations of the Latin present
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-17
+    vehicle: lesson
+    prereqs: [MS-034]
+    assess: [translate, explain]
+
+  - id: MS-040
+    label: sum — present indicative
+    unit: 1
+    week: 2026-09-21
+    day: 2026-09-21
+    vehicle: lesson
+    prereqs: [MS-031]
+    assess: [recall, produce, parse]
+
+  - id: MS-041
+    label: Predicate nominative with linking verbs
+    unit: 1
+    week: 2026-09-21
+    day: 2026-09-22
+    vehicle: lesson
+    prereqs: [MS-040, MS-014]
+    assess: [recognize, explain, translate]
+
+  - id: MS-042
+    label: First/second declension adjectives — forms in -us, -a, -um
+    unit: 1
+    week: 2026-09-21
+    day: 2026-09-24
+    vehicle: lesson
+    prereqs: [MS-023, MS-018]
+    assess: [recognize, produce, parse]
+
+  - id: MS-043
+    label: Adjective agreement — case
+    unit: 1
+    week: 2026-09-21
+    day: 2026-09-24
+    vehicle: lesson
+    prereqs: [MS-042]
+    assess: [apply, explain]
+
+  - id: MS-044
+    label: Adjective agreement — number
+    unit: 1
+    week: 2026-09-21
+    day: 2026-09-24
+    vehicle: lesson
+    prereqs: [MS-042]
+    assess: [apply, explain]
+
+  - id: MS-045
+    label: Adjective agreement — gender
+    unit: 1
+    week: 2026-09-21
+    day: 2026-09-24
+    vehicle: lesson
+    prereqs: [MS-042]
+    assess: [apply, explain]
+
+  - id: MS-046
+    label: Adjective agreement across declensions (nauta bonus)
+    unit: 1
+    week: 2026-09-21
+    day: 2026-09-24
+    vehicle: lesson
+    prereqs: [MS-043, MS-044, MS-045, MS-022]
+    assess: [apply, explain]
+
+  - id: MS-047
+    label: Attributive versus predicate position
+    unit: 1
+    week: 2026-09-28
+    day: 2026-09-28
+    vehicle: lesson
+    prereqs: [MS-042, MS-041]
+    assess: [recognize, translate]
+
+  - id: MS-048
+    label: Substantive adjectives
+    unit: 1
+    week: 2026-09-28
+    day: 2026-09-28
+    vehicle: lesson
+    prereqs: [MS-042]
+    assess: [recognize, translate]
+
+  - id: MS-049
+    label: Vocative case — form and use
+    unit: 1
+    week: 2026-09-28
+    day: 2026-09-29
+    vehicle: lesson
+    prereqs: [MS-023]
+    assess: [recognize, produce, translate]
+
+  - id: MS-050
+    label: Imperative — singular and plural, first and second conjugation
+    unit: 1
+    week: 2026-09-28
+    day: 2026-09-29
+    vehicle: lesson
+    prereqs: [MS-033]
+    assess: [produce, translate]
+
+  - id: MS-051
+    label: Coordinating conjunctions — et, sed, -que, aut
+    unit: 1
+    week: 2026-09-28
+    day: 2026-09-30
+    vehicle: lesson
+    prereqs: []
+    assess: [recognize, translate]
+
+# ============================================================
+# MORPHOSYNTAX — Unit 2: Cases & Conjugations (MS-052 – MS-078)
+# ============================================================
+
+  - id: MS-052
+    label: Genitive case — possession function
+    unit: 2
+    week: 2026-10-12
+    day: 2026-10-14
+    vehicle: lesson
+    prereqs: [MS-013]
+    assess: [recognize, explain, translate]
+
+  - id: MS-053
+    label: First declension — genitive singular and plural
+    unit: 2
+    week: 2026-10-12
+    day: 2026-10-14
+    vehicle: lesson
+    prereqs: [MS-052, MS-018]
+    assess: [produce, parse]
+
+  - id: MS-054
+    label: Second declension — genitive singular and plural
+    unit: 2
+    week: 2026-10-12
+    day: 2026-10-15
+    vehicle: lesson
+    prereqs: [MS-052, MS-023]
+    assess: [produce, parse]
+
+  - id: MS-055
+    label: Genitive of the whole (partitive)
+    unit: 2
+    week: 2026-10-19
+    day: 2026-10-19
+    vehicle: lesson
+    prereqs: [MS-052]
+    assess: [recognize, translate]
+
+  - id: MS-056
+    label: Genitive singular and nominative plural are identical in first declension
+    unit: 2
+    week: 2026-10-12
+    day: 2026-10-15
+    vehicle: lesson
+    prereqs: [MS-053, MS-029]
+    assess: [apply, explain]
+
+  - id: MS-057
+    label: Dative case — indirect object function
+    unit: 2
+    week: 2026-10-26
+    day: 2026-10-26
+    vehicle: lesson
+    prereqs: [MS-013]
+    assess: [recognize, explain, translate]
+
+  - id: MS-058
+    label: First declension — dative singular and plural
+    unit: 2
+    week: 2026-10-26
+    day: 2026-10-26
+    vehicle: lesson
+    prereqs: [MS-057, MS-018]
+    assess: [produce, parse]
+
+  - id: MS-059
+    label: Second declension — dative singular and plural
+    unit: 2
+    week: 2026-10-26
+    day: 2026-10-27
+    vehicle: lesson
+    prereqs: [MS-057, MS-023]
+    assess: [produce, parse]
+
+  - id: MS-060
+    label: Dative with special verbs (credo, noceo, pareo, persuadeo)
+    unit: 2
+    week: 2026-10-26
+    day: 2026-10-28
+    vehicle: lesson
+    prereqs: [MS-057]
+    assess: [recognize, translate]
+
+  - id: MS-061
+    label: Dative of possession with sum
+    unit: 2
+    week: 2026-10-26
+    day: 2026-10-29
+    vehicle: lesson
+    prereqs: [MS-057, MS-040]
+    assess: [recognize, translate]
+
+  - id: MS-062
+    label: Third declension — the genitive singular reveals the stem
+    unit: 2
+    week: 2026-11-02
+    day: 2026-11-02
+    vehicle: lesson
+    prereqs: [MS-017]
+    assess: [produce, explain]
+
+  - id: MS-063
+    label: Third declension masculine/feminine — nominative singular is unpredictable
+    unit: 2
+    week: 2026-11-02
+    day: 2026-11-02
+    vehicle: lesson
+    prereqs: [MS-062]
+    assess: [recall, explain]
+
+  - id: MS-064
+    label: Third declension masculine/feminine — singular endings
+    unit: 2
+    week: 2026-11-02
+    day: 2026-11-03
+    vehicle: lesson
+    prereqs: [MS-062]
+    assess: [produce, parse]
+
+  - id: MS-065
+    label: Third declension masculine/feminine — plural endings
+    unit: 2
+    week: 2026-11-02
+    day: 2026-11-04
+    vehicle: lesson
+    prereqs: [MS-064]
+    assess: [produce, parse]
+
+  - id: MS-066
+    label: Third declension neuter — singular and plural
+    unit: 2
+    week: 2026-11-09
+    day: 2026-11-09
+    vehicle: lesson
+    prereqs: [MS-064, MS-028]
+    assess: [produce, parse]
+
+  - id: MS-067
+    label: i-stem nouns — identifying them
+    unit: 2
+    week: 2026-11-09
+    day: 2026-11-10
+    vehicle: lesson
+    prereqs: [MS-064]
+    assess: [recognize, explain]
+
+  - id: MS-068
+    label: i-stem nouns — genitive plural in -ium
+    unit: 2
+    week: 2026-11-09
+    day: 2026-11-10
+    vehicle: lesson
+    prereqs: [MS-067]
+    assess: [produce, parse]
+
+  - id: MS-069
+    label: Third declension i-stem neuters — -i, -ia, -ium
+    unit: 2
+    week: 2026-11-09
+    day: 2026-11-12
+    vehicle: lesson
+    prereqs: [MS-067, MS-066]
+    assess: [produce, parse]
+
+  - id: MS-070
+    label: Gender of third declension nouns must be learned, not deduced
+    unit: 2
+    week: 2026-11-02
+    day: 2026-11-05
+    vehicle: lesson
+    prereqs: [MS-063]
+    assess: [recall, explain]
+
+  - id: MS-071
+    label: Adjective agreement with third declension nouns
+    unit: 2
+    week: 2026-11-02
+    day: 2026-11-05
+    vehicle: lesson
+    prereqs: [MS-046, MS-064]
+    assess: [apply, explain]
+
+  - id: MS-072
+    label: Present active indicative — third conjugation
+    unit: 2
+    week: 2026-11-16
+    day: 2026-11-16
+    vehicle: lesson
+    prereqs: [MS-035]
+    assess: [produce, parse, translate]
+
+  - id: MS-073
+    label: Present active indicative — third conjugation -io verbs
+    unit: 2
+    week: 2026-11-16
+    day: 2026-11-16
+    vehicle: lesson
+    prereqs: [MS-072]
+    assess: [produce, parse]
+
+  - id: MS-074
+    label: Present active indicative — fourth conjugation
+    unit: 2
+    week: 2026-11-16
+    day: 2026-11-17
+    vehicle: lesson
+    prereqs: [MS-072]
+    assess: [produce, parse, translate]
+
+  - id: MS-075
+    label: Identifying conjugation from the infinitive — all four
+    unit: 2
+    week: 2026-11-16
+    day: 2026-11-18
+    vehicle: lesson
+    prereqs: [MS-036, MS-074, MS-076]
+    assess: [recognize, explain]
+
+  - id: MS-076
+    label: The infinitive — the second principal part, and its "to ___" translation
+    unit: 1
+    week: 2026-09-21
+    day: 2026-09-21
+    vehicle: lesson
+    prereqs: [MS-032]
+    assess: [recognize, produce, translate]
+
+  - id: MS-077
+    label: Imperative — third and fourth conjugation, and the irregulars dic, duc, fac, fer
+    unit: 2
+    week: 2026-11-16
+    day: 2026-11-18
+    vehicle: lesson
+    prereqs: [MS-050, MS-072]
+    assess: [produce, recall]
+
+  - id: MS-078
+    label: Negative commands with noli / nolite plus infinitive
+    unit: 2
+    week: 2026-11-16
+    day: 2026-11-18
+    vehicle: lesson
+    prereqs: [MS-077, MS-158]
+    assess: [produce, translate]
+
+# ============================================================
+# MORPHOSYNTAX — Unit 3: Ablative & Past Time (MS-079 – MS-100)
+# ============================================================
+
+  - id: MS-079
+    label: Ablative case — the concept of a catch-all adverbial case
+    unit: 3
+    week: 2026-11-30
+    day: 2026-11-30
+    vehicle: lesson
+    prereqs: [MS-013]
+    assess: [explain]
+
+  - id: MS-080
+    label: First declension — ablative singular and plural
+    unit: 3
+    week: 2026-11-30
+    day: 2026-11-30
+    vehicle: lesson
+    prereqs: [MS-079, MS-018]
+    assess: [produce, parse]
+
+  - id: MS-081
+    label: Second declension — ablative singular and plural
+    unit: 3
+    week: 2026-11-30
+    day: 2026-11-30
+    vehicle: lesson
+    prereqs: [MS-079, MS-023]
+    assess: [produce, parse]
+
+  - id: MS-082
+    label: Third declension — ablative singular and plural
+    unit: 3
+    week: 2026-11-30
+    day: 2026-12-01
+    vehicle: lesson
+    prereqs: [MS-079, MS-064]
+    assess: [produce, parse]
+
+  - id: MS-083
+    label: Prepositions taking the ablative — in, sub, cum, sine, de, ex, ab, pro
+    unit: 3
+    week: 2026-11-30
+    day: 2026-12-02
+    vehicle: lesson
+    prereqs: [MS-079]
+    assess: [recall, apply]
+
+  - id: MS-084
+    label: Prepositions taking the accusative — ad, in, per, trans, prope, post, inter
+    unit: 3
+    week: 2026-11-30
+    day: 2026-12-02
+    vehicle: lesson
+    prereqs: [MS-015]
+    assess: [recall, apply]
+
+  - id: MS-085
+    label: in with ablative versus in with accusative
+    unit: 3
+    week: 2026-11-30
+    day: 2026-12-03
+    vehicle: lesson
+    prereqs: [MS-083, MS-084]
+    assess: [explain, translate]
+
+  - id: MS-086
+    label: Ablative of place where
+    unit: 3
+    week: 2026-11-30
+    day: 2026-12-03
+    vehicle: lesson
+    prereqs: [MS-083]
+    assess: [recognize, translate]
+
+  - id: MS-087
+    label: Ablative of place from which
+    unit: 3
+    week: 2026-11-30
+    day: 2026-12-03
+    vehicle: lesson
+    prereqs: [MS-083]
+    assess: [recognize, translate]
+
+  - id: MS-088
+    label: Ablative of accompaniment with cum
+    unit: 3
+    week: 2026-12-07
+    day: 2026-12-07
+    vehicle: lesson
+    prereqs: [MS-083]
+    assess: [recognize, translate]
+
+  - id: MS-089
+    label: Ablative of means or instrument — no preposition
+    unit: 3
+    week: 2026-12-07
+    day: 2026-12-08
+    vehicle: lesson
+    prereqs: [MS-079]
+    assess: [recognize, explain, translate]
+
+  - id: MS-090
+    label: Distinguishing means from accompaniment
+    unit: 3
+    week: 2026-12-07
+    day: 2026-12-08
+    vehicle: lesson
+    prereqs: [MS-089, MS-088]
+    assess: [explain, apply]
+
+  - id: MS-091
+    label: Ablative of manner
+    unit: 3
+    week: 2026-12-07
+    day: 2026-12-09
+    vehicle: lesson
+    prereqs: [MS-089]
+    assess: [recognize, translate]
+
+  - id: MS-092
+    label: Ablative of time when
+    unit: 3
+    week: 2026-12-07
+    day: 2026-12-10
+    vehicle: lesson
+    prereqs: [MS-079]
+    assess: [recognize, translate]
+
+  - id: MS-093
+    label: Ablative of time within which
+    unit: 3
+    week: 2026-12-07
+    day: 2026-12-10
+    vehicle: lesson
+    prereqs: [MS-092]
+    assess: [recognize, translate]
+
+  - id: MS-094
+    label: Imperfect tense — meaning and aspect
+    unit: 3
+    week: 2026-12-14
+    day: 2026-12-14
+    vehicle: lesson
+    prereqs: [MS-039]
+    assess: [explain, translate]
+
+  - id: MS-095
+    label: Imperfect active indicative — the -ba- marker, first and second conjugation
+    unit: 3
+    week: 2026-12-14
+    day: 2026-12-14
+    vehicle: lesson
+    prereqs: [MS-094, MS-034]
+    assess: [produce, parse]
+
+  - id: MS-096
+    label: Imperfect active indicative — third and fourth conjugation
+    unit: 3
+    week: 2026-12-14
+    day: 2026-12-14
+    vehicle: lesson
+    prereqs: [MS-095, MS-072]
+    assess: [produce, parse]
+
+  - id: MS-097
+    label: Imperfect of sum
+    unit: 3
+    week: 2026-12-14
+    day: 2026-12-14
+    vehicle: lesson
+    prereqs: [MS-040, MS-094]
+    assess: [recall, produce]
+
+  - id: MS-098
+    label: Future active indicative — the -bi- marker, first and second conjugation
+    unit: 3
+    week: 2026-12-14
+    day: 2026-12-15
+    vehicle: lesson
+    prereqs: [MS-034]
+    assess: [produce, parse]
+
+  - id: MS-099
+    label: Future active indicative — the -a-/-e- marker, third and fourth conjugation
+    unit: 3
+    week: 2026-12-14
+    day: 2026-12-15
+    vehicle: lesson
+    prereqs: [MS-098, MS-072]
+    assess: [produce, parse]
+
+  - id: MS-100
+    label: Future of sum
+    unit: 3
+    week: 2026-12-14
+    day: 2026-12-15
+    vehicle: lesson
+    prereqs: [MS-040, MS-098]
+    assess: [recall, produce]
+
+  - id: MS-101
+    label: Distinguishing present, imperfect, and future by marker
+    unit: 3
+    week: 2026-12-14
+    day: 2026-12-15
+    vehicle: lesson
+    prereqs: [MS-096, MS-099]
+    assess: [parse, explain]
+
+# ============================================================
+# MORPHOSYNTAX — Unit 4: The Perfect System (MS-102 – MS-114)
+# ============================================================
+
+  - id: MS-102
+    label: All four principal parts — what each one gives you
+    unit: 4
+    week: 2027-01-04
+    day: 2027-01-06
+    vehicle: lesson
+    prereqs: [MS-032]
+    assess: [recall, explain]
+
+  - id: MS-103
+    label: The perfect stem from the third principal part
+    unit: 4
+    week: 2027-01-04
+    day: 2027-01-07
+    vehicle: lesson
+    prereqs: [MS-102]
+    assess: [produce, explain]
+
+  - id: MS-104
+    label: Perfect active endings — i, isti, it, imus, istis, erunt
+    unit: 4
+    week: 2027-01-11
+    day: 2027-01-11
+    vehicle: lesson
+    prereqs: [MS-103]
+    assess: [recall, parse]
+
+  - id: MS-105
+    label: Perfect active indicative — all conjugations
+    unit: 4
+    week: 2027-01-11
+    day: 2027-01-12
+    vehicle: lesson
+    prereqs: [MS-104]
+    assess: [produce, parse, translate]
+
+  - id: MS-106
+    label: Perfect tense — meaning and aspect
+    unit: 4
+    week: 2027-01-11
+    day: 2027-01-13
+    vehicle: lesson
+    prereqs: [MS-105]
+    assess: [explain, translate]
+
+  - id: MS-107
+    label: Distinguishing perfect from imperfect in translation
+    unit: 4
+    week: 2027-01-11
+    day: 2027-01-14
+    vehicle: lesson
+    prereqs: [MS-106, MS-094]
+    assess: [explain, translate]
+
+  - id: MS-108
+    label: Perfect stem patterns — reduplication, lengthening, -v-, -s-, unchanged
+    unit: 4
+    week: 2027-01-04
+    day: 2027-01-07
+    vehicle: lesson
+    prereqs: [MS-103]
+    assess: [recognize, explain]
+
+  - id: MS-109
+    label: Pluperfect active indicative
+    unit: 4
+    week: 2027-01-18
+    day: 2027-01-19
+    vehicle: lesson
+    prereqs: [MS-103, MS-097]
+    assess: [produce, parse, translate]
+
+  - id: MS-110
+    label: Future perfect active indicative
+    unit: 4
+    week: 2027-01-25
+    day: 2027-01-25
+    vehicle: lesson
+    prereqs: [MS-103, MS-100]
+    assess: [produce, parse, translate]
+
+  - id: MS-111
+    label: Perfect system of sum
+    unit: 4
+    week: 2027-01-18
+    day: 2027-01-20
+    vehicle: lesson
+    prereqs: [MS-105]
+    assess: [recall, produce]
+
+  - id: MS-112
+    label: possum — present, imperfect, future, perfect
+    unit: 4
+    week: 2027-01-18
+    day: 2027-01-21
+    vehicle: lesson
+    prereqs: [MS-111]
+    assess: [produce, parse]
+
+  - id: MS-113
+    label: Complementary infinitive with possum
+    unit: 4
+    week: 2027-01-18
+    day: 2027-01-21
+    vehicle: lesson
+    prereqs: [MS-112, MS-157]
+    assess: [recognize, translate]
+
+  - id: MS-114
+    label: Sequence of tenses in narrative — recognizing the timeline
+    unit: 4
+    week: 2027-01-25
+    day: 2027-01-26
+    vehicle: lesson
+    prereqs: [MS-107, MS-109]
+    assess: [apply, translate]
+
+# ============================================================
+# MORPHOSYNTAX — Unit 5: Pronouns & Complex Sentences (MS-115 – MS-132)
+# ============================================================
+
+  - id: MS-115
+    label: Personal pronouns — ego, nos
+    unit: 5
+    week: 2027-02-01
+    day: 2027-02-01
+    vehicle: lesson
+    prereqs: [MS-038]
+    assess: [produce, parse, translate]
+
+  - id: MS-116
+    label: Personal pronouns — tu, vos
+    unit: 5
+    week: 2027-02-01
+    day: 2027-02-01
+    vehicle: lesson
+    prereqs: [MS-115]
+    assess: [produce, parse, translate]
+
+  - id: MS-117
+    label: Why Latin uses subject pronouns only for emphasis or contrast
+    unit: 5
+    week: 2027-02-01
+    day: 2027-02-02
+    vehicle: lesson
+    prereqs: [MS-115, MS-038]
+    assess: [explain, translate]
+
+  - id: MS-118
+    label: is, ea, id — full declension
+    unit: 5
+    week: 2027-02-01
+    day: 2027-02-03
+    vehicle: lesson
+    prereqs: [MS-042]
+    assess: [produce, parse]
+
+  - id: MS-119
+    label: is, ea, id as third person pronoun
+    unit: 5
+    week: 2027-02-01
+    day: 2027-02-04
+    vehicle: lesson
+    prereqs: [MS-118]
+    assess: [translate, apply]
+
+  - id: MS-120
+    label: is, ea, id as demonstrative adjective
+    unit: 5
+    week: 2027-02-01
+    day: 2027-02-04
+    vehicle: lesson
+    prereqs: [MS-118, MS-043]
+    assess: [translate, apply]
+
+  - id: MS-121
+    label: Pronoun-antecedent agreement in gender and number
+    unit: 5
+    week: 2027-02-01
+    day: 2027-02-04
+    vehicle: lesson
+    prereqs: [MS-119]
+    assess: [apply, explain]
+
+  - id: MS-122
+    label: hic, haec, hoc — forms and use
+    unit: 5
+    week: 2027-02-08
+    day: 2027-02-08
+    vehicle: lesson
+    prereqs: [MS-118]
+    assess: [produce, parse, translate]
+
+  - id: MS-123
+    label: ille, illa, illud — forms and use
+    unit: 5
+    week: 2027-02-08
+    day: 2027-02-09
+    vehicle: lesson
+    prereqs: [MS-122]
+    assess: [produce, parse, translate]
+
+  - id: MS-124
+    label: Distinguishing hic from ille — near versus far
+    unit: 5
+    week: 2027-02-08
+    day: 2027-02-10
+    vehicle: lesson
+    prereqs: [MS-123]
+    assess: [explain, translate]
+
+  - id: MS-125
+    label: Reflexive pronoun se and reflexive possessive suus
+    unit: 5
+    week: 2027-02-08
+    day: 2027-02-11
+    vehicle: lesson
+    prereqs: [MS-119]
+    assess: [recognize, translate]
+
+  - id: MS-126
+    label: Relative pronoun qui, quae, quod — full declension
+    unit: 5
+    week: 2027-02-22
+    day: 2027-02-22
+    vehicle: lesson
+    prereqs: [MS-118]
+    assess: [produce, parse]
+
+  - id: MS-127
+    label: Relative clause — the antecedent
+    unit: 5
+    week: 2027-02-22
+    day: 2027-02-23
+    vehicle: lesson
+    prereqs: [MS-126]
+    assess: [recognize, explain]
+
+  - id: MS-128
+    label: Relative pronoun takes gender and number from antecedent
+    unit: 5
+    week: 2027-02-22
+    day: 2027-02-23
+    vehicle: lesson
+    prereqs: [MS-127]
+    assess: [apply, explain]
+
+  - id: MS-129
+    label: Relative pronoun takes case from its function in its own clause
+    unit: 5
+    week: 2027-02-22
+    day: 2027-02-24
+    vehicle: lesson
+    prereqs: [MS-128]
+    assess: [apply, explain]
+
+  - id: MS-130
+    label: Interrogative quis, quid and interrogative adjective qui, quae, quod
+    unit: 5
+    week: 2027-02-22
+    day: 2027-02-25
+    vehicle: lesson
+    prereqs: [MS-126]
+    assess: [recognize, translate]
+
+  - id: MS-131
+    label: Third declension adjectives — three, two, and one termination
+    unit: 5
+    week: 2027-03-01
+    day: 2027-03-01
+    vehicle: lesson
+    prereqs: [MS-071]
+    assess: [produce, parse]
+
+  - id: MS-132
+    label: Adverb formation from first/second and third declension adjectives
+    unit: 5
+    week: 2027-03-01
+    day: 2027-03-02
+    vehicle: lesson
+    prereqs: [MS-131]
+    assess: [produce, translate]
+
+# ============================================================
+# MORPHOSYNTAX — Unit 6: The Passive System (MS-133 – MS-145)
+# ============================================================
+
+  - id: MS-133
+    label: Voice — the concept of active versus passive
+    unit: 6
+    week: 2027-03-15
+    day: 2027-03-15
+    vehicle: lesson
+    prereqs: [MS-039]
+    assess: [explain]
+
+  - id: MS-134
+    label: Passive personal endings — r, ris, tur, mur, mini, ntur
+    unit: 6
+    week: 2027-03-15
+    day: 2027-03-15
+    vehicle: lesson
+    prereqs: [MS-133, MS-031]
+    assess: [recall, parse]
+
+  - id: MS-135
+    label: Present passive indicative — all conjugations
+    unit: 6
+    week: 2027-03-15
+    day: 2027-03-16
+    vehicle: lesson
+    prereqs: [MS-134]
+    assess: [produce, parse, translate]
+
+  - id: MS-136
+    label: Imperfect passive indicative
+    unit: 6
+    week: 2027-03-15
+    day: 2027-03-17
+    vehicle: lesson
+    prereqs: [MS-135, MS-095]
+    assess: [produce, parse, translate]
+
+  - id: MS-137
+    label: Future passive indicative
+    unit: 6
+    week: 2027-03-15
+    day: 2027-03-18
+    vehicle: lesson
+    prereqs: [MS-135, MS-098]
+    assess: [produce, parse, translate]
+
+  - id: MS-138
+    label: The fourth principal part — the perfect passive participle
+    unit: 6
+    week: 2027-03-22
+    day: 2027-03-23
+    vehicle: lesson
+    prereqs: [MS-102]
+    assess: [recognize, produce]
+
+  - id: MS-139
+    label: Perfect passive participle declines like a first/second declension adjective
+    unit: 6
+    week: 2027-03-22
+    day: 2027-03-24
+    vehicle: lesson
+    prereqs: [MS-138, MS-042]
+    assess: [produce, parse]
+
+  - id: MS-140
+    label: Perfect passive indicative — participle plus present of sum
+    unit: 6
+    week: 2027-03-22
+    day: 2027-03-25
+    vehicle: lesson
+    prereqs: [MS-139, MS-040]
+    assess: [produce, parse, translate]
+
+  - id: MS-141
+    label: Pluperfect passive indicative
+    unit: 6
+    week: 2027-03-29
+    day: 2027-03-29
+    vehicle: lesson
+    prereqs: [MS-140, MS-097]
+    assess: [produce, parse, translate]
+
+  - id: MS-142
+    label: Future perfect passive indicative
+    unit: 6
+    week: 2027-03-29
+    day: 2027-03-30
+    vehicle: lesson
+    prereqs: [MS-140, MS-100]
+    assess: [produce, parse, translate]
+
+  - id: MS-143
+    label: Ablative of personal agent with a / ab
+    unit: 6
+    week: 2027-03-29
+    day: 2027-03-31
+    vehicle: lesson
+    prereqs: [MS-133, MS-083]
+    assess: [recognize, translate]
+
+  - id: MS-144
+    label: Distinguishing ablative of agent from ablative of means
+    unit: 6
+    week: 2027-03-29
+    day: 2027-04-01
+    vehicle: lesson
+    prereqs: [MS-143, MS-089]
+    assess: [explain, apply]
+
+  - id: MS-145
+    label: Converting between active and passive expression
+    unit: 6
+    week: 2027-04-05
+    day: 2027-04-05
+    vehicle: lesson
+    prereqs: [MS-143]
+    assess: [apply, translate]
+
+# ============================================================
+# MORPHOSYNTAX — Unit 7: Participles & Reading (MS-146 – MS-155)
+# ============================================================
+
+  - id: MS-146
+    label: Participle — a verbal adjective
+    unit: 7
+    week: 2027-04-12
+    day: 2027-04-12
+    vehicle: lesson
+    prereqs: [MS-139]
+    assess: [explain]
+
+  - id: MS-147
+    label: Present active participle — formation
+    unit: 7
+    week: 2027-04-12
+    day: 2027-04-13
+    vehicle: lesson
+    prereqs: [MS-146]
+    assess: [produce, parse]
+
+  - id: MS-148
+    label: Present active participle — declension (third declension pattern)
+    unit: 7
+    week: 2027-04-12
+    day: 2027-04-14
+    vehicle: lesson
+    prereqs: [MS-147, MS-131]
+    assess: [produce, parse]
+
+  - id: MS-149
+    label: Future active participle — formation and meaning
+    unit: 7
+    week: 2027-04-26
+    day: 2027-04-26
+    vehicle: lesson
+    prereqs: [MS-138]
+    assess: [produce, translate]
+
+  - id: MS-150
+    label: Participles agree with the noun they modify
+    unit: 7
+    week: 2027-04-12
+    day: 2027-04-15
+    vehicle: lesson
+    prereqs: [MS-148, MS-043]
+    assess: [apply, explain]
+
+  - id: MS-151
+    label: Relative time of participles — before, during, after the main verb
+    unit: 7
+    week: 2027-04-26
+    day: 2027-04-27
+    vehicle: lesson
+    prereqs: [MS-149, MS-147]
+    assess: [explain, translate]
+
+  - id: MS-152
+    label: Translating participles as relative clauses
+    unit: 7
+    week: 2027-04-26
+    day: 2027-04-28
+    vehicle: lesson
+    prereqs: [MS-151, MS-129]
+    assess: [translate, apply]
+
+  - id: MS-153
+    label: Participial phrases — recognizing the boundaries
+    unit: 7
+    week: 2027-04-26
+    day: 2027-04-28
+    vehicle: lesson
+    prereqs: [MS-150]
+    assess: [recognize, apply]
+
+  - id: MS-154
+    label: Ablative absolute — recognition
+    unit: 7
+    week: 2027-05-03
+    day: 2027-05-03
+    vehicle: lesson
+    prereqs: [MS-153, MS-082]
+    assess: [recognize, explain]
+
+  - id: MS-155
+    label: Ablative absolute — translation strategies
+    unit: 7
+    week: 2027-05-03
+    day: 2027-05-04
+    vehicle: lesson
+    prereqs: [MS-154]
+    assess: [translate, apply]
+
+# --- Appended after v1 review (2026-08-17) ---
+# The infinitive is met in week 3 as the second principal part.
+# Teaching its meaning at that point rather than in Unit 2 avoids six
+# weeks of handling a form daily while treating it only as stem material.
+
+  - id: MS-156
+    label: Infinitive stem versus present stem — why -re comes off
+    unit: 1
+    week: 2026-09-21
+    day: 2026-09-21
+    vehicle: lesson
+    prereqs: [MS-076, MS-033]
+    assess: [explain, produce]
+
+  - id: MS-157
+    label: Complementary infinitive with debeo — completing the meaning of a verb
+    unit: 1
+    week: 2026-09-21
+    day: 2026-09-23
+    vehicle: lesson
+    prereqs: [MS-076, MS-035]
+    assess: [recognize, translate]
+
+  - id: MS-158
+    label: Infinitive forms of the third and fourth conjugations
+    unit: 2
+    week: 2026-11-16
+    day: 2026-11-17
+    vehicle: lesson
+    prereqs: [MS-076, MS-074]
+    assess: [recognize, produce]
+
+# ============================================================
+# CONNECTED READING (CR-001 – CR-022)
+# Strategies and stamina. Introduced early, revisited all year.
+# ============================================================
+
+  - id: CR-001
+    label: Read unfamiliar Latin aloud with correct pronunciation and stress
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-26
+    vehicle: lesson
+    prereqs: [MS-010]
+    assess: [apply]
+
+  - id: CR-002
+    label: Read for gist before parsing
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-09
+    vehicle: lesson
+    prereqs: []
+    assess: [apply, explain]
+
+  - id: CR-003
+    label: Locate the verb and use it to predict sentence structure
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-17
+    vehicle: lesson
+    prereqs: [MS-034]
+    assess: [apply]
+
+  - id: CR-004
+    label: Locate the subject by finding the nominative
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-09
+    vehicle: lesson
+    prereqs: [MS-014]
+    assess: [apply]
+
+  - id: CR-005
+    label: Tag each word with case and function before translating
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-15
+    vehicle: lesson
+    prereqs: [MS-014, MS-015]
+    assess: [parse, apply]
+
+  - id: CR-006
+    label: Read in Latin word order without reordering into English first
+    unit: 1
+    week: 2026-09-21
+    day: 2026-09-22
+    vehicle: lesson
+    prereqs: [MS-012]
+    assess: [apply, explain]
+
+  - id: CR-007
+    label: Use context to resolve an ambiguous form
+    unit: 1
+    week: 2026-09-28
+    day: 2026-09-28
+    vehicle: lesson
+    prereqs: [MS-029]
+    assess: [apply, explain]
+
+  - id: CR-008
+    label: Infer word meaning from a known English or Spanish derivative
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-14
+    vehicle: vocab
+    prereqs: []
+    assess: [apply]
+
+  - id: CR-009
+    label: Answer comprehension questions in English about a Latin passage
+    unit: 1
+    week: 2026-09-28
+    day: 2026-09-30
+    vehicle: lesson
+    prereqs: [CR-002]
+    assess: [apply]
+
+  - id: CR-010
+    label: Use a glossary efficiently
+    unit: 1
+    week: 2026-09-21
+    day: 2026-09-21
+    vehicle: lesson
+    prereqs: [MS-016]
+    assess: [apply]
+
+  - id: CR-011
+    label: Read a dictionary entry and extract stem, gender, and conjugation
+    unit: 2
+    week: 2026-10-12
+    day: 2026-10-14
+    vehicle: lesson
+    prereqs: [MS-016, MS-032]
+    assess: [apply, explain]
+
+  - id: CR-012
+    label: Bracket prepositional phrases as units
+    unit: 3
+    week: 2026-11-30
+    day: 2026-12-02
+    vehicle: lesson
+    prereqs: [MS-083, MS-084]
+    assess: [apply]
+
+  - id: CR-013
+    label: Answer comprehension questions in Latin
+    unit: 3
+    week: 2026-12-07
+    day: 2026-12-09
+    vehicle: lesson
+    prereqs: [CR-009]
+    assess: [apply]
+
+  - id: CR-014
+    label: Track a narrative timeline across tenses
+    unit: 4
+    week: 2027-01-11
+    day: 2027-01-14
+    vehicle: lesson
+    prereqs: [MS-114]
+    assess: [apply]
+
+  - id: CR-015
+    label: Identify pronoun referents across sentences
+    unit: 5
+    week: 2027-02-01
+    day: 2027-02-04
+    vehicle: lesson
+    prereqs: [MS-121]
+    assess: [apply]
+
+  - id: CR-016
+    label: Distinguish main clause from subordinate clause
+    unit: 5
+    week: 2027-02-22
+    day: 2027-02-22
+    vehicle: lesson
+    prereqs: [MS-127]
+    assess: [recognize, apply]
+
+  - id: CR-017
+    label: Chunk a long sentence into clauses before translating
+    unit: 5
+    week: 2027-02-22
+    day: 2027-02-24
+    vehicle: lesson
+    prereqs: [CR-016]
+    assess: [apply]
+
+  - id: CR-018
+    label: Metaphrase, then render into idiomatic English
+    unit: 5
+    week: 2027-03-01
+    day: 2027-03-02
+    vehicle: lesson
+    prereqs: [CR-005]
+    assess: [translate, explain]
+
+  - id: CR-019
+    label: Sustain silent reading of Latin prose for ten minutes
+    unit: 6
+    week: 2027-03-29
+    day: 2027-03-30
+    vehicle: lesson
+    prereqs: [CR-002]
+    assess: [apply]
+
+  - id: CR-020
+    label: Read a glossed authentic passage with support
+    unit: 6
+    week: 2027-04-05
+    day: 2027-04-05
+    vehicle: lesson
+    prereqs: [CR-019]
+    assess: [apply]
+
+  - id: CR-021
+    label: Recognize and set aside a participial phrase while reading
+    unit: 7
+    week: 2027-04-12
+    day: 2027-04-14
+    vehicle: lesson
+    prereqs: [MS-153, CR-017]
+    assess: [apply]
+
+  - id: CR-022
+    label: Read lightly adapted authentic prose independently
+    unit: 7
+    week: 2027-05-10
+    day: 2027-05-11
+    vehicle: lesson
+    prereqs: [CR-020, CR-021]
+    assess: [apply]
+
+# ============================================================
+# ROMAN WORLD (RW-001 – RW-092)
+# Self-paced modules. Assessed on Friday quizzes and unit exams.
+# Grouped by theme; unit field indicates earliest availability.
+# ============================================================
+
+# --- Geography and setting ---
+  - id: RW-001
+    label: Location of Rome — the Tiber, the seven hills, central Italy
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-28
+    vehicle: consolidation
+    prereqs: []
+    assess: [recall, recognize]
+
+  - id: RW-002
+    label: The Italian peninsula — Latium, Etruria, Campania, Magna Graecia
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-28
+    vehicle: consolidation
+    prereqs: [RW-001]
+    assess: [recall, recognize]
+
+  - id: RW-003
+    label: The Mediterranean as mare nostrum
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-28
+    vehicle: consolidation
+    prereqs: [RW-001]
+    assess: [recall, explain]
+
+  - id: RW-004
+    label: Major provinces — Gaul, Hispania, Britannia, Africa, Aegyptus, Graecia, Asia
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-28
+    vehicle: consolidation
+    prereqs: [RW-003]
+    assess: [recall, recognize]
+
+  - id: RW-005
+    label: Why Rome's site mattered — river crossing, salt route, defensible hills
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-28
+    vehicle: consolidation
+    prereqs: [RW-001]
+    assess: [explain]
+
+  - id: RW-006
+    label: Latin as one Italic language among many
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-24
+    vehicle: opener
+    prereqs: [RW-002]
+    assess: [explain]
+
+# --- Early Rome and the Kings ---
+  - id: RW-007
+    label: The founding legend — Romulus and Remus, 753 BCE
+    unit: 0
+    week: 2026-08-31
+    day: 2026-09-02
+    vehicle: lesson
+    prereqs: [RW-001]
+    assess: [recall]
+
+  - id: RW-008
+    label: Aeneas and the Trojan origin story
+    unit: 0
+    week: 2026-08-31
+    day: 2026-09-02
+    vehicle: lesson
+    prereqs: [RW-007]
+    assess: [recall, explain]
+
+  - id: RW-009
+    label: The seven kings — sequence and significance
+    unit: 0
+    week: 2026-08-31
+    day: 2026-09-02
+    vehicle: lesson
+    prereqs: [RW-007]
+    assess: [recall]
+
+  - id: RW-010
+    label: Etruscan influence on early Rome
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-14
+    vehicle: opener
+    prereqs: [RW-009]
+    assess: [explain]
+
+  - id: RW-011
+    label: The expulsion of Tarquinius Superbus, 509 BCE
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-17
+    vehicle: reading
+    prereqs: [RW-009]
+    assess: [recall, explain]
+
+  - id: RW-012
+    label: The Rape of Lucretia as founding story of the Republic
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-17
+    vehicle: reading
+    prereqs: [RW-011]
+    assess: [recall, explain]
+
+  - id: RW-013
+    label: Why Romans feared the word rex
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-17
+    vehicle: reading
+    prereqs: [RW-011]
+    assess: [explain]
+
+# --- The Republic ---
+  - id: RW-014
+    label: res publica — what the term means
+    unit: 1
+    week: 2026-09-28
+    day: 2026-09-30
+    vehicle: reading
+    prereqs: [RW-011]
+    assess: [explain]
+
+  - id: RW-015
+    label: The consuls — two, annual, mutual veto
+    unit: 1
+    week: 2026-09-28
+    day: 2026-09-30
+    vehicle: reading
+    prereqs: [RW-014]
+    assess: [recall, explain]
+
+  - id: RW-016
+    label: The Senate — composition and function
+    unit: 1
+    week: 2026-09-28
+    day: 2026-09-30
+    vehicle: reading
+    prereqs: [RW-014]
+    assess: [recall, explain]
+
+  - id: RW-017
+    label: SPQR — what it stands for and means
+    unit: 1
+    week: 2026-09-28
+    day: 2026-09-29
+    vehicle: do_now
+    prereqs: [RW-016]
+    assess: [recall, explain]
+
+  - id: RW-018
+    label: The cursus honorum — quaestor, aedile, praetor, consul
+    unit: 2
+    week: 2026-11-02
+    day: 2026-11-02
+    vehicle: vocab
+    prereqs: [RW-015]
+    assess: [recall, explain]
+
+  - id: RW-019
+    label: The censor and the census
+    unit: 2
+    week: 2026-11-02
+    day: 2026-11-03
+    vehicle: vocab
+    prereqs: [RW-018]
+    assess: [recall, explain]
+
+  - id: RW-020
+    label: Tribune of the plebs and the power of veto
+    unit: 2
+    week: 2026-11-02
+    day: 2026-11-04
+    vehicle: vocab
+    prereqs: [RW-016]
+    assess: [recall, explain]
+
+  - id: RW-021
+    label: The dictator — emergency office, six month limit
+    unit: 2
+    week: 2026-11-02
+    day: 2026-11-04
+    vehicle: vocab
+    prereqs: [RW-015]
+    assess: [recall, explain]
+
+  - id: RW-022
+    label: Patricians and plebeians
+    unit: 2
+    week: 2026-10-26
+    day: 2026-10-29
+    vehicle: reading
+    prereqs: [RW-016]
+    assess: [explain]
+
+  - id: RW-023
+    label: The Conflict of the Orders
+    unit: 2
+    week: 2026-10-26
+    day: 2026-10-29
+    vehicle: reading
+    prereqs: [RW-022, RW-020]
+    assess: [explain]
+
+  - id: RW-024
+    label: The Twelve Tables
+    unit: 2
+    week: 2026-10-26
+    day: 2026-10-29
+    vehicle: reading
+    prereqs: [RW-023]
+    assess: [recall, explain]
+
+  - id: RW-025
+    label: Cincinnatus and the ideal of civic virtue
+    unit: 2
+    week: 2026-11-02
+    day: 2026-11-05
+    vehicle: reading
+    prereqs: [RW-021]
+    assess: [recall, explain]
+
+# --- Expansion and the Punic Wars ---
+  - id: RW-026
+    label: Carthage — location, origin, and rivalry with Rome
+    unit: 4
+    week: 2027-01-11
+    day: 2027-01-11
+    vehicle: reading
+    prereqs: [RW-003]
+    assess: [recall, explain]
+
+  - id: RW-027
+    label: The First Punic War and Roman naval power
+    unit: 4
+    week: 2027-01-11
+    day: 2027-01-12
+    vehicle: reading
+    prereqs: [RW-026]
+    assess: [recall]
+
+  - id: RW-028
+    label: Hannibal, the Alps, and Cannae
+    unit: 4
+    week: 2027-01-11
+    day: 2027-01-13
+    vehicle: reading
+    prereqs: [RW-027]
+    assess: [recall, explain]
+
+  - id: RW-029
+    label: Scipio Africanus and Zama
+    unit: 4
+    week: 2027-01-11
+    day: 2027-01-14
+    vehicle: reading
+    prereqs: [RW-028]
+    assess: [recall]
+
+  - id: RW-030
+    label: The destruction of Carthage, 146 BCE
+    unit: 4
+    week: 2027-01-11
+    day: 2027-01-15
+    vehicle: consolidation
+    prereqs: [RW-029]
+    assess: [recall, explain]
+
+  - id: RW-031
+    label: Consequences of expansion — slavery, latifundia, displaced farmers
+    unit: 4
+    week: 2027-01-18
+    day: 2027-01-19
+    vehicle: reading
+    prereqs: [RW-030]
+    assess: [explain]
+
+# --- Fall of the Republic ---
+  - id: RW-032
+    label: The Gracchi and land reform
+    unit: 4
+    week: 2027-01-18
+    day: 2027-01-20
+    vehicle: reading
+    prereqs: [RW-031]
+    assess: [recall, explain]
+
+  - id: RW-033
+    label: Marius, Sulla, and the professional army
+    unit: 4
+    week: 2027-01-18
+    day: 2027-01-21
+    vehicle: reading
+    prereqs: [RW-032]
+    assess: [explain]
+
+  - id: RW-034
+    label: The First Triumvirate — Caesar, Pompey, Crassus
+    unit: 4
+    week: 2027-01-25
+    day: 2027-01-25
+    vehicle: reading
+    prereqs: [RW-033]
+    assess: [recall]
+
+  - id: RW-035
+    label: Caesar in Gaul
+    unit: 4
+    week: 2027-01-25
+    day: 2027-01-26
+    vehicle: reading
+    prereqs: [RW-034]
+    assess: [recall]
+
+  - id: RW-036
+    label: Crossing the Rubicon and the civil war
+    unit: 4
+    week: 2027-01-25
+    day: 2027-01-26
+    vehicle: reading
+    prereqs: [RW-035]
+    assess: [recall, explain]
+
+  - id: RW-037
+    label: The Ides of March, 44 BCE
+    unit: 4
+    week: 2027-01-25
+    day: 2027-01-27
+    vehicle: reading
+    prereqs: [RW-036]
+    assess: [recall]
+
+  - id: RW-038
+    label: Antony, Octavian, Cleopatra, and Actium
+    unit: 4
+    week: 2027-01-25
+    day: 2027-01-27
+    vehicle: reading
+    prereqs: [RW-037]
+    assess: [recall]
+
+# --- The Empire ---
+  - id: RW-039
+    label: Augustus and the principate
+    unit: 5
+    week: 2027-02-01
+    day: 2027-02-04
+    vehicle: reading
+    prereqs: [RW-038]
+    assess: [recall, explain]
+
+  - id: RW-040
+    label: The Pax Romana
+    unit: 5
+    week: 2027-02-01
+    day: 2027-02-05
+    vehicle: consolidation
+    prereqs: [RW-039]
+    assess: [explain]
+
+  - id: RW-041
+    label: The Julio-Claudian emperors
+    unit: 5
+    week: 2027-02-01
+    day: null
+    vehicle: module
+    prereqs: [RW-039]
+    assess: [recall]
+
+  - id: RW-042
+    label: The Empire at its greatest extent under Trajan
+    unit: 7
+    week: 2027-04-12
+    day: 2027-04-15
+    vehicle: reading
+    prereqs: [RW-040]
+    assess: [recall, recognize]
+
+  - id: RW-043
+    label: Roman citizenship and its extension
+    unit: 7
+    week: 2027-04-12
+    day: 2027-04-16
+    vehicle: consolidation
+    prereqs: [RW-040]
+    assess: [explain]
+
+  - id: RW-044
+    label: The division of the Empire and the founding of Constantinople
+    unit: 7
+    week: 2027-06-01
+    day: 2027-06-01
+    vehicle: reading
+    prereqs: [RW-042]
+    assess: [recall, explain]
+
+  - id: RW-045
+    label: 476 CE and what "fall" actually means
+    unit: 7
+    week: 2027-06-01
+    day: 2027-06-02
+    vehicle: reading
+    prereqs: [RW-044]
+    assess: [explain]
+
+  - id: RW-046
+    label: The Eastern Empire's survival to 1453
+    unit: 7
+    week: 2027-06-01
+    day: 2027-06-02
+    vehicle: reading
+    prereqs: [RW-045]
+    assess: [recall, explain]
+
+# --- Daily life and the household ---
+  - id: RW-047
+    label: The familia and the paterfamilias
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-10
+    vehicle: reading
+    prereqs: []
+    assess: [explain]
+
+  - id: RW-048
+    label: The domus — atrium, impluvium, tablinum, peristylium, culina
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-10
+    vehicle: reading
+    prereqs: [RW-047]
+    assess: [recall, recognize]
+
+  - id: RW-049
+    label: The insula and urban housing
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-09
+    vehicle: vocab
+    prereqs: [RW-048]
+    assess: [explain]
+
+  - id: RW-050
+    label: The villa and country estates
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-10
+    vehicle: reading
+    prereqs: [RW-048]
+    assess: [recall]
+
+  - id: RW-051
+    label: Roman names — praenomen, nomen, cognomen
+    unit: 1
+    week: 2026-09-21
+    day: 2026-09-24
+    vehicle: vocab
+    prereqs: [RW-047]
+    assess: [recall, apply]
+
+  - id: RW-052
+    label: Women's names and status in the family
+    unit: 2
+    week: 2026-10-19
+    day: 2026-10-20
+    vehicle: opener
+    prereqs: [RW-051]
+    assess: [explain]
+
+  - id: RW-053
+    label: The gens and clientela — patron and client
+    unit: 2
+    week: 2026-10-19
+    day: 2026-10-19
+    vehicle: reading
+    prereqs: [RW-047]
+    assess: [explain]
+
+  - id: RW-054
+    label: Roman clothing — toga, tunica, stola, palla
+    unit: 2
+    week: 2026-10-19
+    day: null
+    vehicle: module
+    prereqs: [RW-047]
+    assess: [recall, recognize]
+
+  - id: RW-055
+    label: Roman meals — ientaculum, prandium, cena
+    unit: 2
+    week: 2026-10-12
+    day: null
+    vehicle: module
+    prereqs: [RW-047]
+    assess: [recall]
+
+  - id: RW-056
+    label: Roman food and the garum trade
+    unit: 2
+    week: 2026-10-12
+    day: null
+    vehicle: module
+    prereqs: [RW-055]
+    assess: [recall, explain]
+
+  - id: RW-057
+    label: Roman education — ludus, grammaticus, rhetor
+    unit: 2
+    week: 2026-10-19
+    day: null
+    vehicle: module
+    prereqs: [RW-047]
+    assess: [recall, explain]
+
+  - id: RW-058
+    label: Slavery in Rome — sources, roles, and scale
+    unit: 6
+    week: 2027-03-29
+    day: 2027-03-31
+    vehicle: reading
+    prereqs: [RW-031]
+    assess: [explain]
+
+  - id: RW-059
+    label: Manumission and the status of freedmen
+    unit: 6
+    week: 2027-03-29
+    day: 2027-04-01
+    vehicle: reading
+    prereqs: [RW-058]
+    assess: [explain]
+
+  - id: RW-060
+    label: The baths — social function and engineering
+    unit: 6
+    week: 2027-03-29
+    day: 2027-04-02
+    vehicle: consolidation
+    prereqs: [RW-049]
+    assess: [explain]
+
+  - id: RW-061
+    label: The Roman calendar — kalends, nones, ides
+    unit: 3
+    week: 2026-12-07
+    day: 2026-12-10
+    vehicle: lesson
+    prereqs: []
+    assess: [recall, apply]
+
+  - id: RW-062
+    label: Roman timekeeping — hours that change with the season
+    unit: 3
+    week: 2026-12-07
+    day: 2026-12-10
+    vehicle: vocab
+    prereqs: [RW-061]
+    assess: [explain]
+
+  - id: RW-063
+    label: Roman numerals
+    unit: 0
+    week: 2026-08-31
+    day: 2026-09-03
+    vehicle: do_now
+    prereqs: []
+    assess: [recall, apply]
+
+# --- Religion and myth ---
+  - id: RW-064
+    label: The Olympian gods and their Greek equivalents
+    unit: 1
+    week: 2026-10-05
+    day: null
+    vehicle: module
+    prereqs: []
+    assess: [recall, recognize]
+
+  - id: RW-065
+    label: Jupiter, Juno, Minerva — the Capitoline Triad
+    unit: 1
+    week: 2026-10-05
+    day: null
+    vehicle: module
+    prereqs: [RW-064]
+    assess: [recall, explain]
+
+  - id: RW-066
+    label: Household religion — lares, penates, genius
+    unit: 1
+    week: 2026-10-05
+    day: null
+    vehicle: module
+    prereqs: [RW-047]
+    assess: [explain]
+
+  - id: RW-067
+    label: Vesta and the Vestal Virgins
+    unit: 2
+    week: 2026-11-09
+    day: 2026-11-10
+    vehicle: reading
+    prereqs: [RW-065]
+    assess: [recall, explain]
+
+  - id: RW-068
+    label: Augury, haruspicy, and reading the will of the gods
+    unit: 2
+    week: 2026-11-09
+    day: 2026-11-12
+    vehicle: do_now
+    prereqs: [RW-065]
+    assess: [explain]
+
+  - id: RW-069
+    label: pontifex maximus and Roman priesthoods
+    unit: 5
+    week: 2027-02-08
+    day: 2027-02-11
+    vehicle: reading
+    prereqs: [RW-068]
+    assess: [recall, explain]
+
+  - id: RW-070
+    label: do ut des — the contractual nature of Roman religion
+    unit: 5
+    week: 2027-02-08
+    day: 2027-02-12
+    vehicle: consolidation
+    prereqs: [RW-066]
+    assess: [explain]
+
+  - id: RW-071
+    label: Major festivals — Saturnalia, Lupercalia, Parentalia
+    unit: 3
+    week: 2026-12-14
+    day: 2026-12-18
+    vehicle: consolidation
+    prereqs: [RW-061]
+    assess: [recall, explain]
+
+  - id: RW-072
+    label: The labors of Hercules
+    unit: 4
+    week: 2027-01-04
+    day: null
+    vehicle: module
+    prereqs: [RW-064]
+    assess: [recall]
+
+  - id: RW-073
+    label: Perseus and Medusa
+    unit: 4
+    week: 2027-01-04
+    day: 2027-01-08
+    vehicle: reading
+    prereqs: [RW-064]
+    assess: [recall]
+
+  - id: RW-074
+    label: Theseus and the Minotaur
+    unit: 4
+    week: 2027-01-04
+    day: null
+    vehicle: module
+    prereqs: [RW-064]
+    assess: [recall]
+
+  - id: RW-075
+    label: Orpheus and Eurydice
+    unit: 5
+    week: 2027-03-01
+    day: 2027-03-01
+    vehicle: reading
+    prereqs: [RW-064]
+    assess: [recall]
+
+  - id: RW-076
+    label: Daedalus and Icarus
+    unit: 5
+    week: 2027-03-01
+    day: 2027-03-02
+    vehicle: reading
+    prereqs: [RW-064]
+    assess: [recall]
+
+  - id: RW-077
+    label: The underworld — Charon, Styx, Cerberus, Elysium
+    unit: 5
+    week: 2027-03-01
+    day: 2027-03-03
+    vehicle: reading
+    prereqs: [RW-064]
+    assess: [recall, explain]
+
+  - id: RW-078
+    label: The Aeneid — story and purpose
+    unit: 7
+    week: 2027-05-10
+    day: 2027-05-10
+    vehicle: reading
+    prereqs: [RW-008, RW-039]
+    assess: [explain]
+
+  - id: RW-079
+    label: Christianity in the Empire — persecution to establishment
+    unit: 7
+    week: 2027-05-17
+    day: 2027-05-17
+    vehicle: reading
+    prereqs: [RW-044]
+    assess: [explain]
+
+# --- Army and warfare ---
+  - id: RW-080
+    label: The legion — structure and scale
+    unit: 2
+    week: 2026-11-16
+    day: 2026-11-16
+    vehicle: vocab
+    prereqs: []
+    assess: [recall, explain]
+
+  - id: RW-081
+    label: The centurion and the ranks
+    unit: 2
+    week: 2026-11-16
+    day: 2026-11-17
+    vehicle: vocab
+    prereqs: [RW-080]
+    assess: [recall]
+
+  - id: RW-082
+    label: Legionary equipment — gladius, pilum, scutum, lorica
+    unit: 2
+    week: 2026-11-16
+    day: 2026-11-17
+    vehicle: vocab
+    prereqs: [RW-080]
+    assess: [recall, recognize]
+
+  - id: RW-083
+    label: The marching camp
+    unit: 3
+    week: 2026-11-30
+    day: 2026-12-03
+    vehicle: reading
+    prereqs: [RW-080]
+    assess: [explain]
+
+  - id: RW-084
+    label: The triumph
+    unit: 4
+    week: 2027-01-18
+    day: 2027-01-22
+    vehicle: consolidation
+    prereqs: [RW-080]
+    assess: [explain]
+
+  - id: RW-085
+    label: The eagle standard and military religion
+    unit: 4
+    week: 2027-01-18
+    day: null
+    vehicle: module
+    prereqs: [RW-080]
+    assess: [explain]
+
+# --- The city, engineering, and entertainment ---
+  - id: RW-086
+    label: The Forum Romanum — what happened there
+    unit: 1
+    week: 2026-09-21
+    day: 2026-09-25
+    vehicle: consolidation
+    prereqs: [RW-001]
+    assess: [explain]
+
+  - id: RW-087
+    label: Roman roads — construction and purpose
+    unit: 3
+    week: 2026-11-30
+    day: 2026-12-03
+    vehicle: reading
+    prereqs: [RW-004]
+    assess: [explain]
+
+  - id: RW-088
+    label: Aqueducts and the water supply
+    unit: 6
+    week: 2027-03-15
+    day: 2027-03-18
+    vehicle: reading
+    prereqs: [RW-060]
+    assess: [explain]
+
+  - id: RW-089
+    label: The arch, the vault, and Roman concrete
+    unit: 6
+    week: 2027-03-15
+    day: 2027-03-19
+    vehicle: consolidation
+    prereqs: [RW-088]
+    assess: [explain]
+
+  - id: RW-090
+    label: The Colosseum and the games
+    unit: 6
+    week: 2027-03-22
+    day: 2027-03-26
+    vehicle: consolidation
+    prereqs: [RW-086]
+    assess: [recall, explain]
+
+  - id: RW-091
+    label: The Circus Maximus and chariot racing
+    unit: 6
+    week: 2027-03-22
+    day: null
+    vehicle: module
+    prereqs: [RW-090]
+    assess: [recall, explain]
+
+  - id: RW-092
+    label: Pompeii and Herculaneum — what the eruption preserved
+    unit: 7
+    week: 2027-05-03
+    day: 2027-05-07
+    vehicle: consolidation
+    prereqs: [RW-048]
+    assess: [explain]
+
+# ============================================================
+# MODERN WORLD (MW-001 – MW-088)
+# Daily opener plus alternating Friday segments plus quarterly projects.
+# The strand that answers "why am I here" for students placed
+# involuntarily into Latin. Enumerated and assessed like any other.
+# ============================================================
+
+# --- How words are built ---
+  - id: MW-001
+    label: Root, prefix, suffix — the anatomy of a derived word
+    unit: 0
+    week: 2026-08-31
+    day: 2026-08-31
+    vehicle: lesson
+    prereqs: []
+    assess: [explain, apply]
+
+  - id: MW-002
+    label: Latin prefixes of direction — ad, ab, ex, in, sub, trans, per
+    unit: 0
+    week: 2026-08-31
+    day: 2026-08-31
+    vehicle: lesson
+    prereqs: [MW-001]
+    assess: [recall, apply]
+
+  - id: MW-003
+    label: Latin prefixes of negation and opposition — in-, dis-, contra-, ob-
+    unit: 0
+    week: 2026-08-31
+    day: 2026-08-31
+    vehicle: lesson
+    prereqs: [MW-002]
+    assess: [recall, apply]
+
+  - id: MW-004
+    label: Latin prefixes of number and degree — uni, bi, multi, semi, super, sub
+    unit: 0
+    week: 2026-08-31
+    day: 2026-08-31
+    vehicle: lesson
+    prereqs: [MW-002]
+    assess: [recall, apply]
+
+  - id: MW-005
+    label: Prefix assimilation — ad + similis becomes assimilate
+    unit: 2
+    week: 2026-10-19
+    day: 2026-10-20
+    vehicle: do_now
+    prereqs: [MW-002]
+    assess: [explain, apply]
+
+  - id: MW-006
+    label: Noun-forming suffixes — -tion, -ment, -ance, -ity, -or
+    unit: 1
+    week: 2026-09-21
+    day: 2026-09-21
+    vehicle: vocab
+    prereqs: [MW-001]
+    assess: [recall, apply]
+
+  - id: MW-007
+    label: Adjective-forming suffixes — -al, -ous, -ile, -ary, -able
+    unit: 1
+    week: 2026-09-21
+    day: 2026-09-24
+    vehicle: vocab
+    prereqs: [MW-006]
+    assess: [recall, apply]
+
+  - id: MW-008
+    label: Diminutive suffixes — -ulus, -culus and their English descendants
+    unit: 2
+    week: 2026-10-19
+    day: 2026-10-21
+    vehicle: vocab
+    prereqs: [MW-006]
+    assess: [explain, apply]
+
+  - id: MW-009
+    label: Predicting an English word's meaning from an unfamiliar Latin root
+    unit: 1
+    week: 2026-09-28
+    day: 2026-09-28
+    vehicle: vocab
+    prereqs: [MW-001]
+    assess: [apply]
+
+  - id: MW-010
+    label: Predicting a Latin word's meaning from a known English derivative
+    unit: 1
+    week: 2026-09-28
+    day: 2026-10-02
+    vehicle: consolidation
+    prereqs: [MW-009]
+    assess: [apply]
+
+  - id: MW-011
+    label: Doublets — words entering English twice by different routes (fragile / frail)
+    unit: 5
+    week: 2027-02-01
+    day: 2027-02-02
+    vehicle: vocab
+    prereqs: [MW-009]
+    assess: [explain, recognize]
+
+  - id: MW-012
+    label: Semantic drift — when a derivative no longer means what the root meant
+    unit: 5
+    week: 2027-02-08
+    day: 2027-02-10
+    vehicle: vocab
+    prereqs: [MW-009]
+    assess: [explain]
+
+  - id: MW-013
+    label: False friends — English words that look Latin and are not
+    unit: 5
+    week: 2027-02-08
+    day: 2027-02-11
+    vehicle: vocab
+    prereqs: [MW-012]
+    assess: [recognize, explain]
+
+  - id: MW-014
+    label: Principal parts as the source of English derivative pairs (video/vision)
+    unit: 4
+    week: 2027-01-04
+    day: 2027-01-06
+    vehicle: lesson
+    prereqs: [MW-009]
+    assess: [explain, apply]
+
+  - id: MW-015
+    label: The perfect passive participle as the most productive derivative source
+    unit: 6
+    week: 2027-03-22
+    day: 2027-03-23
+    vehicle: lesson
+    prereqs: [MW-014]
+    assess: [explain, apply]
+
+  - id: MW-016
+    label: Building word families from a single root — port, dic, scrib, spec, duc
+    unit: 2
+    week: 2026-11-02
+    day: 2026-11-05
+    vehicle: vocab
+    prereqs: [MW-009]
+    assess: [apply]
+
+# --- Latin into Spanish and the Romance languages ---
+  - id: MW-017
+    label: The Romance languages and their common ancestor
+    unit: 0
+    week: 2026-08-17
+    day: 2026-08-21
+    vehicle: lesson
+    prereqs: []
+    assess: [recall, explain]
+
+  - id: MW-018
+    label: Vulgar Latin versus literary Latin
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-25
+    vehicle: opener
+    prereqs: [MW-017]
+    assess: [explain]
+
+  - id: MW-019
+    label: Why Spanish, French, Italian, Portuguese, and Romanian resemble one another
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-26
+    vehicle: opener
+    prereqs: [MW-017]
+    assess: [explain]
+
+  - id: MW-020
+    label: Regular sound change — Latin f becomes Spanish h (filius / hijo)
+    unit: 0
+    week: 2026-08-31
+    day: 2026-09-01
+    vehicle: lesson
+    prereqs: [MW-019]
+    assess: [apply, explain]
+
+  - id: MW-021
+    label: Regular sound change — Latin ct becomes Spanish ch (noctem / noche)
+    unit: 0
+    week: 2026-08-31
+    day: 2026-09-01
+    vehicle: lesson
+    prereqs: [MW-020]
+    assess: [apply, explain]
+
+  - id: MW-022
+    label: Regular sound change — Latin pl/cl/fl become Spanish ll (plenum / lleno)
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-18
+    vehicle: consolidation
+    prereqs: [MW-020]
+    assess: [apply, explain]
+
+  - id: MW-023
+    label: Latin short e and o become Spanish diphthongs ie and ue
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-18
+    vehicle: consolidation
+    prereqs: [MW-020]
+    assess: [apply, explain]
+
+  - id: MW-024
+    label: Predicting a Spanish word from a Latin one using known sound laws
+    unit: 2
+    week: 2026-10-26
+    day: 2026-10-27
+    vehicle: vocab
+    prereqs: [MW-021, MW-022, MW-023]
+    assess: [apply]
+
+  - id: MW-025
+    label: The accusative as the source of most Spanish nouns
+    unit: 2
+    week: 2026-10-26
+    day: 2026-10-28
+    vehicle: do_now
+    prereqs: [MW-024]
+    assess: [explain]
+
+  - id: MW-026
+    label: How Latin cases disappeared and prepositions took over
+    unit: 3
+    week: 2026-11-30
+    day: 2026-11-30
+    vehicle: lesson
+    prereqs: [MW-025]
+    assess: [explain]
+
+  - id: MW-027
+    label: Latin ille becomes the Spanish definite article el / la
+    unit: 5
+    week: 2027-02-08
+    day: 2027-02-09
+    vehicle: lesson
+    prereqs: [MW-026]
+    assess: [explain]
+
+  - id: MW-028
+    label: Spanish verb conjugations descend from the Latin four
+    unit: 2
+    week: 2026-11-02
+    day: 2026-11-03
+    vehicle: opener
+    prereqs: [MW-019]
+    assess: [explain, apply]
+
+  - id: MW-029
+    label: Spanish irregular verbs preserve Latin principal parts
+    unit: 4
+    week: 2027-01-04
+    day: 2027-01-07
+    vehicle: lesson
+    prereqs: [MW-028, MW-014]
+    assess: [explain, apply]
+
+  - id: MW-030
+    label: Spanish ser and estar from Latin sum and sto
+    unit: 4
+    week: 2027-01-04
+    day: 2027-01-07
+    vehicle: opener
+    prereqs: [MW-029]
+    assess: [explain]
+
+  - id: MW-031
+    label: Spanish object pronouns preserve the dative and accusative distinction
+    unit: 2
+    week: 2026-10-26
+    day: 2026-10-26
+    vehicle: lesson
+    prereqs: [MW-019]
+    assess: [explain]
+
+  - id: MW-032
+    label: The Latin imperfect survives nearly intact in Spanish
+    unit: 3
+    week: 2026-12-14
+    day: 2026-12-14
+    vehicle: lesson
+    prereqs: [MW-028]
+    assess: [explain, apply]
+
+  - id: MW-033
+    label: Why the Latin future did not survive, and what replaced it
+    unit: 3
+    week: 2026-12-14
+    day: 2026-12-15
+    vehicle: lesson
+    prereqs: [MW-032]
+    assess: [explain]
+
+  - id: MW-034
+    label: Arabic and Germanic layers in Spanish alongside the Latin core
+    unit: 5
+    week: 2027-02-01
+    day: 2027-02-03
+    vehicle: opener
+    prereqs: [MW-019]
+    assess: [explain]
+
+  - id: MW-035
+    label: Comparing a Latin sentence to its Spanish, French, and Italian descendants
+    unit: 3
+    week: 2026-12-07
+    day: 2026-12-11
+    vehicle: consolidation
+    prereqs: [MW-024]
+    assess: [apply, explain]
+
+# --- Latin into English ---
+  - id: MW-036
+    label: English is Germanic with a massive Latin overlay
+    unit: 0
+    week: 2026-08-17
+    day: 2026-08-21
+    vehicle: lesson
+    prereqs: []
+    assess: [explain]
+
+  - id: MW-037
+    label: The Norman Conquest and the French layer in English
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-09
+    vehicle: opener
+    prereqs: [MW-036]
+    assess: [explain]
+
+  - id: MW-038
+    label: Register — Anglo-Saxon words feel plain, Latin words feel formal
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-14
+    vehicle: vocab
+    prereqs: [MW-037]
+    assess: [explain, apply]
+
+  - id: MW-039
+    label: Food and animal word pairs — cow/beef, pig/pork, sheep/mutton
+    unit: 1
+    week: 2026-09-14
+    day: 2026-09-15
+    vehicle: opener
+    prereqs: [MW-038]
+    assess: [explain]
+
+  - id: MW-040
+    label: Renaissance borrowing directly from Latin, bypassing French
+    unit: 5
+    week: 2027-02-08
+    day: 2027-02-10
+    vehicle: opener
+    prereqs: [MW-037]
+    assess: [explain]
+
+  - id: MW-041
+    label: Latin plurals surviving in English — datum/data, alumnus/alumni
+    unit: 2
+    week: 2026-10-12
+    day: 2026-10-15
+    vehicle: vocab
+    prereqs: [MW-036]
+    assess: [recall, apply]
+
+  - id: MW-042
+    label: Neuter plurals in -a that English treats as singular
+    unit: 2
+    week: 2026-10-12
+    day: 2026-10-15
+    vehicle: do_now
+    prereqs: [MW-041]
+    assess: [explain]
+
+  - id: MW-043
+    label: Latin phrases used whole in English — bona fide, per capita, status quo
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-27
+    vehicle: lesson
+    prereqs: []
+    assess: [recall, translate]
+
+  - id: MW-044
+    label: Latin abbreviations — e.g., i.e., etc., cf., N.B., vs., A.M./P.M., A.D.
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-27
+    vehicle: lesson
+    prereqs: [MW-043]
+    assess: [recall, explain]
+
+  - id: MW-045
+    label: Estimating the Latin share of English vocabulary
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-08
+    vehicle: opener
+    prereqs: [MW-036]
+    assess: [explain]
+
+# --- Latin in the professions ---
+  - id: MW-046
+    label: Why law retains Latin
+    unit: 2
+    week: 2026-11-09
+    day: 2026-11-09
+    vehicle: lesson
+    prereqs: [MW-036]
+    assess: [explain]
+
+  - id: MW-047
+    label: Legal terms — habeas corpus, subpoena, pro bono, amicus curiae
+    unit: 2
+    week: 2026-11-09
+    day: 2026-11-12
+    vehicle: vocab
+    prereqs: [MW-046]
+    assess: [recall, translate]
+
+  - id: MW-048
+    label: Legal terms — de facto, de jure, prima facie, ipso facto
+    unit: 3
+    week: 2026-12-14
+    day: null
+    vehicle: module
+    prereqs: [MW-047]
+    assess: [recall, translate]
+
+  - id: MW-049
+    label: mens rea, actus reus, and the structure of a crime
+    unit: 5
+    week: 2027-03-01
+    day: null
+    vehicle: module
+    prereqs: [MW-047]
+    assess: [explain, translate]
+
+  - id: MW-050
+    label: Roman law as the ancestor of modern civil law systems
+    unit: 5
+    week: 2027-03-01
+    day: null
+    vehicle: module
+    prereqs: [MW-046]
+    assess: [explain]
+
+  - id: MW-051
+    label: Latin and Greek roots in anatomy
+    unit: 4
+    week: 2027-01-18
+    day: 2027-01-19
+    vehicle: vocab
+    prereqs: [MW-016]
+    assess: [recall, apply]
+
+  - id: MW-052
+    label: Medical prefixes and suffixes — -itis, -ectomy, -osis, hyper-, hypo-
+    unit: 4
+    week: 2027-01-18
+    day: 2027-01-20
+    vehicle: vocab
+    prereqs: [MW-051]
+    assess: [recall, apply]
+
+  - id: MW-053
+    label: Prescription abbreviations — Rx, b.i.d., p.r.n., q.d., stat
+    unit: 4
+    week: 2027-01-18
+    day: 2027-01-21
+    vehicle: do_now
+    prereqs: [MW-052]
+    assess: [recall, translate]
+
+  - id: MW-054
+    label: Decoding an unfamiliar medical term from its parts
+    unit: 6
+    week: 2027-03-22
+    day: 2027-03-25
+    vehicle: vocab
+    prereqs: [MW-052]
+    assess: [apply]
+
+  - id: MW-055
+    label: Linnaean binomial nomenclature
+    unit: 6
+    week: 2027-03-22
+    day: 2027-03-24
+    vehicle: vocab
+    prereqs: [MW-016]
+    assess: [explain, apply]
+
+  - id: MW-056
+    label: Why science chose a dead language for naming
+    unit: 6
+    week: 2027-03-22
+    day: 2027-03-24
+    vehicle: opener
+    prereqs: [MW-055]
+    assess: [explain]
+
+  - id: MW-057
+    label: Latin in astronomy — constellation and planet names
+    unit: 6
+    week: 2027-03-22
+    day: 2027-03-25
+    vehicle: do_now
+    prereqs: [MW-055]
+    assess: [recall, explain]
+
+  - id: MW-058
+    label: Latin in the Church — the Vulgate and the liturgy
+    unit: 6
+    week: 2027-04-05
+    day: 2027-04-05
+    vehicle: lesson
+    prereqs: [MW-040]
+    assess: [explain]
+
+  - id: MW-059
+    label: Ecclesiastical versus classical pronunciation
+    unit: 6
+    week: 2027-04-05
+    day: 2027-04-06
+    vehicle: lesson
+    prereqs: [MW-058, MS-002]
+    assess: [recognize, explain]
+
+  - id: MW-060
+    label: Latin in music — tempo markings and sacred text settings
+    unit: 6
+    week: 2027-04-05
+    day: 2027-04-06
+    vehicle: opener
+    prereqs: [MW-058]
+    assess: [recall, explain]
+
+  - id: MW-061
+    label: Latin in finance and commerce — per annum, pro rata, ad valorem
+    unit: 3
+    week: 2026-12-14
+    day: null
+    vehicle: module
+    prereqs: [MW-043]
+    assess: [recall, translate]
+
+# --- Mottoes, symbols, and institutions ---
+  - id: MW-062
+    label: E pluribus unum and the Great Seal
+    unit: 0
+    week: 2026-08-24
+    day: 2026-08-27
+    vehicle: lesson
+    prereqs: [MW-043]
+    assess: [recall, translate]
+
+  - id: MW-063
+    label: Annuit coeptis and novus ordo seclorum on the dollar bill
+    unit: 1
+    week: 2026-10-05
+    day: 2026-10-05
+    vehicle: do_now
+    prereqs: [MW-062]
+    assess: [recall, translate]
+
+  - id: MW-064
+    label: State mottoes in Latin, including Massachusetts and Connecticut
+    unit: 2
+    week: 2026-11-09
+    day: 2026-11-13
+    vehicle: consolidation
+    prereqs: [MW-062]
+    assess: [recall, translate]
+
+  - id: MW-065
+    label: University mottoes — Harvard, Yale, and others
+    unit: 5
+    week: 2027-02-22
+    day: 2027-02-23
+    vehicle: vocab
+    prereqs: [MW-064]
+    assess: [recall, translate]
+
+  - id: MW-066
+    label: Military and civic mottoes — semper fidelis, e pluribus unum, sic semper tyrannis
+    unit: 5
+    week: 2027-02-22
+    day: 2027-02-22
+    vehicle: do_now
+    prereqs: [MW-064]
+    assess: [recall, translate]
+
+  - id: MW-067
+    label: Composing a grammatically correct original Latin motto
+    unit: 5
+    week: 2027-02-22
+    day: 2027-02-26
+    vehicle: consolidation
+    prereqs: [MW-066]
+    assess: [apply]
+
+  - id: MW-068
+    label: The Roman Republic as a model for the American founders
+    unit: 1
+    week: 2026-10-05
+    day: 2026-10-06
+    vehicle: do_now
+    prereqs: [MW-062]
+    assess: [explain]
+
+  - id: MW-069
+    label: Senate, capitol, veto, republic — American institutions with Roman names
+    unit: 1
+    week: 2026-10-05
+    day: 2026-10-06
+    vehicle: do_now
+    prereqs: [MW-068]
+    assess: [explain]
+
+  - id: MW-070
+    label: Neoclassical architecture in Washington and in state capitols
+    unit: 7
+    week: 2027-04-26
+    day: 2027-04-27
+    vehicle: opener
+    prereqs: [MW-068]
+    assess: [recognize, explain]
+
+  - id: MW-071
+    label: The fasces — from Roman symbol to fascism
+    unit: 7
+    week: 2027-04-26
+    day: 2027-04-30
+    vehicle: consolidation
+    prereqs: [MW-069]
+    assess: [explain]
+
+  - id: MW-072
+    label: Cincinnatus, George Washington, and the city of Cincinnati
+    unit: 2
+    week: 2026-11-16
+    day: 2026-11-16
+    vehicle: opener
+    prereqs: [RW-025, MW-068]
+    assess: [explain]
+
+# --- Geography, place names, and the physical legacy ---
+  - id: MW-073
+    label: Latin place names surviving in Europe — Londinium, Lutetia, Colonia
+    unit: 0
+    week: 2026-08-31
+    day: 2026-09-04
+    vehicle: consolidation
+    prereqs: [RW-004]
+    assess: [recognize, explain]
+
+  - id: MW-074
+    label: The -chester, -caster, -cester suffix from castra
+    unit: 3
+    week: 2026-11-30
+    day: 2026-12-01
+    vehicle: opener
+    prereqs: [MW-073]
+    assess: [explain, apply]
+
+  - id: MW-075
+    label: Roman roads underneath modern European highways
+    unit: 3
+    week: 2026-11-30
+    day: 2026-12-04
+    vehicle: consolidation
+    prereqs: [RW-087]
+    assess: [explain]
+
+  - id: MW-076
+    label: Why the Rhine and Danube shaped modern language borders
+    unit: 3
+    week: 2026-12-07
+    day: 2026-12-08
+    vehicle: opener
+    prereqs: [RW-004, MW-019]
+    assess: [explain]
+
+  - id: MW-077
+    label: The Roman city grid and its modern survivals
+    unit: 3
+    week: 2026-12-07
+    day: 2026-12-09
+    vehicle: opener
+    prereqs: [RW-083]
+    assess: [explain]
+
+  - id: MW-078
+    label: Classical place names in the United States — Rome, Utica, Syracuse, Troy
+    unit: 2
+    week: 2026-11-16
+    day: 2026-11-17
+    vehicle: opener
+    prereqs: [MW-073]
+    assess: [recall, explain]
+
+  - id: MW-079
+    label: Latin and Spanish place names in the Americas
+    unit: 2
+    week: 2026-11-16
+    day: 2026-11-18
+    vehicle: opener
+    prereqs: [MW-078, MW-019]
+    assess: [explain]
+
+  - id: MW-080
+    label: The months of the year and their Roman origins
+    unit: 3
+    week: 2026-12-14
+    day: 2026-12-14
+    vehicle: do_now
+    prereqs: [RW-061]
+    assess: [recall, explain]
+
+  - id: MW-081
+    label: Why September through December have the wrong numbers
+    unit: 3
+    week: 2026-12-14
+    day: 2026-12-14
+    vehicle: do_now
+    prereqs: [MW-080]
+    assess: [explain]
+
+  - id: MW-082
+    label: The days of the week in Latin and the Romance languages
+    unit: 3
+    week: 2026-12-14
+    day: 2026-12-15
+    vehicle: do_now
+    prereqs: [RW-064, MW-019]
+    assess: [recall, explain]
+
+  - id: MW-083
+    label: The Julian and Gregorian calendars
+    unit: 4
+    week: 2027-01-11
+    day: 2027-01-12
+    vehicle: opener
+    prereqs: [MW-080, RW-035]
+    assess: [explain]
+
+# --- Reception ---
+  - id: MW-084
+    label: Latin mottoes and inscriptions in film, games, and popular culture
+    unit: 5
+    week: 2027-02-22
+    day: 2027-02-24
+    vehicle: opener
+    prereqs: [MW-066]
+    assess: [recognize, translate]
+
+  - id: MW-085
+    label: Rome on screen — what modern depictions get right and wrong
+    unit: 7
+    week: 2027-05-10
+    day: 2027-05-14
+    vehicle: consolidation
+    prereqs: [RW-090]
+    assess: [explain]
+
+  - id: MW-086
+    label: Classical allusion in English literature
+    unit: 7
+    week: 2027-05-10
+    day: 2027-05-12
+    vehicle: opener
+    prereqs: [RW-064]
+    assess: [recognize, explain]
+
+  - id: MW-087
+    label: Who has claimed the Roman inheritance, and why
+    unit: 7
+    week: 2027-05-17
+    day: 2027-05-21
+    vehicle: consolidation
+    prereqs: [RW-046, MW-071]
+    assess: [explain]
+
+  - id: MW-088
+    label: Latin in modern branding, logos, and product names
+    unit: 7
+    week: 2027-05-17
+    day: 2027-05-19
+    vehicle: opener
+    prereqs: [MW-016]
+    assess: [recognize, explain]
+
+# ============================================================
+# VOCABULARY
+# Not spec-noded. Individual headwords are their own items,
+# tagged to the week's core list. See Year Architecture §3.
+# ============================================================
+
+vocabulary:
+  source_primary: DCC Core Latin Vocabulary (1000 headwords, frequency ranked)
+  source_filter: NLE / NLVE Latin I vocabulary list
+  weekly_core_size: 12-15
+  target_by_nle: ~310 headwords
+  target_by_june: ~440 headwords
+  item_fields:
+    - headword
+    - full_dictionary_entry
+    - gloss
+    - part_of_speech
+    - declension_or_conjugation
+    - core_list_week
+    - dcc_frequency_rank
+    - derivative_links   # references MW nodes
+  rules:
+    - Weekly core list is a cohort floor, taught and quizzed. Non-negotiable.
+    - Self-paced SRS accumulation sits on top of the floor, never instead of it.
+    - Unit exams and quizzes draw ONLY from cumulative core lists.
+    - Self-pacing yields access advantage, never grade advantage.
+    - Every core word carries at least one derivative link to an MW node.
+  core_lists:
+    - week: 2026-08-24
+      count: 10
+      note: Latin already in English. Taught as phrases, not paradigms.
+      words: [et cetera, per sē, ad hoc, alma māter, ē plūribus ūnum,
+              carpe diem, sīc, versus, id est, exemplī grātiā]
+    - week: 2026-08-31
+      count: 15
+      note: First declension nouns. Chosen for transparent Spanish cognates.
+      words: [aqua, terra, via, porta, īnsula, silva, puella, fēmina,
+              nauta, agricola, patria, fāma, vīta, lūna, stēlla]
+    - week: 2026-09-07
+      count: 12
+      note: First conjugation verbs plus two particles.
+      words: [amō, laudō, portō, vocō, spectō, nārrō, parō, servō,
+              superō, pugnō, et, nōn]
+    - week: 2026-09-14
+      count: 14
+      note: Second declension masculine and neuter, plus second conjugation verbs.
+      words: [dominus, servus, amīcus, puer, vir, ager, bellum, oppidum,
+              dōnum, verbum, videō, habeō, teneō, moneō]
+    - week: 2026-09-21
+      count: 14
+      note: >
+        First/second declension adjectives, sum, and dēbeō. dēbeō is on this
+        list because MS-157 (complementary infinitive) is taught this week and
+        requires it.
+      words: [poēta, rēgīna, prōvincia, magnus, parvus, bonus, malus, multus,
+              longus, altus, novus, clārus, sum, dēbeō]
+    - week: 2026-09-28
+      count: 13
+      note: Remaining first/second declension adjectives, possessives, and adverbs.
+      words: [pulcher, miser, līber, noster, vester, meus, tuus, sed, quod,
+              ubi, nunc, saepe, semper]
+    # Core lists for Units 2-7 are drafted with the unit, not in advance.
+    # They attach to a week and are selected against that week's reading.
+
+# ============================================================
+# COUNTS (v1)
+#   MS  158   Morphosyntax
+#   CR   22   Connected Reading
+#   RW   92   Roman World
+#   MW   88   Modern World
+#   ---------
+#   TOTAL 360 nodes
+#   VO handled separately (~440 headwords)
+# ============================================================
