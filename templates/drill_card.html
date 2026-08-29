@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ student }}{% endblock %}
+{% block content %}
+{% if notice %}<div class="answer-feedback close">{{ notice }}</div>{% endif %}
+
+<p class="small muted" style="text-align:center">{{ card.instruction }}</p>
+<div class="prompt {{ 'latin' if card.ask == 'la_en' else '' }}">{{ card.prompt }}</div>
+
+<form method="post" action="{{ url_for('drill_answer') }}" id="answerform">
+  <input type="hidden" name="student" value="{{ student }}">
+  <input type="hidden" name="week" value="{{ week }}">
+  <input type="hidden" name="direction" value="{{ direction }}">
+  <input type="hidden" name="latin" value="{{ card.latin }}">
+  <input type="hidden" name="ask" value="{{ card.ask }}">
+  <input type="hidden" name="latency_ms" id="latency_ms" value="">
+  <input type="text" name="response" id="response" autocomplete="off"
+         autocapitalize="off" autocorrect="off" spellcheck="false"
+         placeholder="{{ 'English' if card.ask == 'la_en' else 'Latin' }}" required>
+  <button class="bigbtn" type="submit" style="margin-top:12px">Check</button>
+</form>
+<p style="text-align:center;margin-top:12px"><a class="small" href="{{ url_for('drill_progress', student=student) }}">My progress</a></p>
+
+<script>
+  var t0 = Date.now();
+  var inp = document.getElementById('response');
+  if (inp) inp.focus();
+  document.getElementById('answerform').addEventListener('submit', function(){
+    document.getElementById('latency_ms').value = String(Date.now() - t0);
+  });
+</script>
+{% endblock %}

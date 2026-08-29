@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block subtitle %}import{% endblock %}
+{% block content %}
+<h1>Import done</h1>
+<div class="card">
+  <p><strong>{{ summary.total }}</strong> questions processed — {{ summary.inserted }} new, {{ summary.updated }} refreshed.</p>
+  <p><strong>{{ summary.flagged }}</strong> went to the flagged queue.</p>
+  <h2>By check</h2>
+  {% if summary.by_check %}
+  <ul>
+    {% for k, v in summary.by_check.items() %}<li>{{ k }}: {{ v }}</li>{% endfor %}
+  </ul>
+  {% else %}<p class="muted">No checks fired.</p>{% endif %}
+  <p class="small muted">
+    Levels: {% for k, v in summary.by_level.items() %}{{ k }} {{ v }}{{ '; ' if not loop.last }}{% endfor %}.
+    Error-level flags are real problems; heuristic flags are the two approximate checks (see README).
+  </p>
+  <p class="small muted">
+    Reference (not used to flag): the literal spec reading of check 4 would flag
+    {{ summary.literal_check4 }} explain items; the literal reading of check 6a would flag
+    {{ summary.literal_check6a }} macron items. Both are noisy, which is why the tool uses the refined forms.
+  </p>
+  {% if summary.by_check.get('duplicate_options', 0) > summary.total * 0.05
+        or summary.by_check.get('vocabulary', 0) > summary.total * 0.05 %}
+  <div class="flags"><span class="lvl error">systematic?</span>
+    Check 1 or check 2 caught more than a small fraction — the generation run may have a
+    systematic problem worth fixing at the source rather than one question at a time.</div>
+  {% endif %}
+</div>
+<a class="bigbtn" href="{{ url_for('review_queue') }}">Go to the queue</a>
+{% endblock %}

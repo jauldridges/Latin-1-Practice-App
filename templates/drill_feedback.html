@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ student }}{% endblock %}
+{% block content %}
+{% if result == 'right' %}
+  <div class="answer-feedback right">Right!</div>
+{% else %}
+  <div class="answer-feedback wrong">Not quite.</div>
+{% endif %}
+
+<div class="card">
+  <div class="small muted">You typed</div>
+  <div style="font-size:20px">{{ response if response else '(nothing)' }}</div>
+  {% if result != 'right' %}
+    <div class="small muted" style="margin-top:10px">Answer</div>
+    <div style="font-size:20px" class="{{ 'latin' if ask == 'en_la' else '' }}">{{ model }}</div>
+  {% endif %}
+  <div class="small muted" style="margin-top:10px">
+    {{ word.latin }} — {{ word.en | join(', ') }}
+  </div>
+</div>
+
+<a class="bigbtn" href="{{ url_for('drill_session', student=student, week=week, direction=direction) }}">Next word</a>
+<p style="text-align:center"><a class="small" href="{{ url_for('drill_progress', student=student) }}">My progress</a></p>
+{% endblock %}
