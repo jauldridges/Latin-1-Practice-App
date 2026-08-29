@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% set p = item.payload %}
+{% block subtitle %}{{ 'flagged' if queue == 'flagged' else 'review' }}{% endblock %}
+{% block content %}
+
+<div class="meta-row">
+  <span class="node-id">{{ item.node_id }}</span>
+  <span class="badge tier">{{ item.node_id | nodelabel }}</span>
+</div>
+<div class="meta-row">
+  <span class="badge tier">tier {{ p.tier }}</span>
+  <span class="badge tier">{{ p.assess }}</span>
+  <span class="badge tier">{{ p.format }}</span>
+  {% if p.macron_matters %}<span class="badge err">macron matters</span>{% endif %}
+  {% if p.paper_ok is defined and not p.paper_ok %}<span class="badge tier">screen only</span>{% endif %}
+  <span class="muted small">{{ remaining }} left</span>
+</div>
+
+{% if item.flags %}
+<div class="flags">
+  <div class="small muted">Flagged by:</div>
+  {% for f in item.flags %}
+    <div class="fl"><span class="lvl {{ f.level }}">{{ f.level }}</span> · {{ f.check }} — {{ f.detail }}</div>
+  {% endfor %}
+</div>
+{% endif %}
+{% if p.needs_review %}
+<div class="flags"><span class="lvl heuristic">needs review</span> — {{ p.reviewer_question }}</div>
+{% endif %}
+
+<div class="stem">{{ p.stem }}</div>
+
+{% if p.options %}
+  {% for k, v in p.options.items() %}
+    <div class="opt {{ 'correct' if k == p.answer else '' }}">
+      <span class="k">{{ k }}{{ ' ✓' if k == p.answer else '' }}</span>
+      <span class="latin">{{ v }}</span>
+    </div>
+  {% endfor %}
+{% endif %}
+
+{% if p.boxes %}
+  <div class="small muted">Answer boxes (accepted answers):</div>
+  {% for b in p.boxes %}
+    <div class="box"><span class="label">{{ b.label }}:</span>
+      {% if b.answer %}{{ b.answer | join(' · ') }}{% elif b.answer_rule %}<em>rule: {{ b.answer_rule }}</em>{% endif %}
+    </div>
+  {% endfor %}
+  {% if p.order_matters is defined %}<div class="small muted">order matters: {{ p.order_matters }}</div>{% endif %}
+{% endif %}
+
+{% if p.tag_boxes %}
+  <div class="small muted">Tag boxes, then self-checked translation:</div>
+  {% for tb in p.tag_boxes %}
+    <div class="box"><span class="latin">{{ tb.word }}</span> —
+      case: {{ tb.case | join('/') }}; job: {{ tb.job | join('/') }}</div>
+  {% endfor %}
+  {% if p.translation_model_answer %}<div class="box"><span class="label">model:</span> {{ p.translation_model_answer }}</div>{% endif %}
+{% endif %}
+
+{% if p.model_answer %}<div class="box"><span class="label">model answer:</span> {{ p.model_answer }}</div>{% endif %}
+
+{% if p.what_went_wrong %}
+  <h2>What-went-wrong menu</h2>
+  <ul class="wwlist">
+    {% for w in p.what_went_wrong %}
+      <li>{{ w.text }} <span class="node-id">→ {{ w.node }}</span></li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{% if p.touches %}<div class="small muted">touches: {{ p.touches | join(', ') }}</div>{% endif %}
+{% if p.note %}<div class="small muted" style="margin-top:8px"><em>note:</em> {{ p.note }}</div>{% endif %}
+{% if p.generator_warning %}<div class="flags small"><em>generator warning:</em> {{ p.generator_warning }}</div>{% endif %}
+
+<details class="reject-reasons">
+  <summary>Reject with a reason…</summary>
+  <form method="post" action="{{ url_for('review_action') }}">
+    <input type="hidden" name="item_id" value="{{ item.item_id }}">
+    <input type="hidden" name="action" value="reject">
+    <input type="hidden" name="queue" value="{{ queue }}">
+    <input type="hidden" name="node_id" value="{{ node_id }}">
+    <div class="reason-btns">
+      <button type="submit" name="reason" value="wrong answer">wrong answer</button>
+      <button type="submit" name="reason" value="off-vocabulary">off-vocabulary</button>
+      <button type="submit" name="reason" value="bad distractor">bad distractor</button>
+      <button type="submit" name="reason" value="duplicate">duplicate</button>
+      <button type="submit" name="reason" value="mis-tagged">mis-tagged</button>
+      <button type="submit" name="reason" value="rejected">other</button>
+    </div>
+  </form>
+</details>
+
+{% endblock %}
+
+{% block actionbar %}
+<div class="actionbar">
+  <form method="post" action="{{ url_for('review_action') }}">
+    <input type="hidden" name="item_id" value="{{ item.item_id }}">
+    <input type="hidden" name="queue" value="{{ queue }}">
+    <input type="hidden" name="node_id" value="{{ node_id }}">
+    <input type="hidden" name="action" value="approve">
+    <button class="act approve" type="submit">Approve</button>
+  </form>
+  <a class="act edit" style="text-decoration:none;display:flex;align-items:center;justify-content:center"
+     href="{{ url_for('review_edit', item_id=item.item_id, queue=queue, node_id=node_id) }}">Edit</a>
+  <form method="post" action="{{ url_for('review_action') }}">
+    <input type="hidden" name="item_id" value="{{ item.item_id }}">
+    <input type="hidden" name="queue" value="{{ queue }}">
+    <input type="hidden" name="node_id" value="{{ node_id }}">
+    <input type="hidden" name="action" value="reject">
+    <input type="hidden" name="reason" value="rejected">
+    <button class="act reject" type="submit">Reject</button>
+  </form>
+  <form method="post" action="{{ url_for('review_action') }}">
+    <input type="hidden" name="item_id" value="{{ item.item_id }}">
+    <input type="hidden" name="queue" value="{{ queue }}">
+    <input type="hidden" name="node_id" value="{{ node_id }}">
+    <input type="hidden" name="action" value="skip">
+    <button class="act skip" type="submit">Skip</button>
+  </form>
+</div>
+{% endblock %}

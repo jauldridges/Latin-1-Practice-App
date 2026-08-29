@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block subtitle %}review{% endblock %}
+{% block content %}
+<h1>Review queue</h1>
+<div class="meta-row">
+  <span class="badge tier">{{ counts.unreviewed }} unreviewed</span>
+  <span class="badge flag">{{ counts.flagged }} flagged</span>
+  <span class="badge tier">{{ counts.approved }} approved</span>
+  <span class="badge tier">{{ counts.rejected }} rejected</span>
+  <span class="badge tier">{{ counts.deferred }} deferred</span>
+</div>
+
+{% if counts.total == 0 %}
+<div class="card">
+  <p>No questions imported yet.</p>
+  <form method="post" action="{{ url_for('review_import') }}">
+    <button class="bigbtn" type="submit">Import the generated bank</button>
+  </form>
+</div>
+{% else %}
+<div class="card">
+  <form method="post" action="{{ url_for('review_import') }}" style="margin:0">
+    <button class="bigbtn secondary" type="submit">Re-import bank (keeps decisions)</button>
+  </form>
+</div>
+
+{% if counts.flagged %}
+<a class="bigbtn" style="background:var(--flag)" href="{{ url_for('review_flagged') }}">
+  Flagged queue ({{ counts.flagged }}) →
+</a>
+<p class="small muted" style="margin-top:-4px">Caught by the mechanical checks or marked needs-review. Slower attention.</p>
+{% endif %}
+
+<h2>Fast queue — by node</h2>
+{% if nodes %}
+<ul class="queue">
+  {% for n in nodes %}
+  <li>
+    <a href="{{ url_for('review_node', node_id=n.node) }}">
+      <span><span class="node-id">{{ n.node }}</span><br>{{ n.label }}</span>
+      <span class="count">{{ n.count }}</span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="muted">Nothing left in the fast queue.</p>
+{% endif %}
+
+<a class="bigbtn secondary" href="{{ url_for('review_export') }}">Export approved as YAML</a>
+{% endif %}
+{% endblock %}

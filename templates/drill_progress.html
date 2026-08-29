@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ student }}{% endblock %}
+{% block content %}
+<h1>{{ student }} — progress</h1>
+<p class="small muted">solid · shaky · not yet. A practice signal, not a grade.
+  <em>Solid</em> means you got it right several times, on more than one day, including at least a week after you first saw it.</p>
+
+<h2>{{ summary.current_week_label }}</h2>
+<div class="summary-tiles">
+  <div class="tile"><div class="n state solid">{{ summary.current_week['solid'] }}</div><div class="l">solid</div></div>
+  <div class="tile"><div class="n state shaky">{{ summary.current_week['shaky'] }}</div><div class="l">shaky</div></div>
+  <div class="tile"><div class="n state notyet">{{ summary.current_week['not yet'] }}</div><div class="l">not yet</div></div>
+</div>
+
+<h2>Everything so far ({{ summary.total }})</h2>
+<div class="summary-tiles">
+  <div class="tile"><div class="n state solid">{{ summary.cumulative['solid'] }}</div><div class="l">solid</div></div>
+  <div class="tile"><div class="n state shaky">{{ summary.cumulative['shaky'] }}</div><div class="l">shaky</div></div>
+  <div class="tile"><div class="n state notyet">{{ summary.cumulative['not yet'] }}</div><div class="l">not yet</div></div>
+</div>
+
+<table class="progress">
+  <thead><tr><th>Word</th><th>Meaning</th><th class="st">State</th><th>Box</th><th>Last</th></tr></thead>
+  <tbody>
+    {% for r in rows %}
+    <tr>
+      <td class="latin">{{ r.latin }}</td>
+      <td class="small">{{ r.en }}</td>
+      <td class="st">
+        {% if r.state == 'solid' %}<span class="pill solid">solid</span>
+        {% elif r.state == 'shaky' %}<span class="pill shaky">shaky</span>
+        {% else %}<span class="pill notyet">not yet</span>{% endif %}
+      </td>
+      <td>{{ r.box }}</td>
+      <td class="small muted">{{ r.last_seen }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a class="bigbtn" href="{{ url_for('drill_home') }}" style="margin-top:16px">Back to drill</a>
+{% endblock %}

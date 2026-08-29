@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block subtitle %}edit{% endblock %}
+{% block content %}
+<h1>Edit question</h1>
+<p class="muted small">{{ item.node_id }} · {{ item.item_id }}. Edit the YAML, then save &amp; approve.</p>
+{% if error %}<div class="flags"><span class="lvl error">error</span> {{ error }}</div>{% endif %}
+<form method="post" action="{{ url_for('review_edit', item_id=item.item_id) }}">
+  <input type="hidden" name="queue" value="{{ queue }}">
+  <input type="hidden" name="node_id" value="{{ node_id }}">
+  <textarea class="code" name="payload">{{ payload_text }}</textarea>
+  <button class="bigbtn" type="submit">Save &amp; approve</button>
+  <a class="bigbtn secondary" href="{{ url_for('review_node', node_id=node_id) if queue=='node' else url_for('review_flagged') }}">Cancel</a>
+</form>
+{% endblock %}

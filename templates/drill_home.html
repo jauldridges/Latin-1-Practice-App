@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block subtitle %}drill{% endblock %}
+{% block content %}
+<h1>Vocabulary drill</h1>
+<p class="muted small">Type the answer — no multiple choice. Macrons are never required. This is practice; nothing here affects a grade.</p>
+
+<form method="post" action="{{ url_for('drill_start') }}" id="startform">
+  <label class="small muted" for="student">Your name</label>
+  <input type="text" name="student" id="student" autocomplete="off" placeholder="e.g. jordan" required>
+
+  <label class="small muted" for="week" style="display:block;margin-top:12px">What to practise</label>
+  <select name="week" id="week" style="width:100%;padding:14px;font-size:17px;border:1px solid var(--line);border-radius:10px;background:#fff">
+    <option value="current">This week (and everything before it)</option>
+    <option value="all">Everything so far</option>
+    {% for wk in weeks %}<option value="{{ wk }}">{{ week_labels[wk] }} only</option>{% endfor %}
+  </select>
+
+  <label class="small muted" for="direction" style="display:block;margin-top:12px">Direction</label>
+  <select name="direction" id="direction" style="width:100%;padding:14px;font-size:17px;border:1px solid var(--line);border-radius:10px;background:#fff">
+    <option value="both">Both directions</option>
+    <option value="la_en">Latin → English</option>
+    <option value="en_la">English → Latin</option>
+  </select>
+
+  <button class="bigbtn" type="submit" style="margin-top:16px">Start</button>
+</form>
+
+<script>
+  // Remember the name on this device only (no account). localStorage may be
+  // blocked; ignore failures.
+  try {
+    var s = document.getElementById('student');
+    var saved = localStorage.getItem('latin_student');
+    if (saved) s.value = saved;
+    document.getElementById('startform').addEventListener('submit', function(){
+      try { localStorage.setItem('latin_student', s.value.trim()); } catch(e){}
+    });
+  } catch(e) {}
+</script>
+{% endblock %}

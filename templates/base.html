@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{% block title %}Latin I{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body>
+  <header class="top">
+    <a class="home" href="{{ url_for('index') }}">Latin I</a>
+    <span class="sub">{% block subtitle %}{% endblock %}</span>
+  </header>
+  <div class="wrap">
+    {% block content %}{% endblock %}
+  </div>
+  {% block actionbar %}{% endblock %}
+</body>
+</html>

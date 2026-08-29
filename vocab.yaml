@@ -1,0 +1,117 @@
+# ============================================================
+# Vocabulary drill word list — Units 0 and 1 core (80 words)
+#
+# IMPORTANT: the source files (latin1-item-exemplars.yaml,
+# latin1-spec.yaml) list these 80 words but carry NO English glosses.
+# The drill needs glosses to run in both directions, so they are seeded
+# here. THESE GLOSSES ARE NOT FROM THE CANONICAL FILES — they were
+# written for this build and should be checked and edited by the teacher.
+# This is the single file to edit; neither app writes to it.
+#
+# Each entry:
+#   latin  the headword (macrons kept for display; never required in an answer)
+#   en     accepted English answers (first is the one shown as the model)
+#   week   the core-list week the word belongs to
+#
+# Answers are checked by the shared module: case, macrons, punctuation,
+# a leading "the"/"a", and spacing are all forgiven; near-misses come back
+# as "close" and can be retyped.
+# ============================================================
+
+meta:
+  scope: Units 0 and 1 (80 core words)
+  glosses_source: seeded for this build, teacher-editable (not from canonical files)
+
+words:
+
+  # --- week of Aug 24 — Latin already in English, taught as phrases ---
+  - {latin: "et cetera",        en: ["and the rest", "and so on", "and so forth"], week: "week_of_aug_24"}
+  - {latin: "per sē",           en: ["by itself", "in itself", "intrinsically", "as such"], week: "week_of_aug_24"}
+  - {latin: "ad hoc",           en: ["for this purpose", "improvised", "for this"], week: "week_of_aug_24"}
+  - {latin: "alma māter",       en: ["nourishing mother", "one's school", "your school"], week: "week_of_aug_24"}
+  - {latin: "ē plūribus ūnum",  en: ["out of many, one", "one out of many", "out of many one"], week: "week_of_aug_24"}
+  - {latin: "carpe diem",       en: ["seize the day", "pluck the day"], week: "week_of_aug_24"}
+  - {latin: "sīc",              en: ["thus", "so", "in this way"], week: "week_of_aug_24"}
+  - {latin: "versus",           en: ["against", "turned toward", "toward"], week: "week_of_aug_24"}
+  - {latin: "id est",           en: ["that is", "in other words"], week: "week_of_aug_24"}
+  - {latin: "exemplī grātiā",   en: ["for example", "for the sake of example"], week: "week_of_aug_24"}
+
+  # --- week of Aug 31 — first declension nouns ---
+  - {latin: "aqua",     en: ["water"], week: "week_of_aug_31"}
+  - {latin: "terra",    en: ["land", "earth", "ground"], week: "week_of_aug_31"}
+  - {latin: "via",      en: ["road", "way", "street"], week: "week_of_aug_31"}
+  - {latin: "porta",    en: ["gate", "door"], week: "week_of_aug_31"}
+  - {latin: "īnsula",   en: ["island"], week: "week_of_aug_31"}
+  - {latin: "silva",    en: ["forest", "woods", "wood"], week: "week_of_aug_31"}
+  - {latin: "puella",   en: ["girl"], week: "week_of_aug_31"}
+  - {latin: "fēmina",   en: ["woman"], week: "week_of_aug_31"}
+  - {latin: "nauta",    en: ["sailor"], week: "week_of_aug_31"}
+  - {latin: "agricola", en: ["farmer"], week: "week_of_aug_31"}
+  - {latin: "patria",   en: ["homeland", "fatherland", "native land", "country"], week: "week_of_aug_31"}
+  - {latin: "fāma",     en: ["fame", "reputation", "rumor", "report"], week: "week_of_aug_31"}
+  - {latin: "vīta",     en: ["life"], week: "week_of_aug_31"}
+  - {latin: "lūna",     en: ["moon"], week: "week_of_aug_31"}
+  - {latin: "stēlla",   en: ["star"], week: "week_of_aug_31"}
+
+  # --- week of Sep 8 — first conjugation verbs + particles ---
+  - {latin: "amō",    en: ["I love", "love"], week: "week_of_sep_8"}
+  - {latin: "laudō",  en: ["I praise", "praise"], week: "week_of_sep_8"}
+  - {latin: "portō",  en: ["I carry", "carry"], week: "week_of_sep_8"}
+  - {latin: "vocō",   en: ["I call", "call"], week: "week_of_sep_8"}
+  - {latin: "spectō", en: ["I look at", "look at", "I watch", "watch"], week: "week_of_sep_8"}
+  - {latin: "nārrō",  en: ["I tell", "tell", "I narrate", "narrate"], week: "week_of_sep_8"}
+  - {latin: "parō",   en: ["I prepare", "prepare", "I get ready"], week: "week_of_sep_8"}
+  - {latin: "servō",  en: ["I save", "save", "I guard", "guard", "I keep"], week: "week_of_sep_8"}
+  - {latin: "superō", en: ["I overcome", "overcome", "I conquer", "conquer", "I surpass"], week: "week_of_sep_8"}
+  - {latin: "pugnō",  en: ["I fight", "fight"], week: "week_of_sep_8"}
+  - {latin: "et",     en: ["and"], week: "week_of_sep_8"}
+  - {latin: "nōn",    en: ["not"], week: "week_of_sep_8"}
+
+  # --- week of Sep 14 — second declension m/n + second conjugation verbs ---
+  - {latin: "dominus", en: ["master", "lord"], week: "week_of_sep_14"}
+  - {latin: "servus",  en: ["slave"], week: "week_of_sep_14"}
+  - {latin: "amīcus",  en: ["friend"], week: "week_of_sep_14"}
+  - {latin: "puer",    en: ["boy"], week: "week_of_sep_14"}
+  - {latin: "vir",     en: ["man"], week: "week_of_sep_14"}
+  - {latin: "ager",    en: ["field"], week: "week_of_sep_14"}
+  - {latin: "bellum",  en: ["war"], week: "week_of_sep_14"}
+  - {latin: "oppidum", en: ["town"], week: "week_of_sep_14"}
+  - {latin: "dōnum",   en: ["gift", "present"], week: "week_of_sep_14"}
+  - {latin: "verbum",  en: ["word"], week: "week_of_sep_14"}
+  - {latin: "videō",   en: ["I see", "see"], week: "week_of_sep_14"}
+  - {latin: "habeō",   en: ["I have", "have", "I hold"], week: "week_of_sep_14"}
+  - {latin: "teneō",   en: ["I hold", "hold", "I keep"], week: "week_of_sep_14"}
+  - {latin: "moneō",   en: ["I warn", "warn", "I advise", "advise"], week: "week_of_sep_14"}
+
+  # --- week of Sep 21 — adjectives, sum, dēbeō ---
+  - {latin: "poēta",     en: ["poet"], week: "week_of_sep_21"}
+  - {latin: "rēgīna",    en: ["queen"], week: "week_of_sep_21"}
+  - {latin: "prōvincia", en: ["province"], week: "week_of_sep_21"}
+  - {latin: "magnus",    en: ["big", "great", "large"], week: "week_of_sep_21"}
+  - {latin: "parvus",    en: ["small", "little"], week: "week_of_sep_21"}
+  - {latin: "bonus",     en: ["good"], week: "week_of_sep_21"}
+  - {latin: "malus",     en: ["bad", "evil", "wicked"], week: "week_of_sep_21"}
+  - {latin: "multus",    en: ["much", "many"], week: "week_of_sep_21"}
+  - {latin: "longus",    en: ["long"], week: "week_of_sep_21"}
+  - {latin: "altus",     en: ["high", "deep", "tall"], week: "week_of_sep_21"}
+  - {latin: "novus",     en: ["new"], week: "week_of_sep_21"}
+  - {latin: "clārus",    en: ["clear", "famous", "bright"], week: "week_of_sep_21"}
+  - {latin: "sum",       en: ["I am", "am", "to be"], week: "week_of_sep_21"}
+  - {latin: "dēbeō",     en: ["I ought", "ought", "I must", "must", "I owe", "owe", "I should", "should"], week: "week_of_sep_21"}
+
+  # --- week of Sep 28 — remaining adjectives, possessives, adverbs, conjunctions ---
+  - {latin: "pulcher", en: ["beautiful", "handsome", "pretty"], week: "week_of_sep_28"}
+  - {latin: "miser",   en: ["wretched", "miserable", "unhappy", "poor"], week: "week_of_sep_28"}
+  - {latin: "līber",   en: ["free"], week: "week_of_sep_28"}
+  - {latin: "noster",  en: ["our", "ours"], week: "week_of_sep_28"}
+  - {latin: "vester",  en: ["your", "yours"], week: "week_of_sep_28"}
+  - {latin: "meus",    en: ["my", "mine"], week: "week_of_sep_28"}
+  - {latin: "tuus",    en: ["your", "yours"], week: "week_of_sep_28"}
+  - {latin: "sed",     en: ["but"], week: "week_of_sep_28"}
+  - {latin: "quod",    en: ["because"], week: "week_of_sep_28"}
+  - {latin: "ubi",     en: ["where", "when"], week: "week_of_sep_28"}
+  - {latin: "nunc",    en: ["now"], week: "week_of_sep_28"}
+  - {latin: "saepe",   en: ["often"], week: "week_of_sep_28"}
+  - {latin: "semper",  en: ["always"], week: "week_of_sep_28"}
+  - {latin: "-que",    en: ["and"], week: "week_of_sep_28"}
+  - {latin: "aut",     en: ["or"], week: "week_of_sep_28"}

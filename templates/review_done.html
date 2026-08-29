@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block subtitle %}review{% endblock %}
+{% block content %}
+<h1>Nothing left here</h1>
+{% if where == 'node' %}
+  <p class="muted">{{ node_id }} — {{ label }} is fully reviewed.</p>
+{% else %}
+  <p class="muted">The flagged queue is clear.</p>
+{% endif %}
+<a class="bigbtn" href="{{ url_for('review_queue') }}">Back to the queue</a>
+<div class="meta-row">
+  <span class="badge tier">{{ counts.approved }} approved</span>
+  <span class="badge tier">{{ counts.rejected }} rejected</span>
+  <span class="badge tier">{{ counts.deferred }} deferred</span>
+</div>
+{% endblock %}
