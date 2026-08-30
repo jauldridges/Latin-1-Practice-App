@@ -7,9 +7,11 @@ Two small local apps that share one answer-checker:
    attention on judgment.
 2. **Vocabulary drill** (student-facing) — typed, spaced practice on the weekly
    core word list.
+3. **Grammar practice** (student-facing) — serves the questions the teacher has
+   approved, and classifies every miss through the what-went-wrong menu.
 
-No teacher dashboard, no accounts, no grammar app, no question generation, no
-grading. Those are out of scope by design.
+No teacher dashboard, no accounts, no question generation, no grading. Those are
+out of scope by design.
 
 ## Run it
 
@@ -63,6 +65,7 @@ start clean.
 | `checks.py` | The eight mechanical checks. |
 | `store.py` | SQLite store: items + review state, and the append-only event record. |
 | `drill.py` | Drill card selection, Leitner boxes, solid/shaky/not-yet. |
+| `practice.py` | Grammar-practice selection and grading (all four question formats). |
 | `server.py` | Flask app — both apps, both route groups. |
 | `run.py` | Launcher. |
 | `vocab.yaml` | The drill's 80 words **with glosses** (see the caveat below). |
@@ -145,6 +148,37 @@ heuristic flags (10 explain-reason, 4 vocabulary — two of which, `Rōmānus` a
   week or more after the word was first seen — that delayed success is the whole
   point. A student sees only their own progress.
 
+## Grammar practice
+
+The third app, and the reason the review work pays off.
+
+- **Approved only.** Nothing unreviewed or rejected ever reaches a student.
+  Contesting a question removes it from circulation immediately.
+- **Never ahead of the lesson.** Selection is filtered by each node's teaching
+  date in the spec, so a question cannot arrive before it has been taught —
+  the "scope beats truth" rule, enforced in code rather than trusted.
+- **All four formats:** multiple choice, boxes, self-check, and
+  tag-then-translate. Boxes are graded and reported **per box** — four of six
+  verb endings shows as four right and two wrong, not one red X — and honour
+  `order_matters: false` by matching answers to boxes rather than by position.
+- **The what-went-wrong menu** appears on a wrong answer only, never on a close
+  one. Each choice is tagged to the node that explains that mistake, plus the
+  three fixed choices, which are appended and never written per item.
+- **Contesting is the live-fire path.** "I think my answer should be right"
+  writes the contest to the record *and* returns the question to the flagged
+  queue with the reason attached. That is the hook the earlier build left as a
+  field; the grammar app is where it belongs, so it is now wired.
+- **Every miss is classified**, not just counted. The `miss_reasons` table
+  answers questions like "how many students this week said they matched the
+  ending instead of the gender" with a single query.
+- **Context** defaults to `practice`. A proctored session is launched by handing
+  out a link carrying `?context=quiz` (or `homework`/`classwork`/`exam`), so
+  practice data and proctored data stay distinguishable. Students never pick it.
+
+**Teaching text** renders on the feedback screen when a question has it. All 213
+questions currently have `teaching: ""` — that text is written and approved
+separately, so the slot is there and empty by design.
+
 ---
 
 ## What works
@@ -157,6 +191,9 @@ All five build steps, verified in order:
    export — smoke-tested through the HTTP layer.
 4. Drill: both directions, close→retype, macron-optional, event logging.
 5. Event record + solid/shaky/not-yet, derived from history.
+6. Grammar practice: all four formats, taught-date gating, per-box grading, the
+   what-went-wrong menu, and the live-fire contest path — driven end to end in a
+   browser, not just unit-tested.
 
 50 tests pass (`python3 -m unittest discover -s tests`).
 
@@ -193,11 +230,14 @@ Said plainly, because these will mislead if trusted blindly:
   macron anywhere in the item. The check is right to notice; that exemplar's flag
   is decorative. Literal count is reported too.
 
-- **Short-answer closeness.** "within two characters" means a two-letter word like
-  `es` is one edit from `est`, so a wrong short neighbour comes back as `close`,
-  not `wrong`. This is faithful to the spec and fine in practice (close is
-  low-stakes and prompts a retype), but it means the drill is lenient on very
-  short answers. Covered by a test that documents it.
+- **Closeness is length-scaled, and that was a real bug.** "Within two
+  characters" is right for `puella`/`puela` but wrong for short answers: every
+  incorrect single letter is one edit from the correct one, so a student who
+  wrote `q` where the answer was `w` was told "check your spelling", and `es`
+  for `est` was treated as a typo rather than the form confusion the menu
+  exists to count. Answers of 3 characters or fewer now require an exact match,
+  4–5 allow one edit, 6+ allow two. Found by driving the running app, not by
+  the tests.
 
 ## Where this deviated from the spec, and why
 

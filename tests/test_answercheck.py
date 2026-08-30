@@ -97,12 +97,18 @@ class TestResults(unittest.TestCase):
     def test_macron_matters_still_strips_case_and_punct(self):
         self.assertEqual(check("Rēgīna!", ["rēgīna"], macron_matters=True), "right")
 
-    def test_short_answer_close_is_a_known_limitation(self):
-        # Documents the sharpest edge: for very short answers the two-character
-        # window marks a genuinely different neighbour as "close", not "wrong".
-        # es vs est is one edit -> close. This is per spec ("within two
-        # characters") and is called out in the writeup.
-        self.assertEqual(check("es", ["est"]), "close")
+    def test_short_answers_demand_exactness(self):
+        # CLOSE is length-scaled. On a short answer a one-edit difference is a
+        # different answer, not a slip: "q" is not a typo of "w", and es/est is
+        # a real form confusion the what-went-wrong menu exists to count.
+        self.assertEqual(check("es", ["est"]), "wrong")     # 3 chars: exact only
+        self.assertEqual(check("q", ["w"]), "wrong")        # 1 char: exact only
+        self.assertEqual(check("nt", ["mus"]), "wrong")
+
+    def test_typos_on_real_words_are_still_close(self):
+        self.assertEqual(check("puela", ["puella"]), "close")      # 6 chars, 1 edit
+        self.assertEqual(check("agricol", ["agricola"]), "close")  # 8 chars, 1 edit
+        self.assertEqual(check("laudms", ["laudamus"]), "close")   # 8 chars, 2 edits
 
     def test_string_accepted_arg(self):
         # accepted may be a bare string, not only a list.

@@ -123,6 +123,20 @@ def _edit_distance(a, b, cap=2):
     return previous[la]
 
 
+def _close_allowance(accepted_clean, cap):
+    """How many edits may still count as CLOSE, given how long the answer is.
+
+    <=3 characters: none -- a one- or two-edit difference on a short answer is
+    a different answer, not a slip. 4-5: one. 6+: two.
+    """
+    n = len(accepted_clean)
+    if n <= 3:
+        return 0
+    if n <= 5:
+        return min(1, cap)
+    return min(2, cap)
+
+
 def check(response, accepted, macron_matters=False, close_threshold=2):
     """Compare a typed response against a list of accepted answers.
 
@@ -159,9 +173,19 @@ def check(response, accepted, macron_matters=False, close_threshold=2):
         if any(letters == strip_macrons(a) for a in cleaned_accepted):
             return "wrong"
 
-    best = min(_edit_distance(cleaned, a, close_threshold) for a in cleaned_accepted)
-    if 1 <= best <= close_threshold:
-        return "close"
+    # CLOSE is length-scaled. "Within two characters" is the right rule for a
+    # word like puella, where puela is obviously a typo. It is the wrong rule
+    # for very short answers: every wrong single letter is one edit from the
+    # right one, so "q" would be marked a typo of "w", and "es" a typo of
+    # "est" -- suppressing exactly the confusions the what-went-wrong menu
+    # exists to count. Short answers therefore demand an exact match.
+    for accepted_clean in cleaned_accepted:
+        allowed = _close_allowance(accepted_clean, close_threshold)
+        if allowed == 0:
+            continue
+        d = _edit_distance(cleaned, accepted_clean, allowed)
+        if 1 <= d <= allowed:
+            return "close"
     return "wrong"
 
 

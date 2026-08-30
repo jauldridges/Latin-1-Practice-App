@@ -56,6 +56,24 @@ CREATE TABLE IF NOT EXISTS events (
 );
 CREATE INDEX IF NOT EXISTS idx_events_student ON events(student_id);
 CREATE INDEX IF NOT EXISTS idx_events_item ON events(item_id);
+
+-- What the student said went wrong, tagged to the node that explains that
+-- mistake. This is the diagnostic record: "how many students this week said
+-- they matched the ending instead of the gender" is a real question with a
+-- real answer, and this table is where it is answered.
+CREATE TABLE IF NOT EXISTS miss_reasons (
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_id    TEXT NOT NULL,
+    timestamp     REAL NOT NULL,
+    item_id       TEXT NOT NULL,
+    item_node_id  TEXT,
+    reason_key    TEXT,
+    reason_text   TEXT,
+    reason_node   TEXT,             -- the node that explains this mistake
+    contested     INTEGER DEFAULT 0 -- "I think my answer should be right"
+);
+CREATE INDEX IF NOT EXISTS idx_miss_item ON miss_reasons(item_id);
+CREATE INDEX IF NOT EXISTS idx_miss_node ON miss_reasons(reason_node);
 """
 
 
@@ -256,6 +274,38 @@ def events_for_student(conn, student_id):
     rows = conn.execute(
         "SELECT * FROM events WHERE student_id=? ORDER BY timestamp", (student_id,)).fetchall()
     return [dict(r) for r in rows]
+
+
+def approved_items(conn, node_id=None):
+    """The approved question payloads — what the grammar practice app serves.
+    Nothing unreviewed or rejected ever reaches a student."""
+    if node_id:
+        rows = conn.execute(
+            "SELECT payload FROM items WHERE review_status='approved' AND node_id=? ORDER BY item_id",
+            (node_id,)).fetchall()
+    else:
+        rows = conn.execute(
+            "SELECT payload FROM items WHERE review_status='approved' ORDER BY node_id, item_id").fetchall()
+    return [json.loads(r["payload"]) for r in rows]
+
+
+def approved_node_counts(conn):
+    rows = conn.execute(
+        """SELECT node_id, COUNT(*) AS n FROM items
+            WHERE review_status='approved' GROUP BY node_id ORDER BY node_id""").fetchall()
+    return [(r["node_id"], r["n"]) for r in rows]
+
+
+def record_miss_reason(conn, student_id, item_id, item_node_id, reason_key,
+                       reason_text, reason_node, contested=False, timestamp=None):
+    """Append one what-went-wrong selection."""
+    conn.execute(
+        """INSERT INTO miss_reasons (student_id, timestamp, item_id, item_node_id,
+               reason_key, reason_text, reason_node, contested)
+           VALUES (?,?,?,?,?,?,?,?)""",
+        (student_id, timestamp or time.time(), item_id, item_node_id,
+         reason_key, reason_text, reason_node, 1 if contested else 0))
+    conn.commit()
 
 
 def all_students(conn):
