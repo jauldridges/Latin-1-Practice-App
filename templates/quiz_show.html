@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block subtitle %}quiz{% endblock %}
+{% block content %}
+<h1>{{ q.title }}</h1>
+<div class="meta-row">
+  <span class="badge tier">{{ n }} questions</span>
+  <span class="badge tier">records as {{ q.context }}</span>
+  {% if q.open %}<span class="pill solid">open</span>{% else %}<span class="pill notyet">closed</span>{% endif %}
+</div>
+
+<div class="card">
+  <div class="small muted">Give students this link</div>
+  <p style="font-family:ui-monospace,Menlo,monospace;word-break:break-all;font-size:15px">
+    {{ url_for('quiz_start', quiz_id=q.quiz_id, _external=True) }}</p>
+  <p class="small muted">They type their name, answer {{ n }} questions with no
+  feedback, submit once, then review everything.</p>
+</div>
+
+<form method="post" action="{{ url_for('quiz_toggle', quiz_id=q.quiz_id) }}">
+  <button class="bigbtn secondary" type="submit">
+    {% if q.open %}Close the quiz (no new attempts){% else %}Reopen the quiz{% endif %}</button>
+</form>
+
+<h2>Submitted ({{ attempts|selectattr('submitted')|list|length }})</h2>
+{% if attempts %}
+<table class="progress">
+  <thead><tr><th>Student</th><th>Right</th><th>Close</th><th>Wrong</th><th>Blank</th></tr></thead>
+  <tbody>
+  {% for a in attempts %}
+    <tr>
+      <td>{{ a.student }}</td>
+      {% if a.summary %}
+        <td>{{ a.summary.right }}</td><td>{{ a.summary.close }}</td>
+        <td>{{ a.summary.wrong }}</td><td>{{ a.summary.unanswered }}</td>
+      {% else %}<td colspan="4" class="small muted">in progress</td>{% endif %}
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}<p class="muted">Nobody has started yet.</p>{% endif %}
+
+<h2>The paper</h2>
+<ol style="padding-left:20px">
+  {% for iid in q.item_ids %}
+    {% set it = items.get(iid) %}
+    {% if it %}<li class="small" style="margin:6px 0">
+      <span class="node-id">{{ it.node }}</span> {{ it.stem[:90] }}{% if it.stem|length > 90 %}…{% endif %}
+    </li>{% endif %}
+  {% endfor %}
+</ol>
+<a class="bigbtn secondary" href="{{ url_for('quiz_index') }}">All quizzes</a>
+{% endblock %}

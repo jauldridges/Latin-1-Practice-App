@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ student }}{% endblock %}
+{% block content %}
+<h1>Ready to submit?</h1>
+
+{% if blanks %}
+  <div class="answer-feedback close">
+    {{ blanks|length }} question{{ 's' if blanks|length != 1 }} still blank:
+    {{ blanks|join(', ') }}
+  </div>
+  <p class="small muted">You can submit anyway — blank answers count as wrong.</p>
+{% else %}
+  <div class="answer-feedback right">All {{ total }} answered.</div>
+{% endif %}
+
+<div class="card">
+  <div class="small muted">Jump back to a question</div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+    {% for i in range(1, total + 1) %}
+      <a class="badge {{ 'err' if i in blanks else 'tier' }}"
+         style="text-decoration:none;padding:8px 12px"
+         href="{{ url_for('quiz_take', quiz_id=q.quiz_id, student=student, n=i) }}">{{ i }}</a>
+    {% endfor %}
+  </div>
+</div>
+
+<form method="post" action="{{ url_for('quiz_submit', quiz_id=q.quiz_id) }}"
+      onsubmit="return confirm('Submit? You cannot change your answers after this.')">
+  <input type="hidden" name="student" value="{{ student }}">
+  <button class="bigbtn" type="submit">Submit</button>
+</form>
+<p class="small muted" style="text-align:center">Once you submit you'll see how you
+did on every question.</p>
+{% endblock %}

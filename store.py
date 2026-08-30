@@ -84,6 +84,32 @@ CREATE TABLE IF NOT EXISTS teaching_approvals (
     fingerprint  TEXT NOT NULL,
     approved_at  REAL NOT NULL
 );
+
+-- A proctored quiz: a FROZEN, hand-picked, ordered set of approved questions.
+-- Frozen matters: every student sits the same paper, and the paper does not
+-- change under them if the bank is re-imported later.
+CREATE TABLE IF NOT EXISTS quizzes (
+    quiz_id     TEXT PRIMARY KEY,
+    title       TEXT NOT NULL,
+    context     TEXT NOT NULL DEFAULT 'quiz',   -- quiz|exam|classwork|homework
+    item_ids    TEXT NOT NULL,                  -- JSON ordered list
+    created_at  REAL NOT NULL,
+    open        INTEGER DEFAULT 1               -- 0 = closed, no new attempts
+);
+
+-- One student's sitting. answers_json holds work in progress, saved as they go
+-- so a dead phone loses nothing; nothing is graded until submitted_at is set.
+CREATE TABLE IF NOT EXISTS quiz_attempts (
+    attempt_id   TEXT PRIMARY KEY,
+    quiz_id      TEXT NOT NULL,
+    student_id   TEXT NOT NULL,
+    started_at   REAL NOT NULL,
+    submitted_at REAL,
+    answers_json TEXT NOT NULL DEFAULT '{}',    -- item_id -> raw response
+    results_json TEXT                           -- item_id -> graded result, set at submit
+);
+CREATE INDEX IF NOT EXISTS idx_attempt_quiz ON quiz_attempts(quiz_id);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_attempt_one ON quiz_attempts(quiz_id, student_id);
 """
 
 
@@ -337,6 +363,110 @@ def teaching_approvals(conn):
     """node_id -> fingerprint of the text that was approved."""
     return {r["node_id"]: r["fingerprint"]
             for r in conn.execute("SELECT node_id, fingerprint FROM teaching_approvals").fetchall()}
+
+
+# --------------------------------------------------------------------------
+# Quizzes
+# --------------------------------------------------------------------------
+
+def create_quiz(conn, quiz_id, title, item_ids, context="quiz"):
+    conn.execute(
+        "INSERT INTO quizzes (quiz_id, title, context, item_ids, created_at, open) VALUES (?,?,?,?,?,1)",
+        (quiz_id, title, context, json.dumps(list(item_ids)), time.time()))
+    conn.commit()
+
+
+def get_quiz(conn, quiz_id):
+    r = conn.execute("SELECT * FROM quizzes WHERE quiz_id=?", (quiz_id,)).fetchone()
+    if r is None:
+        return None
+    d = dict(r)
+    d["item_ids"] = json.loads(d["item_ids"])
+    return d
+
+
+def list_quizzes(conn):
+    out = []
+    for r in conn.execute("SELECT * FROM quizzes ORDER BY created_at DESC").fetchall():
+        d = dict(r)
+        d["item_ids"] = json.loads(d["item_ids"])
+        d["attempts"] = conn.execute(
+            "SELECT COUNT(*) AS n FROM quiz_attempts WHERE quiz_id=? AND submitted_at IS NOT NULL",
+            (d["quiz_id"],)).fetchone()["n"]
+        out.append(d)
+    return out
+
+
+def set_quiz_open(conn, quiz_id, is_open):
+    conn.execute("UPDATE quizzes SET open=? WHERE quiz_id=?", (1 if is_open else 0, quiz_id))
+    conn.commit()
+
+
+def delete_quiz(conn, quiz_id):
+    conn.execute("DELETE FROM quiz_attempts WHERE quiz_id=?", (quiz_id,))
+    conn.execute("DELETE FROM quizzes WHERE quiz_id=?", (quiz_id,))
+    conn.commit()
+
+
+def get_or_start_attempt(conn, quiz_id, student_id):
+    """Resume an existing sitting or begin one. A student has at most one
+    attempt per quiz, so reopening the link mid-quiz returns them to their work
+    rather than starting over."""
+    r = conn.execute("SELECT * FROM quiz_attempts WHERE quiz_id=? AND student_id=?",
+                     (quiz_id, student_id)).fetchone()
+    if r is None:
+        aid = f"{quiz_id}:{student_id}"
+        conn.execute(
+            "INSERT INTO quiz_attempts (attempt_id, quiz_id, student_id, started_at, answers_json) VALUES (?,?,?,?,'{}')",
+            (aid, quiz_id, student_id, time.time()))
+        conn.commit()
+        r = conn.execute("SELECT * FROM quiz_attempts WHERE attempt_id=?", (aid,)).fetchone()
+    d = dict(r)
+    d["answers"] = json.loads(d["answers_json"] or "{}")
+    d["results"] = json.loads(d["results_json"]) if d.get("results_json") else None
+    return d
+
+
+def save_attempt_answer(conn, attempt_id, item_id, response):
+    """Store one in-progress answer. Never grades; grading happens at submit."""
+    r = conn.execute("SELECT answers_json, submitted_at FROM quiz_attempts WHERE attempt_id=?",
+                     (attempt_id,)).fetchone()
+    if r is None or r["submitted_at"]:
+        return False               # submitted work is locked
+    answers = json.loads(r["answers_json"] or "{}")
+    answers[item_id] = response
+    conn.execute("UPDATE quiz_attempts SET answers_json=? WHERE attempt_id=?",
+                 (json.dumps(answers, ensure_ascii=False), attempt_id))
+    conn.commit()
+    return True
+
+
+def submit_attempt(conn, attempt_id, results):
+    conn.execute(
+        "UPDATE quiz_attempts SET submitted_at=?, results_json=? WHERE attempt_id=? AND submitted_at IS NULL",
+        (time.time(), json.dumps(results, ensure_ascii=False), attempt_id))
+    conn.commit()
+
+
+def get_attempt(conn, attempt_id):
+    r = conn.execute("SELECT * FROM quiz_attempts WHERE attempt_id=?", (attempt_id,)).fetchone()
+    if r is None:
+        return None
+    d = dict(r)
+    d["answers"] = json.loads(d["answers_json"] or "{}")
+    d["results"] = json.loads(d["results_json"]) if d.get("results_json") else None
+    return d
+
+
+def quiz_attempts(conn, quiz_id):
+    out = []
+    for r in conn.execute(
+            "SELECT * FROM quiz_attempts WHERE quiz_id=? ORDER BY student_id", (quiz_id,)).fetchall():
+        d = dict(r)
+        d["answers"] = json.loads(d["answers_json"] or "{}")
+        d["results"] = json.loads(d["results_json"]) if d.get("results_json") else None
+        out.append(d)
+    return out
 
 
 def all_students(conn):

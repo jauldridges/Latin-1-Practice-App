@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block subtitle %}quiz{% endblock %}
+{% block content %}
+<h1>{{ q.title }}</h1>
+<div class="card">
+  <p><strong>{{ n }} questions.</strong></p>
+  <ul class="small" style="padding-left:18px">
+    <li>You won't see whether you're right until you submit.</li>
+    <li>You can go back and change answers before submitting.</li>
+    <li>Your work saves as you go — if your phone dies, you pick up where you left off.</li>
+    <li>After you submit you'll review every question.</li>
+  </ul>
+</div>
+<form method="get" action="{{ url_for('quiz_take', quiz_id=q.quiz_id) }}" id="sf">
+  <label class="small muted" for="student">Your name</label>
+  <input type="text" name="student" id="student" autocomplete="off" required>
+  <button class="bigbtn" type="submit" style="margin-top:12px">Start</button>
+</form>
+<script>
+  try {
+    var s=document.getElementById('student');
+    var v=localStorage.getItem('latin_student'); if(v) s.value=v;
+    document.getElementById('sf').addEventListener('submit',function(){
+      try{localStorage.setItem('latin_student',s.value.trim());}catch(e){}});
+  } catch(e){}
+</script>
+{% endblock %}

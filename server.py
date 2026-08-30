@@ -23,6 +23,7 @@ import checks
 import dataio
 import drill
 import practice
+import quiz as quizlib
 import store
 from answercheck import check as check_answer
 
@@ -502,6 +503,216 @@ def practice_menu():
         store.flag_item_live_fire(
             db, item_id, f"a student contested this question ({student})")
     return redirect(url_for("practice_session", student=student, node=node or "", context=ctx))
+
+
+# ==========================================================================
+# Proctored quizzes — frozen, hand-picked, no feedback until submit
+# ==========================================================================
+
+def _items_by_id(db, item_ids):
+    out = {}
+    for iid in item_ids:
+        row = store.get_item(db, iid)
+        if row is not None:
+            out[iid] = row["payload"]
+    return out
+
+
+@app.route("/quiz")
+def quiz_index():
+    db = get_db()
+    return render_template("quiz_index.html", quizzes=store.list_quizzes(db))
+
+
+@app.route("/quiz/new", methods=["GET", "POST"])
+def quiz_new():
+    db = get_db()
+    if request.method == "POST":
+        title = (request.form.get("title") or "").strip() or "Untitled quiz"
+        ctx = request.form.get("context", "quiz")
+        if ctx not in VALID_CONTEXTS or ctx == "practice":
+            ctx = "quiz"
+        picked = request.form.getlist("item")
+        if not picked:
+            return redirect(url_for("quiz_new"))
+        qid = quizlib.new_quiz_id()
+        store.create_quiz(db, qid, title, picked, context=ctx)
+        return redirect(url_for("quiz_show", quiz_id=qid))
+
+    approved = store.approved_items(db)
+    taught = _taught_now()
+    rows = [{"id": it["id"], "node": it["node"], "label": _NODE_LABEL.get(it["node"], ""),
+             "stem": it.get("stem", ""), "assess": it.get("assess"), "tier": it.get("tier"),
+             "fmt": it.get("format"), "taught": it["node"] in taught}
+            for it in approved]
+    rows.sort(key=lambda r: (r["node"], r["id"]))
+    return render_template("quiz_new.html", rows=rows,
+                           n_taught=sum(1 for r in rows if r["taught"]))
+
+
+@app.route("/quiz/<quiz_id>")
+def quiz_show(quiz_id):
+    db = get_db()
+    q = store.get_quiz(db, quiz_id)
+    if q is None:
+        abort(404)
+    items = _items_by_id(db, q["item_ids"])
+    attempts = store.quiz_attempts(db, quiz_id)
+    rows = []
+    for a in attempts:
+        summ = quizlib.summarise(a["results"]) if a["results"] else None
+        rows.append({"student": a["student_id"],
+                     "submitted": bool(a["submitted_at"]), "summary": summ})
+    return render_template("quiz_show.html", q=q, items=items, attempts=rows,
+                           n=len(q["item_ids"]))
+
+
+@app.route("/quiz/<quiz_id>/toggle", methods=["POST"])
+def quiz_toggle(quiz_id):
+    db = get_db()
+    q = store.get_quiz(db, quiz_id)
+    if q is None:
+        abort(404)
+    store.set_quiz_open(db, quiz_id, not q["open"])
+    return redirect(url_for("quiz_show", quiz_id=quiz_id))
+
+
+# ---- student side ----
+
+@app.route("/q/<quiz_id>")
+def quiz_start(quiz_id):
+    db = get_db()
+    q = store.get_quiz(db, quiz_id)
+    if q is None:
+        abort(404)
+    return render_template("quiz_start.html", q=q, n=len(q["item_ids"]))
+
+
+@app.route("/q/<quiz_id>/take")
+def quiz_take(quiz_id):
+    db = get_db()
+    q = store.get_quiz(db, quiz_id)
+    if q is None:
+        abort(404)
+    student = (request.args.get("student") or "").strip()
+    if not student:
+        return redirect(url_for("quiz_start", quiz_id=quiz_id))
+    attempt = store.get_or_start_attempt(db, quiz_id, student)
+    if attempt["submitted_at"]:
+        return redirect(url_for("quiz_results", quiz_id=quiz_id, student=student))
+    if not q["open"]:
+        return render_template("quiz_closed.html", q=q)
+
+    pos = request.args.get("n", type=int) or 1
+    pos = max(1, min(pos, len(q["item_ids"])))
+    iid = q["item_ids"][pos - 1]
+    row = store.get_item(db, iid)
+    if row is None:
+        abort(404)
+    items = _items_by_id(db, q["item_ids"])
+    return render_template(
+        "quiz_take.html", q=q, item=row["payload"], pos=pos, total=len(q["item_ids"]),
+        student=student, saved=attempt["answers"].get(iid),
+        answered=quizlib.answered_count(items, q["item_ids"], attempt["answers"]),
+        label=_NODE_LABEL.get(row["payload"].get("node"), ""))
+
+
+@app.route("/q/<quiz_id>/save", methods=["POST"])
+def quiz_save(quiz_id):
+    db = get_db()
+    q = store.get_quiz(db, quiz_id)
+    if q is None:
+        abort(404)
+    student = request.form["student"]
+    iid = request.form["item_id"]
+    pos = request.form.get("pos", type=int) or 1
+    goto = request.form.get("goto", "next")
+
+    row = store.get_item(db, iid)
+    fmt = row["payload"].get("format") if row else None
+    if fmt == "choice":
+        value = request.form.get("picked")
+    elif fmt == "boxes":
+        value = request.form.getlist("box")
+    elif fmt == "tag-then-translate":
+        value = {"case": request.form.getlist("case"),
+                 "job": request.form.getlist("job"),
+                 "typed": request.form.get("typed", "")}
+    else:
+        value = request.form.get("typed", "")
+
+    attempt = store.get_or_start_attempt(db, quiz_id, student)
+    store.save_attempt_answer(db, attempt["attempt_id"], iid, value)
+
+    if goto == "check":
+        return redirect(url_for("quiz_check", quiz_id=quiz_id, student=student))
+    nxt = pos + 1 if goto == "next" else pos - 1
+    if nxt > len(q["item_ids"]):
+        return redirect(url_for("quiz_check", quiz_id=quiz_id, student=student))
+    return redirect(url_for("quiz_take", quiz_id=quiz_id, student=student, n=max(1, nxt)))
+
+
+@app.route("/q/<quiz_id>/check")
+def quiz_check(quiz_id):
+    db = get_db()
+    q = store.get_quiz(db, quiz_id)
+    if q is None:
+        abort(404)
+    student = request.args["student"]
+    attempt = store.get_or_start_attempt(db, quiz_id, student)
+    if attempt["submitted_at"]:
+        return redirect(url_for("quiz_results", quiz_id=quiz_id, student=student))
+    items = _items_by_id(db, q["item_ids"])
+    blanks = quizlib.unanswered_positions(items, q["item_ids"], attempt["answers"])
+    return render_template("quiz_check.html", q=q, student=student, blanks=blanks,
+                           total=len(q["item_ids"]))
+
+
+@app.route("/q/<quiz_id>/submit", methods=["POST"])
+def quiz_submit(quiz_id):
+    db = get_db()
+    q = store.get_quiz(db, quiz_id)
+    if q is None:
+        abort(404)
+    student = request.form["student"]
+    attempt = store.get_or_start_attempt(db, quiz_id, student)
+    if attempt["submitted_at"]:
+        return redirect(url_for("quiz_results", quiz_id=quiz_id, student=student))
+
+    items = _items_by_id(db, q["item_ids"])
+    results = quizlib.grade_attempt(items, q["item_ids"], attempt["answers"])
+    store.submit_attempt(db, attempt["attempt_id"], results)
+    # One event per question, carrying the quiz's context so proctored work is
+    # distinguishable from practice in the same history.
+    for row in quizlib.events_for_attempt(results, items, q["context"]):
+        store.record_event(db, student, row["item_id"], row["spec_node_id"],
+                           row["response"], row["result"],
+                           context=row["context"], version=row["version"])
+    return redirect(url_for("quiz_results", quiz_id=quiz_id, student=student))
+
+
+@app.route("/q/<quiz_id>/results")
+def quiz_results(quiz_id):
+    db = get_db()
+    q = store.get_quiz(db, quiz_id)
+    if q is None:
+        abort(404)
+    student = request.args["student"]
+    attempt = store.get_or_start_attempt(db, quiz_id, student)
+    if not attempt["submitted_at"]:
+        return redirect(url_for("quiz_check", quiz_id=quiz_id, student=student))
+    items = _items_by_id(db, q["item_ids"])
+    rows = []
+    for i, iid in enumerate(q["item_ids"], start=1):
+        item = items.get(iid)
+        if item is None:
+            continue
+        rows.append({"pos": i, "item": item, "res": attempt["results"].get(iid, {}),
+                     "teaching": approved_teaching_for(db, item.get("node")),
+                     "menu": practice.menu_for(item),
+                     "label": _NODE_LABEL.get(item.get("node"), "")})
+    return render_template("quiz_results.html", q=q, student=student, rows=rows,
+                           summary=quizlib.summarise(attempt["results"]))
 
 
 @app.route("/drill/progress")

@@ -9,6 +9,8 @@ Two small local apps that share one answer-checker:
    core word list.
 3. **Grammar practice** (student-facing) — serves the questions the teacher has
    approved, and classifies every miss through the what-went-wrong menu.
+4. **Proctored quizzes** (both) — you hand-pick a fixed set; students answer
+   straight through with no feedback, submit once, then review every question.
 
 No teacher dashboard, no accounts, no question generation, no grading. Those are
 out of scope by design.
@@ -66,12 +68,13 @@ start clean.
 | `store.py` | SQLite store: items + review state, and the append-only event record. |
 | `drill.py` | Drill card selection, Leitner boxes, solid/shaky/not-yet. |
 | `practice.py` | Grammar-practice selection and grading (all four question formats). |
+| `quiz.py` | Proctored quizzes: deferred grading, close handling, attempt summaries. |
 | `server.py` | Flask app — both apps, both route groups. |
 | `run.py` | Launcher. |
 | `vocab.yaml` | The drill's 80 words **with glosses** (see the caveat below). |
 | `teaching.yaml` | Teaching text for all 118 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
-| `tests/` | 86 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 102 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The three source files (never modified by the apps). |
 
 ## The shared answer-checker
@@ -204,6 +207,38 @@ approved that node's exact current wording, at `/teaching`. Two consequences:
 Approvals live in the app's SQLite store. The text lives in `teaching.yaml`, and
 neither app ever writes to it: to reword something, edit the file and reload.
 
+## Proctored quizzes
+
+Practice gives feedback instantly, which is the point of practice and fatal in a
+quiz. A quiz is therefore a genuinely different mode, not a tag on the same one:
+
+- **You hand-pick the questions** from the approved bank, in order. The set is
+  **frozen** on the quiz, so every student sits the same paper and re-importing
+  the bank later cannot change a quiz someone has already taken.
+- **No feedback until submit.** Nothing is graded, no answers revealed, no
+  teaching text, no what-went-wrong menu, while the quiz is open.
+- **Close is accepted silently.** A one-letter typo can't re-prompt without
+  being a free hint, so it is accepted at the time and surfaces on the review
+  screen as `close` — logged as close, never promoted to right, never punished
+  as wrong. (The short-answer rule still applies: on a 3-character answer there
+  is no such thing as close.)
+- **Work saves as you go**, graded only at submit, so a dead phone or a closed
+  tab loses nothing. A student can go back, change answers, and resume mid-quiz;
+  one attempt per student per quiz.
+- **A check-before-submit screen** lists which questions are still blank and
+  jumps back to any of them. Submitting locks the attempt.
+- **Then the review**: every question, what they wrote, right/close/wrong/blank,
+  the correct answer, the approved teaching text on anything missed, and the
+  what-went-wrong menu on wrong answers — which is a better moment for that menu
+  than practice mode, since they are looking back at the whole paper.
+- **Events are written at submit**, one per question, carrying the quiz's
+  `context` (quiz/exam/classwork/homework) so proctored work sits in the same
+  history as practice and is told apart by that field. A blank answer is
+  recorded as wrong: leaving it blank is an outcome, not missing data.
+
+Still no grading. The summary shows counts, never a percentage, and the app
+never calls anything a score.
+
 ---
 
 ## What works
@@ -222,8 +257,11 @@ All five build steps, verified in order:
 7. Teaching text for all 118 nodes, drafted and gated behind teacher approval;
    verified in the running app that draft text does not reach a student and
    approved text does.
+8. Proctored quizzes: build, sit, resume, change answers, submit, review —
+   driven end to end in a browser, including a check that no feedback leaks
+   mid-quiz and that a submitted attempt is locked.
 
-86 tests pass (`python3 -m unittest discover -s tests`).
+102 tests pass (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

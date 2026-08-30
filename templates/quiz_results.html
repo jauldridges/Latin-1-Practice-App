@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ student }}{% endblock %}
+{% block content %}
+<h1>{{ q.title }}</h1>
+<p class="small muted">Submitted. Here's every question with what you wrote.
+This is practice information, not a grade.</p>
+
+<div class="summary-tiles">
+  <div class="tile"><div class="n state solid">{{ summary.right }}</div><div class="l">right</div></div>
+  {% if summary.close %}
+  <div class="tile"><div class="n state shaky">{{ summary.close }}</div><div class="l">close</div></div>
+  {% endif %}
+  <div class="tile"><div class="n" style="color:var(--wrong)">{{ summary.wrong }}</div><div class="l">wrong</div></div>
+  {% if summary.unanswered %}
+  <div class="tile"><div class="n state notyet">{{ summary.unanswered }}</div><div class="l">blank</div></div>
+  {% endif %}
+</div>
+{% if summary.close %}
+<p class="small muted">A <strong>close</strong> means your answer was accepted but the
+spelling was off by a letter or two — worth a look.</p>
+{% endif %}
+
+{% for r in rows %}
+  {% set res = r.res.result %}
+  <div class="card">
+    <div class="meta-row">
+      <span class="badge tier">{{ r.pos }}</span>
+      <span class="node-id">{{ r.item.node }}</span>
+      {% if res == 'right' %}<span class="pill solid">right</span>
+      {% elif res == 'close' %}<span class="pill shaky">close</span>
+      {% elif res == 'self' %}<span class="pill notyet">check yourself</span>
+      {% elif res == 'unanswered' %}<span class="pill notyet">blank</span>
+      {% else %}<span class="pill" style="background:#f7dede;color:var(--wrong)">wrong</span>{% endif %}
+    </div>
+    <div style="margin:6px 0">{{ r.item.stem }}</div>
+
+    {% if r.item.format == 'choice' %}
+      {% for k, v in r.item.options.items() %}
+        {% if k == r.item.answer or k == r.res.picked %}
+        <div class="opt {{ 'correct' if k == r.item.answer else '' }}">
+          <span class="k">{{ k }}{% if k == r.item.answer %} ✓{% endif %}</span>
+          <span class="latin">{{ v }}</span>
+          {% if k == r.res.picked and k != r.item.answer %}
+            <span class="small muted">— you picked this</span>{% endif %}
+        </div>
+        {% endif %}
+      {% endfor %}
+
+    {% elif r.res.boxes %}
+      {% for b in r.res.boxes %}
+        <div class="box"><span class="label">{{ b.label }}:</span>
+          <strong>{{ b.response if b.response else '(blank)' }}</strong>
+          {% if b.box_result == 'right' %}<span class="pill solid">right</span>
+          {% elif b.box_result == 'close' %}<span class="pill shaky">close</span>
+          {% elif b.box_result == 'self' %}<span class="pill notyet">check yourself</span>
+          {% else %}<span class="pill" style="background:#f7dede;color:var(--wrong)">wrong</span>{% endif %}
+          {% if b.box_result != 'right' and b.accepted %}
+            <div class="small muted">answer: {{ b.accepted|join(' · ') }}</div>{% endif %}
+        </div>
+      {% endfor %}
+
+    {% elif r.res.tags %}
+      {% for t in r.res.tags %}
+        <div class="box">
+          <div class="latin">{{ t.word }}</div>
+          <div class="small">case: <strong>{{ t.case_response or '(blank)' }}</strong>
+            {% if t.case_result != 'right' %}<span class="muted">— {{ t.case_accepted|join('/') }}</span>{% endif %}</div>
+          <div class="small">job: <strong>{{ t.job_response or '(blank)' }}</strong>
+            {% if t.job_result != 'right' %}<span class="muted">— {{ t.job_accepted|join('/') }}</span>{% endif %}</div>
+        </div>
+      {% endfor %}
+      {% if r.item.translation_model_answer %}
+        <div class="box"><span class="label">you wrote:</span> {{ r.res.typed or '(blank)' }}<br>
+          <span class="label">model:</span> {{ r.item.translation_model_answer }}</div>
+      {% endif %}
+
+    {% elif res == 'self' %}
+      <div class="box"><span class="label">you wrote:</span> {{ r.res.typed or '(blank)' }}<br>
+        <span class="label">model answer:</span> {{ r.item.model_answer or r.item.translation_model_answer }}</div>
+      <p class="small muted">This one you check yourself.</p>
+    {% endif %}
+
+    {% if r.teaching and res in ('wrong', 'close', 'unanswered') %}
+      <div class="small muted" style="margin-top:10px">Why</div>
+      <p class="small">{{ r.teaching.explain }}</p>
+      {% if r.teaching.when_wrong %}<p class="small">{{ r.teaching.when_wrong }}</p>{% endif %}
+    {% endif %}
+
+    {% if res == 'wrong' %}
+      <details style="margin-top:8px">
+        <summary class="small" style="color:var(--edit);font-weight:600">What happened?</summary>
+        {% for m in r.menu %}
+        <form method="post" action="{{ url_for('practice_menu') }}" style="margin:4px 0">
+          <input type="hidden" name="student" value="{{ student }}">
+          <input type="hidden" name="item_id" value="{{ r.item.id }}">
+          <input type="hidden" name="context" value="{{ q.context }}">
+          <input type="hidden" name="reason_key" value="{{ m.key }}">
+          <input type="hidden" name="reason_text" value="{{ m.text }}">
+          <input type="hidden" name="reason_node" value="{{ m.node or '' }}">
+          <button class="bigbtn secondary" style="text-align:left;margin:2px 0;padding:12px"
+            type="submit">{{ m.text }}</button>
+        </form>
+        {% endfor %}
+      </details>
+    {% endif %}
+  </div>
+{% endfor %}
+{% endblock %}

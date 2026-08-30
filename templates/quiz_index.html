@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block subtitle %}quizzes{% endblock %}
+{% block content %}
+<h1>Quizzes</h1>
+<p class="small muted">A quiz is a fixed set of questions you pick by hand. Students
+answer straight through with no feedback, submit once, then review every question.
+Nothing here produces a grade.</p>
+<a class="bigbtn" href="{{ url_for('quiz_new') }}">Build a quiz</a>
+{% if quizzes %}
+<ul class="queue">
+  {% for q in quizzes %}
+  <li><a href="{{ url_for('quiz_show', quiz_id=q.quiz_id) }}">
+    <span>{{ q.title }}<br>
+      <span class="small muted">{{ q.item_ids|length }} questions · {{ q.context }} ·
+        {{ q.attempts }} submitted</span></span>
+    {% if q.open %}<span class="pill solid">open</span>{% else %}<span class="pill notyet">closed</span>{% endif %}
+  </a></li>
+  {% endfor %}
+</ul>
+{% else %}<p class="muted">No quizzes yet.</p>{% endif %}
+{% endblock %}

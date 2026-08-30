@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ student }}{% endblock %}
+{% block content %}
+<div class="meta-row">
+  <span class="badge tier">Question {{ pos }} of {{ total }}</span>
+  <span class="small muted">{{ answered }} answered</span>
+</div>
+
+<div class="stem">{{ item.stem }}</div>
+
+<form method="post" action="{{ url_for('quiz_save', quiz_id=q.quiz_id) }}" id="qf">
+  <input type="hidden" name="student" value="{{ student }}">
+  <input type="hidden" name="item_id" value="{{ item.id }}">
+  <input type="hidden" name="pos" value="{{ pos }}">
+
+  {% if item.format == 'choice' %}
+    {% for k, v in item.options.items() %}
+      <label class="opt" style="cursor:pointer">
+        <input type="radio" name="picked" value="{{ k }}" style="margin-top:4px"
+               {% if saved == k %}checked{% endif %}>
+        <span class="k">{{ k }}</span> <span class="latin">{{ v }}</span>
+      </label>
+    {% endfor %}
+
+  {% elif item.format == 'boxes' %}
+    {% if item.order_matters is defined and not item.order_matters %}
+      <p class="small muted">Order doesn't matter.</p>{% endif %}
+    {% for b in item.boxes %}
+      <label class="small muted" style="display:block;margin-top:10px">{{ b.label }}</label>
+      <input type="text" name="box" autocomplete="off" autocapitalize="off"
+             autocorrect="off" spellcheck="false"
+             value="{{ saved[loop.index0] if saved and saved|length > loop.index0 else '' }}">
+    {% endfor %}
+
+  {% elif item.format == 'tag-then-translate' %}
+    <p class="small muted">Label each word, then write the English.</p>
+    {% for tb in item.tag_boxes %}
+      <div class="box">
+        <div class="latin" style="font-size:19px">{{ tb.word }}</div>
+        <input type="text" name="case" placeholder="case (or 'verb')" autocomplete="off"
+               autocapitalize="off" autocorrect="off" spellcheck="false" style="margin-top:6px"
+               value="{{ saved.case[loop.index0] if saved and saved.case and saved.case|length > loop.index0 else '' }}">
+        <input type="text" name="job" placeholder="job in the sentence" autocomplete="off"
+               autocapitalize="off" autocorrect="off" spellcheck="false" style="margin-top:6px"
+               value="{{ saved.job[loop.index0] if saved and saved.job and saved.job|length > loop.index0 else '' }}">
+      </div>
+    {% endfor %}
+    <label class="small muted" style="display:block;margin-top:10px">English</label>
+    <textarea name="typed" rows="2">{{ saved.typed if saved and saved.typed else '' }}</textarea>
+
+  {% else %}
+    <textarea name="typed" rows="3" placeholder="Write your answer.">{{ saved if saved else '' }}</textarea>
+  {% endif %}
+
+  <div style="display:flex;gap:8px;margin-top:14px">
+    {% if pos > 1 %}
+      <button class="bigbtn secondary" name="goto" value="prev" style="margin:0">← Back</button>
+    {% endif %}
+    <button class="bigbtn" name="goto" value="next" style="margin:0">
+      {% if pos == total %}Review answers →{% else %}Next →{% endif %}</button>
+  </div>
+  <button class="bigbtn secondary" name="goto" value="check" style="margin-top:8px">
+    Save &amp; see all questions</button>
+</form>
+
+<p class="small muted" style="text-align:center;margin-top:10px">
+  No results until you submit.</p>
+
+<script>
+  var f = document.querySelector('#qf input[type=text], #qf textarea');
+  if (f) f.focus();
+</script>
+{% endblock %}
