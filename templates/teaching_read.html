@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block subtitle %}teaching text{% endblock %}
+{% block content %}
+<div class="meta-row">
+  <span class="node-id">{{ node }}</span>
+  {% if state == 'approved' %}<span class="pill solid">approved</span>
+  {% elif state == 'edited' %}<span class="pill" style="background:#f7dede;color:var(--wrong)">edited since approval</span>
+  {% else %}<span class="pill shaky">draft</span>{% endif %}
+</div>
+<h1 style="font-size:19px">{{ entry.label }}</h1>
+
+<div class="card">
+  <div class="small muted">Explanation — shown after any miss</div>
+  <p>{{ entry.explain }}</p>
+</div>
+
+<div class="card">
+  <div class="small muted">Worked examples</div>
+  <ul style="margin:6px 0 0;padding-left:18px">
+    {% for ex in entry.examples %}<li>{{ ex }}</li>{% endfor %}
+  </ul>
+</div>
+
+<div class="card">
+  <div class="small muted">After a wrong answer</div>
+  <p>{{ entry.when_wrong }}</p>
+</div>
+
+{% if state == 'edited' %}
+<div class="flags"><span class="lvl error">changed</span>
+  You approved this node before, but the wording in teaching.yaml has changed
+  since. It is not being shown to students until you approve it again.</div>
+{% endif %}
+
+<p class="small muted">To reword this, edit <code>teaching.yaml</code> and reload.
+The file is yours; the app never writes to it.</p>
+
+<form method="post" action="{{ url_for('teaching_approve', node_id=node) }}">
+  {% if nxt %}<input type="hidden" name="next" value="{{ nxt }}">{% endif %}
+  {% if state == 'approved' %}
+    <button class="bigbtn secondary" name="action" value="unapprove">Withdraw approval</button>
+    {% if nxt %}<a class="bigbtn" href="{{ url_for('teaching_read', node_id=nxt) }}">Next →</a>{% endif %}
+  {% else %}
+    <button class="bigbtn" name="action" value="approve">Approve{% if nxt %} &amp; next{% endif %}</button>
+  {% endif %}
+</form>
+
+<div style="display:flex;gap:8px">
+  {% if prv %}<a class="bigbtn secondary" href="{{ url_for('teaching_read', node_id=prv) }}">← Back</a>{% endif %}
+  <a class="bigbtn secondary" href="{{ url_for('teaching_index') }}">All nodes</a>
+</div>
+{% endblock %}

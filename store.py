@@ -74,6 +74,16 @@ CREATE TABLE IF NOT EXISTS miss_reasons (
 );
 CREATE INDEX IF NOT EXISTS idx_miss_item ON miss_reasons(item_id);
 CREATE INDEX IF NOT EXISTS idx_miss_node ON miss_reasons(reason_node);
+
+-- Teacher approval of teaching text. The text itself lives in teaching.yaml
+-- (which neither app writes to); only the approval lives here. The fingerprint
+-- is a hash of the approved wording, so text edited after approval reverts to
+-- draft rather than inheriting the old sign-off.
+CREATE TABLE IF NOT EXISTS teaching_approvals (
+    node_id      TEXT PRIMARY KEY,
+    fingerprint  TEXT NOT NULL,
+    approved_at  REAL NOT NULL
+);
 """
 
 
@@ -306,6 +316,27 @@ def record_miss_reason(conn, student_id, item_id, item_node_id, reason_key,
         (student_id, timestamp or time.time(), item_id, item_node_id,
          reason_key, reason_text, reason_node, 1 if contested else 0))
     conn.commit()
+
+
+def approve_teaching(conn, node_id, fingerprint):
+    conn.execute(
+        """INSERT INTO teaching_approvals (node_id, fingerprint, approved_at)
+           VALUES (?,?,?)
+           ON CONFLICT(node_id) DO UPDATE SET fingerprint=excluded.fingerprint,
+                                              approved_at=excluded.approved_at""",
+        (node_id, fingerprint, time.time()))
+    conn.commit()
+
+
+def unapprove_teaching(conn, node_id):
+    conn.execute("DELETE FROM teaching_approvals WHERE node_id=?", (node_id,))
+    conn.commit()
+
+
+def teaching_approvals(conn):
+    """node_id -> fingerprint of the text that was approved."""
+    return {r["node_id"]: r["fingerprint"]
+            for r in conn.execute("SELECT node_id, fingerprint FROM teaching_approvals").fetchall()}
 
 
 def all_students(conn):

@@ -69,8 +69,9 @@ start clean.
 | `server.py` | Flask app — both apps, both route groups. |
 | `run.py` | Launcher. |
 | `vocab.yaml` | The drill's 80 words **with glosses** (see the caveat below). |
+| `teaching.yaml` | Teaching text for all 118 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
-| `tests/` | 50 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 86 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The three source files (never modified by the apps). |
 
 ## The shared answer-checker
@@ -179,6 +180,30 @@ The third app, and the reason the review work pays off.
 questions currently have `teaching: ""` — that text is written and approved
 separately, so the slot is there and empty by design.
 
+## Teaching text
+
+`teaching.yaml` holds an explanation for every one of the 118 Unit 0–1 nodes.
+Each entry has three parts, per the exemplar file's `teaching_text` rule:
+
+- **explain** — what the student needs to understand, ~45 words, phone-readable.
+- **examples** — worked examples, drawn from the Unit 0–1 core vocabulary
+  wherever possible; anything from outside is glossed on the spot.
+- **when_wrong** — what to say after a miss, aimed at the specific error the
+  what-went-wrong menu records.
+
+**Everything is `status: draft` and every entry is drafted, not approved.** The
+app shows a student the explanation for a node *only* when the teacher has
+approved that node's exact current wording, at `/teaching`. Two consequences:
+
+- Draft text is invisible to students. Nothing student-facing ships unread.
+- The approval stores a fingerprint of the wording that was signed off. **Reword
+  an approved entry in `teaching.yaml` and it reverts to draft** — edited text
+  cannot inherit an old approval. The node shows as "edited since approval"
+  until it is read again.
+
+Approvals live in the app's SQLite store. The text lives in `teaching.yaml`, and
+neither app ever writes to it: to reword something, edit the file and reload.
+
 ---
 
 ## What works
@@ -194,8 +219,11 @@ All five build steps, verified in order:
 6. Grammar practice: all four formats, taught-date gating, per-box grading, the
    what-went-wrong menu, and the live-fire contest path — driven end to end in a
    browser, not just unit-tested.
+7. Teaching text for all 118 nodes, drafted and gated behind teacher approval;
+   verified in the running app that draft text does not reach a student and
+   approved text does.
 
-50 tests pass (`python3 -m unittest discover -s tests`).
+86 tests pass (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

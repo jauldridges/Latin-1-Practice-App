@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block subtitle %}teaching text{% endblock %}
+{% block content %}
+<h1>Teaching text</h1>
+<p class="small muted">Drafted for your approval. Students see an explanation only
+for nodes you have approved — drafts are invisible to them.</p>
+<div class="meta-row">
+  <span class="badge tier">{{ counts.approved }} approved</span>
+  <span class="badge flag">{{ counts.draft }} draft</span>
+  {% if counts.edited %}<span class="badge err">{{ counts.edited }} edited since approval</span>{% endif %}
+  <span class="badge tier">{{ counts.total }} total</span>
+</div>
+<ul class="queue">
+  {% for r in rows %}
+  <li>
+    <a href="{{ url_for('teaching_read', node_id=r.node) }}">
+      <span><span class="node-id">{{ r.node }}</span><br>{{ r.label }}</span>
+      {% if r.state == 'approved' %}<span class="pill solid">approved</span>
+      {% elif r.state == 'edited' %}<span class="pill" style="background:#f7dede;color:var(--wrong)">edited</span>
+      {% else %}<span class="pill shaky">draft</span>{% endif %}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

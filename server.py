@@ -36,6 +36,7 @@ _VALID_NODES = set(_SPEC)
 _ALLOWED_LATIN = dataio.allowed_latin(_EXEMPLARS)
 _NODE_LABEL = {nid: n.get("label", "") for nid, n in _SPEC.items()}
 _DRILL_WORDS = dataio.load_drill_words()
+_TEACHING = dataio.load_teaching()
 
 
 def get_db():
@@ -257,6 +258,82 @@ def drill_answer():
 
 
 # ==========================================================================
+# Teaching text — draft in teaching.yaml, approved here
+# ==========================================================================
+
+def approved_teaching_for(db, node_id):
+    """The teaching text for a node, but only if the teacher has approved the
+    exact wording currently in teaching.yaml. Draft or edited-since-approval
+    text returns None, so nothing student-facing ships unread."""
+    entry = _TEACHING.get(node_id)
+    if not entry:
+        return None
+    approved = store.teaching_approvals(db).get(node_id)
+    if approved and approved == dataio.teaching_fingerprint(entry):
+        return entry
+    return None
+
+
+@app.route("/teaching")
+def teaching_index():
+    db = get_db()
+    approvals = store.teaching_approvals(db)
+    rows = []
+    for nid, entry in _TEACHING.items():
+        fp = dataio.teaching_fingerprint(entry)
+        got = approvals.get(nid)
+        if got == fp:
+            state = "approved"
+        elif got:
+            state = "edited"          # approved once, text has changed since
+        else:
+            state = "draft"
+        rows.append({"node": nid, "label": entry.get("label", ""),
+                     "state": state, "strand": nid.split("-")[0]})
+    rows.sort(key=lambda r: r["node"])
+    counts = {"approved": sum(1 for r in rows if r["state"] == "approved"),
+              "draft": sum(1 for r in rows if r["state"] == "draft"),
+              "edited": sum(1 for r in rows if r["state"] == "edited"),
+              "total": len(rows)}
+    return render_template("teaching_index.html", rows=rows, counts=counts)
+
+
+@app.route("/teaching/<node_id>")
+def teaching_read(node_id):
+    db = get_db()
+    entry = _TEACHING.get(node_id)
+    if not entry:
+        abort(404)
+    approvals = store.teaching_approvals(db)
+    fp = dataio.teaching_fingerprint(entry)
+    got = approvals.get(node_id)
+    state = "approved" if got == fp else ("edited" if got else "draft")
+    order = sorted(_TEACHING)
+    i = order.index(node_id)
+    return render_template("teaching_read.html", node=node_id, entry=entry,
+                           state=state,
+                           nxt=order[i + 1] if i + 1 < len(order) else None,
+                           prv=order[i - 1] if i > 0 else None)
+
+
+@app.route("/teaching/<node_id>/approve", methods=["POST"])
+def teaching_approve(node_id):
+    db = get_db()
+    entry = _TEACHING.get(node_id)
+    if not entry:
+        abort(404)
+    action = request.form.get("action", "approve")
+    if action == "unapprove":
+        store.unapprove_teaching(db, node_id)
+        return redirect(url_for("teaching_read", node_id=node_id))
+    store.approve_teaching(db, node_id, dataio.teaching_fingerprint(entry))
+    nxt = request.form.get("next")
+    if nxt:
+        return redirect(url_for("teaching_read", node_id=nxt))
+    return redirect(url_for("teaching_index"))
+
+
+# ==========================================================================
 # Application 3 — grammar practice (serves APPROVED questions only)
 # ==========================================================================
 
@@ -369,6 +446,7 @@ def practice_answer():
                            box_results=box_results, tag_results=tag_results,
                            picked=picked, typed=typed,
                            menu=practice.menu_for(item) if result == "wrong" else None,
+                           teaching=approved_teaching_for(db, item.get("node")),
                            label=_NODE_LABEL.get(item["node"], ""))
 
 
@@ -396,6 +474,7 @@ def practice_selfreport():
                                node=node, context=ctx, result="wrong",
                                box_results=None, tag_results=None, picked=None,
                                typed=typed, menu=practice.menu_for(item),
+                               teaching=approved_teaching_for(db, item.get("node")),
                                label=_NODE_LABEL.get(item["node"], ""), self_done=True)
     return redirect(url_for("practice_session", student=student, node=node or "", context=ctx))
 

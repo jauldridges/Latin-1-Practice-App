@@ -1,0 +1,2091 @@
+# ============================================================
+# Latin I — Teaching text, Units 0 and 1
+# Libertas Academy Charter School · FY27 · J. Sullivan
+#
+# DRAFT FOR APPROVAL. Every entry below is status: draft.
+# The app renders teaching text ONLY where status is approved,
+# so nothing here reaches a student until you have read it and
+# flipped the status. That is the "nothing student-facing ships
+# unread" rule, enforced in code.
+#
+# KEYED BY SPEC NODE, not by item: one concept, one explanation,
+# shared by every question that reports to that node.
+#
+# Each entry has three parts, per the exemplar file's
+# `teaching_text` rule ("a short explanation, worked examples,
+# and post-answer explanations"):
+#
+#   explain     what the student needs to understand, in plain
+#               English, short enough to read on a phone after a
+#               missed question.
+#   examples    worked examples. Latin drawn from the Unit 0-1
+#               core vocabulary wherever possible; anything from
+#               outside is glossed on the spot.
+#   when_wrong  what to say after a miss. Aimed at the specific
+#               error the what-went-wrong menu records, not a
+#               restatement of `explain`.
+#
+# TO APPROVE: change `status: draft` to `status: approved`.
+# Edit anything freely — this file is yours; neither app writes
+# to it.
+# ============================================================
+
+meta:
+  course: Latin I
+  scope: Units 0 and 1 (118 nodes)
+  drafted: 2026-08-30
+  drafted_by: generated draft, awaiting teacher approval
+  approval_rule: >
+    Students see teaching text only for nodes marked
+    status: approved. Draft entries are invisible to them.
+
+nodes:
+
+# ============================================================
+# MORPHOSYNTAX — Unit 0: Phonology
+# ============================================================
+
+  MS-001:
+    status: draft
+    label: Latin alphabet — letter inventory and differences from English
+    explain: >
+      The Latin alphabet is the ancestor of ours, so most letters look
+      familiar. Classical Latin used 23 letters. It had no J and no W.
+      Where English writes J, Latin wrote I; where English writes W,
+      Latin wrote V or U. K, Y and Z existed but were rare, used almost
+      only in words borrowed from Greek.
+    examples:
+      - "Latin has no J. The name we spell Julius, a Roman wrote IVLIVS."
+      - "Latin has no W. The sound existed, but it was written with V or U."
+      - "K, Y, Z show up mainly in Greek borrowings, so you will see them seldom."
+    when_wrong: >
+      If you counted 26, you used the English alphabet. Drop J and W and
+      you are at the classical 23. The point is not the number itself —
+      it is that a letter you expect may simply not be there, and a
+      letter you see may not sound the way English trained you to say it.
+
+  MS-002:
+    status: draft
+    label: Consonants c and g are always hard
+    explain: >
+      In Latin, c is always the hard k sound and g is always the hard g of
+      "go" — no matter what letter follows. English softens them before e
+      and i (city, gem); Latin never does. This one rule fixes more
+      mispronunciation than any other.
+    examples:
+      - "amīcī — 'ah-MEE-kee', not 'ah-MEE-see'."
+      - "Cicerō — 'KIH-keh-roh', not 'SIS-er-oh'."
+      - "agricola — hard g, as in 'go'."
+      - "rēgīna — hard g, so 'reh-GEE-nah', not 'reh-JEE-nah'."
+    when_wrong: >
+      You almost certainly applied the English rule where c and g go soft
+      before e and i. Latin has no such rule. When you see c, say k. When
+      you see g, say the g in "go". Every time, with no exceptions.
+
+  MS-003:
+    status: draft
+    label: Consonantal v (= w) and consonantal i (= y)
+    explain: >
+      Latin V does double duty. As a vowel it is our u. As a consonant it
+      is our w — not the v of "vine". Latin I does the same: usually the
+      vowel i, but at the start of a word before a vowel, or between two
+      vowels, it is the consonant y.
+    examples:
+      - "via — 'WEE-ah', not 'VEE-ah'."
+      - "vīta — 'WEE-tah'. The English derivative 'vital' kept the letter but changed the sound."
+      - "Troia (Troy) — the i between vowels is a y: 'TROY-yah'."
+      - "iam (now) — begins with a consonantal i: 'yahm'."
+    when_wrong: >
+      You gave v its English sound. Latin v is w. This feels strange for
+      about a week and then stops feeling strange. Say "WEE-ah" for via
+      out loud a few times and it will stick.
+
+  MS-004:
+    status: draft
+    label: Consonant clusters — qu, gn, ch, ph, th
+    explain: >
+      A few letter pairs behave as units. QU is kw, as in English "quick".
+      GN is pronounced ngn, as in "hangnail" — the g is never silent the way
+      it is in English "sign". CH, PH and TH appear in words Latin borrowed
+      from Greek; treat them as k, p and t with a puff of breath, not as the
+      English sounds in "church", "phone" and "thin".
+    examples:
+      - "aqua — 'AH-kwah'. The u is pronounced; qu is one sound, kw."
+      - "pugna (battle) — 'POONG-nah', with the g sounded."
+      - "philosophia (philosophy) — the ph is a p sound, not an f."
+    when_wrong: >
+      The two traps are dropping the u in qu, and silencing the g in gn
+      because English does. Latin sounds both. If you said "AH-kah" for
+      aqua or "POO-nah" for pugna, that is the English habit talking.
+
+  MS-005:
+    status: draft
+    label: Vowel sounds — long and short a, e, i, o, u
+    explain: >
+      Every Latin vowel has a long form and a short form. The difference is
+      how long you hold it, not which sound it is: a long a is the same
+      vowel as a short a, held about twice as long. English does not work
+      this way, so it takes deliberate practice. Vowel length matters
+      because it decides which syllable gets the stress, and because it can
+      distinguish two different words.
+    examples:
+      - "Short a in aqua; long ā in fāma. Same vowel, held longer."
+      - "Short vowels: a as in 'idea', e as in 'pet', i as in 'pit', o as in 'off', u as in 'put'."
+      - "Long vowels: ā as in 'father', ē as in 'they', ī as in 'machine', ō as in 'note', ū as in 'rude'."
+    when_wrong: >
+      The usual mistake is treating long and short as different sounds, the
+      way English "mad" and "made" differ. In Latin they are the same sound
+      at different durations. Hold it longer, do not change it.
+
+  MS-006:
+    status: draft
+    label: Macrons — notation and what they mark
+    explain: >
+      A macron is the straight bar written over a vowel — ā, ē, ī, ō, ū. It
+      marks a long vowel. Romans did not usually write it; textbooks add it
+      so you can learn the length, because length decides stress and
+      sometimes decides the whole word. A macron is not an accent mark and
+      it does not mean "stress this syllable".
+    examples:
+      - "liber means 'book'. līber means 'free'. The macron is the only difference in writing."
+      - "In rēgīna both e and i are long; in fēmina only the e is long."
+      - "The mark is a flat bar (ā), not an accent (á) and not two dots (ä)."
+    when_wrong: >
+      Two confusions are common. First, thinking a macron marks stress — it
+      marks length, and stress follows from length rather than the other
+      way round. Second, thinking it changes the vowel's quality. It does
+      not: ā is a held a, not a new sound.
+
+  MS-007:
+    status: draft
+    label: Diphthongs — ae, oe, au, ei, eu, ui
+    explain: >
+      A diphthong is two vowels gliding together inside one syllable. Latin
+      has six: ae, oe, au, ei, eu, ui. The pair counts as one long syllable.
+      Not every two vowels sitting next to each other form a diphthong — if
+      they belong to separate syllables, they are just neighbours.
+    examples:
+      - "nauta has the diphthong au: 'NOW-tah', two syllables."
+      - "ae sounds like the 'ai' in 'aisle': puellae is 'poo-EL-lye'."
+      - "oe sounds like the 'oi' in 'boil'."
+      - "poēta is NOT a diphthong. The o and e are in separate syllables: po-Ē-ta, three syllables."
+    when_wrong: >
+      The trap is assuming any two adjacent vowels make a diphthong. poēta
+      is the word that catches everyone: the o and e are side by side but
+      split across syllables. Learn the list of six and check against it
+      rather than guessing from the look of the word.
+
+  MS-008:
+    status: draft
+    label: Syllable division
+    explain: >
+      A Latin word has as many syllables as it has vowels and diphthongs.
+      To split it: a single consonant between two vowels goes with the
+      following vowel; two consonants between vowels split, one to each
+      side. A stop plus l or r (like tr, pr, cl) usually stays together and
+      goes with the following vowel.
+    examples:
+      - "pa-tri-a — the tr stays together and goes forward."
+      - "pu-el-la — two consonants, so the double l splits."
+      - "a-gri-co-la — four vowels, four syllables; gr stays together."
+      - "nau-ta — au is a diphthong, so it counts as one syllable."
+    when_wrong: >
+      Two habits cause most errors: splitting a tr or cl pair that should
+      stay together, and keeping a double consonant together when it should
+      split. Count your vowels and diphthongs first — that tells you how
+      many syllables you are aiming for before you start cutting.
+
+  MS-009:
+    status: draft
+    label: Syllable weight — long by nature and long by position
+    explain: >
+      A syllable is long in one of two ways. Long by nature means its vowel
+      is long (it has a macron, or is a diphthong). Long by position means
+      the vowel is short but two or more consonants follow it — the
+      syllable takes longer to say because of the consonant cluster. Either
+      way it counts as long, and that is what the stress rule cares about.
+    examples:
+      - "In rēgīna, the syllable -gī- is long by nature: the ī is long."
+      - "In puella, the syllable -el- is long by position: the e is short, but two consonants (l, l) follow."
+      - "A syllable can be long even when its vowel is short. That is the whole idea."
+    when_wrong: >
+      The usual error is assuming a long syllable must contain a long
+      vowel. It need not. Check two things in order: is the vowel long? If
+      not, are there two consonants after it? Either one makes the syllable
+      long. Do not confuse this with stress — weight is the input, stress
+      is the output.
+
+  MS-010:
+    status: draft
+    label: Stress accent — the penult rule
+    explain: >
+      Latin stress is not a matter of memory; it follows a rule. In a word
+      of two syllables, stress the first. In a word of three or more, look
+      at the second-to-last syllable — the penult. If the penult is long
+      (by nature or by position), stress it. If it is short, move back one
+      and stress the syllable before it. The last syllable is never
+      stressed.
+    examples:
+      - "rē-GĪ-na — the penult -gī- is long, so it takes the stress."
+      - "FĒ-mi-na — the penult -mi- is short, so the stress moves back to the first syllable."
+      - "Same shape, same number of syllables, different stress — and only the macrons tell you why."
+      - "NAU-ta — two syllables, so stress the first."
+    when_wrong: >
+      If you stressed both rēgīna and fēmina the same way, you did not
+      check the penult's length. Work it in this order: divide the
+      syllables, find the penult, decide if it is long, then place the
+      stress. Skipping straight to the stress is what goes wrong.
+
+# ============================================================
+# MORPHOSYNTAX — Unit 1: The Sentence Core
+# ============================================================
+
+  MS-011:
+    status: draft
+    label: Inflection — endings carry grammatical function
+    explain: >
+      This is the idea the whole year rests on. In English, a word's job is
+      shown by where it sits: "The sailor sees the girl" and "The girl sees
+      the sailor" use the same words and mean opposite things. In Latin, a
+      word's job is shown by its ending. Change the ending and you change
+      the job. Move the word and you change nothing but the emphasis.
+    examples:
+      - "puella = girl, doing the action. puellam = girl, receiving it."
+      - "Nauta puellam spectat and Puellam nauta spectat both mean 'The sailor watches the girl'."
+      - "Read the ending before you decide who did what. Always."
+    when_wrong: >
+      If you worked out the meaning from the order of the words, you read
+      it as English. The ending is the evidence; position is not. This will
+      feel slow at first — that slowness is the skill being built.
+
+  MS-012:
+    status: draft
+    label: Latin word order signals emphasis, not grammatical role
+    explain: >
+      Because the endings carry the grammar, a Roman writer was free to
+      arrange words for effect. Moving a word to the front does not change
+      who is doing what — it changes what is emphasised, roughly the way
+      your voice can stress a word in English. Latin word order is a tool
+      of style, not of grammar.
+    examples:
+      - "Nauta puellam spectat — neutral: the sailor watches the girl."
+      - "Puellam nauta spectat — same meaning, but the girl is now foregrounded."
+      - "The commonest neutral order is subject, object, verb — but 'commonest' is not 'required'."
+    when_wrong: >
+      You probably assumed the first noun must be the subject. In Latin it
+      often is, which is exactly what makes the assumption dangerous: it
+      works often enough to feel safe, then fails on the sentence that
+      matters. Check the ending every time.
+
+  MS-013:
+    status: draft
+    label: The concept of case
+    explain: >
+      A case is a form a noun takes to show its job in the sentence. Latin
+      nouns change their ending depending on whether they are the subject,
+      the direct object, and so on. English does this too, but only with
+      pronouns — "he" versus "him", "she" versus "her". Latin does it with
+      every noun.
+    examples:
+      - "English: He sees her. She sees him. The pronouns change form for their job."
+      - "Latin does that to all nouns: puella (subject) becomes puellam (object)."
+      - "Case is the job. Declension is the pattern of endings the noun uses. Two different things."
+    when_wrong: >
+      Case and declension are easy to blur. Case = what job this word is
+      doing in this sentence. Declension = which family of endings this
+      noun belongs to, which never changes. A first declension noun is
+      always first declension, but it can appear in any case.
+
+  MS-014:
+    status: draft
+    label: Nominative case — subject function
+    explain: >
+      The nominative is the case of the subject — the person or thing doing
+      the verb. It is also the form a noun is listed under in the
+      dictionary. When you meet a sentence, finding the nominative is how
+      you find who is acting.
+    examples:
+      - "Nauta puellam spectat — nauta is nominative, so the sailor is the one watching."
+      - "First declension nominative singular ends in -a: puella, silva, aqua."
+      - "Second declension masculine nominative singular ends in -us: dominus, servus."
+    when_wrong: >
+      If you picked the first noun in the sentence without checking its
+      ending, you read position instead of form. If you picked the verb,
+      remember the subject is a noun — the verb is what the subject does.
+
+  MS-015:
+    status: draft
+    label: Accusative case — direct object function
+    explain: >
+      The accusative is the case of the direct object — the person or thing
+      that receives the action. If the subject is doing something to
+      someone, that someone is accusative. In the first declension the
+      singular ends in -am; in the second declension masculine, in -um.
+    examples:
+      - "Fēmina aquam portat — aquam is accusative, so the water is what is carried."
+      - "puella (subject) becomes puellam (object)."
+      - "dominus (subject) becomes dominum (object)."
+    when_wrong: >
+      Mixing up subject and object is the error this whole unit exists to
+      prevent. The test is mechanical: -am and -um endings are receiving
+      the action, not doing it. If you translated the object as the subject,
+      go back to the endings before you go back to the meaning.
+
+  MS-016:
+    status: draft
+    label: Noun dictionary entry — nominative, genitive, gender
+    explain: >
+      Every Latin noun is listed with three pieces of information: the
+      nominative singular, the genitive singular, and the gender. You need
+      all three. The nominative is how you recognise the word, the genitive
+      tells you the stem and the declension, and the gender tells you which
+      adjective forms will agree with it.
+    examples:
+      - "puella, puellae, f. — nominative puella, genitive puellae, feminine."
+      - "dominus, dominī, m. — masculine, second declension."
+      - "bellum, bellī, n. — neuter."
+      - "The genitive ending is what identifies the declension: -ae means first, -ī means second."
+    when_wrong: >
+      If you listed cases instead of the parts of the entry, you answered a
+      different question: the entry is not a list of cases, it is three
+      facts about the word. Gender is the one people forget, and it is the
+      one you cannot deduce reliably from the ending.
+
+  MS-017:
+    status: draft
+    label: Finding a noun stem from the genitive singular
+    explain: >
+      To build any form of a noun, you need its stem, and you get the stem
+      from the genitive — not the nominative. Take the genitive singular and
+      cut off its ending. What remains is the stem, and every other form is
+      built on it. The nominative can hide or reshape the stem; the
+      genitive shows it plainly.
+    examples:
+      - "puella, puellae → drop -ae from the genitive → stem puell-"
+      - "dominus, dominī → drop -ī → stem domin-"
+      - "ager, agrī → drop -ī → stem agr-. Notice the nominative ager would have misled you."
+    when_wrong: >
+      If you built from the nominative you will produce forms like agerum
+      instead of agrum. That is precisely why the rule says genitive. If
+      you were not sure which form was the genitive, it is the second one
+      in the dictionary entry.
+
+  MS-018:
+    status: draft
+    label: First declension — nominative singular
+    explain: >
+      First declension nouns have a genitive in -ae, and their nominative
+      singular ends in -a. This is the subject form and the dictionary
+      form. Most first declension nouns are feminine.
+    examples:
+      - "puella, silva, aqua, via, porta, terra — all nominative singular."
+      - "Ending: stem + a. From stem puell- you get puella."
+    when_wrong: >
+      Watch out for -a: it is also the ending of the neuter plural in the
+      second declension. So an -a word is not automatically a first
+      declension singular. Check the dictionary entry when you are unsure.
+
+  MS-019:
+    status: draft
+    label: First declension — accusative singular
+    explain: >
+      The accusative singular of the first declension ends in -am. This is
+      the form for a single person or thing receiving the action.
+    examples:
+      - "puella → puellam; silva → silvam; aqua → aquam."
+      - "Nauta puellam spectat — the sailor watches the girl."
+      - "Ending: stem + am."
+    when_wrong: >
+      If you wrote the nominative, you gave the subject form where the
+      object was asked for. If you wrote -ās, you gave the plural. One
+      letter separates these; the meaning they carry does not.
+
+  MS-020:
+    status: draft
+    label: First declension — nominative plural
+    explain: >
+      The nominative plural of the first declension ends in -ae. This is the
+      subject form for more than one. Remember it will require a plural
+      verb.
+    examples:
+      - "puella → puellae (the girls, as subject)."
+      - "Puellae aquam portant — the girls carry the water. Plural subject, plural verb."
+      - "Ending: stem + ae."
+    when_wrong: >
+      Reading puellae as a singular is the commonest slip, and it usually
+      shows up as a verb that does not agree. If the verb ends in -nt, the
+      subject must be plural. Use the verb to check the noun.
+
+  MS-021:
+    status: draft
+    label: First declension — accusative plural
+    explain: >
+      The accusative plural of the first declension ends in -ās. More than
+      one person or thing, receiving the action.
+    examples:
+      - "silva → silvās; puella → puellās; porta → portās."
+      - "Nauta portās spectat — the sailor watches the gates."
+      - "Ending: stem + ās."
+    when_wrong: >
+      Two traps. First, -ae versus -ās: both plural, but one is the subject
+      and one is the object. Second, and harder: -ās is also a verb ending
+      meaning 'you'. portās can be 'gates' or 'you carry'. Only the rest of
+      the sentence decides — if there is already a verb, portās is the noun.
+
+  MS-022:
+    status: draft
+    label: First declension gender — default feminine, masculine exceptions
+    explain: >
+      First declension nouns are feminine by default. There is a small set
+      of exceptions: nouns naming roles held by men in Roman society are
+      masculine even though they look exactly like the feminine ones. In our
+      vocabulary there are exactly three: nauta, agricola, poēta.
+    examples:
+      - "puella, silva, aqua, terra — feminine, as expected."
+      - "nauta (sailor), agricola (farmer), poēta (poet) — masculine, despite the -a."
+      - "They decline exactly like puella. Only their gender differs."
+    when_wrong: >
+      The ending does not tell you the gender here — the meaning does. This
+      matters most when an adjective has to agree: it is nauta bonus, not
+      nauta bona, because nauta is masculine. Learn these three as a set.
+
+  MS-023:
+    status: draft
+    label: Second declension masculine in -us — nominative and accusative singular
+    explain: >
+      Second declension masculine nouns have a genitive in -ī. The
+      nominative singular ends in -us and the accusative singular in -um.
+      Most are masculine.
+    examples:
+      - "dominus (subject) → dominum (object)."
+      - "servus → servum; amīcus → amīcum."
+      - "Endings: stem + us for the subject, stem + um for the object."
+    when_wrong: >
+      Note that -um will also turn up as a neuter ending, where it can be
+      either subject or object. So -um does not automatically mean
+      accusative. For an -us noun it does; for a neuter it does not.
+
+  MS-024:
+    status: draft
+    label: Second declension masculine in -us — nominative and accusative plural
+    explain: >
+      In the plural, second declension masculine nouns take -ī for the
+      subject and -ōs for the object.
+    examples:
+      - "dominus → dominī (subjects) → dominōs (objects)."
+      - "servus → servī → servōs."
+      - "Endings: stem + ī, stem + ōs."
+    when_wrong: >
+      The frequent error is reaching for the first declension endings and
+      writing servās instead of servōs. Each declension has its own set;
+      they are not interchangeable. Check which declension the noun belongs
+      to — the genitive in the dictionary entry tells you.
+
+  MS-025:
+    status: draft
+    label: Second declension nouns in -er — stem behavior (puer vs ager)
+    explain: >
+      Some second declension masculine nouns end in -er rather than -us. Two
+      kinds exist: those that keep the e in every other form, and those that
+      drop it. Nothing in the nominative tells you which. The genitive does,
+      and that is exactly why the dictionary prints it.
+    examples:
+      - "puer, puerī — the e stays: puerum, puerī, puerōs."
+      - "ager, agrī — the e drops: agrum, agrī, agrōs."
+      - "vir, virī — man; behaves like puer, keeping its stem intact."
+    when_wrong: >
+      If you wrote agerum, you built from the nominative instead of the
+      genitive. If you got puer right and ager wrong (or the reverse), you
+      applied one word's pattern to the other. The only reliable move is to
+      look at the genitive and take the stem from there.
+
+  MS-026:
+    status: draft
+    label: Second declension neuter — nominative and accusative singular
+    explain: >
+      Neuter nouns of the second declension end in -um in the nominative
+      singular — and also in -um in the accusative singular. The subject
+      form and the object form are the same word. You cannot tell them apart
+      from the word alone; you need the sentence.
+    examples:
+      - "bellum, bellī, n. — war. bellum is both 'war' as subject and 'war' as object."
+      - "oppidum, dōnum, verbum — all behave the same way."
+      - "Asked to parse bellum with no sentence, the honest answer is 'nominative or accusative'."
+    when_wrong: >
+      If you picked just one case, you may well be right — but you cannot
+      know without context, and the habit of picking one is what will trip
+      you later. Notice the ambiguity, then look for the evidence that
+      resolves it.
+
+  MS-027:
+    status: draft
+    label: Second declension neuter — nominative and accusative plural
+    explain: >
+      In the plural, second declension neuters end in -a for both the
+      subject and the object. Again the two forms are identical, and again
+      only the sentence tells you which is meant.
+    examples:
+      - "bellum → bella; dōnum → dōna; verbum → verba."
+      - "Bella sunt longa — the wars are long (bella is the subject)."
+      - "Bella parāmus — we prepare wars (bella is the object)."
+    when_wrong: >
+      Reading verba or bella as a first declension singular is the
+      high-cost mistake here: -a ends both a feminine singular and a neuter
+      plural. If the word is neuter (check the dictionary entry), an -a
+      ending means plural.
+
+  MS-028:
+    status: draft
+    label: The neuter rule — nominative equals accusative, plural in -a
+    explain: >
+      One rule covers every neuter noun in Latin, in every declension: the
+      nominative and the accusative are always identical, and the plural of
+      both ends in -a. This is not a quirk of one word; it is a feature of
+      the language, and it will still be true in Unit 6.
+    examples:
+      - "Singular: bellum is both subject and object."
+      - "Plural: bella is both subject and object."
+      - "Because of this rule, a neuter noun can never tell you its own job. The sentence must."
+    when_wrong: >
+      If you thought this was a peculiarity of one word, widen it: it holds
+      for every neuter you will ever meet. That makes it a rule worth
+      trusting rather than a special case worth memorising.
+
+  MS-029:
+    status: draft
+    label: Ambiguity of syncretic forms — using context to resolve
+    explain: >
+      When one form could be two things — a neuter noun that might be
+      subject or object, or portās which might be a noun or a verb — you
+      resolve it from the rest of the sentence. Look for a word whose form
+      is unambiguous, or a verb whose number rules out one reading. The
+      evidence is always there in a well-formed sentence.
+    examples:
+      - "Bellum agricolās superat — bellum must be the subject, because agricolās can only be accusative and superat is singular."
+      - "Nauta portās spectat — portās must be the noun, because spectat is already the verb."
+      - "Work outward from the word you are certain about."
+    when_wrong: >
+      Deciding from word order is the trap: it is a guess dressed up as a
+      reason. Name the evidence instead — which word could only be one
+      thing, and what does that force? If you genuinely cannot find
+      evidence, the sentence is broken, not you.
+
+  MS-030:
+    status: draft
+    label: Verb person and number — the concept
+    explain: >
+      Every Latin verb tells you who is doing the action and how many of
+      them there are. Person means whether the subject is the speaker (I,
+      we), the person spoken to (you, you all), or someone else (he, she,
+      it, they). Number means one or more than one. Together they give six
+      slots, and every verb form fills exactly one.
+    examples:
+      - "First person: I, we. Second person: you, you all. Third person: he/she/it, they."
+      - "Six slots: I, you, he/she/it, we, you all, they."
+      - "Person and number are about WHO. Tense is about WHEN. Do not mix them up."
+    when_wrong: >
+      If you described when the action happens, that is tense, a different
+      thing. Person and number answer only 'who, and how many'.
+
+  MS-031:
+    status: draft
+    label: Personal endings, active — o/m, s, t, mus, tis, nt
+    explain: >
+      Six endings mark the six person-and-number slots, and they are the
+      same across almost every Latin verb, in almost every tense. Learn
+      them once and you can read them everywhere. In order: -ō (or -m),
+      -s, -t, -mus, -tis, -nt.
+    examples:
+      - "-ō / -m = I · -s = you · -t = he, she, it"
+      - "-mus = we · -tis = you all · -nt = they"
+      - "laudō (I praise), laudās (you praise), laudat (he praises), laudāmus, laudātis, laudant."
+    when_wrong: >
+      If you had the endings but the order wrong, drill them as a sequence
+      until the order is automatic — it is the spine of the verb system. If
+      you wrote noun endings, remember these attach to verbs only.
+
+  MS-032:
+    status: draft
+    label: Verb dictionary entry — first two principal parts
+    explain: >
+      A Latin verb is listed by its principal parts. For now you need the
+      first two. The first is the 'I' form of the present. The second is the
+      infinitive, the 'to ___' form. The infinitive is the more useful of
+      the two, because it gives you the stem and tells you which
+      conjugation the verb belongs to.
+    examples:
+      - "laudō, laudāre — I praise, to praise."
+      - "videō, vidēre — I see, to see."
+      - "The first part identifies the word; the second part tells you how it behaves."
+    when_wrong: >
+      If you gave the English instead of the Latin, re-read what was asked.
+      If you were unsure what the second part looks like, it is the one
+      ending in -re.
+
+  MS-033:
+    status: draft
+    label: Present stem from the second principal part
+    explain: >
+      To build present-tense forms, start from the infinitive and drop the
+      -re. What is left is the present stem, and the personal endings attach
+      straight to it.
+    examples:
+      - "laudāre → drop -re → stem laudā-  → laudā + mus = laudāmus."
+      - "vidēre → drop -re → stem vidē-   → vidē + nt = vident."
+      - "The stem keeps its vowel: laudā- has an a, vidē- has an e. That vowel is the conjugation marker."
+    when_wrong: >
+      Leaving the -re on produces forms like laudāremus, which is a
+      different tense entirely. Take off exactly two letters, no more, no
+      less.
+
+  MS-034:
+    status: draft
+    label: Present active indicative — first conjugation
+    explain: >
+      First conjugation verbs have an infinitive in -āre. Take the stem
+      (ending in ā) and add the six personal endings. The only irregularity
+      is the first person singular, where the a is swallowed by the -ō.
+    examples:
+      - "laudō, laudās, laudat, laudāmus, laudātis, laudant."
+      - "portō, portās, portat, portāmus, portātis, portant."
+      - "Note laudō, not laudaō — the stem vowel disappears in the 'I' form only."
+    when_wrong: >
+      Most misses here are the wrong person ending rather than the wrong
+      stem. Say the six endings in order and count to the slot you want
+      before writing.
+
+  MS-035:
+    status: draft
+    label: Present active indicative — second conjugation
+    explain: >
+      Second conjugation verbs have an infinitive in -ēre. The stem ends in
+      ē, and it stays put in every form, including the 'I' form — which is
+      the visible difference from the first conjugation.
+    examples:
+      - "videō, vidēs, videt, vidēmus, vidētis, vident."
+      - "teneō, tenēs, tenet, tenēmus, tenētis, tenent."
+      - "Compare: first conjugation laudō (a vanishes), second conjugation videō (e stays)."
+    when_wrong: >
+      Writing tenant instead of tenent is the most common verb error of the
+      fall: it borrows the first conjugation's a. Fix it by checking the
+      infinitive — tenēre has an e, so every form keeps the e.
+
+  MS-036:
+    status: draft
+    label: Distinguishing first from second conjugation by infinitive
+    explain: >
+      The vowel before -re in the infinitive tells you the conjugation, and
+      that vowel then stays constant through the forms. -āre is first
+      conjugation; -ēre is second. This is the reliable test — and it goes
+      on working when the third and fourth conjugations arrive in Unit 2.
+    examples:
+      - "amāre, portāre, vocāre — first conjugation, a."
+      - "vidēre, tenēre, monēre — second conjugation, e."
+      - "The macron matters here: the vowel is what you are reading."
+    when_wrong: >
+      A tempting shortcut is to use the first principal part: laudō versus
+      videō does seem to show it. That rule works now and breaks in
+      October, when third conjugation verbs also end in -ō. Use the
+      infinitive and you will not have to unlearn anything.
+
+  MS-037:
+    status: draft
+    label: Subject-verb agreement in person and number
+    explain: >
+      A Latin verb must agree with its subject in person and number. A
+      singular subject takes a singular verb; a plural subject takes a
+      plural verb. This is not just a rule to obey — it is evidence you can
+      read, because the verb's ending often tells you which noun must be the
+      subject.
+    examples:
+      - "Puellae aquam portant — puellae is plural, so the verb is portant."
+      - "Puella aquam portat — singular subject, singular verb."
+      - "If the verb ends in -nt, look for a plural subject. If none is visible, the subject is 'they'."
+    when_wrong: >
+      Reading puellae as singular is the usual cause. Use the verb as a
+      cross-check: it and the subject have to match, so if they do not, one
+      of your two readings is wrong.
+
+  MS-038:
+    status: draft
+    label: Latin verbs carry their own subject — pronoun not required
+    explain: >
+      Because the ending names the person, a Latin verb does not need a
+      separate word for the subject. Laudāmus is a complete sentence: 'we
+      praise'. Latin adds a subject pronoun only for emphasis or contrast.
+      This surprises English speakers, who expect a subject word to be
+      present.
+    examples:
+      - "Laudāmus = we praise. There is no word for 'we'; the -mus is the 'we'."
+      - "Pugnant = they fight."
+      - "Spectō = I watch."
+    when_wrong: >
+      If you hunted for a word meaning 'we' and could not find one, that is
+      the lesson: it is in the ending, not in a separate word. Nothing is
+      missing from the sentence.
+
+  MS-039:
+    status: draft
+    label: Three English translations of the Latin present
+    explain: >
+      One Latin present-tense form corresponds to three English ones.
+      Portat can be 'he carries', 'he is carrying', or 'he does carry'.
+      Latin does not distinguish these; English uses extra words to make
+      distinctions Latin simply does not make here. Any of the three can be
+      correct — pick whichever sounds best in the sentence.
+    examples:
+      - "portat = he carries / he is carrying / he does carry."
+      - "laudant = they praise / they are praising / they do praise."
+      - "Latin has one form. English has three ways of saying it."
+    when_wrong: >
+      Two misreadings are common: thinking Latin must have three separate
+      forms, and thinking the three English versions mean different things.
+      They are three renderings of one Latin form, and the choice is a
+      matter of English style.
+
+  MS-040:
+    status: draft
+    label: sum — present indicative
+    explain: >
+      Sum ('I am') is irregular and must be memorised outright — you cannot
+      build it from a stem plus endings. It is also the most common verb in
+      Latin, so the memorising pays off immediately.
+    examples:
+      - "sum (I am), es (you are), est (he/she/it is)"
+      - "sumus (we are), estis (you all are), sunt (they are)"
+      - "Notice how little of the regular pattern survives: only the -mus, -tis, -nt are recognisable."
+    when_wrong: >
+      Mixing up es and est is the single most common sum error. es is 'you
+      are'; est is 'he/she/it is'. If you tried to build the forms from the
+      regular endings, stop — this verb does not cooperate, and it has to be
+      known cold.
+
+  MS-041:
+    status: draft
+    label: Predicate nominative with linking verbs
+    explain: >
+      Most verbs act on an object, which goes in the accusative. Sum does
+      not: it links two things and says they are the same. So the word after
+      sum stays nominative rather than becoming accusative. That word is
+      called the predicate nominative.
+    examples:
+      - "Poēta est clārus — the poet is famous. Both poēta and clārus are nominative."
+      - "Nauta est bonus — the sailor is good."
+      - "Compare: Nauta puellam spectat — here the verb acts on the girl, so puellam is accusative."
+    when_wrong: >
+      English speakers expect an object after a verb, and that expectation
+      is what puts clārus in the wrong case. Ask what the verb is doing: if
+      it links rather than acts, nothing becomes an object.
+
+  MS-042:
+    status: draft
+    label: First/second declension adjectives — forms in -us, -a, -um
+    explain: >
+      Adjectives of this class are listed with three endings — bonus, bona,
+      bonum — one for each gender. They use second declension endings for
+      masculine and neuter, and first declension endings for feminine. An
+      adjective is not stuck in one gender: it takes whichever form matches
+      the noun it describes.
+    examples:
+      - "bonus (masculine), bona (feminine), bonum (neuter)."
+      - "magnus, magna, magnum; novus, nova, novum."
+      - "The dictionary lists all three so you can pick the one you need."
+    when_wrong: >
+      Remember the adjective's own ending is not fixed by the adjective — it
+      is chosen by the noun. Watch for -um in particular: it can be
+      masculine accusative or neuter subject/object, and only the noun tells
+      you which.
+
+  MS-043:
+    status: draft
+    label: Adjective agreement — case
+    explain: >
+      An adjective must match its noun in case. If the noun is the object of
+      the sentence, the adjective describing it is in the object form too.
+      Matching case is what shows the reader which noun the adjective
+      belongs to.
+    examples:
+      - "puella bona — nominative pair, the good girl as subject."
+      - "puellam bonam — accusative pair, the good girl as object."
+      - "The adjective moves with the noun, case for case."
+    when_wrong: >
+      A common near-miss is getting the gender right but leaving the case
+      alone — bona where bonam was needed. Ask what job the noun is doing
+      first, then put the adjective in the same job.
+
+  MS-044:
+    status: draft
+    label: Adjective agreement — number
+    explain: >
+      An adjective must also match its noun in number. One girl takes a
+      singular adjective; several girls take a plural one.
+    examples:
+      - "puella bona — one good girl."
+      - "puellae bonae — good girls."
+      - "servōs bonōs — good slaves, as objects."
+    when_wrong: >
+      If you matched gender and case but stayed singular, you did most of
+      the work and stopped one step early. Agreement is all three at once:
+      case, number, gender.
+
+  MS-045:
+    status: draft
+    label: Adjective agreement — gender
+    explain: >
+      An adjective must match its noun's gender. Crucially, this means
+      matching the noun's actual gender, not the look of its ending. Those
+      usually coincide — and where they do not, the gender wins.
+    examples:
+      - "bellum magnum — neuter noun, neuter adjective."
+      - "puella bona — feminine noun, feminine adjective."
+      - "nauta bonus — masculine noun, masculine adjective, even though nauta ends in -a."
+    when_wrong: >
+      Agreement does not mean the endings look alike. It means the two words
+      share case, number and gender. The endings often rhyme; when they do
+      not, that is not an error, it is the rule working correctly.
+
+  MS-046:
+    status: draft
+    label: Adjective agreement across declensions (nauta bonus)
+    explain: >
+      This is where agreement is really tested. nauta is masculine but
+      declines in the first declension, so its endings look feminine. The
+      adjective must agree with what the noun IS, not with what it looks
+      like. So it is nauta bonus — a masculine adjective on a noun ending in
+      -a.
+    examples:
+      - "nauta bonus — the good sailor. Masculine, despite the -a."
+      - "agricola bonus, poēta bonus — same pattern, same three words."
+      - "Contrast puella bona, where noun and adjective happen to match in look as well."
+    when_wrong: >
+      Writing nauta bona is matching the ending instead of the gender. It
+      is the most natural mistake in the unit, because bona looks like it
+      belongs. Ask 'what gender is this noun?' before you ask 'what does its
+      ending look like?'
+
+  MS-047:
+    status: draft
+    label: Attributive versus predicate position
+    explain: >
+      An adjective can do two different jobs. Attributive: it simply
+      describes the noun, and the phrase is not yet a sentence — nauta bonus,
+      'the good sailor'. Predicate: it says something about the noun with a
+      linking verb, making a complete statement — nauta est bonus, 'the
+      sailor is good'. The presence of the verb is what separates them.
+    examples:
+      - "nauta bonus — the good sailor. A phrase; describes."
+      - "Nauta est bonus — the sailor is good. A sentence; asserts."
+      - "Nauta bonus est means the same as Nauta est bonus; word order does not change it."
+    when_wrong: >
+      If you translated both the same way, look for the verb. No verb means
+      you are describing; a verb means you are asserting. Adding 'is' where
+      there is no verb turns a phrase into a claim the Latin did not make.
+
+  MS-048:
+    status: draft
+    label: Substantive adjectives
+    explain: >
+      An adjective can stand on its own, with no noun to describe, and act
+      as a noun itself. Latin does this comfortably where English needs an
+      extra word. Multī on its own means 'many men' or 'many people' — you
+      supply the noun from the gender and the sense.
+    examples:
+      - "Multī pugnant — many men fight. There is no noun; multī is doing the work of one."
+      - "Masculine plural usually implies 'men' or 'people'; neuter implies 'things'."
+      - "Translate with the noun English requires, even though Latin does not print it."
+    when_wrong: >
+      If you searched for a noun for multī to describe, there is not one —
+      that is the point. If you left it as bare 'many', the English does not
+      stand up; supply the noun the gender implies.
+
+  MS-049:
+    status: draft
+    label: Vocative case — form and use
+    explain: >
+      The vocative is the form used when you speak directly to someone. For
+      almost every noun it is identical to the nominative. The one group
+      that changes is second declension nouns in -us, which take -e instead.
+    examples:
+      - "amīcus → amīce! (friend!)"
+      - "dominus → domine! (master!)"
+      - "puella → puella! — first declension, so no change."
+      - "Amīce, spectā! — Friend, look!"
+    when_wrong: >
+      If you used the nominative for an -us noun, that is the one case where
+      the form really does change. Note also that a vocative is not the
+      subject of the sentence — it is the person being addressed, standing
+      outside the grammar of the clause.
+
+  MS-050:
+    status: draft
+    label: Imperative — singular and plural, first and second conjugation
+    explain: >
+      An imperative is a command. To tell one person to do something, use
+      the present stem by itself. To tell a group, add -te. Both come
+      straight from the infinitive with the -re removed.
+    examples:
+      - "vocāre → vocā! (call! — to one person) → vocāte! (call! — to a group)"
+      - "vidēre → vidē! → vidēte!"
+      - "portāre → portā! → portāte!"
+    when_wrong: >
+      Giving the singular where the plural was wanted (or the reverse) is
+      the usual slip: the difference is just -te. Writing a present-tense
+      form instead — vocat rather than vocā — turns a command into a
+      statement about someone else.
+
+  MS-051:
+    status: draft
+    label: Coordinating conjunctions — et, sed, -que, aut
+    explain: >
+      Four small words join things together. et = and. sed = but. aut = or.
+      And -que also means 'and', but it is not a separate word: it attaches
+      to the end of the second item, while translating before it.
+    examples:
+      - "nauta et agricola — the sailor and the farmer."
+      - "nauta agricolaque — the same thing, with -que attached to the second word."
+      - "Puella aquam portat sed nōn spectat — the girl carries the water but does not watch."
+    when_wrong: >
+      -que trips nearly everyone once. It is stuck to the end of the word it
+      follows, but in English it comes before that word. agricolaque is 'and
+      the farmer', never 'the farmer and'.
+
+  MS-076:
+    status: draft
+    label: The infinitive — the second principal part, and its "to ___" translation
+    explain: >
+      The infinitive is the 'to ___' form of a verb: amāre, 'to love'. You
+      have already been using it as the second principal part, the source of
+      the stem. It is also a form with a meaning of its own, and it can do
+      real work in a sentence.
+    examples:
+      - "amāre = to love; vidēre = to see; portāre = to carry."
+      - "It never takes a personal ending, so it never tells you who is acting."
+      - "Recognise it by the -re at the end."
+    when_wrong: >
+      Translating amāre as 'he loves' turns an infinitive into a finite
+      verb. An infinitive has no person and no number; if your English has a
+      subject in it, check whether the Latin really did.
+
+  MS-156:
+    status: draft
+    label: Infinitive stem versus present stem — why -re comes off
+    explain: >
+      The -re at the end marks the whole form as an infinitive. Present-tense
+      forms are built by attaching personal endings directly to the bare
+      stem, so the -re has to come off first — otherwise you would be adding
+      an ending to a form that is already complete.
+    examples:
+      - "laudāre is complete as it stands: 'to praise'."
+      - "For 'we praise' you need the stem laudā- plus -mus → laudāmus."
+      - "Take off exactly the -re. laudāre → laudā-, not laud-."
+    when_wrong: >
+      Adding endings to the whole infinitive produces forms that mean
+      something else entirely. Remove -re, keep the stem vowel, then attach
+      the ending.
+
+  MS-157:
+    status: draft
+    label: Complementary infinitive with debeo — completing the meaning of a verb
+    explain: >
+      Some verbs feel unfinished on their own. Dēbeō means 'I ought' — but
+      ought to do what? The infinitive completes the thought. It is called a
+      complementary infinitive because it completes the meaning of the main
+      verb.
+    examples:
+      - "Dēbeō laudāre — I ought to praise."
+      - "Dēbēmus pugnāre — we ought to fight."
+      - "The main verb carries the person; the infinitive carries the action."
+    when_wrong: >
+      Translating both verbs as finite — 'I ought, I praise' — breaks the
+      link between them. Only one of the two has a personal ending; the
+      other is the thing being ought-to-be-done. Read them as a single
+      idea.
+
+# ============================================================
+# CONNECTED READING
+# Strategy nodes: how to read, not what to know.
+# ============================================================
+
+  CR-001:
+    status: draft
+    label: Read unfamiliar Latin aloud with correct pronunciation and stress
+    explain: >
+      Reading Latin aloud is not decoration. Saying a word correctly means
+      you have already divided its syllables and judged their length, which
+      is most of the work of understanding its form. Students who read aloud
+      accurately tend to parse accurately.
+    examples:
+      - "Fēmina in silvā aquam portat → FĒ-mi-na in SIL-vā A-quam POR-tat."
+      - "Hard c and g, v as w, and the penult rule — all four at once."
+      - "Read slowly enough to be right. Speed comes later and on its own."
+    when_wrong: >
+      The two things that most often go wrong are stress placement and
+      giving v its English sound. If you stumbled, slow down and divide the
+      syllables before you speak rather than while you speak.
+
+  CR-002:
+    status: draft
+    label: Read for gist before parsing
+    explain: >
+      Before analysing every ending, read the whole sentence once for a
+      rough sense of what it is about. Knowing roughly where a sentence is
+      going makes each word's role easier to pin down. Gist first, then
+      detail — not instead of detail.
+    examples:
+      - "Spot the familiar words, get the general picture, then go back and check the endings."
+      - "A first pass costs seconds and saves minutes."
+    when_wrong: >
+      Gist reading does not replace parsing. If you stopped at the general
+      sense and guessed the rest, you skipped the step that makes the
+      answer reliable. The two passes do different jobs.
+
+  CR-003:
+    status: draft
+    label: Locate the verb and use it to predict sentence structure
+    explain: >
+      The verb is the most informative word in a Latin sentence. Its ending
+      tells you the person and number of the subject, which tells you what
+      to look for. Find the verb first and you have narrowed the
+      possibilities before you have read anything else.
+    examples:
+      - "A verb ending in -nt needs a plural subject. Look for a nominative plural."
+      - "A verb ending in -t needs a singular one."
+      - "Agricolae oppidum superant — superant is plural, so agricolae must be the subject."
+    when_wrong: >
+      If you started at the first word and worked forward, you passed up
+      free information. The verb is often last in Latin — go and get it
+      first.
+
+  CR-004:
+    status: draft
+    label: Locate the subject by finding the nominative
+    explain: >
+      Do not assume the first noun is the subject. Find the word in the
+      nominative case, and confirm it against the verb's number. Where a
+      form is ambiguous, the verb settles it.
+    examples:
+      - "Oppidum nautae spectant — spectant is plural, so nautae is the subject and oppidum the object."
+      - "Ask 'which word is nominative?', not 'which word came first?'"
+    when_wrong: >
+      Picking by position is the habit English gave you. It will be right
+      often enough to feel reliable and will fail exactly where the sentence
+      is interesting.
+
+  CR-005:
+    status: draft
+    label: Tag each word with case and function before translating
+    explain: >
+      Before writing any English, label every word: what case is it, and
+      what job is it doing? The labels force you to read the endings. A
+      finished translation hides how it was reached; the labels show whether
+      you read the grammar or guessed from the order.
+    examples:
+      - "Agricola dōnum portat → Agricola: nominative, subject. dōnum: accusative, object. portat: verb, 3rd singular."
+      - "Only then write: The farmer carries the gift."
+      - "If two labels contradict each other, you have found your mistake before it reached the English."
+    when_wrong: >
+      Translating first and labelling afterwards defeats the exercise —
+      the labels just get bent to fit the translation you already wrote. Tag
+      first, every time, even when the sentence looks obvious.
+
+  CR-006:
+    status: draft
+    label: Read in Latin word order without reordering into English first
+    explain: >
+      The instinct is to hunt around the sentence, assembling an English
+      order as you go. Resist it. Take the words as they come and hold the
+      meaning open until the sentence closes. This is harder at first and it
+      is the only route to reading Latin rather than decoding it.
+    examples:
+      - "Puellam nauta spectat — read: 'the girl (object)... the sailor... watches'."
+      - "You do not need to know the full shape at word one. Let it arrive."
+    when_wrong: >
+      Reordering into English works on short sentences and collapses on long
+      ones. Building the habit now, while the sentences are three words
+      long, is the whole point of doing it now.
+
+  CR-007:
+    status: draft
+    label: Use context to resolve an ambiguous form
+    explain: >
+      When a form could be two things, find the word that could only be one
+      thing and reason outward from it. Every well-made sentence contains
+      the evidence you need — your job is to name it rather than to guess.
+    examples:
+      - "Verba poēta nārrat — verba could be subject or object, but poēta is nominative singular and nārrat is singular, so verba must be the object."
+      - "Ask: which word here is unambiguous? What does it force?"
+    when_wrong: >
+      'It just feels like the subject' is not evidence. Point at the word
+      that settles it. If you cannot find one, say so — an unresolvable
+      sentence is a broken sentence, and worth reporting.
+
+  CR-008:
+    status: draft
+    label: Infer word meaning from a known English or Spanish derivative
+    explain: >
+      You already know thousands of Latin roots through English and
+      Spanish. Meeting an unfamiliar Latin word, ask what English or Spanish
+      word it resembles and whether that meaning fits. This will not always
+      work, but it works often enough to be your first move.
+    examples:
+      - "spectō — think 'spectator', 'inspect'. It means to look at, to watch."
+      - "portō — think 'transport', 'portable'. It means to carry."
+      - "aqua — think 'aquarium', 'aquatic'. Or Spanish agua."
+    when_wrong: >
+      Check the guess against the sentence. Derivatives drift over
+      centuries, so a root can mislead: the inference gives you a
+      hypothesis, not a definition.
+
+  CR-009:
+    status: draft
+    label: Answer comprehension questions in English about a Latin passage
+    explain: >
+      A comprehension question asks whether you understood the passage, not
+      whether you can produce a polished translation. Read, find the part
+      that answers the question, and answer it plainly in English.
+    examples:
+      - "Nauta aquam portat. Puella nautam spectat. — Who is watching the sailor? The girl."
+      - "Note that nautam is accusative, so the sailor is being watched, not watching."
+      - "Answer the question asked; do not translate the whole passage unless asked."
+    when_wrong: >
+      Answering from word order rather than the endings is the usual cause
+      of a wrong answer here. Find the ending that settles who did what,
+      then answer.
+
+  CR-010:
+    status: draft
+    label: Use a glossary efficiently
+    explain: >
+      A glossary lists words under their dictionary form, not the form you
+      met in the sentence. So before looking a word up, work back to its
+      dictionary form: for a noun, the nominative singular; for a verb, the
+      first principal part.
+    examples:
+      - "You meet puellās. Look up puella, puellae, f."
+      - "You meet portant. Look up portō, portāre."
+      - "The entry also gives gender and declension — read the whole line, not just the meaning."
+    when_wrong: >
+      Searching for the inflected form and concluding the word is absent is
+      the standard frustration. Strip the ending back to the dictionary
+      form first, and the word will be there.
+
+# ============================================================
+# ROMAN WORLD
+# Content vocabulary (rēs pūblica, domus, atrium and the rest) is
+# supplied and glossed here; students are never asked to produce
+# these words from memory.
+# ============================================================
+
+  RW-001:
+    status: draft
+    label: Location of Rome — the Tiber, the seven hills, central Italy
+    explain: >
+      Rome sits on the river Tiber in Latium, in west-central Italy,
+      traditionally built on seven hills. It is inland — not a port — about
+      fifteen miles from the sea. That combination of river, hills and
+      distance from the coast shaped everything about how the city grew.
+    examples:
+      - "River: the Tiber. Hills: seven. Region: Latium."
+      - "Far enough from the sea to be safe from raiders, close enough to trade."
+    when_wrong: >
+      If you pictured Rome on the coast, adjust: it is a river city. The
+      seven hills are the detail most often misremembered as a different
+      number — it is seven.
+
+  RW-002:
+    status: draft
+    label: The Italian peninsula — Latium, Etruria, Campania, Magna Graecia
+    explain: >
+      Italy was not one country but a patchwork of regions and peoples.
+      Latium was Rome's own region. Etruria, to the north, belonged to the
+      Etruscans. Campania lay to the south. Further south still, Greek
+      settlers had founded so many cities that the area was called Magna
+      Graecia — 'Great Greece'.
+    examples:
+      - "North of Rome: Etruria, the Etruscans."
+      - "Rome's own region: Latium."
+      - "South: Campania, then Magna Graecia, heavily Greek."
+    when_wrong: >
+      The regions blur together easily. Anchor them by direction from Rome:
+      Etruria north, Campania south, Magna Graecia further south again.
+
+  RW-003:
+    status: draft
+    label: The Mediterranean as mare nostrum
+    explain: >
+      Romans called the Mediterranean mare nostrum — 'our sea'. The phrase
+      was not poetic. By the late Republic, Rome controlled every coastline
+      around it, so the sea functioned as an internal Roman highway rather
+      than a frontier.
+    examples:
+      - "mare nostrum = our sea."
+      - "A claim of ownership, and by then an accurate one."
+      - "The sea connected the empire; it did not divide it."
+    when_wrong: >
+      The name reflects control of the surrounding lands, not that Romans
+      were the only sailors on it. Plenty of others sailed the
+      Mediterranean — Rome simply held the shores.
+
+  RW-004:
+    status: draft
+    label: Major provinces — Gaul, Hispania, Britannia, Africa, Aegyptus, Graecia, Asia
+    explain: >
+      A province was territory outside Italy under Roman administration. The
+      major ones map onto modern countries closely enough to be worth
+      learning as pairs.
+    examples:
+      - "Gallia → France. Hispania → Spain and Portugal. Britannia → England and Wales."
+      - "Africa → Tunisia and the coast around it. Aegyptus → Egypt."
+      - "Graecia → Greece. Asia → western Turkey."
+    when_wrong: >
+      Britannia is the one most often overstated: Rome held England and
+      Wales, but never Ireland and never the far north of Scotland.
+
+  RW-005:
+    status: draft
+    label: Why Rome's site mattered — river crossing, salt route, defensible hills
+    explain: >
+      Three advantages made the site worth settling. The Tiber had a natural
+      crossing point there, so land routes converged on it. The salt road
+      from the coast ran through it, and salt was essential and valuable.
+      And the hills were defensible, which mattered enormously before the
+      city had walls or an army.
+    examples:
+      - "A crossing point makes a town into a junction."
+      - "Salt was a trade good worth controlling."
+      - "Hills are easy to hold and hard to take."
+    when_wrong: >
+      Rome's advantages were about routes and defence, not about harbours or
+      farmland. It is not a coastal city, and its site was not chosen for
+      its soil.
+
+  RW-006:
+    status: draft
+    label: Latin as one Italic language among many
+    explain: >
+      Latin began as the local speech of Latium — one Italic language beside
+      Oscan, Umbrian and others, none obviously destined to win. Latin
+      spread because Rome did. Its later dominance was a consequence of
+      political success, not of any quality in the language itself.
+    examples:
+      - "Neighbouring Italic languages: Oscan, Umbrian, Faliscan."
+      - "Etruscan, spoken just north, was not even Indo-European — a genuinely unrelated language."
+      - "Latin won the way languages usually win: its speakers won."
+    when_wrong: >
+      Assuming Latin was always the language of Italy reverses the story. It
+      was one option among several, and for a long time not the leading one.
+
+  RW-007:
+    status: draft
+    label: The founding legend — Romulus and Remus, 753 BCE
+    explain: >
+      By tradition Rome was founded in 753 BCE by Romulus, who with his twin
+      brother Remus had been abandoned as an infant and suckled by a
+      she-wolf. The brothers quarrelled over where to build; Romulus killed
+      Remus and named the city after himself. Romans knew it was a story,
+      and told it anyway — it says something about how they saw themselves.
+    examples:
+      - "Founder: Romulus. Year: 753 BCE."
+      - "The twins, the she-wolf, the quarrel, the killing."
+      - "A founding myth with a fratricide at its centre is an unusual choice, and a revealing one."
+    when_wrong: >
+      Remus is the brother who was killed, not the founder. Aeneas belongs
+      to a different and earlier story — see RW-008.
+
+  RW-008:
+    status: draft
+    label: Aeneas and the Trojan origin story
+    explain: >
+      A second origin story runs deeper in time. Aeneas, a Trojan prince,
+      escaped the fall of Troy and after long wandering reached Italy; his
+      descendants founded Rome generations later. This gave Rome an ancestry
+      reaching back to the heroic world of Greek epic — a noble pedigree at a
+      time when Greek culture set the standard of prestige.
+    examples:
+      - "Aeneas escapes Troy, carrying his father on his back."
+      - "His line leads eventually to Romulus."
+      - "Virgil's Aeneid, written under Augustus, is the version that made it canonical."
+    when_wrong: >
+      The two stories are not rivals — Romans held both, with Aeneas the
+      distant ancestor and Romulus the actual founder. The Trojan link is
+      about prestige and continuity, not about the founding date.
+
+  RW-009:
+    status: draft
+    label: The seven kings — sequence and significance
+    explain: >
+      Tradition gives Rome seven kings, beginning with Romulus and ending
+      with Tarquinius Superbus. The early ones are largely legendary; the
+      later ones, notably the Tarquins, are Etruscan and probably reflect a
+      real period of Etruscan power at Rome. The monarchy lasted until 509
+      BCE.
+    examples:
+      - "First king: Romulus. Last: Tarquinius Superbus, 'Tarquin the Proud'."
+      - "Seven kings, roughly 753 to 509 BCE."
+      - "The last three are Etruscan — a clue that Rome was under Etruscan influence."
+    when_wrong: >
+      The number is seven, and Romulus counts as the first. The kings are
+      not a fiction to be dismissed entirely: the later ones sit on real
+      history, even if the early ones do not.
+
+  RW-010:
+    status: draft
+    label: Etruscan influence on early Rome
+    explain: >
+      Rome learned a great deal from its Etruscan neighbours: engineering
+      including drainage and the arch, religious practice such as reading
+      omens, and the symbols of political power — the fasces, the curule
+      chair, the triumph. Much of what looks most distinctively Roman came
+      first from Etruria.
+    examples:
+      - "Engineering: drainage of the Forum, arch construction."
+      - "Religion: augury, the reading of omens."
+      - "Symbols: the fasces, a bundle of rods carried before a magistrate."
+    when_wrong: >
+      What Rome did NOT take from the Etruscans is its language: Latin is
+      Italic and Etruscan is unrelated to it. Nor the Republic, which was
+      founded by throwing the Etruscan kings out.
+
+  RW-011:
+    status: draft
+    label: The expulsion of Tarquinius Superbus, 509 BCE
+    explain: >
+      In 509 BCE the Romans drove out their last king and replaced the
+      monarchy with a republic led by elected magistrates. The date is the
+      hinge of Roman political history, and the memory of it shaped Roman
+      politics for the next five centuries.
+    examples:
+      - "509 BCE: kings out, Republic in."
+      - "Power passed to two annually elected consuls."
+      - "Compare 753 BCE, the founding of the city — a different event entirely."
+    when_wrong: >
+      The two dates are easy to swap: 753 is the founding of the city, 509
+      the founding of the Republic.
+
+  RW-012:
+    status: draft
+    label: The Rape of Lucretia as founding story of the Republic
+    explain: >
+      In the Roman account, the king's son raped Lucretia, a noblewoman, who
+      then took her own life after telling her family. The outrage turned
+      the aristocracy against the monarchy and triggered the expulsion of the
+      kings. Whether or not it happened, the story did real work: it made
+      the Republic's founding a matter of honour rather than politics.
+    examples:
+      - "The crime, Lucretia's death, the revolt, the expulsion."
+      - "Told by Livy centuries later, as the origin of Roman liberty."
+      - "Note what the story implies about kingship: unchecked power abuses."
+    when_wrong: >
+      The story leads to the founding of the Republic, not to any war with
+      Carthage. Its function is to explain why Romans hated kingship.
+
+  RW-013:
+    status: draft
+    label: Why Romans feared the word rex
+    explain: >
+      Because the Republic was founded by expelling a king, rex ('king')
+      became close to an accusation. Wanting to be one was among the worst
+      charges in Roman politics, and it was used against real men to fatal
+      effect — the fear of monarchy outlived the monarchy by half a
+      millennium.
+    examples:
+      - "rex = king."
+      - "The charge of aiming at kingship helped justify Caesar's assassination."
+      - "Even emperors avoided the title, preferring princeps, 'first citizen'."
+    when_wrong: >
+      Rome certainly had had kings — that is exactly why the word was
+      dangerous. The fear came from experience, not from unfamiliarity.
+
+  RW-014:
+    status: draft
+    label: res publica — what the term means
+    explain: >
+      Rēs pūblica literally means 'the public thing' or 'the people's
+      affair'. It is the source of our word 'republic'. The phrase claims
+      that the state belongs to the citizens in common rather than to a
+      ruler — a genuine claim about who owns power.
+    examples:
+      - "rēs = thing, affair. pūblica = public, of the people."
+      - "Contrast with a kingdom, which is the king's possession."
+      - "The word survives in English, Spanish república, French république."
+    when_wrong: >
+      Knowing the English word is not the same as knowing what the Latin
+      says. The literal sense — 'the public thing' — is the part that
+      carries the political argument.
+
+  RW-015:
+    status: draft
+    label: The consuls — two, annual, mutual veto
+    explain: >
+      The Republic was headed by two consuls, elected for one year, each
+      able to veto the other. Every feature of that design is aimed at the
+      same danger: two so neither rules alone, one year so power is
+      temporary, mutual veto so either can stop the other. Having thrown out
+      a king, Rome built an office that could not easily become one.
+    examples:
+      - "How many: two. How long: one year."
+      - "Either consul could block the other's action."
+      - "Ex-consuls kept great prestige, but not the office."
+    when_wrong: >
+      The design is about preventing one-man rule, not about dividing the
+      workload. That is the point worth remembering.
+
+  RW-016:
+    status: draft
+    label: The Senate — composition and function
+    explain: >
+      The Senate was a council of several hundred leading citizens, mostly
+      former magistrates, who served for life. Formally it advised rather
+      than legislated — but its prestige and permanence made its advice very
+      difficult to ignore, and in practice it directed policy.
+    examples:
+      - "Members: ex-magistrates, serving for life."
+      - "Formally advisory; in practice, decisive."
+      - "Contrast the consuls, who changed every year while the Senate did not."
+    when_wrong: >
+      The Senate was not the whole people, and it was not elected in the way
+      we would expect. Its authority came from permanence and prestige, not
+      from a popular mandate.
+
+  RW-017:
+    status: draft
+    label: SPQR — what it stands for and means
+    explain: >
+      SPQR stands for Senātus Populusque Rōmānus — 'the Senate and the Roman
+      People'. It appeared on standards, coins and public buildings as the
+      formal name of the Roman state. Note the -que on Populus: it is the
+      word 'and', attached to the end.
+    examples:
+      - "S = Senātus (the Senate)"
+      - "PQ = Populusque (and the People)"
+      - "R = Rōmānus (Roman)"
+      - "Together: the Senate and the Roman People — the two sources of legitimate authority."
+    when_wrong: >
+      The -que is the piece most often missed: it is not a word on its own,
+      it is 'and' fused to the end of Populus. The phrase names two bodies,
+      not one.
+
+  RW-047:
+    status: draft
+    label: The familia and the paterfamilias
+    explain: >
+      A Roman familia was not quite a family in our sense. It was a
+      household under one man's legal authority — the paterfamilias — and it
+      included his wife, children, unmarried daughters, sons and their
+      families, and the household's slaves. His authority over it was
+      formally enormous, though in practice softened by custom and affection.
+    examples:
+      - "familia = the household, people and property together."
+      - "paterfamilias = the male head, holding legal power over the rest."
+      - "The word is the root of English 'family', with a wider meaning."
+    when_wrong: >
+      Do not read familia as 'family' in the modern sense: it is defined by
+      legal authority and includes slaves. The paterfamilias is the head,
+      not a servant or a priest.
+
+  RW-048:
+    status: draft
+    label: The domus — atrium, impluvium, tablinum, peristylium, culina
+    explain: >
+      A domus was the town house of a well-off family, built inward around
+      open courts rather than outward toward the street. You entered into
+      the ātrium, a hall open to the sky, with a pool called the impluvium
+      beneath the opening to catch rainwater. Beyond lay the tablīnum, the
+      master's office, and often a colonnaded garden, the peristȳlium. The
+      kitchen was the culīna.
+    examples:
+      - "ātrium — main hall, open to the sky."
+      - "impluvium — the pool below the roof opening."
+      - "tablīnum — office/study. culīna — kitchen. peristȳlium — garden court."
+      - "Rooms face inward: the street sees blank walls or rented shops."
+    when_wrong: >
+      The atrium and the peristyle are the two most often swapped. The
+      atrium is at the front with the rain pool; the peristyle is the garden
+      further in.
+
+  RW-049:
+    status: draft
+    label: The insula and urban housing
+    explain: >
+      Most city-dwellers did not live in a domus. They rented rooms in an
+      īnsula — a multi-storey apartment block, often shoddily built, with
+      shops at street level. Upper floors were cheaper, more cramped, and
+      more dangerous, since fire and collapse were constant risks.
+    examples:
+      - "īnsula = apartment block (the same word also means 'island')."
+      - "Ground floor: shops and the better apartments. Higher up: worse and cheaper."
+      - "Most Romans lived like this; the domus was for the wealthy few."
+    when_wrong: >
+      Do not confuse the īnsula with the vīlla: one is a crowded city
+      apartment block, the other a country estate. Note also that īnsula on
+      your vocabulary list means 'island' — same word, different use.
+
+  RW-050:
+    status: draft
+    label: The villa and country estates
+    explain: >
+      A vīlla was a house in the countryside. Some were working farms; others
+      were luxurious retreats for wealthy Romans escaping the city. Many were
+      both, with a comfortable residence attached to a working agricultural
+      estate run by slaves.
+    examples:
+      - "vīlla = country house or farming estate."
+      - "vīlla rūstica — the working farm. vīlla urbāna — the comfortable residence."
+      - "A senator might own several, and tour between them."
+    when_wrong: >
+      The villa is rural; the insula is urban. If you placed the villa in the
+      city, swap them.
+
+  RW-051:
+    status: draft
+    label: Roman names — praenomen, nomen, cognomen
+    explain: >
+      A Roman man usually had three names. The praenōmen was his personal
+      name, drawn from a very short list. The nōmen marked his gens, the
+      wider clan. The cognōmen identified the branch of the family, and
+      often began as a nickname.
+    examples:
+      - "Gāius Iūlius Caesar — praenomen Gaius, nomen Iulius, cognomen Caesar."
+      - "Mārcus Tullius Cicerō — Cicero began as a nickname meaning 'chickpea'."
+      - "Only about a dozen praenomina were in common use, so they were often abbreviated."
+    when_wrong: >
+      The middle name is the clan name — the most important of the three for
+      identifying a family. The first is personal, the last marks the branch.
+
+  RW-063:
+    status: draft
+    label: Roman numerals
+    explain: >
+      Roman numerals use seven letters: I=1, V=5, X=10, L=50, C=100, D=500,
+      M=1000. Read left to right, adding as you go. When a smaller value
+      stands before a larger one, subtract it instead.
+    examples:
+      - "MMXXVI = 1000+1000+10+10+5+1 = 2026."
+      - "IV = 4 (one before five). IX = 9. XL = 40. CM = 900."
+      - "49 is XLIX: XL (40) plus IX (9). Not IL — subtraction only works one step down."
+    when_wrong: >
+      Two errors dominate: adding where you should subtract, and inventing
+      subtractions that are not allowed. Only I, X and C are ever
+      subtracted, and only from the next two values up.
+
+  RW-064:
+    status: draft
+    label: The Olympian gods and their Greek equivalents
+    explain: >
+      Roman gods were identified with Greek ones early, so most major
+      deities have a matched pair of names and largely shared stories. Learn
+      them in pairs; the Roman name is the one you will meet in Latin.
+    examples:
+      - "Jupiter / Zeus — king of the gods. Juno / Hera — his wife."
+      - "Neptune / Poseidon — sea. Mars / Ares — war. Venus / Aphrodite — love."
+      - "Minerva / Athena — wisdom. Diana / Artemis — the hunt. Mercury / Hermes — messenger."
+    when_wrong: >
+      The pairs are not perfect matches — Roman Mars was more dignified than
+      Greek Ares, for instance — but for naming purposes the pairing holds.
+
+  RW-065:
+    status: draft
+    label: Jupiter, Juno, Minerva — the Capitoline Triad
+    explain: >
+      Three gods were worshipped together in the great temple on the
+      Capitoline Hill: Jupiter, Juno and Minerva. This triad was the
+      official state cult, and its temple was the religious centre of Roman
+      public life.
+    examples:
+      - "Jupiter Optimus Maximus — 'best and greatest' — at the centre."
+      - "Juno and Minerva shared the temple with him."
+      - "Triumphal processions ended at this temple."
+    when_wrong: >
+      Venus and Mars were major gods but not part of this triad. The three
+      are Jupiter, Juno, Minerva.
+
+  RW-066:
+    status: draft
+    label: Household religion — lares, penates, genius
+    explain: >
+      Roman religion was practised at home as much as in temples. The larēs
+      were protective spirits of the household and its place; the penātēs
+      guarded the store cupboard and the family's provisions; the genius was
+      the guiding spirit of the paterfamilias himself. A small shrine, the
+      lararium, held their images and received daily offerings.
+    examples:
+      - "larēs — household guardians."
+      - "penātēs — spirits of the storeroom and food supply."
+      - "genius — the protective spirit of the head of the household."
+      - "Daily offerings at the lararium, made by the family."
+    when_wrong: >
+      These are spirits, not rooms and not festivals. Household religion was
+      a daily domestic practice, distinct from the state cult of the
+      Capitoline Triad.
+
+  RW-086:
+    status: draft
+    label: The Forum Romanum — what happened there
+    explain: >
+      The Forum was the flat ground between the hills, drained early and
+      turned into the centre of Roman public life. Law courts, political
+      assemblies, business, religious ceremonies and public speeches all
+      happened there. If something mattered publicly in Rome, it happened in
+      the Forum.
+    examples:
+      - "Politics: assemblies and speeches from the Rostra."
+      - "Law: courts and trials. Business: banking and trade."
+      - "Religion: temples, including that of Vesta."
+    when_wrong: >
+      The Forum is a public square, not a fortress or a private space. Its
+      defining feature is that everything public converged there.
+
+# ============================================================
+# MODERN WORLD
+# The through-line to now: etymology, descent, application,
+# reception. Latin words cited here are supplied and glossed as
+# objects of study, not vocabulary to memorise.
+# ============================================================
+
+  MW-001:
+    status: draft
+    label: Root, prefix, suffix — the anatomy of a derived word
+    explain: >
+      Most long English words are built from parts. The root carries the
+      core meaning. A prefix goes in front and modifies it. A suffix goes on
+      the end and usually sets the word's job — noun, adjective, verb. Once
+      you can see the seams, an unfamiliar word stops being a wall.
+    examples:
+      - "transportation = trans- (across) + port (carry) + -ation (a noun ending)."
+      - "inspector = in- (into) + spect (look) + -or (a person who)."
+      - "The root is the part that survives across the whole word family."
+    when_wrong: >
+      Prefix and suffix are easy to name; the root is the part people miss,
+      because it is in the middle and often does not stand alone as a word.
+      Ask what meaning is common to the whole family.
+
+  MW-002:
+    status: draft
+    label: Latin prefixes of direction — ad, ab, ex, in, sub, trans, per
+    explain: >
+      A large family of prefixes describes direction or motion. ad- toward,
+      ab- away from, ex- out of, in- into, sub- under, trans- across, per-
+      through. They are everywhere in English once you notice them.
+    examples:
+      - "ad- : advance, admit, adhere — toward."
+      - "ex- : exit, export, extract — out."
+      - "trans- : transport, translate, transmit — across."
+      - "sub- : submarine, subway, submerge — under."
+    when_wrong: >
+      Two cautions. These prefixes often change spelling to match the next
+      letter (ad + similis becomes assimilate). And in- has a second,
+      unrelated sense meaning 'not' — see MW-003.
+
+  MW-003:
+    status: draft
+    label: Latin prefixes of negation and opposition — in-, dis-, contra-, ob-
+    explain: >
+      Another family negates or opposes. in- (also im-, il-, ir-) means
+      'not'. dis- means apart or not. contra- means against. ob- means
+      against or in the way of.
+    examples:
+      - "in- : invisible, incomplete, impossible, illegal — not."
+      - "dis- : disagree, disappear, dishonest."
+      - "contra- : contradict, contrary."
+    when_wrong: >
+      in- is genuinely ambiguous: 'invisible' is not-visible, but 'include'
+      is in-close. Only the sense of the whole word tells you which. Do not
+      assume the negative reading automatically.
+
+  MW-004:
+    status: draft
+    label: Latin prefixes of number and degree — uni, bi, multi, semi, super, sub
+    explain: >
+      Prefixes of quantity and degree: uni- one, bi- two, multi- many, semi-
+      half, super- above or beyond, sub- below.
+    examples:
+      - "unicycle (one wheel), bicycle (two), tricycle (three)."
+      - "multiple, multitude — many. semicircle — half."
+      - "superior, supersonic — above, beyond."
+    when_wrong: >
+      Not every word starting with these letters uses the prefix: 'biology'
+      begins with the Greek bios, 'life', not the Latin bi-, 'two'. Check
+      that the meaning actually fits before claiming the prefix.
+
+  MW-006:
+    status: draft
+    label: Noun-forming suffixes — -tion, -ment, -ance, -ity, -or
+    explain: >
+      These suffixes turn verbs and adjectives into nouns. -tion and -ment
+      name an action or its result. -ance and -ity name a quality. -or names
+      the person or thing doing it.
+    examples:
+      - "act → action. govern → government."
+      - "important → importance. able → ability."
+      - "act → actor; inspect → inspector — the doer."
+    when_wrong: >
+      Notice that different suffixes make different kinds of noun: 'action'
+      is the act itself, 'actor' is the person doing it. Picking an
+      adjective (active) or an adverb (actively) means you changed the
+      word's job to the wrong one.
+
+  MW-007:
+    status: draft
+    label: Adjective-forming suffixes — -al, -ous, -ile, -ary, -able
+    explain: >
+      These suffixes make adjectives. -al 'relating to', -ous 'full of',
+      -ile 'able to be or tending to', -ary 'relating to', -able 'capable of
+      being'.
+    examples:
+      - "nation → national. danger → dangerous (full of danger)."
+      - "fragile — able to be broken. portable — able to be carried."
+      - "military, legendary — relating to."
+    when_wrong: >
+      Watch the difference between an adjective and its adverb: 'dangerous'
+      describes a thing, 'dangerously' describes how something is done. The
+      suffix decides which.
+
+  MW-009:
+    status: draft
+    label: Predicting an English word's meaning from an unfamiliar Latin root
+    explain: >
+      When you meet an English word you do not know, look for the Latin root
+      inside it. If you know the root, you can usually predict the meaning
+      closely enough to keep reading. This is the practical payoff of Latin
+      for reading in English.
+    examples:
+      - "insular — from īnsula, island. So: cut off, isolated, like an island."
+      - "aquatic — from aqua. Relating to water."
+      - "portable — from portō. Able to be carried."
+    when_wrong: >
+      The prediction is a hypothesis, not a definition — check it against
+      the sentence. Meanings drift over centuries, sometimes a long way from
+      the root.
+
+  MW-010:
+    status: draft
+    label: Predicting a Latin word's meaning from a known English derivative
+    explain: >
+      The same trick works in reverse. Meeting an unfamiliar Latin word, ask
+      which English words look like it, and what they have in common. That
+      shared meaning is usually close to the Latin.
+    examples:
+      - "aqua — aquarium, aquatic, aqueduct → water."
+      - "vīta — vital, vitamin, revitalise → life."
+      - "terra — terrain, territory, terrestrial → land, earth."
+    when_wrong: >
+      Beware of false friends — English words that look Latin but are not,
+      or that have drifted far. Confirm the guess against the sentence
+      before trusting it.
+
+  MW-017:
+    status: draft
+    label: The Romance languages and their common ancestor
+    explain: >
+      Spanish, French, Italian, Portuguese and Romanian are called Romance
+      languages because all of them descend from Latin. They are not
+      languages that borrowed from Latin — they ARE Latin, changed by time
+      and separated by geography.
+    examples:
+      - "The main five: Spanish, French, Italian, Portuguese, Romanian."
+      - "Also Catalan, Occitan, Romansh and others."
+      - "'Romance' here means 'from Rome', nothing to do with love."
+    when_wrong: >
+      English is not a Romance language, despite its huge Latin vocabulary —
+      it is Germanic with a Latin overlay. Borrowing heavily is not the same
+      as descending from.
+
+  MW-018:
+    status: draft
+    label: Vulgar Latin versus literary Latin
+    explain: >
+      The Latin of Cicero and Virgil was a polished literary register. What
+      ordinary people actually spoke — soldiers, traders, farmers — was
+      simpler and looser, and is called Vulgar Latin, from vulgus, 'the
+      common people'. The Romance languages grew out of the spoken form, not
+      the literary one.
+    examples:
+      - "vulgus = the crowd, ordinary people. Nothing to do with 'vulgar' meaning rude."
+      - "Spoken Latin dropped case endings and leaned on prepositions and word order."
+      - "That is why Spanish and French have no case system, but plenty of prepositions."
+    when_wrong: >
+      'Vulgar' here means common, not crude. And the everyday spoken form is
+      the ancestor of the modern languages — the literary form is the branch
+      that stopped changing.
+
+  MW-019:
+    status: draft
+    label: Why Spanish, French, Italian, Portuguese, and Romanian resemble one another
+    explain: >
+      They resemble one another because each is a separate continuation of
+      the same parent. Latin was spoken across the empire; when central
+      control ended, each region's Latin kept changing in its own way until
+      the results were no longer mutually intelligible. The similarity is
+      inheritance, not contact.
+    examples:
+      - "Latin aqua → Spanish agua, Italian acqua, French eau, Portuguese água."
+      - "Latin nox/noctem → Spanish noche, Italian notte, French nuit."
+      - "Siblings, not neighbours who copied each other."
+    when_wrong: >
+      Borrowing and descent are different relationships. Languages that
+      borrow share words; languages that descend share structure, sound
+      changes and grammar — which is what you see here.
+
+  MW-020:
+    status: draft
+    label: Regular sound change — Latin f becomes Spanish h (filius / hijo)
+    explain: >
+      Sound changes are regular: they apply across the whole vocabulary
+      rather than word by word. Latin f at the start of a word became h in
+      Spanish — and the h then went silent, though it is still written.
+    examples:
+      - "fīlius → hijo (son). farīna → harina (flour)."
+      - "facere → hacer (to do). ferrum → hierro (iron)."
+      - "The h is written and not pronounced — a fossil of the old f."
+    when_wrong: >
+      The change is Spanish-specific: Italian and French kept the f (figlio,
+      fils). Applying a different change, such as ct → ch, gives a form that
+      does not exist.
+
+  MW-021:
+    status: draft
+    label: Regular sound change — Latin ct becomes Spanish ch (noctem / noche)
+    explain: >
+      The Latin cluster -ct- became -ch- in Spanish. Again it is regular,
+      which is what makes it a useful prediction tool rather than a
+      curiosity.
+    examples:
+      - "noctem → noche (night). octō → ocho (eight)."
+      - "factum → hecho (fact, deed) — note this one also shows f → h."
+      - "lactem → leche (milk)."
+    when_wrong: >
+      Keep the changes apart: f → h operates at the start of a word, ct → ch
+      in the middle. hecho happens to show both, which makes it a good test
+      case rather than a contradiction.
+
+  MW-022:
+    status: draft
+    label: Regular sound change — Latin pl/cl/fl become Spanish ll (plenum / lleno)
+    explain: >
+      Latin words beginning pl-, cl- or fl- often begin ll- in Spanish. The
+      cluster collapsed into a single sound written ll.
+    examples:
+      - "plēnum → lleno (full). clāvem → llave (key). flammam → llama (flame)."
+      - "plōrāre → llorar (to cry)."
+      - "Portuguese took a different route: chave, chama."
+    when_wrong: >
+      Some Latin-looking forms survive alongside these as later borrowings —
+      Spanish has both llave and clave, with different meanings. So the
+      question is never 'which is a real word' but 'what does the sound
+      change produce'.
+
+  MW-023:
+    status: draft
+    label: Latin short e and o become Spanish diphthongs ie and ue
+    explain: >
+      A stressed short e in Latin usually became ie in Spanish, and a
+      stressed short o became ue. This is why so many Spanish verbs change
+      their stem when the stress moves onto it.
+    examples:
+      - "terra → tierra (land). petram → piedra (stone)."
+      - "porta → puerta (door). novum → nuevo (new)."
+      - "It explains poder → puedo: the stress lands on the o, so it breaks into ue."
+    when_wrong: >
+      The change happens only under stress, which is why the same verb can
+      show both forms — podemos keeps the o because the stress is elsewhere.
+      Unstressed vowels are left alone.
+
+  MW-036:
+    status: draft
+    label: English is Germanic with a massive Latin overlay
+    explain: >
+      English is a Germanic language: its core grammar and its commonest
+      words come from Anglo-Saxon. But it has absorbed an enormous Latin
+      vocabulary, through French after 1066 and directly from Latin during
+      the Renaissance. The bones are Germanic; a great deal of the flesh is
+      Latin.
+    examples:
+      - "Germanic core: be, have, do, go, man, house, water, good."
+      - "Latin overlay: describe, adjacent, considerable, position, structure."
+      - "The commonest words are Germanic; the longer and more formal ones tend to be Latin."
+    when_wrong: >
+      Heavy borrowing does not change a language's family. English is
+      Germanic by descent and Latinate by vocabulary, and both statements
+      are true at once.
+
+  MW-037:
+    status: draft
+    label: The Norman Conquest and the French layer in English
+    explain: >
+      In 1066 the Normans conquered England and French-speaking rulers held
+      power for centuries. French — itself descended from Latin — became the
+      language of the court, the law and administration, while English
+      remained the language of ordinary life. When the two merged, English
+      ended up with two vocabularies layered on top of each other.
+    examples:
+      - "Law and government: court, justice, judge, jury, parliament, government — all French."
+      - "Everyday life: house, home, eat, drink, sleep — all English."
+      - "The result: English often has two words where other languages have one."
+    when_wrong: >
+      The Normans added a layer; they did not replace English, and they did
+      not impose Latin directly. The Latin arrived through French.
+
+  MW-038:
+    status: draft
+    label: Register — Anglo-Saxon words feel plain, Latin words feel formal
+    explain: >
+      Because the Latin-through-French layer entered English through law,
+      church and court, words from it still carry a formal tone. The
+      Anglo-Saxon word and the Latin word may mean the same thing while
+      feeling completely different. Knowing this gives you conscious control
+      over the tone of your own writing.
+    examples:
+      - "begin / commence. ask / inquire. help / assist. end / terminate."
+      - "In each pair the second is Latin-derived and sounds more formal."
+      - "Neither is better. They are tools for different situations."
+    when_wrong: >
+      The formality does not come from length or from precision — it comes
+      from where the word entered the language and who was speaking it at
+      the time.
+
+  MW-039:
+    status: draft
+    label: Food and animal word pairs — cow/beef, pig/pork, sheep/mutton
+    explain: >
+      English uses one word for the living animal and a different one for
+      its meat. The animal words are Anglo-Saxon, the meat words French. The
+      split records who did which job: English-speaking peasants raised the
+      animals, French-speaking lords ate the meat.
+    examples:
+      - "cow (Anglo-Saxon) → beef (French bœuf)."
+      - "pig → pork (porc). sheep → mutton (mouton). deer → venison."
+      - "The class division of medieval England, preserved in the menu."
+    when_wrong: >
+      The pairs are not random synonyms: each one records a social fact.
+      The animal word is Germanic and the food word French, consistently.
+
+  MW-043:
+    status: draft
+    label: Latin phrases used whole in English — bona fide, per capita, status quo
+    explain: >
+      Some Latin phrases entered English intact and are still used, mostly
+      in law, business and academic writing. Learn them as units, with their
+      meanings.
+    examples:
+      - "bona fide — in good faith, genuine."
+      - "per capita — per head, per person."
+      - "status quo — the existing state of affairs."
+      - "ad hoc — for this purpose, improvised. per sē — in itself."
+    when_wrong: >
+      Using a phrase correctly and knowing what it literally says are
+      different things. 'Status quo' is literally 'the state in which' —
+      knowing that makes the usage make sense.
+
+  MW-044:
+    status: draft
+    label: Latin abbreviations — e.g., i.e., etc., cf., N.B., vs., A.M./P.M., A.D.
+    explain: >
+      Several common abbreviations are Latin. The two most confused are
+      e.g. and i.e.: e.g. introduces examples, i.e. restates in other words.
+    examples:
+      - "e.g. = exemplī grātiā, 'for the sake of example' → for example."
+      - "i.e. = id est, 'that is' → in other words."
+      - "etc. = et cetera, 'and the rest'. cf. = confer, 'compare'. N.B. = notā bene, 'note well'."
+      - "A.M. = ante merīdiem (before midday), P.M. = post merīdiem."
+    when_wrong: >
+      If you swapped e.g. and i.e., use this test: could you substitute 'for
+      example'? Then it is e.g. Could you substitute 'in other words'? Then
+      it is i.e.
+
+  MW-045:
+    status: draft
+    label: Estimating the Latin share of English vocabulary
+    explain: >
+      Counting words that came directly from Latin or through French, more
+      than half of English vocabulary has Latin roots — estimates run around
+      55 to 60 per cent of the dictionary. But the commonest words in daily
+      use are overwhelmingly Germanic, so ordinary speech feels far less
+      Latinate than the dictionary is.
+    examples:
+      - "Dictionary: over half Latin-derived."
+      - "Everyday speech: the top hundred words are almost all Germanic."
+      - "Academic and technical writing: heavily Latin."
+    when_wrong: >
+      Both halves matter. Saying 'most of English is Latin' overstates
+      speech; saying 'hardly any' understates the dictionary. The share
+      depends on whether you count word types or word usage.
+
+  MW-062:
+    status: draft
+    label: E pluribus unum and the Great Seal
+    explain: >
+      Ē plūribus ūnum — 'out of many, one' — appears on the Great Seal of
+      the United States and on its coinage. It described thirteen colonies
+      becoming one nation, and was later read as many peoples becoming one
+      people.
+    examples:
+      - "ē = out of; plūribus = many; ūnum = one."
+      - "Adopted for the Great Seal in 1782."
+      - "The founders reached for Latin deliberately: it signalled the Roman Republic."
+    when_wrong: >
+      The motto is about unity out of plurality, not about a single ruler or
+      the number of stripes on the flag.
+
+  MW-063:
+    status: draft
+    label: Annuit coeptis and novus ordo seclorum on the dollar bill
+    explain: >
+      Two more Latin mottoes sit on the reverse of the one-dollar bill,
+      around the unfinished pyramid. Annuit coeptīs means roughly 'he has
+      approved our undertakings'. Novus ōrdō sēclōrum means 'a new order of
+      the ages'.
+    examples:
+      - "annuit = has nodded assent to; coeptīs = the things begun."
+      - "novus = new; ōrdō = order; sēclōrum = of the ages."
+      - "Both come from Virgil, which tells you how deliberately classical the founders were being."
+    when_wrong: >
+      The two are easy to swap. Annuit coeptis is about approval of the
+      undertaking; novus ordo seclorum is about a new age beginning.
+
+  MW-068:
+    status: draft
+    label: The Roman Republic as a model for the American founders
+    explain: >
+      The founders studied the Roman Republic closely and borrowed from it
+      on purpose: elected magistrates with fixed terms, a senate, and powers
+      divided so that no one person could accumulate too much. They also
+      studied how the Republic failed, and designed against that.
+    examples:
+      - "Elected officials with fixed terms, not rulers for life."
+      - "A senate as a deliberative body."
+      - "Separated powers with mutual checks — the consuls' veto, generalised."
+    when_wrong: >
+      The borrowing was structural, not cosmetic: it is about how power is
+      divided and limited, not about names or architecture alone.
+
+  MW-069:
+    status: draft
+    label: Senate, capitol, veto, republic — American institutions with Roman names
+    explain: >
+      Several American political words are Roman imports. Senate is
+      Senātus. Capitol recalls the Capitoline Hill. Veto is a Latin verb
+      meaning 'I forbid'. Republic is rēs pūblica. The names were chosen to
+      claim the inheritance.
+    examples:
+      - "vetō — literally 'I forbid', the word a Roman tribune used."
+      - "Senātus — a council of senior citizens; senex means 'old man'."
+      - "Capitolium — the temple hill at Rome."
+    when_wrong: >
+      Veto is a whole sentence in Latin — 'I forbid' — not a noun. That is
+      worth knowing: the word is the act.
+
+  MW-073:
+    status: draft
+    label: Latin place names surviving in Europe — Londinium, Lutetia, Colonia
+    explain: >
+      Roman towns often kept their names, worn down by centuries of speech.
+      Recognising the Latin underneath a modern place name is a small but
+      satisfying piece of detective work.
+    examples:
+      - "Londinium → London. Lutētia → Paris (the tribe name Parisii won out instead)."
+      - "Colōnia → Cologne / Köln. Colonia means 'colony', a settlement of veterans."
+      - "Eborācum → York. Vindobona → Vienna."
+    when_wrong: >
+      Matching on the first letter is the trap: Londinium looks a little
+      like Lisbon and Lyon, which have entirely separate origins. Look for
+      the whole shape of the word, not the initial.

@@ -64,8 +64,20 @@
 {% endif %}
 
 {# ---- teaching text: written and approved separately; shows when present ---- #}
-{% if item.teaching %}
-  <div class="card"><div class="small muted">Why</div>{{ item.teaching }}</div>
+{% if teaching %}
+  <div class="card">
+    <div class="small muted">Why</div>
+    <p style="margin:6px 0">{{ teaching.explain }}</p>
+    {% if teaching.when_wrong and result == 'wrong' %}
+      <p style="margin:6px 0">{{ teaching.when_wrong }}</p>
+    {% endif %}
+    {% if teaching.examples %}
+      <div class="small muted" style="margin-top:8px">For example</div>
+      <ul style="margin:4px 0 0;padding-left:18px">
+        {% for ex in teaching.examples %}<li class="small">{{ ex }}</li>{% endfor %}
+      </ul>
+    {% endif %}
+  </div>
 {% endif %}
 
 {# ---- self-check half: model answer + self report ---- #}
