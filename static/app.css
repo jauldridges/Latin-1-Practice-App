@@ -142,3 +142,18 @@ table.progress td.st { white-space: nowrap; }
 .pill.solid { background:#eef5f0; color: var(--solid); }
 .pill.shaky { background:#fbf1d6; color: var(--shaky); }
 .pill.notyet { background:#efedea; color: var(--notyet); }
+
+/* Always-visible progress strip on the practice and drill screens. */
+.statsbar {
+  display: flex; flex-wrap: wrap; gap: 6px 18px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  padding: 8px 12px; margin: 0 0 12px; font-size: 13px;
+}
+.statsbar .sb-group { display: flex; align-items: baseline; gap: 5px; }
+.statsbar .sb-label {
+  color: var(--muted); text-transform: uppercase; letter-spacing: .05em;
+  font-size: 10px; margin-right: 2px;
+}
+.statsbar .sb-val { font-weight: 800; font-size: 15px; font-variant-numeric: tabular-nums; }
+.statsbar .sb-unit { color: var(--muted); margin-right: 4px; }
+.statsbar .sb-pct { color: var(--muted); font-variant-numeric: tabular-nums; }

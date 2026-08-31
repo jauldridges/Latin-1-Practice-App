@@ -69,13 +69,15 @@ start clean.
 | `drill.py` | Drill card selection, Leitner boxes, solid/shaky/not-yet. |
 | `practice.py` | Grammar-practice selection and grading (all four question formats). |
 | `quiz.py` | Proctored quizzes: deferred grading, close handling, attempt summaries. |
+| `stats.py` | Session and all-time progress figures, derived from the event history. |
 | `server.py` | Flask app — both apps, both route groups. |
 | `run.py` | Launcher. |
 | `vocab.yaml` | The drill's 80 words **with glosses** (see the caveat below). |
 | `teaching.yaml` | Teaching text for all 118 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
-| `tests/` | 102 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 116 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The three source files (never modified by the apps). |
+| `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
 ## The shared answer-checker
 
@@ -239,6 +241,44 @@ quiz. A quiz is therefore a genuinely different mode, not a tag on the same one:
 Still no grading. The summary shows counts, never a percentage, and the app
 never calls anything a score.
 
+## How progress is remembered
+
+**One table is the memory: `events`, in `data/review.sqlite`.** Every attempt in
+every mode appends one row and nothing is ever updated or deleted.
+
+**Nothing about a student's state is stored — it is all recomputed from that
+history.** Which Leitner box a word is in, when it is next due, whether it counts
+as solid/shaky/not-yet: each is derived by replaying the events for that word.
+That is deliberate. It means you can change the definition of "solid" in
+November and it applies correctly to work done in September; had the box number
+been stored, changing the rule would have corrupted the past.
+
+So the spaced repetition survives the year for exactly as long as the events do.
+There is no separate state to lose or to fall out of sync.
+
+**To see the work: `QUERIES.md`** — verified SQL for who is practising, which
+concepts the class is missing, *why* they say they missed them, and everything
+out to CSV. No dashboard, per the spec.
+
+### Three honest limits
+
+1. **Identity is a typed name, not an account.** `store.normalize_student()`
+   lower-cases and collapses whitespace, so `Sam`, `sam ` and `SAM` are one
+   person. It **cannot** merge `Sam` and `Sam T.` — those are two students with
+   two separate schedules, silently. At 88 students this will happen. The fix is
+   a roster (a fixed list they pick from) rather than a free text box, which is
+   not built.
+
+2. **It only runs while your laptop is running, on your network.** Spaced
+   repetition wants near-daily practice; students cannot practise at home
+   against a laptop that is closed. This is the "runs locally first" decision
+   working as intended for proving the tool, but it is a real ceiling on the
+   spacing, and deployment is the thing that lifts it.
+
+3. **One file, no backup.** The whole year of student history is
+   `data/review.sqlite`. Copy it weekly — the command is in `QUERIES.md`. If
+   that file is lost, the schedules and the history go with it.
+
 ---
 
 ## What works
@@ -260,8 +300,10 @@ All five build steps, verified in order:
 8. Proctored quizzes: build, sit, resume, change answers, submit, review —
    driven end to end in a browser, including a check that no feedback leaks
    mid-quiz and that a submitted attempt is locked.
+9. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
+   progress strip on the drill and practice screens — both driven in a browser.
 
-102 tests pass (`python3 -m unittest discover -s tests`).
+116 tests pass (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

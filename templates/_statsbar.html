@@ -1,0 +1,21 @@
+{# Always-visible progress. Session = this sitting; all time = everything ever,
+   in the same three words the rest of the app uses. Both derived from the
+   event history, never stored. #}
+{% if sess is defined and alltime is defined %}
+<div class="statsbar">
+  <div class="sb-group">
+    <span class="sb-label">this session</span>
+    <span class="sb-val">{{ sess.studied }}</span><span class="sb-unit">studied</span>
+    <span class="sb-val state solid">{{ sess.right }}</span><span class="sb-unit">right</span>
+    {% if sess.studied %}
+      <span class="sb-pct">{{ (100 * sess.right / sess.studied) | round | int }}%</span>
+    {% endif %}
+  </div>
+  <div class="sb-group">
+    <span class="sb-label">all time</span>
+    <span class="sb-val state solid">{{ alltime.solid }}</span><span class="sb-unit">solid</span>
+    <span class="sb-val state shaky">{{ alltime.shaky }}</span><span class="sb-unit">shaky</span>
+    <span class="sb-val state notyet">{{ alltime['not yet'] }}</span><span class="sb-unit">not yet</span>
+  </div>
+</div>
+{% endif %}

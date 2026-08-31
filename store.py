@@ -113,6 +113,18 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_attempt_one ON quiz_attempts(quiz_id, stud
 """
 
 
+def normalize_student(name):
+    """The student key used in the data.
+
+    Identity here is a typed name, not an account, so "Sam", "sam " and "SAM"
+    must not become three different students with three separate spaced-
+    repetition schedules. Lower-cased and space-collapsed, so a year of history
+    stays attached to one person. It cannot fix "Sam" vs "Sam T." -- see the
+    README note on identity.
+    """
+    return " ".join(str(name or "").split()).lower()
+
+
 def connect(db_path=DEFAULT_DB):
     os.makedirs(os.path.dirname(db_path), exist_ok=True)
     conn = sqlite3.connect(db_path)
@@ -301,14 +313,15 @@ def record_event(conn, student_id, item_id, spec_node_id, response, result,
         """INSERT INTO events (student_id, timestamp, item_id, spec_node_id,
                response, result, latency_ms, context, version)
            VALUES (?,?,?,?,?,?,?,?,?)""",
-        (student_id, timestamp or time.time(), item_id, spec_node_id,
+        (normalize_student(student_id), timestamp or time.time(), item_id, spec_node_id,
          response, result, latency_ms, context, version))
     conn.commit()
 
 
 def events_for_student(conn, student_id):
     rows = conn.execute(
-        "SELECT * FROM events WHERE student_id=? ORDER BY timestamp", (student_id,)).fetchall()
+        "SELECT * FROM events WHERE student_id=? ORDER BY timestamp",
+        (normalize_student(student_id),)).fetchall()
     return [dict(r) for r in rows]
 
 
@@ -339,7 +352,7 @@ def record_miss_reason(conn, student_id, item_id, item_node_id, reason_key,
         """INSERT INTO miss_reasons (student_id, timestamp, item_id, item_node_id,
                reason_key, reason_text, reason_node, contested)
            VALUES (?,?,?,?,?,?,?,?)""",
-        (student_id, timestamp or time.time(), item_id, item_node_id,
+        (normalize_student(student_id), timestamp or time.time(), item_id, item_node_id,
          reason_key, reason_text, reason_node, 1 if contested else 0))
     conn.commit()
 
@@ -412,6 +425,7 @@ def get_or_start_attempt(conn, quiz_id, student_id):
     """Resume an existing sitting or begin one. A student has at most one
     attempt per quiz, so reopening the link mid-quiz returns them to their work
     rather than starting over."""
+    student_id = normalize_student(student_id)
     r = conn.execute("SELECT * FROM quiz_attempts WHERE quiz_id=? AND student_id=?",
                      (quiz_id, student_id)).fetchone()
     if r is None:

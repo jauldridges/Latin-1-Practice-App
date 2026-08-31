@@ -3,6 +3,8 @@
 {% block content %}
 {% if notice %}<div class="answer-feedback close">{{ notice }}</div>{% endif %}
 
+{% include "_statsbar.html" %}
+
 <div class="meta-row">
   <span class="node-id">{{ item.node }}</span>
   <span class="badge tier">{{ label }}</span>

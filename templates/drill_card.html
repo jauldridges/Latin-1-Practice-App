@@ -3,6 +3,8 @@
 {% block content %}
 {% if notice %}<div class="answer-feedback close">{{ notice }}</div>{% endif %}
 
+{% include "_statsbar.html" %}
+
 <p class="small muted" style="text-align:center">{{ card.instruction }}</p>
 <div class="prompt {{ 'latin' if card.ask == 'la_en' else '' }}">{{ card.prompt }}</div>
 

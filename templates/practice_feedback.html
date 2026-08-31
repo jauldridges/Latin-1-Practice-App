@@ -124,7 +124,15 @@
   {% endfor %}
 
 {% else %}
-  <a class="bigbtn" href="{{ url_for('practice_session', student=student, node=node or '', context=context) }}">Next question</a>
+  <a class="bigbtn" id="nextbtn" href="{{ url_for('practice_session', student=student, node=node or '', context=context) }}">Next question <span class="small" style="opacity:.75">(or press Enter)</span></a>
+  <script>
+    document.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Enter' || ev.key === ' ') {
+        ev.preventDefault();
+        window.location = document.getElementById('nextbtn').href;
+      }
+    });
+  </script>
 {% endif %}
 
 <p style="text-align:center;margin-top:12px">

@@ -24,6 +24,7 @@ import dataio
 import drill
 import practice
 import quiz as quizlib
+import stats
 import store
 from answercheck import check as check_answer
 
@@ -99,10 +100,10 @@ def review_import():
     db = get_db()
     items = dataio.load_bank()
     flags_by_item, report = checks.run_all(items, _VALID_NODES, _ALLOWED_LATIN)
-    stats = store.import_items(db, items, flags_by_item, os.path.basename(dataio.BANK_FILE))
+    imported = store.import_items(db, items, flags_by_item, os.path.basename(dataio.BANK_FILE))
     # Build a human import summary.
     summary = {
-        "inserted": stats["inserted"], "updated": stats["updated"],
+        "inserted": imported["inserted"], "updated": imported["updated"],
         "flagged": report["n_flagged"], "total": report["n_items"],
         "by_check": report["by_check"], "by_level": report["by_level"],
         "literal_check4": report["literal_check4_explain_items_with_a_noncausal_option"],
@@ -197,6 +198,22 @@ def review_export():
 # Application 2 — the vocabulary drill (build step 4, wired below)
 # ==========================================================================
 
+def _drill_stats(events):
+    """Session and all-time figures for the drill, derived from history."""
+    universe = {drill._key(w["latin"]) for w in _DRILL_WORDS}
+    return {"sess": stats.session_stats(events),
+            "alltime": stats.alltime_by_word(events, universe=universe)}
+
+
+def _practice_stats(db, events):
+    """Same two horizons for grammar practice, counted over the spec nodes the
+    student could currently meet (approved questions from taught lessons)."""
+    approved = store.approved_items(db)
+    universe = {it["node"] for it in approved if it["node"] in _taught_now()}
+    return {"sess": stats.session_stats(events),
+            "alltime": stats.alltime_by_node(events, universe=universe)}
+
+
 @app.route("/drill")
 def drill_home():
     return render_template("drill_home.html", weeks=drill.WEEK_ORDER,
@@ -224,7 +241,8 @@ def drill_session():
     if card is None:
         return render_template("drill_none.html", student=student, week=week)
     return render_template("drill_card.html", student=student, week=week,
-                           direction=direction, card=card)
+                           direction=direction, card=card,
+                           **_drill_stats(events))
 
 
 @app.route("/drill/answer", methods=["POST"])
@@ -252,10 +270,12 @@ def drill_answer():
         card = drill.card_for(word, ask)
         return render_template("drill_card.html", student=student, week=week,
                                direction=direction, card=card,
-                               notice="So close — check your spelling and try again.")
+                               notice="So close — check your spelling and try again.",
+                               **_drill_stats(store.events_for_student(db, student)))
     return render_template("drill_feedback.html", student=student, week=week,
                            direction=direction, word=word, ask=ask, response=response,
-                           result=result, model=accepted[0])
+                           result=result, model=accepted[0],
+                           **_drill_stats(store.events_for_student(db, student)))
 
 
 # ==========================================================================
@@ -389,7 +409,8 @@ def practice_session():
                                n_approved=len(approved))
     return render_template("practice_question.html", student=student, item=item,
                            node=node, context=ctx, notice=None,
-                           label=_NODE_LABEL.get(item["node"], ""))
+                           label=_NODE_LABEL.get(item["node"], ""),
+                           **_practice_stats(db, events))
 
 
 @app.route("/practice/answer", methods=["POST"])
@@ -435,7 +456,8 @@ def practice_answer():
         return render_template("practice_question.html", student=student, item=item,
                                node=node, context=ctx,
                                label=_NODE_LABEL.get(item["node"], ""),
-                               notice="So close — check your spelling and try again.")
+                               notice="So close — check your spelling and try again.",
+                               **_practice_stats(db, store.events_for_student(db, student)))
 
     if result != "self":
         store.record_event(db, student, item_id, item.get("node"),
