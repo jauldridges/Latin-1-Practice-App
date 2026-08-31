@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block subtitle %}misses{% endblock %}
+{% block content %}
+<h1>What they say went wrong</h1>
+{% include "_teacherbar.html" %}
+<p class="small muted">Grouped by the idea that explains the mistake, not by the
+  question that exposed it. This is the reteach list.</p>
+
+{% if not reasons %}<p class="muted">Nothing recorded in this window.</p>{% endif %}
+<table class="progress">
+  {% for r in reasons %}
+  <tr>
+    <td>{{ r.reason_text }}
+      {% if r.reason_node %}<br><span class="node-id">{{ r.reason_node }} — {{ r.reason_node | nodelabel }}</span>{% endif %}
+    </td>
+    <td style="width:6em"><strong>{{ r.count }}</strong><span class="small muted"> · {{ r.students }} kids</span></td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% if contested %}
+<h2>"I think my answer should be right" ({{ contested | length }})</h2>
+<p class="small muted">Each one is either a misconception or a bad question. Only
+  a person can tell which.</p>
+<table class="progress">
+  {% for c in contested %}
+  <tr>
+    <td class="small">{{ c.student_id }}</td>
+    <td class="small"><span class="node-id">{{ c.item_id }}</span></td>
+    <td class="small">{{ c.timestamp | when }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+<a class="bigbtn secondary" href="{{ url_for('teacher_home', days=w.days, section=w.section) }}">Back to who practised</a>
+{% endblock %}

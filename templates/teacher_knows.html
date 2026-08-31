@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block subtitle %}what they know{% endblock %}
+{% block content %}
+<h1>What they know and don't</h1>
+{% include "_teacherbar.html" %}
+<p class="small muted">What the class is getting wrong, weakest first. "Right"
+  counts a close spelling as right. Rows marked <em>thin</em> rest on very few
+  answers — real, but not yet a pattern. Anything at {{ secure_pct }}% or better is
+  folded away at the bottom of each list.</p>
+
+<h2>Grammar</h2>
+{% if not nodes %}<p class="muted small">Nothing below {{ secure_pct }}% in this window.</p>{% endif %}
+<table class="progress">
+  {% for r in nodes %}
+  <tr>
+    <td><span class="node-id">{{ r.key }}</span><br>{{ r.key | nodelabel }}</td>
+    <td style="width:5.5em">
+      {% if r.accuracy is none %}<span class="muted">not tried</span>
+      {% else %}<strong>{{ (r.accuracy * 100) | round | int }}%</strong>{% endif %}
+    </td>
+    <td class="small muted" style="width:9em">{{ r.attempts }} answer{{ "" if r.attempts == 1 else "s" }} · {{ r.students }} kid{{ "" if r.students == 1 else "s" }}{% if r.thin and r.attempts %} · thin{% endif %}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% if nodes_secure %}
+<details>
+  <summary class="small">{{ nodes_secure | length }} topic(s) at {{ secure_pct }}% or better</summary>
+  <ul class="small muted" style="padding-left:18px">
+    {% for r in nodes_secure %}<li>{{ (r.accuracy * 100) | round | int }}% — {{ r.key }} {{ r.key | nodelabel }}</li>{% endfor %}
+  </ul>
+</details>
+{% endif %}
+{% if nodes_untouched %}
+<details>
+  <summary class="small">{{ nodes_untouched | length }} topic(s) nobody has practised</summary>
+  <ul class="small muted" style="padding-left:18px">
+    {% for r in nodes_untouched %}<li>{{ r.key }} — {{ r.key | nodelabel }}</li>{% endfor %}
+  </ul>
+</details>
+{% endif %}
+
+<h2>Vocabulary</h2>
+<table class="progress">
+  {% for r in words %}
+  <tr>
+    <td><span class="latin">{{ r.key }}</span>
+      {% if glosses.get(r.key) %}<span class="small muted"> — {{ glosses[r.key].en | join(', ') }}</span>{% endif %}</td>
+    <td style="width:5.5em">
+      {% if r.accuracy is none %}<span class="muted">not tried</span>
+      {% else %}<strong>{{ (r.accuracy * 100) | round | int }}%</strong>{% endif %}
+    </td>
+    <td class="small muted" style="width:9em">{{ r.attempts }} answer{{ "" if r.attempts == 1 else "s" }} · {{ r.students }} kid{{ "" if r.students == 1 else "s" }}{% if r.thin and r.attempts %} · thin{% endif %}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% if not words %}<p class="muted small">Nothing below {{ secure_pct }}% in this window.</p>{% endif %}
+{% if words_secure %}
+<details>
+  <summary class="small">{{ words_secure | length }} word(s) at {{ secure_pct }}% or better</summary>
+  <p class="small muted latin">{{ words_secure | map(attribute='key') | join(', ') }}</p>
+</details>
+{% endif %}
+{% if words_untouched %}
+<details>
+  <summary class="small">{{ words_untouched | length }} word(s) nobody has practised</summary>
+  <p class="small muted latin">{{ words_untouched | map(attribute='key') | join(', ') }}</p>
+</details>
+{% endif %}
+<a class="bigbtn secondary" href="{{ url_for('teacher_home', days=w.days, section=w.section) }}">Back to who practised</a>
+{% endblock %}

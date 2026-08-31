@@ -157,3 +157,21 @@ table.progress td.st { white-space: nowrap; }
 .statsbar .sb-val { font-weight: 800; font-size: 15px; font-variant-numeric: tabular-nums; }
 .statsbar .sb-unit { color: var(--muted); margin-right: 4px; }
 .statsbar .sb-pct { color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* Teacher dashboard */
+.filterbar { display: flex; gap: 8px; margin: 8px 0 14px; }
+.filterbar select {
+  flex: 1; padding: 10px; font-size: 15px; border: 1px solid var(--line);
+  border-radius: 10px; background: #fff; font-family: inherit; color: var(--ink);
+}
+.minibtn {
+  background: #eceae5; color: var(--ink); border: 1px solid var(--line);
+  border-radius: 8px; padding: 6px 10px; font-size: 13px; font-family: inherit;
+}
+.minibtn.danger { background: #f7dede; color: var(--reject); border-color: #e7b3b3; }
+table.progress td .pill { margin-left: 0; }
+details summary { cursor: pointer; color: var(--accent); margin: 8px 0; }
+select.namepick {
+  width: 100%; padding: 14px; font-size: 17px; border: 1px solid var(--line);
+  border-radius: 10px; background: #fff; font-family: inherit; color: var(--ink);
+}

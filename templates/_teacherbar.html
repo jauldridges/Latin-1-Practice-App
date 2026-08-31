@@ -1,0 +1,18 @@
+{# Window + block filter. Every teacher page carries the same one, so a figure
+   is never shown without the since-when that makes it mean something. #}
+<form method="get" class="filterbar">
+  <select name="days" onchange="this.form.submit()">
+    {% for d, lab in windows %}
+      <option value="{{ d }}" {% if d == w.days %}selected{% endif %}>{{ lab }}</option>
+    {% endfor %}
+  </select>
+  {% if sections %}
+  <select name="section" onchange="this.form.submit()">
+    <option value="">All blocks</option>
+    {% for s in sections %}
+      <option value="{{ s }}" {% if s == w.section %}selected{% endif %}>{{ s }}</option>
+    {% endfor %}
+  </select>
+  {% endif %}
+  <noscript><button class="minibtn" type="submit">Go</button></noscript>
+</form>

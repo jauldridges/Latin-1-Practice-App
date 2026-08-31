@@ -1,3 +1,9 @@
+> **Most of this is now a page.** The dashboard at `/teacher` answers the first
+> five questions below without a terminal — who practised, over what window, what
+> the class is weak on, what they said went wrong, one student in detail — and
+> has its own CSV download. This file is kept for the questions the dashboard
+> does not ask, and for when you want the raw table.
+
 # Seeing student work
 
 There is no teacher dashboard, by design — for 88 students a direct query is

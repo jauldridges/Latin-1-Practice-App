@@ -110,6 +110,17 @@ CREATE TABLE IF NOT EXISTS quiz_attempts (
 );
 CREATE INDEX IF NOT EXISTS idx_attempt_quiz ON quiz_attempts(quiz_id);
 CREATE UNIQUE INDEX IF NOT EXISTS idx_attempt_one ON quiz_attempts(quiz_id, student_id);
+
+-- The class list. Without it the dashboard can only show who HAS practised;
+-- the students who did nothing are invisible, because nothing about them
+-- exists. The roster supplies the denominator.
+CREATE TABLE IF NOT EXISTS roster (
+    student_id   TEXT PRIMARY KEY,      -- normalised key, matches events.student_id
+    display_name TEXT NOT NULL,         -- as the teacher typed it
+    section      TEXT,                  -- Block 3 / 4 / 5 / 7
+    active       INTEGER DEFAULT 1,
+    added_at     REAL NOT NULL
+);
 """
 
 
@@ -483,6 +494,141 @@ def quiz_attempts(conn, quiz_id):
     return out
 
 
+# --------------------------------------------------------------------------
+# Roster
+# --------------------------------------------------------------------------
+
+def add_student(conn, display_name, section=None):
+    key = normalize_student(display_name)
+    if not key:
+        return None
+    conn.execute(
+        """INSERT INTO roster (student_id, display_name, section, active, added_at)
+           VALUES (?,?,?,1,?)
+           ON CONFLICT(student_id) DO UPDATE SET display_name=excluded.display_name,
+                                                 section=COALESCE(excluded.section, roster.section),
+                                                 active=1""",
+        (key, " ".join(str(display_name).split()), section, time.time()))
+    conn.commit()
+    return key
+
+
+def set_student_active(conn, student_id, active):
+    conn.execute("UPDATE roster SET active=? WHERE student_id=?",
+                 (1 if active else 0, normalize_student(student_id)))
+    conn.commit()
+
+
+def remove_student(conn, student_id):
+    """Removes from the class list only. Their event history is never deleted."""
+    conn.execute("DELETE FROM roster WHERE student_id=?", (normalize_student(student_id),))
+    conn.commit()
+
+
+def roster(conn, active_only=True, section=None):
+    q = "SELECT * FROM roster"
+    where, args = [], []
+    if active_only:
+        where.append("active=1")
+    if section:
+        where.append("section=?")
+        args.append(section)
+    if where:
+        q += " WHERE " + " AND ".join(where)
+    q += " ORDER BY section IS NULL, section, display_name"
+    return [dict(r) for r in conn.execute(q, args).fetchall()]
+
+
+def sections(conn):
+    rows = conn.execute(
+        "SELECT DISTINCT section FROM roster WHERE section IS NOT NULL AND section<>'' ORDER BY section"
+    ).fetchall()
+    return [r["section"] for r in rows]
+
+
+def get_student(conn, student_id):
+    r = conn.execute("SELECT * FROM roster WHERE student_id=?",
+                     (normalize_student(student_id),)).fetchone()
+    return dict(r) if r else None
+
+
 def all_students(conn):
     rows = conn.execute("SELECT DISTINCT student_id FROM events ORDER BY student_id").fetchall()
     return [r["student_id"] for r in rows]
+
+
+# --------------------------------------------------------------------------
+# Whole-class reads (the dashboard)
+# --------------------------------------------------------------------------
+
+def all_events(conn, since=None, until=None, section=None):
+    """Every attempt, optionally windowed, optionally one block only.
+
+    The dashboard derives everything from this one list rather than issuing a
+    query per student: 88 students times a year of practice is small enough to
+    hold in memory, and one read means every figure on the page describes the
+    same instant.
+    """
+    q = "SELECT * FROM events"
+    where, args = [], []
+    if since is not None:
+        where.append("timestamp >= ?"); args.append(since)
+    if until is not None:
+        where.append("timestamp <= ?"); args.append(until)
+    if section:
+        where.append("student_id IN (SELECT student_id FROM roster WHERE section=?)")
+        args.append(section)
+    if where:
+        q += " WHERE " + " AND ".join(where)
+    q += " ORDER BY timestamp"
+    return [dict(r) for r in conn.execute(q, args).fetchall()]
+
+
+def all_miss_reasons(conn, since=None, section=None):
+    q = "SELECT * FROM miss_reasons"
+    where, args = [], []
+    if since is not None:
+        where.append("timestamp >= ?"); args.append(since)
+    if section:
+        where.append("student_id IN (SELECT student_id FROM roster WHERE section=?)")
+        args.append(section)
+    if where:
+        q += " WHERE " + " AND ".join(where)
+    q += " ORDER BY timestamp DESC"
+    return [dict(r) for r in conn.execute(q, args).fetchall()]
+
+
+def add_students_bulk(conn, names, section=None):
+    """Paste a class list, one name per line. Returns (added, existing, skipped).
+
+    Blank lines and duplicates inside the paste are dropped rather than
+    rejected, because a list copied out of a gradebook always has both.
+
+    Names already on the list are reported separately, not silently absorbed:
+    re-adding an existing student with a block set MOVES them to that block,
+    and a paste that quietly reassigned half of Block 3 would be worse than an
+    error.
+    """
+    added, existing, skipped = [], [], []
+    seen = set()
+    for raw in names:
+        key = normalize_student(raw)
+        if not key or key in seen:
+            if raw and raw.strip():
+                skipped.append(raw.strip())
+            continue
+        seen.add(key)
+        was = get_student(conn, key)
+        add_student(conn, raw, section)
+        (existing if was else added).append(key)
+    return added, existing, skipped
+
+
+def miss_reasons_for_student(conn, student_id, since=None):
+    q = "SELECT * FROM miss_reasons WHERE student_id=?"
+    args = [normalize_student(student_id)]
+    if since is not None:
+        q += " AND timestamp >= ?"
+        args.append(since)
+    q += " ORDER BY timestamp DESC"
+    return [dict(r) for r in conn.execute(q, args).fetchall()]

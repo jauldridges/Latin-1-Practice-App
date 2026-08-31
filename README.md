@@ -256,28 +256,75 @@ been stored, changing the rule would have corrupted the past.
 So the spaced repetition survives the year for exactly as long as the events do.
 There is no separate state to lose or to fall out of sync.
 
-**To see the work: `QUERIES.md`** — verified SQL for who is practising, which
-concepts the class is missing, *why* they say they missed them, and everything
-out to CSV. No dashboard, per the spec.
+**To see the work: the dashboard at `/teacher`.** `QUERIES.md` still holds the
+verified SQL, but you should not need it day to day.
 
-### Three honest limits
+### Two honest limits
 
-1. **Identity is a typed name, not an account.** `store.normalize_student()`
-   lower-cases and collapses whitespace, so `Sam`, `sam ` and `SAM` are one
-   person. It **cannot** merge `Sam` and `Sam T.` — those are two students with
-   two separate schedules, silently. At 88 students this will happen. The fix is
-   a roster (a fixed list they pick from) rather than a free text box, which is
-   not built.
-
-2. **It only runs while your laptop is running, on your network.** Spaced
+1. **It only runs while your laptop is running, on your network.** Spaced
    repetition wants near-daily practice; students cannot practise at home
    against a laptop that is closed. This is the "runs locally first" decision
    working as intended for proving the tool, but it is a real ceiling on the
    spacing, and deployment is the thing that lifts it.
 
-3. **One file, no backup.** The whole year of student history is
+2. **One file, no backup.** The whole year of student history is
    `data/review.sqlite`. Copy it weekly — the command is in `QUERIES.md`. If
    that file is lost, the schedules and the history go with it.
+
+---
+
+## Teacher dashboard — `/teacher`
+
+Four pages, all read-only over the same event history the students see.
+
+**Who practised.** Every student on the class list, least practice first, over a
+window you pick (today / 7 days / 30 days / all time), filterable by block.
+Three tiles: did it, started, nothing. "Did it" means 20+ answers in the window
+— a floor for *did you open it*, not a homework quota; change `DONE_ATTEMPTS` in
+`teacher.py` if you want a different bar. There is a **Download as spreadsheet**
+link at the bottom, so a printout or a gradebook paste never needs the terminal.
+
+**What they know and don't.** Weakest first, grammar and vocabulary separately.
+Anything at 80% or better folds away at the bottom of each list, and so does
+anything nobody has attempted — both are kept, neither buries the six things
+worth reteaching on Monday. Rows resting on very few answers are marked *thin*:
+real, but not yet a pattern.
+
+**What they say went wrong.** The what-went-wrong menu selections, grouped by
+the idea that **explains** the mistake rather than the question that exposed it
+— "I matched the ending instead of the gender" is a fact about agreement,
+whichever question caught it. Contested answers ("I think mine should be right")
+are listed separately, because each one is either a misconception or a bad
+question and only a person can tell which.
+
+**One student.** Their window activity, vocabulary and grammar as
+solid/shaky/not-yet, their weakest topics, what they said went wrong, and their
+last 25 answers.
+
+### The class list — `/teacher/roster`
+
+**Paste your class list once, one name per line, with a block.** This is the
+first thing to do, and it is not cosmetic: *"who did not do their homework"* is a
+question about students who left **no data at all**, so without a roster the
+dashboard can only ever show the kids who showed up. The roster is the
+denominator.
+
+Once a class list exists, the drill, grammar practice, and quiz sign-in screens
+turn the name box into a **picker**. That closes the identity hole this README
+used to warn about: a typed name *is* the identity here, so `Sam` on Monday and
+`Sam T.` on Thursday were two students with two schedules and half a history
+each. Picking makes that impossible. A typed box stays behind "my name isn't on
+the list", so a student who joins on Tuesday is not locked out at 9pm.
+
+Names are still matched loosely underneath (`store.normalize_student()`
+lower-cases and collapses whitespace), so `Sam`, `sam ` and `SAM` remain one
+person however they arrive.
+
+Anyone who practised under a name that is **not** on the list is surfaced in two
+places — a banner on the dashboard and a list at the bottom of the roster page —
+rather than silently dropped. That is usually a typo, and seeing it is how you
+fix it. Removing a student removes them from the class list only; their event
+history is never deleted.
 
 ---
 
@@ -297,13 +344,18 @@ All five build steps, verified in order:
 7. Teaching text for all 118 nodes, drafted and gated behind teacher approval;
    verified in the running app that draft text does not reach a student and
    approved text does.
-8. Proctored quizzes: build, sit, resume, change answers, submit, review —
+8. Teacher dashboard + class list: roster paste-in, who practised over a
+   window, what the class is weak on, what they said went wrong, per-student
+   detail, CSV export — driven end to end in a browser (a rostered student
+   signed in from the picker, practised, and their dashboard row moved from
+   "nothing" to "started" with the attempt attached to the roster name).
+9. Proctored quizzes: build, sit, resume, change answers, submit, review —
    driven end to end in a browser, including a check that no feedback leaks
    mid-quiz and that a submitted attempt is locked.
-9. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
-   progress strip on the drill and practice screens — both driven in a browser.
+10. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
+    progress strip on the drill and practice screens — both driven in a browser.
 
-116 tests pass (`python3 -m unittest discover -s tests`).
+142 tests pass (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 
@@ -365,7 +417,8 @@ Said plainly, because these will mislead if trusted blindly:
 
 ## Storage & reset
 
-SQLite (`data/review.sqlite`, WAL mode). A few thousand questions and a few
+SQLite (`data/review.sqlite`, WAL mode). The roster lives here too, so it
+survives restarts but is **not** in the source YAML — back the file up. A few thousand questions and a few
 hundred thousand events by June sit inside this comfortably. Delete the file to
 reset; the source YAML is never touched. Built for one teacher and ~88 students
 at light load, not for heavy concurrency.

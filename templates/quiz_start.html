@@ -12,16 +12,35 @@
   </ul>
 </div>
 <form method="get" action="{{ url_for('quiz_take', quiz_id=q.quiz_id) }}" id="sf">
+  {% if roster %}
+  {# Picked, not typed — see _namepick.html. A quiz filed under a misspelling
+     is a quiz the teacher cannot find. #}
+  <label class="small muted" for="student_pick">Your name</label>
+  <select name="student" id="student_pick" class="namepick" required>
+    <option value="">— choose your name —</option>
+    {% for r in roster %}<option value="{{ r.display_name }}">{{ r.display_name }}{% if r.section %} ({{ r.section }}){% endif %}</option>{% endfor %}
+  </select>
+  {% else %}
   <label class="small muted" for="student">Your name</label>
   <input type="text" name="student" id="student" autocomplete="off" required>
+  {% endif %}
   <button class="bigbtn" type="submit" style="margin-top:12px">Start</button>
 </form>
 <script>
   try {
     var s=document.getElementById('student');
-    var v=localStorage.getItem('latin_student'); if(v) s.value=v;
+    var pick=document.getElementById('student_pick');
+    var v=localStorage.getItem('latin_student');
+    if(v && pick){
+      for(var i=0;i<pick.options.length;i++){
+        if(pick.options[i].value.toLowerCase()===v.toLowerCase()){pick.selectedIndex=i;break;}
+      }
+    } else if(v && s){ s.value=v; }
     document.getElementById('sf').addEventListener('submit',function(){
-      try{localStorage.setItem('latin_student',s.value.trim());}catch(e){}});
+      try{
+        var val=(pick&&pick.value)?pick.value:(s?s.value:'');
+        if(val.trim()) localStorage.setItem('latin_student',val.trim());
+      }catch(e){}});
   } catch(e){}
 </script>
 {% endblock %}

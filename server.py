@@ -11,6 +11,7 @@ locally, open on a phone over the LAN. No accounts, no hosting.
 The drill routes are added in build step 4; this file grows, it does not fork.
 """
 
+import csv
 import io
 import os
 import time
@@ -26,6 +27,7 @@ import practice
 import quiz as quizlib
 import stats
 import store
+import teacher
 from answercheck import check as check_answer
 
 app = Flask(__name__)
@@ -58,6 +60,28 @@ def _close_db(exc):
 @app.template_filter("nodelabel")
 def nodelabel(node_id):
     return _NODE_LABEL.get(node_id, "")
+
+
+@app.template_filter("when")
+def when(ts):
+    """A timestamp as a teacher reads it: "2h ago", "yesterday", a date.
+    Exact clock times are noise on a page whose question is 'recently?'."""
+    if not ts:
+        return "never"
+    delta = time.time() - ts
+    if delta < 90:
+        return "just now"
+    if delta < 3600:
+        return "%dm ago" % (delta // 60)
+    if delta < 6 * 3600:
+        return "%dh ago" % (delta // 3600)
+    today = time.strftime("%Y-%m-%d")
+    day = time.strftime("%Y-%m-%d", time.localtime(ts))
+    if day == today:
+        return "today, " + time.strftime("%-I:%M%p", time.localtime(ts)).lower()
+    if delta < 7 * 86400:
+        return time.strftime("%a", time.localtime(ts))
+    return time.strftime("%b %-d", time.localtime(ts))
 
 
 # ==========================================================================
@@ -214,19 +238,36 @@ def _practice_stats(db, events):
             "alltime": stats.alltime_by_node(events, universe=universe)}
 
 
+def _form_student():
+    """Who is practising, from either the roster picker or the typed box.
+
+    The pick wins when both arrive: a name chosen off the class list is the one
+    that keeps a year of history attached to one person."""
+    return ((request.form.get("student_pick") or "").strip()
+            or (request.form.get("student_typed") or "").strip()
+            or (request.form.get("student") or "").strip())
+
+
+def _roster_for_signin(db):
+    """The class list offered on the sign-in screens. Empty list until the
+    teacher adds one, and the screens fall back to a typed name."""
+    return store.roster(db, active_only=True)
+
+
 @app.route("/drill")
 def drill_home():
     return render_template("drill_home.html", weeks=drill.WEEK_ORDER,
-                           week_labels=drill.WEEK_LABELS)
+                           week_labels=drill.WEEK_LABELS,
+                           roster=_roster_for_signin(get_db()))
 
 
 @app.route("/drill/start", methods=["POST"])
 def drill_start():
-    student = (request.form.get("student") or "").strip()
+    student = _form_student()
     week = request.form.get("week", "current")
     direction = request.form.get("direction", "both")
     if not student:
-        return redirect(url_for("drill_home"))
+        return redirect(url_for("drill_home", noname=1))
     return redirect(url_for("drill_session", student=student, week=week, direction=direction))
 
 
@@ -379,14 +420,15 @@ def practice_home():
              for n, c in sorted(by_node.items())]
     return render_template("practice_home.html", nodes=nodes,
                            n_ready=len(ready), n_approved=len(approved),
-                           n_locked=len(approved) - len(ready))
+                           n_locked=len(approved) - len(ready),
+                           roster=_roster_for_signin(db))
 
 
 @app.route("/practice/start", methods=["POST"])
 def practice_start():
-    student = (request.form.get("student") or "").strip()
+    student = _form_student()
     if not student:
-        return redirect(url_for("practice_home"))
+        return redirect(url_for("practice_home", noname=1))
     node = request.form.get("node") or ""
     ctx = request.form.get("context", "practice")
     return redirect(url_for("practice_session", student=student, node=node, context=ctx))
@@ -607,7 +649,8 @@ def quiz_start(quiz_id):
     q = store.get_quiz(db, quiz_id)
     if q is None:
         abort(404)
-    return render_template("quiz_start.html", q=q, n=len(q["item_ids"]))
+    return render_template("quiz_start.html", q=q, n=len(q["item_ids"]),
+                           roster=_roster_for_signin(db))
 
 
 @app.route("/q/<quiz_id>/take")
@@ -746,6 +789,196 @@ def drill_progress():
     summary = drill.progress_summary(rows)
     return render_template("drill_progress.html", student=student, rows=rows,
                            summary=summary, week_labels=drill.WEEK_LABELS)
+
+
+# ==========================================================================
+# The teacher dashboard
+#
+# Everything here answers one of two questions: did they practise, and what do
+# they know. Both are read-only views over the same event history the students
+# see; nothing on these pages writes an event or touches a grade.
+#
+# The roster is what makes the first question answerable. A student who did
+# nothing leaves no events, so without a class list the dashboard could only
+# ever show the kids who showed up.
+# ==========================================================================
+
+WINDOW_CHOICES = [(1, "Today"), (2, "Since yesterday"), (7, "Last 7 days"),
+                  (30, "Last 30 days"), (0, "All time")]
+
+
+def _window_args():
+    """Read the window and block filter off the query string, once."""
+    days = request.args.get("days", type=int)
+    if days is None:
+        days = 7
+    section = request.args.get("section") or None
+    if days <= 0:
+        since, until = None, None
+    else:
+        since, until = teacher.window_bounds(days=days)
+    return {"days": days, "section": section, "since": since, "until": until}
+
+
+def _window_label(days):
+    for d, lab in WINDOW_CHOICES:
+        if d == days:
+            return lab
+    return "Last %d days" % days
+
+
+def _vocab_universe():
+    return {drill._key(w["latin"]) for w in _DRILL_WORDS}
+
+
+def _grammar_universe(db):
+    """The nodes a student could actually have met: approved questions whose
+    lesson has been taught. Anything else would put a topic in the 'not yet'
+    column that was never on the table."""
+    taught = _taught_now()
+    return {it["node"] for it in store.approved_items(db) if it["node"] in taught}
+
+
+@app.route("/teacher")
+def teacher_home():
+    db = get_db()
+    w = _window_args()
+    roster_rows = store.roster(db, active_only=True, section=w["section"])
+    events = store.all_events(db, since=w["since"], until=w["until"], section=w["section"])
+    table = teacher.class_activity(roster_rows, events, w["since"], w["until"])
+    return render_template("teacher_home.html", w=w, table=table,
+                           window_label=_window_label(w["days"]),
+                           windows=WINDOW_CHOICES, sections=store.sections(db),
+                           n_roster=len(store.roster(db, active_only=True)))
+
+
+@app.route("/teacher/knows")
+def teacher_knows():
+    """What the class finds hard, weakest first — one table for grammar, one
+    for vocabulary, because they are different kinds of forgetting."""
+    db = get_db()
+    w = _window_args()
+    events = store.all_events(db, since=w["since"], until=w["until"], section=w["section"])
+    nodes = teacher.difficulty(events, teacher.node_key, universe=_grammar_universe(db))
+    words = teacher.difficulty(events, teacher.word_key, universe=_vocab_universe())
+    glosses = {drill._key(x["latin"]): x for x in _DRILL_WORDS}
+    def split(rows):
+        """Weak, secure, untouched.
+
+        A page that lists 80 words at 100% alongside the six they are missing
+        buries the answer to the only question being asked. The secure and
+        untouched rows are kept, but folded away."""
+        weak = [r for r in rows if r["attempts"] and r["accuracy"] < teacher.SECURE]
+        secure = [r for r in rows if r["attempts"] and r["accuracy"] >= teacher.SECURE]
+        return weak, secure, [r for r in rows if not r["attempts"]]
+    nodes_w, nodes_s, nodes_u = split(nodes)
+    words_w, words_s, words_u = split(words)
+    return render_template("teacher_knows.html", w=w,
+                           nodes=nodes_w, nodes_secure=nodes_s, nodes_untouched=nodes_u,
+                           words=words_w, words_secure=words_s, words_untouched=words_u,
+                           secure_pct=int(teacher.SECURE * 100),
+                           glosses=glosses, window_label=_window_label(w["days"]),
+                           windows=WINDOW_CHOICES, sections=store.sections(db))
+
+
+@app.route("/teacher/misses")
+def teacher_misses():
+    db = get_db()
+    w = _window_args()
+    rows = store.all_miss_reasons(db, since=w["since"], section=w["section"])
+    return render_template("teacher_misses.html", w=w,
+                           reasons=teacher.miss_reason_counts(rows),
+                           contested=teacher.contested_items(rows)[:40],
+                           window_label=_window_label(w["days"]),
+                           windows=WINDOW_CHOICES, sections=store.sections(db))
+
+
+@app.route("/teacher/student/<path:student_id>")
+def teacher_student(student_id):
+    db = get_db()
+    w = _window_args()
+    events = store.events_for_student(db, student_id)
+    act = teacher.activity(events, w["since"], w["until"])
+    person = store.get_student(db, student_id)
+    vocab_rows = drill.progress_table(_DRILL_WORDS, events)
+    node_rows = teacher.difficulty(events, teacher.node_key, universe=_grammar_universe(db))
+    misses = store.miss_reasons_for_student(db, student_id, since=w["since"])
+    return render_template(
+        "teacher_student.html", w=w, student=student_id,
+        person=person, act=act,
+        display=(person or {}).get("display_name") or student_id,
+        vocab=drill.progress_summary(vocab_rows), vocab_rows=vocab_rows,
+        nodes=node_rows,
+        alltime_nodes=stats.alltime_by_node(events, universe=_grammar_universe(db)),
+        reasons=teacher.miss_reason_counts(misses)[:10],
+        recent=list(reversed(events))[:25],
+        window_label=_window_label(w["days"]), windows=WINDOW_CHOICES)
+
+
+@app.route("/teacher/export.csv")
+def teacher_export():
+    """The homework table as a spreadsheet, so a printout or a gradebook paste
+    never needs the terminal."""
+    db = get_db()
+    w = _window_args()
+    roster_rows = store.roster(db, active_only=True, section=w["section"])
+    events = store.all_events(db, since=w["since"], until=w["until"], section=w["section"])
+    table = teacher.class_activity(roster_rows, events, w["since"], w["until"])
+    buf = io.StringIO()
+    wtr = csv.writer(buf)
+    wtr.writerow(["name", "block", "state", "attempts", "days_practised",
+                  "vocab", "grammar", "accuracy_pct", "last_practised", "window"])
+    for r in table["rows"]:
+        wtr.writerow([r["display_name"], r["section"] or "", r["state"], r["attempts"],
+                      r["days"], r["vocab"], r["grammar"],
+                      "" if r["accuracy"] is None else int(round(r["accuracy"] * 100)),
+                      time.strftime("%Y-%m-%d %H:%M", time.localtime(r["last_at"])) if r["last_at"] else "",
+                      _window_label(w["days"])])
+    name = "practice-%s.csv" % time.strftime("%Y-%m-%d")
+    return Response(buf.getvalue(), mimetype="text/csv",
+                    headers={"Content-Disposition": "attachment; filename=" + name})
+
+
+# --------------------------------------------------------------------------
+# Roster management, in the app rather than in sqlite3
+# --------------------------------------------------------------------------
+
+@app.route("/teacher/roster")
+def teacher_roster():
+    db = get_db()
+    section = request.args.get("section") or None
+    rows = store.roster(db, active_only=False, section=section)
+    known = {r["student_id"] for r in rows}
+    seen = set(store.all_students(db))
+    return render_template("teacher_roster.html", rows=rows,
+                           sections=store.sections(db), section=section,
+                           unrostered=sorted(seen - known))
+
+
+@app.route("/teacher/roster/add", methods=["POST"])
+def teacher_roster_add():
+    """Paste a class list, one name per line."""
+    db = get_db()
+    section = (request.form.get("section") or "").strip() or None
+    names = (request.form.get("names") or "").replace(",", "\n").splitlines()
+    added, existing, skipped = store.add_students_bulk(db, names, section)
+    return redirect(url_for("teacher_roster", section=section, added=len(added),
+                            existing=len(existing), skipped=len(skipped)))
+
+
+@app.route("/teacher/roster/update", methods=["POST"])
+def teacher_roster_update():
+    db = get_db()
+    sid = request.form["student_id"]
+    action = request.form.get("action")
+    if action == "deactivate":
+        store.set_student_active(db, sid, False)
+    elif action == "activate":
+        store.set_student_active(db, sid, True)
+    elif action == "remove":
+        store.remove_student(db, sid)          # class list only; history stays
+    return redirect(url_for("teacher_roster",
+                            section=(request.form.get("back_section") or None)))
 
 
 if __name__ == "__main__":

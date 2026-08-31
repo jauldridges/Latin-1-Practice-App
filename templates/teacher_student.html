@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ display }}{% endblock %}
+{% block content %}
+<h1>{{ display }}</h1>
+{% if person and person.section %}<p class="small muted">{{ person.section }}</p>{% endif %}
+{% if not person %}
+<p class="small muted">Not on the class list — this name appears only in the practice
+  record. <a href="{{ url_for('teacher_roster') }}">Add them</a> if it is a real student.</p>
+{% endif %}
+
+<form method="get" class="filterbar">
+  <select name="days" onchange="this.form.submit()">
+    {% for d, lab in windows %}<option value="{{ d }}" {% if d == w.days %}selected{% endif %}>{{ lab }}</option>{% endfor %}
+  </select>
+</form>
+
+<div class="summary-tiles">
+  <div class="tile"><div class="n">{{ act.attempts }}</div><div class="l">answers, {{ window_label | lower }}</div></div>
+  <div class="tile"><div class="n">{{ act.days }}</div><div class="l">days</div></div>
+  <div class="tile"><div class="n">{% if act.accuracy is none %}—{% else %}{{ (act.accuracy * 100) | round | int }}%{% endif %}</div><div class="l">right</div></div>
+</div>
+<p class="small muted">{{ act.vocab }} vocabulary · {{ act.grammar }} grammar ·
+  last practised {{ act.ever_last_at | when }} · {{ act.ever_attempts }} answers all year.</p>
+
+<h2>Vocabulary</h2>
+<p class="small">
+  <span class="pill solid">{{ vocab.cumulative.solid }} solid</span>
+  <span class="pill shaky">{{ vocab.cumulative.shaky }} shaky</span>
+  <span class="pill notyet">{{ vocab.cumulative['not yet'] }} not yet</span>
+  <span class="small muted">of {{ vocab.total }} words</span>
+</p>
+<details>
+  <summary class="small">Word by word</summary>
+  <table class="progress">
+    {% for r in vocab_rows %}
+    <tr>
+      <td><span class="latin">{{ r.latin }}</span></td>
+      <td class="st"><span class="state {{ 'solid' if r.state == 'solid' else ('shaky' if r.state == 'shaky' else 'notyet') }}">{{ r.state }}</span></td>
+      <td class="small muted">box {{ r.box }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</details>
+
+<h2>Grammar</h2>
+<p class="small">
+  <span class="pill solid">{{ alltime_nodes.solid }} solid</span>
+  <span class="pill shaky">{{ alltime_nodes.shaky }} shaky</span>
+  <span class="pill notyet">{{ alltime_nodes['not yet'] }} not yet</span>
+  <span class="small muted">of {{ alltime_nodes.total }} topics taught</span>
+</p>
+<table class="progress">
+  {% for r in nodes %}{% if r.attempts %}
+  <tr>
+    <td><span class="node-id">{{ r.key }}</span><br>{{ r.key | nodelabel }}</td>
+    <td style="width:5em"><strong>{{ (r.accuracy * 100) | round | int }}%</strong></td>
+    <td class="small muted" style="width:6em">{{ r.attempts }} tr{{ 'y' if r.attempts == 1 else 'ies' }}</td>
+  </tr>
+  {% endif %}{% endfor %}
+</table>
+
+{% if reasons %}
+<h2>What they said went wrong</h2>
+<table class="progress">
+  {% for r in reasons %}
+  <tr><td>{{ r.reason_text }}</td><td style="width:3em"><strong>{{ r.count }}</strong></td></tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+{% if recent %}
+<details>
+  <summary class="small">Last 25 answers</summary>
+  <table class="progress">
+    {% for e in recent %}
+    <tr>
+      <td class="small">{{ e.item_id }}</td>
+      <td class="small"><span class="state {{ 'solid' if e.result == 'right' else ('shaky' if e.result == 'close' else 'notyet') }}">{{ e.result }}</span></td>
+      <td class="small muted">{{ e.timestamp | when }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</details>
+{% endif %}
+
+<a class="bigbtn secondary" href="{{ url_for('teacher_home', days=w.days) }}">Back to the class</a>
+{% endblock %}

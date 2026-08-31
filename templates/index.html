@@ -3,7 +3,10 @@
 <h1>Latin I</h1>
 <p class="muted">Two tools, one shared answer-checker. Runs on this laptop; open it on your phone over the local network.</p>
 
-<a class="bigbtn" href="{{ url_for('review_queue') }}">Review tool</a>
+<a class="bigbtn" href="{{ url_for('teacher_home') }}">Teacher dashboard</a>
+<p class="small muted" style="margin-top:-4px">Who practised, what they know, the class list.</p>
+
+<a class="bigbtn secondary" href="{{ url_for('review_queue') }}">Review tool</a>
 <p class="small muted" style="margin-top:-4px">
   {{ counts.unreviewed }} unreviewed · {{ counts.flagged }} flagged · {{ counts.approved }} approved
 </p>
