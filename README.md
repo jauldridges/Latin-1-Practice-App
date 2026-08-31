@@ -261,15 +261,41 @@ verified SQL, but you should not need it day to day.
 
 ### Two honest limits
 
-1. **It only runs while your laptop is running, on your network.** Spaced
-   repetition wants near-daily practice; students cannot practise at home
-   against a laptop that is closed. This is the "runs locally first" decision
-   working as intended for proving the tool, but it is a real ceiling on the
-   spacing, and deployment is the thing that lifts it.
+1. **Out of the box it only runs while your laptop is running, on your
+   network.** Spaced repetition wants near-daily practice, and students cannot
+   practise at home against a laptop that is closed. **`DEPLOY.md` is how you
+   lift this** — about twenty minutes and ~$8/month. Read the first section of
+   it before you do: it puts student data on a third-party server, which is a
+   school-policy question, not a technical one.
 
 2. **One file, no backup.** The whole year of student history is
    `data/review.sqlite`. Copy it weekly — the command is in `QUERIES.md`. If
    that file is lost, the schedules and the history go with it.
+
+---
+
+## Who can get in
+
+Nothing is gated until you set a secret, so **the laptop workflow is unchanged**:
+no password set, no door.
+
+| Environment variable | Effect |
+|---|---|
+| `LATIN_TEACHER_PASSWORD` | Teacher sign-in guards `/teacher`, `/review`, `/teaching`, `/quiz`. Teacher tools disappear from the landing page for anyone not signed in. |
+| `LATIN_CLASS_CODE` | Students type a shared class code once per device to reach `/drill`, `/practice` and quizzes. |
+| `LATIN_PUBLIC=1` | Says the app is reachable from outside the LAN. Marks session cookies HTTPS-only, and **refuses to start** if no teacher password is set. |
+| `SECRET_KEY` | Signs the session cookies. Random per start locally; a deployment must set it or every restart signs everyone out. |
+
+Gating happens in **one** `before_request` in `server.py`, keyed on URL prefix,
+and anything unrecognised falls through to teacher-only. A route added later is
+closed until someone opens it. `tests/test_auth.py` walks the real URL map and
+asserts every route redirects to a door — that test, not a hand-written list, is
+what keeps this honest.
+
+A class code is not a login. A student can pick a classmate off the roster and
+practise as them. Nothing behind that door is a grade, so the cost is a polluted
+practice schedule rather than a stolen mark — but it is a real limit, and
+`DEPLOY.md` says so where you would be deciding about it.
 
 ---
 
@@ -352,10 +378,15 @@ All five build steps, verified in order:
 9. Proctored quizzes: build, sit, resume, change answers, submit, review —
    driven end to end in a browser, including a check that no feedback leaks
    mid-quiz and that a submitted attempt is locked.
-10. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
+10. A door: teacher password, student class code, HTTPS-only cookies when
+    deployed, and a refuse-to-start guard for the public-but-passwordless
+    case. Rehearsed under gunicorn in a browser — a student took the class
+    code, practised, and could not reach the dashboard; the teacher signed in,
+    saw that practice land, and signing out closed it again.
+11. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-142 tests pass (`python3 -m unittest discover -s tests`).
+157 tests pass (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

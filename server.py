@@ -18,8 +18,9 @@ import time
 
 import yaml
 from flask import (Flask, g, redirect, render_template, request, Response,
-                   url_for, abort)
+                   session, url_for, abort)
 
+import auth
 import checks
 import dataio
 import drill
@@ -32,6 +33,23 @@ from answercheck import check as check_answer
 
 app = Flask(__name__)
 DB_PATH = os.environ.get("LATIN_DB", store.DEFAULT_DB)
+
+# Sessions carry the teacher login and the class code. On a laptop a random
+# key per start is fine (it just means logging in again after a restart); a
+# deployment must set SECRET_KEY or every restart signs everyone out.
+app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(32)
+app.permanent_session_lifetime = 60 * 60 * 24 * 365      # once per device, per year
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="Lax",
+    # HTTPS-only cookie when deployed; off locally, where there is no HTTPS and
+    # a Secure cookie would simply never be sent.
+    SESSION_COOKIE_SECURE=auth.is_public(),
+)
+
+_config_error = auth.check_config()
+if _config_error:
+    raise SystemExit("REFUSING TO START: " + _config_error)
 
 # Source data is read once at startup. It never changes under the app.
 _SPEC = dataio.load_spec()
@@ -55,6 +73,83 @@ def _close_db(exc):
     db = g.pop("db", None)
     if db is not None:
         db.close()
+
+
+# --------------------------------------------------------------------------
+# The door
+#
+# Gated by URL prefix in one place rather than by a decorator on each of forty
+# routes, because the failure mode of the decorator approach is forgetting one
+# — and the one you forget is a leak. Anything unrecognised falls through to
+# teacher-only, so a route added later is closed until someone opens it.
+# --------------------------------------------------------------------------
+
+OPEN_PREFIXES = ("/static", "/login", "/logout", "/classcode", "/favicon")
+TEACHER_PREFIXES = ("/review", "/teaching", "/teacher", "/quiz")
+STUDENT_PREFIXES = ("/drill", "/practice", "/q/")
+
+
+def _here():
+    """The URL to come back to after signing in. `full_path` leaves a bare '?'
+    on paths with no query string, which then shows up in the address bar."""
+    return request.full_path.rstrip("?")
+
+
+@app.before_request
+def _gate():
+    path = request.path
+    if path == "/" or path.startswith(OPEN_PREFIXES):
+        return None
+    if path.startswith(STUDENT_PREFIXES):
+        if not auth.student_ok():
+            return redirect(url_for("classcode", next=_here()))
+        return None
+    # /review, /teaching, /teacher, /quiz — and anything not listed above.
+    if not auth.is_teacher():
+        return redirect(url_for("login", next=_here()))
+    return None
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if not auth.teacher_gate_on():
+        return redirect(url_for("index"))
+    error = None
+    nxt = request.values.get("next") or url_for("teacher_home")
+    if request.method == "POST":
+        if auth.matches(request.form.get("password"), auth.teacher_password()):
+            session.permanent = True
+            session[auth.TEACHER_KEY] = True
+            return redirect(nxt)
+        error = "That is not the password."
+    return render_template("login.html", error=error, next=nxt), (200 if not error else 401)
+
+
+@app.route("/logout", methods=["GET", "POST"])
+def logout():
+    session.clear()
+    return redirect(url_for("index"))
+
+
+@app.route("/classcode", methods=["GET", "POST"])
+def classcode():
+    """The students' door. One code for the class, remembered on the device."""
+    if not auth.student_gate_on():
+        return redirect(url_for("index"))
+    error = None
+    nxt = request.values.get("next") or url_for("drill_home")
+    if request.method == "POST":
+        if auth.matches((request.form.get("code") or "").strip(), auth.class_code()):
+            session.permanent = True
+            session[auth.STUDENT_KEY] = True
+            return redirect(nxt)
+        error = "That code isn't right. Check it with your teacher."
+    return render_template("classcode.html", error=error, next=nxt), (200 if not error else 401)
+
+
+@app.context_processor
+def _auth_flags():
+    return {"is_teacher": auth.is_teacher(), "teacher_gate": auth.teacher_gate_on()}
 
 
 @app.template_filter("nodelabel")

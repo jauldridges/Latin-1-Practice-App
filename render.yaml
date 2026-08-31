@@ -1,0 +1,34 @@
+# One-file deployment description for Render. `render.com` reads this when you
+# point it at the repo, so the only thing left to do by hand is type the two
+# secrets.
+#
+# Why one worker and eight threads: the whole year of student history is a
+# single SQLite file. SQLite handles many readers, but concurrent writers from
+# separate processes fight over the write lock. One process with threads means
+# ~88 students can practise at once without ever hitting that. This is a class,
+# not a website; one worker is not the bottleneck.
+services:
+  - type: web
+    name: latin1
+    runtime: python
+    plan: starter                      # the free plan sleeps AND has no disk
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn server:app --bind 0.0.0.0:$PORT --workers 1 --threads 8 --timeout 60
+    healthCheckPath: /
+    disk:
+      name: latin-data
+      mountPath: /data                 # the ONLY directory that survives a deploy
+      sizeGB: 1
+    envVars:
+      - key: LATIN_DB
+        value: /data/review.sqlite     # must be on the disk, or a deploy wipes the year
+      - key: LATIN_PUBLIC
+        value: "1"                     # turns the door on; refuses to start without a password
+      - key: PYTHON_VERSION
+        value: "3.11"
+      - key: SECRET_KEY
+        generateValue: true            # random, stable across restarts
+      - key: LATIN_TEACHER_PASSWORD
+        sync: false                    # you type this in the dashboard
+      - key: LATIN_CLASS_CODE
+        sync: false                    # you type this in the dashboard
