@@ -17,9 +17,10 @@ Two doors, deliberately different, because the two users are not alike:
   student   a class code, not a password. Fourteen-year-olds forgetting
             passwords at 9pm is the failure mode that kills home practice, and
             a per-student password buys very little here: nothing behind this
-            door is a grade, and the roster picker already decides who they can
-            be. The code keeps the open internet out. It does not stop a
-            student from picking a classmate's name — see the README.
+            door is a grade. The code keeps the open internet out. It does not
+            stop a student who knows a classmate's ID number from practising as
+            them — per-student PINs are the fix, and are specified in the
+            hosting change request.
 
 Both are cookies, so it is once per device per year, not once per session.
 

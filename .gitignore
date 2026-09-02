@@ -5,3 +5,4 @@ data/
 *.sqlite-journal
 .venv/
 venv/
+*.sqlite-wal

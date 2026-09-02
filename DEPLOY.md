@@ -30,19 +30,19 @@ silently serves student records to the internet.
 **What you should still check before doing this**, because they are your calls
 and not mine:
 
-1. **School policy.** You would be putting student names and practice records
-   on a third-party server. Many districts require a signed data-privacy
-   agreement (a DPA) with any vendor holding student data. Ask whoever handles
-   ed-tech approvals at Libertas. This is the step people skip and regret.
-2. **What is actually in the data.** Names as you type them into the roster,
-   what they typed as answers, and when. No grades, no emails, no addresses,
-   nothing about a student's record. You can reduce it further by rostering
-   first names plus a last initial, and it will still work.
-3. **The class code is a shared secret, not a login.** A student can type a
-   classmate's name off the picker and practise as them. Nothing here is a
-   grade, so the damage is a polluted practice schedule, not a stolen mark —
-   but know that it is possible before you rely on the dashboard for
-   accountability. Real per-student logins are the fix if you ever need one.
+1. **School policy.** You would be putting student practice records on a
+   third-party server. Many districts require a signed data-privacy agreement
+   (a DPA) with any vendor holding student data. Ask whoever handles ed-tech
+   approvals at Libertas. This is the step people skip and regret.
+2. **What is actually in the data.** ID numbers, what they typed as answers,
+   and when. **No names** — see the identity section of the README. No emails,
+   no addresses, no grades. The paper that maps an ID number to a person stays
+   off the machine, which is what makes this data comparatively boring if it
+   ever leaked.
+3. **The class code is a shared secret, not a login.** A student who knows a
+   classmate's ID number can practise as them. Nothing here is a grade, so the
+   damage is a polluted practice schedule, not a stolen mark. Per-student PINs
+   are the fix and are specified in the hosting change request.
 
 ---
 

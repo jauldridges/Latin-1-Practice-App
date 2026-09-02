@@ -22,8 +22,9 @@ def ev(student, item, result, ts, node=None):
             "timestamp": ts, "spec_node_id": node}
 
 
-def person(sid, name=None, section="Block 3"):
-    return {"student_id": sid, "display_name": name or sid.title(), "section": section}
+def person(sid, section="Block 3"):
+    # No name field: this system holds ID numbers only. See identity.py.
+    return {"student_id": sid, "section": section}
 
 
 class TestKind(unittest.TestCase):
@@ -96,15 +97,15 @@ class TestHomeworkState(unittest.TestCase):
 
 class TestClassActivity(unittest.TestCase):
     def setUp(self):
-        self.roster = [person("sam tucker"), person("kim ruiz"), person("alex chen")]
-        self.events = ([ev("sam tucker", "vocab:puella:la_en", "right", T - i * 600)
+        self.roster = [person("40217"), person("40218"), person("40219")]
+        self.events = ([ev("40217", "vocab:puella:la_en", "right", T - i * 600)
                         for i in range(25)]
-                       + [ev("kim ruiz", "vocab:aqua:la_en", "wrong", T - 3600)])
+                       + [ev("40218", "vocab:aqua:la_en", "wrong", T - 3600)])
 
     def test_a_student_who_did_nothing_still_has_a_row(self):
         out = teacher.class_activity(self.roster, self.events)
-        names = {r["student_id"] for r in out["rows"]}
-        self.assertIn("alex chen", names)
+        ids = {r["student_id"] for r in out["rows"]}
+        self.assertIn("40219", ids)
         self.assertEqual(out["n_students"], 3)
 
     def test_states_are_counted(self):
@@ -113,20 +114,22 @@ class TestClassActivity(unittest.TestCase):
 
     def test_least_practice_sorts_first(self):
         out = teacher.class_activity(self.roster, self.events)
-        self.assertEqual(out["rows"][0]["student_id"], "alex chen")
-        self.assertEqual(out["rows"][-1]["student_id"], "sam tucker")
+        self.assertEqual(out["rows"][0]["student_id"], "40219")
+        self.assertEqual(out["rows"][-1]["student_id"], "40217")
 
-    def test_an_off_roster_name_is_surfaced_not_dropped(self):
-        evs = self.events + [ev("sam t", "vocab:puella:la_en", "right", T)]
+    def test_an_off_roster_id_is_surfaced_not_dropped(self):
+        # A mistyped digit looks perfectly well-formed, so this list is the
+        # only place the typo becomes visible.
+        evs = self.events + [ev("40999", "vocab:puella:la_en", "right", T)]
         out = teacher.class_activity(self.roster, evs)
-        self.assertEqual(out["unrostered"], ["sam t"])
+        self.assertEqual(out["unrostered"], ["40999"])
 
     def test_window_is_applied(self):
-        old = [ev("alex chen", "vocab:via:la_en", "right", T - 40 * DAY)]
+        old = [ev("40219", "vocab:via:la_en", "right", T - 40 * DAY)]
         since, until = teacher.window_bounds(days=7, now=T)
         out = teacher.class_activity(self.roster, self.events + old, since, until)
-        alex = [r for r in out["rows"] if r["student_id"] == "alex chen"][0]
-        self.assertEqual(alex["state"], "none")
+        idle = [r for r in out["rows"] if r["student_id"] == "40219"][0]
+        self.assertEqual(idle["state"], "none")
 
 
 class TestDifficulty(unittest.TestCase):

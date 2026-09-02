@@ -129,9 +129,9 @@ def class_activity(roster_rows, events, since=None, until=None,
                    done=DONE_ATTEMPTS):
     """The homework table: every rostered student, practised or not.
 
-    Students with events who are NOT on the roster are returned separately
-    rather than dropped — that list is how a typo ("Sam T" one week, "Sam
-    Tucker" the next) becomes visible instead of silently splitting a history.
+    IDs with events that are NOT on the roster are returned separately rather
+    than dropped. A mistyped ID number looks perfectly well-formed, so that
+    list is the only place a typo becomes visible.
     """
     grouped = by_student(events)
     rows = []
@@ -140,7 +140,7 @@ def class_activity(roster_rows, events, since=None, until=None,
         act = activity(grouped.get(sid, []), since, until)
         rows.append({
             "student_id": sid,
-            "display_name": r.get("display_name") or sid,
+            # No display name: there is none to display. The ID is the label.
             "section": r.get("section"),
             "state": homework_state(act, done=done),
             **act,

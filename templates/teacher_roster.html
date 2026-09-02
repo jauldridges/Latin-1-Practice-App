@@ -4,25 +4,36 @@
 <h1>Class list</h1>
 {% if request.args.get('added') or request.args.get('existing') %}
   <div class="answer-feedback right">
-    Added {{ request.args.get('added', 0) }} student(s).
+    Added {{ request.args.get('added', 0) }} ID(s).
     {% if request.args.get('existing') | int %}
       {{ request.args.get('existing') }} were already on the list{% if section %} and are now in {{ section }}{% endif %}.
     {% endif %}
   </div>
 {% endif %}
-<p class="small muted">The class list is what lets the dashboard show who did
-  <em>nothing</em>. Names are matched loosely — capitals and extra spaces don't
-  create a second student — but "Sam" and "Sam T." are still two people, so pick
-  one form and have them use it.</p>
+{% if rejected %}
+  <div class="flags">
+    <p class="small"><strong>{{ rejected | length }} line(s) were not ID numbers and
+      were not added:</strong> {{ rejected | join(', ') }}</p>
+    <p class="small">This app stores ID numbers only — never names. If you pasted a
+      list of names, paste the matching ID numbers instead and keep the paper
+      that connects the two off this machine.</p>
+  </div>
+{% endif %}
+
+<p class="small muted">Two jobs. The list is the <em>denominator</em> — without it
+  the dashboard can only show who <em>did</em> practise, never who did nothing.
+  And it is the typo guard: a number not on this list gets a "check your number"
+  screen instead of quietly filing a student's work under nobody.</p>
 
 <div class="card">
   <form method="post" action="{{ url_for('teacher_roster_add') }}">
-    <label class="small muted" for="names">Paste your class list — one name per line</label>
-    <textarea name="names" id="names" rows="8" placeholder="Jordan Lee&#10;Kim Ruiz&#10;Sam Tucker"></textarea>
+    <label class="small muted" for="ids">Paste ID numbers — one per line</label>
+    <textarea name="ids" id="ids" rows="8" inputmode="numeric"
+              placeholder="40217&#10;40218&#10;40219"></textarea>
     <label class="small muted" for="section" style="display:block;margin-top:10px">Block (optional)</label>
     <input type="text" name="section" id="section" placeholder="Block 3"
            value="{{ section or '' }}" autocomplete="off">
-    <button class="bigbtn" type="submit" style="margin-top:12px">Add these students</button>
+    <button class="bigbtn" type="submit" style="margin-top:12px">Add these IDs</button>
   </form>
 </div>
 
@@ -40,7 +51,7 @@
   {% for r in rows %}
   <tr {% if not r.active %}class="muted"{% endif %}>
     <td>
-      <a href="{{ url_for('teacher_student', student_id=r.student_id) }}">{{ r.display_name }}</a>
+      <a class="sid" href="{{ url_for('teacher_student', student_id=r.student_id) }}">{{ r.student_id }}</a>
       {% if r.section %}<span class="small muted"> · {{ r.section }}</span>{% endif %}
       {% if not r.active %}<span class="pill notyet">inactive</span>{% endif %}
     </td>
@@ -54,7 +65,7 @@
           <button class="minibtn" name="action" value="activate">Reactivate</button>
         {% endif %}
         <button class="minibtn danger" name="action" value="remove"
-                onclick="return confirm('Remove {{ r.display_name }} from the class list? Their practice history is kept.')">Remove</button>
+                onclick="return confirm('Remove {{ r.student_id }} from the class list? Their practice history is kept.')">Remove</button>
       </form>
     </td>
   </tr>
@@ -63,10 +74,11 @@
 
 {% if unrostered %}
 <h2>Practised but not on the list</h2>
-<p class="small muted">These names have practice records but no roster entry.
-  Add them above using the exact spelling to attach their history.</p>
+<p class="small muted">These IDs have practice records but no roster entry — each
+  one was typed, warned about, and confirmed anyway. Check them against your paper
+  list and add the real ones above.</p>
 <ul class="small">
-  {% for u in unrostered %}<li><a href="{{ url_for('teacher_student', student_id=u) }}">{{ u }}</a></li>{% endfor %}
+  {% for u in unrostered %}<li><a class="sid" href="{{ url_for('teacher_student', student_id=u) }}">{{ u }}</a></li>{% endfor %}
 </ul>
 {% endif %}
 

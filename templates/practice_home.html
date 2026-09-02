@@ -20,7 +20,7 @@ Nothing here affects a grade.</p>
 </div>
 {% else %}
 <form method="post" action="{{ url_for('practice_start') }}" id="startform">
-  {% include "_namepick.html" %}
+  {% include "_idpick.html" %}
 
   <label class="small muted" for="node" style="display:block;margin-top:12px">What to practise</label>
   <select name="node" id="node" style="width:100%;padding:14px;font-size:17px;border:1px solid var(--line);border-radius:10px;background:#fff">
@@ -36,22 +36,14 @@ Nothing here affects a grade.</p>
   <p class="small muted">{{ n_locked }} approved question(s) are waiting on lessons not yet taught.</p>
 {% endif %}
 <script>
+  // Remember the ID on this device only (no account, and no name to remember).
+  // localStorage may be blocked; ignore failures.
   try {
-    var s = document.getElementById('student');
-    var pick = document.getElementById('student_pick');
-    var saved = localStorage.getItem('latin_student');
-    if (saved && pick) {
-      // Re-select their name if it is still on the list; otherwise leave the
-      // picker empty rather than guessing.
-      for (var i = 0; i < pick.options.length; i++) {
-        if (pick.options[i].value.toLowerCase() === saved.toLowerCase()) { pick.selectedIndex = i; break; }
-      }
-    } else if (saved && s) { s.value = saved; }
+    var s = document.getElementById('student_id');
+    var saved = localStorage.getItem('latin_student_id');
+    if (saved && s && !s.value) s.value = saved;
     document.getElementById('startform').addEventListener('submit', function(){
-      try {
-        var v = (pick && pick.value) ? pick.value : (s ? s.value : '');
-        if (v.trim()) localStorage.setItem('latin_student', v.trim());
-      } catch(e){}
+      try { if (s && s.value.trim()) localStorage.setItem('latin_student_id', s.value.trim()); } catch(e){}
     });
   } catch(e) {}
 </script>

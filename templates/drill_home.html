@@ -5,7 +5,7 @@
 <p class="muted small">Type the answer — no multiple choice. Macrons are never required. This is practice; nothing here affects a grade.</p>
 
 <form method="post" action="{{ url_for('drill_start') }}" id="startform">
-  {% include "_namepick.html" %}
+  {% include "_idpick.html" %}
 
   <label class="small muted" for="week" style="display:block;margin-top:12px">What to practise</label>
   <select name="week" id="week" style="width:100%;padding:14px;font-size:17px;border:1px solid var(--line);border-radius:10px;background:#fff">
@@ -25,24 +25,14 @@
 </form>
 
 <script>
-  // Remember the name on this device only (no account). localStorage may be
-  // blocked; ignore failures.
+  // Remember the ID on this device only (no account, and no name to remember).
+  // localStorage may be blocked; ignore failures.
   try {
-    var s = document.getElementById('student');
-    var pick = document.getElementById('student_pick');
-    var saved = localStorage.getItem('latin_student');
-    if (saved && pick) {
-      // Re-select their name if it is still on the list; otherwise leave the
-      // picker empty rather than guessing.
-      for (var i = 0; i < pick.options.length; i++) {
-        if (pick.options[i].value.toLowerCase() === saved.toLowerCase()) { pick.selectedIndex = i; break; }
-      }
-    } else if (saved && s) { s.value = saved; }
+    var s = document.getElementById('student_id');
+    var saved = localStorage.getItem('latin_student_id');
+    if (saved && s && !s.value) s.value = saved;
     document.getElementById('startform').addEventListener('submit', function(){
-      try {
-        var v = (pick && pick.value) ? pick.value : (s ? s.value : '');
-        if (v.trim()) localStorage.setItem('latin_student', v.trim());
-      } catch(e){}
+      try { if (s && s.value.trim()) localStorage.setItem('latin_student_id', s.value.trim()); } catch(e){}
     });
   } catch(e) {}
 </script>

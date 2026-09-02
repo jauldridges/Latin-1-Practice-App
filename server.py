@@ -24,6 +24,7 @@ import auth
 import checks
 import dataio
 import drill
+import identity
 import practice
 import quiz as quizlib
 import stats
@@ -61,10 +62,21 @@ _DRILL_WORDS = dataio.load_drill_words()
 _TEACHING = dataio.load_teaching()
 
 
+# What the name purge removed, the first time it found anything. Kept so the
+# dashboard can say it out loud — a privacy commitment that happens silently is
+# one nobody can check.
+PURGE_REPORT = None
+
+
 def get_db():
+    global PURGE_REPORT
     if "db" not in g:
         g.db = store.connect(DB_PATH)
-        store.init_db(g.db)
+        report = store.init_db(g.db)
+        if report and any(report.get(k) for k in
+                          ("roster_rows", "events", "miss_reasons", "quiz_attempts")):
+            PURGE_REPORT = report
+            print("[purge] removed name-keyed data: %r" % (report,), flush=True)
     return g.db
 
 
@@ -392,35 +404,61 @@ def _practice_stats(db, events):
 
 
 def _form_student():
-    """Who is practising, from either the roster picker or the typed box.
-
-    The pick wins when both arrive: a name chosen off the class list is the one
-    that keeps a year of history attached to one person."""
-    return ((request.form.get("student_pick") or "").strip()
-            or (request.form.get("student_typed") or "").strip()
-            or (request.form.get("student") or "").strip())
+    """The ID number typed on a sign-in screen."""
+    return identity.normalize(request.form.get("student_id")
+                              or request.form.get("student") or "")
 
 
-def _roster_for_signin(db):
-    """The class list offered on the sign-in screens. Empty list until the
-    teacher adds one, and the screens fall back to a typed name."""
-    return store.roster(db, active_only=True)
+def _resolve_student(db, back_endpoint, action_url, extra=None):
+    """Turn a typed ID into a student, or into the screen that explains why not.
+
+    Returns (student_id, response). Exactly one is set. Three outcomes:
+
+      blank or malformed  straight back to the sign-in screen with a message.
+                          A number that is not shaped like an ID is a typo or a
+                          name, and neither should reach the event record.
+
+      well-formed but not on the class list  the confirm screen. NOT silently
+                          accepted: a mistyped number looks perfectly fine and
+                          would file a student's practice under nobody. This is
+                          the only guard against that, so it does not get
+                          skipped for convenience.
+
+      on the list         through.
+    """
+    sid = _form_student()
+    if not sid or not identity.is_valid(sid):
+        return None, redirect(url_for(back_endpoint, bad_id=1))
+    if store.get_student(db, sid) is None and not request.form.get("confirm_unknown"):
+        return None, render_template(
+            "student_unknown.html", student_id=sid, action=action_url,
+            back_url=url_for(back_endpoint), extra=extra or {})
+    return sid, None
+
+
+def _signin_context():
+    """What every sign-in screen needs: the hint text and any error."""
+    return {"id_hint": identity.describe_pattern(),
+            "error": ("That is not a valid student ID — it should be %s."
+                      % identity.describe_pattern())
+                     if request.args.get("bad_id") else None}
 
 
 @app.route("/drill")
 def drill_home():
     return render_template("drill_home.html", weeks=drill.WEEK_ORDER,
-                           week_labels=drill.WEEK_LABELS,
-                           roster=_roster_for_signin(get_db()))
+                           week_labels=drill.WEEK_LABELS, **_signin_context())
 
 
 @app.route("/drill/start", methods=["POST"])
 def drill_start():
-    student = _form_student()
     week = request.form.get("week", "current")
     direction = request.form.get("direction", "both")
-    if not student:
-        return redirect(url_for("drill_home", noname=1))
+    student, bail = _resolve_student(
+        get_db(), "drill_home", url_for("drill_start"),
+        extra={"week": week, "direction": direction})
+    if bail is not None:
+        return bail
     return redirect(url_for("drill_session", student=student, week=week, direction=direction))
 
 
@@ -574,16 +612,18 @@ def practice_home():
     return render_template("practice_home.html", nodes=nodes,
                            n_ready=len(ready), n_approved=len(approved),
                            n_locked=len(approved) - len(ready),
-                           roster=_roster_for_signin(db))
+                           **_signin_context())
 
 
 @app.route("/practice/start", methods=["POST"])
 def practice_start():
-    student = _form_student()
-    if not student:
-        return redirect(url_for("practice_home", noname=1))
     node = request.form.get("node") or ""
     ctx = request.form.get("context", "practice")
+    student, bail = _resolve_student(
+        get_db(), "practice_home", url_for("practice_start"),
+        extra={"node": node, "context": ctx})
+    if bail is not None:
+        return bail
     return redirect(url_for("practice_session", student=student, node=node, context=ctx))
 
 
@@ -803,7 +843,7 @@ def quiz_start(quiz_id):
     if q is None:
         abort(404)
     return render_template("quiz_start.html", q=q, n=len(q["item_ids"]),
-                           roster=_roster_for_signin(db))
+                           **_signin_context())
 
 
 @app.route("/q/<quiz_id>/take")
@@ -1000,6 +1040,7 @@ def teacher_home():
     events = store.all_events(db, since=w["since"], until=w["until"], section=w["section"])
     table = teacher.class_activity(roster_rows, events, w["since"], w["until"])
     return render_template("teacher_home.html", w=w, table=table,
+                           purge=PURGE_REPORT,
                            window_label=_window_label(w["days"]),
                            windows=WINDOW_CHOICES, sections=store.sections(db),
                            n_roster=len(store.roster(db, active_only=True)))
@@ -1059,7 +1100,7 @@ def teacher_student(student_id):
     return render_template(
         "teacher_student.html", w=w, student=student_id,
         person=person, act=act,
-        display=(person or {}).get("display_name") or student_id,
+
         vocab=drill.progress_summary(vocab_rows), vocab_rows=vocab_rows,
         nodes=node_rows,
         alltime_nodes=stats.alltime_by_node(events, universe=_grammar_universe(db)),
@@ -1079,10 +1120,13 @@ def teacher_export():
     table = teacher.class_activity(roster_rows, events, w["since"], w["until"])
     buf = io.StringIO()
     wtr = csv.writer(buf)
-    wtr.writerow(["name", "block", "state", "attempts", "days_practised",
+    # student_id, not name. There are no names in this system — the paper that
+    # maps a number to a person stays off the machine, so this file is safe to
+    # download and safe to lose.
+    wtr.writerow(["student_id", "block", "state", "attempts", "days_practised",
                   "vocab", "grammar", "accuracy_pct", "last_practised", "window"])
     for r in table["rows"]:
-        wtr.writerow([r["display_name"], r["section"] or "", r["state"], r["attempts"],
+        wtr.writerow([r["student_id"], r["section"] or "", r["state"], r["attempts"],
                       r["days"], r["vocab"], r["grammar"],
                       "" if r["accuracy"] is None else int(round(r["accuracy"] * 100)),
                       time.strftime("%Y-%m-%d %H:%M", time.localtime(r["last_at"])) if r["last_at"] else "",
@@ -1105,18 +1149,21 @@ def teacher_roster():
     seen = set(store.all_students(db))
     return render_template("teacher_roster.html", rows=rows,
                            sections=store.sections(db), section=section,
+                           rejected=request.args.getlist("rejected"),
                            unrostered=sorted(seen - known))
 
 
 @app.route("/teacher/roster/add", methods=["POST"])
 def teacher_roster_add():
-    """Paste a class list, one name per line."""
+    """Paste a class list of ID numbers, one per line."""
     db = get_db()
     section = (request.form.get("section") or "").strip() or None
-    names = (request.form.get("names") or "").replace(",", "\n").splitlines()
-    added, existing, skipped = store.add_students_bulk(db, names, section)
+    lines = (request.form.get("ids") or "").replace(",", "\n").splitlines()
+    added, existing, rejected = store.add_students_bulk(db, lines, section)
+    # Rejected lines are echoed back rather than counted, because the message
+    # that matters is "these were names, and names are not stored here".
     return redirect(url_for("teacher_roster", section=section, added=len(added),
-                            existing=len(existing), skipped=len(skipped)))
+                            existing=len(existing), rejected=rejected[:12]))
 
 
 @app.route("/teacher/roster/update", methods=["POST"])

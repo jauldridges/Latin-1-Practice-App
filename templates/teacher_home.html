@@ -1,7 +1,22 @@
 {% extends "base.html" %}
 {% block subtitle %}dashboard{% endblock %}
 {% block content %}
+{% if purge %}
+<div class="flags">
+  <p class="small"><strong>Name data was removed from this database on startup.</strong></p>
+  <p class="small">This app now stores student ID numbers only. Everything that was
+    keyed on a name has been deleted, not migrated — including the practice history
+    attached to it, because there was no way to keep one without keeping the other.
+    Removed: {{ purge.events }} practice answer(s), {{ purge.miss_reasons }} miss
+    reason(s), {{ purge.quiz_attempts }} quiz attempt(s),
+    {{ purge.roster_rows }} class-list entr{{ 'y' if purge.roster_rows == 1 else 'ies' }}.
+    The freed pages were overwritten, so the names are gone from the file itself,
+    not merely unlinked.</p>
+</div>
+{% endif %}
 <h1>Who practised</h1>
+<p class="small muted">Students are ID numbers here — this app holds no names.
+  Match them against your paper list.</p>
 {% include "_teacherbar.html" %}
 
 {% if n_roster == 0 %}
@@ -27,7 +42,7 @@
   {% for r in table.rows %}
   <tr>
     <td>
-      <a href="{{ url_for('teacher_student', student_id=r.student_id, days=w.days) }}">{{ r.display_name }}</a><br>
+      <a class="sid" href="{{ url_for('teacher_student', student_id=r.student_id, days=w.days) }}">{{ r.student_id }}</a><br>
       <span class="pill {{ 'notyet' if r.state == 'none' else ('shaky' if r.state == 'started' else 'solid') }}">{{ r.state }}</span>
       {% if r.section %}<span class="small muted"> {{ r.section }}</span>{% endif %}
     </td>
@@ -41,11 +56,13 @@
 
 {% if table.unrostered %}
 <div class="flags">
-  <p class="small"><strong>Practice from names not on the class list:</strong>
-    {{ table.unrostered | join(', ') }}.</p>
-  <p class="small">Usually a typo or a nickname. Add the name to the roster exactly as
-    typed, or ask the student to sign in with the roster name from now on —
-    their history stays under whatever they typed.</p>
+  <p class="small"><strong>Practice from IDs not on the class list:</strong>
+    <span class="sid">{{ table.unrostered | join(', ') }}</span></p>
+  <p class="small">Each of these typed a number, was told it wasn't on the list,
+    and continued anyway. Almost always a mistyped digit. Compare against your
+    paper list: if the number is real, add it below; if it isn't, the student
+    needs to sign in again with the right one.</p>
+  <a class="bigbtn secondary" href="{{ url_for('teacher_roster') }}">Open the class list</a>
 </div>
 {% endif %}
 

@@ -181,3 +181,6 @@ select.namepick {
   background: #eef5f0; border: 1px solid #cfe2d6; border-left: 4px solid var(--accent);
   border-radius: 8px; padding: 8px 12px; margin: 0 0 10px; font-size: 14px;
 }
+/* Student IDs are the only identity in this system; give them tabular figures
+   so a column of them can be scanned against a paper list. */
+.sid { font-variant-numeric: tabular-nums; letter-spacing: .02em; }

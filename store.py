@@ -18,6 +18,8 @@ import os
 import sqlite3
 import time
 
+import identity
+
 DEFAULT_DB = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "review.sqlite")
 
 _SCHEMA = """
@@ -111,12 +113,18 @@ CREATE TABLE IF NOT EXISTS quiz_attempts (
 CREATE INDEX IF NOT EXISTS idx_attempt_quiz ON quiz_attempts(quiz_id);
 CREATE UNIQUE INDEX IF NOT EXISTS idx_attempt_one ON quiz_attempts(quiz_id, student_id);
 
--- The class list. Without it the dashboard can only show who HAS practised;
--- the students who did nothing are invisible, because nothing about them
--- exists. The roster supplies the denominator.
+-- The class list: the ID numbers this app will accept, and nothing else.
+--
+-- Two jobs. It is the denominator — without it the dashboard can only show
+-- who HAS practised, since a student who did nothing leaves no events. And it
+-- is the typo guard: an ID that is well-formed but not on this list is not
+-- silently accepted.
+--
+-- There is deliberately no name column. Not an empty one, not a nullable one:
+-- an empty column invites someone to fill it. `section` is a class block, not
+-- a person.
 CREATE TABLE IF NOT EXISTS roster (
-    student_id   TEXT PRIMARY KEY,      -- normalised key, matches events.student_id
-    display_name TEXT NOT NULL,         -- as the teacher typed it
+    student_id   TEXT PRIMARY KEY,      -- the ID number, exactly as issued
     section      TEXT,                  -- Block 3 / 4 / 5 / 7
     active       INTEGER DEFAULT 1,
     added_at     REAL NOT NULL
@@ -124,16 +132,13 @@ CREATE TABLE IF NOT EXISTS roster (
 """
 
 
-def normalize_student(name):
-    """The student key used in the data.
+def normalize_student(student_id):
+    """The student key used in the data: an ID number, never a name.
 
-    Identity here is a typed name, not an account, so "Sam", "sam " and "SAM"
-    must not become three different students with three separate spaced-
-    repetition schedules. Lower-cased and space-collapsed, so a year of history
-    stays attached to one person. It cannot fix "Sam" vs "Sam T." -- see the
-    README note on identity.
+    Thin wrapper over identity.normalize() so every write and read goes through
+    one function. See identity.py for why this system holds no names.
     """
-    return " ".join(str(name or "").split()).lower()
+    return identity.normalize(student_id)
 
 
 def connect(db_path=DEFAULT_DB):
@@ -150,6 +155,83 @@ def init_db(conn):
     cols = {r["name"] for r in conn.execute("PRAGMA table_info(items)").fetchall()}
     if "skips" not in cols:
         conn.execute("ALTER TABLE items ADD COLUMN skips INTEGER DEFAULT 0")
+    conn.commit()
+    return purge_names(conn)
+
+
+# --------------------------------------------------------------------------
+# The purge
+# --------------------------------------------------------------------------
+
+def purge_names(conn):
+    """Remove every trace of name-based identity from an existing database.
+
+    This runs on every startup, and it is destructive on purpose. The app used
+    to key student records on typed names; the school has since committed that
+    it holds none. A migration would defeat that commitment, so the change
+    request says purge and do not migrate, and this does exactly that:
+
+      * the roster's display_name column is dropped, not blanked — an empty
+        column invites someone to fill it later. Because every row in that
+        table was keyed on a name, the rows go too.
+      * every practice row whose student_id is not shaped like an ID number is
+        deleted. A student_id that is not a number is a name, and there is no
+        version of keeping it that is compatible with what was promised.
+
+    Idempotent: on a database that never held names it deletes nothing and
+    returns zeros. Returns a report so the caller can say out loud what went,
+    because a silent purge is not a purge anyone can trust.
+    """
+    report = {"roster_rows": 0, "events": 0, "miss_reasons": 0,
+              "quiz_attempts": 0, "dropped_name_column": False}
+
+    cols = {r["name"] for r in conn.execute("PRAGMA table_info(roster)").fetchall()}
+    if "display_name" in cols:
+        report["roster_rows"] = conn.execute("SELECT COUNT(*) AS n FROM roster").fetchone()["n"]
+        # SQLite before 3.35 cannot DROP COLUMN, and every row here is
+        # name-keyed anyway, so the table is rebuilt empty.
+        conn.execute("DROP TABLE roster")
+        conn.executescript(_SCHEMA)
+        report["dropped_name_column"] = True
+
+    # Practice rows keyed on something that is not an ID number.
+    for table in ("events", "miss_reasons", "quiz_attempts"):
+        ids = [r["student_id"] for r in
+               conn.execute("SELECT DISTINCT student_id FROM %s" % table).fetchall()]
+        bad = [i for i in ids if not identity.is_valid(i)]
+        if bad:
+            marks = ",".join("?" * len(bad))
+            cur = conn.execute(
+                "DELETE FROM %s WHERE student_id IN (%s)" % (table, marks), bad)
+            report[table] = cur.rowcount
+    conn.commit()
+
+    if any(report[k] for k in ("roster_rows", "events", "miss_reasons", "quiz_attempts")):
+        _scrub_free_pages(conn)
+        report["scrubbed"] = True
+    return report
+
+
+def _scrub_free_pages(conn):
+    """Actually remove the deleted bytes from the file.
+
+    DELETE only marks pages free; the text stays readable in the file until
+    something overwrites it, and in WAL mode the old pages also sit in the
+    -wal sidecar. "The names are deleted" would have been false in the only
+    sense that matters — someone opening the file in a text editor would still
+    see them. So: checkpoint the WAL into the main file, VACUUM to rewrite it
+    without the free pages, then truncate the WAL again.
+
+    Found by a test that greps the raw bytes of the database rather than
+    querying it. Querying would have passed.
+    """
+    conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+    conn.isolation_level = None          # VACUUM cannot run inside a transaction
+    try:
+        conn.execute("VACUUM")
+    finally:
+        conn.isolation_level = ""
+    conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
     conn.commit()
 
 
@@ -513,17 +595,20 @@ def quiz_attempts(conn, quiz_id):
 # Roster
 # --------------------------------------------------------------------------
 
-def add_student(conn, display_name, section=None):
-    key = normalize_student(display_name)
-    if not key:
+def add_student(conn, student_id, section=None):
+    """Add one ID number to the class list. Returns the stored id, or None if
+    the number is not shaped like an ID — a name typed here is refused rather
+    than stored."""
+    key = normalize_student(student_id)
+    if not key or not identity.is_valid(key):
         return None
     conn.execute(
-        """INSERT INTO roster (student_id, display_name, section, active, added_at)
-           VALUES (?,?,?,1,?)
-           ON CONFLICT(student_id) DO UPDATE SET display_name=excluded.display_name,
-                                                 section=COALESCE(excluded.section, roster.section),
-                                                 active=1""",
-        (key, " ".join(str(display_name).split()), section, time.time()))
+        """INSERT INTO roster (student_id, section, active, added_at)
+           VALUES (?,?,1,?)
+           ON CONFLICT(student_id) DO UPDATE SET
+                 section=COALESCE(excluded.section, roster.section),
+                 active=1""",
+        (key, section, time.time()))
     conn.commit()
     return key
 
@@ -550,7 +635,7 @@ def roster(conn, active_only=True, section=None):
         args.append(section)
     if where:
         q += " WHERE " + " AND ".join(where)
-    q += " ORDER BY section IS NULL, section, display_name"
+    q += " ORDER BY section IS NULL, section, student_id"
     return [dict(r) for r in conn.execute(q, args).fetchall()]
 
 
@@ -613,30 +698,48 @@ def all_miss_reasons(conn, since=None, section=None):
     return [dict(r) for r in conn.execute(q, args).fetchall()]
 
 
-def add_students_bulk(conn, names, section=None):
-    """Paste a class list, one name per line. Returns (added, existing, skipped).
+def add_students_bulk(conn, lines, section=None):
+    """Paste a class list of ID numbers, one per line.
 
-    Blank lines and duplicates inside the paste are dropped rather than
-    rejected, because a list copied out of a gradebook always has both.
+    Returns (added, existing, rejected). Blank lines and duplicates inside the
+    paste are dropped rather than refused, because a list copied out of a
+    gradebook always has both.
 
-    Names already on the list are reported separately, not silently absorbed:
-    re-adding an existing student with a block set MOVES them to that block,
-    and a paste that quietly reassigned half of Block 3 would be worse than an
-    error.
+    IDs already on the list are reported separately, not silently absorbed:
+    re-adding an existing ID with a block set MOVES it to that block, and a
+    paste that quietly reassigned half of Block 3 would be worse than an error.
+
+    Anything that is not shaped like an ID is REJECTED and handed back, not
+    stored. That is the line that keeps names out: paste a class list of names
+    here and every line comes back rejected, which is the intended answer.
     """
-    added, existing, skipped = [], [], []
+    added, existing, rejected = [], [], []
     seen = set()
-    for raw in names:
+    for raw in lines:
         key = normalize_student(raw)
         if not key or key in seen:
-            if raw and raw.strip():
-                skipped.append(raw.strip())
+            continue
+        if not identity.is_valid(key):
+            rejected.append(str(raw).strip()[:40])
             continue
         seen.add(key)
         was = get_student(conn, key)
-        add_student(conn, raw, section)
+        add_student(conn, key, section)
         (existing if was else added).append(key)
-    return added, existing, skipped
+    return added, existing, rejected
+
+
+def load_student_ids_file(conn, path, section=None):
+    """Load the valid-ID list from a file, as the change request asks.
+
+    One ID per line; '#' starts a comment. The file holds numbers only — the
+    paper that maps a number to an actual student stays off the machine.
+    """
+    if not path or not os.path.exists(path):
+        return None
+    with open(path, "r", encoding="utf-8") as fh:
+        lines = [ln.split("#", 1)[0] for ln in fh]
+    return add_students_bulk(conn, lines, section)
 
 
 def miss_reasons_for_student(conn, student_id, since=None):

@@ -286,6 +286,69 @@ verified SQL, but you should not need it day to day.
 
 ---
 
+## Who a student is
+
+**An ID number. Nothing else.**
+
+The school committed to leadership that this app holds no student names — no
+first name, no last name, no email, no display name. So there is no name field,
+not even an empty one, and `tests/test_names_purged.py` fails if anybody adds
+one back.
+
+- Students type their ID number to practise. Nothing else is asked.
+- The teacher screens show ID numbers. The paper that maps a number to a person
+  stays off the machine.
+- `identity.py` decides what a well-formed ID looks like: **4 to 10 digits** by
+  default. Libertas's actual format was not specified, so override
+  `LATIN_ID_PATTERN` with a regex if that is wrong. Leading zeros are
+  significant — `04217` is not student `4217`.
+
+This also closes a bug rather than working around it. Identity used to be a
+typed name, which meant `Sam` and `Sam T.` were two students with two
+spaced-repetition schedules and half a history each, silently. Numbers cannot
+collide and nobody has to spell anything twice.
+
+### The typo, which is the one new hazard
+
+A mistyped name looks wrong. A mistyped **number** looks perfectly fine, and
+files a student's work under nobody. Three guards:
+
+1. **Format.** Anything not shaped like an ID is refused at the sign-in screen.
+   Type a name and you get told it is not an ID.
+2. **The class list.** A well-formed number that is not on the list gets a
+   *"we don't have that number"* screen — never silent acceptance. The student
+   can back out and retype, or confirm it is really theirs.
+3. **Visibility.** Anyone who confirms an off-list number is surfaced on the
+   dashboard and on the roster page, so a typo becomes a thing you can see and
+   fix rather than a hole in the data.
+
+### The class list — `/teacher/roster`
+
+Paste **ID numbers**, one per line, with a block. Paste names and every line
+comes back rejected with an explanation; that is the intended answer, not a bug.
+IDs can also be loaded from a file via `store.load_student_ids_file()`
+(`#` starts a comment).
+
+### The purge
+
+Any database built before this change was keyed on names. On startup the app
+**deletes** that data rather than migrating it — the change request said purge,
+and a migration would defeat the commitment:
+
+- the roster's `display_name` column is dropped, not blanked;
+- every practice row whose `student_id` is not ID-shaped is deleted, along with
+  the history attached to it, because there is no way to keep one without the
+  other;
+- the freed pages are then checkpointed and vacuumed, so the names are gone from
+  the **file itself** rather than merely unlinked. (A test greps the raw bytes
+  of the database, including the `-wal` sidecar. Querying alone would have
+  passed while the names sat there in plain text.)
+
+It runs once, reports what it removed on the dashboard and on stdout, and is a
+no-op forever after.
+
+---
+
 ## Who can get in
 
 Nothing is gated until you set a secret, so **the laptop workflow is unchanged**:
@@ -296,6 +359,7 @@ no password set, no door.
 | `LATIN_TEACHER_PASSWORD` | Teacher sign-in guards `/teacher`, `/review`, `/teaching`, `/quiz`. Teacher tools disappear from the landing page for anyone not signed in. |
 | `LATIN_CLASS_CODE` | Students type a shared class code once per device to reach `/drill`, `/practice` and quizzes. |
 | `LATIN_PUBLIC=1` | Says the app is reachable from outside the LAN. Marks session cookies HTTPS-only, and **refuses to start** if no teacher password is set. |
+| `LATIN_ID_PATTERN` | Regex for a valid student ID. Default `^[0-9]{4,10}$`. |
 | `SECRET_KEY` | Signs the session cookies. Random per start locally; a deployment must set it or every restart signs everyone out. |
 
 Gating happens in **one** `before_request` in `server.py`, keyed on URL prefix,
@@ -303,66 +367,6 @@ and anything unrecognised falls through to teacher-only. A route added later is
 closed until someone opens it. `tests/test_auth.py` walks the real URL map and
 asserts every route redirects to a door — that test, not a hand-written list, is
 what keeps this honest.
-
-A class code is not a login. A student can pick a classmate off the roster and
-practise as them. Nothing behind that door is a grade, so the cost is a polluted
-practice schedule rather than a stolen mark — but it is a real limit, and
-`DEPLOY.md` says so where you would be deciding about it.
-
----
-
-## Teacher dashboard — `/teacher`
-
-Four pages, all read-only over the same event history the students see.
-
-**Who practised.** Every student on the class list, least practice first, over a
-window you pick (today / 7 days / 30 days / all time), filterable by block.
-Three tiles: did it, started, nothing. "Did it" means 20+ answers in the window
-— a floor for *did you open it*, not a homework quota; change `DONE_ATTEMPTS` in
-`teacher.py` if you want a different bar. There is a **Download as spreadsheet**
-link at the bottom, so a printout or a gradebook paste never needs the terminal.
-
-**What they know and don't.** Weakest first, grammar and vocabulary separately.
-Anything at 80% or better folds away at the bottom of each list, and so does
-anything nobody has attempted — both are kept, neither buries the six things
-worth reteaching on Monday. Rows resting on very few answers are marked *thin*:
-real, but not yet a pattern.
-
-**What they say went wrong.** The what-went-wrong menu selections, grouped by
-the idea that **explains** the mistake rather than the question that exposed it
-— "I matched the ending instead of the gender" is a fact about agreement,
-whichever question caught it. Contested answers ("I think mine should be right")
-are listed separately, because each one is either a misconception or a bad
-question and only a person can tell which.
-
-**One student.** Their window activity, vocabulary and grammar as
-solid/shaky/not-yet, their weakest topics, what they said went wrong, and their
-last 25 answers.
-
-### The class list — `/teacher/roster`
-
-**Paste your class list once, one name per line, with a block.** This is the
-first thing to do, and it is not cosmetic: *"who did not do their homework"* is a
-question about students who left **no data at all**, so without a roster the
-dashboard can only ever show the kids who showed up. The roster is the
-denominator.
-
-Once a class list exists, the drill, grammar practice, and quiz sign-in screens
-turn the name box into a **picker**. That closes the identity hole this README
-used to warn about: a typed name *is* the identity here, so `Sam` on Monday and
-`Sam T.` on Thursday were two students with two schedules and half a history
-each. Picking makes that impossible. A typed box stays behind "my name isn't on
-the list", so a student who joins on Tuesday is not locked out at 9pm.
-
-Names are still matched loosely underneath (`store.normalize_student()`
-lower-cases and collapses whitespace), so `Sam`, `sam ` and `SAM` remain one
-person however they arrive.
-
-Anyone who practised under a name that is **not** on the list is surfaced in two
-places — a banner on the dashboard and a list at the bottom of the roster page —
-rather than silently dropped. That is usually a typo, and seeing it is how you
-fix it. Removing a student removes them from the class list only; their event
-history is never deleted.
 
 ---
 
@@ -399,10 +403,14 @@ All five build steps, verified in order:
     cards deep in a browser — the node order never regresses, a skip survives
     the rest of the pass, and editing stays in the flow instead of dropping
     you home.
-12. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
+12. Identity as an ID number, with the name purge — verified by a test that
+    greps the raw bytes of a database built the old way, `-wal` sidecar
+    included, and by driving the three sign-in outcomes in a browser: a typed
+    name refused, a mistyped number challenged, a real number through.
+13. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-170 tests pass (`python3 -m unittest discover -s tests`).
+189 tests pass (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

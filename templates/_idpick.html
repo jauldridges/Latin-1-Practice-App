@@ -1,0 +1,11 @@
+{# Who is practising: an ID number, typed. Nothing else is asked, because
+   nothing else is stored — see identity.py.
+
+   No picker. A dropdown needs a list of people to pick FROM, and there are no
+   names here to put in one. #}
+{% if error %}<div class="answer-feedback wrong">{{ error }}</div>{% endif %}
+<label class="small muted" for="student_id">Your student ID number</label>
+<input type="text" name="student_id" id="student_id" required
+       inputmode="numeric" autocomplete="off" autocapitalize="off"
+       autocorrect="off" spellcheck="false" placeholder="{{ id_hint }}"
+       value="{{ prefill or '' }}">

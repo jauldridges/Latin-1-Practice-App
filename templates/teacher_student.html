@@ -1,11 +1,13 @@
 {% extends "base.html" %}
-{% block subtitle %}{{ display }}{% endblock %}
+{% block subtitle %}{{ student }}{% endblock %}
 {% block content %}
-<h1>{{ display }}</h1>
+<h1 class="sid">{{ student }}</h1>
 {% if person and person.section %}<p class="small muted">{{ person.section }}</p>{% endif %}
 {% if not person %}
-<p class="small muted">Not on the class list — this name appears only in the practice
-  record. <a href="{{ url_for('teacher_roster') }}">Add them</a> if it is a real student.</p>
+<p class="small muted">Not on the class list — this number appears only in the
+  practice record, which means somebody typed it and confirmed it anyway.
+  Check it against your paper list, then
+  <a href="{{ url_for('teacher_roster') }}">add it</a> if it is real.</p>
 {% endif %}
 
 <form method="get" class="filterbar">
