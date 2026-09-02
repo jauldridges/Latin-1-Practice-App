@@ -113,7 +113,7 @@ def _close_db(exc):
 # teacher-only, so a route added later is closed until someone opens it.
 # --------------------------------------------------------------------------
 
-OPEN_PREFIXES = ("/static", "/login", "/logout", "/classcode", "/favicon")
+OPEN_PREFIXES = ("/static", "/login", "/logout", "/signin", "/signout", "/favicon")
 TEACHER_PREFIXES = ("/review", "/teaching", "/teacher", "/quiz")
 STUDENT_PREFIXES = ("/drill", "/practice", "/q/")
 
@@ -131,7 +131,7 @@ def _gate():
         return None
     if path.startswith(STUDENT_PREFIXES):
         if not auth.student_ok():
-            return redirect(url_for("classcode", next=_here()))
+            return redirect(url_for("signin", next=_here()))
         return None
     # /review, /teaching, /teacher, /quiz — and anything not listed above.
     if not auth.is_teacher():
@@ -160,25 +160,86 @@ def logout():
     return redirect(url_for("index"))
 
 
-@app.route("/classcode", methods=["GET", "POST"])
-def classcode():
-    """The students' door. One code for the class, remembered on the device."""
-    if not auth.student_gate_on():
-        return redirect(url_for("index"))
-    error = None
-    nxt = request.values.get("next") or url_for("drill_home")
-    if request.method == "POST":
-        if auth.matches((request.form.get("code") or "").strip(), auth.class_code()):
-            session.permanent = True
-            session[auth.STUDENT_KEY] = True
-            return redirect(nxt)
-        error = "That code isn't right. Check it with your teacher."
-    return render_template("classcode.html", error=error, next=nxt), (200 if not error else 401)
+@app.route("/signin", methods=["GET", "POST"])
+def signin():
+    """The students' door: an ID number, then a PIN.
+
+    Two steps rather than one form, because the second step depends on the
+    first: a student who has never signed in is CHOOSING a PIN, and one who has
+    is entering it. Asking for both at once would mean explaining that
+    distinction on a screen nobody reads.
+
+    Nothing here is a grade, so the PIN is four digits and there is no email
+    recovery — there are no email addresses in this system. A forgotten PIN is
+    cleared by the teacher.
+    """
+    db = get_db()
+    nxt = request.values.get("next") or url_for("index")
+    sid = identity.normalize(request.values.get("student_id"))
+    step = request.form.get("step") or ("pin" if sid else "id")
+
+    # --- step one: the number ---------------------------------------------
+    if step == "id" or not sid:
+        if request.method == "POST" or request.args.get("student_id"):
+            if not identity.is_valid(sid):
+                return render_template("signin_id.html", next=nxt, prefill=sid,
+                                       id_hint=identity.describe_pattern(),
+                                       error="That is not a valid student ID — it should be %s."
+                                             % identity.describe_pattern()), 400
+            if store.get_student(db, sid) is None and not request.form.get("confirm_unknown"):
+                # Never silently accepted: a mistyped number is well-formed and
+                # would file a student's work under nobody. Confirming carries
+                # them through to the PIN step — without honouring that flag
+                # here, "that is my number" looped back to this same screen.
+                return render_template("student_unknown.html", student_id=sid,
+                                       action=url_for("signin"),
+                                       back_url=url_for("signin", next=nxt),
+                                       extra={"next": nxt, "step": "id",
+                                              "confirm_unknown": "1"})
+            return render_template("signin_pin.html", student_id=sid, next=nxt,
+                                   setting=not store.has_pin(db, sid), error=None)
+        return render_template("signin_id.html", next=nxt, prefill="",
+                               id_hint=identity.describe_pattern(), error=None)
+
+    # --- step two: the PIN -------------------------------------------------
+    known = store.get_student(db, sid) is not None
+    confirmed_unknown = request.form.get("confirm_unknown")
+    if not known and not confirmed_unknown:
+        return redirect(url_for("signin", next=nxt))
+
+    setting = not store.has_pin(db, sid)
+    pin = (request.form.get("pin") or "").strip()
+    again = (request.form.get("pin2") or "").strip()
+
+    def fail(msg):
+        return render_template("signin_pin.html", student_id=sid, next=nxt,
+                               setting=setting, error=msg), 401
+
+    if setting:
+        if not identity.is_valid_pin(pin):
+            return fail("A PIN is %d digits." % identity.PIN_LENGTH)
+        if pin != again:
+            return fail("Those two PINs are different. Try again.")
+        store.set_pin(db, sid, pin)
+    else:
+        if not store.check_pin(db, sid, pin):
+            return fail("That PIN isn't right. If you've forgotten it, ask your teacher to reset it.")
+
+    session.permanent = True
+    session[auth.STUDENT_KEY] = sid
+    return redirect(nxt)
+
+
+@app.route("/signout", methods=["GET", "POST"])
+def signout():
+    session.pop(auth.STUDENT_KEY, None)
+    return redirect(url_for("signin"))
 
 
 @app.context_processor
 def _auth_flags():
-    return {"is_teacher": auth.is_teacher(), "teacher_gate": auth.teacher_gate_on()}
+    return {"is_teacher": auth.is_teacher(), "teacher_gate": auth.teacher_gate_on(),
+            "signed_in_student": current_student()}
 
 
 _prepare_storage()
@@ -556,69 +617,43 @@ def _practice_stats(db, events):
             "alltime": stats.alltime_by_node(events, universe=universe)}
 
 
-def _form_student():
-    """The ID number typed on a sign-in screen."""
-    return identity.normalize(request.form.get("student_id")
-                              or request.form.get("student") or "")
+def current_student():
+    """Who is signed in on this device.
 
-
-def _resolve_student(db, back_endpoint, action_url, extra=None):
-    """Turn a typed ID into a student, or into the screen that explains why not.
-
-    Returns (student_id, response). Exactly one is set. Three outcomes:
-
-      blank or malformed  straight back to the sign-in screen with a message.
-                          A number that is not shaped like an ID is a typo or a
-                          name, and neither should reach the event record.
-
-      well-formed but not on the class list  the confirm screen. NOT silently
-                          accepted: a mistyped number looks perfectly fine and
-                          would file a student's practice under nobody. This is
-                          the only guard against that, so it does not get
-                          skipped for convenience.
-
-      on the list         through.
+    Read from the signed session and NEVER from the request. That is the
+    difference between a student and a URL: `?student=40218` used to be enough
+    to practise as somebody else, and no amount of PIN checking at the door
+    would have mattered while the rest of the app took your word for it
+    afterwards.
     """
-    sid = _form_student()
-    if not sid or not identity.is_valid(sid):
-        return None, redirect(url_for(back_endpoint, bad_id=1))
-    if store.get_student(db, sid) is None and not request.form.get("confirm_unknown"):
-        return None, render_template(
-            "student_unknown.html", student_id=sid, action=action_url,
-            back_url=url_for(back_endpoint), extra=extra or {})
+    return session.get(auth.STUDENT_KEY) or ""
+
+
+def _signed_in_student():
+    """The signed-in student, or the response that sends them to sign in."""
+    sid = current_student()
+    if not sid:
+        return None, redirect(url_for("signin", next=request.full_path.rstrip("?")))
     return sid, None
-
-
-def _signin_context():
-    """What every sign-in screen needs: the hint text and any error."""
-    return {"id_hint": identity.describe_pattern(),
-            "error": ("That is not a valid student ID — it should be %s."
-                      % identity.describe_pattern())
-                     if request.args.get("bad_id") else None}
 
 
 @app.route("/drill")
 def drill_home():
     return render_template("drill_home.html", weeks=drill.WEEK_ORDER,
-                           week_labels=drill.WEEK_LABELS, **_signin_context())
+                           week_labels=drill.WEEK_LABELS)
 
 
 @app.route("/drill/start", methods=["POST"])
 def drill_start():
     week = request.form.get("week", "current")
     direction = request.form.get("direction", "both")
-    student, bail = _resolve_student(
-        get_db(), "drill_home", url_for("drill_start"),
-        extra={"week": week, "direction": direction})
-    if bail is not None:
-        return bail
-    return redirect(url_for("drill_session", student=student, week=week, direction=direction))
+    return redirect(url_for("drill_session", week=week, direction=direction))
 
 
 @app.route("/drill/session")
 def drill_session():
     db = get_db()
-    student = request.args["student"]
+    student = current_student()
     week = request.args.get("week", "current")
     direction = request.args.get("direction", "both")
     events = store.events_for_student(db, student)
@@ -633,7 +668,7 @@ def drill_session():
 @app.route("/drill/answer", methods=["POST"])
 def drill_answer():
     db = get_db()
-    student = request.form["student"]
+    student = current_student()
     week = request.form.get("week", "current")
     direction = request.form.get("direction", "both")
     latin = request.form["latin"]
@@ -764,26 +799,20 @@ def practice_home():
              for n, c in sorted(by_node.items())]
     return render_template("practice_home.html", nodes=nodes,
                            n_ready=len(ready), n_approved=len(approved),
-                           n_locked=len(approved) - len(ready),
-                           **_signin_context())
+                           n_locked=len(approved) - len(ready))
 
 
 @app.route("/practice/start", methods=["POST"])
 def practice_start():
     node = request.form.get("node") or ""
     ctx = request.form.get("context", "practice")
-    student, bail = _resolve_student(
-        get_db(), "practice_home", url_for("practice_start"),
-        extra={"node": node, "context": ctx})
-    if bail is not None:
-        return bail
-    return redirect(url_for("practice_session", student=student, node=node, context=ctx))
+    return redirect(url_for("practice_session", node=node, context=ctx))
 
 
 @app.route("/practice/session")
 def practice_session():
     db = get_db()
-    student = request.args["student"]
+    student = current_student()
     node = request.args.get("node") or None
     ctx = request.args.get("context", "practice")
     if ctx not in VALID_CONTEXTS:
@@ -804,7 +833,7 @@ def practice_session():
 @app.route("/practice/answer", methods=["POST"])
 def practice_answer():
     db = get_db()
-    student = request.form["student"]
+    student = current_student()
     item_id = request.form["item_id"]
     node = request.form.get("node") or None
     ctx = request.form.get("context", "practice")
@@ -866,7 +895,7 @@ def practice_selfreport():
     """Self-check and the translation half of tag-then-translate: the student
     reports how they did. What they typed is stored next to what they claimed."""
     db = get_db()
-    student = request.form["student"]
+    student = current_student()
     item_id = request.form["item_id"]
     node = request.form.get("node") or None
     ctx = request.form.get("context", "practice")
@@ -887,7 +916,7 @@ def practice_selfreport():
                                typed=typed, menu=practice.menu_for(item),
                                teaching=approved_teaching_for(db, item.get("node")),
                                label=_NODE_LABEL.get(item["node"], ""), self_done=True)
-    return redirect(url_for("practice_session", student=student, node=node or "", context=ctx))
+    return redirect(url_for("practice_session", node=node or "", context=ctx))
 
 
 @app.route("/practice/menu", methods=["POST"])
@@ -896,7 +925,7 @@ def practice_menu():
     that mistake. Contesting a question returns it to the flagged queue — this
     is the live-fire path."""
     db = get_db()
-    student = request.form["student"]
+    student = current_student()
     item_id = request.form["item_id"]
     node = request.form.get("node") or None
     ctx = request.form.get("context", "practice")
@@ -912,7 +941,7 @@ def practice_menu():
     if contested:
         store.flag_item_live_fire(
             db, item_id, f"a student contested this question ({student})")
-    return redirect(url_for("practice_session", student=student, node=node or "", context=ctx))
+    return redirect(url_for("practice_session", node=node or "", context=ctx))
 
 
 # ==========================================================================
@@ -996,7 +1025,7 @@ def quiz_start(quiz_id):
     if q is None:
         abort(404)
     return render_template("quiz_start.html", q=q, n=len(q["item_ids"]),
-                           **_signin_context())
+                           student=current_student())
 
 
 @app.route("/q/<quiz_id>/take")
@@ -1005,12 +1034,12 @@ def quiz_take(quiz_id):
     q = store.get_quiz(db, quiz_id)
     if q is None:
         abort(404)
-    student = (request.args.get("student") or "").strip()
+    student = current_student()
     if not student:
         return redirect(url_for("quiz_start", quiz_id=quiz_id))
     attempt = store.get_or_start_attempt(db, quiz_id, student)
     if attempt["submitted_at"]:
-        return redirect(url_for("quiz_results", quiz_id=quiz_id, student=student))
+        return redirect(url_for("quiz_results", quiz_id=quiz_id))
     if not q["open"]:
         return render_template("quiz_closed.html", q=q)
 
@@ -1034,7 +1063,7 @@ def quiz_save(quiz_id):
     q = store.get_quiz(db, quiz_id)
     if q is None:
         abort(404)
-    student = request.form["student"]
+    student = current_student()
     iid = request.form["item_id"]
     pos = request.form.get("pos", type=int) or 1
     goto = request.form.get("goto", "next")
@@ -1056,11 +1085,11 @@ def quiz_save(quiz_id):
     store.save_attempt_answer(db, attempt["attempt_id"], iid, value)
 
     if goto == "check":
-        return redirect(url_for("quiz_check", quiz_id=quiz_id, student=student))
+        return redirect(url_for("quiz_check", quiz_id=quiz_id))
     nxt = pos + 1 if goto == "next" else pos - 1
     if nxt > len(q["item_ids"]):
-        return redirect(url_for("quiz_check", quiz_id=quiz_id, student=student))
-    return redirect(url_for("quiz_take", quiz_id=quiz_id, student=student, n=max(1, nxt)))
+        return redirect(url_for("quiz_check", quiz_id=quiz_id))
+    return redirect(url_for("quiz_take", quiz_id=quiz_id, n=max(1, nxt)))
 
 
 @app.route("/q/<quiz_id>/check")
@@ -1069,10 +1098,10 @@ def quiz_check(quiz_id):
     q = store.get_quiz(db, quiz_id)
     if q is None:
         abort(404)
-    student = request.args["student"]
+    student = current_student()
     attempt = store.get_or_start_attempt(db, quiz_id, student)
     if attempt["submitted_at"]:
-        return redirect(url_for("quiz_results", quiz_id=quiz_id, student=student))
+        return redirect(url_for("quiz_results", quiz_id=quiz_id))
     items = _items_by_id(db, q["item_ids"])
     blanks = quizlib.unanswered_positions(items, q["item_ids"], attempt["answers"])
     return render_template("quiz_check.html", q=q, student=student, blanks=blanks,
@@ -1085,10 +1114,10 @@ def quiz_submit(quiz_id):
     q = store.get_quiz(db, quiz_id)
     if q is None:
         abort(404)
-    student = request.form["student"]
+    student = current_student()
     attempt = store.get_or_start_attempt(db, quiz_id, student)
     if attempt["submitted_at"]:
-        return redirect(url_for("quiz_results", quiz_id=quiz_id, student=student))
+        return redirect(url_for("quiz_results", quiz_id=quiz_id))
 
     items = _items_by_id(db, q["item_ids"])
     results = quizlib.grade_attempt(items, q["item_ids"], attempt["answers"])
@@ -1099,7 +1128,7 @@ def quiz_submit(quiz_id):
         store.record_event(db, student, row["item_id"], row["spec_node_id"],
                            row["response"], row["result"],
                            context=row["context"], version=row["version"])
-    return redirect(url_for("quiz_results", quiz_id=quiz_id, student=student))
+    return redirect(url_for("quiz_results", quiz_id=quiz_id))
 
 
 @app.route("/q/<quiz_id>/results")
@@ -1108,10 +1137,10 @@ def quiz_results(quiz_id):
     q = store.get_quiz(db, quiz_id)
     if q is None:
         abort(404)
-    student = request.args["student"]
+    student = current_student()
     attempt = store.get_or_start_attempt(db, quiz_id, student)
     if not attempt["submitted_at"]:
-        return redirect(url_for("quiz_check", quiz_id=quiz_id, student=student))
+        return redirect(url_for("quiz_check", quiz_id=quiz_id))
     items = _items_by_id(db, q["item_ids"])
     rows = []
     for i, iid in enumerate(q["item_ids"], start=1):
@@ -1129,7 +1158,7 @@ def quiz_results(quiz_id):
 @app.route("/drill/progress")
 def drill_progress():
     db = get_db()
-    student = request.args["student"]
+    student = current_student()
     events = store.events_for_student(db, student)
     rows = drill.progress_table(_DRILL_WORDS, events)
     summary = drill.progress_summary(rows)
@@ -1252,7 +1281,7 @@ def teacher_student(student_id):
     misses = store.miss_reasons_for_student(db, student_id, since=w["since"])
     return render_template(
         "teacher_student.html", w=w, student=student_id,
-        person=person, act=act,
+        person=person, act=act, has_pin=store.has_pin(db, student_id),
 
         vocab=drill.progress_summary(vocab_rows), vocab_rows=vocab_rows,
         nodes=node_rows,
@@ -1303,6 +1332,7 @@ def teacher_roster():
     return render_template("teacher_roster.html", rows=rows,
                            sections=store.sections(db), section=section,
                            rejected=request.args.getlist("rejected"),
+                           pinned=store.students_with_pins(db),
                            unrostered=sorted(seen - known))
 
 
@@ -1317,6 +1347,22 @@ def teacher_roster_add():
     # that matters is "these were names, and names are not stored here".
     return redirect(url_for("teacher_roster", section=section, added=len(added),
                             existing=len(existing), rejected=rejected[:12]))
+
+
+@app.route("/teacher/pin/reset", methods=["POST"])
+def teacher_pin_reset():
+    """Clear a student's PIN so they can choose a new one.
+
+    This is the whole of password recovery in this app, and it is enough:
+    there are no email addresses here to send a link to, and the person who
+    can confirm the student is who they say they are is standing in front of
+    them.
+    """
+    db = get_db()
+    sid = identity.normalize(request.form.get("student_id"))
+    store.clear_pin(db, sid)
+    back = request.form.get("back") or url_for("teacher_roster")
+    return redirect(back + ("&" if "?" in back else "?") + "pin_reset=" + sid)
 
 
 @app.route("/teacher/roster/update", methods=["POST"])

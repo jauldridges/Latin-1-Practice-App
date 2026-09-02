@@ -85,5 +85,19 @@
 </details>
 {% endif %}
 
+{% if has_pin %}
+<form method="post" action="{{ url_for('teacher_pin_reset') }}">
+  <input type="hidden" name="student_id" value="{{ student }}">
+  <input type="hidden" name="back" value="{{ url_for('teacher_student', student_id=student) }}">
+  <button class="bigbtn secondary"
+          onclick="return confirm('Reset this PIN? They choose a new one next sign-in.')">Reset their PIN</button>
+</form>
+<p class="small muted">This is all of password recovery here — there is no email
+  address in this app to send a reset to, and you are the person who can tell
+  whether they are who they say they are.</p>
+{% else %}
+<p class="small muted">No PIN set yet — they will choose one the first time they sign in.</p>
+{% endif %}
+
 <a class="bigbtn secondary" href="{{ url_for('teacher_home', days=w.days) }}">Back to the class</a>
 {% endblock %}

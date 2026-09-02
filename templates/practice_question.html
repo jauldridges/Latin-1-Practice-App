@@ -14,7 +14,6 @@
 <div class="stem">{{ item.stem }}</div>
 
 <form method="post" action="{{ url_for('practice_answer') }}" id="qform">
-  <input type="hidden" name="student" value="{{ student }}">
   <input type="hidden" name="item_id" value="{{ item.id }}">
   <input type="hidden" name="node" value="{{ node or '' }}">
   <input type="hidden" name="context" value="{{ context }}">

@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% block subtitle %}practice{% endblock %}
 {% block content %}
+{% if signed_in_student %}
+  <p class="small muted">Signed in as <strong class="sid">{{ signed_in_student }}</strong>
+    — <a href="{{ url_for('signout') }}">not you?</a></p>
+{% endif %}
 <h1>Grammar practice</h1>
 <p class="small muted">Questions your teacher has approved, from lessons already taught.
 Nothing here affects a grade.</p>
@@ -20,8 +24,6 @@ Nothing here affects a grade.</p>
 </div>
 {% else %}
 <form method="post" action="{{ url_for('practice_start') }}" id="startform">
-  {% include "_idpick.html" %}
-
   <label class="small muted" for="node" style="display:block;margin-top:12px">What to practise</label>
   <select name="node" id="node" style="width:100%;padding:14px;font-size:17px;border:1px solid var(--line);border-radius:10px;background:#fff">
     <option value="">Everything taught so far ({{ n_ready }})</option>
@@ -35,17 +37,6 @@ Nothing here affects a grade.</p>
 {% if n_locked %}
   <p class="small muted">{{ n_locked }} approved question(s) are waiting on lessons not yet taught.</p>
 {% endif %}
-<script>
-  // Remember the ID on this device only (no account, and no name to remember).
-  // localStorage may be blocked; ignore failures.
-  try {
-    var s = document.getElementById('student_id');
-    var saved = localStorage.getItem('latin_student_id');
-    if (saved && s && !s.value) s.value = saved;
-    document.getElementById('startform').addEventListener('submit', function(){
-      try { if (s && s.value.trim()) localStorage.setItem('latin_student_id', s.value.trim()); } catch(e){}
-    });
-  } catch(e) {}
-</script>
+
 {% endif %}
 {% endblock %}

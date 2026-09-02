@@ -23,6 +23,9 @@ else's record or into nobody's. Three things guard it:
              that maps numbers to actual students stays off the machine.
 """
 
+import binascii
+import hashlib
+import hmac
 import os
 import re
 
@@ -65,3 +68,44 @@ def describe_pattern():
             return "a %s-digit number" % lo
         return "a number, %s to %s digits" % (lo, hi)
     return "a valid student ID"
+
+
+# --------------------------------------------------------------------------
+# PINs
+# --------------------------------------------------------------------------
+
+PIN_LENGTH = 4
+_PIN_RE = re.compile(r"^[0-9]{%d}$" % PIN_LENGTH)
+
+# Deliberately not a password hash's worth of rounds. A four-digit PIN has only
+# 10,000 possibilities, so no iteration count makes a stolen table safe against
+# someone determined; what this buys is that the table is not a plain lookup,
+# and that guessing costs real time. Meanwhile every sign-in pays this cost on
+# a small server, so a million rounds would just make the app feel broken.
+PIN_ROUNDS = 200000
+PIN_ALGO = "pbkdf2_sha256$%d" % PIN_ROUNDS
+
+
+def is_valid_pin(pin):
+    return bool(_PIN_RE.match(str(pin or "").strip()))
+
+
+def hash_pin(pin, salt=None):
+    """Returns (algo, salt, hex digest). Per-student salt, so two students who
+    pick the same PIN do not get the same hash."""
+    salt = salt or binascii.hexlify(os.urandom(16)).decode()
+    digest = hashlib.pbkdf2_hmac("sha256", str(pin).encode(), salt.encode(), PIN_ROUNDS)
+    return PIN_ALGO, salt, binascii.hexlify(digest).decode()
+
+
+def verify_pin(pin, algo, salt, expected):
+    """Constant-time compare, and the stored algo is honoured rather than
+    assumed, so the rounds can be raised later without locking anyone out."""
+    rounds = PIN_ROUNDS
+    if algo and "$" in algo:
+        try:
+            rounds = int(algo.split("$", 1)[1])
+        except ValueError:
+            pass
+    digest = hashlib.pbkdf2_hmac("sha256", str(pin).encode(), str(salt).encode(), rounds)
+    return hmac.compare_digest(binascii.hexlify(digest).decode(), str(expected))

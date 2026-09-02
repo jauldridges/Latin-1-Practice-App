@@ -14,13 +14,12 @@ Two doors, deliberately different, because the two users are not alike:
             — the dashboard, the review tool, quiz building — can change what
             students see or read every student's record.
 
-  student   a class code, not a password. Fourteen-year-olds forgetting
-            passwords at 9pm is the failure mode that kills home practice, and
-            a per-student password buys very little here: nothing behind this
-            door is a grade. The code keeps the open internet out. It does not
-            stop a student who knows a classmate's ID number from practising as
-            them — per-student PINs are the fix, and are specified in the
-            hosting change request.
+  student   an ID number and a four-digit PIN they choose the first time.
+            Not a password: fourteen-year-olds forgetting passwords at 9pm is
+            the failure mode that kills home practice, and nothing behind this
+            door is a grade. The PIN exists to stop one student practising as
+            another. A forgotten one is cleared by the teacher — there is no
+            email address in this system to send a reset to.
 
 Both are cookies, so it is once per device per year, not once per session.
 
@@ -41,15 +40,11 @@ import os
 from flask import session
 
 TEACHER_KEY = "is_teacher"
-STUDENT_KEY = "class_ok"
+STUDENT_KEY = "student_id"      # the signed-in student's ID, or absent
 
 
 def teacher_password():
     return os.environ.get("LATIN_TEACHER_PASSWORD") or ""
-
-
-def class_code():
-    return os.environ.get("LATIN_CLASS_CODE") or ""
 
 
 def is_public():
@@ -72,10 +67,6 @@ def teacher_gate_on():
     return bool(teacher_password())
 
 
-def student_gate_on():
-    return bool(class_code())
-
-
 def matches(given, expected):
     """Constant-time, so the password cannot be guessed a character at a time."""
     return bool(expected) and hmac.compare_digest(str(given or ""), str(expected))
@@ -86,4 +77,10 @@ def is_teacher():
 
 
 def student_ok():
-    return (not student_gate_on()) or bool(session.get(STUDENT_KEY)) or bool(session.get(TEACHER_KEY))
+    """A student is signed in on this device.
+
+    Unlike the teacher gate there is no "off" switch. A shared class code used
+    to serve this purpose and is gone: it let anyone who knew the code practise
+    as any student, which is precisely what the PIN is for.
+    """
+    return bool(session.get(STUDENT_KEY))

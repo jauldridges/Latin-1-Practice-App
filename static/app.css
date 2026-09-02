@@ -198,3 +198,4 @@ select.namepick {
 .lastaction .acts { display: flex; gap: 6px; align-items: center; }
 .lastaction .acts form { margin: 0; }
 .lastaction a.minibtn { text-decoration: none; display: inline-block; }
+.pinbox { letter-spacing: .5em; font-size: 24px; text-align: center; font-family: ui-monospace, Menlo, monospace; }

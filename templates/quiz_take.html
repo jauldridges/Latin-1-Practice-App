@@ -9,7 +9,6 @@
 <div class="stem">{{ item.stem }}</div>
 
 <form method="post" action="{{ url_for('quiz_save', quiz_id=q.quiz_id) }}" id="qf">
-  <input type="hidden" name="student" value="{{ student }}">
   <input type="hidden" name="item_id" value="{{ item.id }}">
   <input type="hidden" name="pos" value="{{ pos }}">
 

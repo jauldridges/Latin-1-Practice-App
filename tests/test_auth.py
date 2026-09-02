@@ -14,12 +14,13 @@ import unittest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import auth  # noqa: E402
+import store  # noqa: E402
 
 
 class EnvMixin(unittest.TestCase):
     def setUp(self):
         self._saved = {k: os.environ.get(k) for k in
-                       ("LATIN_TEACHER_PASSWORD", "LATIN_CLASS_CODE", "LATIN_PUBLIC")}
+                       ("LATIN_TEACHER_PASSWORD", "LATIN_PUBLIC")}
 
     def tearDown(self):
         for k, v in self._saved.items():
@@ -51,10 +52,9 @@ class TestConfig(EnvMixin):
         self.env(LATIN_PUBLIC=None, LATIN_TEACHER_PASSWORD=None)
         self.assertIsNone(auth.check_config())
 
-    def test_gates_are_off_until_a_secret_is_set(self):
-        self.env(LATIN_TEACHER_PASSWORD=None, LATIN_CLASS_CODE=None)
+    def test_the_teacher_gate_is_off_until_a_password_is_set(self):
+        self.env(LATIN_TEACHER_PASSWORD=None)
         self.assertFalse(auth.teacher_gate_on())
-        self.assertFalse(auth.student_gate_on())
 
 
 class TestMatches(EnvMixin):
@@ -96,10 +96,9 @@ class TestGate(EnvMixin):
         os.environ.pop("LATIN_DB", None)
         sys.modules.pop("server", None)
 
-    def test_wide_open_when_no_secrets_are_set(self):
+    def test_the_teacher_side_is_open_when_no_password_is_set(self):
         _, c = make_client(self.db)
         self.assertEqual(c.get("/teacher").status_code, 200)
-        self.assertEqual(c.get("/drill").status_code, 200)
 
     def test_teacher_pages_redirect_to_login(self):
         _, c = make_client(self.db, LATIN_TEACHER_PASSWORD="hunter2")
@@ -120,19 +119,21 @@ class TestGate(EnvMixin):
         c.get("/logout")
         self.assertEqual(c.get("/teacher").status_code, 302)
 
-    def test_a_class_code_gates_the_student_side(self):
-        _, c = make_client(self.db, LATIN_CLASS_CODE="latin27")
+    def test_the_student_side_always_needs_a_signed_in_student(self):
+        # Unlike the teacher gate there is no "off" switch: a shared class code
+        # let anyone who knew it practise as anyone, which is what PINs fix.
+        _, c = make_client(self.db)
         r = c.get("/drill")
         self.assertEqual(r.status_code, 302)
-        self.assertIn("/classcode", r.headers["Location"])
-        c.post("/classcode", data={"code": "latin27"})
-        self.assertEqual(c.get("/drill").status_code, 200)
+        self.assertIn("/signin", r.headers["Location"])
 
-    def test_the_class_code_does_not_open_the_teacher_side(self):
+    def test_a_signed_in_student_does_not_open_the_teacher_side(self):
         # The whole point of two doors.
-        _, c = make_client(self.db, LATIN_CLASS_CODE="latin27",
-                           LATIN_TEACHER_PASSWORD="hunter2")
-        c.post("/classcode", data={"code": "latin27"})
+        server, c = make_client(self.db, LATIN_TEACHER_PASSWORD="hunter2")
+        conn = store.connect(self.db)
+        store.add_student(conn, "40217", "Block 3")
+        c.post("/signin", data={"step": "pin", "student_id": "40217",
+                                "pin": "1234", "pin2": "1234"})
         self.assertEqual(c.get("/drill").status_code, 200)
         self.assertEqual(c.get("/teacher").status_code, 302)
 
@@ -144,9 +145,9 @@ class TestGate(EnvMixin):
 
     def test_every_route_is_gated(self):
         """Walk the real URL map. A route added later is closed by default."""
-        server, c = make_client(self.db, LATIN_TEACHER_PASSWORD="hunter2",
-                                LATIN_CLASS_CODE="latin27")
-        allowed = {"/", "/login", "/logout", "/classcode", "/static/<path:filename>"}
+        server, c = make_client(self.db, LATIN_TEACHER_PASSWORD="hunter2")
+        allowed = {"/", "/login", "/logout", "/signin", "/signout",
+                   "/static/<path:filename>"}
         leaked = []
         for rule in server.app.url_map.iter_rules():
             if str(rule) in allowed:
@@ -162,7 +163,7 @@ class TestGate(EnvMixin):
                 continue
             r = c.get(path)
             if r.status_code != 302 or ("/login" not in r.headers.get("Location", "")
-                                        and "/classcode" not in r.headers.get("Location", "")):
+                                        and "/signin" not in r.headers.get("Location", "")):
                 leaked.append((path, r.status_code))
         self.assertEqual(leaked, [], "ungated routes: %r" % (leaked,))
 

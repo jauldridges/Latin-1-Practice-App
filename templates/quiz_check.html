@@ -19,14 +19,13 @@
     {% for i in range(1, total + 1) %}
       <a class="badge {{ 'err' if i in blanks else 'tier' }}"
          style="text-decoration:none;padding:8px 12px"
-         href="{{ url_for('quiz_take', quiz_id=q.quiz_id, student=student, n=i) }}">{{ i }}</a>
+         href="{{ url_for('quiz_take', quiz_id=q.quiz_id, n=i) }}">{{ i }}</a>
     {% endfor %}
   </div>
 </div>
 
 <form method="post" action="{{ url_for('quiz_submit', quiz_id=q.quiz_id) }}"
       onsubmit="return confirm('Submit? You cannot change your answers after this.')">
-  <input type="hidden" name="student" value="{{ student }}">
   <button class="bigbtn" type="submit">Submit</button>
 </form>
 <p class="small muted" style="text-align:center">Once you submit you'll see how you

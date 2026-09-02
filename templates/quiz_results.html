@@ -91,7 +91,6 @@ spelling was off by a letter or two — worth a look.</p>
         <summary class="small" style="color:var(--edit);font-weight:600">What happened?</summary>
         {% for m in r.menu %}
         <form method="post" action="{{ url_for('practice_menu') }}" style="margin:4px 0">
-          <input type="hidden" name="student" value="{{ student }}">
           <input type="hidden" name="item_id" value="{{ r.item.id }}">
           <input type="hidden" name="context" value="{{ q.context }}">
           <input type="hidden" name="reason_key" value="{{ m.key }}">

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ student_id }}{% endblock %}
+{% block content %}
+<h1>{% if setting %}Choose a PIN{% else %}Your PIN{% endif %}</h1>
+<p class="small muted">Signing in as <strong class="sid">{{ student_id }}</strong> —
+  <a href="{{ url_for('signin', next=next) }}">not you?</a></p>
+{% if error %}<div class="answer-feedback wrong">{{ error }}</div>{% endif %}
+
+{% if setting %}
+<p class="small muted">First time on this app. Pick four digits you'll remember —
+  it stops anyone else practising as you. It is not a password and nothing here
+  affects your grade, so don't reuse one that matters.</p>
+{% endif %}
+
+<form method="post" action="{{ url_for('signin') }}">
+  <input type="hidden" name="next" value="{{ next }}">
+  <input type="hidden" name="step" value="pin">
+  <input type="hidden" name="student_id" value="{{ student_id }}">
+  <input type="hidden" name="confirm_unknown" value="1">
+  <label class="small muted" for="pin">{{ 'New PIN' if setting else 'PIN' }}</label>
+  <input type="password" name="pin" id="pin" required autofocus
+         inputmode="numeric" pattern="[0-9]*" maxlength="4"
+         autocomplete="off" class="pinbox">
+  {% if setting %}
+    <label class="small muted" for="pin2" style="display:block;margin-top:12px">Type it again</label>
+    <input type="password" name="pin2" id="pin2" required inputmode="numeric"
+           pattern="[0-9]*" maxlength="4" autocomplete="off" class="pinbox">
+  {% endif %}
+  <button class="bigbtn" type="submit" style="margin-top:14px">{{ 'Save and start' if setting else 'Sign in' }}</button>
+</form>
+{% if not setting %}
+<p class="small muted">Forgotten it? Ask your teacher — they can reset it. There's
+  no email in this app to send one to.</p>
+{% endif %}
+{% endblock %}

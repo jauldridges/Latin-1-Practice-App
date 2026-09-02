@@ -150,6 +150,24 @@ CREATE TABLE IF NOT EXISTS roster (
     active       INTEGER DEFAULT 1,
     added_at     REAL NOT NULL
 );
+
+-- A student's PIN, hashed. Never the PIN itself.
+--
+-- This exists to stop one student practising as another, not to secure
+-- anything valuable: nothing behind it is a grade. Four digits is enough for
+-- that job, and anything heavier fails the real test — a fourteen-year-old
+-- locked out at 9pm does not do their homework, they give up.
+--
+-- Hashed anyway, with a per-student salt and enough rounds to make a stolen
+-- table useless, because four digits is 10,000 guesses and an unsalted hash of
+-- one is a lookup table.
+CREATE TABLE IF NOT EXISTS student_pins (
+    student_id  TEXT PRIMARY KEY,
+    algo        TEXT NOT NULL,          -- e.g. pbkdf2_sha256$200000
+    salt        TEXT NOT NULL,
+    hash        TEXT NOT NULL,
+    set_at      REAL NOT NULL
+);
 """
 
 
@@ -812,6 +830,46 @@ def get_student(conn, student_id):
     r = conn.execute("SELECT * FROM roster WHERE student_id=?",
                      (normalize_student(student_id),)).fetchone()
     return dict(r) if r else None
+
+
+def set_pin(conn, student_id, pin):
+    """Store a PIN. Replaces any existing one — that is also how a reset works."""
+    key = normalize_student(student_id)
+    algo, salt, digest = identity.hash_pin(pin)
+    conn.execute("DELETE FROM student_pins WHERE student_id=?", (key,))
+    conn.execute(
+        """INSERT INTO student_pins (student_id, algo, salt, hash, set_at)
+           VALUES (?,?,?,?,?)""",
+        (key, algo, salt, digest, time.time()))
+    conn.commit()
+    return True
+
+
+def has_pin(conn, student_id):
+    r = conn.execute("SELECT 1 AS x FROM student_pins WHERE student_id=?",
+                     (normalize_student(student_id),)).fetchone()
+    return r is not None
+
+
+def check_pin(conn, student_id, pin):
+    r = conn.execute("SELECT * FROM student_pins WHERE student_id=?",
+                     (normalize_student(student_id),)).fetchone()
+    if r is None:
+        return False
+    return identity.verify_pin(pin, r["algo"], r["salt"], r["hash"])
+
+
+def clear_pin(conn, student_id):
+    """The teacher's reset. The student chooses a new PIN next time they sign
+    in — there is no email address in this system to send one to."""
+    conn.execute("DELETE FROM student_pins WHERE student_id=?",
+                 (normalize_student(student_id),))
+    conn.commit()
+
+
+def students_with_pins(conn):
+    return {r["student_id"] for r in
+            conn.execute("SELECT student_id FROM student_pins").fetchall()}
 
 
 def all_students(conn):

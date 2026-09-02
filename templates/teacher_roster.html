@@ -2,6 +2,11 @@
 {% block subtitle %}class list{% endblock %}
 {% block content %}
 <h1>Class list</h1>
+{% if request.args.get('pin_reset') %}
+  <div class="answer-feedback right">PIN cleared for
+    <span class="sid">{{ request.args.get('pin_reset') }}</span>. They will choose a
+    new one next time they sign in.</div>
+{% endif %}
 {% if request.args.get('added') or request.args.get('existing') %}
   <div class="answer-feedback right">
     Added {{ request.args.get('added', 0) }} ID(s).
@@ -54,6 +59,7 @@
       <a class="sid" href="{{ url_for('teacher_student', student_id=r.student_id) }}">{{ r.student_id }}</a>
       {% if r.section %}<span class="small muted"> · {{ r.section }}</span>{% endif %}
       {% if not r.active %}<span class="pill notyet">inactive</span>{% endif %}
+      {% if r.student_id not in pinned %}<span class="small muted">· no PIN yet</span>{% endif %}
     </td>
     <td style="width:11em;text-align:right">
       <form method="post" action="{{ url_for('teacher_roster_update') }}" style="display:inline">
@@ -67,6 +73,13 @@
         <button class="minibtn danger" name="action" value="remove"
                 onclick="return confirm('Remove {{ r.student_id }} from the class list? Their practice history is kept.')">Remove</button>
       </form>
+      {% if r.student_id in pinned %}
+      <form method="post" action="{{ url_for('teacher_pin_reset') }}" style="display:inline">
+        <input type="hidden" name="student_id" value="{{ r.student_id }}">
+        <input type="hidden" name="back" value="{{ url_for('teacher_roster', section=section) }}">
+        <button class="minibtn" onclick="return confirm('Reset the PIN for {{ r.student_id }}? They choose a new one next sign-in.')">Reset PIN</button>
+      </form>
+      {% endif %}
     </td>
   </tr>
   {% endfor %}
