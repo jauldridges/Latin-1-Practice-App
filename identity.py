@@ -29,11 +29,17 @@ import hmac
 import os
 import re
 
-# What a student ID looks like here. Libertas IDs were not specified in the
-# change request, so this is a guess wide enough for most school ID schemes —
-# override LATIN_ID_PATTERN if it is wrong. Leading zeros are significant, so
-# they are never stripped.
-DEFAULT_PATTERN = r"^[0-9]{4,10}$"
+# What a student ID looks like here: six digits, never starting with zero.
+#
+# These numbers are issued by make_ids.py rather than taken from the school's
+# system, so the format is a choice rather than a constraint — and a tight one
+# earns its keep. A typo that drops or doubles a digit is refused at the
+# sign-in screen instead of becoming a mystery "unknown number", and no id can
+# ever be written with a leading zero, which a spreadsheet would silently eat.
+#
+# Override LATIN_ID_PATTERN if you ever need to accept something else. Leading
+# zeros are never stripped, so an id from another scheme keeps its shape.
+DEFAULT_PATTERN = r"^[1-9][0-9]{5}$"
 
 # Characters people put in a number that are not part of it: an ID written on
 # a card as "40-217" or "40 217" is the same ID.
@@ -61,12 +67,17 @@ def is_valid(raw):
 def describe_pattern():
     """A human sentence for the screen that rejects a bad number."""
     p = pattern()
+    if p == DEFAULT_PATTERN:
+        return "a 6-digit number"
     m = re.match(r"^\^\[0-9\]\{(\d+),(\d+)\}\$$", p)
     if m:
         lo, hi = m.group(1), m.group(2)
         if lo == hi:
             return "a %s-digit number" % lo
         return "a number, %s to %s digits" % (lo, hi)
+    m = re.match(r"^\^\[0-9\]\{(\d+)\}\$$", p)
+    if m:
+        return "a %s-digit number" % m.group(1)
     return "a valid student ID"
 
 

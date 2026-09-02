@@ -53,8 +53,8 @@ class TestWritePath(unittest.TestCase):
 
     def test_an_id_can(self):
         conn, _ = fresh()
-        self.assertEqual(store.add_student(conn, "40217", "Block 3"), "40217")
-        self.assertEqual(store.roster(conn)[0]["student_id"], "40217")
+        self.assertEqual(store.add_student(conn, "403217", "Block 3"), "403217")
+        self.assertEqual(store.roster(conn)[0]["student_id"], "403217")
 
     def test_a_pasted_list_of_names_is_rejected_wholesale(self):
         conn, _ = fresh()
@@ -67,17 +67,17 @@ class TestWritePath(unittest.TestCase):
     def test_a_pasted_list_of_ids_is_accepted(self):
         conn, _ = fresh()
         added, _, rejected = store.add_students_bulk(
-            conn, ["40217", " 40-218 ", "", "40219"], "Block 3")
-        self.assertEqual(added, ["40217", "40218", "40219"])
+            conn, ["403217", " 418-206 ", "", "426913"], "Block 3")
+        self.assertEqual(added, ["403217", "418206", "426913"])
         self.assertEqual(rejected, [])
 
     def test_ids_load_from_a_file(self):
         conn, path = fresh()
         f = os.path.join(os.path.dirname(path), "ids.txt")
         with open(f, "w") as fh:
-            fh.write("# Block 3\n40217\n40218   # a comment\n\n40219\n")
+            fh.write("# Block 3\n403217\n418206   # a comment\n\n426913\n")
         added, _, rejected = store.load_student_ids_file(conn, f, "Block 3")
-        self.assertEqual(added, ["40217", "40218", "40219"])
+        self.assertEqual(added, ["403217", "418206", "426913"])
         self.assertEqual(rejected, [])
 
 
@@ -100,7 +100,7 @@ class TestPurge(unittest.TestCase):
             started_at REAL, submitted_at REAL, answers_json TEXT DEFAULT '{}', results_json TEXT);
         INSERT INTO roster VALUES ('sam tucker','Sam Tucker','Block 3',1,0);
         INSERT INTO events (student_id,timestamp,item_id,result) VALUES ('sam tucker',1,'x','right');
-        INSERT INTO events (student_id,timestamp,item_id,result) VALUES ('40217',2,'y','right');
+        INSERT INTO events (student_id,timestamp,item_id,result) VALUES ('403217',2,'y','right');
         INSERT INTO miss_reasons (student_id,timestamp,item_id) VALUES ('kim ruiz',1,'x');
         INSERT INTO quiz_attempts VALUES ('q:s','q','sam tucker',1,NULL,'{}',NULL);
         """)
@@ -122,7 +122,7 @@ class TestPurge(unittest.TestCase):
         conn = self.old_db()
         store.init_db(conn)
         rows = conn.execute("SELECT student_id FROM events").fetchall()
-        self.assertEqual([r["student_id"] for r in rows], ["40217"])
+        self.assertEqual([r["student_id"] for r in rows], ["403217"])
 
     def test_no_name_string_is_left_anywhere_in_the_file(self):
         # The strongest form of the claim: grep the raw bytes of the database.

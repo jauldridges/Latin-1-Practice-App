@@ -37,17 +37,17 @@ def populate(conn):
     ], {}, "test")
     store.set_review(conn, "Q1", "approved", session_id="s")
     store.set_review(conn, "Q2", "rejected", reason="duplicate", session_id="s")
-    store.add_student(conn, "40217", "Block 3")
-    store.add_student(conn, "40218", "Block 4")
-    store.set_pin(conn, "40217", "1234")
+    store.add_student(conn, "403217", "Block 3")
+    store.add_student(conn, "418206", "Block 4")
+    store.set_pin(conn, "403217", "1234")
     now = time.time()
     for i in range(6):
-        store.record_event(conn, "40217", "vocab:puella:la_en", None, "girl",
+        store.record_event(conn, "403217", "vocab:puella:la_en", None, "girl",
                            "right" if i % 2 else "wrong", timestamp=now - i * 86400)
-    store.record_miss_reason(conn, "40217", "Q1", "MS-001", "k", "I guessed", "MS-001")
+    store.record_miss_reason(conn, "403217", "Q1", "MS-001", "k", "I guessed", "MS-001")
     store.approve_teaching(conn, "MS-001", "fp")
     store.create_quiz(conn, "q1", "Check", ["Q1"])
-    a = store.get_or_start_attempt(conn, "q1", "40217")
+    a = store.get_or_start_attempt(conn, "q1", "403217")
     store.save_attempt_answer(conn, a["attempt_id"], "Q1", "a")
     return conn
 
@@ -74,7 +74,7 @@ class TestRoundTrip(unittest.TestCase):
     """Take a backup, restore it somewhere empty, and compare."""
 
     def snapshot(self, conn):
-        events = store.events_for_student(conn, "40217")
+        events = store.events_for_student(conn, "403217")
         words = [{"latin": "puella", "en": ["girl"], "week": drill.WEEK_ORDER[0]}]
         return {
             "counts": store.counts(conn),
@@ -86,7 +86,7 @@ class TestRoundTrip(unittest.TestCase):
             # Derived state: the figure that would silently break if timestamps
             # were lost, while every row count still matched.
             "boxes": [(r.latin, r.box, r.state) for r in drill.progress_table(words, events)],
-            "pin_works": store.check_pin(conn, "40217", "1234"),
+            "pin_works": store.check_pin(conn, "403217", "1234"),
         }
 
     def test_a_backup_restores(self):
@@ -101,8 +101,8 @@ class TestRoundTrip(unittest.TestCase):
         src = populate(fresh("src.sqlite"))
         dst = fresh("dst.sqlite")
         backup.restore(dst, json.loads(backup.export_json(src)))
-        self.assertTrue(store.check_pin(dst, "40217", "1234"))
-        self.assertFalse(store.check_pin(dst, "40217", "9999"))
+        self.assertTrue(store.check_pin(dst, "403217", "1234"))
+        self.assertFalse(store.check_pin(dst, "403217", "9999"))
 
     def test_restoring_onto_live_data_is_refused(self):
         src = populate(fresh("src.sqlite"))
@@ -114,7 +114,7 @@ class TestRoundTrip(unittest.TestCase):
         src = populate(fresh("src.sqlite"))
         dst = populate(fresh("dst.sqlite"))
         backup.restore(dst, json.loads(backup.export_json(src)), replace=True)
-        self.assertEqual(len(store.events_for_student(dst, "40217")), 6)
+        self.assertEqual(len(store.events_for_student(dst, "403217")), 6)
 
     def test_an_unknown_format_is_refused(self):
         with self.assertRaises(ValueError):
@@ -131,7 +131,7 @@ class TestEndOfYear(unittest.TestCase):
         self.assertEqual(removed["roster"], 2)
         self.assertEqual(store.all_events(self.conn), [])
         self.assertEqual(store.roster(self.conn), [])
-        self.assertFalse(store.has_pin(self.conn, "40217"))
+        self.assertFalse(store.has_pin(self.conn, "403217"))
 
     def test_the_question_bank_stays(self):
         # Next year's class needs the questions and the review decisions; it
@@ -151,7 +151,7 @@ class TestEndOfYear(unittest.TestCase):
         dst = fresh("dst.sqlite")
         backup.restore(dst, json.loads(blob))
         self.assertEqual(len(store.all_events(dst)), 6)
-        self.assertTrue(store.check_pin(dst, "40217", "1234"))
+        self.assertTrue(store.check_pin(dst, "403217", "1234"))
 
 
 @unittest.skipUnless(PG_URL, "set LATIN_TEST_PG_URL to run against a real Postgres")
@@ -174,8 +174,8 @@ class TestAcrossDatabases(unittest.TestCase):
         lite = fresh("from_pg.sqlite")
         backup.restore(lite, data)
         self.assertEqual(len(store.all_events(lite)), 6)
-        self.assertEqual([r["student_id"] for r in store.roster(lite)], ["40217", "40218"])
-        self.assertTrue(store.check_pin(lite, "40217", "1234"))
+        self.assertEqual([r["student_id"] for r in store.roster(lite)], ["403217", "418206"])
+        self.assertTrue(store.check_pin(lite, "403217", "1234"))
         self.assertEqual(store.approved_payloads(lite)[0]["id"], "Q1")
         pg.close()
 
@@ -189,7 +189,7 @@ class TestAcrossDatabases(unittest.TestCase):
         store.init_db(pg)
         backup.restore(pg, data)
         self.assertEqual(len(store.all_events(pg)), 6)
-        self.assertTrue(store.check_pin(pg, "40217", "1234"))
+        self.assertTrue(store.check_pin(pg, "403217", "1234"))
         pg.close()
 
 

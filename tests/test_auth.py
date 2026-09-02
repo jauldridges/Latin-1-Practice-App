@@ -131,8 +131,8 @@ class TestGate(EnvMixin):
         # The whole point of two doors.
         server, c = make_client(self.db, LATIN_TEACHER_PASSWORD="hunter2")
         conn = store.connect(self.db)
-        store.add_student(conn, "40217", "Block 3")
-        c.post("/signin", data={"step": "pin", "student_id": "40217",
+        store.add_student(conn, "403217", "Block 3")
+        c.post("/signin", data={"step": "pin", "student_id": "403217",
                                 "pin": "1234", "pin2": "1234"})
         self.assertEqual(c.get("/drill").status_code, 200)
         self.assertEqual(c.get("/teacher").status_code, 302)

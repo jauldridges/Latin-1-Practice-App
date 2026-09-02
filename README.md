@@ -379,10 +379,37 @@ one back.
 - Students type their ID number to practise. Nothing else is asked.
 - The teacher screens show ID numbers. The paper that maps a number to a person
   stays off the machine.
-- `identity.py` decides what a well-formed ID looks like: **4 to 10 digits** by
-  default. Libertas's actual format was not specified, so override
-  `LATIN_ID_PATTERN` with a regex if that is wrong. Leading zeros are
-  significant — `04217` is not student `4217`.
+- IDs are **issued by this project**, not taken from the school's system —
+  `make_ids.py` generates them and the teacher keeps the paper that says which
+  number went to whom. So the format is a choice rather than a constraint:
+  **six digits, never starting with zero**. Override `LATIN_ID_PATTERN` if you
+  ever need to accept another scheme.
+
+### Why the numbers look the way they do
+
+`make_ids.py` makes four decisions, and the last one is the interesting one.
+
+**Six digits, fixed length.** A typo that drops or doubles a digit is refused at
+the sign-in screen instead of becoming a mystery "we don't have that number".
+
+**Never a leading zero.** This list ends up in a spreadsheet eventually, and
+spreadsheets eat leading zeros silently — `042173` becoming `42173` would
+quietly unperson a student.
+
+**Random, not sequential.** Sequential ids let a student reach a classmate's
+account by adding one, and the PIN is the only other thing in the way.
+
+**No two ids within one typo of each other.** 120 numbers scattered through
+900,000 already makes a collision unlikely; at this size "unlikely" is free to
+turn into "never", so the generator enforces it — no issued id can be reached
+from another by changing one digit or swapping two neighbours. Those are the
+two mistakes people actually make. The verified result for the current set:
+a single-digit typo lands on another student in **0** ways and on nothing in
+**6,879**. `tests/test_make_ids.py` checks the property exhaustively rather than
+statistically.
+
+The generated list is **never committed**. Sign-in is ID + PIN, so publishing
+every valid ID in a public repository would leave only the PIN.
 
 This also closes a bug rather than working around it. Identity used to be a
 typed name, which meant `Sam` and `Sam T.` were two students with two
@@ -440,7 +467,7 @@ no password set, no door.
 | `LATIN_TEACHER_PASSWORD` | Teacher sign-in guards `/teacher`, `/review`, `/teaching`, `/quiz`. Teacher tools disappear from the landing page for anyone not signed in. |
 | — | Students sign in with an ID number and a PIN. Unlike the teacher password that gate is always on: there is no environment variable to turn it off. |
 | `LATIN_PUBLIC=1` | Says the app is reachable from outside the LAN. Marks session cookies HTTPS-only, and **refuses to start** if no teacher password is set. |
-| `LATIN_ID_PATTERN` | Regex for a valid student ID. Default `^[0-9]{4,10}$`. |
+| `LATIN_ID_PATTERN` | Regex for a valid student ID. Default `^[1-9][0-9]{5}$` — six digits, no leading zero, matching what `make_ids.py` issues. |
 | `DATABASE_URL` | Postgres connection string. Set by Render; unset on a laptop, which then uses the local SQLite file. |
 | `SECRET_KEY` | Signs the session cookies. Random per start locally; a deployment must set it or every restart signs everyone out. |
 
@@ -580,7 +607,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-313 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+328 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

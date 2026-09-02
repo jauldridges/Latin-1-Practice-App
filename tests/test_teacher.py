@@ -97,15 +97,15 @@ class TestHomeworkState(unittest.TestCase):
 
 class TestClassActivity(unittest.TestCase):
     def setUp(self):
-        self.roster = [person("40217"), person("40218"), person("40219")]
-        self.events = ([ev("40217", "vocab:puella:la_en", "right", T - i * 600)
+        self.roster = [person("403217"), person("418206"), person("426913")]
+        self.events = ([ev("403217", "vocab:puella:la_en", "right", T - i * 600)
                         for i in range(25)]
-                       + [ev("40218", "vocab:aqua:la_en", "wrong", T - 3600)])
+                       + [ev("418206", "vocab:aqua:la_en", "wrong", T - 3600)])
 
     def test_a_student_who_did_nothing_still_has_a_row(self):
         out = teacher.class_activity(self.roster, self.events)
         ids = {r["student_id"] for r in out["rows"]}
-        self.assertIn("40219", ids)
+        self.assertIn("426913", ids)
         self.assertEqual(out["n_students"], 3)
 
     def test_states_are_counted(self):
@@ -114,21 +114,21 @@ class TestClassActivity(unittest.TestCase):
 
     def test_least_practice_sorts_first(self):
         out = teacher.class_activity(self.roster, self.events)
-        self.assertEqual(out["rows"][0]["student_id"], "40219")
-        self.assertEqual(out["rows"][-1]["student_id"], "40217")
+        self.assertEqual(out["rows"][0]["student_id"], "426913")
+        self.assertEqual(out["rows"][-1]["student_id"], "403217")
 
     def test_an_off_roster_id_is_surfaced_not_dropped(self):
         # A mistyped digit looks perfectly well-formed, so this list is the
         # only place the typo becomes visible.
-        evs = self.events + [ev("40999", "vocab:puella:la_en", "right", T)]
+        evs = self.events + [ev("479518", "vocab:puella:la_en", "right", T)]
         out = teacher.class_activity(self.roster, evs)
-        self.assertEqual(out["unrostered"], ["40999"])
+        self.assertEqual(out["unrostered"], ["479518"])
 
     def test_window_is_applied(self):
-        old = [ev("40219", "vocab:via:la_en", "right", T - 40 * DAY)]
+        old = [ev("426913", "vocab:via:la_en", "right", T - 40 * DAY)]
         since, until = teacher.window_bounds(days=7, now=T)
         out = teacher.class_activity(self.roster, self.events + old, since, until)
-        idle = [r for r in out["rows"] if r["student_id"] == "40219"][0]
+        idle = [r for r in out["rows"] if r["student_id"] == "426913"][0]
         self.assertEqual(idle["state"], "none")
 
 

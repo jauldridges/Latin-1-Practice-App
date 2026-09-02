@@ -51,10 +51,9 @@ string into the app for you; you never see or paste it.
 
    - **`LATIN_TEACHER_PASSWORD`** — pick something real. It is the only thing
      between the internet and every student's practice record.
-   - **`LATIN_ID_PATTERN`** — *optional.* Leave it blank unless Libertas student
-     IDs are not 4–10 digits. If they are, say, always 6 digits, put
-     `^[0-9]{6}$`. Getting this wrong is not dangerous; it just means the app
-     rejects real IDs, and you can change it later.
+   - **`LATIN_ID_PATTERN`** — *leave this blank.* The default already matches
+     the numbers `make_ids.py` generated for you. It exists only in case you
+     ever switch to a different ID scheme.
 
    Render generates `SECRET_KEY` itself. You do not touch it.
 
@@ -64,7 +63,8 @@ database tables automatically.
 **5. Send that URL to your IT contact** for the content filter (see above).
 
 **6. Open the URL, sign in with your teacher password**, and go to
-**Class list**. Paste your **ID numbers**, one per line, one block at a time.
+**Class list**. Paste your **ID numbers** from `student-ids.txt`, one per line,
+one block at a time.
 Nothing works properly until this exists — it is both the dashboard's
 denominator and the guard against a mistyped number.
 

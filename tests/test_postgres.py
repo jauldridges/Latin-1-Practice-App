@@ -142,19 +142,19 @@ class TestLivePostgres(unittest.TestCase):
         self.assertIsNone(store.next_unreviewed_in_node(self.conn, "CR-001", exclude_item="Q2"))
 
     def test_roster_upsert_and_id_validation(self):
-        self.assertEqual(store.add_student(self.conn, "40217", "Block 3"), "40217")
+        self.assertEqual(store.add_student(self.conn, "403217", "Block 3"), "403217")
         self.assertIsNone(store.add_student(self.conn, "Sam Tucker"))
-        store.add_student(self.conn, "40217", "Block 4")          # ON CONFLICT path
+        store.add_student(self.conn, "403217", "Block 4")          # ON CONFLICT path
         self.assertEqual(store.roster(self.conn)[0]["section"], "Block 4")
 
     def test_events_round_trip(self):
-        store.record_event(self.conn, "40217", "vocab:puella:la_en", None, "girl", "right")
-        self.assertEqual(len(store.events_for_student(self.conn, "40217")), 1)
+        store.record_event(self.conn, "403217", "vocab:puella:la_en", None, "girl", "right")
+        self.assertEqual(len(store.events_for_student(self.conn, "403217")), 1)
         self.assertEqual(len(store.all_events(self.conn)), 1)
 
     def test_quiz_attempt_round_trip(self):
         store.create_quiz(self.conn, "q1", "Test", ["Q1"])
-        a = store.get_or_start_attempt(self.conn, "q1", "40217")
+        a = store.get_or_start_attempt(self.conn, "q1", "403217")
         store.save_attempt_answer(self.conn, a["attempt_id"], "Q1", "a")
         self.assertEqual(store.get_attempt(self.conn, a["attempt_id"])["answers"], {"Q1": "a"})
 
@@ -163,12 +163,12 @@ class TestLivePostgres(unittest.TestCase):
         # by seconds, which would corrupt every Leitner interval.
         import time
         t = time.time()
-        store.record_event(self.conn, "40217", "x", None, "", "right", timestamp=t)
-        got = store.events_for_student(self.conn, "40217")[0]["timestamp"]
+        store.record_event(self.conn, "403217", "x", None, "", "right", timestamp=t)
+        got = store.events_for_student(self.conn, "403217")[0]["timestamp"]
         self.assertAlmostEqual(got, t, places=3)
 
     def test_the_name_purge_runs_here_too(self):
-        store.record_event(self.conn, "40217", "x", None, "", "right")
+        store.record_event(self.conn, "403217", "x", None, "", "right")
         self.conn.execute(
             "INSERT INTO events (student_id, timestamp, item_id, result) VALUES (?,?,?,?)",
             ("sam tucker", 1.0, "y", "right"))
@@ -176,7 +176,7 @@ class TestLivePostgres(unittest.TestCase):
         report = store.purge_names(self.conn)
         self.assertEqual(report["events"], 1)
         left = {r["student_id"] for r in self.conn.execute("SELECT student_id FROM events").fetchall()}
-        self.assertEqual(left, {"40217"})
+        self.assertEqual(left, {"403217"})
 
 
 if __name__ == "__main__":
