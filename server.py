@@ -69,15 +69,31 @@ _TEACHING = dataio.load_teaching()
 PURGE_REPORT = None
 
 
-def get_db():
+def _prepare_storage():
+    """Create the schema and run the name purge — ONCE, at startup.
+
+    This used to run on every request. On a local SQLite file that was merely
+    wasteful; against a hosted Postgres it is eighteen CREATE IF NOT EXISTS
+    statements and a purge scan on every page a student opens, over the
+    network. Doing it at boot is the difference between a class of 25 opening
+    the app at once and a class of 25 waiting.
+    """
     global PURGE_REPORT
-    if "db" not in g:
-        g.db = store.connect(DB_PATH)
-        report = store.init_db(g.db)
+    conn = store.connect(DB_PATH)
+    try:
+        report = store.init_db(conn)
         if report and any(report.get(k) for k in
                           ("roster_rows", "events", "miss_reasons", "quiz_attempts")):
             PURGE_REPORT = report
             print("[purge] removed name-keyed data: %r" % (report,), flush=True)
+        print("[storage] %s" % conn.target, flush=True)
+    finally:
+        conn.close()
+
+
+def get_db():
+    if "db" not in g:
+        g.db = store.connect(DB_PATH)
     return g.db
 
 
@@ -163,6 +179,9 @@ def classcode():
 @app.context_processor
 def _auth_flags():
     return {"is_teacher": auth.is_teacher(), "teacher_gate": auth.teacher_gate_on()}
+
+
+_prepare_storage()
 
 
 @app.template_filter("nodelabel")

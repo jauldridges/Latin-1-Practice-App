@@ -15,9 +15,9 @@ for now, so the field exists before the feature does.
 
 import json
 import os
-import sqlite3
 import time
 
+import db as dbmod
 import identity
 
 DEFAULT_DB = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "review.sqlite")
@@ -163,18 +163,20 @@ def normalize_student(student_id):
 
 
 def connect(db_path=DEFAULT_DB):
-    os.makedirs(os.path.dirname(db_path), exist_ok=True)
-    conn = sqlite3.connect(db_path)
-    conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA journal_mode=WAL")
-    return conn
+    """The database this deployment is configured for.
+
+    DATABASE_URL points at Postgres when hosted; without it this is the local
+    SQLite file, unchanged. See db.py — every difference between the two lives
+    there, not here.
+    """
+    return dbmod.connect(sqlite_path=db_path)
+
 
 
 def init_db(conn):
     conn.executescript(_SCHEMA)
     # Tolerate an older DB that predates the skips column.
-    cols = {r["name"] for r in conn.execute("PRAGMA table_info(items)").fetchall()}
-    if "skips" not in cols:
+    if "skips" not in conn.table_columns("items"):
         conn.execute("ALTER TABLE items ADD COLUMN skips INTEGER DEFAULT 0")
     conn.commit()
     return purge_names(conn)
@@ -206,12 +208,11 @@ def purge_names(conn):
     report = {"roster_rows": 0, "events": 0, "miss_reasons": 0,
               "quiz_attempts": 0, "dropped_name_column": False}
 
-    cols = {r["name"] for r in conn.execute("PRAGMA table_info(roster)").fetchall()}
-    if "display_name" in cols:
+    if "display_name" in conn.table_columns("roster"):
         report["roster_rows"] = conn.execute("SELECT COUNT(*) AS n FROM roster").fetchone()["n"]
         # SQLite before 3.35 cannot DROP COLUMN, and every row here is
         # name-keyed anyway, so the table is rebuilt empty.
-        conn.execute("DROP TABLE roster")
+        conn.execute("DROP TABLE IF EXISTS roster")
         conn.executescript(_SCHEMA)
         report["dropped_name_column"] = True
 
@@ -228,32 +229,12 @@ def purge_names(conn):
     conn.commit()
 
     if any(report[k] for k in ("roster_rows", "events", "miss_reasons", "quiz_attempts")):
-        _scrub_free_pages(conn)
+        # DELETE only marks the space reusable; the names stay readable in
+        # storage until something overwrites them. Found by a test that greps
+        # the raw bytes rather than querying. See db.Conn.reclaim_space.
+        conn.reclaim_space(("roster", "events", "miss_reasons", "quiz_attempts"))
         report["scrubbed"] = True
     return report
-
-
-def _scrub_free_pages(conn):
-    """Actually remove the deleted bytes from the file.
-
-    DELETE only marks pages free; the text stays readable in the file until
-    something overwrites it, and in WAL mode the old pages also sit in the
-    -wal sidecar. "The names are deleted" would have been false in the only
-    sense that matters — someone opening the file in a text editor would still
-    see them. So: checkpoint the WAL into the main file, VACUUM to rewrite it
-    without the free pages, then truncate the WAL again.
-
-    Found by a test that greps the raw bytes of the database rather than
-    querying it. Querying would have passed.
-    """
-    conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
-    conn.isolation_level = None          # VACUUM cannot run inside a transaction
-    try:
-        conn.execute("VACUUM")
-    finally:
-        conn.isolation_level = ""
-    conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
-    conn.commit()
 
 
 # --------------------------------------------------------------------------

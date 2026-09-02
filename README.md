@@ -315,6 +315,58 @@ verified SQL, but you should not need it day to day.
 
 ---
 
+## Where the data lives
+
+**On a laptop: one SQLite file** (`data/review.sqlite`). No server to install,
+no connection string, copy the file to back it up. That is the right shape for
+a laptop and it has not changed.
+
+**Hosted: Postgres.** A web service's local disk does not survive a redeploy,
+so on Render the year's practice history would vanish every time the app was
+updated. `DATABASE_URL` decides which is in use — Render sets it, a laptop does
+not. Nothing about the connection is ever committed.
+
+`db.py` is a thin dialect layer rather than an ORM. The app's SQL is ordinary
+and the differences that matter are few, so they live in one readable place:
+
+| SQLite | Postgres |
+|---|---|
+| `?` | `%s` |
+| `INTEGER PRIMARY KEY AUTOINCREMENT` | `BIGSERIAL PRIMARY KEY` |
+| `REAL` | `DOUBLE PRECISION` — Postgres `REAL` is 4 bytes and would quietly round every timestamp, corrupting every Leitner interval |
+| `IS NOT ?` | `IS DISTINCT FROM %s` |
+| `MAX(a, b)` | `GREATEST(a, b)` (the two-argument scalar form; the aggregate is left alone) |
+| `PRAGMA table_info` | `information_schema` |
+| `VACUUM` + WAL checkpoint | `VACUUM FULL` |
+
+The rewriter skips string literals **and `--` comments**. Comments matter as
+much as strings: this schema's comments contain apostrophes and semicolons, and
+treating either as syntax split statements in the wrong places. That bug
+silently dropped every table after the first two, and
+`tests/test_postgres.py::test_every_table_in_the_schema_is_created` is what
+catches it.
+
+The schema and the name purge run **once at startup**, not per request. Against
+a hosted database, doing that per request is eighteen `CREATE IF NOT EXISTS`
+statements and a purge scan on every page a student opens.
+
+### Moving a laptop database into the hosted one
+
+    DATABASE_URL=postgresql://... python3 migrate.py data/review.sqlite
+
+One way, once. It **purges names from the source first**, so a name-keyed row
+is deleted rather than migrated into the database that was promised to hold
+none. It **refuses to run twice** into a database that already has practice
+data, because a second run would double every event and corrupt every
+spaced-repetition schedule (`--force` if you genuinely mean it).
+
+Verified by migrating a realistic laptop database — 213 questions, 160
+decisions, 302 events, 9 students — and checking that counts, roster, approved
+items, teaching approvals **and the derived Leitner boxes** come out identical
+on the other side.
+
+---
+
 ## Who a student is
 
 **An ID number. Nothing else.**
@@ -389,6 +441,7 @@ no password set, no door.
 | `LATIN_CLASS_CODE` | Students type a shared class code once per device to reach `/drill`, `/practice` and quizzes. |
 | `LATIN_PUBLIC=1` | Says the app is reachable from outside the LAN. Marks session cookies HTTPS-only, and **refuses to start** if no teacher password is set. |
 | `LATIN_ID_PATTERN` | Regex for a valid student ID. Default `^[0-9]{4,10}$`. |
+| `DATABASE_URL` | Postgres connection string. Set by Render; unset on a laptop, which then uses the local SQLite file. |
 | `SECRET_KEY` | Signs the session cookies. Random per start locally; a deployment must set it or every restart signs everyone out. |
 
 Gating happens in **one** `before_request` in `server.py`, keyed on URL prefix,
@@ -441,10 +494,14 @@ All five build steps, verified in order:
     "Edit instead" → the editor with the rejection cancelled; eight decisions →
     history newest-first → tap one → decide it again; a verdict flipped back →
     flagged and listed).
-14. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
+14. Two-database storage: the whole app driven in a browser on real Postgres
+    (drill, review, undo, dashboard) plus 27 dialect and live-Postgres tests,
+    and a laptop-to-Postgres migration verified row-for-row including derived
+    state.
+15. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-220 tests pass (`python3 -m unittest discover -s tests`).
+247 tests pass (12 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 
