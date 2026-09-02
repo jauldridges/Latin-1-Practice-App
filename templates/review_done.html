@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block subtitle %}review{% endblock %}
 {% block content %}
+{% include "_lastaction.html" %}
 {% if where == 'all' %}
   <h1>Every question is decided.</h1>
   <p class="muted">Nothing unreviewed is left anywhere in the bank — fast queue

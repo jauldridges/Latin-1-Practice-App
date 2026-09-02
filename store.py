@@ -113,6 +113,27 @@ CREATE TABLE IF NOT EXISTS quiz_attempts (
 CREATE INDEX IF NOT EXISTS idx_attempt_quiz ON quiz_attempts(quiz_id);
 CREATE UNIQUE INDEX IF NOT EXISTS idx_attempt_one ON quiz_attempts(quiz_id, student_id);
 
+-- Every review decision ever made, in order, never updated in place.
+--
+-- items.review_status is a CACHE of the latest row here, kept so the queue
+-- queries stay one indexed lookup. This table is the truth.
+--
+-- Why keep the old ones: a question whose verdict flipped and flipped back was
+-- genuinely hard to call, and that is worth knowing both when re-reading it and
+-- when generating the next batch. It is also what makes undo honest — the
+-- earlier decision is retracted in the record rather than erased from it.
+CREATE TABLE IF NOT EXISTS decisions (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    item_id     TEXT NOT NULL,
+    status      TEXT NOT NULL,        -- approved|rejected|skipped|undone
+    reason      TEXT,
+    edited      INTEGER DEFAULT 0,
+    session_id  TEXT,                 -- which review sitting made it
+    created_at  REAL NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_dec_item ON decisions(item_id);
+CREATE INDEX IF NOT EXISTS idx_dec_session ON decisions(session_id, id);
+
 -- The class list: the ID numbers this app will accept, and nothing else.
 --
 -- Two jobs. It is the denominator — without it the dashboard can only show
@@ -329,10 +350,19 @@ def next_flagged(conn, exclude_item=None):
     return _row_to_item(row)
 
 
-def skip_item(conn, item_id):
-    """Decide later: keep the item unreviewed but push it to the back."""
+def skip_item(conn, item_id, session_id=None):
+    """Decide later: keep the item unreviewed but push it to the back.
+
+    Logged like any other decision so it can be undone — a skip is just as
+    easy to mis-tap as an approve.
+    """
+    now = time.time()
     conn.execute("UPDATE items SET skips=skips+1, updated_at=? WHERE item_id=?",
-                 (time.time(), item_id))
+                 (now, item_id))
+    conn.execute(
+        """INSERT INTO decisions (item_id, status, reason, edited, session_id, created_at)
+           VALUES (?,?,?,?,?,?)""",
+        (item_id, "skipped", None, 0, session_id, now))
     conn.commit()
 
 
@@ -366,7 +396,14 @@ def _row_to_item(row):
 # Review actions
 # --------------------------------------------------------------------------
 
-def set_review(conn, item_id, status, reason=None, new_payload=None, edited=False):
+def set_review(conn, item_id, status, reason=None, new_payload=None, edited=False,
+               session_id=None, log=True):
+    """Record a decision.
+
+    Appends to the decision log and refreshes the items cache from it. The
+    append is the point: changing your mind writes a new row, it does not
+    overwrite the old one.
+    """
     now = time.time()
     if new_payload is not None:
         conn.execute(
@@ -376,7 +413,151 @@ def set_review(conn, item_id, status, reason=None, new_payload=None, edited=Fals
         conn.execute(
             "UPDATE items SET review_status=?, review_reason=?, updated_at=? WHERE item_id=?",
             (status, reason, now, item_id))
+    if log:
+        conn.execute(
+            """INSERT INTO decisions (item_id, status, reason, edited, session_id, created_at)
+               VALUES (?,?,?,?,?,?)""",
+            (item_id, status, reason, 1 if edited else 0, session_id, now))
     conn.commit()
+    if log:
+        refresh_hard_to_call(conn, item_id)
+
+
+# --------------------------------------------------------------------------
+# The decision log
+# --------------------------------------------------------------------------
+
+TERMINAL = ("approved", "rejected")
+
+
+def decisions_for(conn, item_id):
+    return [dict(r) for r in conn.execute(
+        "SELECT * FROM decisions WHERE item_id=? ORDER BY id", (item_id,)).fetchall()]
+
+
+def verdict_path(conn, item_id):
+    """The sequence of verdicts this question actually received, with
+    consecutive repeats collapsed.
+
+    Skips and undos are not verdicts and drop out, which matters: approve →
+    undo → approve is a mis-tap corrected, one verdict, not three. Only a
+    genuine change of mind lengthens this list.
+    """
+    kept = []
+    for d in decisions_for(conn, item_id):
+        if d["status"] in TERMINAL:
+            kept.append(d["status"])
+        elif d["status"] == "undone" and d["reason"] in TERMINAL and kept:
+            # An undone row carries the verdict it retracted. Popping only for
+            # a retracted VERDICT matters: an undone skip must not swallow the
+            # approve that came before it.
+            kept.pop()
+    path = []
+    for v in kept:
+        if not path or path[-1] != v:
+            path.append(v)
+    return path
+
+
+def refresh_hard_to_call(conn, item_id):
+    """Flag a question whose verdict changed more than once.
+
+    A path of length 3 means it went one way, then the other, then back. That
+    is not a mis-tap; it is a question that is genuinely hard to call, and it
+    is worth a second look now and worth knowing about when the next batch is
+    generated. Below that, nothing happens — a single change of mind is normal
+    and flagging it would drown the queue.
+    """
+    if len(verdict_path(conn, item_id)) < 3:
+        return False
+    row = conn.execute("SELECT flag_json FROM items WHERE item_id=?", (item_id,)).fetchone()
+    if row is None:
+        return False
+    flags = json.loads(row["flag_json"] or "[]")
+    if any(f.get("check") == "hard-to-call" for f in flags):
+        return True
+    flags.append({"check": "hard-to-call", "level": "heuristic",
+                  "detail": "You changed your mind about this one more than once."})
+    conn.execute("UPDATE items SET flagged=1, flag_json=? WHERE item_id=?",
+                 (json.dumps(flags), item_id))
+    conn.commit()
+    return True
+
+
+def hard_to_call(conn):
+    """Every question whose verdict changed more than once, with its path."""
+    out = []
+    for r in conn.execute("SELECT DISTINCT item_id FROM decisions").fetchall():
+        path = verdict_path(conn, r["item_id"])
+        if len(path) >= 3:
+            out.append({"item_id": r["item_id"], "path": path})
+    return sorted(out, key=lambda d: -len(d["path"]))
+
+
+def session_decisions(conn, session_id, limit=200):
+    """This sitting's decisions, most recent first, with the question attached.
+
+    Undone decisions stay in the list, marked, rather than vanishing: the
+    history is a record of what happened, and "I undid that" is part of it.
+    """
+    rows = conn.execute(
+        """SELECT d.*, i.node_id, i.payload FROM decisions d
+             LEFT JOIN items i ON i.item_id = d.item_id
+            WHERE d.session_id = ? ORDER BY d.id DESC LIMIT ?""",
+        (session_id, limit)).fetchall()
+    undone = set()
+    out = []
+    for r in rows:
+        d = dict(r)
+        d["payload"] = json.loads(d["payload"]) if d.get("payload") else {}
+        if d["status"] == "undone":
+            undone.add(d["item_id"])
+            continue                       # the undo itself is not a list entry
+        d["undone"] = d["item_id"] in undone
+        out.append(d)
+    return out
+
+
+def last_undoable(conn, session_id):
+    """The most recent decision in this sitting that has not been undone."""
+    rows = conn.execute(
+        "SELECT * FROM decisions WHERE session_id=? ORDER BY id DESC LIMIT 40",
+        (session_id,)).fetchall()
+    undone = set()
+    for r in rows:
+        if r["status"] == "undone":
+            undone.add(r["item_id"])
+            continue
+        if r["item_id"] not in undone:
+            return dict(r)
+        undone.discard(r["item_id"])
+    return None
+
+
+def undo_last(conn, session_id):
+    """Retract the last decision and reopen the question.
+
+    Appends an 'undone' row rather than deleting the decision, then puts the
+    item back to unreviewed so the queue serves it again. Returns the decision
+    that was retracted, or None if there is nothing to undo.
+    """
+    d = last_undoable(conn, session_id)
+    if d is None:
+        return None
+    # The undone row records WHAT it retracted, so verdict_path can tell an
+    # undone approve from an undone skip.
+    conn.execute(
+        """INSERT INTO decisions (item_id, status, reason, edited, session_id, created_at)
+           VALUES (?,?,?,?,?,?)""",
+        (d["item_id"], "undone", d["status"], 0, session_id, time.time()))
+    if d["status"] == "skipped":
+        # A skip pushed it to the back of the pass; undoing brings it forward.
+        conn.execute("UPDATE items SET skips=MAX(skips-1,0) WHERE item_id=?", (d["item_id"],))
+    conn.execute(
+        "UPDATE items SET review_status='unreviewed', review_reason=NULL, updated_at=? WHERE item_id=?",
+        (time.time(), d["item_id"]))
+    conn.commit()
+    return d
 
 
 def approved_payloads(conn):

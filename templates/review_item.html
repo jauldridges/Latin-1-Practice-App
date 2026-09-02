@@ -3,6 +3,19 @@
 {% block subtitle %}{% if queue == 'flagged' %}flagged{% elif queue == 'all' %}continuous{% else %}review{% endif %}{% endblock %}
 {% block content %}
 
+{% include "_lastaction.html" %}
+
+{% if undone %}
+<div class="node-banner">
+  Undone — this was <strong>{{ undone }}</strong>. Decide it again.
+</div>
+{% endif %}
+{% if revisiting and verdicts | length > 1 %}
+<div class="flags">
+  <p class="small">You have called this one <strong>{{ verdicts | join(' → ') }}</strong>.</p>
+</div>
+{% endif %}
+
 {% if entered_node %}
 {# Which node you are in changes what a good question looks like, so crossing
    into a new one is worth a beat even though nothing stops. #}
@@ -29,7 +42,10 @@
     {% else %}{{ remaining }} left flagged{% endif %}
   </span>
 </div>
-<div class="small muted" style="margin:-2px 0 6px">keys: <b>A</b>pprove · <b>E</b>dit · <b>R</b>eject · <b>S</b>kip{% if queue == 'all' %} — <a href="{{ url_for('review_queue') }}">stop</a>{% endif %}</div>
+<div class="small muted" style="margin:-2px 0 6px">keys:
+  <b>A</b>pprove · <b>E</b>dit · <b>R</b>eject · <b>S</b>kip{% if last %} · <b>U</b>ndo{% endif %}
+  — <a href="{{ url_for('review_history', queue=queue) }}">history</a>{% if queue == 'all' %} ·
+  <a href="{{ url_for('review_queue') }}">stop</a>{% endif %}</div>
 
 {% if item.flags %}
 <div class="flags">
@@ -147,6 +163,10 @@
     else if (k === 'e') { window.location = document.getElementById('link-edit').href; ev.preventDefault(); }
     else if (k === 'r') { document.getElementById('form-reject').submit(); ev.preventDefault(); }
     else if (k === 's') { document.getElementById('form-skip').submit(); ev.preventDefault(); }
+    else if (k === 'u') {
+      var u = document.getElementById('form-undo');
+      if (u) { u.submit(); ev.preventDefault(); }
+    }
   });
 </script>
 {% endblock %}

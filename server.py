@@ -15,6 +15,7 @@ import csv
 import io
 import os
 import time
+import uuid
 
 import yaml
 from flask import (Flask, g, redirect, render_template, request, Response,
@@ -226,7 +227,8 @@ def review_queue():
     node_rows = [{"node": n, "label": _NODE_LABEL.get(n, ""), "count": pending[n]}
                  for n in _SPEC if n in pending]
     return render_template("review_queue.html", nodes=node_rows,
-                           counts=store.counts(db))
+                           counts=store.counts(db),
+                           n_hard=len(store.hard_to_call(db)))
 
 
 @app.route("/review/import", methods=["POST"])
@@ -252,10 +254,124 @@ def review_node(node_id):
     item = store.next_unreviewed_in_node(db, node_id)
     if item is None:
         return render_template("review_done.html", where="node", node_id=node_id,
-                               label=_NODE_LABEL.get(node_id, ""), counts=store.counts(db))
+                               label=_NODE_LABEL.get(node_id, ""), counts=store.counts(db),
+                               last=_last_action(), queue="node")
     remaining = dict(store.node_queue_counts(db)).get(node_id, 0)
     return render_template("review_item.html", item=item, queue="node",
-                           node_id=node_id, remaining=remaining)
+                           node_id=node_id, remaining=remaining,
+                           last=_last_action())
+
+
+def review_session_id():
+    """Which review sitting this is.
+
+    Sessions are already resumable, so the id lives in the signed cookie and
+    survives closing the laptop — which is what makes "the decisions I made
+    this session" mean something the next morning. A new id is minted only when
+    the teacher explicitly starts a fresh sitting.
+    """
+    sid = session.get("review_session")
+    if not sid:
+        sid = uuid.uuid4().hex[:12]
+        session.permanent = True
+        session["review_session"] = sid
+    return sid
+
+
+def _last_action():
+    """The banner strip: what you just did, and the ways back out of it.
+
+    This is where 2a's always-visible undo lives, and where 2b's
+    after-a-rejection confirmation lives. Putting both on the next card rather
+    than on a screen of their own is deliberate: auto-advance is what makes the
+    tool fast, and a confirmation screen after every rejection would take that
+    back one tap at a time.
+    """
+    db = get_db()
+    d = store.last_undoable(db, review_session_id())
+    if d is None:
+        return None
+    item = store.get_item(db, d["item_id"])
+    return {"status": d["status"], "item_id": d["item_id"], "reason": d["reason"],
+            "node_id": (item or {}).get("node_id", "")}
+
+
+@app.route("/review/undo", methods=["POST"])
+def review_undo():
+    """Step back one question and reopen the decision.
+
+    It does not silently reverse and move on: you land back on the question
+    with the decision open, because the whole point is that you did not mean
+    the last thing you did and want to look again.
+    """
+    db = get_db()
+    queue = request.form.get("queue", "all")
+    d = store.undo_last(db, review_session_id())
+    if d is None:
+        return redirect(url_for("review_queue"))
+    return redirect(url_for("review_item", item_id=d["item_id"], queue=queue,
+                            undone=d["status"]))
+
+
+@app.route("/review/item/<item_id>")
+def review_item(item_id):
+    """One specific question, outside the queue order.
+
+    Reached by undo and by tapping a session-history entry. The decision is
+    open exactly as it is in the queue, so changing your mind is the same four
+    keys as making it up the first time.
+    """
+    db = get_db()
+    item = store.get_item(db, item_id)
+    if item is None:
+        abort(404)
+    c = store.counts(db)
+    return render_template(
+        "review_item.html", item=item, queue=request.args.get("queue", "all"),
+        node_id=item["node_id"], remaining=c["unreviewed"],
+        node_remaining=dict(store.node_queue_counts(db)).get(item["node_id"], 0),
+        entered_node=False, revisiting=True,
+        undone=request.args.get("undone"),
+        verdicts=store.verdict_path(db, item_id),
+        last=_last_action())
+
+
+@app.route("/review/hard")
+def review_hard():
+    """Questions whose verdict changed more than once.
+
+    These need their own list rather than living in the flagged queue, even
+    though the change request says to surface them there. The flagged queue
+    serves UNDECIDED questions; a hard-to-call question has, by definition,
+    been decided several times over, so putting it back in that rotation would
+    hand it to you forever — every fresh decision lengthens the path that put
+    it there. So the flag goes on the item (where the review screen shows it,
+    and where the export carries it to whoever generates the next batch), and
+    the queue page carries a count that links here.
+    """
+    db = get_db()
+    rows = []
+    for h in store.hard_to_call(db):
+        item = store.get_item(db, h["item_id"])
+        if item:
+            rows.append({"item": item, "path": h["path"]})
+    return render_template("review_hard.html", rows=rows,
+                           queue=request.args.get("queue", "all"))
+
+
+@app.route("/review/history")
+def review_history():
+    """Every decision in this sitting, most recent first.
+
+    Some mistakes only become visible several questions later — a pattern you
+    did not have until you had seen five more like it. Tapping an entry reopens
+    that question with the decision changeable.
+    """
+    db = get_db()
+    rows = store.session_decisions(db, review_session_id())
+    return render_template("review_history.html", rows=rows,
+                           queue=request.args.get("queue", "all"),
+                           hard=store.hard_to_call(db))
 
 
 def _next_continuous(db, exclude_item=None):
@@ -299,14 +415,19 @@ def review_all():
     # advances instead of handing the same card back.
     item = _next_continuous(db, request.args.get("after"))
     if item is None:
+        # The strip belongs here too. Without it the LAST decision of a
+        # sitting is the one decision you cannot take back, which is exactly
+        # the one most likely to have been a tired mis-tap.
         return render_template("review_done.html", where="all",
-                               counts=store.counts(db))
+                               counts=store.counts(db), last=_last_action(),
+                               queue="all")
     c = store.counts(db)
     return render_template(
         "review_item.html", item=item, queue="all", node_id=item["node_id"],
         remaining=c["unreviewed"],
         node_remaining=dict(store.node_queue_counts(db)).get(item["node_id"], 0),
-        entered_node=(request.args.get("node") != item["node_id"]))
+        entered_node=(request.args.get("node") != item["node_id"]),
+        last=_last_action())
 
 
 @app.route("/review/flagged")
@@ -315,10 +436,12 @@ def review_flagged():
     item = store.next_flagged(db)
     if item is None:
         return render_template("review_done.html", where="flagged",
-                               counts=store.counts(db))
+                               counts=store.counts(db), last=_last_action(),
+                               queue="flagged")
     remaining = store.counts(db)["flagged"]
     return render_template("review_item.html", item=item, queue="flagged",
-                           node_id=item["node_id"], remaining=remaining)
+                           node_id=item["node_id"], remaining=remaining,
+                           last=_last_action())
 
 
 @app.route("/review/action", methods=["POST"])
@@ -328,13 +451,14 @@ def review_action():
     action = request.form["action"]
     queue = request.form.get("queue", "node")
     node_id = request.form.get("node_id", "")
+    sess = review_session_id()
     if action == "approve":
-        store.set_review(db, item_id, "approved")
+        store.set_review(db, item_id, "approved", session_id=sess)
     elif action == "reject":
         reason = request.form.get("reason") or "rejected"
-        store.set_review(db, item_id, "rejected", reason=reason)
+        store.set_review(db, item_id, "rejected", reason=reason, session_id=sess)
     elif action == "skip":
-        store.skip_item(db, item_id)
+        store.skip_item(db, item_id, session_id=sess)
     else:
         abort(400)
     return _back_to_queue(queue, node_id, item_id if action == "skip" else None)
@@ -356,6 +480,14 @@ def review_edit(item_id):
         abort(404)
     queue = request.values.get("queue", "node")
     node_id = request.values.get("node_id", item["node_id"])
+    if request.method == "GET" and request.args.get("from_reject"):
+        # "Edit instead" reopens the question WITH THE REJECTION CANCELLED.
+        # Arriving in the editor on a question still marked rejected would mean
+        # abandoning the edit silently leaves it rejected — the opposite of what
+        # the button says.
+        store.undo_last(get_db(), review_session_id())
+        return redirect(url_for("review_edit", item_id=item_id, queue=queue,
+                                node_id=node_id, unrejected=1))
     if request.method == "POST":
         text = request.form["payload"]
         try:
@@ -364,11 +496,13 @@ def review_edit(item_id):
         except Exception as e:  # noqa: BLE001
             return render_template("review_edit.html", item=item, payload_text=text,
                                    error=str(e), queue=queue, node_id=node_id)
-        store.set_review(db, item_id, "approved", new_payload=new_payload, edited=True)
+        store.set_review(db, item_id, "approved", new_payload=new_payload,
+                         edited=True, session_id=review_session_id())
         return _back_to_queue(queue, node_id)
     payload_text = yaml.safe_dump(item["payload"], allow_unicode=True, sort_keys=False)
     return render_template("review_edit.html", item=item, payload_text=payload_text,
-                           error=None, queue=queue, node_id=node_id)
+                           error=None, queue=queue, node_id=node_id,
+                           unrejected=request.args.get("unrejected"))
 
 
 @app.route("/review/export")

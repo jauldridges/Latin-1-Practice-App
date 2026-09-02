@@ -115,6 +115,35 @@ of a macron-critical item. A genuine letter typo on those items is still
   the phone and resume in place.
 - **Edit** — inline YAML, save & approve. Broken YAML is rejected with the error,
   not saved.
+- **Taking a decision back.** Auto-advance is what makes this tool fast and it
+  is also what makes a mis-tap uncatchable — the decision is committed before
+  the eye arrives. So an **undo strip** rides on the next question: always
+  visible, never a gesture, `U` on the laptop. It steps back and *reopens* the
+  question rather than silently reversing it. Identical after approve, reject
+  and skip, and it is on the "everything is decided" screen too, so the last
+  decision of a sitting is not the one you can't take back.
+- **"Edit instead"** appears on the strip after a rejection, because the common
+  case is not *this question is bad* but *this is nearly right and I'd rather
+  fix it*. It reopens the editor with the rejection **cancelled** — otherwise
+  abandoning the edit would silently leave it rejected. Rejecting itself is
+  still one tap; the escape hatch is after, never before.
+- **Session history** (`/review/history`) — every decision this sitting, newest
+  first, with stem, node and verdict. Tapping one reopens that question with the
+  decision changeable, because some mistakes only become visible five questions
+  later. It lives in the signed cookie, so it survives closing the laptop.
+- **Decisions append, they never overwrite.** `store.decisions` is the truth;
+  `items.review_status` is a cache of the latest row. Changing your mind writes
+  a new row and keeps the old one.
+- **Changed your mind more than once?** That question gets flagged and listed at
+  `/review/hard`. A verdict that went one way, then the other, then back is
+  usually the question's fault. Undo does **not** count toward this: an undone
+  verdict records what it retracted, so approve → undo → reject is one mis-tap
+  corrected, not a flip-flop. (The change request asked for these in the flagged
+  queue; they get their own list instead, because the flagged queue serves
+  *undecided* questions and these are by definition decided several times over —
+  putting them back in that rotation would hand them to you forever. The flag
+  still goes on the item, so the export carries it to whoever generates the next
+  batch.)
 - **Skip** = *decide later*: the item is deferred to the end of the pass and
   returns after everything else, rather than disappearing. In continuous mode
   that means the end of the **whole bank**, not the end of the node — two
@@ -407,10 +436,15 @@ All five build steps, verified in order:
     greps the raw bytes of a database built the old way, `-wal` sidecar
     included, and by driving the three sign-in outcomes in a browser: a typed
     name refused, a mistyped number challenged, a real number through.
-13. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
+13. Undo, edit-instead, session history and the append-only decision log —
+    driven in a browser (approve → U → the same question reopens; reject →
+    "Edit instead" → the editor with the rejection cancelled; eight decisions →
+    history newest-first → tap one → decide it again; a verdict flipped back →
+    flagged and listed).
+14. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-189 tests pass (`python3 -m unittest discover -s tests`).
+220 tests pass (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

@@ -184,3 +184,17 @@ select.namepick {
 /* Student IDs are the only identity in this system; give them tabular figures
    so a column of them can be scanned against a paper list. */
 .sid { font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+
+/* The undo strip. Sits above the question, always there when there is
+   something to undo, because auto-advance means the mistake is already made. */
+.lastaction {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  flex-wrap: wrap; background: #f1efea; border: 1px solid var(--line);
+  border-radius: 10px; padding: 6px 10px; margin: 0 0 10px; font-size: 13px;
+}
+.lastaction .ok { color: var(--approve); font-weight: 700; }
+.lastaction .no { color: var(--reject); font-weight: 700; }
+.lastaction .sk { color: var(--skip); font-weight: 700; }
+.lastaction .acts { display: flex; gap: 6px; align-items: center; }
+.lastaction .acts form { margin: 0; }
+.lastaction a.minibtn { text-decoration: none; display: inline-block; }

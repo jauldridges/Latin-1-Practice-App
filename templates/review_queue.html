@@ -37,6 +37,14 @@
 <p class="small muted" style="margin-top:-4px">Caught by the mechanical checks or marked needs-review. Slower attention.</p>
 {% endif %}
 
+{% if n_hard %}
+<a class="bigbtn secondary" href="{{ url_for('review_hard') }}">
+  Changed your mind more than once ({{ n_hard }}) &rarr;
+</a>
+<p class="small muted" style="margin-top:-4px">Questions whose verdict flipped and
+  flipped back. Usually the question's fault, not yours.</p>
+{% endif %}
+
 {% if nodes %}
 <details>
   <summary>Or pick one node at a time ({{ nodes | length }} with questions left)</summary>

@@ -1,0 +1,32 @@
+{# What you just did, and the two ways back out of it.
+
+   Auto-advance is what makes the review tool fast, and it is also what makes a
+   mis-tap uncatchable: the decision is committed before the eye arrives. So the
+   escape hatch rides along on the NEXT question rather than interrupting with a
+   confirmation screen — always visible, never a gesture, and costing no taps to
+   anyone who did mean it.
+
+   After a rejection it carries "Edit instead" as well, because the common case
+   is not "this question is bad", it is "this is nearly right and I would rather
+   fix it". #}
+{% if last %}
+<div class="lastaction">
+  <span class="what">
+    {% if last.status == 'approved' %}<span class="ok">Approved</span>
+    {% elif last.status == 'rejected' %}<span class="no">Rejected</span>
+    {% else %}<span class="sk">Skipped</span>{% endif %}
+    <span class="node-id">{{ last.item_id }}</span>
+    {% if last.reason and last.reason != 'rejected' %}<span class="muted small">· {{ last.reason }}</span>{% endif %}
+  </span>
+  <span class="acts">
+    <form id="form-undo" method="post" action="{{ url_for('review_undo') }}" style="display:inline">
+      <input type="hidden" name="queue" value="{{ queue }}">
+      <button class="minibtn" type="submit"><u>U</u>ndo</button>
+    </form>
+    {% if last.status == 'rejected' %}
+      <a class="minibtn" href="{{ url_for('review_edit', item_id=last.item_id, queue=queue,
+                                          node_id=last.node_id, from_reject=1) }}">Edit instead</a>
+    {% endif %}
+  </span>
+</div>
+{% endif %}

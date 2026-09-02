@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block subtitle %}hard to call{% endblock %}
+{% block content %}
+<h1>Changed your mind more than once</h1>
+<p class="small muted">A verdict that went one way, then the other, then back is
+  usually the question's fault rather than yours — the two readings are both
+  defensible, which is exactly what makes it a bad question to put in front of a
+  fourteen-year-old. Worth a second look now, and worth knowing about when the
+  next batch is generated.</p>
+
+{% if not rows %}<p class="muted">None. Nothing has been that hard to call.</p>{% endif %}
+<ul class="queue">
+  {% for r in rows %}
+  <li>
+    <a href="{{ url_for('review_item', item_id=r.item.item_id, queue=queue) }}">
+      <span style="flex:1">
+        <span class="node-id">{{ r.item.node_id }} · {{ r.item.item_id }}</span><br>
+        {{ (r.item.payload.stem or '') | truncate(90) }}<br>
+        <span class="small muted">{{ r.path | join(' → ') }}</span>
+      </span>
+      <span class="pill shaky">{{ r.path | length - 1 }} changes</span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+<a class="bigbtn secondary" href="{{ url_for('review_queue') }}">Back to the queue</a>
+{% endblock %}
