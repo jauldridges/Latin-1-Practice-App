@@ -204,6 +204,11 @@ def init_db(conn):
 # The purge
 # --------------------------------------------------------------------------
 
+def _is_digits(value):
+    """True for an id made only of digits — i.e. not a name."""
+    return bool(value) and str(value).isdigit()
+
+
 def purge_names(conn):
     """Remove every trace of name-based identity from an existing database.
 
@@ -235,10 +240,17 @@ def purge_names(conn):
         report["dropped_name_column"] = True
 
     # Practice rows keyed on something that is not an ID number.
+    #
+    # The test is "contains a non-digit", NOT "matches the current ID pattern".
+    # Those look the same today and are not: the pattern is configurable, so
+    # tightening it — as happened when the six-digit generator arrived — would
+    # otherwise silently delete a year of real practice from students whose
+    # perfectly good ids no longer matched. A name is a name whatever the
+    # pattern says, and only names are what this purge is for.
     for table in ("events", "miss_reasons", "quiz_attempts"):
         ids = [r["student_id"] for r in
                conn.execute("SELECT DISTINCT student_id FROM %s" % table).fetchall()]
-        bad = [i for i in ids if not identity.is_valid(i)]
+        bad = [i for i in ids if not _is_digits(i)]
         if bad:
             marks = ",".join("?" * len(bad))
             cur = conn.execute(

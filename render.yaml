@@ -20,7 +20,7 @@ services:
     name: latin1
     runtime: python
     plan: starter                # 0.5 CPU / 512 MB — $7/mo
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install -r requirements-hosted.txt
     startCommand: gunicorn server:app --bind 0.0.0.0:$PORT --workers 1 --threads 8 --timeout 60
     healthCheckPath: /healthz    # touches the database, not just Flask
     autoDeploy: true

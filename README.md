@@ -19,6 +19,11 @@ out of scope by design.
 
 ### Easiest (macOS): double-click `start.command`
 
+It pulls the latest version first, then starts. It prints the branch and commit
+it is running, because "Already up to date" on the wrong branch sounds like
+success and starts the old app. If there are uncommitted local changes it leaves
+them alone and starts what is on disk rather than clobbering your work.
+
 In Finder, open the project folder and double-click **`start.command`**. It sets
 itself up the first time (about a minute), then opens the app in your browser.
 Double-click it again any time you want to start.
@@ -607,7 +612,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-328 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+330 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

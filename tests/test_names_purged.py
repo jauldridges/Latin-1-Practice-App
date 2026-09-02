@@ -149,3 +149,42 @@ class TestPurge(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestPurgeUsesNamesNotThePattern(unittest.TestCase):
+    """Changing the ID pattern must never delete real practice.
+
+    The purge asks "does this contain a non-digit", not "does this match the
+    current pattern". They looked identical until the six-digit generator
+    arrived and narrowed the pattern — at which point the second test would
+    have quietly deleted a year of work from every student whose old id was
+    still perfectly good.
+    """
+
+    def setUp(self):
+        self._saved = os.environ.get("LATIN_ID_PATTERN")
+
+    def tearDown(self):
+        if self._saved is None:
+            os.environ.pop("LATIN_ID_PATTERN", None)
+        else:
+            os.environ["LATIN_ID_PATTERN"] = self._saved
+
+    def test_a_narrower_pattern_does_not_delete_old_ids(self):
+        conn, _ = fresh()
+        conn.execute(
+            "INSERT INTO events (student_id, timestamp, item_id, result) VALUES (?,?,?,?)",
+            ("40217", 1.0, "x", "right"))          # 5 digits: valid under the old pattern
+        conn.commit()
+        os.environ["LATIN_ID_PATTERN"] = r"^[1-9][0-9]{5}$"   # now six digits only
+        report = store.purge_names(conn)
+        self.assertEqual(report["events"], 0)
+        self.assertEqual(len(conn.execute("SELECT * FROM events").fetchall()), 1)
+
+    def test_a_name_still_goes(self):
+        conn, _ = fresh()
+        conn.execute(
+            "INSERT INTO events (student_id, timestamp, item_id, result) VALUES (?,?,?,?)",
+            ("sam tucker", 1.0, "x", "right"))
+        conn.commit()
+        self.assertEqual(store.purge_names(conn)["events"], 1)

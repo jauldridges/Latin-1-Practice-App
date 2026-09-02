@@ -1,4 +1,8 @@
+# What a laptop needs, and nothing else.
+#
+# The Postgres driver and the production server live in requirements-hosted.txt
+# so a laptop never tries to build them. psycopg needs a wheel that matches the
+# machine, and a failed install here would stop the app starting at all — on
+# the one computer where "it just works" matters most.
 Flask>=3.0
 PyYAML>=6.0
-gunicorn>=21.2          # only used when deployed; harmless locally
-psycopg[binary]>=3.1    # only imported when DATABASE_URL points at Postgres
