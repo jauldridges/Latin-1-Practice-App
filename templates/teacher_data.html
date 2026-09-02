@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block subtitle %}data{% endblock %}
+{% block content %}
+<h1>Backup and deletion</h1>
+<p class="small muted">Storage: <code>{{ storage }}</code></p>
+
+<h2>What is in here</h2>
+<table class="progress">
+  {% for t, n in counts.items() %}
+  <tr>
+    <td>{{ t.replace('_', ' ') }}
+      {% if t in student_tables %}<span class="pill shaky">student data</span>{% endif %}
+    </td>
+    <td style="width:6em;text-align:right"><strong>{{ n }}</strong></td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h2>Back it up</h2>
+<p class="small muted">One file, complete enough to rebuild the database from
+  nothing. Render's plan keeps three days of recovery, and a problem you notice
+  in June cannot be fixed from a three-day window. <strong>Download this monthly
+  and keep it somewhere that is not Render.</strong></p>
+<a class="bigbtn" href="{{ url_for('teacher_backup') }}">Download a backup</a>
+
+<h2>End of year</h2>
+<div class="flags">
+  <p class="small"><strong>This deletes every student's practice history and cannot
+    be undone.</strong> It empties {{ student_tables | join(', ') }}. The question
+    bank and your review decisions stay — next year's class needs the questions
+    and must not inherit anyone's history.</p>
+  <p class="small">The backup downloads as part of running it. There is no way to
+    purge without also receiving the file.</p>
+</div>
+{% if request.args.get('bad_confirm') %}
+  <div class="answer-feedback wrong">Type the year exactly to confirm.</div>
+{% endif %}
+<form method="post" action="{{ url_for('teacher_end_of_year') }}">
+  <label class="small muted" for="confirm">Type the current year to confirm</label>
+  <input type="text" name="confirm" id="confirm" autocomplete="off" placeholder="e.g. 2027" required>
+  <button class="bigbtn" style="background:var(--reject)" type="submit">
+    Export everything, then delete all student data
+  </button>
+</form>
+<p class="small muted">Typing the year rather than clicking "are you sure": a
+  confirmation you can dismiss by reflex is not a confirmation.</p>
+
+<a class="bigbtn secondary" href="{{ url_for('teacher_home') }}">Back to the dashboard</a>
+{% endblock %}

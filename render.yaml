@@ -1,34 +1,41 @@
-# One-file deployment description for Render. `render.com` reads this when you
-# point it at the repo, so the only thing left to do by hand is type the two
-# secrets.
+# Render reads this when you point it at the repo. The only things left to type
+# by hand are the two secrets marked `sync: false` — everything else, including
+# the database and its connection string, is wired up here.
 #
-# Why one worker and eight threads: the whole year of student history is a
-# single SQLite file. SQLite handles many readers, but concurrent writers from
-# separate processes fight over the write lock. One process with threads means
-# ~88 students can practise at once without ever hitting that. This is a class,
-# not a website; one worker is not the bottleneck.
+# Plans are the ones that were approved: $7 web + $6 Postgres. Do NOT switch the
+# web service to a Free plan; free services sleep and take about thirty seconds
+# to wake, which is unusable when a class opens the app at once.
+#
+# Why one worker and eight threads: this app is IO-bound (a database round trip
+# per page, and a PBKDF2 hash on sign-in). Threads share the 512 MB; a second
+# worker would double the memory for no extra throughput on half a CPU.
+databases:
+  - name: latin1-db
+    plan: basic-256mb            # 0.1 CPU / 256 MB / 1 GB storage — $6/mo
+    databaseName: latin1
+    user: latin
+
 services:
   - type: web
     name: latin1
     runtime: python
-    plan: starter                      # the free plan sleeps AND has no disk
+    plan: starter                # 0.5 CPU / 512 MB — $7/mo
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn server:app --bind 0.0.0.0:$PORT --workers 1 --threads 8 --timeout 60
-    healthCheckPath: /
-    disk:
-      name: latin-data
-      mountPath: /data                 # the ONLY directory that survives a deploy
-      sizeGB: 1
+    healthCheckPath: /healthz    # touches the database, not just Flask
+    autoDeploy: true
     envVars:
-      - key: LATIN_DB
-        value: /data/review.sqlite     # must be on the disk, or a deploy wipes the year
+      - key: DATABASE_URL
+        fromDatabase:
+          name: latin1-db
+          property: connectionString
       - key: LATIN_PUBLIC
-        value: "1"                     # turns the door on; refuses to start without a password
+        value: "1"               # HTTPS-only cookies + refuses to start with no password
       - key: PYTHON_VERSION
         value: "3.11"
       - key: SECRET_KEY
-        generateValue: true            # random, stable across restarts
+        generateValue: true      # random, and stable across restarts
       - key: LATIN_TEACHER_PASSWORD
-        sync: false                    # you type this in the dashboard
-      - key: LATIN_CLASS_CODE
-        sync: false                    # you type this in the dashboard
+        sync: false              # you type this in the Render dashboard
+      - key: LATIN_ID_PATTERN
+        sync: false              # optional: a regex for your ID format

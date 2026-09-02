@@ -69,6 +69,7 @@
 <a class="bigbtn secondary" href="{{ url_for('teacher_knows', days=w.days, section=w.section) }}">What they know and don't</a>
 <a class="bigbtn secondary" href="{{ url_for('teacher_misses', days=w.days, section=w.section) }}">What they say went wrong</a>
 <a class="bigbtn secondary" href="{{ url_for('teacher_roster') }}">Class list</a>
+<a class="bigbtn secondary" href="{{ url_for('teacher_data') }}">Backup &amp; end of year</a>
 <p style="text-align:center"><a class="small" href="{{ url_for('teacher_export', days=w.days, section=w.section) }}">Download this table as a spreadsheet</a></p>
 {% endif %}
 {% endblock %}

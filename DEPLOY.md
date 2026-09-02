@@ -1,109 +1,168 @@
-# Putting it online, so kids can practise at home
+# Putting it on Render, so kids can practise at home
 
-Right now the app runs on your laptop. That means practice only happens while
-your laptop is open and the student is on the school network — which is the one
-thing that breaks spaced repetition, because spacing wants near-daily practice
-and most days are not school days.
+Devices are 1:1 and go home. That is the whole point of this change: practice
+that only happens while your laptop is open and the student is on school wifi is
+practice that mostly does not happen.
 
-This is what it takes to lift that. About twenty minutes and roughly $8/month.
+**About twenty minutes, and $13/month.**
+
+| Piece | Plan | Cost |
+|---|---|---|
+| Workspace | Hobby | $0 |
+| Web service | Starter — 0.5 CPU, 512 MB | $7/mo |
+| Postgres | Basic — 0.1 CPU, 256 MB, 1 GB | $6/mo |
 
 ---
 
-## Read this part first
+## Before the twenty minutes: two things that are not mine to decide
 
-**The app now has a door.** It did not before. Anyone with the URL would have
-been able to open the teacher dashboard and read all ~88 students' records.
-Two things guard it:
+**1. The data-privacy question.** You would be putting student practice records
+on a third-party server. Many districts require a signed data-privacy agreement
+with any vendor holding student data. Ask whoever handles ed-tech approvals at
+Libertas. **This is the step people skip and regret.**
 
-| | Who | What they get |
-|---|---|---|
-| **Teacher password** | you | dashboard, review tool, quizzes, teaching text |
-| **Class code** | your students | the drill, grammar practice, quizzes they sit |
+What is actually in there is deliberately boring: **ID numbers**, what students
+typed as answers, and when. No names, no emails, no addresses, no grades — see
+the identity section of the README. The paper that maps an ID number to a person
+stays off the machine. That does not make the question go away, but it is the
+answer to most of it.
 
-Both are remembered on the device for a year, so it is one entry per phone, not
-one per session.
-
-**The app refuses to start** if you tell it it is public but leave the teacher
-password empty. That is deliberate: the alternative is a deployment that
-silently serves student records to the internet.
-
-**What you should still check before doing this**, because they are your calls
-and not mine:
-
-1. **School policy.** You would be putting student practice records on a
-   third-party server. Many districts require a signed data-privacy agreement
-   (a DPA) with any vendor holding student data. Ask whoever handles ed-tech
-   approvals at Libertas. This is the step people skip and regret.
-2. **What is actually in the data.** ID numbers, what they typed as answers,
-   and when. **No names** — see the identity section of the README. No emails,
-   no addresses, no grades. The paper that maps an ID number to a person stays
-   off the machine, which is what makes this data comparatively boring if it
-   ever leaked.
-3. **The class code is a shared secret, not a login.** A student who knows a
-   classmate's ID number can practise as them. Nothing here is a grade, so the
-   damage is a polluted practice schedule, not a stolen mark. Per-student PINs
-   are the fix and are specified in the hosting change request.
+**2. The content filter — ask your IT contact NOW, before students hear about
+the app.** The school's filter has to allow the app's domain on student
+Chromebooks **at home**, not just on the school network. This is not my part and
+I cannot test it, but it will break everything if it is wrong, and it breaks
+*silently and completely*: a blocked domain shows a student a generic error, and
+you will hear "it doesn't work" with no way to tell that from a bug. Send your
+IT contact the URL as soon as Render gives it to you, and confirm before you
+announce the app.
 
 ---
 
 ## The twenty minutes
 
-**1. Push the repo to GitHub.** Already done.
+**1. Make a Render account** at [render.com](https://render.com) and connect
+this GitHub repository.
 
-**2. Make a Render account** at render.com and connect that repo.
+**2. Render reads `render.yaml`** and offers to create a **Blueprint** — a web
+service *and* a Postgres database. Say yes. It wires the database connection
+string into the app for you; you never see or paste it.
 
-**3. Render reads `render.yaml`** and offers to create the service. Say yes.
-It sets everything except the two secrets.
+**3. It will ask you for two values.** These are the only things you type:
 
-**4. Type the two secrets** when it asks:
-   - `LATIN_TEACHER_PASSWORD` — pick something real; it is the only thing
-     between the internet and every student's record.
-   - `LATIN_CLASS_CODE` — something a fourteen-year-old can type from memory.
-     `libertas-latin` is better than `Xk92!q`.
+   - **`LATIN_TEACHER_PASSWORD`** — pick something real. It is the only thing
+     between the internet and every student's practice record.
+   - **`LATIN_ID_PATTERN`** — *optional.* Leave it blank unless Libertas student
+     IDs are not 4–10 digits. If they are, say, always 6 digits, put
+     `^[0-9]{6}$`. Getting this wrong is not dangerous; it just means the app
+     rejects real IDs, and you can change it later.
 
-**5. Deploy.** You get a URL like `latin1.onrender.com`.
+   Render generates `SECRET_KEY` itself. You do not touch it.
 
-**6. Open it, sign in, paste your class list** at `/teacher/roster` — one name
-per line, one block at a time. Nothing else works properly until this exists.
+**4. Deploy.** You get a URL like `latin1.onrender.com`. First boot creates the
+database tables automatically.
 
-**7. Give the students the URL and the class code.** Tell them to add it to
-their home screen; it behaves like an app from there.
+**5. Send that URL to your IT contact** for the content filter (see above).
 
-### Cost
+**6. Open the URL, sign in with your teacher password**, and go to
+**Class list**. Paste your **ID numbers**, one per line, one block at a time.
+Nothing works properly until this exists — it is both the dashboard's
+denominator and the guard against a mistyped number.
 
-Render's **Starter** plan is $7/month, plus about $0.25/month for the 1 GB
-disk. The free plan will not work: it sleeps after inactivity *and* it has no
-persistent disk, which means the entire year of practice history is deleted on
-every deploy. Do not use the free plan for this.
+**7. Move your existing data across, if you want to keep it.** Optional. If your
+laptop has review decisions and practice you care about:
 
-Fly.io is a fine alternative at a similar price if you prefer it; the same two
-requirements hold — a **persistent volume** for `LATIN_DB`, and `LATIN_PUBLIC=1`
-with a password set.
+   - In Render, open your web service → **Shell**.
+   - You will need the laptop file. Easiest route: from **your laptop**, run
+     `python3 migrate.py` pointed at the hosted database — Render shows the
+     external connection string under your database → **Connect** → *External*:
+
+         DATABASE_URL='paste-the-external-url-here' python3 migrate.py data/review.sqlite
+
+   It refuses to run twice, and it deletes name-keyed rows from the laptop copy
+   before copying rather than carrying them across.
+
+**8. Give the students the URL.** They sign in with their own ID number and
+choose a four-digit PIN the first time. Tell them to add it to their phone's
+home screen — it behaves like an app from there.
+
+**9. Set yourself a monthly reminder** to open **Backup & end of year** and
+download a backup. Render's plan keeps three days of recovery; a problem you
+notice in June cannot be fixed from a three-day window.
 
 ---
 
-## The one thing that can lose the year
+## What is guarded, and what is not
 
-`LATIN_DB` **must** point at the mounted disk (`/data/review.sqlite`).
-`render.yaml` already does this. If it ever points anywhere else, the file
-lives in the container's temporary filesystem and every deploy silently starts
-the year over.
+**The review tool and the teaching-approval screen require the teacher
+password.** A student who guesses `/review` or `/teacher` gets the login screen
+and nothing else — no data, no hint. Gating is one check in `server.py` keyed on
+URL prefix, and anything unrecognised defaults to teacher-only, so a page added
+later is closed until someone opens it. A test walks the app's real URL map and
+asserts every route redirects to a door.
 
-**Back it up monthly.** From the Render shell:
+**Students sign in with an ID number and a PIN they choose.** The PIN stops one
+student practising as another. It is four digits and it is not a password —
+nothing behind it is a grade — and it would not stop someone determined. You
+clear a forgotten one from the roster.
 
-    sqlite3 /data/review.sqlite ".backup /tmp/backup.sqlite"
+**HTTPS only.** Render terminates TLS; the app redirects any plain HTTP request
+and sets HSTS for a year, so a student who once reached it over HTTPS cannot be
+downgraded on school wifi.
 
-then download it. Five minutes, once a month, against losing 88 students' Leitner
-schedules.
+**Nothing sensitive is committed or logged.** No password, no connection string.
+Logs carry paths and status codes; database errors log the exception *type*, not
+the message, because a psycopg message can carry a host and a user name.
+
+---
+
+## Will 512 MB and half a CPU hold 25 students at once?
+
+**I expect so, and here is the honest basis for that.** The app is IO-bound: one
+short database round trip per page, server-rendered HTML, no build step, no
+background work. Driven locally against a real Postgres it served 25 concurrent
+drill sessions in 0.26 s and 20 dashboard loads in 0.48 s. That was without
+network latency between app and database, so treat it as a lower bound.
+
+The one CPU-heavy thing is the PIN hash (PBKDF2, ~140 ms here, probably ~300 ms
+on half a CPU). That happens **once per device per year**, not per page — so the
+worst case is the first lesson where a whole class signs in at once, and eight
+threads absorb that.
+
+**If it does turn out to be too small, I will say so rather than quietly sizing
+up**, because the next tier is $25/mo and that is not what was approved. The
+first thing to try instead is a connection pool — the app currently opens a
+fresh database connection per request, which is simple and robust but pays a
+handshake every time. That is a code change, not a bigger invoice.
 
 ---
 
 ## Running locally after all this
 
-Unchanged. `start.command` still works, and with no `LATIN_TEACHER_PASSWORD`
-and no `LATIN_CLASS_CODE` set, nothing is gated — same as before. The door only
-appears when you set the secrets.
+Unchanged. `start.command` still works and still uses the local SQLite file — no
+`DATABASE_URL`, no Postgres. With no `LATIN_TEACHER_PASSWORD` the teacher tools
+are ungated, exactly as before. Students always sign in.
 
 To rehearse the deployed behaviour on your laptop:
 
-    LATIN_TEACHER_PASSWORD=test LATIN_CLASS_CODE=abc python3 run.py
+    LATIN_TEACHER_PASSWORD=test python3 run.py
+
+---
+
+## Restoring a backup
+
+The backup is one JSON file and it restores into **either** database — the
+hosted Postgres or a laptop's SQLite. That is deliberate: a backup that only
+loads back into Render is a backup that depends on Render existing.
+
+    python3 -c "import json, store, backup; \
+      conn = store.connect('data/restored.sqlite'); store.init_db(conn); \
+      backup.restore(conn, json.load(open('latin1-backup-2027-01-15.json')))"
+
+It refuses to load into a database that already holds practice data unless you
+pass `replace=True`, because a half-restore that doubles every event is worse
+than no restore.
+
+Tested, not assumed: `tests/test_backup.py` takes a backup from Postgres,
+restores it into SQLite, and compares the **derived Leitner boxes** — not just
+row counts. A backup that kept every row but lost the timestamps would pass a
+count check and silently reset every student's schedule.

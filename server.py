@@ -22,6 +22,7 @@ from flask import (Flask, g, redirect, render_template, request, Response,
                    session, url_for, abort)
 
 import auth
+import backup
 import checks
 import dataio
 import drill
@@ -113,7 +114,8 @@ def _close_db(exc):
 # teacher-only, so a route added later is closed until someone opens it.
 # --------------------------------------------------------------------------
 
-OPEN_PREFIXES = ("/static", "/login", "/logout", "/signin", "/signout", "/favicon")
+OPEN_PREFIXES = ("/static", "/login", "/logout", "/signin", "/signout",
+                 "/favicon", "/healthz")
 TEACHER_PREFIXES = ("/review", "/teaching", "/teacher", "/quiz")
 STUDENT_PREFIXES = ("/drill", "/practice", "/q/")
 
@@ -122,6 +124,35 @@ def _here():
     """The URL to come back to after signing in. `full_path` leaves a bare '?'
     on paths with no query string, which then shows up in the address bar."""
     return request.full_path.rstrip("?")
+
+
+@app.before_request
+def _force_https():
+    """Nothing is served over plain HTTP once deployed.
+
+    Render terminates TLS and forwards the original scheme in
+    X-Forwarded-Proto. Trusting that header is only safe because the app is
+    never reachable except through Render's proxy — which is also why this is
+    gated on LATIN_PUBLIC rather than being on everywhere: on a laptop there is
+    no HTTPS to redirect to.
+    """
+    if not auth.is_public():
+        return None
+    if request.headers.get("X-Forwarded-Proto", "https") == "https":
+        return None
+    return redirect(request.url.replace("http://", "https://", 1), code=301)
+
+
+@app.after_request
+def _security_headers(resp):
+    if auth.is_public():
+        # A year of HSTS, so a student who once reached it over HTTPS can never
+        # be downgraded on the school wifi.
+        resp.headers.setdefault("Strict-Transport-Security", "max-age=31536000")
+    resp.headers.setdefault("X-Content-Type-Options", "nosniff")
+    resp.headers.setdefault("Referrer-Policy", "same-origin")
+    resp.headers.setdefault("X-Frame-Options", "DENY")
+    return resp
 
 
 @app.before_request
@@ -137,6 +168,23 @@ def _gate():
     if not auth.is_teacher():
         return redirect(url_for("login", next=_here()))
     return None
+
+
+@app.route("/healthz")
+def healthz():
+    """Is the app alive AND can it reach its database?
+
+    Render restarts a service whose health check fails. A check that only
+    proves Flask is running would keep a service alive that cannot serve a
+    single page, so this touches the database — cheaply, one row.
+    """
+    try:
+        get_db().execute("SELECT 1 AS ok").fetchone()
+    except Exception as exc:                      # noqa: BLE001
+        # The message can carry a host or a user name; the log line is enough.
+        print("[healthz] database unreachable: %s" % type(exc).__name__, flush=True)
+        return Response("database unreachable\n", status=503, mimetype="text/plain")
+    return Response("ok\n", mimetype="text/plain")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -1316,6 +1364,63 @@ def teacher_export():
     name = "practice-%s.csv" % time.strftime("%Y-%m-%d")
     return Response(buf.getvalue(), mimetype="text/csv",
                     headers={"Content-Disposition": "attachment; filename=" + name})
+
+
+# --------------------------------------------------------------------------
+# Backups and the end of the year
+# --------------------------------------------------------------------------
+
+@app.route("/teacher/backup")
+def teacher_backup():
+    """The whole database as one file.
+
+    Render's Hobby Postgres keeps three days of point-in-time recovery, and a
+    problem noticed in June cannot be fixed from a three-day window. JSON
+    rather than pg_dump so it restores into either database — a backup that
+    only loads back into Render is a backup that depends on Render existing.
+    """
+    blob = backup.export_json(get_db())
+    name = "latin1-backup-%s.json" % time.strftime("%Y-%m-%d")
+    return Response(blob, mimetype="application/json",
+                    headers={"Content-Disposition": "attachment; filename=" + name})
+
+
+@app.route("/teacher/data")
+def teacher_data():
+    db = get_db()
+    return render_template("teacher_data.html", counts=backup.export(db)["counts"],
+                           student_tables=backup.STUDENT_TABLES,
+                           storage=db.target,
+                           done=request.args.get("purged"),
+                           removed=request.args.getlist("removed"))
+
+
+@app.route("/teacher/data/end-of-year", methods=["POST"])
+def teacher_end_of_year():
+    """Export everything, then delete all student practice data.
+
+    Leadership was told the data is deleted at the end of the year, so this is
+    built rather than left as a manual job. It is guarded by typing the year,
+    not by an "are you sure" — a confirmation you can dismiss by reflex is not
+    a confirmation, and this one is not reversible.
+
+    The export is streamed back as the response, so the only way to run it is
+    to also receive the backup. Losing a year of history because someone
+    purged without downloading first is exactly the failure this is meant to
+    prevent.
+    """
+    db = get_db()
+    year = str(time.localtime().tm_year)
+    if (request.form.get("confirm") or "").strip() != year:
+        return redirect(url_for("teacher_data", bad_confirm=1))
+    blob, removed = backup.end_of_year(db)
+    print("[end-of-year] deleted %r" % (removed,), flush=True)
+    name = "latin1-final-%s.json" % time.strftime("%Y-%m-%d")
+    summary = "; ".join("%s=%d" % kv for kv in sorted(removed.items()))
+    return Response(blob, mimetype="application/json", headers={
+        "Content-Disposition": "attachment; filename=" + name,
+        "X-Deleted": summary,
+    })
 
 
 # --------------------------------------------------------------------------

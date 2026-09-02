@@ -438,7 +438,7 @@ no password set, no door.
 | Environment variable | Effect |
 |---|---|
 | `LATIN_TEACHER_PASSWORD` | Teacher sign-in guards `/teacher`, `/review`, `/teaching`, `/quiz`. Teacher tools disappear from the landing page for anyone not signed in. |
-| `LATIN_CLASS_CODE` | Students type a shared class code once per device to reach `/drill`, `/practice` and quizzes. |
+| — | Students sign in with an ID number and a PIN. Unlike the teacher password that gate is always on: there is no environment variable to turn it off. |
 | `LATIN_PUBLIC=1` | Says the app is reachable from outside the LAN. Marks session cookies HTTPS-only, and **refuses to start** if no teacher password is set. |
 | `LATIN_ID_PATTERN` | Regex for a valid student ID. Default `^[0-9]{4,10}$`. |
 | `DATABASE_URL` | Postgres connection string. Set by Render; unset on a laptop, which then uses the local SQLite file. |
@@ -449,6 +449,72 @@ and anything unrecognised falls through to teacher-only. A route added later is
 closed until someone opens it. `tests/test_auth.py` walks the real URL map and
 asserts every route redirects to a door — that test, not a hand-written list, is
 what keeps this honest.
+
+### The students' door: ID + PIN
+
+A student types their ID number, then a **four-digit PIN they choose the first
+time**. Two screens rather than one form, because the second depends on the
+first: a first-timer is *choosing* a PIN and a returning student is *entering*
+one, and explaining that distinction on a single screen is explaining it to
+nobody.
+
+Four digits, deliberately. The PIN's job is to stop one student practising as
+another — nothing behind it is a grade — and the failure mode that actually
+kills home practice is a fourteen-year-old locked out at 9pm. **A forgotten PIN
+is cleared by the teacher**, from the roster page or the student's page. That is
+all of password recovery here and it is enough: there are no email addresses in
+this system, and the person who can confirm a student is who they say they are
+is standing in front of them.
+
+PINs are stored hashed — PBKDF2-SHA256, per-student salt, 200,000 rounds, and
+the stored round count is honoured on verify so it can be raised later without
+locking anyone out. No iteration count makes 10,000 possibilities safe against
+someone determined; what the salt buys is that the table is not a plain lookup.
+
+**Identity comes from the signed session, never from the request.** That matters
+more than the PIN does. `?student=40218` used to be enough to practise as
+somebody else, and a PIN at the door means nothing while every screen behind it
+takes your word for it. Student ids no longer appear in URLs at all, and
+`tests/test_pins.py::TestIdentityComesFromTheSession` asserts it.
+
+The shared class code is **gone**. It let anyone who knew it practise as anyone,
+which is precisely what the PIN exists to prevent.
+
+---
+
+## Backups, and the end of the year
+
+**`/teacher/data`** — one page, no terminal.
+
+**Backup** downloads the whole database as a single JSON file. JSON rather than
+`pg_dump` output for one reason: it restores into **either** database. A backup
+that only loads back into Render is a backup that depends on Render existing.
+Render's plan keeps three days of point-in-time recovery, and a problem noticed
+in June cannot be fixed from a three-day window — **download one monthly and
+keep it somewhere that is not Render.**
+
+**End of year** exports everything and then deletes all student practice data:
+events, miss reasons, quiz attempts, PINs, roster. The question bank and your
+review decisions stay, because next year's class needs the questions and must
+not inherit a single row of anyone's history.
+
+Two things about that button:
+
+- It is confirmed by **typing the year**, not by an "are you sure". A
+  confirmation you can dismiss by reflex is not a confirmation, and this one is
+  not reversible.
+- **The backup is the response.** There is no way to run the purge without also
+  receiving the file, because losing a year of history to a purge-without-
+  download is exactly the failure it exists to prevent.
+
+Restoring refuses to load into a database that already holds practice data
+unless you pass `replace=True` — a half-restore that doubles every event is
+worse than no restore.
+
+**Tested, not assumed.** `tests/test_backup.py` round-trips Postgres → SQLite
+and SQLite → Postgres and compares the **derived Leitner boxes**, not row
+counts: a backup that kept every row but lost the timestamps would pass a count
+check and silently reset every student's schedule.
 
 ---
 
@@ -476,7 +542,7 @@ All five build steps, verified in order:
 9. Proctored quizzes: build, sit, resume, change answers, submit, review —
    driven end to end in a browser, including a check that no feedback leaks
    mid-quiz and that a submitted attempt is locked.
-10. A door: teacher password, student class code, HTTPS-only cookies when
+10. A door: teacher password, HTTPS-only cookies when
     deployed, and a refuse-to-start guard for the public-but-passwordless
     case. Rehearsed under gunicorn in a browser — a student took the class
     code, practised, and could not reach the dashboard; the teacher signed in,
@@ -498,10 +564,23 @@ All five build steps, verified in order:
     (drill, review, undo, dashboard) plus 27 dialect and live-Postgres tests,
     and a laptop-to-Postgres migration verified row-for-row including derived
     state.
-15. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
+15. Student sign-in: the whole journey driven in a browser on Postgres — a
+    name refused, an unknown number challenged, a PIN chosen, a mistyped
+    confirmation caught, sign out, the wrong PIN refused, the right one
+    accepted, and a teacher reset sending them back to "choose a PIN".
+16. Backup and end-of-year: a real backup taken through the web UI from a
+    Postgres holding a migrated year (213 questions, 301 events, 9 students),
+    restored into an empty SQLite, and compared — counts, roster, approvals,
+    readiness and Leitner boxes all identical.
+17. Deployment: run under gunicorn on Postgres exactly as `render.yaml`
+    specifies, and the change request's three confirmations performed rather
+    than asserted — every teacher URL redirects to the login and leaks nothing;
+    no name, and no column named `*name*`, exists anywhere in the hosted
+    database (checked against a `pg_dump`); the backup restores.
+18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-247 tests pass (12 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+313 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

@@ -146,7 +146,10 @@ class TestGate(EnvMixin):
     def test_every_route_is_gated(self):
         """Walk the real URL map. A route added later is closed by default."""
         server, c = make_client(self.db, LATIN_TEACHER_PASSWORD="hunter2")
-        allowed = {"/", "/login", "/logout", "/signin", "/signout",
+        # /healthz is deliberately open — Render must reach it without a
+        # password — and is safe because it returns the two bytes "ok" and
+        # never any data. See test_the_health_check_says_nothing_else.
+        allowed = {"/", "/login", "/logout", "/signin", "/signout", "/healthz",
                    "/static/<path:filename>"}
         leaked = []
         for rule in server.app.url_map.iter_rules():
@@ -170,3 +173,71 @@ class TestGate(EnvMixin):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestDeployment(EnvMixin):
+    """The things Render needs, and the things a public URL needs."""
+
+    def setUp(self):
+        EnvMixin.setUp(self)
+        import tempfile
+        self.db = os.path.join(tempfile.mkdtemp(), "t.sqlite")
+
+    def tearDown(self):
+        EnvMixin.tearDown(self)
+        os.environ.pop("LATIN_DB", None)
+        sys.modules.pop("server", None)
+
+    def test_the_health_check_is_open_and_touches_the_database(self):
+        _, c = make_client(self.db, LATIN_TEACHER_PASSWORD="hunter2")
+        r = c.get("/healthz")
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.data, b"ok\n")
+
+    def test_the_health_check_says_nothing_else(self):
+        # It is open by necessity, so it must leak nothing: no version, no
+        # counts, no connection string.
+        _, c = make_client(self.db, LATIN_TEACHER_PASSWORD="hunter2")
+        self.assertEqual(c.get("/healthz").data, b"ok\n")
+
+    def test_the_health_check_fails_when_the_database_is_gone(self):
+        # A check that only proves Flask is running would keep a service alive
+        # that cannot serve a single page.
+        server, c = make_client(self.db)
+        import store
+        real = store.connect
+
+        def broken(*a, **kw):
+            raise RuntimeError("no database")
+        store.connect = broken
+        try:
+            self.assertEqual(c.get("/healthz").status_code, 503)
+        finally:
+            store.connect = real
+
+    def test_plain_http_is_redirected_once_deployed(self):
+        _, c = make_client(self.db, LATIN_TEACHER_PASSWORD="hunter2", LATIN_PUBLIC="1")
+        r = c.get("/signin", headers={"X-Forwarded-Proto": "http"})
+        self.assertEqual(r.status_code, 301)
+        self.assertTrue(r.headers["Location"].startswith("https://"))
+
+    def test_locally_there_is_no_https_to_redirect_to(self):
+        _, c = make_client(self.db)
+        self.assertEqual(c.get("/signin").status_code, 200)
+
+    def test_hsts_only_when_public(self):
+        _, c = make_client(self.db, LATIN_TEACHER_PASSWORD="hunter2", LATIN_PUBLIC="1")
+        self.assertIn("Strict-Transport-Security", c.get("/healthz").headers)
+        _, c2 = make_client(self.db)
+        self.assertNotIn("Strict-Transport-Security", c2.get("/healthz").headers)
+
+    def test_the_usual_headers_are_set(self):
+        _, c = make_client(self.db)
+        h = c.get("/").headers
+        self.assertEqual(h["X-Content-Type-Options"], "nosniff")
+        self.assertEqual(h["X-Frame-Options"], "DENY")
+
+    def test_no_secret_reaches_a_page(self):
+        _, c = make_client(self.db, LATIN_TEACHER_PASSWORD="hunter2")
+        for path in ("/", "/login", "/signin", "/healthz"):
+            self.assertNotIn(b"hunter2", c.get(path).data, path)
