@@ -175,3 +175,9 @@ select.namepick {
   width: 100%; padding: 14px; font-size: 17px; border: 1px solid var(--line);
   border-radius: 10px; background: #fff; font-family: inherit; color: var(--ink);
 }
+
+/* Continuous review: crossing into a new node. */
+.node-banner {
+  background: #eef5f0; border: 1px solid #cfe2d6; border-left: 4px solid var(--accent);
+  border-radius: 8px; padding: 8px 12px; margin: 0 0 10px; font-size: 14px;
+}

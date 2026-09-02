@@ -208,8 +208,11 @@ def ensure_seeded(db):
 def review_queue():
     db = get_db()
     ensure_seeded(db)
-    nodes = store.node_queue_counts(db)
-    node_rows = [{"node": n, "label": _NODE_LABEL.get(n, ""), "count": c} for n, c in nodes]
+    # Teaching order, matching continuous review — the ids sort CR before MS,
+    # but the course runs MS, CR, RW, MW.
+    pending = dict(store.node_queue_counts(db))
+    node_rows = [{"node": n, "label": _NODE_LABEL.get(n, ""), "count": pending[n]}
+                 for n in _SPEC if n in pending]
     return render_template("review_queue.html", nodes=node_rows,
                            counts=store.counts(db))
 
@@ -243,6 +246,57 @@ def review_node(node_id):
                            node_id=node_id, remaining=remaining)
 
 
+def _next_continuous(db, exclude_item=None):
+    """The next thing to look at anywhere in the bank.
+
+    Spec order, not alphabetical: the node ids sort CR before MS, but the
+    course teaches MS, CR, RW, MW. Reviewing in teaching order means each
+    question arrives with the last one still in mind, which is most of why
+    continuous review is faster than node-hopping.
+
+    The flagged queue comes last. Those need slower attention, and they are
+    better met once the fast ones have gone by than mixed in among them.
+    """
+    # Two passes. The first serves only items never skipped, so one clean
+    # sweep of the bank happens before anything deferred comes back; the
+    # second picks the deferred ones up. Without that split, skipping an item
+    # in MS-003 hands it straight back as soon as MS-004 empties, which is the
+    # opposite of "decide later".
+    for fresh_only in (True, False):
+        pending = dict(store.node_queue_counts(db, fresh_only=fresh_only))
+        for node_id in _SPEC:
+            if pending.get(node_id):
+                item = store.next_unreviewed_in_node(db, node_id, exclude_item,
+                                                     fresh_only=fresh_only)
+                if item is not None:
+                    return item
+    return store.next_flagged(db, exclude_item)
+
+
+@app.route("/review/all")
+def review_all():
+    """Continuous review: keep going until the whole bank is decided.
+
+    Same screen and same keys as the per-node queue; it just never stops to
+    send you home. Crossing from one node into the next is marked, because
+    which node you are in changes what a good question looks like.
+    """
+    db = get_db()
+    ensure_seeded(db)
+    # The item just skipped, carried through the redirect so "decide later"
+    # advances instead of handing the same card back.
+    item = _next_continuous(db, request.args.get("after"))
+    if item is None:
+        return render_template("review_done.html", where="all",
+                               counts=store.counts(db))
+    c = store.counts(db)
+    return render_template(
+        "review_item.html", item=item, queue="all", node_id=item["node_id"],
+        remaining=c["unreviewed"],
+        node_remaining=dict(store.node_queue_counts(db)).get(item["node_id"], 0),
+        entered_node=(request.args.get("node") != item["node_id"]))
+
+
 @app.route("/review/flagged")
 def review_flagged():
     db = get_db()
@@ -271,6 +325,12 @@ def review_action():
         store.skip_item(db, item_id)
     else:
         abort(400)
+    return _back_to_queue(queue, node_id, item_id if action == "skip" else None)
+
+
+def _back_to_queue(queue, node_id, skipped=None):
+    if queue == "all":
+        return redirect(url_for("review_all", node=node_id, after=skipped))
     if queue == "flagged":
         return redirect(url_for("review_flagged"))
     return redirect(url_for("review_node", node_id=node_id))
@@ -293,9 +353,7 @@ def review_edit(item_id):
             return render_template("review_edit.html", item=item, payload_text=text,
                                    error=str(e), queue=queue, node_id=node_id)
         store.set_review(db, item_id, "approved", new_payload=new_payload, edited=True)
-        if queue == "flagged":
-            return redirect(url_for("review_flagged"))
-        return redirect(url_for("review_node", node_id=node_id))
+        return _back_to_queue(queue, node_id)
     payload_text = yaml.safe_dump(item["payload"], allow_unicode=True, sort_keys=False)
     return render_template("review_edit.html", item=item, payload_text=payload_text,
                            error=None, queue=queue, node_id=node_id)

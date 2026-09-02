@@ -1,21 +1,35 @@
 {% extends "base.html" %}
 {% set p = item.payload %}
-{% block subtitle %}{{ 'flagged' if queue == 'flagged' else 'review' }}{% endblock %}
+{% block subtitle %}{% if queue == 'flagged' %}flagged{% elif queue == 'all' %}continuous{% else %}review{% endif %}{% endblock %}
 {% block content %}
 
+{% if entered_node %}
+{# Which node you are in changes what a good question looks like, so crossing
+   into a new one is worth a beat even though nothing stops. #}
+<div class="node-banner">
+  Now reviewing <span class="node-id">{{ item.node_id }}</span> — {{ item.node_id | nodelabel }}
+</div>
+{% endif %}
+
+{% if not entered_node %}
 <div class="meta-row">
   <span class="node-id">{{ item.node_id }}</span>
   <span class="badge tier">{{ item.node_id | nodelabel }}</span>
 </div>
+{% endif %}
 <div class="meta-row">
   <span class="badge tier">tier {{ p.tier }}</span>
   <span class="badge tier">{{ p.assess }}</span>
   <span class="badge tier">{{ p.format }}</span>
   {% if p.macron_matters %}<span class="badge err">macron matters</span>{% endif %}
   {% if p.paper_ok is defined and not p.paper_ok %}<span class="badge tier">screen only</span>{% endif %}
-  <span class="muted small">{{ remaining }} left {{ 'in this node' if queue == 'node' else 'flagged' }}</span>
+  <span class="muted small">
+    {% if queue == 'all' %}{{ remaining }} left in the whole bank{% if node_remaining > 1 %} · {{ node_remaining }} in this node{% endif %}
+    {% elif queue == 'node' %}{{ remaining }} left in this node
+    {% else %}{{ remaining }} left flagged{% endif %}
+  </span>
 </div>
-<div class="small muted" style="margin:-2px 0 6px">keys: <b>A</b>pprove · <b>E</b>dit · <b>R</b>eject · <b>S</b>kip</div>
+<div class="small muted" style="margin:-2px 0 6px">keys: <b>A</b>pprove · <b>E</b>dit · <b>R</b>eject · <b>S</b>kip{% if queue == 'all' %} — <a href="{{ url_for('review_queue') }}">stop</a>{% endif %}</div>
 
 {% if item.flags %}
 <div class="flags">

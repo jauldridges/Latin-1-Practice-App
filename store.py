@@ -204,31 +204,46 @@ def import_items(conn, items, flags_by_item, source_file):
 # Queue reads
 # --------------------------------------------------------------------------
 
-def node_queue_counts(conn):
-    """Nodes with unreviewed, unflagged items, newest-first by count."""
+def node_queue_counts(conn, fresh_only=False):
+    """Nodes with unreviewed, unflagged items.
+
+    fresh_only drops items that have been skipped at least once. Continuous
+    review uses it to make one clean pass over everything before circling back
+    to the deferred ones — otherwise a skip in an early node is served again as
+    soon as the node after it empties, which is not what "decide later" means.
+    """
     rows = conn.execute(
         """SELECT node_id, COUNT(*) AS n
              FROM items
             WHERE review_status='unreviewed' AND flagged=0
-         GROUP BY node_id ORDER BY node_id""").fetchall()
+              AND (0 = ? OR skips = 0)
+         GROUP BY node_id ORDER BY node_id""", (1 if fresh_only else 0,)).fetchall()
     return [(r["node_id"], r["n"]) for r in rows]
 
 
-def next_unreviewed_in_node(conn, node_id):
+def next_unreviewed_in_node(conn, node_id, exclude_item=None, fresh_only=False):
     # Least-skipped first, so a "decide later" skip cycles the item to the back
     # and it returns after the rest of the node's queue.
+    #
+    # exclude_item is the item just skipped. Without it, skipping the LAST item
+    # in a node serves that same item straight back, because it is still the
+    # least-skipped thing left. Skip has to move on, or it is not a skip.
     row = conn.execute(
         """SELECT * FROM items
             WHERE node_id=? AND review_status='unreviewed' AND flagged=0
-         ORDER BY skips, item_id LIMIT 1""", (node_id,)).fetchone()
+              AND item_id IS NOT ?
+              AND (0 = ? OR skips = 0)
+         ORDER BY skips, item_id LIMIT 1""",
+        (node_id, exclude_item, 1 if fresh_only else 0)).fetchone()
     return _row_to_item(row)
 
 
-def next_flagged(conn):
+def next_flagged(conn, exclude_item=None):
     row = conn.execute(
         """SELECT * FROM items
             WHERE flagged=1 AND review_status='unreviewed'
-         ORDER BY skips, node_id, item_id LIMIT 1""").fetchone()
+              AND item_id IS NOT ?
+         ORDER BY skips, node_id, item_id LIMIT 1""", (exclude_item,)).fetchone()
     return _row_to_item(row)
 
 

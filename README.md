@@ -97,8 +97,17 @@ of a macron-critical item. A genuine letter typo on those items is still
 
 ## Review tool
 
-- **Queue picker** — nodes with unreviewed counts, grouped so you review a
-  concept in a row. Separate **flagged queue** for anything a check caught or the
+- **Review everything** — the default. One question after another across the
+  whole bank until it is decided; approving never sends you back to a menu.
+  It walks in **teaching order** (the node ids sort `CR` before `MS`, but the
+  course runs MS → CR → RW → MW), marks the moment you cross into a new node,
+  counts down the whole bank, and rolls into the flagged queue at the end.
+  Stop whenever — every decision is already saved, and the button picks up
+  where you left off.
+- **Or one node at a time** — the old flow, still there under a fold: nodes
+  with unreviewed counts so you can review one concept in a row. Its "nothing
+  left here" screen now offers to continue with the rest instead of dead-ending
+  at the queue. Separate **flagged queue** for anything a check caught or the
   generator marked `needs_review`.
 - **Review screen** — the whole question, the correct answer, the
   what-went-wrong menu, tier and node, and any flags. One-thumb bar: **Approve /
@@ -106,8 +115,11 @@ of a macron-critical item. A genuine letter typo on those items is still
   the phone and resume in place.
 - **Edit** — inline YAML, save & approve. Broken YAML is rejected with the error,
   not saved.
-- **Skip** = *decide later*: the item cycles to the back of its queue and returns
-  after the rest, rather than disappearing.
+- **Skip** = *decide later*: the item is deferred to the end of the pass and
+  returns after everything else, rather than disappearing. In continuous mode
+  that means the end of the **whole bank**, not the end of the node — two
+  passes, unskipped items first — because a skip that comes back one question
+  later is not a skip.
 - **Export** — approved questions out as YAML in the exemplar shape. Rejected
   ones stay in the store with their reason, so a later generation run can be
   compared against what failed.
@@ -383,10 +395,14 @@ All five build steps, verified in order:
     case. Rehearsed under gunicorn in a browser — a student took the class
     code, practised, and could not reach the dashboard; the teacher signed in,
     saw that practice land, and signing out closed it again.
-11. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
+11. Continuous review: 213 questions in one pass in teaching order, driven 40
+    cards deep in a browser — the node order never regresses, a skip survives
+    the rest of the pass, and editing stays in the flow instead of dropping
+    you home.
+12. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-157 tests pass (`python3 -m unittest discover -s tests`).
+170 tests pass (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 
