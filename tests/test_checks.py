@@ -109,3 +109,30 @@ class TestSyntheticItems(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TestEndingsAreNotWords(unittest.TestCase):
+    """From Unit 2 on, items discuss endings constantly. An ending written the
+    way a grammar book writes it must not read as unknown vocabulary."""
+
+    def item(self, stem):
+        return {"id": "X-01", "node": "MS-054", "assess": "explain", "tier": 2,
+                "format": "choice", "stem": stem,
+                "options": {"a": "yes", "b": "no"}, "answer": "a"}
+
+    def test_a_hyphenated_ending_is_exempt(self):
+        flags = checks.check_vocabulary(self.item('The ending is "-ārum" here.'), set())
+        self.assertEqual(flags, [])
+
+    def test_the_same_letters_as_a_bare_word_still_flag(self):
+        flags = checks.check_vocabulary(self.item('The word ārum appears.'), set())
+        self.assertEqual(len(flags), 1)
+
+    def test_an_ending_in_an_option_is_exempt_too(self):
+        it = self.item("Which ending is the genitive plural?")
+        it["options"] = {"a": "-ārum", "b": "-ōrum"}
+        self.assertEqual(checks.check_vocabulary(it, set()), [])
+
+    def test_a_real_unglossed_word_is_still_caught(self):
+        flags = checks.check_vocabulary(self.item("The noun rēgīna is here."), set())
+        self.assertEqual(len(flags), 1)

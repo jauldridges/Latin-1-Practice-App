@@ -88,6 +88,22 @@ def _answer_strings(item):
     return out
 
 
+_ENDING_RE = re.compile(r"-([A-Za-zāēīōūȳĀĒĪŌŪȲ]+)")
+
+
+def _ending_tokens(text):
+    """Tokens written as grammatical ENDINGS — "-ārum", "-ibus", "-ium".
+
+    An ending is not a word and has no place on a vocabulary list, but the
+    tokenizer drops the hyphen and it arrives looking like unknown Latin. From
+    Unit 2 on, items talk about endings constantly (every declension and
+    conjugation node does), so without this the vocabulary check would fire
+    dozens of times on questions that are correct — and a check that cries wolf
+    is one a reviewer learns to click past.
+    """
+    return {clean(m.group(1)) for m in _ENDING_RE.finditer(str(text or ""))}
+
+
 def _glossed_tokens(stem):
     """Latin tokens that are glossed in the stem: anything inside ( ) or [ ],
     the token immediately before an opening ( or [, and a token immediately
@@ -138,11 +154,12 @@ def check_vocabulary(item, allowed, level="heuristic"):
 
     reported = set()
     for text in scan:
+        exempt = glossed | _ending_tokens(text)
         for tok in _vocab_units(text):
             if not _has_macron(tok):
                 continue                     # only macron tokens are sure Latin
             n = clean(tok)
-            if not n or len(n) == 1 or n in allowed or n in glossed:
+            if not n or len(n) == 1 or n in allowed or n in exempt:
                 continue    # single letters (e.g. an illustrative "ā") aren't words
             if n.endswith("que") and n[:-3] in allowed:
                 continue

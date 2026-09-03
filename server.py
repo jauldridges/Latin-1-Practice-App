@@ -341,7 +341,7 @@ def ensure_seeded(db):
         return None
     items = dataio.load_bank()
     flags_by_item, report = checks.run_all(items, _VALID_NODES, _ALLOWED_LATIN)
-    store.import_items(db, items, flags_by_item, os.path.basename(dataio.BANK_FILE))
+    store.import_items(db, items, flags_by_item, ", ".join(os.path.basename(f) for f in dataio.bank_files()))
     return report
 
 
@@ -364,7 +364,7 @@ def review_import():
     db = get_db()
     items = dataio.load_bank()
     flags_by_item, report = checks.run_all(items, _VALID_NODES, _ALLOWED_LATIN)
-    imported = store.import_items(db, items, flags_by_item, os.path.basename(dataio.BANK_FILE))
+    imported = store.import_items(db, items, flags_by_item, ", ".join(os.path.basename(f) for f in dataio.bank_files()))
     # Build a human import summary.
     summary = {
         "inserted": imported["inserted"], "updated": imported["updated"],

@@ -1,0 +1,1032 @@
+# Latin I — Unit 2 morphosyntax questions
+#
+# Twenty-seven MS nodes, three questions each. What Unit 2 actually adds is two
+# more cases (genitive, dative), the third declension, and the second half of
+# the verb system — which is where first-year Latin usually comes apart.
+#
+# VOCABULARY. Unit 2 needs words Unit 1 never met: third-declension nouns and
+# third/fourth-conjugation verbs barely exist inside an 80-word first-declension
+# list. Every such word is therefore GLOSSED in the stem, in square brackets,
+# on every appearance. That is not a concession to the mechanical check — it is
+# the same rule a textbook follows when a word is new, and each of these items
+# has to stand alone, because a student meets it cold in a practice queue with
+# no page before it.
+#
+# SCOPE. Each item stays inside what its own node's day allows. MS-053 is
+# taught on 14 October and may not lean on the third declension, which arrives
+# on 2 November. Where an item needs something from later, it is not written.
+#
+# ONE NODE PER ITEM. `node` is the thing being tested and the thing a wrong
+# answer counts against; everything else the item touches is in `touches`.
+
+items:
+
+# ==========================================================================
+# The genitive — MS-052 to MS-056 (weeks of 12 and 19 October)
+# ==========================================================================
+
+  - id: MS052-RECOG-01
+    node: MS-052
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "In Fīlia [daughter] agricolae aquam portat, which word is in the genitive?"
+    options:
+      a: "agricolae"
+      b: "Fīlia"
+      c: "aquam"
+      d: "portat"
+    answer: a
+    touches: [MS-053, MS-014, MS-015]
+    what_went_wrong:
+      - text: "I picked the subject instead"
+        node: MS-014
+      - text: "I picked the object instead"
+        node: MS-015
+      - text: "I couldn't tell which ending was genitive"
+        node: MS-053
+    note: >
+      agricolae is the genitive singular: the farmer's daughter. Fīlia is
+      nominative and aquam accusative, so the two cases they already know are
+      both present as competition. Deliberately not a sentence where the
+      genitive is the only noun.
+    versions:
+      v2: {change: "Glosses added: fīlia [daughter], agricolae [farmer's]; one option per line."}
+      v3:
+        change: "Two options — the genitive and the nominative."
+        options: {a: "agricolae", b: "Fīlia"}
+    teaching: ''
+
+  - id: MS052-EXPLAIN-01
+    node: MS-052
+    assess: explain
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      English shows possession two ways — "the farmer's daughter" and "the
+      daughter of the farmer". Latin uses the genitive for both. Why does Latin
+      need no apostrophe and no separate word?
+    options:
+      a: "Because the case ending already carries the possession, so nothing else has to."
+      b: "Because Latin has no word for 'of'."
+      c: "Because the possessor always comes first in Latin."
+      d: "Because possession is shown by word order instead."
+    answer: a
+    touches: [MS-011, MS-013]
+    what_went_wrong:
+      - text: "I thought word order showed possession"
+        node: MS-012
+      - text: "I know the genitive shows possession but couldn't say why no extra word is needed"
+        node: MS-052
+    note: >
+      An explain item: the stem states the fact and the options compete on the
+      reason. Option b is the trap that sounds right — Latin does lack a word
+      for 'of' here, but that is a consequence of the ending doing the work,
+      not the cause.
+    versions:
+      v2: {change: "One option per line; the two English phrasings on separate lines."}
+      v3:
+        change: "Two options — the ending answer and the word-order answer."
+        options:
+          a: "The case ending already carries the possession."
+          b: "Possession is shown by word order."
+        answer: a
+    teaching: ''
+
+  - id: MS052-TRANS-01
+    node: MS-052
+    assess: translate
+    tier: 2
+    format: self-check
+    paper_ok: true
+    macron_matters: false
+    stem: "Write the English, then check yourself: Nauta fīliam [daughter] agricolae spectat."
+    model_answer: "The sailor watches the farmer's daughter. ('the daughter of the farmer' is equally right.)"
+    self_report:
+      - I had it
+      - I had the words but the wrong owner
+      - I didn't have it
+    touches: [MS-053, MS-015, MS-034]
+    what_went_wrong:
+      - text: "I made the farmer the subject"
+        node: MS-052
+      - text: "I couldn't tell which noun the genitive belonged to"
+        node: MS-052
+      - text: "I mixed up who was watching whom"
+        node: MS-015
+    note: >
+      Self-check rather than a typed answer: Latin marks neither article nor
+      progressive, so 'a sailor is watching' and 'the sailor watches' are both
+      right, and no list of accepted strings covers a free sentence without
+      quietly testing English instead of Latin. The self-report options name
+      the error worth catching — making agricolae the subject, which a genitive
+      can never be.
+    versions:
+      v2: {change: "Glosses under each word; one box."}
+      v3:
+        change: "Four-option choice built from the answer and the subject-confusion error."
+        format: choice
+        options:
+          a: "The sailor watches the farmer's daughter."
+          b: "The farmer watches the sailor's daughter."
+          c: "The daughter watches the farmer's sailor."
+          d: "The farmer's daughter watches the sailor."
+        answer: a
+    teaching: ''
+
+  - id: MS053-PRODUCE-01
+    node: MS-053
+    assess: produce
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "The dictionary entry is puella, puellae, f. Write the genitive singular and the genitive plural."
+    boxes:
+      - label: Genitive singular
+        answer: ["puellae"]
+      - label: Genitive plural
+        answer: ["puellarum", "puellārum"]
+    touches: [MS-017, MS-018]
+    what_went_wrong:
+      - text: "I wrote the nominative plural for one of them"
+        node: MS-056
+      - text: "I wasn't sure of the genitive plural ending"
+        node: MS-053
+    note: >
+      The entry gives the genitive singular away deliberately — that is what a
+      dictionary entry is for, and the node being tested is knowing that -ārum
+      is its plural. Macrons optional on the answer, as everywhere.
+    versions:
+      v2: {change: "Placeholder 'one word' in each box; the entry's parts labelled."}
+      v3:
+        change: "Word bank: puellae, puellārum, puellās, puellīs."
+    teaching: ''
+
+  - id: MS053-PARSE-01
+    node: MS-053
+    assess: parse
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Parse silvārum."
+    options:
+      a: "genitive plural feminine"
+      b: "genitive singular feminine"
+      c: "dative plural feminine"
+      d: "accusative plural feminine"
+    answer: a
+    touches: [MS-021, MS-022]
+    what_went_wrong:
+      - text: "I picked the wrong number"
+        node: MS-053
+      - text: "I picked the wrong case"
+        node: MS-053
+    versions:
+      v2: {change: "Gloss added: silva [forest]; one option per line."}
+      v3:
+        change: "Two options — genitive plural and genitive singular."
+        options: {a: "genitive plural feminine", b: "genitive singular feminine"}
+        answer: a
+    teaching: ''
+
+  - id: MS053-PRODUCE-02
+    node: MS-053
+    assess: produce
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Write the genitive plural of via."
+    boxes:
+      - label: Genitive plural
+        answer: ["viarum", "viārum"]
+    touches: [MS-017]
+    what_went_wrong:
+      - text: "I wrote the genitive singular"
+        node: MS-053
+      - text: "I added -rum to the wrong form"
+        node: MS-017
+    note: >
+      Stem via- plus -ārum. A student who writes 'viaerum' has added the plural
+      ending to the genitive singular rather than to the stem, which is the
+      mistake this shape catches.
+    versions:
+      v2: {change: "Placeholder 'one word'; gloss added: via [road]."}
+      v3:
+        change: "Four-option choice from the answer plus wrong forms."
+        format: choice
+        options: {a: "viārum", b: "viae", c: "viās", d: "viīs"}
+        answer: a
+    teaching: ''
+
+  - id: MS054-PRODUCE-01
+    node: MS-054
+    assess: produce
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "The dictionary entry is amīcus, amīcī, m. Write the genitive singular and the genitive plural."
+    boxes:
+      - label: Genitive singular
+        answer: ["amici", "amīcī"]
+      - label: Genitive plural
+        answer: ["amicorum", "amīcōrum"]
+    touches: [MS-023, MS-017]
+    what_went_wrong:
+      - text: "I wasn't sure of the genitive plural ending"
+        node: MS-054
+      - text: "I used the first declension endings"
+        node: MS-053
+    note: >
+      Paired deliberately with MS053-PRODUCE-01 so the two declensions'
+      genitive plurals (-ārum, -ōrum) are met in the same shape.
+    versions:
+      v2: {change: "Placeholder 'one word' in each box; the entry's parts labelled."}
+      v3:
+        change: "Word bank: amīcī, amīcōrum, amīcōs, amīcīs."
+    teaching: ''
+
+  - id: MS054-PARSE-01
+    node: MS-054
+    assess: parse
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: true
+    stem: "Parse dominōrum."
+    options:
+      a: "genitive plural masculine"
+      b: "dative plural masculine"
+      c: "genitive singular masculine"
+      d: "accusative plural masculine"
+    answer: a
+    touches: [MS-023, MS-022]
+    what_went_wrong:
+      - text: "I picked the wrong case"
+        node: MS-054
+      - text: "I picked the wrong number"
+        node: MS-054
+    versions:
+      v2: {change: "Gloss added: dominus [master]; one option per line."}
+      v3:
+        change: "Two options — genitive plural and dative plural."
+        options: {a: "genitive plural masculine", b: "dative plural masculine"}
+        answer: a
+    teaching: ''
+
+  - id: MS054-EXPLAIN-01
+    node: MS-054
+    assess: explain
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: true
+    stem: >-
+      The genitive plural ending is "-ārum" in the first declension and
+      "-ōrum" in the second. They differ only in their vowel. What is that
+      vowel doing?
+    options:
+      a: "It is the declension's own stem vowel, so it marks which declension the noun belongs to."
+      b: "It marks the noun's gender, feminine against masculine."
+      c: "It is decoration; the -rum alone carries the genitive plural."
+      d: "It shows whether the possession is close or distant."
+    answer: a
+    touches: [MS-053, MS-016]
+    what_went_wrong:
+      - text: "I thought the vowel showed gender"
+        node: MS-022
+      - text: "I know both endings but never saw the pattern in them"
+        node: MS-054
+    note: >
+      Option b is the trap worth having: first declension is mostly feminine
+      and second mostly masculine, so 'gender' predicts the right answer most
+      of the time for the wrong reason — and breaks on nauta and agricola,
+      which they already know.
+    versions:
+      v2: {change: "Both endings printed large with the vowels marked; one option per line."}
+      v3:
+        change: "Two options — the stem-vowel answer and the gender answer."
+        options:
+          a: "It is the declension's stem vowel, marking which declension it is."
+          b: "It marks gender, feminine against masculine."
+        answer: a
+    teaching: ''
+
+  - id: MS055-RECOG-01
+    node: MS-055
+    assess: recognize
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      In pars [part] īnsulae, the genitive is not showing possession — the part
+      does not belong to the island. What is it doing?
+    options:
+      a: "Naming the whole that the part is taken from."
+      b: "Naming who owns the part."
+      c: "Naming where the part is."
+      d: "Naming what the part is made of."
+    answer: a
+    touches: [MS-052]
+    what_went_wrong:
+      - text: "I read every genitive as possession"
+        node: MS-055
+      - text: "I thought it showed place"
+        node: MS-055
+    note: >
+      pars is glossed and used only as a vehicle; the i-stem noun itself is not
+      taught until 9 November and is not what the item tests.
+    versions:
+      v2: {change: "Gloss kept; one option per line."}
+      v3:
+        change: "Two options — the whole, and the owner."
+        options: {a: "Naming the whole the part comes from.", b: "Naming who owns the part."}
+        answer: a
+    teaching: ''
+
+  - id: MS055-TRANS-01
+    node: MS-055
+    assess: translate
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Write the English for: pars [part] silvae. Two words is enough."
+    boxes:
+      - label: English
+        answer:
+          - "part of the forest"
+          - "part of the wood"
+          - "part of the woods"
+          - "some of the forest"
+    touches: [MS-052]
+    what_went_wrong:
+      - text: "I translated it as the forest's part"
+        node: MS-055
+      - text: "I wasn't sure which noun was the whole"
+        node: MS-055
+    note: >
+      'The forest's part' is not accepted: it is the possession reading, and
+      telling the two apart is the entire node. pars is glossed in v2.
+    versions:
+      v2: {change: "Glosses added: pars [part], silva [forest]."}
+      v3:
+        change: "Two-option choice — the partitive reading and the possessive one."
+        format: choice
+        options: {a: "part of the forest", b: "the forest's part"}
+        answer: a
+    teaching: ''
+
+  - id: MS055-RECOG-02
+    node: MS-055
+    assess: recognize
+    tier: 3
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      In which phrase is the genitive partitive — naming a whole rather than an
+      owner? (pars [part], fīlia [daughter])
+    options:
+      a: "pars [part] viae"
+      b: "fīlia [daughter] agricolae"
+      c: "aqua īnsulae"
+      d: "amīcus poētae"
+    answer: a
+    touches: [MS-052]
+    what_went_wrong:
+      - text: "I picked a possession phrase"
+        node: MS-055
+      - text: "I couldn't tell the two uses apart"
+        node: MS-055
+    note: >
+      Tier 3: the discrimination, once both uses are known. Every wrong option
+      is ordinary possession, so the student cannot get it by spotting the
+      genitive ending — they all have one.
+    versions:
+      v2: {change: "Glosses on every phrase; one phrase per line."}
+      v3:
+        change: "Two options — the partitive and one possessive."
+        options: {a: "pars [part] viae", b: "fīlia [daughter] agricolae"}
+        answer: a
+    teaching: ''
+
+  - id: MS056-APPLY-01
+    node: MS-056
+    assess: apply
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      puellae can be genitive singular or nominative plural. In Puellae aquam
+      portant, which is it, and what decides?
+    options:
+      a: "Nominative plural — portant is plural, so it needs a plural subject."
+      b: "Genitive singular — it is the first word."
+      c: "Nominative plural — the -ae ending is always nominative."
+      d: "It cannot be decided from this sentence."
+    answer: a
+    touches: [MS-053, MS-020, MS-037]
+    what_went_wrong:
+      - text: "I decided from word order"
+        node: MS-012
+      - text: "I didn't use the verb to settle it"
+        node: MS-037
+      - text: "I thought -ae had only one meaning"
+        node: MS-056
+    note: >
+      Option c reaches the right answer by a wrong route and must not be
+      accepted — a student holding that belief fails the very next sentence
+      where puellae is genitive. The verb is the evidence.
+    versions:
+      v2: {change: "Glosses added; the sentence printed on its own line."}
+      v3:
+        change: "Two options — the verb-agreement answer and the word-order answer."
+        options:
+          a: "Nominative plural — portant is plural and needs a plural subject."
+          b: "Genitive singular — it comes first."
+        answer: a
+    teaching: ''
+
+  - id: MS056-EXPLAIN-01
+    node: MS-056
+    assess: explain
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      One first-declension form, -ae, serves as both genitive singular and
+      nominative plural. Why does that not make Latin ambiguous in practice?
+    options:
+      a: "Because the rest of the sentence — the verb's number, the other nouns — rules one of them out."
+      b: "Because the genitive always comes after its noun."
+      c: "Because context is guessed and Latin simply is ambiguous here."
+      d: "Because Romans pronounced the two differently."
+    answer: a
+    touches: [MS-029, MS-037]
+    what_went_wrong:
+      - text: "I thought it really was ambiguous"
+        node: MS-056
+      - text: "I know both readings but not how to choose"
+        node: MS-056
+    note: >
+      Option c is the honest-sounding wrong answer, and worth arguing with: a
+      form being ambiguous in isolation is not the same as a sentence being
+      ambiguous, and that distinction is most of what reading Latin is.
+    versions:
+      v2: {change: "One option per line; the two uses of -ae listed above the question."}
+      v3:
+        change: "Two options — the evidence answer and the it-is-ambiguous answer."
+        options:
+          a: "The rest of the sentence rules one out."
+          b: "It is genuinely ambiguous."
+        answer: a
+    teaching: ''
+
+  - id: MS056-APPLY-02
+    node: MS-056
+    assess: apply
+    tier: 3
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      In Fīlia [daughter] puellae aquam portat, puellae is genitive singular, not
+      nominative plural. What rules out the plural reading?
+    options:
+      a: "portat is singular, and the sentence already has fīlia as its singular subject."
+      b: "puellae comes second, and second words are never subjects."
+      c: "Nothing rules it out; either reading works."
+      d: "aquam is accusative, so puellae must be genitive."
+    answer: a
+    touches: [MS-037, MS-014, MS-052]
+    what_went_wrong:
+      - text: "I decided from position"
+        node: MS-012
+      - text: "I didn't notice the sentence already had a subject"
+        node: MS-014
+      - text: "I thought both readings still worked"
+        node: MS-056
+    note: >
+      The twin of MS056-APPLY-01 with the answer reversed, so a student cannot
+      pass by learning 'puellae means nominative plural'. Option d is a real
+      student move — true premise, no connection to the conclusion.
+    versions:
+      v2: {change: "Glosses added; sentence on its own line."}
+      v3:
+        change: "Two options — the evidence answer and the position answer."
+        options:
+          a: "portat is singular and fīlia is already the subject."
+          b: "puellae comes second, so it cannot be the subject."
+        answer: a
+    teaching: ''
+
+# ==========================================================================
+# The dative — MS-057 to MS-061 (week of 26 October)
+# ==========================================================================
+
+  - id: MS057-RECOG-01
+    node: MS-057
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "In Nauta puellae aquam dat [gives], which word is the indirect object?"
+    options:
+      a: "puellae"
+      b: "Nauta"
+      c: "aquam"
+      d: "dat"
+    answer: a
+    touches: [MS-058, MS-014, MS-015]
+    what_went_wrong:
+      - text: "I picked the direct object"
+        node: MS-015
+      - text: "I picked the subject"
+        node: MS-014
+      - text: "I couldn't tell the dative from the genitive"
+        node: MS-056
+    note: >
+      The sailor gives the water TO THE GIRL. puellae is dative here and
+      genitive in MS052-RECOG-01 — same form, different job, which is the
+      collision they now have to live with. Direct and indirect object are both
+      present so the choice is real.
+    versions:
+      v2: {change: "Glosses on every word; one option per line."}
+      v3:
+        change: "Two options — the indirect object and the direct object."
+        options: {a: "puellae", b: "aquam"}
+        answer: a
+    teaching: ''
+
+  - id: MS057-EXPLAIN-01
+    node: MS-057
+    assess: explain
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      English can say "the sailor gives the girl water" with no word between
+      the verb and the girl. Latin puts the girl in the dative instead. What
+      does the dative supply that English leaves to word order?
+    options:
+      a: "It marks who receives the action, so the word can sit anywhere in the sentence."
+      b: "It marks that the girl is female."
+      c: "It replaces the verb 'to give'."
+      d: "It shows the girl is the one doing the giving."
+    answer: a
+    touches: [MS-012, MS-011]
+    what_went_wrong:
+      - text: "I thought the dative changed who was doing the action"
+        node: MS-014
+      - text: "I know the dative marks the receiver but not why that frees the word order"
+        node: MS-057
+    versions:
+      v2: {change: "The English sentence printed on its own line; one option per line."}
+      v3:
+        change: "Two options — the receiver answer and the doer answer."
+        options:
+          a: "It marks who receives the action, freeing the word order."
+          b: "It shows who is doing the action."
+        answer: a
+    teaching: ''
+
+  - id: MS057-TRANS-01
+    node: MS-057
+    assess: translate
+    tier: 2
+    format: self-check
+    paper_ok: true
+    macron_matters: false
+    stem: "Write the English, then check yourself: Poēta nautīs fābulam [story] nārrat."
+    model_answer: "The poet tells the sailors a story. ('tells a story to the sailors' is equally right.)"
+    self_report:
+      - I had it
+      - I had the words but the wrong receiver
+      - I didn't have it
+    touches: [MS-058, MS-015]
+    what_went_wrong:
+      - text: "I made the sailors the ones telling"
+        node: MS-014
+      - text: "I made the sailors the direct object"
+        node: MS-057
+    note: >
+      Self-check, because both English orders are right and no list of strings
+      covers that without testing English. nautīs is dative plural; the error
+      worth catching is reading it as the subject.
+    versions:
+      v2: {change: "Glosses under each word; model answer shown after."}
+      v3:
+        change: "Four-option choice from the answer plus the subject and object confusions."
+        format: choice
+        options:
+          a: "The poet tells the sailors a story."
+          b: "The sailors tell the poet a story."
+          c: "The poet tells a story about the sailors."
+          d: "The story tells the poet about the sailors."
+        answer: a
+    teaching: ''
+
+  - id: MS058-PRODUCE-01
+    node: MS-058
+    assess: produce
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "The dictionary entry is puella, puellae, f. Write the dative singular and the dative plural."
+    boxes:
+      - label: Dative singular
+        answer: ["puellae"]
+      - label: Dative plural
+        answer: ["puellis", "puellīs"]
+    touches: [MS-017, MS-018]
+    what_went_wrong:
+      - text: "I wasn't sure of the dative plural ending"
+        node: MS-058
+      - text: "I wrote the genitive plural instead"
+        node: MS-053
+    note: >
+      The dative singular is the same -ae they learned as a genitive two weeks
+      earlier. Asking for it here, plainly, is the point: the form is not new,
+      the job is.
+    versions:
+      v2: {change: "Placeholder 'one word' in each box."}
+      v3:
+        change: "Word bank: puellae, puellīs, puellārum, puellās."
+    teaching: ''
+
+  - id: MS058-PARSE-01
+    node: MS-058
+    assess: parse
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: true
+    stem: "Parse silvīs. Give every reading it could have."
+    options:
+      a: "dative or ablative plural feminine"
+      b: "dative plural feminine only"
+      c: "genitive plural feminine"
+      d: "accusative plural feminine"
+    answer: a
+    touches: [MS-053, MS-021]
+    what_went_wrong:
+      - text: "I gave only one of the readings"
+        node: MS-058
+      - text: "I picked the wrong case entirely"
+        node: MS-058
+    note: >
+      -īs is dative AND ablative. Option b is right as far as it goes and
+      therefore wrong: a student who stops at 'dative' will misread the first
+      ablative they meet. The ablative is not taught yet, so the item asks only
+      that the form is not unique.
+    versions:
+      v2: {change: "Gloss added: silva [forest]; one option per line."}
+      v3:
+        change: "Two options — both readings, and dative only."
+        options: {a: "dative or ablative plural", b: "dative plural only"}
+        answer: a
+    teaching: ''
+
+  - id: MS058-PRODUCE-02
+    node: MS-058
+    assess: produce
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Write the dative plural of nauta."
+    boxes:
+      - label: Dative plural
+        answer: ["nautis", "nautīs"]
+    touches: [MS-017]
+    what_went_wrong:
+      - text: "I used the -ae ending"
+        node: MS-058
+      - text: "I was thrown by nauta being masculine"
+        node: MS-022
+    note: >
+      nauta on purpose. It is masculine and first declension, and a student who
+      has quietly decided that first declension means feminine endings will
+      hesitate here — the ending does not care.
+    versions:
+      v2: {change: "Placeholder 'one word'; gloss added: nauta [sailor]."}
+      v3:
+        change: "Four-option choice from the answer plus wrong forms."
+        format: choice
+        options: {a: "nautīs", b: "nautae", c: "nautōrum", d: "nautōs"}
+        answer: a
+    teaching: ''
+
+  - id: MS059-PRODUCE-01
+    node: MS-059
+    assess: produce
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "The dictionary entry is amīcus, amīcī, m. Write the dative singular and the dative plural."
+    boxes:
+      - label: Dative singular
+        answer: ["amico", "amīcō"]
+      - label: Dative plural
+        answer: ["amicis", "amīcīs"]
+    touches: [MS-023, MS-017]
+    what_went_wrong:
+      - text: "I used the first declension dative singular"
+        node: MS-058
+      - text: "I wasn't sure of the dative plural"
+        node: MS-059
+    note: >
+      Paired with MS058-PRODUCE-01. The plurals are identical (-īs) and the
+      singulars are not (-ae against -ō), which is the shape worth meeting
+      side by side.
+    versions:
+      v2: {change: "Placeholder 'one word' in each box."}
+      v3:
+        change: "Word bank: amīcō, amīcīs, amīcī, amīcōrum."
+    teaching: ''
+
+  - id: MS059-PARSE-01
+    node: MS-059
+    assess: parse
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: true
+    stem: "Parse dominō."
+    options:
+      a: "dative or ablative singular masculine"
+      b: "dative singular masculine only"
+      c: "genitive singular masculine"
+      d: "nominative plural masculine"
+    answer: a
+    touches: [MS-023, MS-058]
+    what_went_wrong:
+      - text: "I gave only one reading"
+        node: MS-059
+      - text: "I picked the wrong case"
+        node: MS-059
+    versions:
+      v2: {change: "Gloss added: dominus [master]; one option per line."}
+      v3:
+        change: "Two options — both readings, and dative only."
+        options: {a: "dative or ablative singular", b: "dative singular only"}
+        answer: a
+    teaching: ''
+
+  - id: MS059-EXPLAIN-01
+    node: MS-059
+    assess: explain
+    tier: 3
+    format: choice
+    paper_ok: true
+    macron_matters: true
+    stem: >-
+      The dative plural is "-īs" in both the first and the second declension,
+      but the dative singular is "-ae" in the first and "-ō" in the second. Why
+      would the plural fall together and the singular not?
+    options:
+      a: "The plural endings lost their stem vowel over time, so the two declensions ended up saying the same thing."
+      b: "The plural is rarer, so Latin bothered to keep it distinct."
+      c: "The singular is irregular in both declensions."
+      d: "There is no reason; the two are unrelated coincidences."
+    answer: a
+    touches: [MS-058, MS-054]
+    what_went_wrong:
+      - text: "I know both endings but never wondered why they matched"
+        node: MS-059
+      - text: "I thought the singulars were the irregular ones"
+        node: MS-059
+    note: >
+      Tier 3, and honestly a stretch for a first-year — but it is the item that
+      turns two memorised endings into one observation, and the alternative is
+      a student who thinks -īs is a coincidence. Option d is the answer a
+      student gives who has never been invited to ask.
+    versions:
+      v2: {change: "The four endings printed in a small table; one option per line."}
+      v3:
+        change: "Two options — the shared-history answer and the coincidence answer."
+        options:
+          a: "The plural endings fell together as the stem vowel was lost."
+          b: "It is a coincidence."
+        answer: a
+    teaching: ''
+
+  - id: MS060-RECOG-01
+    node: MS-060
+    assess: recognize
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Nauta poētae crēdit [trusts]. In English "trusts" takes a direct object —
+      you trust someone. What case is poētae, and why is that surprising?
+    options:
+      a: "Dative — crēdō takes a dative where English takes a direct object."
+      b: "Accusative — it is the direct object, exactly as in English."
+      c: "Genitive — it shows whose trust it is."
+      d: "Nominative — it is a second subject."
+    answer: a
+    touches: [MS-057, MS-015]
+    what_went_wrong:
+      - text: "I assumed it matched the English"
+        node: MS-060
+      - text: "I read it as the direct object"
+        node: MS-015
+    note: >
+      The whole node is that a small set of verbs — crēdō, noceō, pāreō,
+      persuādeō — do not map onto English objects. Option b is what every
+      student thinks first, and saying so plainly is more useful than hiding it
+      among weaker distractors.
+    versions:
+      v2: {change: "Gloss kept; the English sentence printed alongside."}
+      v3:
+        change: "Two options — dative and accusative."
+        options: {a: "Dative", b: "Accusative"}
+        answer: a
+    teaching: ''
+
+  - id: MS060-RECALL-01
+    node: MS-060
+    assess: recall
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Four verbs you have met take a dative where English would use a direct
+      object. Write any two of them.
+    order_matters: false
+    boxes:
+      - label: One verb
+        answer: ["credo", "crēdō", "noceo", "noceō", "pareo", "pāreō", "persuadeo", "persuādeō"]
+      - label: Another verb
+        answer: ["credo", "crēdō", "noceo", "noceō", "pareo", "pāreō", "persuadeo", "persuādeō"]
+    touches: [MS-057]
+    what_went_wrong:
+      - text: "I could only remember one"
+        node: MS-060
+      - text: "I wrote a verb that takes an ordinary object"
+        node: MS-060
+    note: >
+      Recall, so boxes rather than choice. Any two of the four count and the
+      order is free — the node is knowing the set exists and roughly who is in
+      it, not reciting it in a fixed sequence.
+    versions:
+      v2: {change: "Placeholder 'one verb' in each box."}
+      v3:
+        change: "Word bank: crēdō, noceō, pāreō, persuādeō, portō, spectō."
+    teaching: ''
+
+  - id: MS060-TRANS-01
+    node: MS-060
+    assess: translate
+    tier: 3
+    format: self-check
+    paper_ok: true
+    macron_matters: false
+    stem: "Write the English, then check yourself: Puella nautīs nōn crēdit [trusts]."
+    model_answer: "The girl does not trust the sailors. (Not 'the sailors do not trust the girl' — nautīs is dative, not nominative.)"
+    self_report:
+      - I had it
+      - I had it backwards
+      - I didn't have it
+    touches: [MS-057, MS-058]
+    what_went_wrong:
+      - text: "I made the sailors the ones trusting"
+        node: MS-060
+      - text: "I translated it as 'trusts to the sailors'"
+        node: MS-060
+    note: >
+      The dative here becomes an ordinary English direct object, which is the
+      reverse of the usual instruction to translate a dative with 'to'. A
+      student who writes 'trusts to the sailors' has applied the rule
+      mechanically, so that reading is named in the menu rather than left to be
+      guessed at.
+    versions:
+      v2: {change: "Glosses under each word; model answer shown after."}
+      v3:
+        change: "Two-option choice — the right reading and the reversed one."
+        format: choice
+        options:
+          a: "The girl does not trust the sailors."
+          b: "The sailors do not trust the girl."
+        answer: a
+    teaching: ''
+
+  - id: MS061-RECOG-01
+    node: MS-061
+    assess: recognize
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Nautae est fīlia [daughter] means "the sailor has a daughter" — literally
+      "to/for the sailor there is a daughter". What is nautae doing?
+    options:
+      a: "It is dative, naming the person the daughter belongs to; sum supplies the 'has'."
+      b: "It is genitive, showing possession in the ordinary way."
+      c: "It is nominative plural, so the sailors are the subject."
+      d: "It is dative, but it means the daughter was given to the sailor."
+    answer: a
+    touches: [MS-057, MS-040, MS-052]
+    what_went_wrong:
+      - text: "I read it as an ordinary genitive of possession"
+        node: MS-052
+      - text: "I read nautae as a plural subject"
+        node: MS-056
+      - text: "I couldn't see where the 'has' came from"
+        node: MS-061
+    note: >
+      nautae is dative here and could be genitive or nominative plural
+      elsewhere — every wrong option is one of those real readings, so the item
+      is a genuine three-way discrimination rather than a definition.
+    versions:
+      v2: {change: "The literal translation printed under the Latin; one option per line."}
+      v3:
+        change: "Two options — the dative-of-possession reading and the genitive one."
+        options:
+          a: "Dative — the person the daughter belongs to."
+          b: "Genitive — ordinary possession."
+        answer: a
+    teaching: ''
+
+  - id: MS061-TRANS-01
+    node: MS-061
+    assess: translate
+    tier: 2
+    format: self-check
+    paper_ok: true
+    macron_matters: false
+    stem: "Write the English, then check yourself: Poētae est amīcus."
+    model_answer: "The poet has a friend. (Literally 'to the poet there is a friend' — but 'has' is the natural English.)"
+    self_report:
+      - I had 'has'
+      - I wrote the literal version
+      - I didn't have it
+    touches: [MS-057, MS-040]
+    what_went_wrong:
+      - text: "I translated it word for word and it came out strange"
+        node: MS-061
+      - text: "I made the poet the thing possessed"
+        node: MS-061
+    note: >
+      The self-report distinguishes the student who understood but translated
+      literally from the one who did not understand — those are different
+      states and a right/wrong box would call them both wrong.
+    versions:
+      v2: {change: "Glosses under each word; model answer shown after."}
+      v3:
+        change: "Two-option choice — 'the poet has a friend' and 'the friend has a poet'."
+        format: choice
+        options: {a: "The poet has a friend.", b: "The friend has a poet."}
+        answer: a
+    teaching: ''
+
+  - id: MS061-RECOG-02
+    node: MS-061
+    assess: recognize
+    tier: 3
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "In which sentence does the dative show possession — meaning 'has'?"
+    options:
+      a: "Agricolae est fīlia [daughter]."
+      b: "Nauta agricolae aquam dat [gives]."
+      c: "Agricola fīliam [daughter] spectat."
+      d: "Fīlia [daughter] agricolae aquam portat."
+    answer: a
+    touches: [MS-057, MS-052, MS-040]
+    what_went_wrong:
+      - text: "I picked the indirect object sentence"
+        node: MS-057
+      - text: "I picked a genitive of possession"
+        node: MS-052
+    note: >
+      Option d is the sharp one: agricolae there is genitive and does mean
+      possession — but not the dative kind, and not with sum. The discrimination
+      is the presence of est, which is what makes the construction.
+    versions:
+      v2: {change: "Glosses on every sentence; one sentence per line."}
+      v3:
+        change: "Two options — the dative of possession and the genitive one."
+        options: {a: "Agricolae est fīlia [daughter].", b: "Fīlia [daughter] agricolae aquam portat."}
+        answer: a
+    teaching: ''

@@ -1,0 +1,90 @@
+# Latin I — the words Unit 2 introduces.
+#
+# Unit 0-1 ran on an 80-word list that is almost entirely first and second
+# declension nouns and first and second conjugation verbs. Unit 2 teaches the
+# third declension and the third and fourth conjugations, and neither of those
+# can be taught with words that do not belong to them.
+#
+# This list exists so the mechanical vocabulary check knows these words are
+# part of the course. It does NOT mean an item may use one bare: every one of
+# these is still glossed in the stem the first time a student meets it, because
+# each question has to stand alone in a practice queue with no page before it.
+#
+# Third declension entries are written lemma/stem, because the nominative
+# singular does not reveal the stem — corpus/corpor, rex/reg. That is the same
+# reason a dictionary prints the genitive, and MS-062 is the node that teaches
+# it.
+#
+# The drill does not read this file — vocab.yaml is still the drilled list.
+# Add to that separately when these words are meant to be memorised.
+
+third_declension_mf:
+  - rex/reg          # king
+  - dux/duc          # leader
+  - miles/milit        # soldier
+  - vox/voc          # voice
+  - lex/leg          # law
+  - pater/patr        # father
+  - mater/matr        # mother
+  - frater/fratr       # brother
+  - homo/homin         # human being, man
+  - virtus/virtut       # courage, virtue
+
+third_declension_neuter:
+  - corpus/corpor       # body
+  - nomen/nomin        # name
+  - tempus/tempor       # time
+  - flumen/flumin       # river
+  - opus/oper         # work
+
+i_stems:
+  - civis/civ        # citizen
+  - urbs/urb         # city
+  - pars/part         # part
+  - mare/mar         # sea
+  - animal/animal       # animal
+  - turris/turr       # tower
+
+third_conjugation:
+  - mitto        # send
+  - duco         # lead
+  - scribo       # write
+  - rego         # rule
+  - dico         # say
+  - pono         # put, place
+
+third_io:
+  - capio        # take, capture
+  - facio        # make, do
+  - iacio        # throw
+  - fugio        # flee
+
+fourth_conjugation:
+  - audio        # hear, listen to
+  - venio        # come
+  - scio         # know
+  - munio        # fortify
+
+dative_verbs:
+  - credo        # trust, believe
+  - noceo        # harm
+  - pareo        # obey
+  - persuadeo    # persuade
+
+irregular_imperatives:
+  - dic
+  - duc
+  - fac
+  - fer
+
+negative_command:
+  - noli
+  - nolite
+
+# Supporting words these questions lean on, all standard first-year.
+supporting:
+  - filia        # daughter
+  - filius       # son
+  - fabula       # story
+  - do           # give
+  - non          # not

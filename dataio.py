@@ -14,6 +14,7 @@ imperatives and infinitives). The vocabulary check uses that set so a normal
 inflected form such as "laudāmus" or "dōna" is recognised as in-scope.
 """
 
+import glob
 import os
 import yaml
 
@@ -23,7 +24,12 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 
 SPEC_FILE = os.path.join(ROOT, "latin1-spec.yaml")
 EXEMPLAR_FILE = os.path.join(ROOT, "latin1-item-exemplars.yaml")
-BANK_FILE = os.path.join(ROOT, "latin1-items-unit01.yaml")
+# One bank file per unit. A single file for the whole year would be tens of
+# thousands of lines, and a unit is the natural thing to write, review and diff
+# in one piece. Files are loaded in sorted order, so unit 1 precedes unit 2.
+UNIT2_VOCAB_FILE = os.path.join(ROOT, "content-vocab-unit02.yaml")
+BANK_GLOB = os.path.join(ROOT, "latin1-items-unit*.yaml")
+BANK_FILE = os.path.join(ROOT, "latin1-items-unit01.yaml")   # kept: the first one
 TEACHING_FILE = os.path.join(ROOT, "teaching.yaml")
 
 
@@ -41,9 +47,29 @@ def load_exemplars(path=EXEMPLAR_FILE):
     return load_yaml(path)
 
 
-def load_bank(path=BANK_FILE):
-    doc = load_yaml(path)
-    return doc.get("items", [])
+def bank_files():
+    return sorted(glob.glob(BANK_GLOB))
+
+
+def load_bank(path=None):
+    """Every question in the bank, across all unit files.
+
+    Duplicate ids are fatal rather than last-one-wins: two files claiming the
+    same id would silently overwrite one question with another and take its
+    review decision with it.
+    """
+    if path is not None:
+        return load_yaml(path).get("items", [])
+    items, seen = [], {}
+    for f in bank_files():
+        for it in (load_yaml(f) or {}).get("items", []) or []:
+            iid = it.get("id")
+            if iid in seen:
+                raise ValueError("duplicate item id %r in %s and %s"
+                                 % (iid, os.path.basename(seen[iid]), os.path.basename(f)))
+            seen[iid] = f
+            items.append(it)
+    return items
 
 
 # --------------------------------------------------------------------------
@@ -115,23 +141,38 @@ _PARTICLES = ["et", "non", "sed", "quod", "ubi", "nunc", "saepe", "semper",
 
 
 def generate_legal_forms():
-    """The inflected forms a Unit 0-1 student could legally meet, normalised."""
+    """The inflected forms a student could legally meet in this course.
+
+    Unit 1 endings plus the cases Unit 2 adds — genitive plural, dative
+    singular and plural, ablative plural. Those belong here because the
+    vocabulary check asks "is this a word the student is allowed to meet",
+    and puellārum is a core word in a case they have been taught. Leaving
+    them out flagged every Unit 2 genitive as unknown vocabulary, which is
+    the fastest way to teach a reviewer to ignore the check.
+
+    Scope — whether an item may USE the genitive yet — is not this function's
+    job. That is enforced by writing each item inside its own node's date.
+    """
     forms = set()
 
     for w in _FIRST_DECL:
         stem = w[:-1]
-        forms.update([w, stem + "am", stem + "ae", stem + "as"])
+        forms.update([w, stem + "am", stem + "ae", stem + "as",
+                      stem + "arum", stem + "is"])          # gen pl, dat/abl pl
 
     for w in _SECOND_US:
         stem = w[:-2]
-        forms.update([w, stem + "um", stem + "i", stem + "os", stem + "e"])
+        forms.update([w, stem + "um", stem + "i", stem + "os", stem + "e",
+                      stem + "orum", stem + "o", stem + "is"])
 
     for nom, stem in _SECOND_ER.items():
-        forms.update([nom, stem + "um", stem + "i", stem + "os"])
+        forms.update([nom, stem + "um", stem + "i", stem + "os",
+                      stem + "orum", stem + "o", stem + "is"])
 
     for w in _SECOND_NEUTER:
         stem = w[:-2]
-        forms.update([w, stem + "a"])
+        forms.update([w, stem + "a", stem + "i", stem + "orum",
+                      stem + "o", stem + "is"])
 
     for w in _FIRST_CONJ:
         pstem = w[:-1] + "a"          # laudo -> lauda
@@ -148,14 +189,16 @@ def generate_legal_forms():
     forms.update(_SUM)
     forms.add("esse")
 
+    ADJ_ENDINGS = ("us", "a", "um", "i", "os", "as", "ae", "am", "e",
+                   "orum", "arum", "o", "is")
     for w in _ADJ_US:
         stem = w[:-2]
-        for end in ("us", "a", "um", "i", "os", "as", "ae", "am", "e"):
+        for end in ADJ_ENDINGS:
             forms.add(stem + end)
 
     for nom, stem in _ADJ_ER.items():
         forms.add(nom)
-        for end in ("a", "um", "i", "os", "as", "ae", "am"):
+        for end in ADJ_ENDINGS:
             forms.add(stem + end)
 
     forms.update(_PARTICLES)
@@ -163,13 +206,68 @@ def generate_legal_forms():
     return {_norm(f) for f in forms}
 
 
+def later_unit_vocab(path=UNIT2_VOCAB_FILE):
+    """Words the course introduces after Unit 1, with their inflected forms.
+
+    Third-declension nouns and third/fourth-conjugation verbs cannot be taught
+    with a word list that contains none of them. Listing them here tells the
+    vocabulary check they are part of the course; it does not excuse an item
+    from glossing them, which is a separate obligation to the student.
+    """
+    if not os.path.exists(path):
+        return set()
+    doc = load_yaml(path) or {}
+    lemmas, stems = set(), set()
+    for group in doc.values():
+        for entry in group or []:
+            lemma, _, stem = str(entry).partition("/")
+            lemmas.add(_norm(lemma))
+            stems.add(_norm(stem or lemma))
+    return lemmas | _later_unit_forms(lemmas, stems)
+
+
+def _later_unit_forms(lemmas, stems=None):
+    """The endings these lemmas actually appear in, generated coarsely.
+
+    Coarse on purpose: the third declension's nominative singular is famously
+    unpredictable from the stem, so a generator that insisted on being exact
+    would be wrong more often than the check it feeds. Over-generating costs a
+    missed flag; under-generating costs a false one, and a false one is what
+    teaches a reviewer to stop reading them.
+    """
+    THIRD = ("is", "i", "em", "e", "es", "um", "ium", "ibus", "a", "ia")
+    VERB = ("o", "s", "t", "mus", "tis", "nt", "re", "ere", "ire",
+            "unt", "iunt", "it", "imus", "itis", "is", "e", "ite")
+    FIRST = ("", "m", "e", "rum", "s", "i")          # filia, filiam, filiae...
+    SECOND = ("us", "um", "i", "o", "os", "orum", "is", "e")
+    forms = set(lemmas)
+    stems = stems or set(lemmas)
+    for w in lemmas:
+        base = w[:-1] if w.endswith("o") else w
+        for end in VERB:
+            forms.add(base + end)
+        if w.endswith("a"):
+            for end in FIRST:
+                forms.add(w + end)
+                forms.add(w[:-1] + end)
+        if w.endswith("us"):
+            for end in SECOND:
+                forms.add(w[:-2] + end)
+    for st in stems:
+        for end in THIRD:
+            forms.add(st + end)
+    return {_norm(f) for f in forms}
+
+
 def allowed_latin(exemplars):
     """Everything the vocabulary check treats as legal Latin: the generated
-    inflected forms, the core lemmas, and the content/phrase vocabulary."""
+    inflected forms, the core lemmas, the content/phrase vocabulary, and the
+    words later units introduce."""
     allowed = set()
     allowed |= generate_legal_forms()
     allowed |= core_vocab_words(exemplars)
     allowed |= content_vocab_words(exemplars)
+    allowed |= later_unit_vocab()
     return allowed
 
 
