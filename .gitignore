@@ -3,3 +3,11 @@ __pycache__/
 data/
 *.sqlite
 *.sqlite-journal
+.venv/
+venv/
+*.sqlite-wal
+
+# Generated student IDs. Never committed: the app is ID + PIN, so a public
+# list of every valid ID leaves only the PIN.
+out/
+student-ids*

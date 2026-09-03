@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block subtitle %}check your number{% endblock %}
+{% block content %}
+<h1>We don't have that number</h1>
+<div class="card">
+  <p>You typed <strong style="font-size:22px">{{ student_id }}</strong>.</p>
+  <p class="small muted">That number isn't on this class's list. Nine times out of
+    ten it's a typo — and a typo means your practice gets saved to the wrong
+    place, where neither you nor your teacher will find it.</p>
+</div>
+
+<a class="bigbtn" href="{{ back_url }}">Go back and retype it</a>
+
+<form method="post" action="{{ action }}" style="margin-top:18px">
+  <input type="hidden" name="student_id" value="{{ student_id }}">
+  <input type="hidden" name="confirm_unknown" value="1">
+  {% for k, v in extra.items() %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endfor %}
+  <button class="bigbtn secondary" type="submit">That is my number — continue</button>
+</form>
+<p class="small muted">If it really is your number, carry on and tell your teacher
+  so they can add it to the list.</p>
+{% endblock %}

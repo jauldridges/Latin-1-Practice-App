@@ -24,6 +24,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 SPEC_FILE = os.path.join(ROOT, "latin1-spec.yaml")
 EXEMPLAR_FILE = os.path.join(ROOT, "latin1-item-exemplars.yaml")
 BANK_FILE = os.path.join(ROOT, "latin1-items-unit01.yaml")
+TEACHING_FILE = os.path.join(ROOT, "teaching.yaml")
 
 
 def load_yaml(path):
@@ -190,3 +191,23 @@ def load_drill_words(path=None):
         path = os.path.join(ROOT, "vocab.yaml")
     doc = load_yaml(path)
     return doc.get("words", [])
+
+
+def load_teaching(path=TEACHING_FILE):
+    """Teaching text, keyed by spec node. Drafted separately from the items and
+    never written to by either app -- this file is the teacher's."""
+    if not os.path.exists(path):
+        return {}
+    doc = load_yaml(path) or {}
+    return doc.get("nodes", {}) or {}
+
+
+def teaching_fingerprint(entry):
+    """A hash of the text a teacher actually approved. If the wording later
+    changes in teaching.yaml, the approval no longer matches and the entry
+    reverts to draft -- so edited text cannot inherit an old approval."""
+    import hashlib
+    parts = [str(entry.get("explain", "")).strip(),
+             "\n".join(str(x) for x in (entry.get("examples") or [])),
+             str(entry.get("when_wrong", "")).strip()]
+    return hashlib.sha256("\u0000".join(parts).encode("utf-8")).hexdigest()[:16]

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ student }}{% endblock %}
+{% block content %}
+{% if notice %}<div class="answer-feedback close">{{ notice }}</div>{% endif %}
+
+{% include "_statsbar.html" %}
+
+<div class="meta-row">
+  <span class="node-id">{{ item.node }}</span>
+  <span class="badge tier">{{ label }}</span>
+  {% if context != 'practice' %}<span class="badge err">{{ context }}</span>{% endif %}
+</div>
+
+<div class="stem">{{ item.stem }}</div>
+
+<form method="post" action="{{ url_for('practice_answer') }}" id="qform">
+  <input type="hidden" name="item_id" value="{{ item.id }}">
+  <input type="hidden" name="node" value="{{ node or '' }}">
+  <input type="hidden" name="context" value="{{ context }}">
+  <input type="hidden" name="latency_ms" id="latency_ms" value="">
+
+  {% if item.format == 'choice' %}
+    {% for k, v in item.options.items() %}
+      <label class="opt" style="cursor:pointer">
+        <input type="radio" name="picked" value="{{ k }}" required style="margin-top:4px">
+        <span class="k">{{ k }}</span> <span class="latin">{{ v }}</span>
+      </label>
+    {% endfor %}
+
+  {% elif item.format == 'boxes' %}
+    {% if item.order_matters is defined and not item.order_matters %}
+      <p class="small muted">Order doesn't matter.</p>
+    {% endif %}
+    {% for b in item.boxes %}
+      <label class="small muted" style="display:block;margin-top:10px">{{ b.label }}</label>
+      <input type="text" name="box" autocomplete="off" autocapitalize="off"
+             autocorrect="off" spellcheck="false"
+             placeholder="{{ b.answer_rule if b.answer_rule else 'your answer' }}">
+    {% endfor %}
+
+  {% elif item.format == 'tag-then-translate' %}
+    <p class="small muted">Label each word, then you'll write the English.</p>
+    {% for tb in item.tag_boxes %}
+      <div class="box">
+        <div class="latin" style="font-size:19px">{{ tb.word }}</div>
+        <input type="text" name="case" placeholder="case (or 'verb')" autocomplete="off"
+               autocapitalize="off" autocorrect="off" spellcheck="false" style="margin-top:6px">
+        <input type="text" name="job" placeholder="job in the sentence" autocomplete="off"
+               autocapitalize="off" autocorrect="off" spellcheck="false" style="margin-top:6px">
+      </div>
+    {% endfor %}
+
+  {% else %}
+    <textarea name="typed" rows="3" placeholder="Write your answer, then check it yourself."></textarea>
+  {% endif %}
+
+  <button class="bigbtn" type="submit" style="margin-top:14px">Check</button>
+</form>
+
+<script>
+  var t0 = Date.now();
+  var first = document.querySelector('#qform input[type=text], #qform textarea');
+  if (first) first.focus();
+  document.getElementById('qform').addEventListener('submit', function(){
+    document.getElementById('latency_ms').value = String(Date.now() - t0);
+  });
+</script>
+{% endblock %}

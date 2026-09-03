@@ -1,13 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Latin I</h1>
-<p class="muted">Two tools, one shared answer-checker. Runs on this laptop; open it on your phone over the local network.</p>
+<p class="muted">Practice for Latin I. Works on a phone.</p>
 
-<a class="bigbtn" href="{{ url_for('review_queue') }}">Review tool</a>
+<a class="bigbtn" href="{{ url_for('drill_home') }}">Vocabulary drill</a>
+<p class="small muted" style="margin-top:-4px">Spaced practice on the weekly core word list.</p>
+
+<a class="bigbtn secondary" href="{{ url_for('practice_home') }}">Grammar practice</a>
+<p class="small muted" style="margin-top:-4px">Approved questions from lessons already taught.</p>
+
+{# Teacher tools are hidden, not merely protected, once a password is set:
+   a student staring at four buttons that reject them is a support ticket. #}
+{% if is_teacher %}
+<h2>Teacher</h2>
+
+<a class="bigbtn" href="{{ url_for('teacher_home') }}">Teacher dashboard</a>
+<p class="small muted" style="margin-top:-4px">Who practised, what they know, the class list.</p>
+
+<a class="bigbtn secondary" href="{{ url_for('review_queue') }}">Review tool</a>
 <p class="small muted" style="margin-top:-4px">
   {{ counts.unreviewed }} unreviewed · {{ counts.flagged }} flagged · {{ counts.approved }} approved
 </p>
 
-<a class="bigbtn secondary" href="{{ url_for('drill_home') }}">Vocabulary drill</a>
-<p class="small muted" style="margin-top:-4px">Spaced practice on the weekly core word list.</p>
+<a class="bigbtn secondary" href="{{ url_for('quiz_index') }}">Quizzes</a>
+<p class="small muted" style="margin-top:-4px">Build a fixed quiz; students answer straight through, then review.</p>
+
+<a class="bigbtn secondary" href="{{ url_for('teaching_index') }}">Teaching text</a>
+<p class="small muted" style="margin-top:-4px">Read and approve the explanations students see after a miss.</p>
+
+{% if teacher_gate %}<p class="small"><a href="{{ url_for('logout') }}">Sign out</a></p>{% endif %}
+{% elif teacher_gate %}
+<p class="small muted" style="margin-top:24px"><a href="{{ url_for('login') }}">Teacher sign-in</a></p>
+{% endif %}
 {% endblock %}

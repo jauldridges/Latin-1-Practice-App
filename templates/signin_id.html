@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block subtitle %}sign in{% endblock %}
+{% block content %}
+<h1>Sign in</h1>
+{% if error %}<div class="answer-feedback wrong">{{ error }}</div>{% endif %}
+<p class="small muted">Your student ID number. This app doesn't store names —
+  your number is how it knows you.</p>
+<form method="post" action="{{ url_for('signin') }}">
+  <input type="hidden" name="next" value="{{ next }}">
+  <input type="hidden" name="step" value="id">
+  <label class="small muted" for="student_id">Student ID number</label>
+  <input type="text" name="student_id" id="student_id" required autofocus
+         inputmode="numeric" autocomplete="off" autocapitalize="off"
+         autocorrect="off" spellcheck="false" placeholder="{{ id_hint }}"
+         value="{{ prefill or '' }}">
+  <button class="bigbtn" type="submit" style="margin-top:12px">Next</button>
+</form>
+<script>
+  // Remember the number on this device only. No account, and no name to remember.
+  try {
+    var s = document.getElementById('student_id');
+    var saved = localStorage.getItem('latin_student_id');
+    if (saved && s && !s.value) s.value = saved;
+    s.form.addEventListener('submit', function(){
+      try { if (s.value.trim()) localStorage.setItem('latin_student_id', s.value.trim()); } catch(e){}
+    });
+  } catch(e) {}
+</script>
+{% endblock %}

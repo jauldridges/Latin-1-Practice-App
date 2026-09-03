@@ -19,6 +19,19 @@
   </div>
 </div>
 
-<a class="bigbtn" href="{{ url_for('drill_session', student=student, week=week, direction=direction) }}">Next word</a>
-<p style="text-align:center"><a class="small" href="{{ url_for('drill_progress', student=student) }}">My progress</a></p>
+<a class="bigbtn" id="nextbtn" href="{{ url_for('drill_session', week=week, direction=direction) }}">Next word <span class="small" style="opacity:.75">(or press Enter)</span></a>
+
+{% include "_statsbar.html" %}
+
+<script>
+  // Keep the typing rhythm: Enter (or Space) moves to the next card, so a
+  // student never has to reach for the screen between words.
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Enter' || ev.key === ' ') {
+      ev.preventDefault();
+      window.location = document.getElementById('nextbtn').href;
+    }
+  });
+</script>
+<p style="text-align:center"><a class="small" href="{{ url_for('drill_progress') }}">My progress</a></p>
 {% endblock %}

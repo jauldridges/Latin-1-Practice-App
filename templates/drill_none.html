@@ -3,6 +3,6 @@
 {% block content %}
 <h1>All caught up</h1>
 <p class="muted">Nothing is due right now for this selection. Come back later, or switch what you're practising.</p>
-<a class="bigbtn" href="{{ url_for('drill_progress', student=student) }}">My progress</a>
+<a class="bigbtn" href="{{ url_for('drill_progress') }}">My progress</a>
 <a class="bigbtn secondary" href="{{ url_for('drill_home') }}">Change selection</a>
 {% endblock %}

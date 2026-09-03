@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block subtitle %}history{% endblock %}
+{% block content %}
+<h1>This session</h1>
+<p class="small muted">Every decision you have made since you started, newest
+  first. Some mistakes only become visible several questions later — tap any
+  entry to reopen that question and change the call.</p>
+
+{% if hard %}
+<div class="flags">
+  <p class="small"><strong>{{ hard | length }} question(s) you changed your mind about
+    more than once.</strong> They are in the flagged queue now — a verdict that
+    went one way, then the other, then back is usually the question's fault, not
+    yours.</p>
+  <ul class="small" style="padding-left:18px">
+    {% for h in hard %}
+      <li><a class="node-id" href="{{ url_for('review_item', item_id=h.item_id, queue=queue) }}">{{ h.item_id }}</a>
+        — {{ h.path | join(' → ') }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+{% if not rows %}
+  <p class="muted">Nothing decided yet this session.</p>
+{% endif %}
+
+<ul class="queue">
+  {% for r in rows %}
+  <li>
+    <a href="{{ url_for('review_item', item_id=r.item_id, queue=queue) }}">
+      <span style="flex:1">
+        <span class="node-id">{{ r.node_id }} · {{ r.item_id }}</span><br>
+        {{ (r.payload.stem or '') | truncate(90) }}
+        {% if r.reason and r.reason != 'rejected' %}<br><span class="small muted">reason: {{ r.reason }}</span>{% endif %}
+      </span>
+      <span>
+        {% if r.undone %}<span class="pill notyet">undone</span>
+        {% elif r.status == 'approved' %}<span class="pill solid">approved</span>
+        {% elif r.status == 'rejected' %}<span class="pill" style="background:#f7dede;color:var(--reject)">rejected</span>
+        {% else %}<span class="pill notyet">skipped</span>{% endif %}
+      </span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+
+<a class="bigbtn" href="{{ url_for('review_all') if queue == 'all' else url_for('review_queue') }}">Back to reviewing</a>
+{% endblock %}

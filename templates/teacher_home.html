@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block subtitle %}dashboard{% endblock %}
+{% block content %}
+{% if purge %}
+<div class="flags">
+  <p class="small"><strong>Name data was removed from this database on startup.</strong></p>
+  <p class="small">This app now stores student ID numbers only. Everything that was
+    keyed on a name has been deleted, not migrated — including the practice history
+    attached to it, because there was no way to keep one without keeping the other.
+    Removed: {{ purge.events }} practice answer(s), {{ purge.miss_reasons }} miss
+    reason(s), {{ purge.quiz_attempts }} quiz attempt(s),
+    {{ purge.roster_rows }} class-list entr{{ 'y' if purge.roster_rows == 1 else 'ies' }}.
+    The freed pages were overwritten, so the names are gone from the file itself,
+    not merely unlinked.</p>
+</div>
+{% endif %}
+<h1>Who practised</h1>
+<p class="small muted">Students are ID numbers here — this app holds no names.
+  Match them against your paper list.</p>
+{% include "_teacherbar.html" %}
+
+{% if n_roster == 0 %}
+<div class="card">
+  <p><strong>No class list yet.</strong></p>
+  <p class="small muted">Without a roster this page can only show students who
+    already practised — the ones who did nothing leave no trace. Paste your
+    class list once and the table below becomes complete.</p>
+  <a class="bigbtn" href="{{ url_for('teacher_roster') }}">Add my students</a>
+</div>
+{% else %}
+
+<div class="summary-tiles">
+  <div class="tile"><div class="n" style="color:var(--solid)">{{ table.n_done }}</div><div class="l">Did it</div></div>
+  <div class="tile"><div class="n" style="color:var(--shaky)">{{ table.n_started }}</div><div class="l">Started</div></div>
+  <div class="tile"><div class="n" style="color:var(--wrong)">{{ table.n_none }}</div><div class="l">Nothing</div></div>
+</div>
+<p class="small muted">{{ window_label }}{% if w.section %} · {{ w.section }}{% endif %} ·
+  {{ table.n_students }} students · "did it" means 20+ answers.</p>
+
+<table class="progress">
+  <tr><th>Student</th><th>Answers</th><th>Days</th><th>Right</th><th>Last</th></tr>
+  {% for r in table.rows %}
+  <tr>
+    <td>
+      <a class="sid" href="{{ url_for('teacher_student', student_id=r.student_id, days=w.days) }}">{{ r.student_id }}</a><br>
+      <span class="pill {{ 'notyet' if r.state == 'none' else ('shaky' if r.state == 'started' else 'solid') }}">{{ r.state }}</span>
+      {% if r.section %}<span class="small muted"> {{ r.section }}</span>{% endif %}
+    </td>
+    <td>{{ r.attempts }}</td>
+    <td>{{ r.days }}</td>
+    <td>{% if r.accuracy is none %}<span class="muted">—</span>{% else %}{{ (r.accuracy * 100) | round | int }}%{% endif %}</td>
+    <td class="small">{{ r.last_at | when }}{% if not r.last_at and r.ever_last_at %}<span class="muted"> (last: {{ r.ever_last_at | when }})</span>{% endif %}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% if table.unrostered %}
+<div class="flags">
+  <p class="small"><strong>Practice from IDs not on the class list:</strong>
+    <span class="sid">{{ table.unrostered | join(', ') }}</span></p>
+  <p class="small">Each of these typed a number, was told it wasn't on the list,
+    and continued anyway. Almost always a mistyped digit. Compare against your
+    paper list: if the number is real, add it below; if it isn't, the student
+    needs to sign in again with the right one.</p>
+  <a class="bigbtn secondary" href="{{ url_for('teacher_roster') }}">Open the class list</a>
+</div>
+{% endif %}
+
+<a class="bigbtn secondary" href="{{ url_for('teacher_knows', days=w.days, section=w.section) }}">What they know and don't</a>
+<a class="bigbtn secondary" href="{{ url_for('teacher_misses', days=w.days, section=w.section) }}">What they say went wrong</a>
+<a class="bigbtn secondary" href="{{ url_for('teacher_roster') }}">Class list</a>
+<a class="bigbtn secondary" href="{{ url_for('teacher_data') }}">Backup &amp; end of year</a>
+<p style="text-align:center"><a class="small" href="{{ url_for('teacher_export', days=w.days, section=w.section) }}">Download this table as a spreadsheet</a></p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block subtitle %}practice{% endblock %}
+{% block content %}
+{% if signed_in_student %}
+  <p class="small muted">Signed in as <strong class="sid">{{ signed_in_student }}</strong>
+    — <a href="{{ url_for('signout') }}">not you?</a></p>
+{% endif %}
+<h1>Grammar practice</h1>
+<p class="small muted">Questions your teacher has approved, from lessons already taught.
+Nothing here affects a grade.</p>
+
+{% if n_ready == 0 %}
+<div class="card">
+  {% if n_approved == 0 %}
+    <p><strong>No questions approved yet.</strong></p>
+    <p class="small muted">Questions appear here once they've been approved in the
+      review tool. Approve a few and come back.</p>
+    <a class="bigbtn secondary" href="{{ url_for('review_queue') }}">Open the review tool</a>
+  {% else %}
+    <p><strong>Nothing unlocked yet.</strong></p>
+    <p class="small muted">{{ n_approved }} question(s) are approved, but their lessons
+      haven't been taught yet — a question never arrives before its lesson.</p>
+  {% endif %}
+</div>
+{% else %}
+<form method="post" action="{{ url_for('practice_start') }}" id="startform">
+  <label class="small muted" for="node" style="display:block;margin-top:12px">What to practise</label>
+  <select name="node" id="node" style="width:100%;padding:14px;font-size:17px;border:1px solid var(--line);border-radius:10px;background:#fff">
+    <option value="">Everything taught so far ({{ n_ready }})</option>
+    {% for n in nodes %}
+      <option value="{{ n.node }}">{{ n.node }} — {{ n.label }} ({{ n.count }})</option>
+    {% endfor %}
+  </select>
+
+  <button class="bigbtn" type="submit" style="margin-top:16px">Start</button>
+</form>
+{% if n_locked %}
+  <p class="small muted">{{ n_locked }} approved question(s) are waiting on lessons not yet taught.</p>
+{% endif %}
+
+{% endif %}
+{% endblock %}

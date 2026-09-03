@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block subtitle %}build a quiz{% endblock %}
+{% block content %}
+<h1>Build a quiz</h1>
+{% if not rows %}
+  <div class="card"><p><strong>No approved questions yet.</strong></p>
+  <p class="small muted">Approve some in the review tool first — a quiz can only
+  use questions you have approved.</p>
+  <a class="bigbtn secondary" href="{{ url_for('review_queue') }}">Open the review tool</a></div>
+{% else %}
+<form method="post" action="{{ url_for('quiz_new') }}">
+  <label class="small muted" for="title">Title</label>
+  <input type="text" name="title" id="title" placeholder="e.g. Friday Quiz — Unit 0" required>
+
+  <label class="small muted" for="context" style="display:block;margin-top:12px">Records as</label>
+  <select name="context" id="context" style="width:100%;padding:14px;font-size:17px;border:1px solid var(--line);border-radius:10px;background:#fff">
+    <option value="quiz">quiz</option>
+    <option value="exam">exam</option>
+    <option value="classwork">classwork</option>
+    <option value="homework">homework</option>
+  </select>
+
+  <h2>Pick your questions <span class="small muted" id="count">(0 chosen)</span></h2>
+  <p class="small muted">Order follows this list. {{ n_taught }} of {{ rows|length }}
+  are from lessons already taught — the rest are marked.</p>
+
+  {% for r in rows %}
+  <label class="opt" style="cursor:pointer;align-items:flex-start">
+    <input type="checkbox" name="item" value="{{ r.id }}" class="pick" style="margin-top:5px">
+    <span>
+      <span class="node-id">{{ r.node }}</span>
+      <span class="badge tier">t{{ r.tier }}</span>
+      <span class="badge tier">{{ r.assess }}</span>
+      {% if not r.taught %}<span class="badge err">not taught yet</span>{% endif %}
+      <br>{{ r.stem[:110] }}{% if r.stem|length > 110 %}…{% endif %}
+    </span>
+  </label>
+  {% endfor %}
+
+  <button class="bigbtn" type="submit" style="margin-top:14px">Create quiz</button>
+</form>
+<script>
+  var boxes = document.querySelectorAll('.pick');
+  function upd(){
+    var n = document.querySelectorAll('.pick:checked').length;
+    document.getElementById('count').textContent = '(' + n + ' chosen)';
+  }
+  boxes.forEach(function(b){ b.addEventListener('change', upd); });
+</script>
+{% endif %}
+{% endblock %}

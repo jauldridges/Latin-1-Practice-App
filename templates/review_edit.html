@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% block subtitle %}edit{% endblock %}
 {% block content %}
+{% if unrejected %}
+<div class="node-banner">The rejection has been cancelled — this question is open
+  again. Save to approve it with your edits, or leave without saving and it stays
+  undecided.</div>
+{% endif %}
 <h1>Edit question</h1>
 <p class="muted small">{{ item.node_id }} · {{ item.item_id }}. Edit the YAML, then save &amp; approve.</p>
 {% if error %}<div class="flags"><span class="lvl error">error</span> {{ error }}</div>{% endif %}

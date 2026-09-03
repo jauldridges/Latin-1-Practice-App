@@ -1,0 +1,5 @@
+# What Render installs: everything a laptop needs, plus the two things only a
+# hosted deployment uses.
+-r requirements.txt
+gunicorn>=21.2
+psycopg[binary]>=3.1

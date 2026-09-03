@@ -142,3 +142,60 @@ table.progress td.st { white-space: nowrap; }
 .pill.solid { background:#eef5f0; color: var(--solid); }
 .pill.shaky { background:#fbf1d6; color: var(--shaky); }
 .pill.notyet { background:#efedea; color: var(--notyet); }
+
+/* Always-visible progress strip on the practice and drill screens. */
+.statsbar {
+  display: flex; flex-wrap: wrap; gap: 6px 18px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  padding: 8px 12px; margin: 0 0 12px; font-size: 13px;
+}
+.statsbar .sb-group { display: flex; align-items: baseline; gap: 5px; }
+.statsbar .sb-label {
+  color: var(--muted); text-transform: uppercase; letter-spacing: .05em;
+  font-size: 10px; margin-right: 2px;
+}
+.statsbar .sb-val { font-weight: 800; font-size: 15px; font-variant-numeric: tabular-nums; }
+.statsbar .sb-unit { color: var(--muted); margin-right: 4px; }
+.statsbar .sb-pct { color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* Teacher dashboard */
+.filterbar { display: flex; gap: 8px; margin: 8px 0 14px; }
+.filterbar select {
+  flex: 1; padding: 10px; font-size: 15px; border: 1px solid var(--line);
+  border-radius: 10px; background: #fff; font-family: inherit; color: var(--ink);
+}
+.minibtn {
+  background: #eceae5; color: var(--ink); border: 1px solid var(--line);
+  border-radius: 8px; padding: 6px 10px; font-size: 13px; font-family: inherit;
+}
+.minibtn.danger { background: #f7dede; color: var(--reject); border-color: #e7b3b3; }
+table.progress td .pill { margin-left: 0; }
+details summary { cursor: pointer; color: var(--accent); margin: 8px 0; }
+select.namepick {
+  width: 100%; padding: 14px; font-size: 17px; border: 1px solid var(--line);
+  border-radius: 10px; background: #fff; font-family: inherit; color: var(--ink);
+}
+
+/* Continuous review: crossing into a new node. */
+.node-banner {
+  background: #eef5f0; border: 1px solid #cfe2d6; border-left: 4px solid var(--accent);
+  border-radius: 8px; padding: 8px 12px; margin: 0 0 10px; font-size: 14px;
+}
+/* Student IDs are the only identity in this system; give them tabular figures
+   so a column of them can be scanned against a paper list. */
+.sid { font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+
+/* The undo strip. Sits above the question, always there when there is
+   something to undo, because auto-advance means the mistake is already made. */
+.lastaction {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  flex-wrap: wrap; background: #f1efea; border: 1px solid var(--line);
+  border-radius: 10px; padding: 6px 10px; margin: 0 0 10px; font-size: 13px;
+}
+.lastaction .ok { color: var(--approve); font-weight: 700; }
+.lastaction .no { color: var(--reject); font-weight: 700; }
+.lastaction .sk { color: var(--skip); font-weight: 700; }
+.lastaction .acts { display: flex; gap: 6px; align-items: center; }
+.lastaction .acts form { margin: 0; }
+.lastaction a.minibtn { text-decoration: none; display: inline-block; }
+.pinbox { letter-spacing: .5em; font-size: 24px; text-align: center; font-family: ui-monospace, Menlo, monospace; }

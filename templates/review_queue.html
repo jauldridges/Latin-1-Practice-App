@@ -24,15 +24,30 @@
   </form>
 </div>
 
+{% if counts.unreviewed %}
+<a class="bigbtn" href="{{ url_for('review_all') }}">Review everything ({{ counts.unreviewed }}) →</a>
+<p class="small muted" style="margin-top:-4px">One question after another, in teaching order, until the bank is
+  decided. Flagged ones come last. Stop any time — nothing is lost.</p>
+{% endif %}
+
 {% if counts.flagged %}
-<a class="bigbtn" style="background:var(--flag)" href="{{ url_for('review_flagged') }}">
+<a class="bigbtn secondary" style="background:var(--flag);color:#fff" href="{{ url_for('review_flagged') }}">
   Flagged queue ({{ counts.flagged }}) →
 </a>
 <p class="small muted" style="margin-top:-4px">Caught by the mechanical checks or marked needs-review. Slower attention.</p>
 {% endif %}
 
-<h2>Fast queue — by node</h2>
+{% if n_hard %}
+<a class="bigbtn secondary" href="{{ url_for('review_hard') }}">
+  Changed your mind more than once ({{ n_hard }}) &rarr;
+</a>
+<p class="small muted" style="margin-top:-4px">Questions whose verdict flipped and
+  flipped back. Usually the question's fault, not yours.</p>
+{% endif %}
+
 {% if nodes %}
+<details>
+  <summary>Or pick one node at a time ({{ nodes | length }} with questions left)</summary>
 <ul class="queue">
   {% for n in nodes %}
   <li>
@@ -43,6 +58,7 @@
   </li>
   {% endfor %}
 </ul>
+</details>
 {% else %}
 <p class="muted">Nothing left in the fast queue.</p>
 {% endif %}

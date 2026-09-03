@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% block subtitle %}drill{% endblock %}
 {% block content %}
+{% if signed_in_student %}
+  <p class="small muted">Signed in as <strong class="sid">{{ signed_in_student }}</strong>
+    — <a href="{{ url_for('signout') }}">not you?</a></p>
+{% endif %}
 <h1>Vocabulary drill</h1>
 <p class="muted small">Type the answer — no multiple choice. Macrons are never required. This is practice; nothing here affects a grade.</p>
 
 <form method="post" action="{{ url_for('drill_start') }}" id="startform">
-  <label class="small muted" for="student">Your name</label>
-  <input type="text" name="student" id="student" autocomplete="off" placeholder="e.g. jordan" required>
-
   <label class="small muted" for="week" style="display:block;margin-top:12px">What to practise</label>
   <select name="week" id="week" style="width:100%;padding:14px;font-size:17px;border:1px solid var(--line);border-radius:10px;background:#fff">
     <option value="current">This week (and everything before it)</option>
@@ -25,16 +26,5 @@
   <button class="bigbtn" type="submit" style="margin-top:16px">Start</button>
 </form>
 
-<script>
-  // Remember the name on this device only (no account). localStorage may be
-  // blocked; ignore failures.
-  try {
-    var s = document.getElementById('student');
-    var saved = localStorage.getItem('latin_student');
-    if (saved) s.value = saved;
-    document.getElementById('startform').addEventListener('submit', function(){
-      try { localStorage.setItem('latin_student', s.value.trim()); } catch(e){}
-    });
-  } catch(e) {}
-</script>
+
 {% endblock %}

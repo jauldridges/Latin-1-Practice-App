@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ student }}{% endblock %}
+{% block content %}
+
+{% if result == 'right' %}
+  <div class="answer-feedback right">Right!</div>
+{% elif result == 'self' %}
+  <div class="answer-feedback close">Check yourself against the answer.</div>
+{% else %}
+  <div class="answer-feedback wrong">Not quite.</div>
+{% endif %}
+
+<div class="meta-row"><span class="node-id">{{ item.node }}</span>
+  <span class="badge tier">{{ label }}</span></div>
+<div class="small muted">{{ item.stem }}</div>
+
+{# ---- what they gave, and what was right ---- #}
+{% if box_results %}
+  <div style="margin-top:10px">
+  {% for r in box_results %}
+    <div class="box">
+      <span class="label">{{ r.label }}:</span>
+      <strong>{{ r.response if r.response else '(blank)' }}</strong>
+      {% if r.result == 'right' %}<span class="pill solid">right</span>
+      {% elif r.result == 'close' %}<span class="pill shaky">close</span>
+      {% elif r.result == 'self' %}<span class="pill notyet">check yourself</span>
+      {% else %}<span class="pill" style="background:#f7dede;color:var(--wrong)">wrong</span>{% endif %}
+      {% if r.result == 'wrong' and r.accepted %}
+        <div class="small muted">answer: {{ r.accepted | join(' · ') }}</div>
+      {% elif r.rule %}
+        <div class="small muted">{{ r.rule }}</div>
+      {% endif %}
+    </div>
+  {% endfor %}
+  </div>
+{% endif %}
+
+{% if tag_results %}
+  <div style="margin-top:10px">
+  {% for r in tag_results %}
+    <div class="box">
+      <div class="latin" style="font-size:18px">{{ r.word }}</div>
+      <div class="small">case: <strong>{{ r.case_response or '(blank)' }}</strong>
+        {% if r.case_result == 'right' %}<span class="pill solid">right</span>
+        {% elif r.case_result == 'close' %}<span class="pill shaky">close</span>
+        {% else %}<span class="pill" style="background:#f7dede;color:var(--wrong)">wrong</span>
+          <span class="muted">— {{ r.case_accepted | join('/') }}</span>{% endif %}
+      </div>
+      <div class="small">job: <strong>{{ r.job_response or '(blank)' }}</strong>
+        {% if r.job_result == 'right' %}<span class="pill solid">right</span>
+        {% elif r.job_result == 'close' %}<span class="pill shaky">close</span>
+        {% else %}<span class="pill" style="background:#f7dede;color:var(--wrong)">wrong</span>
+          <span class="muted">— {{ r.job_accepted | join('/') }}</span>{% endif %}
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+{% endif %}
+
+{% if picked and result == 'wrong' %}
+  <div class="box"><span class="label">you picked:</span> {{ item.options[picked] }}</div>
+  <div class="opt correct"><span class="k">{{ item.answer }} ✓</span>
+    <span class="latin">{{ item.options[item.answer] }}</span></div>
+{% endif %}
+
+{# ---- teaching text: written and approved separately; shows when present ---- #}
+{% if teaching %}
+  <div class="card">
+    <div class="small muted">Why</div>
+    <p style="margin:6px 0">{{ teaching.explain }}</p>
+    {% if teaching.when_wrong and result == 'wrong' %}
+      <p style="margin:6px 0">{{ teaching.when_wrong }}</p>
+    {% endif %}
+    {% if teaching.examples %}
+      <div class="small muted" style="margin-top:8px">For example</div>
+      <ul style="margin:4px 0 0;padding-left:18px">
+        {% for ex in teaching.examples %}<li class="small">{{ ex }}</li>{% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+{% endif %}
+
+{# ---- self-check half: model answer + self report ---- #}
+{% if result == 'self' and not self_done %}
+  <div class="card">
+    <div class="small muted">You wrote</div>
+    <div>{{ typed if typed else '(nothing)' }}</div>
+    <div class="small muted" style="margin-top:10px">Model answer</div>
+    <div><strong>{{ item.model_answer or item.translation_model_answer }}</strong></div>
+  </div>
+  <form method="post" action="{{ url_for('practice_selfreport') }}">
+    <input type="hidden" name="item_id" value="{{ item.id }}">
+    <input type="hidden" name="node" value="{{ node or '' }}">
+    <input type="hidden" name="context" value="{{ context }}">
+    <input type="hidden" name="typed" value="{{ typed }}">
+    <button class="bigbtn" name="reported" value="had">I had it</button>
+    <button class="bigbtn secondary" name="reported" value="close">I was close</button>
+    <button class="bigbtn secondary" name="reported" value="missed">I didn't have it</button>
+  </form>
+
+{# ---- the what-went-wrong menu: only ever on a WRONG, never on a close ---- #}
+{% elif menu %}
+  {% if item.translation_model_answer and tag_results %}
+    <div class="card"><div class="small muted">English</div>
+      <strong>{{ item.translation_model_answer }}</strong></div>
+  {% endif %}
+  <h2>What happened?</h2>
+  <p class="small muted">This is how the app learns what to reteach. It isn't a grade.</p>
+  {% for m in menu %}
+  <form method="post" action="{{ url_for('practice_menu') }}" style="margin:0">
+    <input type="hidden" name="item_id" value="{{ item.id }}">
+    <input type="hidden" name="node" value="{{ node or '' }}">
+    <input type="hidden" name="context" value="{{ context }}">
+    <input type="hidden" name="reason_key" value="{{ m.key }}">
+    <input type="hidden" name="reason_text" value="{{ m.text }}">
+    <input type="hidden" name="reason_node" value="{{ m.node or '' }}">
+    <button class="bigbtn secondary" type="submit"
+      style="text-align:left{% if m.key == 'should_be_right' %};border:1px solid var(--flag){% endif %}">
+      {{ m.text }}
+    </button>
+  </form>
+  {% endfor %}
+
+{% else %}
+  <a class="bigbtn" id="nextbtn" href="{{ url_for('practice_session', node=node or '', context=context) }}">Next question <span class="small" style="opacity:.75">(or press Enter)</span></a>
+  <script>
+    document.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Enter' || ev.key === ' ') {
+        ev.preventDefault();
+        window.location = document.getElementById('nextbtn').href;
+      }
+    });
+  </script>
+{% endif %}
+
+<p style="text-align:center;margin-top:12px">
+  <a class="small" href="{{ url_for('practice_home') }}">Stop</a></p>
+{% endblock %}
