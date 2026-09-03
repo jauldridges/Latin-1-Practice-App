@@ -2846,7 +2846,7 @@ items:
     format: choice
     paper_ok: true
     macron_matters: false
-    stem: "Parse estis."
+    stem: 'Parse the word "estis".'
     options:
       a: "second person plural — you all are"
       b: "third person plural — they are"
@@ -3874,7 +3874,7 @@ items:
     format: choice
     paper_ok: true
     macron_matters: false
-    stem: "In Dēbēmus pugnāre, which word completes the meaning of the other — the complementary infinitive?"
+    stem: 'In the phrase "Dēbēmus pugnāre", which word completes the meaning of the other — the complementary infinitive?'
     options:
       a: "pugnāre"
       b: "Dēbēmus"
@@ -5129,7 +5129,7 @@ items:
     macron_matters: false
     stem: >
       In the name Gaius Iulius Caesar, which part is the nomen — the
-      name of the wider family or clan?
+      name that marks him as part of a wider family or clan?
     options:
       a: "Iulius"
       b: "Gaius"
@@ -5442,20 +5442,27 @@ items:
     macron_matters: false
     stem: "The prefix sub- means 'under'. Which word uses it with that sense?"
     options:
-      a: "submarine — under the sea"
-      b: "subtract — to praise"
-      c: "suburb — above the city"
-      d: "subject — beside"
+      a: "subtitle"
+      b: "subtract"
+      c: "sublime"
+      d: "subject"
     answer: a
     touches: [MW-001]
     what_went_wrong:
       - text: "I didn't apply the 'under' meaning to the word"
         node: MW-002
+    note: >
+      Reviewed edit: the options no longer gloss themselves, so the student
+      has to supply the meaning rather than read it off the page. 'subhuman'
+      was tried here and removed — below-human is the same 'under' sense as
+      under-a-title, which made two answers defensible. Every wrong choice
+      now carries sub- with no transparent 'under' left in it: subtract is
+      take away, sublime is exalted, subject is a topic.
     versions:
       v2: {change: "One option per line."}
       v3:
-        change: "Two options — submarine and suburb."
-        options: {a: "submarine — under the sea", b: "suburb — above the city"}
+        change: "Two options — subtitle and subtract."
+        options: {a: "subtitle", b: "subtract"}
         answer: a
     teaching: ""
 
@@ -5468,22 +5475,29 @@ items:
     format: choice
     paper_ok: true
     macron_matters: false
-    stem: "The prefix in- can mean 'not'. What does 'invisible' therefore mean?"
+    stem: >-
+      The prefix in- does two different jobs in English words that come from
+      Latin: 'not', and 'in/into'. In which word does it mean 'not'?
     options:
-      a: "not able to be seen"
-      b: "able to be seen twice"
-      c: "seen from inside"
-      d: "very easily seen"
+      a: "inaudible"
+      b: "include"
+      c: "invade"
+      d: "inject"
     answer: a
     touches: [MW-002]
     what_went_wrong:
-      - text: "I confused the 'not' prefix in- with the 'into' prefix in-"
+      - text: "I picked a word where in- means 'into'"
+        node: MW-003
+      - text: "I didn't know in- had two different jobs"
         node: MW-003
     note: >
-      in- has two senses (not; into/on). The negation sense is the
-      node; the directional sense is MW-002. A good item keeps the
-      two from colliding, which is why the wrong choices do not lean
-      on 'into'.
+      Replaces an item that answered itself: it said in- means 'not' and
+      then asked what 'invisible' means. This one makes the student do the
+      discrimination that is actually hard, because every wrong choice is
+      in- meaning INTO — include (shut in), invade (go into), inject (throw
+      into). Collides deliberately with MW-002 (the directional sense),
+      which is the collision students have to learn to resolve rather than
+      one to design around.
     versions:
       v2: {change: "One option per line."}
       v3:
