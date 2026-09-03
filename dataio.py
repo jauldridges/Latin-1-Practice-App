@@ -244,6 +244,7 @@ def _later_unit_forms(lemmas, stems=None):
     stems = stems or set(lemmas)
     for w in lemmas:
         base = w[:-1] if w.endswith("o") else w
+        forms.add(base)        # the singular imperative is the bare stem: audī
         for end in VERB:
             forms.add(base + end)
         if w.endswith("a"):
@@ -254,6 +255,7 @@ def _later_unit_forms(lemmas, stems=None):
             for end in SECOND:
                 forms.add(w[:-2] + end)
     for st in stems:
+        forms.add(st)          # the bare stem: MS-062 asks students to write it
         for end in THIRD:
             forms.add(st + end)
     return {_norm(f) for f in forms}

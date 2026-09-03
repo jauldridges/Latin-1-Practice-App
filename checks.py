@@ -88,20 +88,26 @@ def _answer_strings(item):
     return out
 
 
-_ENDING_RE = re.compile(r"-([A-Za-zāēīōūȳĀĒĪŌŪȲ]+)")
+_AFFIX_RE = re.compile(r"-([A-Za-zāēīōūȳĀĒĪŌŪȲ]+)|([A-Za-zāēīōūȳĀĒĪŌŪȲ]+)-")
 
 
-def _ending_tokens(text):
-    """Tokens written as grammatical ENDINGS — "-ārum", "-ibus", "-ium".
+def _affix_tokens(text):
+    """Tokens written as a piece of a word rather than a word.
 
-    An ending is not a word and has no place on a vocabulary list, but the
-    tokenizer drops the hyphen and it arrives looking like unknown Latin. From
-    Unit 2 on, items talk about endings constantly (every declension and
-    conjugation node does), so without this the vocabulary check would fire
-    dozens of times on questions that are correct — and a check that cries wolf
-    is one a reviewer learns to click past.
+    An ENDING carries a leading hyphen — "-ārum", "-ibus", "-ium". A STEM
+    carries a trailing one — "rēg-", "corpor-". Neither is a word and neither
+    belongs on a vocabulary list, but the tokenizer drops the hyphen and both
+    arrive looking like unknown Latin.
+
+    From Unit 2 on this is constant: every declension and conjugation node
+    discusses its endings, and MS-062 exists to make students write stems. Left
+    alone the vocabulary check fired dozens of times on correct questions, and
+    a check that cries wolf is one a reviewer learns to click past.
     """
-    return {clean(m.group(1)) for m in _ENDING_RE.finditer(str(text or ""))}
+    out = set()
+    for m in _AFFIX_RE.finditer(str(text or "")):
+        out.add(clean(m.group(1) or m.group(2)))
+    return out
 
 
 def _glossed_tokens(stem):
@@ -154,7 +160,7 @@ def check_vocabulary(item, allowed, level="heuristic"):
 
     reported = set()
     for text in scan:
-        exempt = glossed | _ending_tokens(text)
+        exempt = glossed | _affix_tokens(text)
         for tok in _vocab_units(text):
             if not _has_macron(tok):
                 continue                     # only macron tokens are sure Latin

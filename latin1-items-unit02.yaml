@@ -1030,3 +1030,1676 @@ items:
         options: {a: "Agricolae est fīlia [daughter].", b: "Fīlia [daughter] agricolae aquam portat."}
         answer: a
     teaching: ''
+
+# ==========================================================================
+# The third declension — MS-062 to MS-071 (weeks of 2 and 9 November)
+#
+# The place first-year Latin usually comes apart. Two ideas do most of the
+# damage: the nominative singular does not show you the stem, and gender is not
+# visible in the ending. Both are facts to be accepted rather than rules to be
+# derived, so several of these items are explicitly about accepting them.
+# ==========================================================================
+
+  - id: MS062-PRODUCE-01
+    node: MS-062
+    assess: produce
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "The dictionary entry is rēx, rēgis, m. [king]. Write the stem."
+    boxes:
+      - label: Stem
+        answer: ["reg", "rēg"]
+    touches: [MS-017, MS-016]
+    what_went_wrong:
+      - text: "I used the nominative and wrote rex-"
+        node: MS-062
+      - text: "I left the -is on"
+        node: MS-062
+    note: >
+      The whole node in one question. Take the genitive rēgis, remove -is, and
+      the stem is rēg- — which the nominative rēx does not show you. A student
+      who answers 'rex' has used the form that hides the stem.
+    versions:
+      v2: {change: "Placeholder 'the stem'; the genitive labelled in the entry."}
+      v3:
+        change: "Four-option choice from the answer plus wrong forms."
+        format: choice
+        options: {a: "rēg", b: "rēx", c: "rēgis", d: "rē"}
+        answer: a
+    teaching: ''
+
+  - id: MS062-EXPLAIN-01
+    node: MS-062
+    assess: explain
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      In the first declension you could find the stem from the nominative:
+      puella gives puell-. In the third you cannot — rēx [king] gives rēg-, not
+      rēx-. Why does the third declension need the genitive to be printed?
+    options:
+      a: "Because sound changes reshaped the nominative, so it no longer shows the stem the other cases are built on."
+      b: "Because third declension nouns have no stem."
+      c: "Because the genitive is the most frequently used case."
+      d: "Because the nominative is optional in the third declension."
+    answer: a
+    touches: [MS-017, MS-016]
+    what_went_wrong:
+      - text: "I use the genitive but never knew why it was needed here"
+        node: MS-062
+      - text: "I thought the nominative would work if I looked harder"
+        node: MS-062
+    note: >
+      An explain item, so the fact is in the stem and the options compete on
+      the reason. The honest answer is historical — rēx is rēg-s with the two
+      sounds collapsed — and a student does not need the phonology, only to
+      stop expecting the nominative to cooperate.
+    versions:
+      v2: {change: "The two entries printed one above the other; one option per line."}
+      v3:
+        change: "Two options — the sound-change answer and the no-stem answer."
+        options:
+          a: "The nominative was reshaped and no longer shows the stem."
+          b: "Third declension nouns have no stem."
+        answer: a
+    teaching: ''
+
+  - id: MS062-PRODUCE-02
+    node: MS-062
+    assess: produce
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "The dictionary entry is corpus, corporis, n. [body]. Write the stem."
+    boxes:
+      - label: Stem
+        answer: ["corpor"]
+    touches: [MS-017]
+    what_went_wrong:
+      - text: "I wrote corpus- from the nominative"
+        node: MS-062
+      - text: "I left the -is on"
+        node: MS-062
+    note: >
+      Harder than rēx because the nominative and the stem differ in the middle
+      of the word, not just at the end: corpus against corpor-. A student who
+      has learned 'chop off -is' succeeds here; one who has learned 'the
+      nominative is nearly right' does not.
+    versions:
+      v2: {change: "Placeholder 'the stem'; the genitive labelled."}
+      v3:
+        change: "Four-option choice from the answer plus wrong forms."
+        format: choice
+        options: {a: "corpor", b: "corpus", c: "corp", d: "corporis"}
+        answer: a
+    teaching: ''
+
+  - id: MS063-RECALL-01
+    node: MS-063
+    assess: recall
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      A third declension dictionary entry gives you two forms before the
+      gender. Name them.
+    order_matters: false
+    boxes:
+      - label: First form
+        answer: ["nominative", "nominative singular", "nom"]
+      - label: Second form
+        answer: ["genitive", "genitive singular", "gen"]
+    touches: [MS-016, MS-062]
+    what_went_wrong:
+      - text: "I named cases that are not in the entry"
+        node: MS-016
+      - text: "I could only name one"
+        node: MS-063
+    note: >
+      Recall, so boxes rather than choice. Same shape as the first declension
+      entry they already know — the point is that the third declension needs
+      the same two forms for a reason the first declension did not have.
+    versions:
+      v2: {change: "Placeholder 'one word' in each box; a sample entry shown."}
+      v3:
+        change: "Word bank: nominative, genitive, accusative, dative, gender."
+    teaching: ''
+
+  - id: MS063-EXPLAIN-01
+    node: MS-063
+    assess: explain
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Third declension nominative singulars look nothing alike — rēx [king],
+      corpus [body], pater [father], vōx [voice]. You cannot predict one. What
+      follows for how you learn these nouns?
+    options:
+      a: "You learn the nominative and genitive together as a pair, because neither predicts the other."
+      b: "You learn the nominative and work the genitive out from it."
+      c: "You learn the genitive only, since the nominative is rarely used."
+      d: "You group them by their last letter and learn one pattern for each group."
+    answer: a
+    touches: [MS-062, MS-016]
+    what_went_wrong:
+      - text: "I thought I could predict the genitive from the nominative"
+        node: MS-063
+      - text: "I thought the nominative could be skipped"
+        node: MS-063
+    note: >
+      Option d is the trap that costs students weeks: -x nouns do often go to
+      -g- or -c-, so the pattern half works and then fails, and the failures
+      are invisible until a translation goes wrong.
+    versions:
+      v2: {change: "The four nominatives listed one per line; one option per line."}
+      v3:
+        change: "Two options — learn the pair, and predict from the nominative."
+        options:
+          a: "Learn nominative and genitive together as a pair."
+          b: "Learn the nominative and work out the genitive."
+        answer: a
+    teaching: ''
+
+  - id: MS063-RECALL-02
+    node: MS-063
+    assess: recall
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "The entry is vōx, vōcis, f. [voice]. Write the genitive singular."
+    boxes:
+      - label: Genitive singular
+        answer: ["vocis", "vōcis"]
+    touches: [MS-062]
+    what_went_wrong:
+      - text: "I tried to build it from the nominative"
+        node: MS-063
+      - text: "I wasn't sure which part of the entry was the genitive"
+        node: MS-016
+    note: >
+      Trivial if you read the entry, which is the point: the genitive is given
+      because it cannot be derived, and the habit being built is looking rather
+      than guessing.
+    versions:
+      v2: {change: "Placeholder 'one word'; the entry's parts labelled."}
+      v3:
+        change: "Four-option choice from the answer plus invented forms."
+        format: choice
+        options: {a: "vōcis", b: "vōxis", c: "vōcēs", d: "vōx"}
+        answer: a
+    teaching: ''
+
+  - id: MS064-PRODUCE-01
+    node: MS-064
+    assess: produce
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "The entry is rēx, rēgis, m. [king]. Write the accusative singular and the dative singular."
+    boxes:
+      - label: Accusative singular
+        answer: ["regem", "rēgem"]
+      - label: Dative singular
+        answer: ["regi", "rēgī"]
+    touches: [MS-062, MS-057]
+    what_went_wrong:
+      - text: "I built them on the nominative instead of the stem"
+        node: MS-062
+      - text: "I used the first or second declension endings"
+        node: MS-064
+    note: >
+      Stem rēg- plus -em and -ī. Every third declension form in this node is
+      the same two-step: find the stem from the genitive, add the ending.
+    versions:
+      v2: {change: "Placeholder 'one word' in each box; the stem shown."}
+      v3:
+        change: "Word bank: rēgem, rēgī, rēgis, rēx."
+    teaching: ''
+
+  - id: MS064-PARSE-01
+    node: MS-064
+    assess: parse
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Parse mīlitem, from mīles, mīlitis, m. [soldier]."
+    options:
+      a: "accusative singular masculine"
+      b: "dative singular masculine"
+      c: "genitive singular masculine"
+      d: "accusative plural masculine"
+    answer: a
+    touches: [MS-062, MS-019]
+    what_went_wrong:
+      - text: "I picked the wrong case"
+        node: MS-064
+      - text: "I picked the wrong number"
+        node: MS-065
+    note: >
+      -em is the third declension accusative singular, and it looks nothing
+      like the -am and -um they already know. Recognising it as an accusative
+      at all is the work.
+    versions:
+      v2: {change: "The entry printed above; one option per line."}
+      v3:
+        change: "Two options — accusative singular and dative singular."
+        options: {a: "accusative singular masculine", b: "dative singular masculine"}
+        answer: a
+    teaching: ''
+
+  - id: MS064-PRODUCE-02
+    node: MS-064
+    assess: produce
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "The entry is pater, patris, m. [father]. Write the accusative singular."
+    boxes:
+      - label: Accusative singular
+        answer: ["patrem"]
+    touches: [MS-062]
+    what_went_wrong:
+      - text: "I wrote paterem, keeping the nominative's -e-"
+        node: MS-062
+      - text: "I used the wrong ending"
+        node: MS-064
+    note: >
+      pater loses its -e- in every case but the nominative: patris, patrem,
+      patrī. 'paterem' is the predictable wrong answer and is worth having a
+      menu line of its own.
+    versions:
+      v2: {change: "Placeholder 'one word'; the genitive labelled in the entry."}
+      v3:
+        change: "Four-option choice from the answer plus the nominative-built error."
+        format: choice
+        options: {a: "patrem", b: "paterem", c: "patris", d: "pater"}
+        answer: a
+    teaching: ''
+
+  - id: MS065-PRODUCE-01
+    node: MS-065
+    assess: produce
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "The entry is rēx, rēgis, m. [king]. Write the nominative plural and the accusative plural."
+    boxes:
+      - label: Nominative plural
+        answer: ["reges", "rēgēs"]
+      - label: Accusative plural
+        answer: ["reges", "rēgēs"]
+    touches: [MS-064, MS-062]
+    what_went_wrong:
+      - text: "I expected the two to be different"
+        node: MS-065
+      - text: "I built them on the nominative singular"
+        node: MS-062
+    note: >
+      Both are rēgēs. Asking for both in one item, in separate boxes, makes the
+      identity something the student writes rather than something they are
+      told — and it is the third declension's own version of the -ae collision
+      they met in MS-056.
+    versions:
+      v2: {change: "Placeholder 'one word' in each box; the stem shown."}
+      v3:
+        change: "Word bank: rēgēs, rēgum, rēgibus, rēgem."
+    teaching: ''
+
+  - id: MS065-PARSE-01
+    node: MS-065
+    assess: parse
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Parse vōcēs, from vōx, vōcis, f. [voice]. Give every reading it could have."
+    options:
+      a: "nominative or accusative plural feminine"
+      b: "nominative plural feminine only"
+      c: "accusative plural feminine only"
+      d: "genitive singular feminine"
+    answer: a
+    touches: [MS-029, MS-064]
+    what_went_wrong:
+      - text: "I gave only one of the two readings"
+        node: MS-065
+      - text: "I picked a case it cannot be"
+        node: MS-064
+    note: >
+      Options b and c are each half right, which is the useful kind of wrong:
+      a student who picks either knows the form and has not noticed it is
+      ambiguous, and that is a different gap from not knowing the form.
+    versions:
+      v2: {change: "The entry printed above; one option per line."}
+      v3:
+        change: "Two options — both readings, and nominative only."
+        options: {a: "nominative or accusative plural", b: "nominative plural only"}
+        answer: a
+    teaching: ''
+
+  - id: MS065-PRODUCE-02
+    node: MS-065
+    assess: produce
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "The entry is mīles, mīlitis, m. [soldier]. Write the dative and ablative plural — they are the same word."
+    boxes:
+      - label: Dative and ablative plural
+        answer: ["militibus", "mīlitibus"]
+    touches: [MS-062, MS-058]
+    what_went_wrong:
+      - text: "I used the -īs ending from the first two declensions"
+        node: MS-065
+      - text: "I built it on the nominative"
+        node: MS-062
+    note: >
+      -ibus, not -īs. A student carrying the first and second declension
+      pattern across writes 'mīlitīs', and that is the error the item exists
+      for.
+    versions:
+      v2: {change: "Placeholder 'one word'; the stem shown."}
+      v3:
+        change: "Four-option choice from the answer plus the carried-over ending."
+        format: choice
+        options: {a: "mīlitibus", b: "mīlitīs", c: "mīlitēs", d: "mīlitōrum"}
+        answer: a
+    teaching: ''
+
+  - id: MS066-PRODUCE-01
+    node: MS-066
+    assess: produce
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "The entry is corpus, corporis, n. [body]. Write the nominative plural and the accusative plural."
+    boxes:
+      - label: Nominative plural
+        answer: ["corpora"]
+      - label: Accusative plural
+        answer: ["corpora"]
+    touches: [MS-028, MS-062]
+    what_went_wrong:
+      - text: "I used the masculine plural ending -ēs"
+        node: MS-066
+      - text: "I expected the two to be different"
+        node: MS-028
+    note: >
+      Neuter, so nominative and accusative match — the rule they already know
+      from dōnum — and the third declension neuter plural is -a on the stem.
+      Both boxes, so the identity is written out rather than asserted.
+    versions:
+      v2: {change: "Placeholder 'one word' in each box; the stem shown."}
+      v3:
+        change: "Word bank: corpora, corporēs, corporum, corpus."
+    teaching: ''
+
+  - id: MS066-PARSE-01
+    node: MS-066
+    assess: parse
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Parse nōmina, from nōmen, nōminis, n. [name]. Give every reading it could have."
+    options:
+      a: "nominative or accusative plural neuter"
+      b: "nominative singular feminine"
+      c: "accusative singular neuter"
+      d: "genitive plural neuter"
+    answer: a
+    touches: [MS-028, MS-062]
+    what_went_wrong:
+      - text: "I read the -a as a first declension singular"
+        node: MS-066
+      - text: "I gave only one of the two readings"
+        node: MS-028
+    note: >
+      Option b is the trap: a bare -a has meant 'first declension feminine
+      singular' for two months, and neuter plurals in -a are the first thing to
+      break that habit.
+    versions:
+      v2: {change: "The entry printed above; one option per line."}
+      v3:
+        change: "Two options — the neuter plural and the first declension singular."
+        options: {a: "nominative or accusative plural neuter", b: "nominative singular feminine"}
+        answer: a
+    teaching: ''
+
+  - id: MS066-EXPLAIN-01
+    node: MS-066
+    assess: explain
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      In every neuter noun you have met — dōnum, corpus [body], nōmen [name] —
+      the nominative and accusative are identical, singular and plural. Why
+      does that not make neuter sentences ambiguous?
+    options:
+      a: "The verb and the other nouns show which one is the subject, the same way they do elsewhere."
+      b: "Neuter nouns are never used as objects."
+      c: "Neuter nouns always come first in the sentence."
+      d: "It does make them ambiguous; you have to guess."
+    answer: a
+    touches: [MS-028, MS-029, MS-037]
+    what_went_wrong:
+      - text: "I thought neuter sentences really were ambiguous"
+        node: MS-066
+      - text: "I know the forms match but not how to tell them apart in a sentence"
+        node: MS-029
+    note: >
+      Deliberately the same answer as MS056-EXPLAIN-01, about -ae. A student
+      should leave Unit 2 with one habit — the sentence resolves the form —
+      rather than a separate trick for each collision.
+    versions:
+      v2: {change: "The three nouns listed; one option per line."}
+      v3:
+        change: "Two options — the evidence answer and the it-is-ambiguous answer."
+        options:
+          a: "The rest of the sentence shows which is the subject."
+          b: "It is genuinely ambiguous."
+        answer: a
+    teaching: ''
+
+  - id: MS067-RECOG-01
+    node: MS-067
+    assess: recognize
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      An i-stem noun is one whose stem originally ended in -i-. One common sign
+      is a nominative and genitive with the same number of syllables. Which of
+      these is an i-stem?
+    options:
+      a: "cīvis, cīvis [citizen]"
+      b: "rēx, rēgis [king]"
+      c: "corpus, corporis [body]"
+      d: "pater, patris [father]"
+    answer: a
+    touches: [MS-062, MS-064]
+    what_went_wrong:
+      - text: "I didn't count the syllables"
+        node: MS-067
+      - text: "I picked a noun whose genitive adds a syllable"
+        node: MS-067
+    note: >
+      cīvis, cīvis — two syllables in both. rēx, rēgis goes one to two.
+      Approximate as a rule, and honestly labelled 'one common sign' rather
+      than a test, because the real definition is historical and no first-year
+      needs it.
+    versions:
+      v2: {change: "Syllable counts printed beside each entry; one per line."}
+      v3:
+        change: "Two options — the i-stem and one ordinary noun."
+        options: {a: "cīvis, cīvis [citizen]", b: "rēx, rēgis [king]"}
+        answer: a
+    teaching: ''
+
+  - id: MS067-EXPLAIN-01
+    node: MS-067
+    assess: explain
+    tier: 3
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      i-stems are not a separate declension; they are third declension nouns
+      with a few different endings. Why is it worth keeping them inside the
+      third declension rather than calling them a fourth?
+    options:
+      a: "Because almost every ending is the same, and only a couple differ — a separate declension would mean relearning what you already know."
+      b: "Because there are very few of them."
+      c: "Because they were a separate declension once and Latin merged them by mistake."
+      d: "Because their gender is always the same."
+    answer: a
+    touches: [MS-064, MS-068]
+    what_went_wrong:
+      - text: "I thought i-stems needed a whole new set of endings"
+        node: MS-067
+      - text: "I couldn't say what made them a variation rather than a new type"
+        node: MS-067
+    note: >
+      Tier 3 and about the shape of the grammar rather than a form. A student
+      who thinks i-stems are a new declension will try to memorise a second
+      full table, which is both wasted effort and the reason the third
+      declension feels enormous.
+    versions:
+      v2: {change: "One option per line; the differing endings listed."}
+      v3:
+        change: "Two options — the few-differences answer and the new-table answer."
+        options:
+          a: "Almost every ending is the same; only a couple differ."
+          b: "They need a completely different set of endings."
+        answer: a
+    teaching: ''
+
+  - id: MS067-RECOG-02
+    node: MS-067
+    assess: recognize
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      A noun whose stem ends in two consonants is also an i-stem — urbs [city]
+      has the stem urb-, ending in -rb-. Which of these is an i-stem for that
+      reason?
+    options:
+      a: "pars, partis [part]"
+      b: "vōx, vōcis [voice]"
+      c: "mīles, mīlitis [soldier]"
+      d: "nōmen, nōminis [name]"
+    answer: a
+    touches: [MS-062]
+    what_went_wrong:
+      - text: "I looked at the nominative instead of the stem"
+        node: MS-062
+      - text: "I couldn't find the stem"
+        node: MS-062
+    note: >
+      Stem part-, ending -rt-. The item quietly re-tests MS-062: you cannot
+      apply this sign without finding the stem from the genitive first, and a
+      student who reads the nominative picks vōx.
+    versions:
+      v2: {change: "Stems printed beside each entry; one per line."}
+      v3:
+        change: "Two options — the two-consonant stem and one that is not."
+        options: {a: "pars, partis [part]", b: "vōx, vōcis [voice]"}
+        answer: a
+    teaching: ''
+
+  - id: MS068-PRODUCE-01
+    node: MS-068
+    assess: produce
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "The entry is cīvis, cīvis, m./f. [citizen], an i-stem. Write the genitive plural."
+    boxes:
+      - label: Genitive plural
+        answer: ["civium", "cīvium"]
+    touches: [MS-067, MS-062]
+    what_went_wrong:
+      - text: "I used the ordinary -um ending"
+        node: MS-068
+      - text: "I built it on the wrong stem"
+        node: MS-062
+    note: >
+      -ium, not -um. This is the ending i-stems exist for as far as a first-year
+      is concerned, and writing it once is worth more than recognising it three
+      times.
+    versions:
+      v2: {change: "Placeholder 'one word'; the stem and the i-stem label shown."}
+      v3:
+        change: "Four-option choice from the answer plus the ordinary ending."
+        format: choice
+        options: {a: "cīvium", b: "cīvum", c: "cīvibus", d: "cīvēs"}
+        answer: a
+    teaching: ''
+
+  - id: MS068-PARSE-01
+    node: MS-068
+    assess: parse
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Parse urbium, from urbs, urbis, f. [city]."
+    options:
+      a: "genitive plural feminine"
+      b: "dative plural feminine"
+      c: "accusative plural feminine"
+      d: "genitive singular feminine"
+    answer: a
+    touches: [MS-067, MS-065]
+    what_went_wrong:
+      - text: "I picked the wrong case"
+        node: MS-068
+      - text: "I didn't recognise -ium as a genitive plural"
+        node: MS-068
+    versions:
+      v2: {change: "The entry printed above; one option per line."}
+      v3:
+        change: "Two options — genitive plural and dative plural."
+        options: {a: "genitive plural feminine", b: "dative plural feminine"}
+        answer: a
+    teaching: ''
+
+  - id: MS068-PRODUCE-02
+    node: MS-068
+    assess: produce
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Two entries: rēx, rēgis, m. [king], an ordinary noun, and pars, partis,
+      f. [part], an i-stem. Write the genitive plural of each.
+    boxes:
+      - label: Genitive plural of rēx
+        answer: ["regum", "rēgum"]
+      - label: Genitive plural of pars
+        answer: ["partium"]
+    touches: [MS-067, MS-065]
+    what_went_wrong:
+      - text: "I gave both the same ending"
+        node: MS-068
+      - text: "I used -ium on the ordinary noun"
+        node: MS-068
+    note: >
+      Side by side, because the ending only means something against the one it
+      is not. A student who writes rēgium has learned -ium as the third
+      declension genitive plural rather than as the i-stem's.
+    versions:
+      v2: {change: "One box per screen; the i-stem labelled in the entry."}
+      v3:
+        change: "Word bank: rēgum, rēgium, partum, partium."
+    teaching: ''
+
+  - id: MS069-PRODUCE-01
+    node: MS-069
+    assess: produce
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "The entry is mare, maris, n. [sea], an i-stem neuter. Write the nominative plural and the genitive plural."
+    boxes:
+      - label: Nominative plural
+        answer: ["maria"]
+      - label: Genitive plural
+        answer: ["marium"]
+    touches: [MS-066, MS-068]
+    what_went_wrong:
+      - text: "I used the ordinary neuter plural -a and -um"
+        node: MS-069
+      - text: "I built them on the wrong stem"
+        node: MS-062
+    note: >
+      -ia and -ium where an ordinary neuter has -a and -um. i-stem neuters are
+      the corner of the third declension that combines both variations at once,
+      which is why they get their own node and their own item.
+    versions:
+      v2: {change: "Placeholder 'one word' in each box; the stem and label shown."}
+      v3:
+        change: "Word bank: maria, marium, mara, marum."
+    teaching: ''
+
+  - id: MS069-PARSE-01
+    node: MS-069
+    assess: parse
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Parse animālia, from animal, animālis, n. [animal], an i-stem neuter."
+    options:
+      a: "nominative or accusative plural neuter"
+      b: "nominative singular neuter"
+      c: "genitive plural neuter"
+      d: "dative plural neuter"
+    answer: a
+    touches: [MS-066, MS-028]
+    what_went_wrong:
+      - text: "I gave only one of the two readings"
+        node: MS-028
+      - text: "I read -ia as a genitive"
+        node: MS-069
+    versions:
+      v2: {change: "The entry printed above; one option per line."}
+      v3:
+        change: "Two options — both readings, and the genitive plural."
+        options: {a: "nominative or accusative plural neuter", b: "genitive plural neuter"}
+        answer: a
+    teaching: ''
+
+  - id: MS069-EXPLAIN-01
+    node: MS-069
+    assess: explain
+    tier: 3
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      An i-stem neuter shows its -i- in more places than an i-stem masculine
+      does — maria and marium, against cīvēs and cīvium. What does that tell
+      you about which nouns kept the old -i- best?
+    options:
+      a: "The neuters kept it most widely, so the i-stem endings are clearest there."
+      b: "The masculines kept it best and the neuters lost it."
+      c: "Both kept it equally; the difference is only spelling."
+      d: "Neither kept it; the -i- is inserted by modern editors."
+    answer: a
+    touches: [MS-067, MS-068]
+    what_went_wrong:
+      - text: "I hadn't noticed the neuters showed it more"
+        node: MS-069
+      - text: "I thought the difference was only spelling"
+        node: MS-069
+    note: >
+      Tier 3 and frankly optional. It is here because a student who sees
+      i-stems as a pattern with a direction remembers them, and one who sees
+      four unrelated endings does not.
+    versions:
+      v2: {change: "The four forms printed in a small table; one option per line."}
+      v3:
+        change: "Two options — the neuters kept it, and the masculines kept it."
+        options:
+          a: "The neuters kept the -i- most widely."
+          b: "The masculines kept it best."
+        answer: a
+    teaching: ''
+
+  - id: MS070-RECALL-01
+    node: MS-070
+    assess: recall
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Where in a third declension dictionary entry do you find the noun's
+      gender? Answer in one or two words.
+    boxes:
+      - label: Where
+        answer:
+          - "the entry"
+          - "dictionary entry"
+          - "at the end"
+          - "the abbreviation"
+          - "after the genitive"
+          - "the entry itself"
+          - "it is given"
+    touches: [MS-016, MS-063]
+    what_went_wrong:
+      - text: "I thought the ending showed it"
+        node: MS-070
+      - text: "I wasn't sure the entry gave gender at all"
+        node: MS-016
+    note: >
+      The answer is 'it is printed; you look'. Accepted strings are generous
+      because the node is knowing gender is given rather than deduced, and a
+      student who has that will phrase it a dozen ways.
+    versions:
+      v2: {change: "A sample entry shown with its parts labelled."}
+      v3:
+        change: "Two-option choice — printed in the entry, or worked out from the ending."
+        format: choice
+        options: {a: "It is printed in the entry.", b: "You work it out from the ending."}
+        answer: a
+    teaching: ''
+
+  - id: MS070-EXPLAIN-01
+    node: MS-070
+    assess: explain
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      In the first declension you could nearly always guess gender from the
+      ending. In the third you cannot: rēx [king] is masculine, vōx [voice] is
+      feminine, and both end in -x. Why must third declension gender be learned
+      with the word?
+    options:
+      a: "Because the ending carries no gender information, so there is nothing to work it out from."
+      b: "Because third declension nouns change gender depending on the sentence."
+      c: "Because most third declension nouns are neuter."
+      d: "Because gender only matters for adjectives, so it can be looked up later."
+    answer: a
+    touches: [MS-022, MS-063]
+    what_went_wrong:
+      - text: "I kept trying to predict gender from the ending"
+        node: MS-070
+      - text: "I thought gender could be looked up when needed"
+        node: MS-071
+    note: >
+      Option d is the one to argue with rather than dismiss: gender does mostly
+      matter for agreement, but 'later' is the wrong time, because the adjective
+      has to be chosen while reading.
+    versions:
+      v2: {change: "The rēx/vōx pair printed alongside; one option per line."}
+      v3:
+        change: "Two options — the ending carries nothing, and it can be looked up later."
+        options:
+          a: "The ending carries no gender information."
+          b: "It can be looked up when an adjective is needed."
+        answer: a
+    teaching: ''
+
+  - id: MS070-RECALL-02
+    node: MS-070
+    assess: recall
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      rēx, rēgis is masculine and vōx, vōcis is feminine, and both end in -x.
+      Write the gender of each.
+    boxes:
+      - label: Gender of rēx
+        answer: ["masculine", "m", "masc"]
+      - label: Gender of vōx
+        answer: ["feminine", "f", "fem"]
+    touches: [MS-022]
+    what_went_wrong:
+      - text: "I guessed from the ending"
+        node: MS-070
+      - text: "I mixed the two up"
+        node: MS-070
+    note: >
+      The stem gives both answers away, which is deliberate: this is a recall
+      item and what is being recalled is that these two must be held as facts.
+      Getting it right by reading is the behaviour being trained.
+    versions:
+      v2: {change: "Placeholder 'one word' in each box."}
+      v3:
+        change: "Word bank: masculine, feminine, neuter."
+    teaching: ''
+
+  - id: MS071-APPLY-01
+    node: MS-071
+    assess: apply
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Which form of bonus goes with rēx [king], a masculine third declension
+      noun in the nominative singular?
+    options:
+      a: "bonus"
+      b: "bonis"
+      c: "bonex"
+      d: "bona"
+    answer: a
+    touches: [MS-046, MS-070, MS-064]
+    what_went_wrong:
+      - text: "I tried to match the noun's ending instead of its gender and case"
+        node: MS-046
+      - text: "I got the gender wrong"
+        node: MS-070
+    note: >
+      Option c is the whole point: an adjective agrees in gender, number and
+      case, not in spelling, and 'bonex' is what matching the ending would
+      produce. The adjective stays second declension while the noun is third.
+    versions:
+      v2: {change: "The rule restated above the question; one option per line."}
+      v3:
+        change: "Two options — the agreeing form and the rhyming one."
+        options: {a: "bonus", b: "bonex"}
+        answer: a
+    teaching: ''
+
+  - id: MS071-EXPLAIN-01
+    node: MS-071
+    assess: explain
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      In rēx bonus [good king] the noun and the adjective have different
+      endings and still agree. What does agreement actually require?
+    options:
+      a: "The same gender, number and case — not the same ending."
+      b: "The same ending, so one of the two must be irregular here."
+      c: "The same declension."
+      d: "That the adjective comes directly after the noun."
+    answer: a
+    touches: [MS-046, MS-064]
+    what_went_wrong:
+      - text: "I thought agreement meant matching endings"
+        node: MS-046
+      - text: "I thought they had to be in the same declension"
+        node: MS-071
+    note: >
+      Third declension nouns are where 'agreement means rhyming' finally
+      breaks, and it breaks silently — a student can carry that belief through
+      all of Unit 1 without ever being caught by it.
+    versions:
+      v2: {change: "The phrase printed with gender, number and case labelled under each word."}
+      v3:
+        change: "Two options — same gender/number/case, and same ending."
+        options:
+          a: "The same gender, number and case."
+          b: "The same ending."
+        answer: a
+    teaching: ''
+
+  - id: MS071-APPLY-02
+    node: MS-071
+    assess: apply
+    tier: 3
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Which form of bonus goes with rēgēs [kings], the masculine nominative
+      plural of rēx?
+    options:
+      a: "bonī"
+      b: "bonae"
+      c: "bonus"
+      d: "bonōrum"
+    answer: a
+    touches: [MS-046, MS-065, MS-070]
+    what_went_wrong:
+      - text: "I got the gender wrong"
+        node: MS-070
+      - text: "I got the number wrong"
+        node: MS-065
+      - text: "I got the case wrong"
+        node: MS-046
+    note: >
+      Every wrong option is a real form and a real mistake — bonae is the wrong
+      gender, bonus the wrong number, bonōrum the wrong case — so the student
+      has to get all three right rather than spot the invented one. The
+      agreement point is that the adjective takes -ī while the noun takes -ēs;
+      they agree without rhyming. Deliberately masculine rather than neuter:
+      third declension neuters are taught four days after this node.
+    versions:
+      v2: {change: "rēx's gender and number stated; one option per line."}
+      v3:
+        change: "Two options — the agreeing form and the wrong gender."
+        options: {a: "bonī", b: "bonae"}
+        answer: a
+    teaching: ''
+
+# ==========================================================================
+# The third and fourth conjugations — MS-072 to MS-078 and MS-158
+# (week of 16 November)
+#
+# The second half of the verb system. The difficulty is not the endings; it is
+# that the third conjugation's vowel is short and unstable, so its forms look
+# like the fourth's without behaving like them, and the infinitive is the only
+# reliable way to tell any of them apart.
+# ==========================================================================
+
+  - id: MS072-PRODUCE-01
+    node: MS-072
+    assess: produce
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "The entry is mittō, mittere [to send]. Write the third person singular and the third person plural."
+    boxes:
+      - label: He/she/it sends
+        answer: ["mittit"]
+      - label: They send
+        answer: ["mittunt"]
+    touches: [MS-035, MS-034]
+    what_went_wrong:
+      - text: "I used the first conjugation endings"
+        node: MS-072
+      - text: "I wrote mittent for the plural"
+        node: MS-072
+    note: >
+      -it and -unt. A student carrying the first conjugation across writes
+      'mittat' and 'mittant'; one carrying the second writes 'mittent'. Both
+      are worth their own menu line.
+    versions:
+      v2: {change: "Placeholder 'one word' in each box; the entry printed above."}
+      v3:
+        change: "Word bank: mittit, mittunt, mittet, mittent."
+    teaching: ''
+
+  - id: MS072-PARSE-01
+    node: MS-072
+    assess: parse
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Parse dūcimus, from dūcō, dūcere [to lead]."
+    options:
+      a: "first person plural — we lead"
+      b: "first person singular — I lead"
+      c: "second person plural — you lead"
+      d: "third person plural — they lead"
+    answer: a
+    touches: [MS-034, MS-035]
+    what_went_wrong:
+      - text: "I picked the wrong person"
+        node: MS-072
+      - text: "I picked the wrong number"
+        node: MS-034
+    note: >
+      -mus is -mus in every conjugation, so this is deliberately the easy one
+      in the set: the person endings did not change, only the vowel in front
+      of them, and a student who believes the third conjugation is wholly new
+      needs to see that.
+    versions:
+      v2: {change: "The entry printed above; one option per line."}
+      v3:
+        change: "Two options — first plural and third plural."
+        options: {a: "first person plural — we lead", b: "third person plural — they lead"}
+        answer: a
+    teaching: ''
+
+  - id: MS072-TRANS-01
+    node: MS-072
+    assess: translate
+    tier: 2
+    format: self-check
+    paper_ok: true
+    macron_matters: false
+    stem: "Write the English, then check yourself: Rēx [king] nautīs epistulam [letter] mittit [sends]."
+    model_answer: "The king sends the sailors a letter. ('sends a letter to the sailors' is equally right.)"
+    self_report:
+      - I had it
+      - I had the words but the wrong receiver
+      - I didn't have it
+    touches: [MS-057, MS-064]
+    what_went_wrong:
+      - text: "I made the sailors the subject"
+        node: MS-014
+      - text: "I made the sailors the direct object"
+        node: MS-057
+    note: >
+      Pulls the dative back in alongside the new verb, and puts a third
+      declension noun in the nominative, so all three of Unit 2's strands meet
+      in one sentence. epistula is glossed; it is not on the core list.
+    versions:
+      v2: {change: "Glosses under each word; model answer shown after."}
+      v3:
+        change: "Two-option choice — the right reading and the reversed one."
+        format: choice
+        options:
+          a: "The king sends the sailors a letter."
+          b: "The sailors send the king a letter."
+        answer: a
+    teaching: ''
+
+  - id: MS073-PRODUCE-01
+    node: MS-073
+    assess: produce
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "The entry is capiō, capere [to take]. Write the third person singular and the third person plural."
+    boxes:
+      - label: He/she/it takes
+        answer: ["capit"]
+      - label: They take
+        answer: ["capiunt"]
+    touches: [MS-072]
+    what_went_wrong:
+      - text: "I dropped the -i- in the plural"
+        node: MS-073
+      - text: "I used the ordinary third conjugation endings"
+        node: MS-072
+    note: >
+      capit like mittit, but capiunt not capunt. The -io verbs keep their -i-
+      wherever the ending begins with a vowel, and the singular hides that
+      while the plural exposes it — which is why both are asked.
+    versions:
+      v2: {change: "Placeholder 'one word' in each box; the entry printed above."}
+      v3:
+        change: "Word bank: capit, capiunt, capunt, capet."
+    teaching: ''
+
+  - id: MS073-PARSE-01
+    node: MS-073
+    assess: parse
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Parse faciunt, from faciō, facere [to make, to do]."
+    options:
+      a: "third person plural — they make"
+      b: "third person singular — he makes"
+      c: "first person plural — we make"
+      d: "second person plural — you make"
+    answer: a
+    touches: [MS-072, MS-034]
+    what_went_wrong:
+      - text: "I picked the wrong number"
+        node: MS-073
+      - text: "I was thrown by the -i- before the ending"
+        node: MS-073
+    versions:
+      v2: {change: "The entry printed above; one option per line."}
+      v3:
+        change: "Two options — third plural and third singular."
+        options: {a: "third person plural — they make", b: "third person singular — he makes"}
+        answer: a
+    teaching: ''
+
+  - id: MS073-EXPLAIN-01
+    node: MS-073
+    assess: explain
+    tier: 3
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      capiō [I take] gives capit, which looks like an ordinary third
+      conjugation form, and capiunt, which looks like a fourth. What follows
+      for how you have to learn these verbs?
+    options:
+      a: "You have to learn which verbs they are, because their forms on their own will not tell you."
+      b: "You can work them out from the forms once you have seen enough of them."
+      c: "It does not matter, because both readings give the same meaning."
+      d: "You treat them as fourth conjugation and accept a few exceptions."
+    answer: a
+    touches: [MS-072, MS-034]
+    what_went_wrong:
+      - text: "I thought the -i- made them fourth conjugation"
+        node: MS-073
+      - text: "I thought the forms would eventually tell me"
+        node: MS-073
+    note: >
+      Stops short of the infinitive test on purpose — that is MS-075, taught
+      two days after this node, and an item may not lean on what has not been
+      taught. What MS-073 can carry on its own day is the honest observation
+      that these verbs are a marked group you are told about, and this is the
+      item that says so.
+    versions:
+      v2: {change: "capit and capiunt printed side by side; one option per line."}
+      v3:
+        change: "Two options — learn the group, and work it out from the forms."
+        options:
+          a: "You have to learn which verbs they are."
+          b: "You can work it out from the forms."
+        answer: a
+    teaching: ''
+
+  - id: MS074-PRODUCE-01
+    node: MS-074
+    assess: produce
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "The entry is audiō, audīre [to hear]. Write the third person singular and the third person plural."
+    boxes:
+      - label: He/she/it hears
+        answer: ["audit"]
+      - label: They hear
+        answer: ["audiunt"]
+    touches: [MS-072, MS-034]
+    what_went_wrong:
+      - text: "I dropped the -i-"
+        node: MS-074
+      - text: "I used the third conjugation endings"
+        node: MS-072
+    note: >
+      audit and audiunt, identical in shape to capit and capiunt — which is
+      exactly the problem MS-075 has to solve, and why the two are taught a day
+      apart.
+    versions:
+      v2: {change: "Placeholder 'one word' in each box; the entry printed above."}
+      v3:
+        change: "Word bank: audit, audiunt, audet, audunt."
+    teaching: ''
+
+  - id: MS074-PARSE-01
+    node: MS-074
+    assess: parse
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Parse venītis, from veniō, venīre [to come]."
+    options:
+      a: "second person plural — you (all) come"
+      b: "second person singular — you come"
+      c: "third person plural — they come"
+      d: "first person plural — we come"
+    answer: a
+    touches: [MS-034, MS-035]
+    what_went_wrong:
+      - text: "I picked the wrong person"
+        node: MS-074
+      - text: "I read -tis as singular"
+        node: MS-034
+    versions:
+      v2: {change: "The entry printed above; one option per line."}
+      v3:
+        change: "Two options — second plural and second singular."
+        options: {a: "second person plural — you (all) come", b: "second person singular — you come"}
+        answer: a
+    teaching: ''
+
+  - id: MS074-TRANS-01
+    node: MS-074
+    assess: translate
+    tier: 2
+    format: self-check
+    paper_ok: true
+    macron_matters: false
+    stem: "Write the English, then check yourself: Mīlitēs [soldiers] vōcēs [voices] audiunt [hear]."
+    model_answer: "The soldiers hear the voices. ('are hearing' is equally right.)"
+    self_report:
+      - I had it
+      - I had it backwards
+      - I didn't have it
+    touches: [MS-065, MS-064]
+    what_went_wrong:
+      - text: "I made the voices the subject"
+        node: MS-065
+      - text: "I couldn't tell which noun was nominative"
+        node: MS-065
+    note: >
+      Both nouns are third declension plurals in -ēs, so both could be
+      nominative or accusative on their form alone — the verb is not enough
+      here either, since it is plural for both. Sense decides, which is a
+      legitimate and worth-naming last resort.
+    versions:
+      v2: {change: "Glosses under each word; model answer shown after."}
+      v3:
+        change: "Two-option choice — the sensible reading and the reversed one."
+        format: choice
+        options: {a: "The soldiers hear the voices.", b: "The voices hear the soldiers."}
+        answer: a
+    teaching: ''
+
+  - id: MS158-RECOG-01
+    node: MS-158
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: true
+    stem: "Which of these is a fourth conjugation infinitive?"
+    options:
+      a: "audīre [to hear]"
+      b: "mittere [to send]"
+      c: "capere [to take]"
+      d: "monēre [to warn]"
+    answer: a
+    touches: [MS-036, MS-074]
+    what_went_wrong:
+      - text: "I picked a third conjugation infinitive"
+        node: MS-158
+      - text: "I couldn't hear the difference between -ere and -īre"
+        node: MS-158
+    note: >
+      -īre against -ere and -ēre. The macron matters and is printed: audīre
+      and monēre differ only in which vowel is long, and stripping the marks
+      makes the item unanswerable.
+    versions:
+      v2: {change: "One infinitive per line, macrons enlarged."}
+      v3:
+        change: "Two options — the fourth conjugation and the third."
+        options: {a: "audīre [to hear]", b: "mittere [to send]"}
+        answer: a
+    read_aloud_safe: false
+    teaching: ''
+
+  - id: MS158-PRODUCE-01
+    node: MS-158
+    assess: produce
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Write the infinitive of each: dūcō [I lead], third conjugation, and
+      mūniō [I fortify], fourth conjugation.
+    boxes:
+      - label: Infinitive of dūcō
+        answer: ["ducere", "dūcere"]
+      - label: Infinitive of mūniō
+        answer: ["munire", "mūnīre"]
+    touches: [MS-072, MS-074]
+    what_went_wrong:
+      - text: "I gave both the same ending"
+        node: MS-158
+      - text: "I wasn't sure which conjugation took which"
+        node: MS-075
+    note: >
+      Side by side, because -ere and -īre only mean something against each
+      other. Macrons are not required in the typed answer, as everywhere.
+    versions:
+      v2: {change: "One box per screen; the conjugation labelled in each."}
+      v3:
+        change: "Word bank: dūcere, dūcīre, mūnīre, mūnere."
+    teaching: ''
+
+  - id: MS158-RECOG-02
+    node: MS-158
+    assess: recognize
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: true
+    stem: >-
+      capere and audīre both have an -i- in their present forms. Which is the
+      third conjugation -io verb, and what tells you?
+    options:
+      a: "capere — its infinitive ends in -ere, with a short e."
+      b: "audīre — its infinitive is longer."
+      c: "capere — it has fewer letters."
+      d: "Neither; both are fourth conjugation."
+    answer: a
+    touches: [MS-073, MS-072]
+    what_went_wrong:
+      - text: "I judged by the present forms instead of the infinitive"
+        node: MS-075
+      - text: "I thought both were fourth conjugation"
+        node: MS-073
+    note: >
+      The -io verbs' whole difficulty in one question. Option d is not a silly
+      distractor — it is what the present tense forms honestly suggest, and the
+      infinitive is the only thing that overrules them.
+    versions:
+      v2: {change: "Both infinitives printed large with the vowels marked."}
+      v3:
+        change: "Two options — capere by its infinitive, and audīre by its length."
+        options:
+          a: "capere — its infinitive ends in -ere."
+          b: "audīre — its infinitive is longer."
+        answer: a
+    read_aloud_safe: false
+    teaching: ''
+
+  - id: MS075-RECOG-01
+    node: MS-075
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: true
+    stem: "Which conjugation does an infinitive in -āre belong to?"
+    options:
+      a: "first"
+      b: "second"
+      c: "third"
+      d: "fourth"
+    answer: a
+    touches: [MS-036, MS-158]
+    what_went_wrong:
+      - text: "I mixed up the four infinitive endings"
+        node: MS-075
+    versions:
+      v2: {change: "All four endings listed above the question."}
+      v3:
+        change: "Two options — first and second."
+        options: {a: "first", b: "second"}
+        answer: a
+    read_aloud_safe: false
+    teaching: ''
+
+  - id: MS075-EXPLAIN-01
+    node: MS-075
+    assess: explain
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      A dictionary entry gives you the first person singular and the
+      infinitive — mittō, mittere. Why is the infinitive the part that tells
+      you the conjugation?
+    options:
+      a: "Because it is the only form whose vowel survives unchanged in all four conjugations."
+      b: "Because it is always the second form listed."
+      c: "Because the first person singular is irregular."
+      d: "Because the infinitive is the most commonly used form."
+    answer: a
+    touches: [MS-158, MS-016]
+    what_went_wrong:
+      - text: "I thought the -ō form told you the conjugation"
+        node: MS-075
+      - text: "I use the infinitive but never knew why"
+        node: MS-075
+    note: >
+      mittō, capiō, audiō — the first person singular ends in -ō for every
+      conjugation and tells you almost nothing, which is precisely why the
+      infinitive is printed beside it. Same argument as MS-062 makes for the
+      genitive, and worth the echo.
+    versions:
+      v2: {change: "Four entries printed in a column with their infinitives aligned."}
+      v3:
+        change: "Two options — the surviving vowel, and its position in the entry."
+        options:
+          a: "Its vowel survives unchanged across all four conjugations."
+          b: "It is always listed second."
+        answer: a
+    teaching: ''
+
+  - id: MS075-RECOG-02
+    node: MS-075
+    assess: recognize
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: true
+    stem: "Which of these verbs is NOT third conjugation?"
+    options:
+      a: "veniō, venīre [to come]"
+      b: "mittō, mittere [to send]"
+      c: "dūcō, dūcere [to lead]"
+      d: "scrībō, scrībere [to write]"
+    answer: a
+    touches: [MS-158]
+    what_went_wrong:
+      - text: "I picked a verb that is third conjugation"
+        node: MS-075
+      - text: "I judged by the -ō form instead of the infinitive"
+        node: MS-075
+    note: >
+      A NOT question, which the exemplars use sparingly — justified here
+      because three-of-four-alike is exactly how conjugation sorting is done
+      in practice.
+    versions:
+      v2: {change: "One entry per line; infinitive endings underlined."}
+      v3:
+        change: "Two options — the fourth conjugation verb and one third."
+        options: {a: "veniō, venīre [to come]", b: "mittō, mittere [to send]"}
+        answer: a
+    read_aloud_safe: false
+    teaching: ''
+
+  - id: MS077-PRODUCE-01
+    node: MS-077
+    assess: produce
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Write the singular command from mittō, mittere [to send] and from audiō,
+      audīre [to hear] — "send!" and "hear!".
+    boxes:
+      - label: send!
+        answer: ["mitte"]
+      - label: hear!
+        answer: ["audi", "audī"]
+    touches: [MS-050, MS-072, MS-074]
+    what_went_wrong:
+      - text: "I used the infinitive instead"
+        node: MS-077
+      - text: "I added an ending"
+        node: MS-050
+    note: >
+      Drop -re from the infinitive: mittere gives mitte, audīre gives audī.
+      The same rule they learned in Unit 1, applied to two new conjugations.
+    versions:
+      v2: {change: "The rule restated above; one box per screen."}
+      v3:
+        change: "Word bank: mitte, mittere, audī, audīre."
+    teaching: ''
+
+  - id: MS077-RECALL-01
+    node: MS-077
+    assess: recall
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Four verbs form their singular command irregularly, by dropping the -e as
+      well. Write any two of the four.
+    order_matters: false
+    boxes:
+      - label: One command
+        answer: ["dic", "dīc", "duc", "dūc", "fac", "fer"]
+      - label: Another command
+        answer: ["dic", "dīc", "duc", "dūc", "fac", "fer"]
+    touches: [MS-050]
+    what_went_wrong:
+      - text: "I could only remember one"
+        node: MS-077
+      - text: "I wrote the regular form instead"
+        node: MS-077
+    note: >
+      dīc, dūc, fac, fer. Recall, so boxes; any two count and order is free,
+      because the node is knowing the set exists rather than reciting it.
+    versions:
+      v2: {change: "Placeholder 'one word' in each box."}
+      v3:
+        change: "Word bank: dīc, dūc, fac, fer, dīce, dūce."
+    teaching: ''
+
+  - id: MS077-PRODUCE-02
+    node: MS-077
+    assess: produce
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Write the plural command from mittō, mittere [to send] — 'send!' spoken to more than one person."
+    boxes:
+      - label: send! (plural)
+        answer: ["mittite"]
+    touches: [MS-050, MS-072]
+    what_went_wrong:
+      - text: "I wrote the singular"
+        node: MS-077
+      - text: "I used -āte from the first conjugation"
+        node: MS-050
+    note: >
+      mittite, not mittete or mittāte. The connecting vowel goes short -i- in
+      the third conjugation plural imperative, which is the one place this
+      ending genuinely has to be learned rather than derived.
+    versions:
+      v2: {change: "The singular shown for comparison; placeholder 'one word'."}
+      v3:
+        change: "Four-option choice from the answer plus carried-over endings."
+        format: choice
+        options: {a: "mittite", b: "mittete", c: "mittāte", d: "mitte"}
+        answer: a
+    teaching: ''
+
+  - id: MS078-PRODUCE-01
+    node: MS-078
+    assess: produce
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      A negative command uses nōlī [be unwilling] plus the infinitive. Write
+      "do not send!" spoken to one person, using mittō, mittere [to send].
+    boxes:
+      - label: do not send!
+        answer: ["noli mittere", "nōlī mittere"]
+    touches: [MS-077, MS-158]
+    what_went_wrong:
+      - text: "I used the imperative instead of the infinitive"
+        node: MS-078
+      - text: "I used the plural nōlīte"
+        node: MS-078
+    note: >
+      nōlī mittere, not 'nōlī mitte'. The commonest error is putting a command
+      after nōlī, because that is what 'do not send' looks like in English,
+      and it has its own menu line.
+    versions:
+      v2: {change: "The pattern written out above; placeholder 'two words'."}
+      v3:
+        change: "Four-option choice from the answer plus the imperative and plural errors."
+        format: choice
+        options: {a: "nōlī mittere", b: "nōlī mitte", c: "nōlīte mittere", d: "nōn mitte"}
+        answer: a
+    teaching: ''
+
+  - id: MS078-TRANS-01
+    node: MS-078
+    assess: translate
+    tier: 2
+    format: self-check
+    paper_ok: true
+    macron_matters: false
+    stem: "Write the English, then check yourself: Nōlīte, mīlitēs [soldiers], fugere [to flee]."
+    model_answer: "Do not flee, soldiers! ('Don't run away, soldiers' is equally right.)"
+    self_report:
+      - I had it
+      - I got the words but not the 'do not'
+      - I didn't have it
+    touches: [MS-077, MS-158, MS-064]
+    what_went_wrong:
+      - text: "I translated nōlīte as a verb of wanting"
+        node: MS-078
+      - text: "I missed that it was a command"
+        node: MS-078
+    note: >
+      nōlīte is plural because it addresses the soldiers. Translating it
+      literally — 'be unwilling to flee' — is not wrong so much as unfinished,
+      and the self-report separates that student from one who did not follow
+      it at all.
+    versions:
+      v2: {change: "Glosses under each word; model answer shown after."}
+      v3:
+        change: "Two-option choice — the command reading and the literal one."
+        format: choice
+        options: {a: "Do not flee, soldiers!", b: "The soldiers are unwilling to flee."}
+        answer: a
+    teaching: ''
+
+  - id: MS078-PRODUCE-02
+    node: MS-078
+    assess: produce
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Write "do not come!" spoken to a group, using veniō, venīre [to come].
+    boxes:
+      - label: do not come! (to a group)
+        answer: ["nolite venire", "nōlīte venīre", "nolite venīre", "nōlīte venire"]
+    touches: [MS-077, MS-158]
+    what_went_wrong:
+      - text: "I used the singular nōlī"
+        node: MS-078
+      - text: "I used a command instead of the infinitive"
+        node: MS-078
+    note: >
+      The plural twin of MS078-PRODUCE-01, so a student cannot pass by learning
+      'nōlī plus infinitive' as a single string. Macrons optional in the typed
+      answer, hence four accepted spellings.
+    versions:
+      v2: {change: "The singular shown for comparison; placeholder 'two words'."}
+      v3:
+        change: "Four-option choice from the answer plus the singular and imperative errors."
+        format: choice
+        options: {a: "nōlīte venīre", b: "nōlī venīre", c: "nōlīte venīte", d: "nōn venīte"}
+        answer: a
+    teaching: ''

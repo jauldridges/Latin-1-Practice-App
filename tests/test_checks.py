@@ -133,6 +133,12 @@ class TestEndingsAreNotWords(unittest.TestCase):
         it["options"] = {"a": "-ārum", "b": "-ōrum"}
         self.assertEqual(checks.check_vocabulary(it, set()), [])
 
+    def test_a_stem_written_with_a_trailing_hyphen_is_exempt(self):
+        # MS-062 exists to make students write stems; "rēg-" is how a grammar
+        # book prints one.
+        flags = checks.check_vocabulary(self.item('The stem is rēg-, not rēx-.'), set())
+        self.assertEqual(flags, [])
+
     def test_a_real_unglossed_word_is_still_caught(self):
         flags = checks.check_vocabulary(self.item("The noun rēgīna is here."), set())
         self.assertEqual(len(flags), 1)
