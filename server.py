@@ -298,6 +298,38 @@ def nodelabel(node_id):
     return _NODE_LABEL.get(node_id, "")
 
 
+@app.template_filter("weeklabel")
+def weeklabel(week):
+    """"Week of Sep 14", from either shape the data uses.
+
+    The drill's words carry a slug (week_of_sep_14) and the spec's nodes carry
+    a date (2026-09-14). Both mean the same thing to a student, so both get the
+    same sentence.
+    """
+    if not week:
+        return ""
+    w = str(week)
+    if w in drill.WEEK_LABELS:
+        return drill.WEEK_LABELS[w]
+    try:
+        d = time.strptime(w, "%Y-%m-%d")
+        return "Week of " + time.strftime("%b ", d) + str(d.tm_mday)
+    except ValueError:
+        return w
+
+
+def node_week(node_id):
+    """When a spec node is introduced. Nodes taught as a module have no day,
+    only a week, which is the right answer for them anyway."""
+    n = _SPEC.get(node_id) or {}
+    return n.get("week")
+
+
+@app.template_filter("nodeweek")
+def nodeweek(node_id):
+    return weeklabel(node_week(node_id))
+
+
 @app.template_filter("when")
 def when(ts):
     """A timestamp as a teacher reads it: "2h ago", "yesterday", a date.
@@ -710,6 +742,7 @@ def drill_session():
         return render_template("drill_none.html", student=student, week=week)
     return render_template("drill_card.html", student=student, week=week,
                            direction=direction, card=card,
+                           introduced=weeklabel(drill.find_word(_DRILL_WORDS, card.latin).get("week")),
                            **_drill_stats(events))
 
 
@@ -738,11 +771,13 @@ def drill_answer():
         card = drill.card_for(word, ask)
         return render_template("drill_card.html", student=student, week=week,
                                direction=direction, card=card,
+                               introduced=weeklabel(word.get("week")),
                                notice="So close — check your spelling and try again.",
                                **_drill_stats(store.events_for_student(db, student)))
     return render_template("drill_feedback.html", student=student, week=week,
                            direction=direction, word=word, ask=ask, response=response,
                            result=result, model=accepted[0],
+                           introduced=weeklabel(word.get("week")),
                            **_drill_stats(store.events_for_student(db, student)))
 
 
@@ -875,6 +910,8 @@ def practice_session():
     return render_template("practice_question.html", student=student, item=item,
                            node=node, context=ctx, notice=None,
                            label=_NODE_LABEL.get(item["node"], ""),
+                           hint=approved_teaching_for(db, item.get("node")),
+                           introduced=nodeweek(item.get("node")),
                            **_practice_stats(db, events))
 
 
@@ -921,6 +958,8 @@ def practice_answer():
         return render_template("practice_question.html", student=student, item=item,
                                node=node, context=ctx,
                                label=_NODE_LABEL.get(item["node"], ""),
+                               hint=approved_teaching_for(db, item.get("node")),
+                               introduced=nodeweek(item.get("node")),
                                notice="So close — check your spelling and try again.",
                                **_practice_stats(db, store.events_for_student(db, student)))
 
@@ -931,6 +970,7 @@ def practice_answer():
 
     return render_template("practice_feedback.html", student=student, item=item,
                            node=node, context=ctx, result=result,
+                           introduced=nodeweek(item.get("node")),
                            box_results=box_results, tag_results=tag_results,
                            picked=picked, typed=typed,
                            menu=practice.menu_for(item) if result == "wrong" else None,
@@ -960,6 +1000,7 @@ def practice_selfreport():
     if result == "wrong":
         return render_template("practice_feedback.html", student=student, item=item,
                                node=node, context=ctx, result="wrong",
+                               introduced=nodeweek(item.get("node")),
                                box_results=None, tag_results=None, picked=None,
                                typed=typed, menu=practice.menu_for(item),
                                teaching=approved_teaching_for(db, item.get("node")),

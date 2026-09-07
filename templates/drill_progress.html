@@ -5,7 +5,7 @@
 <p class="small muted">solid · shaky · not yet. A practice signal, not a grade.
   <em>Solid</em> means you got it right several times, on more than one day, including at least a week after you first saw it.</p>
 
-<h2>{{ summary.current_week_label }}</h2>
+<h2>This week — {{ summary.current_week_label }}</h2>
 <div class="summary-tiles">
   <div class="tile"><div class="n state solid">{{ summary.current_week['solid'] }}</div><div class="l">solid</div></div>
   <div class="tile"><div class="n state shaky">{{ summary.current_week['shaky'] }}</div><div class="l">shaky</div></div>
@@ -19,24 +19,41 @@
   <div class="tile"><div class="n state notyet">{{ summary.cumulative['not yet'] }}</div><div class="l">not yet</div></div>
 </div>
 
-<table class="progress">
-  <thead><tr><th>Word</th><th>Meaning</th><th class="st">State</th><th>Box</th><th>Last</th></tr></thead>
-  <tbody>
-    {% for r in rows %}
-    <tr>
-      <td class="latin">{{ r.latin }}</td>
-      <td class="small">{{ r.en }}</td>
-      <td class="st">
-        {% if r.state == 'solid' %}<span class="pill solid">solid</span>
-        {% elif r.state == 'shaky' %}<span class="pill shaky">shaky</span>
-        {% else %}<span class="pill notyet">not yet</span>{% endif %}
-      </td>
-      <td>{{ r.box }}</td>
-      <td class="small muted">{{ r.last_seen }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<h2 style="margin-top:26px">Week by week</h2>
+<p class="small muted" style="margin-top:-4px">Where the work is. Every word you
+  have been given, under the week you met it.</p>
+
+{# Grouped by the week each word was introduced. A flat list of eighty words
+   tells a student they have work to do; the same list grouped tells them
+   WHERE, and "shaky on the week of Sep 14" is something they can act on
+   tonight. Weeks run in teaching order. #}
+{% for g in summary.by_week %}
+  <h3>{{ g.label }}</h3>
+  <p class="small">
+    <span class="pill solid">{{ g.counts['solid'] }} solid</span>
+    <span class="pill shaky">{{ g.counts['shaky'] }} shaky</span>
+    <span class="pill notyet">{{ g.counts['not yet'] }} not yet</span>
+    <span class="small muted">of {{ g.total }}</span>
+  </p>
+  <table class="progress">
+    <thead><tr><th>Word</th><th>Meaning</th><th class="st">State</th><th>Box</th><th>Last</th></tr></thead>
+    <tbody>
+      {% for r in g.rows %}
+      <tr>
+        <td class="latin">{{ r.latin }}</td>
+        <td class="small">{{ r.en }}</td>
+        <td class="st">
+          {% if r.state == 'solid' %}<span class="pill solid">solid</span>
+          {% elif r.state == 'shaky' %}<span class="pill shaky">shaky</span>
+          {% else %}<span class="pill notyet">not yet</span>{% endif %}
+        </td>
+        <td>{{ r.box }}</td>
+        <td class="small muted">{{ r.last_seen }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endfor %}
 
 <a class="bigbtn" href="{{ url_for('drill_home') }}" style="margin-top:16px">Back to drill</a>
 {% endblock %}

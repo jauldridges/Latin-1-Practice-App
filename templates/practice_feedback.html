@@ -13,6 +13,7 @@
 <div class="meta-row"><span class="node-id">{{ item.node }}</span>
   <span class="badge tier">{{ label }}</span></div>
 <div class="small muted">{{ item.stem }}</div>
+{% if introduced %}<div class="introduced">Introduced {{ introduced }}.</div>{% endif %}
 
 {# ---- what they gave, and what was right ---- #}
 {% if box_results %}

@@ -17,6 +17,7 @@
   <div class="small muted" style="margin-top:10px">
     {{ word.latin }} — {{ word.en | join(', ') }}
   </div>
+  {% if introduced %}<div class="introduced">Introduced {{ introduced }}.</div>{% endif %}
 </div>
 
 <a class="bigbtn" id="nextbtn" href="{{ url_for('drill_session', week=week, direction=direction) }}">Next word <span class="small" style="opacity:.75">(or press Enter)</span></a>

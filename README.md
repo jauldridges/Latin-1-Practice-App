@@ -149,6 +149,35 @@ of a macron-critical item. A genuine letter typo on those items is still
   putting them back in that rotation would hand them to you forever. The flag
   still goes on the item, so the export carries it to whoever generates the next
   batch.)
+### Telling a student when they met a thing
+
+Every vocabulary word carries the week it was introduced, and every grammar
+node carries one in the spec. The same sentence — "Introduced Week of Sep 14" —
+is built from both by the `weeklabel` filter, so a student cannot tell the two
+halves of the app store it differently.
+
+It appears in three places, and the difference between them is deliberate:
+
+- **The feedback screen**, after they answer. Free orientation, no cost.
+- **A Hint, on the question itself.** Collapsed by default and opened on
+  purpose — a hint a student chooses to take is a different thing from one the
+  page hands them. On a grammar question it also carries the teaching note,
+  through the same approval gate as the after-a-miss explanation, so nothing
+  unread reaches a student. On a **vocabulary** card it carries the week only:
+  a drill word has no spec node and therefore no teaching text, and inventing
+  one would mean telling the student what the word means, which is the answer
+  rather than a hint.
+- **`/drill/progress`, grouped by week.** The most useful of the three. A flat
+  list of eighty words tells a student they have work to do; the same list
+  under week headings tells them *where*, and "shaky on the week of Sep 14" is
+  something a fourteen-year-old can act on tonight.
+
+Taking a hint is **not recorded**. It could be — "who needed a hint" is a real
+question — but every consumer of the event log (session counts, readiness,
+Leitner boxes, dashboard accuracy) would have to learn to ignore a new kind of
+row first, and that is a change to every student's schedule in service of a
+feature nobody asked for yet.
+
 - **Skip** = *decide later*: the item is deferred to the end of the pass and
   returns after everything else, rather than disappearing. In continuous mode
   that means the end of the **whole bank**, not the end of the node — two

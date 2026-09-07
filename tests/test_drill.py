@@ -106,3 +106,53 @@ class TestScopeAndAccept(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TestProgressByWeek(unittest.TestCase):
+    """The progress table grouped by the week each word was introduced."""
+
+    def rows(self):
+        words = [{"latin": "aqua", "en": ["water"], "week": "week_of_aug_24"},
+                 {"latin": "via", "en": ["road"], "week": "week_of_aug_24"},
+                 {"latin": "puer", "en": ["boy"], "week": "week_of_sep_14"}]
+        return drill.progress_table(words, [])
+
+    def test_one_group_per_week(self):
+        groups = drill.by_week(self.rows())
+        self.assertEqual([g["week"] for g in groups],
+                         ["week_of_aug_24", "week_of_sep_14"])
+
+    def test_groups_run_in_teaching_order_not_alphabetical(self):
+        # "week_of_aug_31" sorts before "week_of_sep_8" alphabetically and also
+        # comes first in teaching; "week_of_sep_8" vs "week_of_sep_14" does not.
+        words = [{"latin": "a", "en": ["a"], "week": "week_of_sep_14"},
+                 {"latin": "b", "en": ["b"], "week": "week_of_sep_8"}]
+        groups = drill.by_week(drill.progress_table(words, []))
+        self.assertEqual([g["week"] for g in groups],
+                         ["week_of_sep_8", "week_of_sep_14"])
+
+    def test_each_group_counts_its_own_states(self):
+        groups = drill.by_week(self.rows())
+        self.assertEqual(groups[0]["total"], 2)
+        self.assertEqual(groups[0]["counts"]["not yet"], 2)
+
+    def test_groups_carry_a_human_label(self):
+        self.assertEqual(drill.by_week(self.rows())[0]["label"], "Week of Aug 24")
+
+    def test_an_unknown_week_still_gets_a_group(self):
+        # A word must never vanish from a student's progress because its week
+        # is not one the app knows about.
+        words = [{"latin": "x", "en": ["x"], "week": "week_of_never"}]
+        groups = drill.by_week(drill.progress_table(words, []))
+        self.assertEqual(len(groups), 1)
+        self.assertEqual(groups[0]["label"], "week_of_never")
+
+    def test_every_word_appears_exactly_once_across_the_groups(self):
+        import dataio
+        rows = drill.progress_table(dataio.load_drill_words(), [])
+        grouped = [r for g in drill.by_week(rows) for r in g["rows"]]
+        self.assertEqual(len(grouped), len(rows))
+        self.assertEqual({r.latin for r in grouped}, {r.latin for r in rows})
+
+    def test_the_summary_carries_it(self):
+        self.assertIn("by_week", drill.progress_summary(self.rows()))

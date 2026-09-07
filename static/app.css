@@ -199,3 +199,16 @@ select.namepick {
 .lastaction .acts form { margin: 0; }
 .lastaction a.minibtn { text-decoration: none; display: inline-block; }
 .pinbox { letter-spacing: .5em; font-size: 24px; text-align: center; font-family: ui-monospace, Menlo, monospace; }
+
+/* The hint: present, closed, and clearly optional. */
+details.hintbox {
+  background: #fbf7ec; border: 1px solid #e7ddc4; border-radius: 10px;
+  padding: 6px 12px; margin: 10px 0;
+}
+details.hintbox > summary {
+  color: var(--flag); font-weight: 700; font-size: 14px; margin: 2px 0;
+}
+details.hintbox[open] > summary { margin-bottom: 6px; }
+details.hintbox ul { margin: 4px 0; padding-left: 18px; }
+.introduced { color: var(--muted); font-size: 13px; }
+h3 { font-size: 16px; margin: 18px 0 4px; }

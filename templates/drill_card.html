@@ -8,6 +8,8 @@
 <p class="small muted" style="text-align:center">{{ card.instruction }}</p>
 <div class="prompt {{ 'latin' if card.ask == 'la_en' else '' }}">{{ card.prompt }}</div>
 
+{% include "_hint.html" %}
+
 <form method="post" action="{{ url_for('drill_answer') }}" id="answerform">
   <input type="hidden" name="week" value="{{ week }}">
   <input type="hidden" name="direction" value="{{ direction }}">

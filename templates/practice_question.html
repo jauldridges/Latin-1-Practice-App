@@ -13,6 +13,8 @@
 
 <div class="stem">{{ item.stem }}</div>
 
+{% include "_hint.html" %}
+
 <form method="post" action="{{ url_for('practice_answer') }}" id="qform">
   <input type="hidden" name="item_id" value="{{ item.id }}">
   <input type="hidden" name="node" value="{{ node or '' }}">

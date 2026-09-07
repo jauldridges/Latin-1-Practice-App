@@ -1,0 +1,23 @@
+{# The hint. Closed by default and opened on purpose, because a hint a student
+   chooses to take is a different thing from one the page hands them.
+
+   Vocabulary gets the week only. A drill card has no spec node and therefore
+   no teaching text, and inventing one here would mean telling a student what
+   the word means — which is the answer, not a hint.
+
+   Teaching text appears only when the teacher has approved that exact wording;
+   `hint` is already None otherwise. Nothing unread reaches a student. #}
+{% if hint or introduced %}
+<details class="hintbox">
+  <summary>Hint</summary>
+  {% if introduced %}
+    <p class="small muted">Introduced {{ introduced }}.</p>
+  {% endif %}
+  {% if hint %}
+    <p class="small">{{ hint.explain }}</p>
+    {% if hint.examples %}
+      <ul class="small">{% for ex in hint.examples %}<li>{{ ex }}</li>{% endfor %}</ul>
+    {% endif %}
+  {% endif %}
+</details>
+{% endif %}

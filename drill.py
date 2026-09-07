@@ -230,4 +230,37 @@ def progress_summary(rows):
         "current_week": tally([r for r in rows if r.week == cur]),
         "current_week_label": WEEK_LABELS.get(cur, cur),
         "total": len(rows),
+        "by_week": by_week(rows),
     }
+
+
+def by_week(rows):
+    """The progress table split into the weeks the words were introduced.
+
+    A flat list of eighty words tells a student they have work to do; the same
+    list grouped by week tells them WHERE, and "you are shaky on the week of
+    Sep 14" is something a fourteen-year-old can act on tonight.
+
+    Weeks come back in teaching order, not alphabetical, and a word whose week
+    is not in WEEK_ORDER still gets a group rather than disappearing.
+    """
+    groups = {}
+    for r in rows:
+        groups.setdefault(r.week, []).append(r)
+
+    def tally(rs):
+        out = {"solid": 0, "shaky": 0, "not yet": 0}
+        for r in rs:
+            out[r.state] += 1
+        return out
+
+    order = {w: i for i, w in enumerate(WEEK_ORDER)}
+    out = []
+    for week in sorted(groups, key=lambda w: (order.get(w, 99), str(w))):
+        rs = groups[week]
+        out.append({"week": week,
+                    "label": WEEK_LABELS.get(week, str(week)),
+                    "rows": rs,
+                    "counts": tally(rs),
+                    "total": len(rs)})
+    return out
