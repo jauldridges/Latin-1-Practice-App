@@ -100,3 +100,59 @@ class TestAllTime(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TestRetriesCountOnce(unittest.TestCase):
+    """A close sends you back to the same card. Retyping it is not a second
+    word studied, and getting it right the second time is not half a miss."""
+
+    def test_close_then_right_is_one_card_and_full_marks(self):
+        t = 1_000_000.0
+        evs = [ev("vocab:aqua:la_en", "close", t), ev("vocab:aqua:la_en", "right", t + 8)]
+        s = stats.session_stats(evs)
+        self.assertEqual(s["studied"], 1)
+        self.assertEqual(s["pct"], 100)
+
+    def test_a_clean_run_stays_at_100(self):
+        t = 1_000_000.0
+        evs = [ev("vocab:a:la_en", "right", t), ev("vocab:b:la_en", "right", t + 5),
+               ev("vocab:c:la_en", "close", t + 10), ev("vocab:c:la_en", "right", t + 15)]
+        s = stats.session_stats(evs)
+        self.assertEqual((s["studied"], s["credited"], s["pct"]), (3, 3, 100))
+
+    def test_two_closes_before_getting_it_still_counts_once(self):
+        t = 1_000_000.0
+        evs = [ev("vocab:aqua:la_en", "close", t), ev("vocab:aqua:la_en", "close", t + 4),
+               ev("vocab:aqua:la_en", "right", t + 9)]
+        self.assertEqual(stats.session_stats(evs)["studied"], 1)
+
+    def test_the_bar_does_not_read_zero_while_they_retype(self):
+        # Mid-retype the last event IS the close; the student has not failed.
+        s = stats.session_stats([ev("vocab:aqua:la_en", "close", 1_000_000.0)])
+        self.assertEqual(s["pct"], 100)
+
+    def test_a_wrong_answer_still_counts_against_you(self):
+        t = 1_000_000.0
+        evs = [ev("vocab:a:la_en", "right", t), ev("vocab:b:la_en", "wrong", t + 5)]
+        self.assertEqual(stats.session_stats(evs)["pct"], 50)
+
+    def test_meeting_the_same_word_again_later_is_a_second_study(self):
+        # Spaced repetition re-serves words on purpose; that must still show.
+        t = 1_000_000.0
+        evs = [ev("vocab:aqua:la_en", "right", t), ev("vocab:via:la_en", "right", t + 5),
+               ev("vocab:aqua:la_en", "right", t + 10)]
+        self.assertEqual(stats.session_stats(evs)["studied"], 3)
+
+    def test_a_retype_that_is_still_wrong_counts_as_wrong_once(self):
+        t = 1_000_000.0
+        evs = [ev("vocab:aqua:la_en", "close", t), ev("vocab:aqua:la_en", "wrong", t + 8)]
+        s = stats.session_stats(evs)
+        self.assertEqual((s["studied"], s["wrong"], s["pct"]), (1, 1, 0))
+
+    def test_the_event_record_itself_is_untouched(self):
+        # Collapsing is a display decision. Both attempts stay in history, so
+        # the teacher can still see that a spelling slip happened.
+        t = 1_000_000.0
+        evs = [ev("vocab:aqua:la_en", "close", t), ev("vocab:aqua:la_en", "right", t + 8)]
+        stats.session_stats(evs)
+        self.assertEqual(len(evs), 2)

@@ -32,15 +32,44 @@ def current_session(events, gap=SESSION_GAP, now=None):
     return list(reversed(run))
 
 
+def collapse_retries(events):
+    """Consecutive attempts at the same card count as one study.
+
+    A close sends the student straight back to the same card to retype it, so
+    "aqu" then "aqua" is one word studied, not two — and the result that counts
+    is the one they finished on. Counting both made a corrected close look like
+    a miss, which is the opposite of what close is for.
+
+    Only a CONSECUTIVE run collapses. Meeting the same word again later in the
+    sitting is a real second study and stays a second study; spaced repetition
+    re-serves words on purpose and that must still show.
+    """
+    out = []
+    for e in sorted(events, key=lambda x: x["timestamp"]):
+        if out and out[-1].get("item_id") == e.get("item_id"):
+            out[-1] = e          # the retype replaces the attempt it corrects
+        else:
+            out.append(e)
+    return out
+
+
 def session_stats(events, gap=SESSION_GAP, now=None):
-    """Counts for this sitting. `studied` counts attempts, not distinct items:
-    a student who retypes after a close has genuinely studied it twice."""
-    run = current_session(events, gap=gap, now=now)
+    """Counts for this sitting, one entry per card studied.
+
+    `credited` is what the percentage is built from, and it counts a close as
+    right. That is the same rule the teacher dashboard uses: close means the
+    Latin was there and the spelling slipped, and the app has already told the
+    student it does not count against them. It also keeps the bar from reading
+    0% during the moment they are retyping.
+    """
+    run = collapse_retries(current_session(events, gap=gap, now=now))
     out = {"studied": len(run), "right": 0, "close": 0, "wrong": 0}
     for e in run:
         r = e.get("result")
         if r in out:
             out[r] += 1
+    out["credited"] = out["right"] + out["close"]
+    out["pct"] = int(round(100.0 * out["credited"] / out["studied"])) if out["studied"] else None
     return out
 
 
