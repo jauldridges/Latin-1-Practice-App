@@ -30,17 +30,28 @@ dashboard for who's practising and what they don't know.
 terminal. When you give me an update and say what's next, also tell me the step
 after that.
 
-**Where things stand.** 294 questions written; I've approved about 211 of them
-in the review tool. Units 0-2 morphosyntax are covered. Hosting, backups,
-end-of-year purge, PIN login and the teacher dashboard are all built and tested.
-120 student IDs are generated and live only in `out/` on my machine — that
-folder is gitignored on purpose, and re-running `make_ids.py` would produce
-different numbers.
+**Where things stand.** 331 questions written; I've approved about 211 of them
+in the review tool, so the newest 37 are waiting in the queue. Units 0-2
+morphosyntax are covered, and every Units 0-1 morphosyntax node now carries at
+least three questions. Hosting, backups, end-of-year purge, PIN login and the
+teacher dashboard are all built and tested. 120 student IDs are generated and
+live only in `out/` on my machine — that folder is gitignored on purpose, and
+re-running `make_ids.py` would produce different numbers.
 
 **What I want next**, unless I say otherwise when we start:
-1. Deepen Units 0-1 morphosyntax — 35 of those 54 nodes have fewer than three
-   questions, so repeat practice hands back the same card.
-2. Then Unit 3 morphosyntax (23 nodes, none written yet; it starts Nov 30).
+1. Unit 3 morphosyntax (23 nodes, none written yet; it starts Nov 30).
+2. Approve the 37 new Units 0-1 questions in the review tool — that is my job,
+   not the session's, but nothing reaches a student until it is done.
+
+**Two things a session should know before touching the bank.**
+- **Re-import overwrites a question I edited in the review tool.** New questions
+  arrive unreviewed and existing approvals survive, but any wording I changed in
+  the tool lives only in the database, and "Re-import bank (keeps decisions)"
+  puts the file's version back. Before importing a new batch, hit **Export** at
+  `/review` and carry my edits into the YAML first.
+- **Every multiple-choice question has its correct answer as option `a`,** and
+  nothing shuffles them, so the right answer is always the first one on screen.
+  Known, not yet fixed — see the README.
 
 Read `README.md` and `DEPLOY.md` first, then tell me what you found before
 changing anything.

@@ -1,0 +1,1448 @@
+# Latin I — Units 0 and 1 morphosyntax, third questions
+#
+# WHY THIS FILE EXISTS
+# Thirty-five of the 54 morphosyntax nodes in Units 0 and 1 carried fewer than
+# three questions, so a student who practised a node twice met the same card
+# twice. This file brings every one of them to three: 33 nodes get one more
+# question, and MS-030 and MS-044 — which had a single question each — get two.
+# Thirty-seven items.
+#
+# WHY IT IS A SEPARATE FILE
+# latin1-items-unit01.yaml has been reviewed and largely approved. Adding to it
+# would mean rewriting a file whose every item already carries a decision. The
+# loader reads every latin1-items-unit*.yaml, so this file is picked up with no
+# code change, and a re-import leaves existing decisions alone.
+#
+# NOT PADDING — A DIFFERENT SHAPE
+# The original bank stopped short on ten of these nodes on purpose, and said so
+# in its own review section: the eight cells of the noun tables would become
+# paradigm recitation, and a single-fact node would only restate itself. That
+# argument was against a third *drill*, not against a third *question*. So none
+# of the items below is another instance of a shape the node already has. Where
+# a node had a parse and a produce, this file adds a discrimination across four
+# different nouns, or a production cued by English meaning rather than by a
+# paradigm slot, or an error to diagnose. Every item names, in its note, what
+# shape it adds.
+#
+# SCOPE. Each item stays inside what its own node's day allows, with the same
+# convention the first bank used: the four first-declension cells (Sep 9-10),
+# the second-declension masculine cells (Sep 14) and the neuter cells (Sep 15)
+# are each treated as one block, because the nodes are a day apart and the
+# original items already answer across them. Verbs are the line not crossed
+# casually; the two places an item leans a day forward say so in a note.
+#
+# ONE NODE PER ITEM. `node` is what a wrong answer counts against; everything
+# else the item touches is in `touches`.
+
+meta:
+  course: Latin I
+  scope: Units 0 and 1 morphosyntax — the 35 nodes that carried fewer than three questions
+  spec_version: 2.0
+  built_against_exemplars: latin1-item-exemplars.yaml (draft v2)
+  companion_to: latin1-items-unit01.yaml
+  status: >
+    Draft for review. Teaching text left blank on every item, as everywhere
+    else — it is written and approved separately at /teaching.
+
+items:
+
+# ==========================================================================
+# Unit 0 — pronunciation, syllables and stress (MS-002 to MS-010)
+# ==========================================================================
+
+  - id: MS002-APPLY-03
+    node: MS-002
+    assess: apply
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      A student reads amīcī with the c of "city" and rēgīna with the g of
+      "gem", because that is what those letters do before i in English. What
+      rule are they missing?
+    options:
+      a: "In Classical Latin c is always hard, as in 'cat', and g is always hard, as in 'go' — whatever vowel follows."
+      b: "c and g are hard only before a, o and u."
+      c: "c and g are hard only at the start of a word."
+      d: "c and g soften before e and i, exactly as in English."
+    answer: a
+    touches: [MS-001]
+    what_went_wrong:
+      - text: "I let the English pronunciation decide"
+        node: MS-002
+      - text: "I thought the following vowel changed the sound"
+        node: MS-002
+    note: >
+      SHAPE ADDED: the rule stated as a rule. The node's other two items each
+      ask how one letter in one word is pronounced; neither asks whether the
+      rule holds everywhere, which is the part English interference breaks.
+      Choice b is the half-learned version and the most common wrong model.
+    versions:
+      v2: {change: "One option per line; the two Latin words printed larger with their macrons."}
+      v3:
+        change: "Two options — the rule and the English-interference version."
+        options: {a: "In Classical Latin c is always hard, as in 'cat', and g is always hard, as in 'go' — whatever vowel follows.", b: "c and g soften before e and i, exactly as in English."}
+        answer: a
+    teaching: ''
+
+  - id: MS003-APPLY-03
+    node: MS-003
+    assess: apply
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      In Classical Latin the v in via sounds like an English letter that is not
+      v, and the i in Troia [Troy] sounds like an English letter that is not i.
+      Write each of those English letters.
+    boxes:
+      - label: "v sounds like"
+        answer: [w]
+      - label: "i sounds like"
+        answer: [y]
+    order_matters: true
+    touches: [MS-001]
+    what_went_wrong:
+      - text: "I gave the English sound of the letter as written"
+        node: MS-003
+      - text: "I had one of the two but not the other"
+        node: MS-003
+    note: >
+      SHAPE ADDED: production instead of recognition. The node's other two items
+      are four-option questions about one letter each; this one asks for both
+      sounds with nothing to choose from, which is what reading aloud actually
+      demands. Troia is supplied and glossed, as in MS003-APPLY-02.
+    versions:
+      v2: {change: "Placeholder 'a letter' in each box; the two Latin words on separate lines."}
+      v3:
+        change: "Word bank above the boxes: w, y, f, j."
+    teaching: ''
+
+  - id: MS005-RECOG-02
+    node: MS-005
+    assess: recognize
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: true
+    read_aloud_safe: false
+    stem: "The macrons decide this one. In fēmina, which of the three vowels is long?"
+    options:
+      a: "Only the e."
+      b: "The e and the i."
+      c: "All three."
+      d: "None of them."
+    answer: a
+    touches: [MS-006, MS-009]
+    what_went_wrong:
+      - text: "I wasn't reading the macrons"
+        node: MS-006
+      - text: "I thought every vowel in a word was the same length"
+        node: MS-005
+    note: >
+      SHAPE ADDED: length inside one word. MS005-RECOG-01 asks which word out of
+      four begins with a long vowel; this asks which vowels within a single word
+      are long, which is the form the question takes when a student is working
+      out where the stress goes. Sets up MS-009 and MS-010, where fēmina is the
+      example that moves the stress back.
+    versions:
+      v2: {change: "No usable v2 — the macrons are the item and are already printed. A read-aloud student gets a different MS-005 item."}
+      v3:
+        change: "Two options — only the e, and all three."
+        options: {a: "Only the e.", b: "All three."}
+        answer: a
+    teaching: ''
+
+  - id: MS006-EXPLAIN-02
+    node: MS-006
+    assess: explain
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      A macron is not an accent mark, though both are marks written over a
+      vowel. What does a macron tell you that an accent mark does not?
+    options:
+      a: "It marks how long the vowel is held, because length is what it records; an accent would mark which syllable is said with more force."
+      b: "It marks which syllable is said with more force, since that is what a mark over a vowel means."
+      c: "It marks that the vowel is really a different letter, so the word is spelled differently."
+      d: "Nothing different — a macron is just another way of writing an accent."
+    answer: a
+    touches: [MS-005, MS-010]
+    what_went_wrong:
+      - text: "I thought the macron showed the stress"
+        node: MS-010
+      - text: "I thought the macron changed which letter it was"
+        node: MS-005
+    note: >
+      SHAPE ADDED: the boundary of the concept. MS006-RECOG-01 asks what a
+      macron looks like and MS006-EXPLAIN-01 asks what it does; neither
+      separates it from stress, which is the confusion that then breaks MS-010 —
+      a student who reads a macron as an accent will stress rēgīna correctly by
+      accident and fēmina wrongly.
+    versions:
+      v2: {change: "Plain-English wrapper shortened; one option per line."}
+      v3:
+        change: "Two options — length, and the stress misreading."
+        options: {a: "It marks how long the vowel is held, because length is what it records; an accent would mark which syllable is said with more force.", b: "It marks which syllable is said with more force, since that is what a mark over a vowel means."}
+        answer: a
+    teaching: ''
+
+  - id: MS007-APPLY-01
+    node: MS-007
+    assess: apply
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "nauta is written with three vowel letters — a, u, a. How many syllables does it have?"
+    options:
+      a: "Two — au is a diphthong, so the two letters make one vowel sound."
+      b: "Three — one syllable for each vowel letter."
+      c: "Two — because the word has two consonants."
+      d: "One — the vowels all run together."
+    answer: a
+    touches: [MS-008, MS-010]
+    what_went_wrong:
+      - text: "I counted one syllable per vowel letter"
+        node: MS-007
+      - text: "I didn't notice au was a diphthong"
+        node: MS-007
+      - text: "I wasn't sure how to divide the word"
+        node: MS-008
+    note: >
+      SHAPE ADDED: what a diphthong is FOR. The node's other two items both ask
+      the student to spot a diphthong; neither asks what follows from spotting
+      one. Counting syllables is where it pays off, and getting it wrong here
+      moves the stress in MS-010. This is also the node's `apply` assessment,
+      which the bank did not previously cover. Answers the standing cap note on
+      MS-007 — the cap was on more recognition items, and this is not one.
+    versions:
+      v2: {change: "Glosses added: nauta [sailor]; one option per line."}
+      v3:
+        change: "Two options — two syllables and three."
+        options: {a: "Two — au is a diphthong, so the two letters make one vowel sound.", b: "Three — one syllable for each vowel letter."}
+        answer: a
+    teaching: ''
+
+  - id: MS008-APPLY-03
+    node: MS-008
+    assess: apply
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "How does aqua divide into syllables?"
+    options:
+      a: "a-qua"
+      b: "aq-ua"
+      c: "a-qu-a"
+      d: "aqua — it is one syllable"
+    answer: a
+    touches: [MS-004, MS-007]
+    what_went_wrong:
+      - text: "I split the qu"
+        node: MS-004
+      - text: "I treated the u as its own vowel"
+        node: MS-004
+      - text: "I wasn't sure where the break went"
+        node: MS-008
+    note: >
+      SHAPE ADDED: a cluster that does NOT split. MS008-APPLY-01 (patria) and
+      MS008-APPLY-02 (puella) both practise breaking consonants apart; a student
+      who has only met those over-applies the rule and writes aq-ua. qu is one
+      sound and travels together, which is MS-004 doing real work.
+    versions:
+      v2: {change: "Glosses added: aqua [water]; one option per line."}
+      v3:
+        change: "Two options — the correct division and the split qu."
+        options: {a: "a-qua", b: "aq-ua"}
+        answer: a
+    teaching: ''
+
+  - id: MS009-RECOG-02
+    node: MS-009
+    assess: recognize
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: true
+    read_aloud_safe: false
+    stem: >-
+      In fēmina the first syllable fē- is long, even though only one consonant
+      follows it. What makes it long?
+    options:
+      a: "The vowel itself is long — the syllable is long by nature."
+      b: "The consonants that follow it — it is long by position."
+      c: "It carries the word's stress, and stressed syllables are long."
+      d: "It is the first syllable, and first syllables are always long."
+    answer: a
+    touches: [MS-005, MS-006, MS-010]
+    what_went_wrong:
+      - text: "I said long by position when nothing followed it"
+        node: MS-009
+      - text: "I confused being long with being stressed"
+        node: MS-010
+      - text: "I wasn't reading the macron"
+        node: MS-006
+    note: >
+      SHAPE ADDED: the other half of the node. MS009-RECOG-01 and
+      MS009-EXPLAIN-01 both cover long BY POSITION; nothing in the bank asked
+      about long by nature, which is the half a macron alone decides. Choice c
+      is the inversion that matters — length decides stress, not the reverse.
+    versions:
+      v2: {change: "No usable v2 — the macron is the evidence and is already printed. A read-aloud student gets a different MS-009 item."}
+      v3:
+        change: "Two options — long by nature and long by position."
+        options: {a: "The vowel itself is long — the syllable is long by nature.", b: "The consonants that follow it — it is long by position."}
+        answer: a
+    teaching: ''
+
+  - id: MS010-APPLY-02
+    node: MS-010
+    assess: apply
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Where does the stress fall in a two-syllable Latin word such as terra?"
+    options:
+      a: "On the first syllable — in a two-syllable word the stress is always there."
+      b: "On the last syllable."
+      c: "On the first, but only if its vowel is long."
+      d: "Two-syllable words carry no stress."
+    answer: a
+    touches: [MS-009, MS-008]
+    what_went_wrong:
+      - text: "I applied the long-or-short test to a two-syllable word"
+        node: MS-010
+      - text: "I stressed the last syllable"
+        node: MS-010
+    note: >
+      SHAPE ADDED: the easy case, which is the one the bank skipped.
+      MS010-APPLY-01 and MS010-EXPLAIN-01 are both about three-syllable words,
+      where the penult's length decides. In a two-syllable word there is nowhere
+      for the stress to move back to, so the length test never applies — choice
+      c is the over-application, and it is the wrong answer a strong student
+      gives.
+    versions:
+      v2: {change: "Glosses added: terra [land]; one option per line."}
+      v3:
+        change: "Two options — the first syllable, and the length test."
+        options: {a: "On the first syllable — in a two-syllable word the stress is always there.", b: "On the first, but only if its vowel is long."}
+        answer: a
+    teaching: ''
+
+# ==========================================================================
+# Unit 1 — inflection, case, and the first declension (MS-013 to MS-021)
+# ==========================================================================
+
+  - id: MS013-EXPLAIN-03
+    node: MS-013
+    assess: explain
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      English mostly lost case, but a trace survives in its pronouns: we say
+      "he sees her", never "him sees she". Why is that worth noticing when you
+      start Latin?
+    options:
+      a: "Because it shows a word changing its form to fit its job — which is what every Latin noun does, not just a handful of pronouns."
+      b: "Because Latin pronouns and English pronouns are the same words."
+      c: "Because English word order was borrowed from Latin."
+      d: "Because it shows that Latin, like English, relies on the order of the words."
+    answer: a
+    touches: [MS-011, MS-012]
+    what_went_wrong:
+      - text: "I couldn't see what English pronouns had to do with Latin"
+        node: MS-013
+      - text: "I thought Latin used word order the way English does"
+        node: MS-012
+    note: >
+      SHAPE ADDED: the concept reached from something the student already owns.
+      MS013-EXPLAIN-01 and -02 both define case from the Latin side. This one
+      starts in English, where a fourteen-year-old already applies case
+      correctly a hundred times a day without a name for it. Deliberately uses
+      no Latin: MS-013 is taught 8 September, when no declined form has been
+      met yet.
+    versions:
+      v2: {change: "Shorter wrapper; the he/him pair on its own line; one option per line."}
+      v3:
+        change: "Two options — form changing with job, and the word-order misreading."
+        options: {a: "Because it shows a word changing its form to fit its job — which is what every Latin noun does, not just a handful of pronouns.", b: "Because it shows that Latin, like English, relies on the order of the words."}
+        answer: a
+    teaching: ''
+
+  - id: MS016-RECALL-02
+    node: MS-016
+    assess: recall
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Here is a dictionary entry: nauta, nautae, m. Read the answers off it —
+      what gender is the noun, and what is its genitive singular?
+    boxes:
+      - label: "Gender"
+        answer: [masculine, m, masc]
+      - label: "Genitive singular"
+        answer: [nautae]
+    order_matters: true
+    touches: [MS-017, MS-022]
+    what_went_wrong:
+      - text: "I guessed the gender from the -a ending instead of reading it"
+        node: MS-016
+      - text: "I wasn't sure which part was the genitive"
+        node: MS-016
+    note: >
+      SHAPE ADDED: using an entry rather than describing one. MS016-RECALL-01
+      asks what the three parts of an entry are; MS016-EXPLAIN-01 asks why the
+      genitive is one of them. Neither puts an entry in front of the student and
+      asks them to get something out of it, which is the only thing they will
+      ever actually do with one. nauta is chosen because its gender cannot be
+      guessed and must be read — which is the node's whole argument for printing
+      it. That requires no knowledge of MS-022 (10 September): the answer is on
+      the page.
+    versions:
+      v2: {change: "Placeholders 'masculine, feminine or neuter' and 'one word'; the entry printed on its own line."}
+      v3:
+        change: "Word bank above the boxes: masculine, feminine, neuter, nauta, nautae, nautam."
+    teaching: ''
+
+  - id: MS018-RECOG-01
+    node: MS-018
+    assess: recognize
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Which one of these is a nominative singular?"
+    options:
+      a: "silva"
+      b: "puellam"
+      c: "terrās"
+      d: "stēllae"
+    answer: a
+    touches: [MS-019, MS-020, MS-021, MS-014]
+    what_went_wrong:
+      - text: "I picked an accusative"
+        node: MS-019
+      - text: "I picked a plural"
+        node: MS-020
+      - text: "I couldn't tell the endings apart"
+        node: MS-018
+    note: >
+      SHAPE ADDED: discrimination across four different nouns. The node already
+      has a parse (one word, four labels) and a produce (one form from an
+      entry). What it did not have is the task reading actually sets — four
+      words go past and only one of them is the subject form. Each wrong choice
+      is wrong in exactly one way: b in case, c in case and number, d in number.
+      Sits inside the first-declension block (9-10 September), the same scope
+      MS018-PARSE-01 already assumes by offering plural labels.
+    versions:
+      v2: {change: "Glosses added: silva [forest], puellam [girl], terrās [lands], stēllae [stars]; one option per line."}
+      v3:
+        change: "Two options — the nominative singular and the accusative singular."
+        options: {a: "silva", b: "puellam"}
+        answer: a
+    teaching: ''
+
+  - id: MS019-RECOG-01
+    node: MS-019
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      You want to say that the water is the thing being carried — the object,
+      not the one doing the carrying. Which form of aqua do you use?
+    options:
+      a: "aquam"
+      b: "aqua"
+      c: "aquae"
+      d: "aquās"
+    answer: a
+    touches: [MS-015, MS-018, MS-021]
+    what_went_wrong:
+      - text: "I used the dictionary form"
+        node: MS-018
+      - text: "I made it plural"
+        node: MS-021
+      - text: "I knew it was the object but not which ending to use"
+        node: MS-019
+    note: >
+      SHAPE ADDED: the job first, the form second. MS019-PARSE-01 hands over
+      portam and asks what it is; MS019-PRODUCE-01 asks for the accusative
+      singular by name. Both start from grammatical vocabulary. This one starts
+      from what the student wants to say, which is the direction they will need
+      when they write Latin, and it is the only item on the node that does not
+      require them to already know the word "accusative".
+    versions:
+      v2: {change: "Gloss added: aqua [water]; one option per line."}
+      v3:
+        change: "Two options — the accusative singular and the dictionary form."
+        options: {a: "aquam", b: "aqua"}
+        answer: a
+    teaching: ''
+
+  - id: MS020-PRODUCE-02
+    node: MS-020
+    assess: produce
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Write the Latin for "the star" as the subject of a sentence, and then for
+      "the stars" as the subject.
+    boxes:
+      - label: "the star"
+        answer: [stella]
+      - label: "the stars"
+        answer: [stellae]
+    order_matters: true
+    touches: [MS-018, MS-014]
+    what_went_wrong:
+      - text: "I wrote the same form in both boxes"
+        node: MS-020
+      - text: "I used an accusative ending for the plural"
+        node: MS-021
+      - text: "I wasn't sure which ending makes a plural subject"
+        node: MS-020
+    note: >
+      SHAPE ADDED: the singular and the plural side by side. MS020-PRODUCE-01
+      asks for the nominative plural of stēlla on its own, so a student can
+      produce it by recalling one ending. Holding both at once is what makes the
+      contrast visible, and a student who writes the same word twice has told
+      you something a single box could not. Macrons stripped, so stēlla and
+      stella both pass.
+    versions:
+      v2: {change: "Placeholder 'one word' in each box; English cue on its own line."}
+      v3:
+        change: "Word bank above the boxes: stēlla, stēllae, stēllam, stēllās."
+    teaching: ''
+
+  - id: MS021-PRODUCE-01
+    node: MS-021
+    assess: produce
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Write the Latin for "the islands" when it is the object of the sentence —
+      the thing being acted on, and more than one.
+    boxes:
+      - label: "the islands, as object"
+        answer: [insulas]
+    touches: [MS-019, MS-020, MS-015]
+    what_went_wrong:
+      - text: "I wrote the nominative plural"
+        node: MS-020
+      - text: "I left it singular"
+        node: MS-019
+      - text: "I wasn't sure of the plural accusative ending"
+        node: MS-021
+    note: >
+      SHAPE ADDED: production, which the node lacked. MS021-PARSE-01 and
+      MS021-RECOG-01 both hand the student a form to judge; neither asks them to
+      build one, and the accusative plural is the cell they build least often.
+      No verb appears, because MS-021 is taught 10 September and the present
+      tense is not delivered until the 16th. Macrons stripped, so īnsulās and
+      insulas both pass.
+    versions:
+      v2: {change: "Placeholder 'one word'; gloss added: īnsula [island]."}
+      v3:
+        change: "Four-option choice from the answer plus wrong forms."
+        format: choice
+        options: {a: "īnsulās", b: "īnsulae", c: "īnsulam", d: "īnsula"}
+        answer: a
+    teaching: ''
+
+# ==========================================================================
+# Unit 1 — the second declension (MS-024 to MS-029)
+# ==========================================================================
+
+  - id: MS024-RECOG-01
+    node: MS-024
+    assess: recognize
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Which one of these is an accusative plural?"
+    options:
+      a: "amīcōs"
+      b: "amīcī"
+      c: "dominum"
+      d: "ager"
+    answer: a
+    touches: [MS-023, MS-021, MS-025]
+    what_went_wrong:
+      - text: "I picked a nominative plural"
+        node: MS-024
+      - text: "I picked a singular"
+        node: MS-023
+      - text: "I couldn't tell -ōs from -ī"
+        node: MS-024
+    note: >
+      SHAPE ADDED: discrimination across four different nouns, which is how
+      these forms arrive when reading. MS024-PARSE-01 labels virī and
+      MS024-PRODUCE-01 builds one form of servus; both keep the student inside a
+      single word, where the ending can be found by elimination against a
+      remembered table. Each wrong choice fails once: b in case, c in number, d
+      in both. All four are real forms — the first-declension over-application
+      (-ās on a second-declension noun) is the error this node's produce item
+      already catches, and it is left there rather than printed here as a word
+      that does not exist.
+    versions:
+      v2: {change: "Glosses added: amīcōs [friends], amīcī [friends], dominum [master], ager [field]; one option per line."}
+      v3:
+        change: "Two options — the accusative plural and the nominative plural."
+        options: {a: "amīcōs", b: "amīcī"}
+        answer: a
+    teaching: ''
+
+  - id: MS026-PRODUCE-01
+    node: MS-026
+    assess: produce
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "The dictionary entry is dōnum, dōnī, n. Write the accusative singular."
+    boxes:
+      - label: "Accusative singular"
+        answer: [donum]
+    touches: [MS-028, MS-023, MS-016]
+    what_went_wrong:
+      - text: "I changed the ending to make it accusative"
+        node: MS-026
+      - text: "I wasn't sure whether a neuter noun changes at all"
+        node: MS-028
+      - text: "I wrote the plural"
+        node: MS-027
+    note: >
+      SHAPE ADDED: production, which the node lacked, and the one place where
+      producing a form means changing nothing. MS026-PARSE-01 and MS026-RECOG-01
+      both ask the student to judge a form. Being asked to WRITE the accusative
+      and finding that the answer is the word you were given is how the neuter
+      rule stops being a fact and becomes a habit. A student who writes dōnam or
+      dōnōs has revealed the misunderstanding a recognition item hides. Macrons
+      stripped, so dōnum and donum both pass.
+    versions:
+      v2: {change: "Placeholder 'one word'; the entry printed on its own line."}
+      v3:
+        change: "Four-option choice from the answer plus wrong forms."
+        format: choice
+        options: {a: "dōnum", b: "dōnam", c: "dōnōs", d: "dōna"}
+        answer: a
+    teaching: ''
+
+  - id: MS027-RECOG-01
+    node: MS-027
+    assess: recognize
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      All four of these words end in -a. Only one of them is a neuter plural.
+      Which?
+    options:
+      a: "verba"
+      b: "puella"
+      c: "silva"
+      d: "aqua"
+    answer: a
+    touches: [MS-018, MS-026, MS-028]
+    what_went_wrong:
+      - text: "I picked a first-declension singular"
+        node: MS-018
+      - text: "I didn't recognise which word was neuter"
+        node: MS-026
+      - text: "I forgot that neuter plurals end in -a"
+        node: MS-027
+    note: >
+      SHAPE ADDED: the -a collision, made the whole question. MS027-PARSE-01
+      offers "nominative singular feminine" as one distractor among four;
+      MS027-PRODUCE-01 asks for a form. Here every option ends in -a and the
+      student must sort one source of that ending from the other, which is the
+      confusion the bank's own note calls the highest-value signal on this node.
+      DELIBERATE EXCEPTION to one-wrong-way-per-choice: b, c and d are all wrong
+      the same way, because "three of these are first-declension singulars" is
+      the point rather than a flaw.
+    versions:
+      v2: {change: "Glosses added: verba [words], puella [girl], silva [forest], aqua [water]; one option per line."}
+      v3:
+        change: "Two options — the neuter plural and one first-declension singular."
+        options: {a: "verba", b: "puella"}
+        answer: a
+    teaching: ''
+
+  - id: MS028-APPLY-02
+    node: MS-028
+    assess: apply
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      You are told only that oppidum is neuter. Without being told anything
+      else, what do you already know about its plural?
+    options:
+      a: "That it ends in -a, and that the one form serves as both subject and object."
+      b: "That it ends in -ī, like other second-declension plurals."
+      c: "That it ends in -ōs when it is the object."
+      d: "Nothing — neuter plurals are irregular and have to be memorised one by one."
+    answer: a
+    touches: [MS-026, MS-027, MS-024]
+    what_went_wrong:
+      - text: "I used the masculine second-declension plural"
+        node: MS-024
+      - text: "I knew the -a but not that it covers both cases"
+        node: MS-028
+      - text: "I didn't think the rule would predict anything"
+        node: MS-028
+    note: >
+      SHAPE ADDED: the rule used to predict, not to describe. MS028-APPLY-01
+      asks which of four given words is ambiguous, and MS028-EXPLAIN-01 explains
+      a sentence already written. Neither asks the student to go from "this noun
+      is neuter" to "therefore I already know both plural forms" — which is the
+      only reason a rule is worth having. Choice d is the student who has
+      memorised the neuters one at a time and does not yet believe it is a rule.
+    versions:
+      v2: {change: "Gloss added: oppidum [town]; one option per line."}
+      v3:
+        change: "Two options — the rule and the masculine plural."
+        options: {a: "That it ends in -a, and that the one form serves as both subject and object.", b: "That it ends in -ī, like other second-declension plurals."}
+        answer: a
+    teaching: ''
+
+  - id: MS029-APPLY-02
+    node: MS-029
+    assess: apply
+    tier: 3
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Is oppidum the subject or the object here? Oppidum virī superant."
+    options:
+      a: "Object — virī is nominative plural and superant is plural, so virī is the subject."
+      b: "Subject — because it stands first in the sentence."
+      c: "Subject — because -um endings are nominative."
+      d: "It cannot be determined from this sentence."
+    answer: a
+    touches: [MS-026, MS-028, MS-024, MS-037, MS-012]
+    what_went_wrong:
+      - text: "I decided from the word order"
+        node: MS-012
+      - text: "I didn't check the ending on virī"
+        node: MS-024
+      - text: "I didn't check whether the verb was singular or plural"
+        node: MS-037
+      - text: "I assumed -um always means one thing"
+        node: MS-026
+    note: >
+      SHAPE ADDED: the ambiguity resolved from the OTHER end. In
+      MS029-APPLY-01 (Bellum agricolās superat) the accusative is the
+      unambiguous word and the neuter is the subject. Here it is the reverse: a
+      plural nominative and a plural verb agree with each other, which leaves
+      the neuter as the object. A student who has only met the first item can
+      pass it by learning "the neuter one is the subject"; this one costs them
+      that shortcut. Choice b is the same word-order reflex the first item
+      punishes, kept because it is the error that recurs.
+    versions:
+      v2: {change: "Glosses added: oppidum [town], virī [men], superant [they overcome]; sentence on its own line; one option per line."}
+      v3:
+        change: "Two options — object with the agreement reason, and subject from word order."
+        options: {a: "Object — virī is nominative plural and superant is plural, so virī is the subject.", b: "Subject — because it stands first in the sentence."}
+        answer: a
+    teaching: ''
+
+# ==========================================================================
+# Unit 1 — verbs (MS-030 to MS-039)
+# ==========================================================================
+
+  - id: MS030-EXPLAIN-02
+    node: MS-030
+    assess: explain
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Two verb forms differ only at the end: portat and portant. Why is that
+      difference worth caring about?
+    options:
+      a: "Because it changes who is doing the carrying — one person, or more than one."
+      b: "Because it changes when the action happens."
+      c: "Because it changes what the verb means."
+      d: "Because it shows which conjugation the verb belongs to."
+    answer: a
+    touches: [MS-031, MS-034, MS-037]
+    what_went_wrong:
+      - text: "I thought the ending changed the tense"
+        node: MS-030
+      - text: "I thought it changed the meaning of the verb"
+        node: MS-030
+    note: >
+      SHAPE ADDED: the concept made concrete. MS030-EXPLAIN-01 asks what person
+      and number are, in the abstract, and it was the node's only item — so a
+      student who repeats this node gets the definition back a second time. Here
+      the same idea arrives as two real forms one letter apart, which is where a
+      student meets it. Uses portat/portant, delivered by MS-034 on the same day
+      this node is taught.
+    versions:
+      v2: {change: "Glosses added: portat [he carries], portant [they carry]; the two forms on their own line."}
+      v3:
+        change: "Two options — who is doing it, and when it happens."
+        options: {a: "Because it changes who is doing the carrying — one person, or more than one.", b: "Because it changes when the action happens."}
+        answer: a
+    teaching: ''
+
+  - id: MS030-EXPLAIN-03
+    node: MS-030
+    assess: explain
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Nouns have number too: puella is one girl, puellae is more than one. When
+      we say a verb has number, is that the same idea?
+    options:
+      a: "Yes, in that both mean one or more than one — but a verb's number tells you how many are doing the action."
+      b: "No — for a verb, number means how many letters are in its ending."
+      c: "Yes, and verbs and nouns show it with the same endings."
+      d: "No — only nouns have number; verbs only have person."
+    answer: a
+    touches: [MS-020, MS-031, MS-037]
+    what_went_wrong:
+      - text: "I thought verbs and nouns used the same endings for plural"
+        node: MS-031
+      - text: "I didn't think verbs had number at all"
+        node: MS-030
+    note: >
+      SHAPE ADDED: the concept against the one the student already has. This is
+      the second of two items added to a node that had one. Choice c is the
+      error that matters and it is worth counting: a student who expects verb
+      plurals to look like noun plurals is the student who will read portās as
+      a plural noun in MS-021 and write portae for "they carry". Tagged to
+      MS-031, where the endings actually live.
+    versions:
+      v2: {change: "Glosses added: puella [girl], puellae [girls]; one option per line."}
+      v3:
+        change: "Two options — the same idea applied to the doer, and the shared-endings error."
+        options: {a: "Yes, in that both mean one or more than one — but a verb's number tells you how many are doing the action.", b: "Yes, and verbs and nouns show it with the same endings."}
+        answer: a
+    teaching: ''
+
+  - id: MS031-RECALL-02
+    node: MS-031
+    assess: recall
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Write just the personal ending each of these would need. Endings only, not whole words."
+    boxes:
+      - label: "'they'"
+        answer: [nt, -nt]
+      - label: "'you', one person"
+        answer: [s, -s]
+      - label: "'we'"
+        answer: [mus, -mus]
+    order_matters: true
+    touches: [MS-030, MS-038]
+    what_went_wrong:
+      - text: "I know the endings but not which is which"
+        node: MS-031
+      - text: "I had to say the whole list to find each one"
+        node: MS-031
+      - text: "I wrote a whole verb instead of an ending"
+        node: MS-031
+    note: >
+      SHAPE ADDED: the list broken out of its order. MS031-RECALL-01 asks for
+      all six endings in sequence, which a student can answer by reciting —
+      and reciting is not the skill. Meeting "they" and having to produce -nt
+      without running through the other five is. The three chosen are the ones
+      that carry the most sentences. Leading dashes are stripped, so -nt and nt
+      both pass.
+    versions:
+      v2: {change: "Placeholder 'an ending' in each box; the English cue on its own line."}
+      v3:
+        change: "Word bank above the boxes: -ō, -s, -t, -mus, -tis, -nt."
+    teaching: ''
+
+  - id: MS032-RECALL-02
+    node: MS-032
+    assess: recall
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Write the first two principal parts of the verb meaning 'I hold'."
+    boxes:
+      - label: "First"
+        answer: [teneo]
+      - label: "Second"
+        answer: [tenere]
+    order_matters: true
+    touches: [MS-036, MS-076]
+    what_went_wrong:
+      - text: "I wrote -āre on the second part"
+        node: MS-036
+      - text: "I gave the English meaning instead of the Latin"
+        node: MS-032
+      - text: "I wasn't sure what the second part looks like"
+        node: MS-032
+    note: >
+      SHAPE ADDED: a second-conjugation entry. MS032-RECALL-01 asks the same
+      question of laudō, laudāre — a first-conjugation verb, where -āre is the
+      only infinitive ending the student has seen. Repeating the node repeated
+      that card and rewarded a student who had learned "add -āre". tenēre costs
+      them nothing but the vowel, and getting it wrong is the exact error
+      MS-036 exists to catch, so the miss is tagged there. Macrons stripped, so
+      tenēre and tenere both pass.
+    versions:
+      v2: {change: "Placeholder 'one word' in each box; the English meaning on its own line."}
+      v3:
+        change: "Word bank above the boxes: teneō, tenēre, tenet, tenent."
+    teaching: ''
+
+  - id: MS033-PRODUCE-02
+    node: MS-033
+    assess: produce
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Write the present stem of each of these two infinitives. laudāre · habēre"
+    boxes:
+      - label: "laudāre"
+        answer: [lauda]
+      - label: "habēre"
+        answer: [habe]
+    order_matters: true
+    touches: [MS-032, MS-036, MS-156]
+    what_went_wrong:
+      - text: "I left the -re on"
+        node: MS-033
+      - text: "I took the vowel off as well"
+        node: MS-033
+      - text: "I wasn't sure the two conjugations worked the same way"
+        node: MS-036
+    note: >
+      SHAPE ADDED: the same operation across both conjugations. MS033-PRODUCE-01
+      does portāre alone, so a student can pass it while believing the rule is
+      "drop -āre". Doing two verbs at once shows that what comes off is -re and
+      the vowel stays, which is the whole rule. SCOPE: habēre belongs to
+      MS-035, taught 17 September, one day after this node. Flagged the same way
+      MS028-EXPLAIN-01 is flagged for using sum — best served from the 17th
+      onward. Macrons stripped, so laudā and lauda both pass.
+    versions:
+      v2: {change: "Placeholder 'the stem' in each box; the two infinitives on separate lines."}
+      v3:
+        change: "Cut to one box — laudāre — with a word bank: laudā, laudāre, laud, laudō."
+    teaching: ''
+
+  - id: MS035-TRANS-01
+    node: MS-035
+    assess: translate
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Translate vident. Who is doing it, and what are they doing?"
+    boxes:
+      - label: "Who"
+        answer: [they]
+      - label: "Doing what"
+        answer: [see, are seeing, do see, seeing]
+    order_matters: true
+    touches: [MS-031, MS-039, MS-038]
+    what_went_wrong:
+      - text: "I got the person wrong"
+        node: MS-031
+      - text: "I looked for a separate word meaning 'they'"
+        node: MS-038
+      - text: "I knew the verb but not who was doing it"
+        node: MS-031
+    note: >
+      SHAPE ADDED: translation, which the node's assess list names and the bank
+      did not cover. MS035-PARSE-01 labels monet and MS035-PRODUCE-01 builds
+      tenent from English; neither asks what a second-conjugation form MEANS.
+      Splitting who from what forces the student to notice that "they" came out
+      of the ending, the same convention MS038-TRANS-01 uses.
+    versions:
+      v2: {change: "Placeholders 'a person' and 'an action'; the Latin word on its own line."}
+      v3:
+        change: "Four-option choice on the whole translation: they see / he sees / we see / you see."
+        format: choice
+        options: {a: "they see", b: "he sees", c: "we see", d: "you see"}
+        answer: a
+    teaching: ''
+
+  - id: MS036-RECOG-02
+    node: MS-036
+    assess: recognize
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      You meet two finite forms, not infinitives: monēmus and portāmus. Which
+      conjugation is each, and what tells you?
+    options:
+      a: "monēmus is second and portāmus is first — the vowel standing before the ending, ē or ā."
+      b: "Both are first — the -mus ending is a first-conjugation ending."
+      c: "monēmus is first and portāmus is second."
+      d: "You cannot tell from these; only the dictionary entry shows the conjugation."
+    answer: a
+    touches: [MS-032, MS-035, MS-034, MS-031]
+    what_went_wrong:
+      - text: "I looked at the ending instead of the vowel before it"
+        node: MS-036
+      - text: "I thought only the dictionary entry could tell me"
+        node: MS-032
+      - text: "I had the two the wrong way round"
+        node: MS-036
+    note: >
+      SHAPE ADDED: the test applied where it is needed. MS036-RECOG-01 and
+      MS036-EXPLAIN-01 both work from infinitives, which is where the
+      conjugation is easiest to see and where a student almost never meets a
+      verb. Reading Latin means seeing monēmus. Choice d is the honest trap: the
+      node's headline says the infinitive tells you, and a careful student may
+      over-learn that into "only the infinitive can".
+    versions:
+      v2: {change: "Glosses added: monēmus [we warn], portāmus [we carry]; the two forms on their own line; one option per line."}
+      v3:
+        change: "Two options — the stem vowel, and the ending."
+        options: {a: "monēmus is second and portāmus is first — the vowel standing before the ending, ē or ā.", b: "Both are first — the -mus ending is a first-conjugation ending."}
+        answer: a
+    teaching: ''
+
+  - id: MS037-APPLY-02
+    node: MS-037
+    assess: apply
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Which of these could be the subject of this verb? ____ oppidum spectant."
+    options:
+      a: "Virī"
+      b: "Vir"
+      c: "Servōs"
+      d: "Puella"
+    answer: a
+    touches: [MS-024, MS-031, MS-014, MS-023]
+    what_went_wrong:
+      - text: "I picked a singular subject"
+        node: MS-037
+      - text: "I picked an accusative"
+        node: MS-024
+      - text: "I didn't check the verb's ending"
+        node: MS-031
+    note: >
+      SHAPE ADDED: the missing half of the sentence moved. MS037-APPLY-01 gives
+      the subject and asks for the verb; a student can answer it by matching
+      "-ae means plural" to "-nt means plural" without ever asking which word is
+      the subject. Here the verb is fixed and the subject is the gap, so the
+      agreement has to be read in the direction a reader reads it. Each wrong
+      choice fails once: b in number, c in case, d in number.
+    versions:
+      v2: {change: "Glosses added: oppidum [town], spectant [they look at]; the sentence on its own line; one option per line."}
+      v3:
+        change: "Two options — the plural nominative and the singular."
+        options: {a: "Virī", b: "Vir"}
+        answer: a
+    teaching: ''
+
+  - id: MS038-TRANS-02
+    node: MS-038
+    assess: translate
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Translate into Latin, using one word only: 'They fight.'"
+    boxes:
+      - label: "Latin, one word"
+        answer: [pugnant]
+    touches: [MS-034, MS-031, MS-037]
+    what_went_wrong:
+      - text: "I wanted a separate word for 'they'"
+        node: MS-038
+      - text: "I used the wrong ending"
+        node: MS-031
+      - text: "I wasn't sure the verb could stand alone"
+        node: MS-038
+    note: >
+      SHAPE ADDED: the node's point turned into the instruction. MS038-EXPLAIN-01
+      explains why portāmus needs no word for "we" and MS038-TRANS-01 takes
+      portāmus apart into who and what — both work from Latin the student is
+      given. Going the other way is harder and more honest: "using one word
+      only" is the constraint that makes an English speaker feel a pronoun go
+      missing, and a student who cannot do it has not accepted the node yet.
+    versions:
+      v2: {change: "Placeholder 'one word'; the English sentence on its own line."}
+      v3:
+        change: "Four-option choice: pugnant / pugnat / pugnāmus / pugnās."
+        format: choice
+        options: {a: "pugnant", b: "pugnat", c: "pugnāmus", d: "pugnās"}
+        answer: a
+    teaching: ''
+
+  - id: MS039-TRANS-02
+    node: MS-039
+    assess: translate
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      "She warns", "she is warning" and "she does warn" are three different
+      English sentences. Write the one Latin word that covers all three.
+    boxes:
+      - label: "Latin, one word"
+        answer: [monet]
+    touches: [MS-035, MS-034, MS-031]
+    what_went_wrong:
+      - text: "I tried to write three different Latin forms"
+        node: MS-039
+      - text: "I used the wrong person ending"
+        node: MS-031
+      - text: "I wasn't sure which conjugation moneō was"
+        node: MS-036
+    note: >
+      SHAPE ADDED: three into one, rather than one into three. MS039-TRANS-01
+      hands over portat and asks for the three English versions, which a student
+      can do by pattern. Coming back the other way is where the point lands:
+      three English sentences they would never call the same, answered by one
+      Latin word. Uses a second-conjugation verb so the item is not also a
+      first-conjugation drill.
+    versions:
+      v2: {change: "Placeholder 'one word'; the three English sentences on separate lines."}
+      v3:
+        change: "Four-option choice: monet / monent / moneō / monēre."
+        format: choice
+        options: {a: "monet", b: "monent", c: "moneō", d: "monēre"}
+        answer: a
+    teaching: ''
+
+# ==========================================================================
+# Unit 1 — adjectives and the infinitive (MS-043 to MS-157)
+# ==========================================================================
+
+  - id: MS043-APPLY-02
+    node: MS-043
+    assess: apply
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "In one of these pairs the adjective does not agree with its noun in case. Which pair?"
+    options:
+      a: "puellam bona"
+      b: "puella bona"
+      c: "puellam bonam"
+      d: "puellae bonae"
+    answer: a
+    touches: [MS-044, MS-045, MS-019, MS-042]
+    what_went_wrong:
+      - text: "I couldn't tell which pair mismatched"
+        node: MS-043
+      - text: "I matched the look of the endings instead of the case"
+        node: MS-046
+      - text: "I wasn't sure what case puellam was"
+        node: MS-019
+    note: >
+      SHAPE ADDED: finding the error instead of avoiding it. MS043-APPLY-01
+      gives a noun and asks for the adjective that fits; MS043-EXPLAIN-01 asks
+      what agreement accomplishes. Neither shows a student agreement that has
+      gone wrong, which is what they have to spot in their own writing and in a
+      passage. Choice a is the only mismatch — accusative noun, nominative
+      adjective — and the other three agree correctly.
+    versions:
+      v2: {change: "Glosses added: puella/puellam [girl], bona [good]; one pair per line."}
+      v3:
+        change: "Two options — the mismatched pair and one that agrees."
+        options: {a: "puellam bona", b: "puellam bonam"}
+        answer: a
+    teaching: ''
+
+  - id: MS044-APPLY-02
+    node: MS-044
+    assess: apply
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "The noun is dōna — neuter, nominative plural. Which form of magnus agrees with it?"
+    options:
+      a: "magna"
+      b: "magnum"
+      c: "magnī"
+      d: "magnus"
+    answer: a
+    touches: [MS-045, MS-027, MS-043, MS-042]
+    what_went_wrong:
+      - text: "I left the adjective singular"
+        node: MS-044
+      - text: "I used the masculine plural"
+        node: MS-045
+      - text: "I forgot that neuter plurals end in -a"
+        node: MS-027
+    note: >
+      SHAPE ADDED: number tested somewhere other than the first declension.
+      MS044-APPLY-01 uses puellae, where the adjective ending matches the noun
+      ending letter for letter and a student can be right by copying. dōna
+      magna also matches — but getting there requires knowing the neuter plural
+      rule rather than copying, and choice b is the singular a copier produces.
+      This is the first of two items added to a node that had one.
+    versions:
+      v2: {change: "Glosses added: dōna [gifts], magnus [large]; one option per line."}
+      v3:
+        change: "Two options — the neuter plural and the neuter singular."
+        options: {a: "magna", b: "magnum"}
+        answer: a
+    teaching: ''
+
+  - id: MS044-EXPLAIN-01
+    node: MS-044
+    assess: explain
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      A noun and its adjective must agree in number. Why can't a singular noun
+      take a plural adjective, even when nobody would be confused about the
+      meaning?
+    options:
+      a: "Because the ending is what shows which noun the adjective belongs to, and an ending that agrees with nothing points at nothing."
+      b: "Because Latin adjectives have no plural forms of their own."
+      c: "Because the adjective copies the noun's spelling, so it has no choice."
+      d: "Because the words would then be in the wrong order."
+    answer: a
+    touches: [MS-042, MS-046, MS-043]
+    what_went_wrong:
+      - text: "I thought agreement was just a convention"
+        node: MS-044
+      - text: "I thought the endings had to match letter for letter"
+        node: MS-046
+    note: >
+      SHAPE ADDED: the reason, which the node had none of. This is the second
+      of two items added here, and it is the node's `explain` assessment —
+      MS044-APPLY-01 was the only item and it is an apply. Choice c is the
+      copying model that MS-046 (nauta bonus) will shortly destroy, so a student
+      who picks it is telling you something useful a week early.
+    versions:
+      v2: {change: "Shorter wrapper; one option per line."}
+      v3:
+        change: "Two options — the pointing reason and the copying model."
+        options: {a: "Because the ending is what shows which noun the adjective belongs to, and an ending that agrees with nothing points at nothing.", b: "Because the adjective copies the noun's spelling, so it has no choice."}
+        answer: a
+    teaching: ''
+
+  - id: MS045-APPLY-02
+    node: MS-045
+    assess: apply
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "The adjective is clāra. Which one of these nouns could it be describing?"
+    options:
+      a: "fēmina"
+      b: "dominus"
+      c: "bellum"
+      d: "puerī"
+    answer: a
+    touches: [MS-042, MS-043, MS-044, MS-026]
+    what_went_wrong:
+      - text: "I picked a masculine noun"
+        node: MS-045
+      - text: "I picked a neuter noun"
+        node: MS-045
+      - text: "I picked a plural"
+        node: MS-044
+    note: >
+      SHAPE ADDED: the reverse direction. MS045-APPLY-01 gives the noun and asks
+      for the adjective, which is the writing task; this gives the adjective and
+      asks which noun it can belong to, which is the reading task — and it is
+      the harder of the two, because the student must run agreement backwards.
+      Each wrong choice fails once: b in gender, c in gender, d in number.
+      clāra could in principle also be a neuter plural, so no neuter plural is
+      offered; bellum is singular and safe.
+    versions:
+      v2: {change: "Glosses added: clāra [famous], fēmina [woman], dominus [master], bellum [war], puerī [boys]; one option per line."}
+      v3:
+        change: "Two options — the feminine singular and the masculine singular."
+        options: {a: "fēmina", b: "dominus"}
+        answer: a
+    teaching: ''
+
+  - id: MS047-TRANS-02
+    node: MS-047
+    assess: translate
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Write two pieces of Latin: one meaning "the good queen", and one meaning
+      "The queen is good."
+    boxes:
+      - label: "the good queen"
+        answer: [regina bona, bona regina]
+      - label: "The queen is good."
+        answer: [regina est bona, regina bona est, bona est regina, est regina bona]
+    order_matters: true
+    touches: [MS-041, MS-042, MS-040, MS-046]
+    what_went_wrong:
+      - text: "I wrote the same thing in both boxes"
+        node: MS-047
+      - text: "I put est in the phrase as well"
+        node: MS-041
+      - text: "I left est out of the sentence"
+        node: MS-041
+    note: >
+      SHAPE ADDED: producing both positions. MS047-RECOG-01 asks which of four
+      is attributive and MS047-TRANS-01 is a self-check on two Latin sentences —
+      both start from Latin already written. Writing the pair is what makes the
+      difference physical: one needs est and one must not have it, and a student
+      who writes the same thing twice has shown you the misunderstanding
+      directly. Several word orders are accepted because Latin allows them and
+      MS-012 says so.
+    versions:
+      v2: {change: "Placeholders 'two words' and 'three words'; the two English cues on separate lines."}
+      v3:
+        change: "Reduced to matching: which of rēgīna bona and rēgīna est bona means 'the good queen'."
+        format: choice
+        options: {a: "rēgīna bona", b: "rēgīna est bona"}
+        answer: a
+    teaching: ''
+
+  - id: MS048-RECOG-02
+    node: MS-048
+    assess: recognize
+    tier: 3
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "In Bona laudāmus, what is bona doing?"
+    options:
+      a: "Standing in for a noun — 'good things', the object of the verb."
+      b: "Describing a noun that appears later in the sentence."
+      c: "Acting as the subject — 'a good woman'."
+      d: "Working as part of the verb."
+    answer: a
+    touches: [MS-042, MS-027, MS-037, MS-028]
+    what_went_wrong:
+      - text: "I read bona as a feminine singular"
+        node: MS-027
+      - text: "I looked for a noun for it to describe"
+        node: MS-048
+      - text: "I didn't check who the verb's subject was"
+        node: MS-037
+    note: >
+      SHAPE ADDED: a substantive that is not multī, and a neuter one.
+      MS048-RECOG-01 and MS048-TRANS-01 both use Multī pugnant, where the
+      adjective is masculine plural and unmistakably the subject — so a student
+      can learn the node as "multī means many men". bona is harder in the right
+      way: it could be a feminine singular subject until you notice laudāmus is
+      first person plural and already has its subject, which leaves bona as a
+      neuter plural object. Choice c is that first reading, and counting it is
+      worth more than the item.
+    versions:
+      v2: {change: "Glosses added: laudāmus [we praise]; the sentence on its own line; one option per line."}
+      v3:
+        change: "Two options — standing in for a noun, and the feminine-singular subject reading (the instructive trap)."
+        options: {a: "Standing in for a noun — 'good things', the object of the verb.", b: "Acting as the subject — 'a good woman'."}
+        answer: a
+    teaching: ''
+
+  - id: MS156-PRODUCE-02
+    node: MS-156
+    assess: produce
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      Starting from vocāre: write the present stem, and then write the form
+      that means "to call".
+    boxes:
+      - label: "Present stem"
+        answer: [voca]
+      - label: "'to call'"
+        answer: [vocare]
+    order_matters: true
+    touches: [MS-076, MS-033, MS-032]
+    what_went_wrong:
+      - text: "I wrote the same thing in both boxes"
+        node: MS-156
+      - text: "I left the -re on the stem"
+        node: MS-033
+      - text: "I took the -re off both"
+        node: MS-156
+    note: >
+      SHAPE ADDED: both forms held at once. MS156-PRODUCE-01 asks only for the
+      stem of monēre, so a student can answer by deleting two letters without
+      ever asking what the two letters were doing. This node is the difference
+      between the two forms, and the only way to test a difference is to make
+      the student write both. A student who fills both boxes the same way has
+      answered the node's question wrongly in the clearest possible terms.
+      Macrons stripped, so vocā and voca both pass.
+    versions:
+      v2: {change: "Placeholders 'the stem' and 'one word'; the infinitive on its own line."}
+      v3:
+        change: "Cut to the first box, with a word bank: vocā, vocāre, voc, vocō."
+    teaching: ''
+
+  - id: MS157-TRANS-02
+    node: MS-157
+    assess: translate
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Translate into Latin, in two words: 'We ought to fight.'"
+    boxes:
+      - label: "Latin, two words"
+        answer: [debemus pugnare]
+    touches: [MS-076, MS-034, MS-037, MS-031]
+    what_went_wrong:
+      - text: "I made both verbs finite"
+        node: MS-157
+      - text: "I used the wrong person on dēbeō"
+        node: MS-031
+      - text: "I wasn't sure of the infinitive form"
+        node: MS-076
+    note: >
+      SHAPE ADDED: English into Latin. MS157-RECOG-01 points at the infinitive
+      in a phrase already written, and MS157-TRANS-01 is a self-check going the
+      other way. Neither makes the student choose, themselves, to leave the
+      second verb as an infinitive — which is the decision the node is about,
+      and the one that produces dēbēmus pugnāmus when it goes wrong. Two words
+      is stated so the answer stays inside the four-word answer rule and so the
+      shape of the answer is not itself the puzzle. Macrons stripped, so
+      dēbēmus pugnāre and debemus pugnare both pass.
+    versions:
+      v2: {change: "Placeholder 'two words'; the English sentence on its own line."}
+      v3:
+        change: "Four-option choice: dēbēmus pugnāre / dēbēmus pugnāmus / dēbeō pugnāre / pugnāre dēbēs."
+        format: choice
+        options: {a: "dēbēmus pugnāre", b: "dēbēmus pugnāmus", c: "dēbeō pugnāre", d: "pugnāre dēbēs"}
+        answer: a
+    teaching: ''

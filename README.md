@@ -80,8 +80,8 @@ start clean.
 | `vocab.yaml` | The drill's 80 words **with glosses** (see the caveat below). |
 | `teaching.yaml` | Teaching text for all 118 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
-| `tests/` | 116 tests. `python3 -m unittest discover -s tests`. |
-| `latin1-*.yaml` | The three source files (never modified by the apps). |
+| `tests/` | 370 tests. `python3 -m unittest discover -s tests`. |
+| `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
 ## The shared answer-checker
@@ -209,9 +209,34 @@ The import screen reports the counts and warns if check 1 or 2 catches more than
 a small fraction — the signal that a generation run has a *systematic* problem
 worth fixing at the source.
 
-Running the current generated bank (213 items): **0 error-level flags**, 14
+Running the current generated bank (331 items): **0 error-level flags**, 14
 heuristic flags (10 explain-reason, 4 vocabulary — two of which, `Rōmānus` and
-`Salvē`, are real off-list words already marked `needs_review`).
+`Salvē`, are real off-list words already marked `needs_review`). That flag count
+has not moved since the bank was 213 items: Unit 2 and the Unit 0–1 third
+questions each added zero.
+
+### Three questions per node, and why the third one is a different shape
+
+Repeat practice is only practice if the second visit is a different question.
+Selection serves unseen items first, so a node holding one question hands the
+same card back for ever, and a node holding two runs out on the third visit.
+Every Units 0–1 and Unit 2 morphosyntax node now carries at least three.
+
+The Units 0–1 third questions are in their own file,
+`latin1-items-unit01-more.yaml`, rather than added to a bank whose every item
+already carries a review decision. The loader reads every
+`latin1-items-unit*.yaml`, so nothing in the code knows the difference.
+
+Ten of those nodes had stopped short **on purpose**, and the original bank said
+so in its own `review.fewer_items_written` section: the eight cells of the noun
+tables would turn into paradigm recitation, and a single-fact node would only
+restate itself. That argument was against a third *drill*, not a third
+*question*. So no item in that file repeats a shape its node already has — where
+a node had a parse and a produce, the third is a discrimination across four
+different nouns, or a production cued by English meaning rather than by a
+paradigm slot, or an error to diagnose. Each item's `note` names the shape it
+adds and why the node needed it, so the next person to touch the bank can tell a
+considered third question from padding.
 
 ## Vocabulary drill
 
@@ -641,7 +666,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-330 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+370 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 
@@ -675,6 +700,17 @@ Said plainly, because these will mislead if trusted blindly:
   `EX-RECOG-003` — a known-good exemplar that sets `macron_matters: true` with no
   macron anywhere in the item. The check is right to notice; that exemplar's flag
   is decorative. Literal count is reported too.
+
+- **Every multiple-choice answer is option `a`, and nothing shuffles.** All 212
+  choice items in the bank were written with the correct answer first, and the
+  templates render `item.options` in the order the YAML lists them. So in
+  practice *and* in a proctored quiz, the right answer is always the first one on
+  screen: a student who taps the top option every time scores full marks on every
+  multiple-choice question in the course without reading the Latin. Nothing in
+  the tests catches it, because nothing is wrong with any individual question.
+  The fix belongs in rendering — a per-student shuffle, seeded so a refresh does
+  not reshuffle — not in rewriting 212 answer keys, which would fix the bank and
+  leave the next batch of questions to reintroduce it. **Not yet done.**
 
 - **Closeness is length-scaled, and that was a real bug.** "Within two
   characters" is right for `puella`/`puela` but wrong for short answers: every
