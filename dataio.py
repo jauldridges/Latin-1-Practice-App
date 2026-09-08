@@ -3,7 +3,7 @@ Reading the source YAML files and deriving the reference data the mechanical
 checks and the two apps need. Nothing here writes to the source files.
 
 The three source files (repository root):
-  latin1-spec.yaml          - 360 spec nodes. Never modified.
+  latin1-spec.yaml          - 363 spec nodes. Never modified.
   latin1-item-exemplars.yaml - 75 hand-built questions + the vocabulary lists.
   latin1-items-unit01.yaml  - the generated bank under review.
 

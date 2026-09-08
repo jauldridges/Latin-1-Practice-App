@@ -78,7 +78,7 @@ start clean.
 | `server.py` | Flask app — both apps, both route groups. |
 | `run.py` | Launcher. |
 | `vocab.yaml` | The drill's 80 words **with glosses** (see the caveat below). |
-| `teaching.yaml` | Teaching text for all 118 Unit 0–1 nodes. **Drafted, awaiting approval.** |
+| `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `tests/` | 370 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
@@ -209,7 +209,7 @@ The import screen reports the counts and warns if check 1 or 2 catches more than
 a small fraction — the signal that a generation run has a *systematic* problem
 worth fixing at the source.
 
-Running the current generated bank (331 items): **0 error-level flags**, 14
+Running the current generated bank (334 items): **0 error-level flags**, 14
 heuristic flags (10 explain-reason, 4 vocabulary — two of which, `Rōmānus` and
 `Salvē`, are real off-list words already marked `needs_review`). That flag count
 has not moved since the bank was 213 items: Unit 2 and the Unit 0–1 third
@@ -287,7 +287,7 @@ separately, so the slot is there and empty by design.
 
 ## Teaching text
 
-`teaching.yaml` holds an explanation for every one of the 118 Unit 0–1 nodes.
+`teaching.yaml` holds an explanation for every one of the 120 Unit 0–1 nodes.
 Each entry has three parts, per the exemplar file's `teaching_text` rule:
 
 - **explain** — what the student needs to understand, ~45 words, phone-readable.
@@ -617,7 +617,7 @@ All five build steps, verified in order:
 6. Grammar practice: all four formats, taught-date gating, per-box grading, the
    what-went-wrong menu, and the live-fire contest path — driven end to end in a
    browser, not just unit-tested.
-7. Teaching text for all 118 nodes, drafted and gated behind teacher approval;
+7. Teaching text for all 120 nodes, drafted and gated behind teacher approval;
    verified in the running app that draft text does not reach a student and
    approved text does.
 8. Teacher dashboard + class list: roster paste-in, who practised over a
@@ -701,7 +701,7 @@ Said plainly, because these will mislead if trusted blindly:
   macron anywhere in the item. The check is right to notice; that exemplar's flag
   is decorative. Literal count is reported too.
 
-- **Every multiple-choice answer is option `a`, and nothing shuffles.** All 212
+- **Every multiple-choice answer is option `a`, and nothing shuffles.** All 214
   choice items in the bank were written with the correct answer first, and the
   templates render `item.options` in the order the YAML lists them. So in
   practice *and* in a proctored quiz, the right answer is always the first one on
@@ -709,7 +709,7 @@ Said plainly, because these will mislead if trusted blindly:
   multiple-choice question in the course without reading the Latin. Nothing in
   the tests catches it, because nothing is wrong with any individual question.
   The fix belongs in rendering — a per-student shuffle, seeded so a refresh does
-  not reshuffle — not in rewriting 212 answer keys, which would fix the bank and
+  not reshuffle — not in rewriting 214 answer keys, which would fix the bank and
   leave the next batch of questions to reintroduce it. **Not yet done.**
 
 - **Closeness is length-scaled, and that was a real bug.** "Within two

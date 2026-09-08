@@ -1537,6 +1537,21 @@ nodes:
     prereqs: [MS-076, MS-074]
     assess: [recognize, produce]
 
+# --- Appended 2026-09-02 ---
+# Latin has no articles. Students meet the problem on Sep 9, the first
+# day they translate a noun, and will ask about it unprompted. The node
+# also sets up MW-027 in Unit 5: Latin had no articles at all, so the
+# Romance languages built them out of a demonstrative.
+
+  - id: MS-159
+    label: Latin has no articles — the translator supplies a, an, or the
+    unit: 1
+    week: 2026-09-07
+    day: 2026-09-09
+    vehicle: lesson
+    prereqs: [MS-014, MS-015]
+    assess: [explain, translate]
+
 # ============================================================
 # CONNECTED READING (CR-001 – CR-022)
 # Strategies and stamina. Introduced early, revisited all year.
@@ -2652,7 +2667,7 @@ nodes:
     week: 2026-09-21
     day: 2026-09-24
     vehicle: vocab
-    prereqs: [MW-006]
+    prereqs: [MW-089]
     assess: [recall, apply]
 
   - id: MW-008
@@ -2733,7 +2748,7 @@ nodes:
     week: 2026-11-02
     day: 2026-11-05
     vehicle: vocab
-    prereqs: [MW-009]
+    prereqs: [MW-009, MW-089]
     assess: [apply]
 
 # --- Latin into Spanish and the Romance languages ---
@@ -2833,7 +2848,7 @@ nodes:
     week: 2027-02-08
     day: 2027-02-09
     vehicle: lesson
-    prereqs: [MW-026]
+    prereqs: [MW-026, MS-159]
     assess: [explain]
 
   - id: MW-028
@@ -3389,6 +3404,32 @@ nodes:
     vehicle: opener
     prereqs: [MW-016]
     assess: [recognize, explain]
+
+# --- Appended 2026-09-01 ---
+# Suffixes were enumerated by family (MW-006 noun-forming, MW-007
+# adjective-forming) without a node for the principle underneath them.
+# MW-089 teaches that principle and sits between the two families, where
+# it explains Monday and predicts Thursday. MW-090 closes the coverage
+# gap: noun-forming and adjective-forming suffixes were enumerated,
+# verb-forming ones were not.
+
+  - id: MW-089
+    label: Suffixes change a word's part of speech
+    unit: 1
+    week: 2026-09-21
+    day: 2026-09-22
+    vehicle: vocab
+    prereqs: [MW-001, MW-006]
+    assess: [explain, apply]
+
+  - id: MW-090
+    label: Verb-forming suffixes — -ify, -ate, -ize
+    unit: 2
+    week: 2026-10-19
+    day: 2026-10-21
+    vehicle: vocab
+    prereqs: [MW-089]
+    assess: [recall, apply]
 
 # ============================================================
 # VOCABULARY

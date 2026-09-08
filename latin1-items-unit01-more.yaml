@@ -1446,3 +1446,129 @@ items:
         options: {a: "dēbēmus pugnāre", b: "dēbēmus pugnāmus", c: "dēbeō pugnāre", d: "pugnāre dēbēs"}
         answer: a
     teaching: ''
+
+# ==========================================================================
+# MS-159 — Latin has no articles (added to the spec 2 September, taught 9
+# September). The node arrived after this file's first pass, with no items
+# at all, so all three are here rather than a third added to two.
+#
+# ONE CONSTRAINT SHAPES ALL THREE. The answer-checker strips a leading
+# "the" or "a" from both sides before comparing, so "the girl", "a girl"
+# and "girl" are one and the same answer to it. That is right everywhere
+# else in the course and fatal here: this node is ABOUT that distinction,
+# so a typed box cannot test it — every answer would be marked right,
+# including a student who believes only one is correct. Hence a self-check
+# for the translation and choices for the rest. Do not convert these to
+# boxes later without changing the checker, which is not worth doing for
+# one node.
+#
+# SCOPE. Taught 9 September, when no verb has been delivered. Nothing here
+# uses one; the node does not need a sentence, because the point is
+# visible in a single noun.
+# ==========================================================================
+
+  - id: MS159-EXPLAIN-01
+    node: MS-159
+    assess: explain
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      You read through a Latin sentence looking for the word that means
+      "the", and there isn't one. Why not?
+    options:
+      a: "Because Latin has no words for 'the', 'a' or 'an' at all — the person translating supplies them."
+      b: "Because 'the' is written only in formal Latin, and this sentence is ordinary."
+      c: "Because the ending on the noun is what carries the meaning 'the'."
+      d: "Because the word for 'the' has been left out of this sentence to save space."
+    answer: a
+    touches: [MS-011, MS-014]
+    what_went_wrong:
+      - text: "I kept looking for a word that was never there"
+        node: MS-159
+      - text: "I thought an ending carried 'the'"
+        node: MS-011
+    note: >
+      The node's first question, and the one a student asks unprompted on
+      the day they first translate a noun. Choice c is the interesting
+      wrong answer: a student who has just learned that endings carry
+      meaning may reasonably over-extend it, and counting that is worth
+      more than the item.
+    versions:
+      v2: {change: "Shorter wrapper; one option per line."}
+      v3:
+        change: "Two options — no such word, and the ending carries it."
+        options: {a: "Because Latin has no words for 'the', 'a' or 'an' at all — the person translating supplies them.", b: "Because the ending on the noun is what carries the meaning 'the'."}
+        answer: a
+    teaching: ''
+
+  - id: MS159-TRANS-01
+    node: MS-159
+    assess: translate
+    tier: 1
+    format: self-check
+    paper_ok: false
+    macron_matters: false
+    stem: >-
+      Translate puella into English. There is more than one right answer —
+      give as many as you can.
+    model_answer: "the girl, a girl, or just girl. All three are correct, and nothing in the Latin chooses between them."
+    self_report:
+      - "I had all three"
+      - "I had one or two"
+      - "I thought only one could be right"
+    touches: [MS-014, MS-011]
+    what_went_wrong:
+      - text: "I gave one translation and thought the others were wrong"
+        node: MS-159
+      - text: "I wasn't sure I was allowed to add a word that isn't there"
+        node: MS-159
+    note: >
+      SELF-CHECK BY NECESSITY, not by preference. The shared answer-checker
+      strips a leading "the" or "a" before comparing, so typed boxes would
+      accept all three answers as identical and could not tell the student
+      who knows all three from the student who knows one. Self-check is the
+      only format on this node that can see the difference, and the
+      self-report line is where the data actually comes from.
+    versions:
+      v2: {change: "Gloss added: puella [girl]; the model answer shown one line at a time after the attempt."}
+      v3:
+        change: "Becomes a two-option choice: are 'the girl' and 'a girl' both correct translations of puella, or only one?"
+    teaching: ''
+
+  - id: MS159-EXPLAIN-02
+    node: MS-159
+    assess: explain
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: >-
+      A classmate is writing Latin and asks you which word to use for "the"
+      in "the sailor". What do you tell them?
+    options:
+      a: "There is no such word — nauta on its own already covers 'the sailor', 'a sailor' and 'sailor'."
+      b: "Add a small separate word in front of the noun."
+      c: "Change the noun's ending, which is how Latin marks it."
+      d: "Latin uses 'the' only with the names of people and places."
+    answer: a
+    touches: [MS-011, MS-013]
+    what_went_wrong:
+      - text: "I looked for a Latin word to put in front"
+        node: MS-159
+      - text: "I thought an ending would mark it"
+        node: MS-011
+    note: >
+      SHAPE ADDED: the same fact going the other way. MS159-EXPLAIN-01 is a
+      student reading Latin and finding a word missing; this is a student
+      writing Latin and wanting to add one, which is the error that
+      actually reaches the page. Nothing here needs a verb — MS-159 is
+      taught 9 September, a week before the present tense.
+    versions:
+      v2: {change: "Gloss added: nauta [sailor]; one option per line."}
+      v3:
+        change: "Two options — no such word, and add a word in front."
+        options: {a: "There is no such word — nauta on its own already covers 'the sailor', 'a sailor' and 'sailor'.", b: "Add a small separate word in front of the noun."}
+        answer: a
+    teaching: ''

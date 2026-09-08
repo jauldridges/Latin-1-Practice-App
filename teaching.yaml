@@ -2089,3 +2089,54 @@ nodes:
       Matching on the first letter is the trap: Londinium looks a little
       like Lisbon and Lyon, which have entirely separate origins. Look for
       the whole shape of the word, not the initial.
+
+  # --- Appended with the spec additions of 2026-09-01/02 ---
+
+  MS-159:
+    status: draft
+    label: "Latin has no articles — the translator supplies a, an, or the"
+    explain: >
+      Latin has no word for the, a or an. Puella can mean the girl, a
+      girl, or just girl. Nothing is missing from the Latin — it simply
+      does not mark the difference. When you translate, you add
+      whichever English article sounds right.
+    examples:
+      - "puella — the girl, a girl, or girl. All three are correct."
+      - "Nauta aquam portat — the sailor carries the water, or a sailor carries water."
+      - "Pick whichever fits the sentence. There is no wrong choice to be caught out on."
+    when_wrong: >
+      Do not look for a word meaning the. There isn't one and there
+      never was. Supply the article yourself from what the sentence is
+      about.
+
+  MW-089:
+    status: draft
+    label: "Suffixes change a word's part of speech"
+    explain: >
+      A prefix usually changes what a word means. A suffix usually
+      changes what kind of word it is. The root stays put and the ending
+      decides whether it works as a noun, an adjective or a verb, which
+      is how one root produces a whole family.
+    examples:
+      - "nation, national, nationality, nationalize — one root, four jobs."
+      - "act is a verb. action is a noun. active is an adjective."
+      - "Change the ending and you change how the word can be used in a sentence."
+    when_wrong: >
+      Ask what job the word does in a sentence, not what it means. The
+      suffix answers the first question and the root answers the second.
+
+  MW-090:
+    status: draft
+    label: "Verb-forming suffixes — -ify, -ate, -ize"
+    explain: >
+      Three endings turn other words into verbs. The endings -ify, -ate
+      and -ize all mean roughly to make or to cause. They are how
+      English takes a noun or an adjective and makes an action out of
+      it.
+    examples:
+      - "simple → simplify. pure → purify."
+      - "active → activate. medicine → medicate."
+      - "modern → modernize. legal → legalize."
+    when_wrong: >
+      These three endings all produce verbs. If the word names an action
+      rather than a thing or a quality, look for one of them on the end.
