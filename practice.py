@@ -24,6 +24,7 @@ sees four right and two wrong, which is the whole reason v2 of the exemplar
 file exists.
 """
 
+import hashlib
 import time
 from collections import namedtuple
 
@@ -104,6 +105,64 @@ def practiceable(items, allowed_nodes):
 # --------------------------------------------------------------------------
 # Grading
 # --------------------------------------------------------------------------
+
+# --------------------------------------------------------------------------
+# Which order a student sees the options in
+# --------------------------------------------------------------------------
+
+DISPLAY_LETTERS = "abcdefghijklmnopqrstuvwxyz"
+
+
+def display_options(options, viewer_seed):
+    """The options in a per-student order, relabelled a/b/c/... down the page.
+
+    Every choice item in the bank was written with its correct answer as option
+    `a`, and for a long time the templates rendered `options` in the order the
+    YAML listed them. The answer was therefore always the first thing on the
+    screen, in practice and in a quiz alike: tapping the top option scored full
+    marks on every multiple-choice question in the course without reading any
+    Latin. Nothing in the tests caught it, because no individual question was
+    wrong.
+
+    Rewriting 214 answer keys would have fixed the bank and left the next batch
+    of questions free to reintroduce it, so the order moves at render time
+    instead and the bank keeps its convention: the author writes the answer
+    first, the student never sees it there.
+
+    Returns a list of (display_letter, submit_key, text). The submit key is the
+    item's own key, so what the browser posts back is unchanged -- grading,
+    saved quiz answers, the event record and the review tool all keep working
+    on the letters the YAML uses. Only the order and the printed label move.
+
+    The order is derived from a hash of the seed rather than from `random`, so
+    it is identical on every machine and every Python version: a quiz review
+    screen must show a student the same lettering they answered under, possibly
+    days later and after a redeploy.
+    """
+    opts = options or {}
+    if not isinstance(opts, dict):
+        return []
+    seed = "" if viewer_seed is None else str(viewer_seed)
+
+    def rank(key):
+        digest = hashlib.sha256(("%s|%s" % (seed, key)).encode("utf-8"))
+        return (digest.hexdigest(), key)
+
+    ordered = sorted(opts, key=rank)
+    return [(DISPLAY_LETTERS[i] if i < len(DISPLAY_LETTERS) else str(i + 1), k, opts[k])
+            for i, k in enumerate(ordered)]
+
+
+def option_seed(student_id, item_id):
+    """One shuffle per student per question.
+
+    Per student, so no two students can compare positions. Per question, so a
+    student cannot learn "the answer is second for me" and apply it to the next
+    one. Stable for that pair for ever, so a refresh does not reshuffle and the
+    quiz review matches the paper they sat.
+    """
+    return "%s|%s" % (student_id or "", item_id or "")
+
 
 def grade_choice(item, picked):
     """Multiple choice: right or wrong. There is no 'close' when picking."""

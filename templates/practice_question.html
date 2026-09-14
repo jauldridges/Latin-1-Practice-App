@@ -22,10 +22,10 @@
   <input type="hidden" name="latency_ms" id="latency_ms" value="">
 
   {% if item.format == 'choice' %}
-    {% for k, v in item.options.items() %}
+    {% for disp, k, v in shown_options(item) %}
       <label class="opt" style="cursor:pointer">
         <input type="radio" name="picked" value="{{ k }}" required style="margin-top:4px">
-        <span class="k">{{ k }}</span> <span class="latin">{{ v }}</span>
+        <span class="k">{{ disp }}</span> <span class="latin">{{ v }}</span>
       </label>
     {% endfor %}
 

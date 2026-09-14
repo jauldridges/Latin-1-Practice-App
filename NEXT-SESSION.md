@@ -23,7 +23,7 @@ dashboard for who's practising and what they don't know.
 - Python 3.9-compatible, no build step, mobile-first server-rendered HTML.
   It has to work on a school Chromebook at home when I'm not there.
 - Run the full test suite before you tell me something's done. It should be
-  ~370 passing (about 14 skip unless a local Postgres is running).
+  ~384 passing (about 14 skip unless a local Postgres is running).
 - Never say "mastery" to a student. The words are solid / shaky / not yet.
 
 **How I work.** Make things simple for me — I'd rather not go back to the
@@ -53,9 +53,9 @@ re-running `make_ids.py` would produce different numbers.
   `/review` and give the session that file to diff against the bank first.
   (Checked on the 8 Sep export: my database was behind the repo on four
   questions and ahead on none, so that import was safe. It will not always be.)
-- **Every multiple-choice question has its correct answer as option `a`,** and
-  nothing shuffles them, so the right answer is always the first one on screen.
-  Known, not yet fixed — see the README.
+- **Multiple-choice options are shuffled per student at render time**, so the
+  answer is not always first. The bank still writes the answer as option `a` —
+  that is the authoring convention and it is fine. Don't "fix" the YAML.
 
 Read `README.md` and `DEPLOY.md` first, then tell me what you found before
 changing anything.

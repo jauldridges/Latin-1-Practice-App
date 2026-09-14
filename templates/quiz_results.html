@@ -35,10 +35,10 @@ spelling was off by a letter or two — worth a look.</p>
     <div style="margin:6px 0">{{ r.item.stem }}</div>
 
     {% if r.item.format == 'choice' %}
-      {% for k, v in r.item.options.items() %}
+      {% for disp, k, v in shown_options(r.item) %}
         {% if k == r.item.answer or k == r.res.picked %}
         <div class="opt {{ 'correct' if k == r.item.answer else '' }}">
-          <span class="k">{{ k }}{% if k == r.item.answer %} ✓{% endif %}</span>
+          <span class="k">{{ disp }}{% if k == r.item.answer %} ✓{% endif %}</span>
           <span class="latin">{{ v }}</span>
           {% if k == r.res.picked and k != r.item.answer %}
             <span class="small muted">— you picked this</span>{% endif %}

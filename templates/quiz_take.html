@@ -13,11 +13,11 @@
   <input type="hidden" name="pos" value="{{ pos }}">
 
   {% if item.format == 'choice' %}
-    {% for k, v in item.options.items() %}
+    {% for disp, k, v in shown_options(item) %}
       <label class="opt" style="cursor:pointer">
         <input type="radio" name="picked" value="{{ k }}" style="margin-top:4px"
                {% if saved == k %}checked{% endif %}>
-        <span class="k">{{ k }}</span> <span class="latin">{{ v }}</span>
+        <span class="k">{{ disp }}</span> <span class="latin">{{ v }}</span>
       </label>
     {% endfor %}
 

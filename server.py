@@ -709,6 +709,21 @@ def current_student():
     return session.get(auth.STUDENT_KEY) or ""
 
 
+@app.template_global("shown_options")
+def shown_options(item):
+    """The options of a choice item, in the order THIS student sees them.
+
+    A template global rather than a variable threaded through every route,
+    because the seed comes from the signed session and must never come from
+    anything the page was handed. Teacher screens deliberately do not use it:
+    the review tool shows an item as written, answer first, which is what a
+    person approving it needs to see.
+    """
+    return practice.display_options(
+        item.get("options"),
+        practice.option_seed(current_student(), item.get("id")))
+
+
 def _signed_in_student():
     """The signed-in student, or the response that sends them to sign in."""
     sid = current_student()

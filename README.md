@@ -80,7 +80,7 @@ start clean.
 | `vocab.yaml` | The drill's 80 words **with glosses** (see the caveat below). |
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
-| `tests/` | 370 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 384 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -666,7 +666,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-370 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+384 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 
@@ -701,17 +701,6 @@ Said plainly, because these will mislead if trusted blindly:
   macron anywhere in the item. The check is right to notice; that exemplar's flag
   is decorative. Literal count is reported too.
 
-- **Every multiple-choice answer is option `a`, and nothing shuffles.** All 214
-  choice items in the bank were written with the correct answer first, and the
-  templates render `item.options` in the order the YAML lists them. So in
-  practice *and* in a proctored quiz, the right answer is always the first one on
-  screen: a student who taps the top option every time scores full marks on every
-  multiple-choice question in the course without reading the Latin. Nothing in
-  the tests catches it, because nothing is wrong with any individual question.
-  The fix belongs in rendering — a per-student shuffle, seeded so a refresh does
-  not reshuffle — not in rewriting 214 answer keys, which would fix the bank and
-  leave the next batch of questions to reintroduce it. **Not yet done.**
-
 - **Closeness is length-scaled, and that was a real bug.** "Within two
   characters" is right for `puella`/`puela` but wrong for short answers: every
   incorrect single letter is one edit from the correct one, so a student who
@@ -720,6 +709,47 @@ Said plainly, because these will mislead if trusted blindly:
   exists to count. Answers of 3 characters or fewer now require an exact match,
   4–5 allow one edit, 6+ allow two. Found by driving the running app, not by
   the tests.
+
+### The option order a student sees
+
+Every choice item in the bank is written with its answer as option `a`. That is
+the authoring convention and it stays: a reviewer reading the YAML should see
+the answer without hunting for it.
+
+For a while the templates then rendered the options in that order, which meant
+the right answer was always the first thing on the screen, in practice and in a
+proctored quiz alike. A student who tapped the top option every time scored full
+marks on every multiple-choice question in the course without reading any Latin
+— and the dashboard would then have reported the class as solid on things they
+could not do, which is worse than the marks, because that is the data you teach
+from next week.
+
+The order now moves at render time. `practice.display_options` returns the
+options in an order derived from the student's ID and the question's ID, and
+relabels them a/b/c/d down the page. Two things it deliberately does not do:
+
+- **It never changes what the browser posts back.** The submit value is still
+  the item's own key, so grading, saved quiz answers, the event record and the
+  review tool all keep working on the letters the YAML uses. Only the order and
+  the printed label move, which is why this was a safe change to make mid-course
+  with student history already in the database.
+- **It never uses `random`.** The order comes from a SHA-256 of the seed, so it
+  is identical on every machine and every Python version. A quiz review screen
+  has to show a student the same lettering they answered under, days later and
+  possibly after a redeploy.
+
+Per student, so no two students can compare positions. Per question, so nobody
+learns "the answer is second for me" and applies it to the next one. Stable for
+that pair for ever, so a refresh does not reshuffle.
+
+**The review tool is not shuffled**, on purpose: a teacher approving a question
+needs to see it as written, answer first.
+
+`tests/test_option_order.py` measures the property over the real bank rather
+than trusting the function — for five students across all 214 choice items, no
+screen position holds the answer more than about a quarter of the time — and
+drives a served question through the running app. Reverting either template
+fails it.
 
 ## Where this deviated from the spec, and why
 
