@@ -91,6 +91,46 @@ notice in June cannot be fixed from a three-day window.
 
 ---
 
+## When the deploy fails
+
+**"Exited with status 127".** That is the shell saying *command not found*: Render
+ran `gunicorn ...` and there was no gunicorn installed. The start command and the
+dependency list in this repo are both correct — `requirements-hosted.txt` lists
+gunicorn and psycopg on top of the laptop requirements — so a 127 means the build
+step that ran was **not** the one in `render.yaml`.
+
+Almost always that is because the service was created with **New → Web Service**
+instead of **New → Blueprint**. A hand-made Python service ignores `render.yaml`
+and uses Render's own default build, `pip install -r requirements.txt`, which
+installs Flask and PyYAML and deliberately not gunicorn. Then there is nothing to
+start.
+
+To confirm: open the service → **Logs**, and read the build section. If it says
+`pip install -r requirements.txt`, with no `-hosted`, that is the whole story.
+
+**Fix it by deleting the service and creating it again from the Blueprint** — not
+by editing the build command. Editing the build command makes it boot, and leaves
+three things wrong that are much harder to notice than a crash:
+
+- **No database.** The Blueprint creates the Postgres and injects `DATABASE_URL`.
+  Without it the app falls back to a SQLite file on the service's own disk, which
+  does not survive a redeploy — the year's practice history would vanish the next
+  time you pushed a change, silently.
+- **No `LATIN_PUBLIC=1`**, which is what marks cookies HTTPS-only and what makes
+  the app refuse to start with no teacher password.
+- **No `LATIN_TEACHER_PASSWORD` and no generated `SECRET_KEY`.** With the previous
+  point, that means the teacher dashboard, the review tool and every student's
+  record on a public URL with no door on it.
+
+Deleting costs nothing before you have migrated any data. Do it early.
+
+**A build that fails instead of a start that fails** looks different: you get an
+error inside the build log itself, and the usual cause is the psycopg wheel or a
+wrong **Root Directory** (which makes `requirements-hosted.txt` not found). Check
+the Root Directory is empty — this repo has no subdirectory.
+
+---
+
 ## What is guarded, and what is not
 
 **The review tool and the teaching-approval screen require the teacher
