@@ -133,6 +133,30 @@ error inside the build log itself, and the usual cause is the psycopg wheel or a
 wrong **Root Directory** (which makes `requirements-hosted.txt` not found). Check
 the Root Directory is empty — this repo has no subdirectory.
 
+**"Failed deploy" on a service the Blueprint created correctly.** If the sync page
+shows the database created and the web service created, the Blueprint did its job
+and the app itself would not boot. Read the log, and the first thing to look for
+is this:
+
+    REFUSING TO START: LATIN_PUBLIC is set but LATIN_TEACHER_PASSWORD is empty.
+
+That is the guard working, not a bug. `LATIN_TEACHER_PASSWORD` is `sync: false` in
+`render.yaml`, which means Render asks *you* for it rather than inventing one — and
+it is the easiest step in the whole flow to click past. The Blueprint sets
+`LATIN_PUBLIC=1` regardless, so the app finds itself on a public URL with no
+password and stops, rather than publishing the teacher dashboard, the review tool
+and every student's practice record.
+
+Fix it on the **service** page (not the Blueprint page): **Environment** → set
+`LATIN_TEACHER_PASSWORD` → **Manual Deploy → Deploy latest commit**.
+
+`LATIN_ID_PATTERN` can stay empty. An empty value falls through to the default
+six-digit pattern, so blank is safe.
+
+**Expect the log to repeat itself.** gunicorn restarts a worker that will not boot,
+over and over, so a single configuration problem prints its message hundreds of
+times. That is one problem, not hundreds. Read the first occurrence.
+
 ---
 
 ## What is guarded, and what is not
