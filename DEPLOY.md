@@ -44,7 +44,9 @@ announce the app.
 this GitHub repository.
 
 **2. Render reads `render.yaml`** and offers to create a **Blueprint** — a web
-service *and* a Postgres database. Say yes. It wires the database connection
+service *and* a Postgres database. Say yes. **Use New → Blueprint, not New → Web
+Service**: a hand-made web service ignores this file entirely, and the section
+on failed deploys below is about what happens next. It wires the database connection
 string into the app for you; you never see or paste it.
 
 **3. It will ask you for two values.** These are the only things you type:
@@ -57,8 +59,10 @@ string into the app for you; you never see or paste it.
 
    Render generates `SECRET_KEY` itself. You do not touch it.
 
-**4. Deploy.** You get a URL like `latin1.onrender.com`. First boot creates the
-database tables automatically.
+**4. Deploy.** You get `magisters-practice-app.onrender.com` — the name comes
+from `render.yaml`, so it is the same every time the Blueprint is recreated, and
+the URL you gave IT keeps working. First boot creates the database tables
+automatically.
 
 **5. Send that URL to your IT contact** for the content filter (see above).
 

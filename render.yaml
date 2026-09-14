@@ -17,7 +17,11 @@ databases:
 
 services:
   - type: web
-    name: latin1
+    # The URL comes from this name: magisters-practice-app.onrender.com. That is
+    # the address given to IT for the content filter, so it does not change
+    # casually — a filter allowing a stale domain fails silently, which is the
+    # worst way for this to fail.
+    name: magisters-practice-app
     runtime: python
     plan: starter                # 0.5 CPU / 512 MB — $7/mo
     buildCommand: pip install -r requirements-hosted.txt
