@@ -51,8 +51,14 @@ string into the app for you; you never see or paste it.
 
 **3. It will ask you for two values.** These are the only things you type:
 
-   - **`LATIN_TEACHER_PASSWORD`** — pick something real. It is the only thing
-     between the internet and every student's practice record.
+   - **`LATIN_TEACHER_PASSWORD`** — pick something real, and **do not type the
+     variable's own name into the value box**. That name is written in this
+     file, in `render.yaml` and in the README, all public on GitHub, so it is
+     the first thing anyone would try. There is no rate limiting on the teacher
+     login — no lockout, no delay — so the password's strength is the only thing
+     standing there, and it is the only thing between the internet and every
+     student's practice record. Four unrelated words and a digit beats a short
+     scramble of symbols: you will be typing it on a phone.
    - **`LATIN_ID_PATTERN`** — *leave this blank.* The default already matches
      the numbers `make_ids.py` generated for you. It exists only in case you
      ever switch to a different ID scheme.
