@@ -81,7 +81,7 @@ start clean.
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
-| `tests/` | 397 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 401 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -514,6 +514,18 @@ rather than helpfully printed.
 Both files land in `out/`, which is gitignored, for the same reason the ID list
 is: publishing every valid ID would leave only the PIN.
 
+It reads a plain list of numbers, and also the dashboard's own CSV export, whose
+first column is the student id:
+
+    python3 make_slips.py ~/Downloads/practice-2026-09-15.csv
+
+That matters once the roster is loaded. From then on the **hosted class list is
+the authoritative copy** of the numbers and `out/student-ids.txt` is only the
+first draft of it — so if the local file is ever lost, the app hands the list
+back rather than the numbers being gone. **Re-running `make_ids.py` at that
+point is the wrong move**: it issues 120 different numbers, and slips printed
+from them would name students the roster has never heard of.
+
 ### The class list — `/teacher/roster`
 
 Paste **ID numbers**, one per line, with a block. Paste names and every line
@@ -691,7 +703,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-397 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+401 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

@@ -49,6 +49,39 @@ class TestReadingTheFile(unittest.TestCase):
         self.assertEqual(len(bad), 3)
 
 
+class TestTheDashboardCsv(unittest.TestCase):
+    """Once the roster is loaded the hosted class list is the authoritative
+    copy of the numbers, and the app can hand it back if the original file is
+    lost. So the generator has to read what the dashboard exports."""
+
+    CSV = ["student_id,block,state,attempts,days_practised",
+           "403217,Block 3,started,4,2",
+           "418206,,nothing,0,0",
+           '"905117",Block 5,started,9,3']
+
+    def test_it_reads_the_export(self):
+        good, bad = make_slips.read_ids(write(self.CSV))
+        self.assertEqual(good, ["403217", "418206", "905117"])
+        self.assertEqual(bad, [])
+
+    def test_the_header_row_is_not_an_id(self):
+        good, bad = make_slips.read_ids(write(self.CSV))
+        self.assertNotIn("student_id", good)
+        self.assertEqual(bad, [], "the header row was reported as a bad id")
+
+    def test_the_other_columns_are_ignored(self):
+        html = make_slips.record_html(
+            make_slips.read_ids(write(self.CSV))[0], "example.test")
+        # Block and state belong to the teacher's handwriting, not the print.
+        self.assertNotIn("started", html)
+        self.assertNotIn("Block 3", html)
+
+    def test_a_plain_list_still_works(self):
+        good, bad = make_slips.read_ids(write(["403217", "418206"]))
+        self.assertEqual(good, ["403217", "418206"])
+        self.assertEqual(bad, [])
+
+
 class TestNothingButNumbersIsPrinted(unittest.TestCase):
     IDS = ["403217", "418206", "905117"]
 

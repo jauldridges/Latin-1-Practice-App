@@ -39,12 +39,23 @@ def read_ids(path):
 
     `#` starts a comment and blank lines are skipped, matching the roster
     loader, so a file with notes in it still works.
+
+    It also reads the dashboard's own CSV export (`/teacher/export.csv`),
+    whose first column is the student id. That matters more than it looks:
+    once the roster is loaded, the hosted class list is the authoritative
+    copy of the numbers, and the file make_ids.py wrote is just the first
+    draft of it. If that file is ever lost, the app can hand the list back.
     """
     good, bad = [], []
     with open(path, "r", encoding="utf-8") as fh:
         for raw in fh:
             line = raw.split("#", 1)[0].strip()
             if not line:
+                continue
+            if "," in line:                       # a CSV row: id comes first
+                line = line.split(",", 1)[0].strip()
+            line = line.strip('"').strip("'").strip()
+            if line.lower() == "student_id":      # the CSV's header row
                 continue
             if identity.is_valid(line):
                 good.append(identity.normalize(line))
@@ -187,7 +198,21 @@ def main(argv):
 
     if not os.path.exists(path):
         print("No ID file at %s" % path)
-        print("Generate one first:  python3 make_ids.py 120 > out/student-ids.txt")
+        print()
+        print("If numbers are ALREADY on the class list, do NOT run make_ids.py.")
+        print("It would issue 120 different numbers and the slips would name")
+        print("students the roster has never heard of. Instead, either:")
+        print()
+        print("  - point this at wherever the list actually is:")
+        print("        python3 make_slips.py ~/Desktop/whatever-it-is.txt")
+        print()
+        print("  - or take the list back from the app, which is now the")
+        print("    authoritative copy: Teacher dashboard -> Download this")
+        print("    table as a spreadsheet, then")
+        print("        python3 make_slips.py ~/Downloads/practice-YYYY-MM-DD.csv")
+        print()
+        print("Only if no roster exists anywhere is a fresh list right:")
+        print("        mkdir -p out && python3 make_ids.py 120 > out/student-ids.txt")
         return 2
 
     ids, bad = read_ids(path)
