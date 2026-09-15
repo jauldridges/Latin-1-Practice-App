@@ -80,7 +80,8 @@ start clean.
 | `vocab.yaml` | The drill's 80 words **with glosses** (see the caveat below). |
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
-| `tests/` | 384 tests. `python3 -m unittest discover -s tests`. |
+| `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
+| `tests/` | 397 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -489,6 +490,30 @@ files a student's work under nobody. Three guards:
    dashboard and on the roster page, so a typo becomes a thing you can see and
    fix rather than a hole in the data.
 
+### Handing the numbers out — `make_slips.py`
+
+    python3 make_slips.py
+
+Reads `out/student-ids.txt` and writes two printable pages beside it:
+
+- **`out/slips.html`** — one slip per student, twelve to a page with cut lines.
+  Each carries the address, the number in large type, and the one instruction
+  that matters: choose a four-digit PIN the first time and use the same one
+  after that. A slip carries no name, so one dropped in a corridor identifies
+  nobody.
+- **`out/id-record.html`** — the same numbers in the same order, numbered to
+  match the slips, with **blank columns for the name and the block**.
+
+The record sheet is blank by design and there is no version of it that is not.
+The app holds a number and nothing else that identifies a person, which means
+the link between a number and a child exists in exactly one place: paper, in a
+classroom. So the generator prints numbers and leaves names to handwriting, and
+`tests/test_make_slips.py` asserts that a name in the source file is refused
+rather than helpfully printed.
+
+Both files land in `out/`, which is gitignored, for the same reason the ID list
+is: publishing every valid ID would leave only the PIN.
+
 ### The class list — `/teacher/roster`
 
 Paste **ID numbers**, one per line, with a block. Paste names and every line
@@ -666,7 +691,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-384 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+397 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 
