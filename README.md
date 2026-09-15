@@ -81,7 +81,7 @@ start clean.
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
-| `tests/` | 401 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 406 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -519,6 +519,17 @@ first column is the student id:
 
     python3 make_slips.py ~/Downloads/practice-2026-09-15.csv
 
+**Both sheets are laid out to a height budget**, not to fill the paper. US
+Letter is the shorter page, so it sets the limit: 259mm of printable area
+inside 10mm margins, and the sheets use about 220mm of it. The first print run
+did fill the page exactly, and the result was the last row of slips printing on
+a page of its own — fatal for a sheet you are going to cut up — while the
+record sheet took nine physical pages to print five logical ones with every
+label still reading "of 5". The leftover millimetres absorb a printer's
+unprintable edge and a "Default" margin that is not 10mm.
+`tests/test_make_slips.py` asserts the budget and that the constants really
+drive the CSS, so the numbers are a constraint rather than a comment.
+
 That matters once the roster is loaded. From then on the **hosted class list is
 the authoritative copy** of the numbers and `out/student-ids.txt` is only the
 first draft of it — so if the local file is ever lost, the app hands the list
@@ -703,7 +714,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-401 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+406 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

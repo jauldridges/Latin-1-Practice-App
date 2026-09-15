@@ -30,8 +30,25 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_IDS = os.path.join(ROOT, "out", "student-ids.txt")
 DEFAULT_URL = "magisters-practice-app.onrender.com"
 
-PER_PAGE_SLIPS = 12       # 3 across, 4 down, on either A4 or Letter
-PER_PAGE_ROWS = 28        # rows on the record sheet, sized for handwriting
+# US Letter is the shorter page (279mm against A4's 297), so it sets the
+# height budget: 259mm of printable area inside 10mm margins. Both sheets are
+# laid out to use about 225mm of that. The slack is not waste — a printer's
+# unprintable edge, a "Default" margin that is not 10mm, or a scale slightly
+# off 100% will each eat several millimetres, and the symptom is the last row
+# sliding onto a page of its own, which ruins a sheet meant to be cut up.
+SLIP_COLUMNS = 3
+PER_PAGE_SLIPS = 12       # 3 across, 4 down
+SLIP_HEIGHT_MM = 55       # 4 rows = 220mm
+PER_PAGE_ROWS = 22
+ROW_HEIGHT_MM = 8         # 22 rows = 176mm
+RECORD_FURNITURE_MM = 50  # heading, warning box, table head and footer
+
+# Letter's printable height inside 10mm margins, and the budget we hold to.
+# The gap between them is what absorbs a printer's unprintable edge or a
+# "Default" margin that is not 10mm. Spend it and the last row of a sheet
+# slides onto a page of its own, which is fatal for a sheet meant to be cut up.
+LETTER_PRINTABLE_MM = 259
+PAGE_BUDGET_MM = 235
 
 
 def read_ids(path):
@@ -87,15 +104,15 @@ SLIP_CSS = """
 @page { size: auto; margin: 10mm; }
 * { box-sizing: border-box; }
 body { font-family: -apple-system, Helvetica, Arial, sans-serif; margin: 0; color: #111; }
-.sheet { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
-.slip { border: 1px dashed #999; padding: 10mm 6mm; height: 62mm;
+.sheet { display: grid; grid-template-columns: repeat(%(cols)d, 1fr); gap: 0; }
+.slip { border: 1px dashed #999; padding: 6mm 5mm; height: %(slip_h)dmm;
         display: flex; flex-direction: column; justify-content: space-between;
         page-break-inside: avoid; break-inside: avoid; }
-.title { font-size: 10pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #444; }
-.url { font-size: 11pt; font-weight: 600; margin-top: 2mm; word-break: break-all; }
-.num-label { font-size: 8.5pt; color: #666; margin-top: 4mm; }
-.num { font-size: 26pt; font-weight: 700; letter-spacing: .08em; font-variant-numeric: tabular-nums; }
-.how { font-size: 8.5pt; line-height: 1.35; color: #333; }
+.title { font-size: 9pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #444; }
+.url { font-size: 10pt; font-weight: 600; margin-top: 1.5mm; word-break: break-all; }
+.num-label { font-size: 8pt; color: #666; margin-top: 2mm; }
+.num { font-size: 24pt; font-weight: 700; letter-spacing: .08em; font-variant-numeric: tabular-nums; }
+.how { font-size: 8pt; line-height: 1.3; color: #333; }
 .seq { font-size: 7pt; color: #aaa; text-align: right; }
 @media screen { body { background: #f4f4f4; padding: 16px; } .sheet { background: #fff; } }
 """
@@ -122,7 +139,8 @@ SLIP = """      <div class="slip">
 def slips_html(ids, url):
     parts = ["<!doctype html><html><head><meta charset='utf-8'>",
              "<title>Latin I &mdash; student slips</title>",
-             "<style>%s</style></head><body>" % SLIP_CSS]
+             "<style>%s</style></head><body>"
+             % (SLIP_CSS % {"slip_h": SLIP_HEIGHT_MM, "cols": SLIP_COLUMNS})]
     for start in range(0, len(ids), PER_PAGE_SLIPS):
         page = ids[start:start + PER_PAGE_SLIPS]
         parts.append("<div class='sheet' style='page-break-after:always'>")
@@ -140,16 +158,16 @@ def slips_html(ids, url):
 RECORD_CSS = """
 @page { size: auto; margin: 14mm; }
 body { font-family: -apple-system, Helvetica, Arial, sans-serif; margin: 0; color: #111; }
-h1 { font-size: 15pt; margin: 0 0 2mm; }
-.warn { border: 2px solid #111; padding: 3mm 4mm; font-size: 9.5pt; line-height: 1.4; margin: 0 0 5mm; }
-table { border-collapse: collapse; width: 100%; page-break-inside: auto; }
+h1 { font-size: 13pt; margin: 0 0 2mm; }
+.warn { border: 2px solid #111; padding: 2mm 3mm; font-size: 8.5pt; line-height: 1.3; margin: 0 0 3mm; }
+table { border-collapse: collapse; width: 100%%; page-break-inside: auto; }
 th, td { border: 1px solid #999; padding: 0; font-size: 10pt; }
-th { background: #eee; font-size: 8.5pt; text-transform: uppercase; letter-spacing: .04em; padding: 2mm 2mm; text-align: left; }
-td { height: 9mm; padding: 0 2mm; }
+th { background: #eee; font-size: 8pt; text-transform: uppercase; letter-spacing: .04em; padding: 2mm 2mm; text-align: left; }
+td { height: %(row_h)dmm; padding: 0 2mm; }
 td.num { font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: .06em; width: 26mm; }
 td.seq { color: #888; font-size: 8pt; width: 10mm; text-align: right; }
 .page { page-break-after: always; }
-.foot { font-size: 8.5pt; color: #555; margin-top: 3mm; }
+.foot { font-size: 8pt; color: #555; margin-top: 2mm; }
 @media screen { body { background: #f4f4f4; padding: 16px; } .page { background: #fff; padding: 10mm; margin-bottom: 16px; } }
 """
 
@@ -157,7 +175,8 @@ td.seq { color: #888; font-size: 8pt; width: 10mm; text-align: right; }
 def record_html(ids, url):
     parts = ["<!doctype html><html><head><meta charset='utf-8'>",
              "<title>Latin I &mdash; ID number record</title>",
-             "<style>%s</style></head><body>" % RECORD_CSS]
+             "<style>%s</style></head><body>"
+             % (RECORD_CSS % {"row_h": ROW_HEIGHT_MM})]
     pages = [ids[i:i + PER_PAGE_ROWS] for i in range(0, len(ids), PER_PAGE_ROWS)]
     for pno, page in enumerate(pages, 1):
         parts.append("<div class='page'>")

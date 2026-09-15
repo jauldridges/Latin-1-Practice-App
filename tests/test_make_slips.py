@@ -133,6 +133,60 @@ class TestNothingButNumbersIsPrinted(unittest.TestCase):
         self.assertNotIn("<script>", html)
 
 
+class TestItFitsOnAPage(unittest.TestCase):
+    """The first print run had the last row of slips sliding onto a page of
+    its own, which ruins a sheet you are going to cut up, and the record sheet
+    took nine physical pages to print five logical ones while every page label
+    said "of 5". Both were laid out to fill the paper exactly, leaving nothing
+    for a printer's unprintable edge.
+
+    These assert the height budget rather than the rendering, because the
+    numbers below are what the rendering follows.
+    """
+
+    def test_the_slips_fit_with_room_to_spare(self):
+        rows = make_slips.PER_PAGE_SLIPS / float(make_slips.SLIP_COLUMNS)
+        used = rows * make_slips.SLIP_HEIGHT_MM
+        self.assertLessEqual(
+            used, make_slips.PAGE_BUDGET_MM,
+            "%g rows of %dmm is %gmm, over the %dmm budget — the last row will "
+            "print on a page of its own" % (rows, make_slips.SLIP_HEIGHT_MM, used,
+                                            make_slips.PAGE_BUDGET_MM))
+
+    def test_the_record_rows_fit_with_room_to_spare(self):
+        used = (make_slips.PER_PAGE_ROWS * make_slips.ROW_HEIGHT_MM
+                + make_slips.RECORD_FURNITURE_MM)
+        self.assertLessEqual(
+            used, make_slips.PAGE_BUDGET_MM,
+            "%d rows of %dmm plus %dmm of furniture is %dmm, over the %dmm "
+            "budget — each page will spill onto a second one and the "
+            "'page N of M' labels will be wrong"
+            % (make_slips.PER_PAGE_ROWS, make_slips.ROW_HEIGHT_MM,
+               make_slips.RECORD_FURNITURE_MM, used, make_slips.PAGE_BUDGET_MM))
+
+    def test_the_budget_leaves_a_real_margin_on_letter(self):
+        # Letter is the shorter page, so it sets the limit for A4 too.
+        self.assertLess(make_slips.PAGE_BUDGET_MM, make_slips.LETTER_PRINTABLE_MM)
+        slack = make_slips.LETTER_PRINTABLE_MM - make_slips.PAGE_BUDGET_MM
+        self.assertGreaterEqual(slack, 15, "under 15mm of slack is not slack")
+
+    def test_the_constants_actually_drive_the_css(self):
+        # Otherwise the budget above is a comment, not a constraint.
+        slips = make_slips.slips_html(["403217"], "example.test")
+        record = make_slips.record_html(["403217"], "example.test")
+        self.assertIn("height: %dmm" % make_slips.SLIP_HEIGHT_MM, slips)
+        self.assertIn("repeat(%d, 1fr)" % make_slips.SLIP_COLUMNS, slips)
+        self.assertIn("height: %dmm" % make_slips.ROW_HEIGHT_MM, record)
+
+    def test_the_page_labels_match_the_pages_produced(self):
+        ids = ["%06d" % (100000 + i) for i in range(1, 60)]
+        html = make_slips.record_html(ids, "example.test")
+        import math
+        expected = int(math.ceil(len(ids) / float(make_slips.PER_PAGE_ROWS)))
+        self.assertEqual(html.count("page 1 of %d" % expected), 1)
+        self.assertEqual(html.count("<table>"), expected)
+
+
 class TestTheAddress(unittest.TestCase):
     def test_it_comes_from_render_yaml(self):
         # So the printed address cannot drift from the service that answers.
