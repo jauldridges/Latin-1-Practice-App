@@ -81,7 +81,7 @@ start clean.
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
-| `tests/` | 406 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 437 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -307,8 +307,37 @@ approved that node's exact current wording, at `/teaching`. Two consequences:
   cannot inherit an old approval. The node shows as "edited since approval"
   until it is read again.
 
-Approvals live in the app's SQLite store. The text lives in `teaching.yaml`, and
-neither app ever writes to it: to reword something, edit the file and reload.
+### Approving it where you are already reading
+
+A question and the explanation a student gets when they miss it are one
+decision, so the review screen carries both. Under every question is its node's
+teaching text with its own state — *not yet approved*, *approved teaching
+text*, or *edited since approval* — an **Approve teaching text** button, and an
+**Edit teaching text** link. Approving returns you to the question rather than
+to the teaching section, because reviewing is a flow and the point is not to
+interrupt it. Splitting the two across separate screens is why the second half
+went undone for a month.
+
+**Rewording happens in the app, and the edit goes in the database.** The file
+is still never written to. That is not tidiness: a hosted service's disk does
+not survive a redeploy, so an edit written to `teaching.yaml` would vanish the
+next time the app was updated — silently, and in favour of wording the teacher
+had already replaced. A row in `teaching_overrides` overrides the file for one
+node; `teaching.yaml` keeps the original, and *Back to the file's wording*
+restores it.
+
+Saving an edit always clears that node's approval, whichever door the text came
+in by. The fingerprint covers the exact words and new words have not been read
+yet, so a reword takes the node off students until it is approved again.
+
+**Approve all** exists on `/teaching`, folded away behind a summary. It skips
+the reading the per-node screen is for, which is why it is neither the default
+nor hidden: a teacher who wrote the course can legitimately say they have read
+the lot. It is their click, and any node can still be withdrawn afterwards.
+
+Approvals live in the app's store, and so do any rewordings — both travel with
+a backup and a migration, because an edit a backup does not carry is an edit
+the teacher loses.
 
 ## Proctored quizzes
 
@@ -714,7 +743,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-406 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+437 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

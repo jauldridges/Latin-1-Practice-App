@@ -25,7 +25,8 @@ FORMAT = 1
 
 # Everything, in an order where a row never arrives before what it refers to.
 TABLES = ["items", "decisions", "roster", "student_pins", "events",
-          "miss_reasons", "teaching_approvals", "quizzes", "quiz_attempts"]
+          "miss_reasons", "teaching_approvals", "teaching_overrides",
+          "quizzes", "quiz_attempts"]
 
 # What belongs to students rather than to the course. The end-of-year purge
 # empties these and leaves the question bank and its review decisions alone —

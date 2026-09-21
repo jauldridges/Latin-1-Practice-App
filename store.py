@@ -87,6 +87,18 @@ CREATE TABLE IF NOT EXISTS teaching_approvals (
     approved_at  REAL NOT NULL
 );
 
+-- Teaching text the teacher reworded in the app. teaching.yaml stays the
+-- source and is still never written to; a row here overrides it for one node.
+-- It has to live in the database rather than in the file because a hosted
+-- service's disk does not survive a redeploy: an edit written to the file
+-- would vanish the next time the app was updated, silently, taking a node's
+-- explanation back to wording the teacher had already replaced.
+CREATE TABLE IF NOT EXISTS teaching_overrides (
+    node_id     TEXT PRIMARY KEY,
+    payload     TEXT NOT NULL,
+    updated_at  REAL NOT NULL
+);
+
 -- A proctored quiz: a FROZEN, hand-picked, ordered set of approved questions.
 -- Frozen matters: every student sits the same paper, and the paper does not
 -- change under them if the bank is re-imported later.
@@ -670,6 +682,34 @@ def approve_teaching(conn, node_id, fingerprint):
 def unapprove_teaching(conn, node_id):
     conn.execute("DELETE FROM teaching_approvals WHERE node_id=?", (node_id,))
     conn.commit()
+
+
+def set_teaching_override(conn, node_id, entry):
+    """Store a reworded teaching entry. The file keeps its copy; this wins."""
+    conn.execute(
+        """INSERT INTO teaching_overrides (node_id, payload, updated_at)
+           VALUES (?,?,?)
+           ON CONFLICT(node_id) DO UPDATE SET payload=excluded.payload,
+                                              updated_at=excluded.updated_at""",
+        (node_id, json.dumps(entry, ensure_ascii=False), time.time()))
+    conn.commit()
+
+
+def teaching_override(conn, node_id):
+    row = conn.execute("SELECT payload FROM teaching_overrides WHERE node_id=?",
+                       (node_id,)).fetchone()
+    return json.loads(row["payload"]) if row else None
+
+
+def clear_teaching_override(conn, node_id):
+    """Put a node back to the file's wording."""
+    conn.execute("DELETE FROM teaching_overrides WHERE node_id=?", (node_id,))
+    conn.commit()
+
+
+def teaching_overrides(conn):
+    rows = conn.execute("SELECT node_id, payload FROM teaching_overrides").fetchall()
+    return {r["node_id"]: json.loads(r["payload"]) for r in rows}
 
 
 def teaching_approvals(conn):

@@ -104,6 +104,61 @@
 {% if p.note %}<div class="small muted" style="margin-top:8px"><em>note:</em> {{ p.note }}</div>{% endif %}
 {% if p.generator_warning %}<div class="flags small"><em>generator warning:</em> {{ p.generator_warning }}</div>{% endif %}
 
+{# The node's teaching text, reviewed alongside the question that will show
+   it. A question and the explanation a student gets when they miss it are one
+   decision, and splitting them across two screens meant the second half was
+   never made. #}
+{% set teaching = teaching_for(item.node_id) %}
+{% set teaching_state = teaching_state_for(item.node_id) %}
+{% set here = request.full_path %}
+{% if teaching %}
+<h2>Teaching text
+  <span class="node-id">{{ item.node_id }}</span>
+  {% if teaching_state == 'approved' %}<span class="pill solid">approved</span>
+  {% elif teaching_state == 'edited' %}<span class="pill" style="background:#f7dede;color:var(--wrong)">edited since approval</span>
+  {% else %}<span class="pill shaky">not yet approved</span>{% endif %}
+</h2>
+
+{% if teaching_state == 'approved' %}
+  <div class="small muted">Approved teaching text — students see this after a miss on this node.</div>
+{% elif teaching_state == 'edited' %}
+  <div class="small muted">Signed off before, reworded since. Students see nothing here until it is approved again.</div>
+{% else %}
+  <div class="small muted">Not approved, so students currently see no explanation when they miss this node.</div>
+{% endif %}
+
+<div class="card">
+  <div class="small muted">Explanation</div>
+  <p>{{ teaching.explain }}</p>
+</div>
+<div class="card">
+  <div class="small muted">Worked examples</div>
+  <ul style="margin:6px 0 0;padding-left:18px">
+    {% for ex in teaching.examples %}<li>{{ ex }}</li>{% endfor %}
+  </ul>
+</div>
+<div class="card">
+  <div class="small muted">After a wrong answer</div>
+  <p>{{ teaching.when_wrong }}</p>
+</div>
+
+<div style="display:flex;gap:8px;margin:8px 0 14px">
+  {% if teaching_state != 'approved' %}
+  <form method="post" action="{{ url_for('teaching_approve', node_id=item.node_id) }}" style="flex:1">
+    <input type="hidden" name="back" value="{{ here }}">
+    <button class="bigbtn" name="action" value="approve" type="submit">Approve teaching text</button>
+  </form>
+  {% else %}
+  <form method="post" action="{{ url_for('teaching_approve', node_id=item.node_id) }}" style="flex:1">
+    <input type="hidden" name="back" value="{{ here }}">
+    <button class="bigbtn secondary" name="action" value="unapprove" type="submit">Withdraw approval</button>
+  </form>
+  {% endif %}
+  <a class="bigbtn secondary" style="flex:1;text-align:center;text-decoration:none"
+     href="{{ url_for('teaching_edit', node_id=item.node_id, back=here) }}">Edit teaching text</a>
+</div>
+{% endif %}
+
 <details class="reject-reasons">
   <summary>Reject with a reason…</summary>
   <form method="post" action="{{ url_for('review_action') }}">

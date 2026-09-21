@@ -24,7 +24,8 @@ import store
 
 # Copied in this order so a row never arrives before the thing it refers to.
 TABLES = ["items", "events", "miss_reasons", "teaching_approvals",
-          "quizzes", "quiz_attempts", "roster", "decisions"]
+          "teaching_overrides", "quizzes", "quiz_attempts", "roster",
+          "decisions"]
 
 # Assigned by the database, not carried across.
 SKIP_COLUMNS = {"events": {"id"}, "miss_reasons": {"id"}, "decisions": {"id"}}

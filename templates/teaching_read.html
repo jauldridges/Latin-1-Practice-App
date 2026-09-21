@@ -32,8 +32,15 @@
   since. It is not being shown to students until you approve it again.</div>
 {% endif %}
 
-<p class="small muted">To reword this, edit <code>teaching.yaml</code> and reload.
-The file is yours; the app never writes to it.</p>
+{% if reworded %}
+<p class="small muted">This is your wording, stored in the app.
+<code>teaching.yaml</code> still has the original and is never written to.</p>
+{% else %}
+<p class="small muted">This is the wording from <code>teaching.yaml</code>.
+Reword it here and the app keeps your version; the file is left alone.</p>
+{% endif %}
+
+<a class="bigbtn secondary" href="{{ url_for('teaching_edit', node_id=node) }}">Reword this</a>
 
 <form method="post" action="{{ url_for('teaching_approve', node_id=node) }}">
   {% if nxt %}<input type="hidden" name="next" value="{{ nxt }}">{% endif %}

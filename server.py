@@ -800,35 +800,76 @@ def drill_answer():
 # Teaching text — draft in teaching.yaml, approved here
 # ==========================================================================
 
-def approved_teaching_for(db, node_id):
-    """The teaching text for a node, but only if the teacher has approved the
-    exact wording currently in teaching.yaml. Draft or edited-since-approval
-    text returns None, so nothing student-facing ships unread."""
-    entry = _TEACHING.get(node_id)
+def teaching_entry(db, node_id):
+    """The wording in force for a node: the teacher's edit if there is one,
+    otherwise teaching.yaml. The file is still never written to."""
+    if node_id is None:
+        return None
+    return store.teaching_override(db, node_id) or _TEACHING.get(node_id)
+
+
+def teaching_state(db, node_id, entry=None):
+    """approved / edited / draft, against the wording in force.
+
+    `edited` means signed off once and changed since -- by a reword here or in
+    the file -- and it is deliberately not shown to a student until it is read
+    again. An old approval must not carry over to new words.
+    """
+    entry = entry or teaching_entry(db, node_id)
     if not entry:
         return None
-    approved = store.teaching_approvals(db).get(node_id)
-    if approved and approved == dataio.teaching_fingerprint(entry):
+    got = store.teaching_approvals(db).get(node_id)
+    if got == dataio.teaching_fingerprint(entry):
+        return "approved"
+    return "edited" if got else "draft"
+
+
+def approved_teaching_for(db, node_id):
+    """The teaching text for a node, but only if the teacher has approved the
+    exact wording in force. Draft or edited-since-approval text returns None,
+    so nothing student-facing ships unread."""
+    entry = teaching_entry(db, node_id)
+    if not entry:
+        return None
+    if teaching_state(db, node_id, entry) == "approved":
         return entry
     return None
+
+
+@app.template_global("teaching_for")
+def _teaching_for(node_id):
+    """The wording in force for a node, for the review screen.
+
+    A template global rather than four more arguments threaded through the four
+    routes that render a question -- and the next one somebody adds would have
+    forgotten it.
+    """
+    return teaching_entry(get_db(), node_id)
+
+
+@app.template_global("teaching_state_for")
+def _teaching_state_for(node_id):
+    return teaching_state(get_db(), node_id)
 
 
 @app.route("/teaching")
 def teaching_index():
     db = get_db()
     approvals = store.teaching_approvals(db)
+    overrides = store.teaching_overrides(db)
     rows = []
-    for nid, entry in _TEACHING.items():
-        fp = dataio.teaching_fingerprint(entry)
+    for nid in _TEACHING:
+        entry = overrides.get(nid) or _TEACHING[nid]
         got = approvals.get(nid)
-        if got == fp:
+        if got == dataio.teaching_fingerprint(entry):
             state = "approved"
         elif got:
-            state = "edited"          # approved once, text has changed since
+            state = "edited"          # signed off once, the words changed since
         else:
             state = "draft"
         rows.append({"node": nid, "label": entry.get("label", ""),
-                     "state": state, "strand": nid.split("-")[0]})
+                     "state": state, "strand": nid.split("-")[0],
+                     "reworded": nid in overrides})
     rows.sort(key=lambda r: r["node"])
     counts = {"approved": sum(1 for r in rows if r["state"] == "approved"),
               "draft": sum(1 for r in rows if r["state"] == "draft"),
@@ -840,32 +881,113 @@ def teaching_index():
 @app.route("/teaching/<node_id>")
 def teaching_read(node_id):
     db = get_db()
-    entry = _TEACHING.get(node_id)
+    entry = teaching_entry(db, node_id)
     if not entry:
         abort(404)
-    approvals = store.teaching_approvals(db)
-    fp = dataio.teaching_fingerprint(entry)
-    got = approvals.get(node_id)
-    state = "approved" if got == fp else ("edited" if got else "draft")
+    state = teaching_state(db, node_id, entry)
     order = sorted(_TEACHING)
     i = order.index(node_id)
     return render_template("teaching_read.html", node=node_id, entry=entry,
                            state=state,
+                           reworded=store.teaching_override(db, node_id) is not None,
                            nxt=order[i + 1] if i + 1 < len(order) else None,
                            prv=order[i - 1] if i > 0 else None)
+
+
+@app.route("/teaching/<node_id>/edit", methods=["GET", "POST"])
+def teaching_edit(node_id):
+    """Reword a node's teaching text without leaving the app.
+
+    The edit is stored in the database, not written back to teaching.yaml. A
+    hosted service's disk does not survive a redeploy, so a file write would
+    lose the teacher's words the next time the app was updated -- quietly, and
+    in favour of wording they had already decided against.
+
+    Saving always clears the approval, whatever it said before: the fingerprint
+    covers the exact words, and new words have not been signed off yet. That is
+    the same rule the file already obeys, applied to the same text arriving by
+    a different door.
+    """
+    db = get_db()
+    entry = teaching_entry(db, node_id)
+    if not entry:
+        abort(404)
+    back = request.values.get("back") or url_for("teaching_read", node_id=node_id)
+    if request.method == "POST":
+        if request.form.get("action") == "revert":
+            store.clear_teaching_override(db, node_id)
+            store.unapprove_teaching(db, node_id)
+            return redirect(back)
+        examples = [ln.strip() for ln in
+                    (request.form.get("examples") or "").splitlines() if ln.strip()]
+        edited = dict(entry)
+        edited["explain"] = (request.form.get("explain") or "").strip()
+        edited["examples"] = examples
+        edited["when_wrong"] = (request.form.get("when_wrong") or "").strip()
+        edited["status"] = "draft"
+        problem = None
+        if not edited["explain"]:
+            problem = "The explanation is what a student reads after a miss. It cannot be empty."
+        elif not examples:
+            problem = "Keep at least one worked example."
+        elif not edited["when_wrong"]:
+            problem = "The after-a-miss line cannot be empty."
+        elif len(edited["explain"].split()) > 120:
+            problem = ("The explanation is %d words. Keep it under 120 so it fits a phone."
+                       % len(edited["explain"].split()))
+        if problem:
+            return render_template("teaching_edit.html", node=node_id, entry=edited,
+                                   state=teaching_state(db, node_id),
+                                   reworded=store.teaching_override(db, node_id) is not None,
+                                   back=back, error=problem), 400
+        store.set_teaching_override(db, node_id, edited)
+        store.unapprove_teaching(db, node_id)
+        return redirect(back)
+    return render_template("teaching_edit.html", node=node_id, entry=entry,
+                           state=teaching_state(db, node_id, entry),
+                           reworded=store.teaching_override(db, node_id) is not None,
+                           back=back, error=None)
+
+
+@app.route("/teaching/approve-all", methods=["POST"])
+def teaching_approve_all():
+    """Sign off every node still waiting, in one action.
+
+    Deliberately not the default path and deliberately not hidden: the per-node
+    screen exists so wording is read before it reaches a student, and this
+    skips that reading. It is here because the teacher who wrote the course can
+    legitimately say they have read the lot -- but it is their click, and every
+    node can still be withdrawn one at a time afterwards.
+    """
+    db = get_db()
+    approvals = store.teaching_approvals(db)
+    overrides = store.teaching_overrides(db)
+    done = 0
+    for nid in _TEACHING:
+        entry = overrides.get(nid) or _TEACHING[nid]
+        fp = dataio.teaching_fingerprint(entry)
+        if approvals.get(nid) != fp:
+            store.approve_teaching(db, nid, fp)
+            done += 1
+    return redirect(url_for("teaching_index", approved=done))
 
 
 @app.route("/teaching/<node_id>/approve", methods=["POST"])
 def teaching_approve(node_id):
     db = get_db()
-    entry = _TEACHING.get(node_id)
+    entry = teaching_entry(db, node_id)
     if not entry:
         abort(404)
     action = request.form.get("action", "approve")
+    back = request.form.get("back")
     if action == "unapprove":
         store.unapprove_teaching(db, node_id)
-        return redirect(url_for("teaching_read", node_id=node_id))
+        return redirect(back or url_for("teaching_read", node_id=node_id))
     store.approve_teaching(db, node_id, dataio.teaching_fingerprint(entry))
+    if back:
+        # Approved from the review screen: go back to the question, not away
+        # from it. Reviewing is a flow and this must not interrupt it.
+        return redirect(back)
     nxt = request.form.get("next")
     if nxt:
         return redirect(url_for("teaching_read", node_id=nxt))

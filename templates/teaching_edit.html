@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block subtitle %}teaching text{% endblock %}
+{% block content %}
+<div class="meta-row">
+  <span class="node-id">{{ node }}</span>
+  <span class="badge tier">{{ node | nodelabel }}</span>
+  {% if reworded %}<span class="pill shaky">your wording</span>{% endif %}
+</div>
+<h1 style="font-size:19px">Reword this explanation</h1>
+
+{% if error %}<div class="flags"><span class="lvl error">not saved</span> {{ error }}</div>{% endif %}
+
+<form method="post" action="{{ url_for('teaching_edit', node_id=node) }}">
+  <input type="hidden" name="back" value="{{ back }}">
+
+  <label class="small muted" for="explain" style="display:block;margin-top:10px">
+    Explanation — what a student reads after a miss. Aim for about 45 words.</label>
+  <textarea id="explain" name="explain" rows="5" style="width:100%"
+            autocapitalize="sentences" spellcheck="true">{{ entry.explain | trim }}</textarea>
+
+  <label class="small muted" for="examples" style="display:block;margin-top:10px">
+    Worked examples — one per line.</label>
+  <textarea id="examples" name="examples" rows="4" style="width:100%"
+            spellcheck="true">{% for ex in entry.examples %}{{ ex }}
+{% endfor %}</textarea>
+
+  <label class="small muted" for="when_wrong" style="display:block;margin-top:10px">
+    After a wrong answer — aimed at the mistake the menu records.</label>
+  <textarea id="when_wrong" name="when_wrong" rows="3" style="width:100%"
+            autocapitalize="sentences" spellcheck="true">{{ entry.when_wrong | trim }}</textarea>
+
+  <p class="small muted" style="margin-top:10px">
+    Saving clears the approval on this node — new words have not been signed off
+    yet, so students keep seeing nothing here until you approve it again. Your
+    wording is stored in the app; <code>teaching.yaml</code> is left alone.</p>
+
+  <button class="bigbtn" type="submit">Save</button>
+</form>
+
+<div style="display:flex;gap:8px;margin-top:8px">
+  <a class="bigbtn secondary" href="{{ back }}">Cancel</a>
+  {% if reworded %}
+  <form method="post" action="{{ url_for('teaching_edit', node_id=node) }}" style="flex:1">
+    <input type="hidden" name="back" value="{{ back }}">
+    <button class="bigbtn secondary" name="action" value="revert"
+            type="submit">Back to the file's wording</button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

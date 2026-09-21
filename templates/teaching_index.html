@@ -10,6 +10,26 @@ for nodes you have approved — drafts are invisible to them.</p>
   {% if counts.edited %}<span class="badge err">{{ counts.edited }} edited since approval</span>{% endif %}
   <span class="badge tier">{{ counts.total }} total</span>
 </div>
+{% if request.args.get('approved') %}
+<div class="flags"><span class="lvl heuristic">done</span>
+  Approved {{ request.args.get('approved') }} node{{ '' if request.args.get('approved') == '1' else 's' }}.
+  Students now see an explanation after a miss on those.</div>
+{% endif %}
+
+{% set waiting = counts.draft + counts.edited %}
+{% if waiting %}
+<details style="margin:10px 0">
+  <summary class="small muted">Approve all {{ waiting }} at once…</summary>
+  <p class="small muted" style="margin:6px 0">
+    The node-at-a-time screen exists so wording is read before a student sees
+    it, and this skips that. Use it if you have read the lot; you can still
+    withdraw any single node afterwards.</p>
+  <form method="post" action="{{ url_for('teaching_approve_all') }}">
+    <button class="bigbtn secondary" type="submit">Approve all {{ waiting }} now</button>
+  </form>
+</details>
+{% endif %}
+
 <ul class="queue">
   {% for r in rows %}
   <li>
@@ -18,6 +38,7 @@ for nodes you have approved — drafts are invisible to them.</p>
       {% if r.state == 'approved' %}<span class="pill solid">approved</span>
       {% elif r.state == 'edited' %}<span class="pill" style="background:#f7dede;color:var(--wrong)">edited</span>
       {% else %}<span class="pill shaky">draft</span>{% endif %}
+      {% if r.reworded %}<span class="pill shaky">your wording</span>{% endif %}
     </a>
   </li>
   {% endfor %}

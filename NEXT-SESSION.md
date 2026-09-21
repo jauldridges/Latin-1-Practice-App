@@ -23,7 +23,7 @@ dashboard for who's practising and what they don't know.
 - Python 3.9-compatible, no build step, mobile-first server-rendered HTML.
   It has to work on a school Chromebook at home when I'm not there.
 - Run the full test suite before you tell me something's done. It should be
-  ~384 passing (about 14 skip unless a local Postgres is running).
+  ~437 passing (about 14 skip unless a local Postgres is running).
 - Never say "mastery" to a student. The words are solid / shaky / not yet.
 
 **How I work.** Make things simple for me — I'd rather not go back to the
