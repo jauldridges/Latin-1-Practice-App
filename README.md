@@ -81,7 +81,7 @@ start clean.
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
-| `tests/` | 437 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 441 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -270,7 +270,25 @@ The third app, and the reason the review work pays off.
   `order_matters: false` by matching answers to boxes rather than by position.
 - **The what-went-wrong menu** appears on a wrong answer only, never on a close
   one. Each choice is tagged to the node that explains that mistake, plus the
-  three fixed choices, which are appended and never written per item.
+  fixed choices, which are appended and never written per item.
+
+- **"I don't know" is not one of them any more.** The exemplar file lists it
+  first of three fixed choices, and a week with a real class was enough: it was
+  most of the answers. That is not a diagnosis, and sitting at the top of the
+  list it crowded out the reasons that are. Taking it out is a deliberate
+  deviation from the spec, made on evidence.
+
+  What went in alongside matters more than what came out. In practice the menu
+  *replaces* the Next button — a wrong answer cannot be left behind without
+  answering it — so every remaining choice is a claim about why you were wrong.
+  A student who genuinely has no idea would have been cornered into inventing
+  one, which puts a sentence in your "what they say went wrong" table that
+  nobody meant, or into "I think my answer should be right", which pulls a
+  sound question out of circulation and into the flagged queue. So the screen
+  carries a quiet link — *None of these — next question* — that is deliberately
+  less inviting than the reasons and records nothing at all. An empty answer is
+  better evidence than one nobody meant. (In a quiz review the menu sits behind
+  a fold and can simply be ignored, so only the practice screen needs this.)
 - **Contesting is the live-fire path.** "I think my answer should be right"
   writes the contest to the record *and* returns the question to the flagged
   queue with the reason attached. That is the hook the earlier build left as a
@@ -743,7 +761,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-437 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+441 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 
@@ -843,6 +861,9 @@ fails it.
   in the spec node list, so there is no node to attach.
 - **`version` is always `v1` in the drill** — there are no v2/v3 vocabulary cards;
   the field is carried anyway, as instructed.
+- **The fixed what-went-wrong menu is two choices, not three.** `"I don't know"`
+  was removed after the app met a class; see the grammar-practice section for
+  what replaced it and why the menu still cannot corner a student.
 
 ## Storage & reset
 

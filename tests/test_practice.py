@@ -146,24 +146,72 @@ class TestTags(unittest.TestCase):
 
 
 class TestMenu(unittest.TestCase):
-    def test_menu_has_item_reasons_plus_three_fixed(self):
+    def test_menu_has_item_reasons_plus_the_fixed_ones(self):
         item = {"what_went_wrong": [
             {"text": "I picked the first noun", "node": "MS-011"},
             {"text": "I picked the verb", "node": "MS-014"},
         ]}
         menu = practice.menu_for(item)
-        self.assertEqual(len(menu), 5)
+        self.assertEqual(len(menu), 4)
         self.assertEqual(menu[0]["node"], "MS-011")
-        self.assertEqual([m["text"] for m in menu[-3:]],
-                         ["I don't know", "I didn't know the word",
+        self.assertEqual([m["text"] for m in menu[-2:]],
+                         ["I didn't know the word",
                           "I think my answer should be right"])
 
     def test_contest_key_is_last(self):
         menu = practice.menu_for({"what_went_wrong": []})
         self.assertEqual(menu[-1]["key"], practice.CONTEST_KEY)
 
-    def test_empty_menu_still_offers_the_fixed_three(self):
-        self.assertEqual(len(practice.menu_for({})), 3)
+    def test_empty_menu_still_offers_the_fixed_ones(self):
+        self.assertEqual(len(practice.menu_for({})), 2)
+
+    def test_i_dont_know_is_gone(self):
+        """It was most of the answers, which is not a diagnosis.
+
+        Every remaining choice is a claim about why you were wrong, so nothing
+        here may read as "no idea" -- a student with no idea takes the quiet
+        way past the menu instead, and is recorded as nothing.
+        """
+        item = {"what_went_wrong": [{"text": "I picked the verb", "node": "MS-014"}]}
+        for m in practice.menu_for(item):
+            self.assertNotEqual(m["key"], "dont_know")
+            self.assertNotIn("don't know", m["text"].lower())
+
+    def test_the_only_way_to_say_nothing_is_not_a_contest(self):
+        # Removing the honest option must not push a stuck student onto the
+        # contest path, which pulls a sound question out of circulation.
+        keys = [m["key"] for m in practice.menu_for({})]
+        self.assertEqual(keys, ["didnt_know_word", practice.CONTEST_KEY])
+
+
+class TestThereIsAWayPastTheMenu(unittest.TestCase):
+    """In practice the menu replaces the Next button, so it must not be a trap.
+
+    In a quiz review it sits behind a fold and can simply be ignored, which is
+    why only the practice screen needs this.
+    """
+
+    def test_the_practice_screen_offers_one(self):
+        import os
+        tpl = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                           "templates", "practice_feedback.html")
+        with open(tpl, encoding="utf-8") as fh:
+            body = fh.read()
+        menu_block = body.split("{% elif menu %}")[1].split("{% else %}")[0]
+        self.assertIn("practice_session", menu_block,
+                      "the menu is mandatory with no way on: a student who "
+                      "does not know must invent a reason or contest the item")
+        self.assertIn("None of these", menu_block)
+
+    def test_it_records_nothing(self):
+        # A link, not a form: no reason_key, so no row in miss_reasons.
+        import os
+        tpl = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                           "templates", "practice_feedback.html")
+        with open(tpl, encoding="utf-8") as fh:
+            menu_block = fh.read().split("{% elif menu %}")[1].split("{% else %}")[0]
+        after = menu_block.split("None of these")[0].rsplit("<a ", 1)[-1]
+        self.assertNotIn("reason_key", after)
 
 
 class TestSelection(unittest.TestCase):

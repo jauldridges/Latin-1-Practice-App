@@ -30,10 +30,22 @@ from collections import namedtuple
 
 from answercheck import check as check_answer
 
-# The three fixed menu choices. Never written per item; appended to every
-# item's own what_went_wrong list. The third is the contest path.
+# The fixed menu choices. Never written per item; appended to every item's own
+# what_went_wrong list. The last is the contest path.
+#
+# "I don't know" used to head this list, as the exemplar file's rules specify.
+# It came out after the app met a real class: it was most of the answers, which
+# is not a diagnosis, and being first it crowded out the reasons that are.
+# A deliberate deviation from the exemplar rule; the README records it.
+#
+# Removing it does NOT leave a student cornered. Every choice here is a claim
+# about why you were wrong, so the feedback screen carries a quiet way past the
+# menu that records nothing. Without it, a student with no idea has two ways
+# out and both are worse than silence: invent a reason, which puts a sentence
+# in the teacher's "what they say went wrong" table that nobody meant, or tap
+# "I think my answer should be right", which pulls a sound question out of
+# circulation and into the flagged queue.
 FIXED_MENU = [
-    {"key": "dont_know", "text": "I don't know", "node": None},
     {"key": "didnt_know_word", "text": "I didn't know the word", "node": None},
     {"key": "should_be_right", "text": "I think my answer should be right", "node": None},
 ]

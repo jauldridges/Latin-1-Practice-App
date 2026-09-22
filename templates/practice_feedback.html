@@ -122,6 +122,15 @@
   </form>
   {% endfor %}
 
+  {# Every choice above is a claim about why you were wrong. A student who has
+     no idea needs a way on that is neither a guess nor a contest, so this is
+     here — quiet, deliberately less inviting than the reasons, and recorded as
+     nothing at all. An empty answer is better evidence than one nobody meant. #}
+  <p style="margin-top:16px;text-align:center">
+    <a class="small muted" href="{{ url_for('practice_session', node=node or '', context=context) }}"
+       style="text-decoration:underline">None of these — next question</a>
+  </p>
+
 {% else %}
   <a class="bigbtn" id="nextbtn" href="{{ url_for('practice_session', node=node or '', context=context) }}">Next question <span class="small" style="opacity:.75">(or press Enter)</span></a>
   <script>
