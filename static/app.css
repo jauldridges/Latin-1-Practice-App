@@ -212,3 +212,65 @@ details.hintbox[open] > summary { margin-bottom: 6px; }
 details.hintbox ul { margin: 4px 0; padding-left: 18px; }
 .introduced { color: var(--muted); font-size: 13px; }
 h3 { font-size: 16px; margin: 18px 0 4px; }
+
+/* ---- Student-facing polish, Sep 2026 ------------------------------------ */
+
+/* Who is signed in, on every screen, with the way out beside it. */
+header.top .who { margin-left: auto; font-size: 14px; color: var(--muted); }
+header.top .who a { color: var(--muted); }
+
+/* The three places a student goes. Same bar on every screen. */
+nav.tabs {
+  position: sticky; top: 49px; z-index: 4; display: flex;
+  background: var(--card); border-bottom: 1px solid var(--line);
+}
+nav.tabs a {
+  flex: 1; text-align: center; padding: 11px 4px; font-size: 15px; font-weight: 600;
+  color: var(--muted); text-decoration: none; border-bottom: 3px solid transparent;
+}
+nav.tabs a.on { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* Landing choices: two equal cards rather than a green one and a grey one. */
+a.choice {
+  display: block; text-decoration: none; color: var(--ink);
+  background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--accent);
+  border-radius: 12px; padding: 18px 18px 16px; margin: 12px 0;
+}
+a.choice:active { background: #eef5f0; }
+a.choice .choice-title { display: block; font-size: 21px; font-weight: 700; color: var(--accent); }
+a.choice .choice-body { display: block; margin-top: 4px; color: var(--muted); font-size: 15px; line-height: 1.45; }
+
+/* Answer options: bigger targets, and a clear hover/checked state. */
+label.opt { padding: 14px 14px; font-size: 18px; align-items: center; }
+label.opt:has(input:checked) { border-color: var(--accent); background: #eef5f0; }
+label.opt input[type=radio] { width: 20px; height: 20px; margin: 0; flex: none; }
+.opt.picked { border-color: #e7b3b3; background: #fbf1f1; }
+.opt .latin, .opt span { line-height: 1.35; }
+
+/* Feedback: the targeted line first and a little heavier; examples fold away. */
+.why-card p { margin: 6px 0; line-height: 1.55; }
+.why-card p.why-lead { border-left: 3px solid var(--flag); padding-left: 10px; }
+details.examples > summary, details.why > summary { font-weight: 600; font-size: 15px; }
+details.examples ul, details.why ul { margin: 4px 0 0; padding-left: 18px; font-size: 15px; }
+details.why { background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  padding: 6px 14px; margin: 12px 0; }
+details.why p { margin: 6px 0; }
+
+/* Progress by week: one line per week until you open it. */
+details.week { background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  margin: 8px 0; padding: 0 12px; }
+details.week > summary { display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; padding: 12px 0; margin: 0; color: var(--ink); list-style: none; }
+details.week > summary::-webkit-details-marker { display: none; }
+details.week > summary .week-name { font-weight: 700; }
+details.week > summary .week-name::before { content: "▸ "; color: var(--muted); }
+details.week[open] > summary .week-name::before { content: "▾ "; }
+details.week > summary .week-counts .pill { min-width: 28px; text-align: center; }
+details.week table.progress { margin-bottom: 10px; font-size: 15px; }
+details.week table.progress td.latin { font-weight: 600; }
+
+/* A Chromebook screen is wide; a line of prose should not be. */
+.stem { max-width: 40em; }
+/* On a Chromebook, keep the tabs over the content rather than across the screen. */
+nav.tabs { justify-content: center; }
+nav.tabs a { max-width: 240px; }

@@ -6,7 +6,6 @@
 {% include "_statsbar.html" %}
 
 <div class="meta-row">
-  <span class="node-id">{{ item.node }}</span>
   <span class="badge tier">{{ label }}</span>
   {% if context != 'practice' %}<span class="badge err">{{ context }}</span>{% endif %}
 </div>
@@ -25,7 +24,7 @@
     {% for disp, k, v in shown_options(item) %}
       <label class="opt" style="cursor:pointer">
         <input type="radio" name="picked" value="{{ k }}" required style="margin-top:4px">
-        <span class="k">{{ disp }}</span> <span class="latin">{{ v }}</span>
+        <span class="k">{{ disp }}</span> <span class="{{ 'latin' if ' ' not in v|string }}">{{ v }}</span>
       </label>
     {% endfor %}
 

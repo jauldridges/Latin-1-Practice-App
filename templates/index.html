@@ -1,13 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Latin I</h1>
-<p class="muted">Practice for Latin I. Works on a phone.</p>
+{% if signed_in_student and not is_teacher %}
+  <h1>Salvē!</h1>
+  <p class="muted">What are you practising today?</p>
+{% else %}
+  <h1>Latin I practice</h1>
+  {% if not is_teacher %}
+  <p class="muted">You'll sign in with your student number and your 4-digit PIN.</p>
+  {% endif %}
+{% endif %}
 
-<a class="bigbtn" href="{{ url_for('drill_home') }}">Vocabulary drill</a>
-<p class="small muted" style="margin-top:-4px">Spaced practice on the weekly core word list.</p>
+{# Two equal choices. The old page made vocabulary green and grammar grey,
+   which told a student one of them mattered less. #}
+<a class="choice" href="{{ url_for('drill_home') }}">
+  <span class="choice-title">Vocabulary</span>
+  <span class="choice-body">Type what the words mean. A few minutes most days works
+    better than one long go.</span>
+</a>
+<a class="choice" href="{{ url_for('practice_home') }}">
+  <span class="choice-title">Grammar</span>
+  <span class="choice-body">Questions on what you've covered in class so far.</span>
+</a>
 
-<a class="bigbtn secondary" href="{{ url_for('practice_home') }}">Grammar practice</a>
-<p class="small muted" style="margin-top:-4px">Approved questions from lessons already taught.</p>
+{% if signed_in_student and not is_teacher %}
+  <p style="text-align:center;margin-top:18px">
+    <a href="{{ url_for('drill_progress') }}">See my progress</a></p>
+{% endif %}
 
 {# Teacher tools are hidden, not merely protected, once a password is set:
    a student staring at four buttons that reject them is a support ticket. #}

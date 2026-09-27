@@ -17,7 +17,7 @@
       <label class="opt" style="cursor:pointer">
         <input type="radio" name="picked" value="{{ k }}" style="margin-top:4px"
                {% if saved == k %}checked{% endif %}>
-        <span class="k">{{ disp }}</span> <span class="latin">{{ v }}</span>
+        <span class="k">{{ disp }}</span> <span class="{{ 'latin' if ' ' not in v|string }}">{{ v }}</span>
       </label>
     {% endfor %}
 

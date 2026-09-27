@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block subtitle %}drill{% endblock %}
 {% block content %}
-{% if signed_in_student %}
+{% if signed_in_student and is_teacher %}
   <p class="small muted">Signed in as <strong class="sid">{{ signed_in_student }}</strong>
     — <a href="{{ url_for('signout') }}">not you?</a></p>
 {% endif %}

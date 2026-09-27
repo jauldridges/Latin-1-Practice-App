@@ -176,6 +176,60 @@ def option_seed(student_id, item_id):
     return "%s|%s" % (student_id or "", item_id or "")
 
 
+# --------------------------------------------------------------------------
+# What a hint may show before the student has answered
+# --------------------------------------------------------------------------
+
+def _plain(text):
+    """Lower-case, macrons off, letters and spaces only -- for comparing."""
+    import unicodedata
+    s = unicodedata.normalize("NFKD", str(text or "")).encode("ascii", "ignore").decode()
+    return " ".join("".join(c if c.isalpha() else " " for c in s.lower()).split())
+
+
+def _answers_of(item):
+    """The strings that ARE the answer, where a hint must not print them."""
+    out = []
+    fmt = item.get("format")
+    if fmt == "choice":
+        v = (item.get("options") or {}).get(item.get("answer"))
+        if v:
+            out.append(v)
+    elif fmt == "boxes":
+        for b in item.get("boxes") or []:
+            out.extend(a for a in (b.get("answer") or []) if a)
+    return [a for a in (_plain(x) for x in out) if len(a) >= 3]
+
+
+def hint_examples(examples, item):
+    """Worked examples that are safe to show BEFORE the student answers.
+
+    Teaching text is written per node and serves two moments: the hint, taken
+    before answering, and the explanation, read after. Its worked examples are
+    often built from the same handful of sentences the questions use -- which
+    is fine after the answer and fatal before it. The MS-014 hint said "Nauta
+    puellam spectat -- nauta is nominative" on the question "In Nauta puellam
+    spectat, which word is the subject?"
+
+    So the hint drops any example that repeats three or more consecutive words
+    of the question, or that contains the answer itself. The explanation after
+    the answer still shows every example, and the approved wording is never
+    changed -- this is a filter on one moment, not an edit to the text.
+    """
+    stem = _plain(item.get("stem", "")).split()
+    windows = {" ".join(stem[i:i + 3]) for i in range(len(stem) - 2)}
+    answers = _answers_of(item)
+    kept = []
+    for ex in examples or []:
+        e = " %s " % _plain(ex)
+        if any(" %s " % w in e for w in windows):
+            continue
+        if any(" %s " % a in e for a in answers):
+            continue
+        kept.append(ex)
+    return kept
+
+
 def grade_choice(item, picked):
     """Multiple choice: right or wrong. There is no 'close' when picking."""
     return "right" if picked == item.get("answer") else "wrong"

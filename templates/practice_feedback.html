@@ -10,8 +10,7 @@
   <div class="answer-feedback wrong">Not quite.</div>
 {% endif %}
 
-<div class="meta-row"><span class="node-id">{{ item.node }}</span>
-  <span class="badge tier">{{ label }}</span></div>
+<div class="meta-row"><span class="badge tier">{{ label }}</span></div>
 <div class="small muted">{{ item.stem }}</div>
 {% if introduced %}<div class="introduced">Introduced {{ introduced }}.</div>{% endif %}
 
@@ -58,27 +57,46 @@
   </div>
 {% endif %}
 
+{# Letters are the ones THIS student saw. Options are shuffled per student, so
+   the file's key ("a") is usually not the letter on their screen -- printing it
+   told a student who never picked "a" that the answer was "a". #}
 {% if picked and result == 'wrong' %}
-  <div class="box"><span class="label">you picked:</span> {{ item.options[picked] }}</div>
-  <div class="opt correct"><span class="k">{{ item.answer }} ✓</span>
-    <span class="latin">{{ item.options[item.answer] }}</span></div>
+  {% for disp, k, v in shown_options(item) %}{% if k == picked %}
+  <div class="opt picked"><span class="k">{{ disp }}</span>
+    <span class="{{ 'latin' if ' ' not in v|string }}">{{ v }}</span>
+    <span class="small muted" style="margin-left:auto">your answer</span></div>
+  {% endif %}{% endfor %}
+  {% for disp, k, v in shown_options(item) %}{% if k == item.answer %}
+  <div class="opt correct"><span class="k">{{ disp }} ✓</span>
+    <span class="{{ 'latin' if ' ' not in v|string }}">{{ v }}</span>
+    <span class="small" style="margin-left:auto;color:var(--right)">right answer</span></div>
+  {% endif %}{% endfor %}
 {% endif %}
 
 {# ---- teaching text: written and approved separately; shows when present ---- #}
 {% if teaching %}
-  <div class="card">
-    <div class="small muted">Why</div>
-    <p style="margin:6px 0">{{ teaching.explain }}</p>
-    {% if teaching.when_wrong and result == 'wrong' %}
-      <p style="margin:6px 0">{{ teaching.when_wrong }}</p>
-    {% endif %}
+  {% if result == 'right' %}
+  <details class="why">
+    <summary>Why is that right?</summary>
+    <p>{{ teaching.explain }}</p>
     {% if teaching.examples %}
-      <div class="small muted" style="margin-top:8px">For example</div>
-      <ul style="margin:4px 0 0;padding-left:18px">
-        {% for ex in teaching.examples %}<li class="small">{{ ex }}</li>{% endfor %}
-      </ul>
+      <ul>{% for ex in teaching.examples %}<li>{{ ex }}</li>{% endfor %}</ul>
+    {% endif %}
+  </details>
+  {% else %}
+  <div class="card why-card">
+    {% if teaching.when_wrong and result == 'wrong' %}
+      <p class="why-lead">{{ teaching.when_wrong }}</p>
+    {% endif %}
+    <p>{{ teaching.explain }}</p>
+    {% if teaching.examples %}
+      <details class="examples">
+        <summary>Examples</summary>
+        <ul>{% for ex in teaching.examples %}<li>{{ ex }}</li>{% endfor %}</ul>
+      </details>
     {% endif %}
   </div>
+  {% endif %}
 {% endif %}
 
 {# ---- self-check half: model answer + self report ---- #}

@@ -81,7 +81,7 @@ start clean.
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
-| `tests/` | 441 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 455 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -303,6 +303,54 @@ The third app, and the reason the review work pays off.
 **Teaching text** renders on the feedback screen when a question has it. All 213
 questions currently have `teaching: ""` — that text is written and approved
 separately, so the slot is there and empty by design.
+
+## What a student sees
+
+Audited in September 2026 by driving the app as a signed-in student at phone
+(390px) and Chromebook (1366px) widths, with a teacher password set so the
+screens were the ones students actually get. Two findings were bugs, not looks:
+
+- **The feedback screen printed the wrong letter.** Options are shuffled per
+  student, but after a wrong answer the screen labelled the right answer with
+  the file's key — so a student who saw *nauta* as option **d** was told the
+  answer was **a**, an option they had never been shown as correct. It now uses
+  the same per-student letters as the question, and marks *your answer* and
+  *right answer* in words as well.
+- **Some hints gave the answer away.** Teaching text is written per node and is
+  used twice: as a hint before answering and as an explanation after. Its
+  worked examples are often the very sentences the questions use — the MS-014
+  hint read *"Nauta puellam spectat — nauta is nominative"* on the question
+  *"In Nauta puellam spectat, which word is the subject?"*. The hint now leaves
+  out any example that repeats three or more words of the question or contains
+  its answer. The explanation after answering still shows every example, and
+  the approved wording itself is untouched — this filters one moment rather
+  than editing the text.
+
+And the rest, which is about reading and finding your way:
+
+- **Three tabs on every student screen** — Vocabulary, Grammar, My progress —
+  with the student's number and *sign out* on the right of the header. Before,
+  the only way between the drill and grammar was the "Latin I" wordmark.
+- **No spec codes.** "MS-014" means nothing to a fourteen-year-old; the topic
+  label stays, and the topic list no longer leads with codes.
+- **Two equal choices on the landing page.** Vocabulary was green and Grammar
+  grey, which said one mattered less.
+- **Options:** single Latin words stay in italics, English sentences do not
+  (every option used to be italic, including *"There is no subject."*); bigger
+  tap targets; the chosen option highlights.
+- **Feedback:** after a right answer the explanation folds behind *Why is that
+  right?* so the next question is one tap away; after a wrong one, the line
+  aimed at the mistake comes first and the worked examples fold away, so the
+  required *What happened?* menu is not buried below a wall of text.
+- **My progress** folds each week to one line of counts, with only the current
+  week open. It was about 5,200 pixels tall on a phone; it is now about 2,000.
+  The Leitner *Box* column is gone from the student's view.
+- **No teacher language on student screens** — "113 approved question(s) are
+  waiting on lessons not yet taught" is a teacher's fact, not a student's.
+
+Teacher screens are unchanged. `tests/test_student_ux.py` holds all of this,
+and the letter test was checked by putting the old template back: it fails
+naming the letter the student saw and the letter the old screen printed.
 
 ## Teaching text
 
@@ -761,7 +809,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-441 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+455 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

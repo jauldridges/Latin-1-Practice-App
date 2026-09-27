@@ -9,8 +9,30 @@
 <body>
   <header class="top">
     <a class="home" href="{{ url_for('index') }}">Latin I</a>
+    {# For a student the tabs say where they are and the right of the bar says
+       who they are, so the old subtitle (usually their ID again) is dropped. #}
+    {% if not (signed_in_student and not is_teacher) %}
     <span class="sub">{% block subtitle %}{% endblock %}</span>
+    {% endif %}
+    {% if signed_in_student and not is_teacher %}
+      <span class="who"><span class="sid">{{ signed_in_student }}</span>
+        · <a href="{{ url_for('signout') }}">sign out</a></span>
+    {% endif %}
   </header>
+  {# Students get the same three places on every screen. Before this the only
+     way between the drill and grammar practice was the "Latin I" wordmark, and
+     the progress page was a small link under one screen. #}
+  {% if signed_in_student and not is_teacher %}
+  {% set path = request.path %}
+  <nav class="tabs">
+    <a href="{{ url_for('drill_home') }}"
+       class="{{ 'on' if path.startswith('/drill') and not path.startswith('/drill/progress') }}">Vocabulary</a>
+    <a href="{{ url_for('practice_home') }}"
+       class="{{ 'on' if path.startswith('/practice') }}">Grammar</a>
+    <a href="{{ url_for('drill_progress') }}"
+       class="{{ 'on' if path.startswith('/drill/progress') }}">My progress</a>
+  </nav>
+  {% endif %}
   <div class="wrap">
     {% block content %}{% endblock %}
   </div>

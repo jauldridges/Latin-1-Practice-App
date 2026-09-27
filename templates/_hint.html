@@ -15,8 +15,11 @@
   {% endif %}
   {% if hint %}
     <p class="small">{{ hint.explain }}</p>
-    {% if hint.examples %}
-      <ul class="small">{% for ex in hint.examples %}<li>{{ ex }}</li>{% endfor %}</ul>
+    {# Before answering, never an example that repeats this question or prints
+       its answer. The explanation after the answer still shows them all. #}
+    {% set safe = hint_examples(hint.examples, item) %}
+    {% if safe %}
+      <ul class="small">{% for ex in safe %}<li>{{ ex }}</li>{% endfor %}</ul>
     {% endif %}
   {% endif %}
 </details>

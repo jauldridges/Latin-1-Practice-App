@@ -709,6 +709,12 @@ def current_student():
     return session.get(auth.STUDENT_KEY) or ""
 
 
+@app.template_global("hint_examples")
+def _hint_examples(examples, item):
+    """Worked examples safe to show before answering. See practice.hint_examples."""
+    return practice.hint_examples(examples, item or {})
+
+
 @app.template_global("shown_options")
 def shown_options(item):
     """The options of a choice item, in the order THIS student sees them.
