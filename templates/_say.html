@@ -1,0 +1,4 @@
+{# A 🔊 button for one Latin word, or nothing if the teacher hasn't recorded it.
+   Usage: {% with latin=word.latin %}{% include "_say.html" %}{% endwith %} #}
+{% set src = say_url(latin) %}
+{% if src %}<button type="button" class="say" data-src="{{ src }}" aria-label="Hear {{ latin }}" title="Hear it">🔊</button>{% endif %}

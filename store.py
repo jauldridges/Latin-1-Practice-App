@@ -13,6 +13,7 @@ wrong at an unusual rate) is left as the function flag_item_live_fire(), unused
 for now, so the field exists before the feature does.
 """
 
+import base64
 import json
 import os
 import time
@@ -192,6 +193,19 @@ CREATE TABLE IF NOT EXISTS roster (
 -- that job, and anything heavier fails the real test — a fourteen-year-old
 -- locked out at 9pm does not do their homework, they give up.
 --
+-- The teacher's own voice saying each vocabulary word. Keyed like the drill
+-- keys words (drill._key: lower case, macrons folded), so a recording follows
+-- the word however its entry is edited. Stored as base64 text rather than a
+-- binary column: the two databases disagree about binary types, and backups
+-- are JSON. A WAV of one word is ~50 KB; a year of words is a few megabytes.
+-- Not student data -- the year-end purge leaves it.
+CREATE TABLE IF NOT EXISTS word_audio (
+    word_key    TEXT PRIMARY KEY,
+    mime        TEXT NOT NULL,
+    data        TEXT NOT NULL,
+    updated_at  REAL NOT NULL
+);
+
 -- Hashed anyway, with a per-student salt and enough rounds to make a stolen
 -- table useless, because four digits is 10,000 guesses and an unsalted hash of
 -- one is a lookup table.
@@ -1094,3 +1108,34 @@ def miss_reasons_for_student(conn, student_id, since=None):
         args.append(since)
     q += " ORDER BY timestamp DESC"
     return [dict(r) for r in conn.execute(q, args).fetchall()]
+
+
+# --------------------------------------------------------------------------
+# Word audio: the teacher's recordings of the vocabulary
+# --------------------------------------------------------------------------
+
+def save_word_audio(conn, word_key, mime, data):
+    conn.execute(
+        """INSERT INTO word_audio (word_key, mime, data, updated_at) VALUES (?,?,?,?)
+           ON CONFLICT(word_key) DO UPDATE SET mime=excluded.mime, data=excluded.data,
+                                               updated_at=excluded.updated_at""",
+        (word_key, mime, base64.b64encode(data).decode("ascii"), time.time()))
+    conn.commit()
+
+
+def get_word_audio(conn, word_key):
+    """(mime, bytes), or None if the word has no recording."""
+    row = conn.execute("SELECT mime, data FROM word_audio WHERE word_key=?",
+                       (word_key,)).fetchone()
+    return (row["mime"], base64.b64decode(row["data"])) if row else None
+
+
+def word_audio_versions(conn):
+    """{word_key: updated_at} for every recorded word -- no audio, just which."""
+    return {r["word_key"]: r["updated_at"] for r in
+            conn.execute("SELECT word_key, updated_at FROM word_audio").fetchall()}
+
+
+def delete_word_audio(conn, word_key):
+    conn.execute("DELETE FROM word_audio WHERE word_key=?", (word_key,))
+    conn.commit()

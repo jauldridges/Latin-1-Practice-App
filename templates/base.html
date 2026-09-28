@@ -39,5 +39,18 @@
     {% block content %}{% endblock %}
   </div>
   {% block actionbar %}{% endblock %}
+  <script>
+    // 🔊 buttons: the teacher's recording of a word. One handler for every page.
+    document.addEventListener('click', function (ev) {
+      var b = ev.target.closest && ev.target.closest('button.say');
+      if (!b || !b.getAttribute('data-src')) return;
+      ev.preventDefault();
+      var a = b._audio || (b._audio = new Audio(b.getAttribute('data-src')));
+      a.currentTime = 0;
+      a.play();
+      var typing = document.getElementById('response');   // keep the student typing
+      if (typing) typing.focus();
+    });
+  </script>
 </body>
 </html>

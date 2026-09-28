@@ -84,7 +84,7 @@
       <tbody>
       {% for r in ready.words if r.week == wk %}
         <tr>
-          <td class="latin">{{ r.latin }}</td>
+          <td class="latin">{{ r.latin }}{% with latin=r.latin %}{% include "_say.html" %}{% endwith %}</td>
           <td>{{ r.en }}</td>
           <td class="st">
             {% if r.right_last %}<span class="lastmark">✓</span>{% elif r.tried %}<span class="lastmark miss">✗</span>{% endif %}

@@ -390,3 +390,30 @@ td.hw-late { background: #fbf1d6; color: #8a6508; font-weight: 700; }
 td.hw-notdone { color: var(--wrong); }
 td.hw-thisweek { color: var(--muted); }
 @media (max-width: 400px) { nav.tabs a { font-size: 14px; padding: 11px 2px; } }
+
+/* ---- Word audio --------------------------------------------------------- */
+button.say { display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; margin-left: 6px; vertical-align: middle; padding: 0;
+  border: 1px solid var(--line); border-radius: 50%; background: var(--card);
+  font-size: 16px; line-height: 1; cursor: pointer; }
+button.say:active { background: #efedea; }
+.prompt button.say { width: 40px; height: 40px; font-size: 19px; }
+table.progress td.latin button.say, .card .small button.say { width: 28px; height: 28px; font-size: 13px; }
+
+.audio-progress { font-size: 15px; margin: 6px 0; }
+.recmsg { min-height: 1.5em; font-size: 15px; color: var(--muted); margin-bottom: 8px; }
+.recmsg.bad { color: var(--wrong); font-weight: 600; }
+ul.recwords { list-style: none; padding: 0; margin: 8px 0; }
+ul.recwords li { display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  padding: 8px 10px; border: 1px solid var(--line); border-left: 4px solid var(--line);
+  border-radius: 8px; background: var(--card); margin: 6px 0; }
+ul.recwords li.has { border-left-color: var(--solid); }
+.recword { display: flex; flex-direction: column; min-width: 0; }
+.recword .latin { font-weight: 700; font-style: italic; }
+.recbtns { display: flex; align-items: center; gap: 6px; flex: none; }
+.recbtns form.inline { display: inline; margin: 0; }
+.recbtns .minibtn { padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px;
+  background: #fff; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; color: var(--ink); }
+.recbtns .minibtn.rec.on { background: var(--wrong); color: #fff; border-color: var(--wrong); }
+.recbtns button.say { margin-left: 0; width: 36px; height: 36px; border-radius: 8px; }
+.recbtns .minibtn.del { color: var(--muted); }

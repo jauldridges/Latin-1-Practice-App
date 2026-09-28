@@ -120,6 +120,7 @@ OPEN_PREFIXES = ("/static", "/login", "/logout", "/signin", "/signout",
                  "/favicon", "/healthz")
 TEACHER_PREFIXES = ("/review", "/teaching", "/teacher", "/quiz")
 STUDENT_PREFIXES = ("/drill", "/practice", "/q/", "/due/", "/homework")
+AUDIO_PREFIX = "/audio/"
 
 
 def _here():
@@ -162,6 +163,12 @@ def _gate():
     path = request.path
     if path == "/" or path.startswith(OPEN_PREFIXES):
         return None
+    if path.startswith(AUDIO_PREFIX):
+        # The teacher hears her recordings on the recording page; students hear
+        # them on their cards. Nobody else.
+        if auth.student_ok() or auth.is_teacher():
+            return None
+        return redirect(url_for("signin", next=_here()))
     if path.startswith(STUDENT_PREFIXES):
         if not auth.student_ok():
             return redirect(url_for("signin", next=_here()))
@@ -331,6 +338,26 @@ def node_week(node_id):
 @app.template_filter("nodeweek")
 def nodeweek(node_id):
     return weeklabel(node_week(node_id))
+
+
+def _audio_versions():
+    """{word_key: updated_at}, read once per request and only if a page asks."""
+    if "audio_versions" not in g:
+        g.audio_versions = store.word_audio_versions(get_db())
+    return g.audio_versions
+
+
+@app.template_global()
+def say_url(latin):
+    """The URL of the teacher's recording of this word, or None.
+
+    The version in the query string changes when she re-records, so a phone
+    that cached the old take fetches the new one."""
+    key = drill._key(latin or "")
+    v = _audio_versions().get(key)
+    if v is None:
+        return None
+    return url_for("word_audio", key=key, v=int(v))
 
 
 @app.template_filter("shortday")
@@ -1842,6 +1869,76 @@ def teacher_homework_export():
     name = "homework-%s.csv" % time.strftime("%Y-%m-%d")
     return Response(buf.getvalue(), mimetype="text/csv",
                     headers={"Content-Disposition": "attachment; filename=" + name})
+
+
+# --------------------------------------------------------------------------
+# Word audio: the teacher records each vocabulary word, students hear it
+# --------------------------------------------------------------------------
+
+AUDIO_MAX_BYTES = 1500000        # ~30 seconds of the WAV the page records; a word is ~50 KB
+
+
+def _word_keys():
+    return {drill._key(w["latin"]) for w in _DRILL_WORDS}
+
+
+@app.route("/audio/<key>")
+def word_audio(key):
+    got = store.get_word_audio(get_db(), key)
+    if got is None:
+        abort(404)
+    mime, data = got
+    resp = Response(data, mimetype=mime)
+    # The URL carries the recording's version, so it can be cached for good.
+    resp.headers["Cache-Control"] = "private, max-age=31536000, immutable"
+    return resp
+
+
+@app.route("/teacher/audio")
+def teacher_audio():
+    """One row per vocabulary word, grouped by week, with a Record button."""
+    versions = store.word_audio_versions(get_db())
+    groups = []
+    for w in _DRILL_WORDS:
+        wk = w.get("week") or ""
+        if not groups or groups[-1]["week"] != wk:
+            groups.append({"week": wk, "label": drill.WEEK_LABELS.get(wk, wk), "rows": []})
+        key = drill._key(w["latin"])
+        groups[-1]["rows"].append({"key": key, "latin": w["latin"],
+                                   "en": ", ".join(w.get("en") or [])[:40],
+                                   "has": key in versions})
+    for grp in groups:
+        grp["done"] = sum(1 for r in grp["rows"] if r["has"])
+    total = sum(len(grp["rows"]) for grp in groups)
+    return render_template("teacher_audio.html", groups=groups, total=total,
+                           recorded=sum(grp["done"] for grp in groups))
+
+
+@app.route("/teacher/audio/save", methods=["POST"])
+def teacher_audio_save():
+    """The page posts the WAV it recorded as the request body."""
+    key = request.args.get("key", "")
+    if key not in _word_keys():
+        abort(404)
+    data = request.get_data(cache=False)
+    if not data or len(data) > AUDIO_MAX_BYTES or not (data[:4] == b"RIFF" and data[8:12] == b"WAVE"):
+        return Response("not a recording", status=400)
+    store.save_word_audio(get_db(), key, "audio/wav", data)
+    return {"ok": True, "url": say_url_for_key(key)}
+
+
+def say_url_for_key(key):
+    g.pop("audio_versions", None)
+    v = _audio_versions().get(key)
+    return url_for("word_audio", key=key, v=int(v)) if v is not None else None
+
+
+@app.route("/teacher/audio/delete", methods=["POST"])
+def teacher_audio_delete():
+    key = request.form.get("key", "")
+    if key in _word_keys():
+        store.delete_word_audio(get_db(), key)
+    return redirect(url_for("teacher_audio") + "#w-" + key.replace(" ", "-"))
 
 
 # --------------------------------------------------------------------------

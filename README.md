@@ -81,7 +81,7 @@ start clean.
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
-| `tests/` | 526 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 537 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -418,6 +418,34 @@ count late. Stored timestamps are unaffected.
 Tables `settings` and `assessments` hold all this; both are in the backup and the
 migration, neither is student data, and the end-of-year purge leaves them.
 `goals.py` holds the logic, `tests/test_goals.py` the tests.
+
+## Word audio
+
+**Record the vocabulary** (teacher dashboard, or the landing page, `/teacher/audio`)
+lists every drill word by week. Record, say the word, Stop: it saves, plays back,
+and moves focus to the next word's Record button, so Enter / say it / Enter goes
+down the list without the mouse. Re-recording replaces a take; ✕ deletes one.
+
+The page builds a **16-bit mono WAV at 22 kHz** in the browser from the
+microphone's samples rather than using the browser's own recorder, because WAV
+plays everywhere and the compressed formats Chrome records do not play on every
+student's phone. Silence at either end is trimmed and the peak evened out to the
+same loudness. A word is ~30–50 KB. (It uses ScriptProcessorNode, which Chrome
+calls deprecated and still supports everywhere; AudioWorklet would need a
+separate script file for no gain here.)
+
+Recordings live in the `word_audio` table as base64 text (the two databases
+disagree about binary columns, and backups are JSON), keyed like the drill keys
+words, so a recording follows its word. The table is in the backup and the
+migration and is not student data: the year-end purge leaves it.
+
+Students get a 🔊 button on the Latin → English card, on the answer screen, on
+My progress and on a quiz page's word list — and **never on the English → Latin
+card, where it would be the answer**. Words with no recording have no button.
+`/audio/<word>` is open to a signed-in student or the teacher and nobody else,
+and its URL carries the recording's version so phones cache it for good and
+fetch a new take when there is one. Saving accepts only a WAV (checked by its
+header), only for a real drill word, only up to 1.5 MB. `tests/test_audio.py`.
 
 ## Teaching text
 
@@ -876,7 +904,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-526 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+537 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

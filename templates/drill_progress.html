@@ -55,7 +55,7 @@
       <tbody>
         {% for r in g.rows %}
         <tr>
-          <td class="latin">{{ r.latin }}</td>
+          <td class="latin">{{ r.latin }}{% with latin=r.latin %}{% include "_say.html" %}{% endwith %}</td>
           <td>{{ r.en }}</td>
           <td class="st">
             {% if r.state == 'solid' %}<span class="pill solid">solid</span>

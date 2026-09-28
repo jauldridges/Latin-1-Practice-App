@@ -6,7 +6,10 @@
 {% include "_statsbar.html" %}
 
 <p class="small muted" style="text-align:center">{{ card.instruction }}</p>
-<div class="prompt {{ 'latin' if card.ask == 'la_en' else '' }}">{{ card.prompt }}</div>
+<div class="prompt {{ 'latin' if card.ask == 'la_en' else '' }}">{{ card.prompt }}
+  {#- Only when the Latin is the question. On English to Latin the recording
+      would be the answer. -#}
+  {% if card.ask == 'la_en' %}{% with latin=card.latin %}{% include "_say.html" %}{% endwith %}{% endif %}</div>
 
 {% include "_hint.html" %}
 
