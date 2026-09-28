@@ -274,3 +274,16 @@ details.week table.progress td.latin { font-weight: 600; }
 /* On a Chromebook, keep the tabs over the content rather than across the screen. */
 nav.tabs { justify-content: center; }
 nav.tabs a { max-width: 240px; }
+
+/* Progress page: two halves, and a way to jump between them on a phone. */
+.jump { display: flex; gap: 8px; margin: 12px 0 4px; }
+.jump a { flex: 1; text-align: center; padding: 10px; border-radius: 10px; font-weight: 600;
+  background: var(--card); border: 1px solid var(--line); text-decoration: none; }
+h2.section-head { font-size: 22px; margin-top: 30px; padding-top: 10px;
+  border-top: 2px solid var(--line); scroll-margin-top: 110px; }
+ul.topics { list-style: none; margin: 0 0 10px; padding: 0; }
+ul.topics li { display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 10px 0; border-top: 1px solid var(--line); }
+ul.topics .topic-label { font-size: 15px; line-height: 1.35; }
+ul.topics .topic-side { display: flex; align-items: center; gap: 8px; flex: none; }
+ul.topics a.minibtn { text-decoration: none; color: var(--accent); font-weight: 600; }

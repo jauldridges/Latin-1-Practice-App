@@ -1394,8 +1394,19 @@ def drill_progress():
     events = store.events_for_student(db, student)
     rows = drill.progress_table(_DRILL_WORDS, events)
     summary = drill.progress_summary(rows)
+    # Grammar sits on the same page, counted over the same topics the bar on
+    # every question counts, so a student never sees two different answers.
+    approved = store.approved_items(db)
+    universe = {it["node"] for it in approved if it["node"] in _taught_now()}
+    grammar = stats.grammar_progress(_SPEC, universe, events)
+    gtotals = {"solid": 0, "shaky": 0, "not yet": 0}
+    for g in grammar:
+        for k in gtotals:
+            gtotals[k] += g["counts"][k]
     return render_template("drill_progress.html", student=student, rows=rows,
-                           summary=summary, week_labels=drill.WEEK_LABELS)
+                           summary=summary, week_labels=drill.WEEK_LABELS,
+                           grammar=grammar, gtotals=gtotals,
+                           gtotal=sum(gtotals.values()))
 
 
 # ==========================================================================

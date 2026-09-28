@@ -139,3 +139,35 @@ def _tally(by_key, universe, now):
         out["not yet"] += len(set(universe) - set(by_key))
     out["total"] = sum(out[k] for k in ("solid", "shaky", "not yet"))
     return out
+
+
+def grammar_progress(spec, universe, events, now=None):
+    """Per-topic readiness for the student's progress page, grouped by week.
+
+    `universe` is the set of nodes a student can meet right now -- approved
+    questions on lessons already taught -- which is the same denominator the
+    bar on every question uses, so the two can never disagree. A topic never
+    attempted is "not yet": the page does not flatter a student who has only
+    tried five.
+
+    Returns weeks in teaching order, each {"week", "rows", "counts", "total"},
+    with rows {"node", "label", "state", "attempts"}.
+    """
+    by = group_events(events, lambda e: e.get("spec_node_id"))
+    weeks = {}
+    for nid in universe:
+        node = spec.get(nid) or {}
+        wk = str(node.get("week") or node.get("day") or "")
+        evs = by.get(nid, [])
+        weeks.setdefault(wk, []).append({
+            "node": nid, "label": node.get("label", nid),
+            "state": readiness_from(evs, now), "attempts": len(evs),
+            "day": str(node.get("day") or wk)})
+    out = []
+    for wk in sorted(weeks):
+        rows = sorted(weeks[wk], key=lambda r: (r["day"], r["node"]))
+        counts = {"solid": 0, "shaky": 0, "not yet": 0}
+        for r in rows:
+            counts[r["state"]] += 1
+        out.append({"week": wk, "rows": rows, "counts": counts, "total": len(rows)})
+    return out

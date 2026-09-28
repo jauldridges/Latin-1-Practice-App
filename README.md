@@ -81,7 +81,7 @@ start clean.
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
-| `tests/` | 455 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 459 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -342,6 +342,11 @@ And the rest, which is about reading and finding your way:
   right?* so the next question is one tap away; after a wrong one, the line
   aimed at the mistake comes first and the worked examples fold away, so the
   required *What happened?* menu is not buried below a wall of text.
+- **My progress covers grammar too.** Below the words, every topic from class so
+  far, grouped by the week it was taught, each marked solid / shaky / not yet
+  and each with a **Practise** button that goes straight to questions on that
+  one topic. It counts over the same topics the bar on every question counts,
+  so a student never sees two different answers, and a test holds them equal.
 - **My progress** folds each week to one line of counts, with only the current
   week open. It was about 5,200 pixels tall on a phone; it is now about 2,000.
   The Leitner *Box* column is gone from the student's view.
@@ -809,7 +814,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-455 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+459 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 
