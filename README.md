@@ -81,7 +81,7 @@ start clean.
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
-| `tests/` | 497 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 526 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -344,7 +344,7 @@ And the rest, which is about reading and finding your way:
   required *What happened?* menu is not buried below a wall of text.
 - **My progress covers grammar too.** Below the words, every topic from class so
   far, grouped by the week it was taught, each marked solid / shaky / not yet
-  and each with a **Practise** button that goes straight to questions on that
+  and each with a **Practice** button that goes straight to questions on that
   one topic. It counts over the same topics the bar on every question counts,
   so a student never sees two different answers, and a test holds them equal.
 - **My progress** folds each week to one line of counts, with only the current
@@ -357,49 +357,67 @@ Teacher screens are unchanged. `tests/test_student_ux.py` holds all of this,
 and the letter test was checked by putting the old template back: it fails
 naming the letter the student saw and the letter the old screen printed.
 
-## Goals & deadlines
+## Goals & deadlines, and homework
 
-Teacher dashboard → **Goals & deadlines** (`/teacher/deadlines`). Two things
-live there, and both show up on every student's home screen.
+Teacher dashboard → **Goals & deadlines** (`/teacher/deadlines`) sets three
+things, all of which show up on students' screens.
 
-**The weekly goal** is two numbers — vocabulary answers and grammar answers —
-50 and 50 unless changed. A week is Monday to Sunday. A retype after a near-miss
-counts once (the same rule as the stats bar), and answers in a proctored quiz or
-exam don't count: a Friday quiz is not homework. Nothing is stored; the count is
-read from the event history, so changing the goal mid-year reads the past
-correctly. Under the two bars is a row of seven day-dots, because spacing is the
-point. A quiet line always says so; it turns into an amber flag once a student
-has gone more than two days without practising (or has never started).
+**The weekly homework goal** is two numbers — vocabulary cards and grammar
+cards — 50 and 50 unless changed. A **homework week runs Saturday to Friday**,
+because the quiz is on Friday; a week is done when both numbers are met. A
+retype after a near-miss counts once (the same rule as the stats bar) and answers
+in a proctored quiz or exam don't count. Nothing is stored: every count is read
+from the event history, so changing the goal mid-year re-reads every week.
+
+**On time, late, not done.** A week met by Friday night is *on time* (green ✓,
+full credit). A week can be finished afterwards and is then *late* (yellow,
+partial credit). Which week a card goes to:
+
+1. a card counts for its own week while that week is short of the goal;
+2. once its own week is met, it finishes the **oldest** unfinished earlier week,
+   same kind (extra vocabulary never pays for missing grammar).
+
+The current week comes first on purpose: the other way round, one missed week
+would make every later week late forever for a student doing exactly the
+homework. **Homework weeks** on the same page sets the first week (it defaults
+to Sat 26 Sep 2026, when this went live) and lets any week be marked as
+no-homework (a vacation): nobody owes it, and cards done in it finish an older
+week.
+
+**What students see.** The home screen shows *This week's homework · due
+Friday*, two bars, seven day-dots (Saturday first), and — if a week is owed —
+a yellow note saying which one and how to finish it. A spacing line is always
+there; it turns into an amber flag after more than two days without practice.
+The **Homework** tab (`/homework`) shows all-time cards, days practiced and
+weeks on time / late / not done, then every week newest first.
+
+**What the teacher sees.** *Who practiced* now defaults to **this homework week**
+(or *last homework week*), and **Did it** means the weekly goal met, counted
+exactly as the student's home screen counts it — it used to mean 20 answers in a
+rolling seven days. **Homework, week by week** (`/teacher/homework`) is the
+gradebook grid: one row per rostered student, one column per week (named by its
+Friday), ✓ / *late* / the number of cards done; it downloads as a spreadsheet
+("on time", "late", "not done (62/100)"). Each student's page lists their weeks too.
 
 **Quizzes and tests** each have a title, a kind (quiz / test / exam), one date
 for everyone, and the teaching weeks they cover. Ticking weeks brings in every
 word introduced those weeks and every grammar topic taught those weeks; Roman
 world, modern world and reading topics start unticked, and any topic can be
-unticked. A student's home screen lists the next four under **Coming up**
-("in 3 days", "tomorrow"), and each one opens a page (`/due/<id>`) showing:
+unticked. A student's home screen lists the next four under **Coming up**, and
+each opens a page (`/due/<id>`) with *right on your last try* as the big number,
+solid / shaky / not yet under it (solid needs a week, so it cannot move in four
+days; the page says so), every topic and word, and **Practice these topics** /
+**Practice these words** buttons restricted to exactly that scope and to what has
+been taught.
 
-- **Grammar** and **Vocabulary**, each with *right on your last try* as the big
-  number and solid / shaky / not yet under it. "Solid" needs a right answer a
-  week after first meeting something, so a student who starts four days out
-  cannot reach it however hard they work; *right last time* is the number a few
-  days of study moves, and the page says why the two differ.
-- every topic and word with its state and a ✓ / ✗ for the last try;
-- **Practise these topics** and **Practise these words**, which run ordinary
-  practice restricted to exactly that scope (grammar also stays inside what has
-  been taught — a topic with no approved question on a taught lesson is left off
-  the page rather than shown as something a student can't act on).
+**The clock is the school's.** `schooltime.py` sets the process time zone to
+America/New_York (override with `LATIN_TIMEZONE`). Render runs in UTC, where
+Friday ends at 8pm in Massachusetts; without this a Friday-evening finish would
+count late. Stored timestamps are unaffected.
 
-Tables `settings` and `assessments` hold this; both are in the backup and the
+Tables `settings` and `assessments` hold all this; both are in the backup and the
 migration, neither is student data, and the end-of-year purge leaves them.
-`goals.py` holds the logic and `tests/test_goals.py` the tests (week boundaries,
-retries and quizzes not counting, the idle flag, scope staying inside the
-quiz's weeks and taught topics, the scoped practice and drill routes, and that
-a student cannot reach the teacher screens).
-
-Two known edges: the dashboard's **Did it** column still means 20 answers in the
-last rolling seven days, a different question from the weekly goal; and on
-Render the server clock is UTC, so "today" and Monday roll over in the evening
-US time until a `TZ` environment variable is set.
+`goals.py` holds the logic, `tests/test_goals.py` the tests.
 
 ## Teaching text
 
@@ -508,7 +526,7 @@ verified SQL, but you should not need it day to day.
 
 1. **Out of the box it only runs while your laptop is running, on your
    network.** Spaced repetition wants near-daily practice, and students cannot
-   practise at home against a laptop that is closed. **`DEPLOY.md` is how you
+   practice at home against a laptop that is closed. **`DEPLOY.md` is how you
    lift this** — about twenty minutes and ~$8/month. Read the first section of
    it before you do: it puts student data on a third-party server, which is a
    school-policy question, not a technical one.
@@ -580,7 +598,7 @@ first name, no last name, no email, no display name. So there is no name field,
 not even an empty one, and `tests/test_names_purged.py` fails if anybody adds
 one back.
 
-- Students type their ID number to practise. Nothing else is asked.
+- Students type their ID number to practice. Nothing else is asked.
 - The teacher screens show ID numbers. The paper that maps a number to a person
   stays off the machine.
 - IDs are **issued by this project**, not taken from the school's system —
@@ -736,7 +754,7 @@ first: a first-timer is *choosing* a PIN and a returning student is *entering*
 one, and explaining that distinction on a single screen is explaining it to
 nobody.
 
-Four digits, deliberately. The PIN's job is to stop one student practising as
+Four digits, deliberately. The PIN's job is to stop one student practicing as
 another — nothing behind it is a grade — and the failure mode that actually
 kills home practice is a fourteen-year-old locked out at 9pm. **A forgotten PIN
 is cleared by the teacher**, from the roster page or the student's page. That is
@@ -750,12 +768,12 @@ locking anyone out. No iteration count makes 10,000 possibilities safe against
 someone determined; what the salt buys is that the table is not a plain lookup.
 
 **Identity comes from the signed session, never from the request.** That matters
-more than the PIN does. `?student=40218` used to be enough to practise as
+more than the PIN does. `?student=40218` used to be enough to practice as
 somebody else, and a PIN at the door means nothing while every screen behind it
 takes your word for it. Student ids no longer appear in URLs at all, and
 `tests/test_pins.py::TestIdentityComesFromTheSession` asserts it.
 
-The shared class code is **gone**. It let anyone who knew it practise as anyone,
+The shared class code is **gone**. It let anyone who knew it practice as anyone,
 which is precisely what the PIN exists to prevent.
 
 ---
@@ -812,10 +830,10 @@ All five build steps, verified in order:
 7. Teaching text for all 120 nodes, drafted and gated behind teacher approval;
    verified in the running app that draft text does not reach a student and
    approved text does.
-8. Teacher dashboard + class list: roster paste-in, who practised over a
+8. Teacher dashboard + class list: roster paste-in, who practiced over a
    window, what the class is weak on, what they said went wrong, per-student
    detail, CSV export — driven end to end in a browser (a rostered student
-   signed in from the picker, practised, and their dashboard row moved from
+   signed in from the picker, practiced, and their dashboard row moved from
    "nothing" to "started" with the attempt attached to the roster name).
 9. Proctored quizzes: build, sit, resume, change answers, submit, review —
    driven end to end in a browser, including a check that no feedback leaks
@@ -823,7 +841,7 @@ All five build steps, verified in order:
 10. A door: teacher password, HTTPS-only cookies when
     deployed, and a refuse-to-start guard for the public-but-passwordless
     case. Rehearsed under gunicorn in a browser — a student took the class
-    code, practised, and could not reach the dashboard; the teacher signed in,
+    code, practiced, and could not reach the dashboard; the teacher signed in,
     saw that practice land, and signing out closed it again.
 11. Continuous review: 213 questions in one pass in teaching order, driven 40
     cards deep in a browser — the node order never regresses, a skip survives
@@ -858,7 +876,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-497 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+526 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

@@ -1,29 +1,42 @@
 """
-The weekly practice goal, the spacing reminder, and what a quiz or test covers.
+The weekly homework, the spacing reminder, and what a quiz or test covers.
 
 Everything here is derived from the event history, like the rest of the app:
 no count is stored, so changing a target in November reads September correctly.
 
-THE WEEKLY GOAL is two numbers, vocabulary answers and grammar answers, set by
-the teacher. A week runs Monday to Sunday, because "this week" means that to a
-student; the dashboard's rolling seven days is a different question, asked by a
-different person. What counts:
+THE HOMEWORK WEEK runs Saturday to Friday, because the quiz is on Friday and
+the cards should be done for it. The goal is two numbers, vocabulary cards and
+grammar cards (50 and 50 unless the teacher changes them); a week is DONE when
+both are met. What counts is decided once, in teacher.homework_counts: any
+practice except a proctored quiz or exam, and one card per card studied (a
+retype after a near-miss is the same card).
 
-  - practice of any kind except a proctored quiz or exam. A quiz is an
-    assessment, not homework, and counting it would let a Friday quiz fill
-    Monday's quota;
-  - one answer per card studied. A close sends the student straight back to
-    retype, and "aqu" then "aqua" is one word studied, not two -- the same rule
-    the stats bar already uses, so the two numbers cannot drift apart.
+ON TIME OR LATE. A week met by Friday night is on time -- green, full credit.
+A week can still be finished afterwards, and is then late -- yellow, partial
+credit. The rule for which week a card goes to:
+
+  1. a card counts for its own week while that week is short of the goal;
+  2. once its own week is met, the card finishes the OLDEST unfinished earlier
+     week, of the same kind.
+
+The current week comes first on purpose. The other way round, a student who
+missed one week and then did exactly the homework every week after would have
+every later week pulled late to cover the one before, forever. This way doing
+each week's homework keeps each week on time, and a missed week is made up by
+doing extra, which is what "make it up" means.
+
+Weeks before the teacher's start date don't exist for homework, and weeks the
+teacher marks as no-homework (a vacation) are neither owed nor shown as missed;
+cards done in them go to an unfinished earlier week, if there is one.
 
 THE SPACING REMINDER is always present and quiet, because spacing is the whole
 design of the app, and becomes a flag once a student has gone more than two
-days without practising. It never says anything about a grade.
+days without practicing. It never says anything about a grade.
 
 AN ASSESSMENT covers teaching weeks. The words introduced in those weeks and
 the grammar topics taught in them are what it tests, minus any topic the
 teacher unticks. Only topics with approved questions on lessons already taught
-can be practised or counted, so a quiz page never offers practice on something
+can be practiced or counted, so a quiz page never offers practice on something
 that has not been taught.
 
 READINESS on an assessment page keeps solid / shaky / not yet exactly as they
@@ -43,20 +56,58 @@ import teacher
 
 DAY = 86400
 IDLE_DAYS = 2                    # more than this without practice raises the flag
-NOT_HOMEWORK = {"quiz", "exam"}  # proctored contexts never count toward the goal
-DEFAULT_TARGETS = {"vocab": 50, "grammar": 50}
+NOT_HOMEWORK = teacher.NOT_HOMEWORK
+DEFAULT_TARGETS = teacher.DEFAULT_TARGETS
+KINDS = ("vocab", "grammar")
+
+HOMEWORK_STARTS_ON = 5           # Saturday, in time.localtime's Monday=0 numbering
+DAY_LETTERS = ["S", "S", "M", "T", "W", "T", "F"]   # a homework week, Saturday first
+
+# The first homework week when the teacher hasn't picked one: the week this
+# feature went live. Weeks before it were never announced as Saturday-to-Friday,
+# so they are not counted against anybody.
+DEFAULT_HOMEWORK_FROM = "2026-09-26"
 
 
 # --------------------------------------------------------------------------
-# The week
+# The homework week
 # --------------------------------------------------------------------------
+
+def _midnight(y, m, d):
+    # mktime normalizes day 0 or day 35, and gets daylight saving right,
+    # which adding 7 * 86400 does not.
+    return time.mktime((y, m, d, 0, 0, 0, 0, 0, -1))
+
 
 def week_start(now=None):
-    """Midnight local on the Monday of this week."""
-    now = now or time.time()
-    lt = time.localtime(now)
-    midnight = time.mktime((lt.tm_year, lt.tm_mon, lt.tm_mday, 0, 0, 0, 0, 0, -1))
-    return midnight - lt.tm_wday * DAY
+    """Midnight on the Saturday that opens this homework week."""
+    lt = time.localtime(now or time.time())
+    back = (lt.tm_wday - HOMEWORK_STARTS_ON) % 7
+    return _midnight(lt.tm_year, lt.tm_mon, lt.tm_mday - back)
+
+
+def week_end(start):
+    """Midnight at the end of the Friday: the deadline."""
+    lt = time.localtime(start)
+    return _midnight(lt.tm_year, lt.tm_mon, lt.tm_mday + 7)
+
+
+def week_key(ts):
+    """A homework week's name: its Saturday, as YYYY-MM-DD."""
+    return time.strftime("%Y-%m-%d", time.localtime(week_start(ts)))
+
+
+def key_start(key):
+    """The Saturday midnight of the homework week `key` (any date in it) falls in."""
+    return week_start(time.mktime(time.strptime(str(key), "%Y-%m-%d")) + 12 * 3600)
+
+
+def week_label(key):
+    """"Sat 26 Sep – Fri 2 Oct"."""
+    start = key_start(key)
+    a, b = time.localtime(start), time.localtime(week_end(start) - 12 * 3600)
+    return "Sat %d %s – Fri %d %s" % (a.tm_mday, time.strftime("%b", a),
+                                     b.tm_mday, time.strftime("%b", b))
 
 
 def _local_date(ts):
@@ -64,39 +115,133 @@ def _local_date(ts):
 
 
 def _homework(events):
-    return [e for e in events if (e.get("context") or "practice") not in NOT_HOMEWORK]
+    return teacher.homework_events(events)
+
+
+def _targets(targets):
+    return dict(DEFAULT_TARGETS, **(targets or {}))
 
 
 def weekly_progress(events, targets=None, now=None):
-    """This week's answers against the goal, and which days had any.
+    """This homework week's cards against the goal, and which days had any.
 
-    Returns {"vocab", "grammar", "targets", "days", "met"} where `days` is a
-    list of seven booleans, Monday first -- the picture of spacing.
+    Returns {"vocab", "grammar", "targets", "days", "today", "met", "done",
+    "due"} where `days` is seven booleans, Saturday first -- the picture of
+    spacing -- and `due` is what a student reads: "due Friday", "due today".
     """
     now = now or time.time()
-    targets = dict(DEFAULT_TARGETS, **(targets or {}))
+    targets = _targets(targets)
     start = week_start(now)
     mine = [e for e in _homework(events) if start <= e["timestamp"] <= now]
-    studied = stats.collapse_retries(mine)
-    counts = {"vocab": 0, "grammar": 0}
-    for e in studied:
-        counts[teacher.kind_of(e)] += 1
+    counts = teacher.homework_counts(mine)
     days = [False] * 7
     for e in mine:
-        days[time.localtime(e["timestamp"]).tm_wday] = True
-    today = time.localtime(now).tm_wday
+        days[(time.localtime(e["timestamp"]).tm_wday - HOMEWORK_STARTS_ON) % 7] = True
+    today = (time.localtime(now).tm_wday - HOMEWORK_STARTS_ON) % 7
+    met = {k: counts[k] >= targets[k] for k in KINDS}
     return {
         "vocab": counts["vocab"], "grammar": counts["grammar"],
         "targets": targets,
         "days": days,
         "today": today,
-        "met": {k: counts[k] >= targets[k] for k in counts},
+        "met": met,
+        "done": all(met.values()),
+        "due": "due today" if today == 6 else "due Friday",
     }
+
+
+def homework_weeks(first, off=(), now=None, until=None):
+    """Homework week keys from `first`'s week to this one (or to `until`'s),
+    oldest first, leaving out the weeks the teacher marked as no homework."""
+    now = now or time.time()
+    last = key_start(until) if until else week_start(now)
+    off = set(off or ())
+    out = []
+    start = key_start(first)
+    while start <= last:
+        k = time.strftime("%Y-%m-%d", time.localtime(start))
+        if k not in off:
+            out.append(k)
+        start = week_end(start)
+    return out
+
+
+def homework_history(events, targets=None, weeks=(), now=None):
+    """Every homework week in `weeks`, oldest first, with how it went.
+
+    Each row: key, label, start, end, counts {vocab, grammar} (what went toward
+    the goal, so never above it), late {vocab, grammar} (the part that arrived
+    after Friday), done_at, and status -- "on time", "late", "not done", or
+    "this week" while it is still open. The allocation rule is in the module
+    docstring.
+    """
+    now = now or time.time()
+    targets = _targets(targets)
+    rows = []
+    for k in weeks:
+        start = key_start(k)
+        rows.append({"key": k, "label": week_label(k), "start": start,
+                     "end": week_end(start),
+                     "counts": {x: 0 for x in KINDS}, "late": {x: 0 for x in KINDS},
+                     "done_at": None})
+    by_key = {r["key"]: r for r in rows}
+
+    def complete(r):
+        return all(r["counts"][x] >= targets[x] for x in KINDS)
+
+    def give(r, kind, ts, late):
+        r["counts"][kind] += 1
+        if late:
+            r["late"][kind] += 1
+        if r["done_at"] is None and complete(r):
+            r["done_at"] = ts
+
+    if rows:
+        first = rows[0]["start"]
+        for e in stats.collapse_retries(_homework(events)):
+            ts = e["timestamp"]
+            if ts < first or ts > now:
+                continue
+            kind = teacher.kind_of(e)
+            own_key = week_key(ts)
+            own = by_key.get(own_key)
+            if own is not None and own["counts"][kind] < targets[kind]:
+                give(own, kind, ts, late=False)
+                continue
+            for r in rows:
+                if r["key"] >= own_key:
+                    break
+                if r["counts"][kind] < targets[kind]:
+                    give(r, kind, ts, late=True)
+                    break
+
+    for r in rows:
+        r["targets"] = targets
+        r["total"] = sum(r["counts"].values())
+        r["goal"] = sum(targets[x] for x in KINDS)
+        if complete(r):
+            r["status"] = "late" if any(r["late"].values()) else "on time"
+        elif now < r["end"]:
+            r["status"] = "this week"
+        else:
+            r["status"] = "not done"
+    return rows
+
+
+def all_time(events, history=()):
+    """What a student has done since the start: cards, days, and weeks."""
+    counts = teacher.homework_counts(events)
+    statuses = [r["status"] for r in history]
+    return {"vocab": counts["vocab"], "grammar": counts["grammar"],
+            "cards": counts["vocab"] + counts["grammar"],
+            "days": len({_local_date(e["timestamp"]) for e in _homework(events)}),
+            "on_time": statuses.count("on time"), "late": statuses.count("late"),
+            "not_done": statuses.count("not done")}
 
 
 def days_since_practice(events, now=None):
     """Whole calendar days since the last practice, or None if there has been
-    none. Practising yesterday is 1; today is 0."""
+    none. Practicing yesterday is 1; today is 0."""
     mine = _homework(events)
     if not mine:
         return None
@@ -137,7 +282,7 @@ def scope(assessment, spec, words, practiceable):
     """(nodes, words) an assessment covers.
 
     `practiceable` is the set of nodes with approved questions on lessons
-    already taught. A topic outside it cannot be practised, so it is left off
+    already taught. A topic outside it cannot be practiced, so it is left off
     the student's page rather than shown as something they cannot act on.
     """
     weeks = set(assessment.get("weeks") or [])

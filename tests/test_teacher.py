@@ -86,20 +86,42 @@ class TestActivity(unittest.TestCase):
 
 
 class TestHomeworkState(unittest.TestCase):
-    def test_three_states(self):
-        self.assertEqual(teacher.homework_state({"attempts": 0}), "none")
-        self.assertEqual(teacher.homework_state({"attempts": 1}), "started")
-        self.assertEqual(teacher.homework_state({"attempts": 25}), "done")
+    """ "Did it" is the weekly goal, not a token 20 answers."""
+    def act(self, attempts, vocab, grammar):
+        return {"attempts": attempts, "hw": {"vocab": vocab, "grammar": grammar}}
 
-    def test_threshold_is_adjustable(self):
-        self.assertEqual(teacher.homework_state({"attempts": 10}, done=10), "done")
+    def test_three_states(self):
+        self.assertEqual(teacher.homework_state(self.act(0, 0, 0)), "none")
+        self.assertEqual(teacher.homework_state(self.act(1, 1, 0)), "started")
+        self.assertEqual(teacher.homework_state(self.act(100, 50, 50)), "done")
+
+    def test_both_halves_are_needed(self):
+        # 100 vocabulary cards and no grammar is not the homework.
+        self.assertEqual(teacher.homework_state(self.act(100, 100, 0)), "started")
+
+    def test_the_goal_is_the_teachers(self):
+        self.assertEqual(teacher.homework_state(self.act(10, 5, 5), {"vocab": 5, "grammar": 5}), "done")
+
+    def test_default_goal_is_fifty_and_fifty(self):
+        self.assertEqual(teacher.DEFAULT_TARGETS, {"vocab": 50, "grammar": 50})
+
+
+class TestHomeworkCounts(unittest.TestCase):
+    def test_a_retype_is_one_card_and_a_quiz_is_not_homework(self):
+        evs = [ev("s", "vocab:aqua:la_en", "close", T), ev("s", "vocab:aqua:la_en", "right", T + 5),
+               dict(ev("s", "MS014-01", "right", T + 10), context="quiz"),
+               ev("s", "MS014-02", "right", T + 20)]
+        self.assertEqual(teacher.homework_counts(evs), {"vocab": 1, "grammar": 1})
 
 
 class TestClassActivity(unittest.TestCase):
     def setUp(self):
         self.roster = [person("403217"), person("418206"), person("426913")]
-        self.events = ([ev("403217", "vocab:puella:la_en", "right", T - i * 600)
-                        for i in range(25)]
+        # 403217 does the weekly goal: 50 different words and 50 questions.
+        self.events = ([ev("403217", "vocab:w%d:la_en" % i, "right", T - i * 60)
+                        for i in range(50)]
+                       + [ev("403217", "MS014-%02d" % i, "right", T - 4000 - i * 60)
+                          for i in range(50)]
                        + [ev("418206", "vocab:aqua:la_en", "wrong", T - 3600)])
 
     def test_a_student_who_did_nothing_still_has_a_row(self):

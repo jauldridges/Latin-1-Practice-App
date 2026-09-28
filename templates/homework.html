@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Homework — Latin I{% endblock %}
+{% block content %}
+<h1>Homework</h1>
+<p class="small muted" style="margin-top:-6px">Each week runs Saturday to Friday:
+  {{ goal.targets.vocab }} vocabulary cards and {{ goal.targets.grammar }} grammar cards,
+  done by Friday night.</p>
+
+{# All time first: the running total is the thing that only ever goes up. #}
+<section class="alltime">
+  <div class="alltime-big">{{ '{:,}'.format(alltime.cards) }}<span> cards all time</span></div>
+  <div class="small muted">{{ '{:,}'.format(alltime.vocab) }} vocabulary · {{ '{:,}'.format(alltime.grammar) }} grammar ·
+    practiced on {{ alltime.days }} day{{ 's' if alltime.days != 1 }}</div>
+  {% if alltime.on_time or alltime.late or alltime.not_done %}
+  <div class="ready-pills">
+    <span class="hwpill ontime">{{ alltime.on_time }} on time</span>
+    {% if alltime.late %}<span class="hwpill late">{{ alltime.late }} done late</span>{% endif %}
+    {% if alltime.not_done %}<span class="hwpill notdone">{{ alltime.not_done }} not done</span>{% endif %}
+  </div>
+  {% endif %}
+</section>
+
+<h2>Week by week</h2>
+{% if not history %}
+<p class="muted">Your first homework week hasn't started yet.</p>
+{% endif %}
+<ul class="hwweeks">
+  {% for w in history %}
+  <li class="hwweek {{ w.status | replace(' ', '') }}">
+    <div class="hw-top">
+      <span class="hw-label">{{ w.label }}</span>
+      {% if w.status == 'on time' %}<span class="hwpill ontime">✓ Done</span>
+      {% elif w.status == 'late' %}<span class="hwpill late">Done late</span>
+      {% elif w.status == 'this week' %}<span class="hwpill thisweek">This week · {{ goal.due }}</span>
+      {% else %}<span class="hwpill notdone">Not done</span>{% endif %}
+    </div>
+    <div class="hw-counts small">
+      Vocabulary {{ w.counts.vocab }}/{{ w.targets.vocab }} ·
+      Grammar {{ w.counts.grammar }}/{{ w.targets.grammar }}
+      {% if w.status == 'late' and w.done_at %}<span class="muted"> · finished {{ w.done_at | shortday }}</span>{% endif %}
+    </div>
+    {% if w.status == 'not done' %}
+    <div class="small muted">You can still finish it: once this week's cards are done,
+      extra cards count toward the oldest unfinished week.</div>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+
+<p style="text-align:center;margin-top:18px"><a href="{{ url_for('index') }}">Back home</a></p>
+{% endblock %}

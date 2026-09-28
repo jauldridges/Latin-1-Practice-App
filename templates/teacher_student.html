@@ -22,7 +22,24 @@
   <div class="tile"><div class="n">{% if act.accuracy is none %}—{% else %}{{ (act.accuracy * 100) | round | int }}%{% endif %}</div><div class="l">right</div></div>
 </div>
 <p class="small muted">{{ act.vocab }} vocabulary · {{ act.grammar }} grammar ·
-  last practised {{ act.ever_last_at | when }} · {{ act.ever_attempts }} answers all year.</p>
+  last practiced {{ act.ever_last_at | when }} · {{ act.ever_attempts }} answers all year.</p>
+
+{% if homework %}
+<h2>Homework</h2>
+<ul class="hwweeks">
+  {% for h in homework %}
+  <li class="hwweek {{ h.status | replace(' ', '') }}">
+    <div class="hw-top"><span class="hw-label">{{ h.label }}</span>
+      {% if h.status == 'on time' %}<span class="hwpill ontime">✓ on time</span>
+      {% elif h.status == 'late' %}<span class="hwpill late">late · {{ h.done_at | shortday }}</span>
+      {% elif h.status == 'this week' %}<span class="hwpill thisweek">this week</span>
+      {% else %}<span class="hwpill notdone">not done</span>{% endif %}</div>
+    <div class="hw-counts small">Vocabulary {{ h.counts.vocab }}/{{ h.targets.vocab }} ·
+      Grammar {{ h.counts.grammar }}/{{ h.targets.grammar }}</div>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
 
 <h2>Vocabulary</h2>
 <p class="small">

@@ -171,7 +171,7 @@ CREATE INDEX IF NOT EXISTS idx_dec_session ON decisions(session_id, id);
 -- The class list: the ID numbers this app will accept, and nothing else.
 --
 -- Two jobs. It is the denominator — without it the dashboard can only show
--- who HAS practised, since a student who did nothing leaves no events. And it
+-- who HAS practiced, since a student who did nothing leaves no events. And it
 -- is the typo guard: an ID that is well-formed but not on this list is not
 -- silently accepted.
 --
@@ -187,7 +187,7 @@ CREATE TABLE IF NOT EXISTS roster (
 
 -- A student's PIN, hashed. Never the PIN itself.
 --
--- This exists to stop one student practising as another, not to secure
+-- This exists to stop one student practicing as another, not to secure
 -- anything valuable: nothing behind it is a grade. Four digits is enough for
 -- that job, and anything heavier fails the real test — a fourteen-year-old
 -- locked out at 9pm does not do their homework, they give up.

@@ -20,7 +20,7 @@ SPARSE
     100-ish numbers scattered through 900,000 means a mistyped digit almost
     never lands on another real student. It lands on nothing, and the student
     gets the "we don't have that number" screen — which is recoverable, unlike
-    silently practising into somebody else's record.
+    silently practicing into somebody else's record.
 
 AND NO TWO WITHIN ONE TYPO OF EACH OTHER
     "Almost never" is free to turn into "never" at this size, so the generator

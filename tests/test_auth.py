@@ -121,7 +121,7 @@ class TestGate(EnvMixin):
 
     def test_the_student_side_always_needs_a_signed_in_student(self):
         # Unlike the teacher gate there is no "off" switch: a shared class code
-        # let anyone who knew it practise as anyone, which is what PINs fix.
+        # let anyone who knew it practice as anyone, which is what PINs fix.
         _, c = make_client(self.db)
         r = c.get("/drill")
         self.assertEqual(r.status_code, 302)

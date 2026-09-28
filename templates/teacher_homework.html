@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block subtitle %}homework{% endblock %}
+{% block content %}
+<p class="small"><a href="{{ url_for('teacher_home') }}">← Dashboard</a></p>
+<h1>Homework, week by week</h1>
+<p class="small muted">Each week is Saturday to Friday: {{ targets.vocab }} vocabulary and
+  {{ targets.grammar }} grammar cards. <strong style="color:var(--solid)">✓</strong> done by
+  Friday · <strong style="color:#8a6508">late</strong> finished afterwards (hover or tap for the day) ·
+  a number is how many of the {{ targets.vocab + targets.grammar }} cards they did, not finished.
+  Students are ID numbers only — match them against your paper list.</p>
+
+{% if sections %}
+<form method="get" class="filterbar">
+  <select name="section" onchange="this.form.submit()">
+    <option value="">All blocks</option>
+    {% for s in sections %}<option value="{{ s }}" {{ 'selected' if s == section }}>{{ s }}</option>{% endfor %}
+  </select>
+  <noscript><button class="minibtn" type="submit">Go</button></noscript>
+</form>
+{% endif %}
+
+{% if not rows %}
+<div class="card"><p>No class list yet, so there is nobody to show.
+  <a href="{{ url_for('teacher_roster') }}">Add my students</a></p></div>
+{% elif not weeks %}
+<div class="card"><p>The first homework week hasn't started yet. You can change it on
+  <a href="{{ url_for('teacher_deadlines') }}">Goals &amp; deadlines</a>.</p></div>
+{% else %}
+<div class="gridwrap">
+<table class="hwgrid">
+  <tr><th>Student</th>
+    {% for k in weeks %}<th title="{{ labels[k] }}">{{ labels[k].split(' – ')[1] }}</th>{% endfor %}
+    <th>On time</th><th>Late</th><th>Not done</th></tr>
+  {% for r in rows %}
+  <tr>
+    <td><a class="sid" href="{{ url_for('teacher_student', student_id=r.student_id) }}">{{ r.student_id }}</a>
+      {% if r.section and not section %}<span class="small muted"> {{ r.section }}</span>{% endif %}</td>
+    {% for h in r.weeks %}
+      {% if h.status == 'on time' %}<td class="hw-ontime" title="{{ h.label }}: on time">✓</td>
+      {% elif h.status == 'late' %}<td class="hw-late" title="{{ h.label }}: finished {{ h.done_at | shortday }}">late</td>
+      {% elif h.status == 'this week' %}<td class="hw-thisweek" title="{{ h.label }}: in progress">{{ h.total }}…</td>
+      {% else %}<td class="hw-notdone" title="{{ h.label }}: {{ h.total }} of {{ h.goal }}">{{ h.total }}</td>{% endif %}
+    {% endfor %}
+    <td>{{ r.summary.on_time }}</td><td>{{ r.summary.late }}</td><td>{{ r.summary.not_done }}</td>
+  </tr>
+  {% endfor %}
+</table>
+</div>
+<p class="small muted">Columns are named by the Friday each week was due, newest first.</p>
+<a class="bigbtn secondary" href="{{ url_for('teacher_homework_export', section=section) }}">Download for the gradebook (spreadsheet)</a>
+{% endif %}
+{% endblock %}

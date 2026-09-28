@@ -24,7 +24,7 @@ This is practice — nothing here affects a grade.</p>
 </div>
 {% else %}
 <form method="post" action="{{ url_for('practice_start') }}" id="startform">
-  <label class="small muted" for="node" style="display:block;margin-top:12px">What to practise</label>
+  <label class="small muted" for="node" style="display:block;margin-top:12px">What to practice</label>
   <select name="node" id="node" style="width:100%;padding:14px;font-size:17px;border:1px solid var(--line);border-radius:10px;background:#fff">
     <option value="">Everything taught so far ({{ n_ready }})</option>
     {% for n in nodes %}

@@ -2,7 +2,7 @@
 
 One property does the real work: no issued id is one typo away from another.
 Without it, a mistyped digit can land on a classmate's number and a student
-practises into someone else's record with nothing on screen to suggest
+practices into someone else's record with nothing on screen to suggest
 anything is wrong.
 """
 

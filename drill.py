@@ -188,7 +188,7 @@ def card_for(word, ask):
 def _choose_direction(word_events, direction):
     if direction in ("la_en", "en_la"):
         return direction
-    # 'both': show whichever direction the student has practised less for this
+    # 'both': show whichever direction the student has practiced less for this
     # word, breaking ties toward Latin->English.
     la_en = sum(1 for e in word_events if str(e.get("item_id", "")).endswith(":la_en"))
     en_la = sum(1 for e in word_events if str(e.get("item_id", "")).endswith(":en_la"))

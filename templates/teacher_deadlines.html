@@ -2,20 +2,49 @@
 {% block subtitle %}goals &amp; deadlines{% endblock %}
 {% block content %}
 <h1>Goals &amp; deadlines</h1>
-<p class="small muted">What students see on their home screen: this week's practice goal,
-and the quizzes and tests coming up. Nothing here is a grade.</p>
+<p class="small muted">What students see on their home screen: this week's homework,
+and the quizzes and tests coming up. The week-by-week record for the gradebook is on the
+<a href="{{ url_for('teacher_homework') }}">homework page</a>.</p>
 
-<h2>Weekly practice goal</h2>
+<h2>Weekly homework goal</h2>
 {% if saved == 'goal' %}<div class="flags"><span class="lvl heuristic">saved</span> Students see the new goal straight away.</div>{% endif %}
 {% if saved == 'bad' %}<div class="flags"><span class="lvl error">not saved</span> Both goals need to be whole numbers.</div>{% endif %}
 <form method="post" class="card">
-  <p class="small muted" style="margin-top:0">Answers per week, Monday to Sunday. A retype after
-    a near-miss counts once; answers in a proctored quiz don't count.</p>
+  <p class="small muted" style="margin-top:0">Cards per homework week, Saturday to Friday. A week
+    is done when both are met. A retype after a near-miss counts once; answers in a proctored
+    quiz don't count. Changing these changes every week, past ones included.</p>
   <div class="goalform">
     <label>Vocabulary <input type="number" name="vocab" min="0" max="1000" value="{{ targets.vocab }}" inputmode="numeric"></label>
     <label>Grammar <input type="number" name="grammar" min="0" max="1000" value="{{ targets.grammar }}" inputmode="numeric"></label>
   </div>
   <button class="bigbtn" type="submit">Save goal</button>
+</form>
+
+<h2>Homework weeks</h2>
+{% if saved == 'weeks' %}<div class="flags"><span class="lvl heuristic">saved</span> Students' homework pages use these weeks now.</div>{% endif %}
+{% if saved == 'badweeks' %}<div class="flags"><span class="lvl error">not saved</span> Pick the date homework starts counting from.</div>{% endif %}
+<form method="post" class="card">
+  <input type="hidden" name="form" value="homework">
+  <p class="small muted" style="margin-top:0">Each homework week runs Saturday to Friday. A week
+    done by Friday night shows green (on time); a week finished afterwards shows yellow (late).
+    Untick a week with no homework — a vacation — and nobody owes it.</p>
+  <div class="goalform">
+    <label>Homework counts from <input type="date" name="from" value="{{ homework.from }}"></label>
+  </div>
+  <p class="small muted">Any date works; it moves back to that week's Saturday.</p>
+  {% set n_off = hw_weeks | rejectattr('on') | list | length %}
+  <details class="week" {{ 'open' if saved == 'weeks' }}>
+    <summary><span class="week-name">Weeks with no homework (vacations)</span>
+      <span class="small muted">{{ n_off }} marked</span></summary>
+  <div class="weekpick" style="margin-top:8px">
+    {% for wk in hw_weeks %}
+      <label><input type="hidden" name="listed" value="{{ wk.key }}">
+        <input type="checkbox" name="on" value="{{ wk.key }}" {{ 'checked' if wk.on }}>
+        {{ wk.label }}{% if wk.key == this_week %} <strong>(this week)</strong>{% endif %}</label>
+    {% endfor %}
+  </div>
+  </details>
+  <button class="bigbtn" type="submit">Save homework weeks</button>
 </form>
 
 <h2>Quizzes &amp; tests</h2>

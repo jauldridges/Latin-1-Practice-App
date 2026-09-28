@@ -1,5 +1,5 @@
 > **Most of this is now a page.** The dashboard at `/teacher` answers the first
-> five questions below without a terminal — who practised, over what window, what
+> five questions below without a terminal — who practiced, over what window, what
 > the class is weak on, what they said went wrong, one student in detail — and
 > has its own CSV download. This file is kept for the questions the dashboard
 > does not ask, and for when you want the raw table.
@@ -36,7 +36,7 @@ complete history and the source of every derived figure.
 
 ---
 
-## Who has been practising
+## Who has been practicing
 
 ```sql
 SELECT student_id,
@@ -49,7 +49,7 @@ GROUP BY student_id
 ORDER BY attempts DESC;
 ```
 
-## Who has NOT practised this week
+## Who has NOT practiced this week
 
 ```sql
 SELECT student_id, DATE(MAX(timestamp),'unixepoch','localtime') AS last_seen

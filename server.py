@@ -30,6 +30,7 @@ import identity
 import practice
 import quiz as quizlib
 import goals
+import schooltime  # noqa: F401  -- the school's clock, set before anything reads it
 import stats
 import store
 import teacher
@@ -118,7 +119,7 @@ def _close_db(exc):
 OPEN_PREFIXES = ("/static", "/login", "/logout", "/signin", "/signout",
                  "/favicon", "/healthz")
 TEACHER_PREFIXES = ("/review", "/teaching", "/teacher", "/quiz")
-STUDENT_PREFIXES = ("/drill", "/practice", "/q/", "/due/")
+STUDENT_PREFIXES = ("/drill", "/practice", "/q/", "/due/", "/homework")
 
 
 def _here():
@@ -288,7 +289,8 @@ def signout():
 @app.context_processor
 def _auth_flags():
     return {"is_teacher": auth.is_teacher(), "teacher_gate": auth.teacher_gate_on(),
-            "signed_in_student": current_student()}
+            "signed_in_student": current_student(),
+            "day_letters": goals.DAY_LETTERS}
 
 
 _prepare_storage()
@@ -331,6 +333,15 @@ def nodeweek(node_id):
     return weeklabel(node_week(node_id))
 
 
+@app.template_filter("shortday")
+def shortday(ts):
+    """"Mon 5 Oct" -- the day a late week was finished."""
+    if not ts:
+        return ""
+    lt = time.localtime(ts)
+    return "%s %d %s" % (time.strftime("%a", lt), lt.tm_mday, time.strftime("%b", lt))
+
+
 @app.template_filter("when")
 def when(ts):
     """A timestamp as a teacher reads it: "2h ago", "yesterday", a date.
@@ -363,6 +374,20 @@ def weekly_targets(db):
                                          if k in goals.DEFAULT_TARGETS})
 
 
+def homework_setting(db):
+    """{"from": first homework week's Saturday, "off": [no-homework weeks]}."""
+    s = store.get_setting(db, "homework") or {}
+    return {"from": s.get("from") or goals.DEFAULT_HOMEWORK_FROM,
+            "off": list(s.get("off") or [])}
+
+
+def homework_history(db, events, now=None):
+    """One student's homework weeks, oldest first, from Goals & deadlines."""
+    hs = homework_setting(db)
+    weeks = goals.homework_weeks(hs["from"], hs["off"], now)
+    return goals.homework_history(events, weekly_targets(db), weeks, now)
+
+
 def upcoming_assessments(db, limit=4):
     """Quizzes and tests from today onwards, soonest first."""
     today = time.strftime("%Y-%m-%d")
@@ -387,6 +412,10 @@ def index():
     if student and not auth.is_teacher():
         events = store.events_for_student(db, student)
         ctx["goal"] = goals.weekly_progress(events, weekly_targets(db))
+        history = homework_history(db, events)
+        # Weeks still owed, oldest first: extra cards finish these (late).
+        ctx["owed"] = [r for r in history if r["status"] == "not done"]
+        ctx["week_off"] = goals.week_key(time.time()) in homework_setting(db)["off"]
         ctx["spacing"] = goals.spacing_flag(events)
         ctx["idle_days"] = goals.days_since_practice(events)
         ctx["upcoming"] = upcoming_assessments(db)
@@ -734,7 +763,7 @@ def current_student():
 
     Read from the signed session and NEVER from the request. That is the
     difference between a student and a URL: `?student=40218` used to be enough
-    to practise as somebody else, and no amount of PIN checking at the door
+    to practice as somebody else, and no amount of PIN checking at the door
     would have mattered while the rest of the app took your word for it
     afterwards.
     """
@@ -1077,7 +1106,7 @@ def practice_session():
         ctx = "practice"
     approved = store.approved_items(db)
     events = store.events_for_student(db, student)
-    # A comma-separated list is a set of topics -- what "Practise everything on
+    # A comma-separated list is a set of topics -- what "Practice everything on
     # this quiz" sends. It is still cut to what has been taught: a question
     # never arrives before its lesson, whichever door the student came in by.
     if node and "," in node:
@@ -1449,10 +1478,21 @@ def drill_progress():
                            gtotal=sum(gtotals.values()))
 
 
+@app.route("/homework")
+def homework_page():
+    """Every homework week so far, newest first, and the all-time totals."""
+    db = get_db()
+    events = store.events_for_student(db, current_student())
+    history = homework_history(db, events)
+    return render_template("homework.html", history=list(reversed(history)),
+                           alltime=goals.all_time(events, history),
+                           goal=goals.weekly_progress(events, weekly_targets(db)))
+
+
 # ==========================================================================
 # The teacher dashboard
 #
-# Everything here answers one of two questions: did they practise, and what do
+# Everything here answers one of two questions: did they practice, and what do
 # they know. Both are read-only views over the same event history the students
 # see; nothing on these pages writes an event or touches a grade.
 #
@@ -1484,7 +1524,18 @@ def _week_topics(weeks, approved_counts):
 def teacher_deadlines():
     db = get_db()
     saved = None
-    if request.method == "POST":
+    if request.method == "POST" and request.form.get("form") == "homework":
+        start = (request.form.get("from") or "").strip()
+        if goals.days_until(start) is None:
+            saved = "badweeks"
+        else:
+            first = goals.week_key(goals.key_start(start))
+            listed = set(request.form.getlist("listed"))
+            ticked = set(request.form.getlist("on"))
+            off = set(homework_setting(db)["off"]) - listed | (listed - ticked)
+            store.set_setting(db, "homework", {"from": first, "off": sorted(off)})
+            saved = "weeks"
+    elif request.method == "POST":
         try:
             targets = {k: max(0, int(request.form.get(k, ""))) for k in goals.DEFAULT_TARGETS}
             store.set_setting(db, "weekly_goal", targets)
@@ -1497,7 +1548,16 @@ def teacher_deadlines():
         a["when"] = goals.when_label(a["due_date"])
         a["past"] = a["due_date"] < today
         rows.append(a)
+    hs = homework_setting(db)
+    # Every week from the first to the end of the teaching calendar, so a
+    # vacation can be marked before it arrives.
+    last_teaching = max(goals.all_weeks(_SPEC, _DRILL_WORDS) or [hs["from"]])
+    until = max(last_teaching, goals.week_key(time.time()))
+    hw_weeks = [{"key": k, "label": goals.week_label(k), "on": k not in hs["off"]}
+                for k in goals.homework_weeks(hs["from"], (), until=until)]
     return render_template("teacher_deadlines.html", targets=weekly_targets(db),
+                           homework=hs, hw_weeks=hw_weeks,
+                           this_week=goals.week_key(time.time()),
                            assessments=rows, saved=saved, kinds=dict(ASSESSMENT_KINDS))
 
 
@@ -1519,7 +1579,7 @@ def teacher_deadline_edit():
         due = (request.form.get("due_date") or "").strip()
         weeks = [w for w in request.form.getlist("week") if w in all_weeks]
         if not title:
-            error = "Give it a title students will recognise, like \"Quiz: first declension\"."
+            error = "Give it a title students will recognize, like \"Quiz: first declension\"."
         elif goals.days_until(due) is None:
             error = "Pick a date."
         elif not weeks:
@@ -1577,17 +1637,28 @@ def assessment_page(aid):
                            word_weeks=word_weeks, week_labels=drill.WEEK_LABELS)
 
 
-WINDOW_CHOICES = [(1, "Today"), (2, "Since yesterday"), (7, "Last 7 days"),
+# Negative values are homework weeks (Saturday to Friday), the same weeks the
+# students' home screens count.
+THIS_HOMEWORK_WEEK, LAST_HOMEWORK_WEEK = -1, -2
+WINDOW_CHOICES = [(THIS_HOMEWORK_WEEK, "This homework week (Sat–Fri)"),
+                  (LAST_HOMEWORK_WEEK, "Last homework week"),
+                  (1, "Today"), (2, "Since yesterday"), (7, "Last 7 days"),
                   (30, "Last 30 days"), (0, "All time")]
 
 
-def _window_args():
+def _window_args(default=7):
     """Read the window and block filter off the query string, once."""
     days = request.args.get("days", type=int)
     if days is None:
-        days = 7
+        days = default
     section = request.args.get("section") or None
-    if days <= 0:
+    now = time.time()
+    if days == THIS_HOMEWORK_WEEK:
+        since, until = goals.week_start(now), now
+    elif days == LAST_HOMEWORK_WEEK:
+        this = goals.week_start(now)
+        since, until = goals.week_start(this - 3600), this - 0.001
+    elif days <= 0:
         since, until = None, None
     else:
         since, until = teacher.window_bounds(days=days)
@@ -1616,11 +1687,13 @@ def _grammar_universe(db):
 @app.route("/teacher")
 def teacher_home():
     db = get_db()
-    w = _window_args()
+    w = _window_args(default=THIS_HOMEWORK_WEEK)
     roster_rows = store.roster(db, active_only=True, section=w["section"])
     events = store.all_events(db, since=w["since"], until=w["until"], section=w["section"])
-    table = teacher.class_activity(roster_rows, events, w["since"], w["until"])
+    table = teacher.class_activity(roster_rows, events, w["since"], w["until"],
+                                   targets=weekly_targets(db))
     return render_template("teacher_home.html", w=w, table=table,
+                           targets=weekly_targets(db),
                            purge=PURGE_REPORT,
                            window_label=_window_label(w["days"]),
                            windows=WINDOW_CHOICES, sections=store.sections(db),
@@ -1680,6 +1753,7 @@ def teacher_student(student_id):
     misses = store.miss_reasons_for_student(db, student_id, since=w["since"])
     return render_template(
         "teacher_student.html", w=w, student=student_id,
+        homework=list(reversed(homework_history(db, events))),
         person=person, act=act, has_pin=store.has_pin(db, student_id),
 
         vocab=drill.progress_summary(vocab_rows), vocab_rows=vocab_rows,
@@ -1695,24 +1769,77 @@ def teacher_export():
     """The homework table as a spreadsheet, so a printout or a gradebook paste
     never needs the terminal."""
     db = get_db()
-    w = _window_args()
+    w = _window_args(default=THIS_HOMEWORK_WEEK)
     roster_rows = store.roster(db, active_only=True, section=w["section"])
     events = store.all_events(db, since=w["since"], until=w["until"], section=w["section"])
-    table = teacher.class_activity(roster_rows, events, w["since"], w["until"])
+    table = teacher.class_activity(roster_rows, events, w["since"], w["until"],
+                                   targets=weekly_targets(db))
     buf = io.StringIO()
     wtr = csv.writer(buf)
     # student_id, not name. There are no names in this system — the paper that
     # maps a number to a person stays off the machine, so this file is safe to
     # download and safe to lose.
-    wtr.writerow(["student_id", "block", "state", "attempts", "days_practised",
-                  "vocab", "grammar", "accuracy_pct", "last_practised", "window"])
+    wtr.writerow(["student_id", "block", "state", "attempts", "days_practiced",
+                  "vocab_cards", "grammar_cards", "accuracy_pct", "last_practiced", "window"])
     for r in table["rows"]:
         wtr.writerow([r["student_id"], r["section"] or "", r["state"], r["attempts"],
-                      r["days"], r["vocab"], r["grammar"],
+                      r["days"], r["hw"]["vocab"], r["hw"]["grammar"],
                       "" if r["accuracy"] is None else int(round(r["accuracy"] * 100)),
                       time.strftime("%Y-%m-%d %H:%M", time.localtime(r["last_at"])) if r["last_at"] else "",
                       _window_label(w["days"])])
     name = "practice-%s.csv" % time.strftime("%Y-%m-%d")
+    return Response(buf.getvalue(), mimetype="text/csv",
+                    headers={"Content-Disposition": "attachment; filename=" + name})
+
+
+def _class_homework(db, section=None):
+    """(weeks newest first, rows) -- every rostered student's homework weeks."""
+    roster_rows = store.roster(db, active_only=True, section=section)
+    grouped = teacher.by_student(store.all_events(db, section=section))
+    hs = homework_setting(db)
+    weeks = goals.homework_weeks(hs["from"], hs["off"])
+    targets = weekly_targets(db)
+    rows = []
+    for r in roster_rows:
+        hist = goals.homework_history(grouped.get(r["student_id"], []), targets, weeks)
+        rows.append({"student_id": r["student_id"], "section": r.get("section"),
+                     "weeks": list(reversed(hist)),
+                     "summary": goals.all_time([], hist)})
+    rows.sort(key=lambda x: (x["section"] or "", x["student_id"]))
+    return list(reversed(weeks)), rows
+
+
+@app.route("/teacher/homework")
+def teacher_homework():
+    """The gradebook view: one row per student, one column per homework week."""
+    db = get_db()
+    section = request.args.get("section") or None
+    weeks, rows = _class_homework(db, section)
+    return render_template("teacher_homework.html", weeks=weeks, rows=rows,
+                           labels={k: goals.week_label(k) for k in weeks},
+                           section=section, sections=store.sections(db),
+                           targets=weekly_targets(db))
+
+
+@app.route("/teacher/homework.csv")
+def teacher_homework_export():
+    """The same grid as a spreadsheet, for pasting into the gradebook."""
+    db = get_db()
+    section = request.args.get("section") or None
+    weeks, rows = _class_homework(db, section)
+    buf = io.StringIO()
+    wtr = csv.writer(buf)
+    # student_id, not name: see teacher_export.
+    wtr.writerow(["student_id", "block"] + [goals.week_label(k) for k in weeks])
+    for r in rows:
+        cells = []
+        for h in r["weeks"]:
+            if h["status"] in ("on time", "late"):
+                cells.append(h["status"])
+            else:
+                cells.append("%s (%d/%d)" % (h["status"], h["total"], h["goal"]))
+        wtr.writerow([r["student_id"], r["section"] or ""] + cells)
+    name = "homework-%s.csv" % time.strftime("%Y-%m-%d")
     return Response(buf.getvalue(), mimetype="text/csv",
                     headers={"Content-Disposition": "attachment; filename=" + name})
 

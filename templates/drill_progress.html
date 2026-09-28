@@ -69,7 +69,7 @@
   </details>
 {% endfor %}
 
-<a class="bigbtn" href="{{ url_for('drill_home') }}" style="margin-top:16px">Practise vocabulary</a>
+<a class="bigbtn" href="{{ url_for('drill_home') }}" style="margin-top:16px">Practice vocabulary</a>
 
 <h2 id="grammar" class="section-head">Grammar</h2>
 {% if gtotal %}
@@ -82,9 +82,9 @@
 
 <h3 style="margin-top:20px">Topics week by week</h3>
 <p class="small muted" style="margin-top:-2px">Every topic from class so far, under the
-  week it was taught. Tap <strong>Practise</strong> to work on just that one.</p>
+  week it was taught. Tap <strong>Practice</strong> to work on just that one.</p>
 
-{# The current teaching week opens by itself, like the words. The Practise link
+{# The current teaching week opens by itself, like the words. The Practice link
    goes straight to questions on that one topic: a shaky topic the night before
    a quiz should be one tap from targeted work, not a hunt through a list. #}
 {% for g in grammar %}
@@ -105,7 +105,7 @@
           {% if r.state == 'solid' %}<span class="pill solid">solid</span>
           {% elif r.state == 'shaky' %}<span class="pill shaky">shaky</span>
           {% else %}<span class="pill notyet">not yet</span>{% endif %}
-          <a class="minibtn" href="{{ url_for('practice_session', node=r.node) }}">Practise</a>
+          <a class="minibtn" href="{{ url_for('practice_session', node=r.node) }}">Practice</a>
         </span>
       </li>
       {% endfor %}
@@ -113,7 +113,7 @@
   </details>
 {% endfor %}
 
-<a class="bigbtn" href="{{ url_for('practice_home') }}" style="margin-top:16px">Practise grammar</a>
+<a class="bigbtn" href="{{ url_for('practice_home') }}" style="margin-top:16px">Practice grammar</a>
 {% else %}
 <p class="small muted">Grammar topics appear here once your teacher has opened them.</p>
 {% endif %}

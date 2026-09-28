@@ -3,34 +3,47 @@
 {% if signed_in_student and not is_teacher %}
   <h1>Salvē!</h1>
 
-  {# The weekly goal: two numbers the teacher sets, counted Monday to Sunday.
-     The dots are the point as much as the bars -- spacing is the whole design
-     of this app, and a row of seven days shows it without a lecture. #}
+  {# This week's homework: two numbers the teacher sets, counted Saturday to
+     Friday because the quiz is on Friday. The dots are the point as much as
+     the bars -- spacing is the whole design of this app, and a row of seven
+     days shows it without a lecture. #}
   {% if goal %}
-  <section class="goalcard">
+  <section class="goalcard {{ 'done' if goal.done and not week_off }}">
     <div class="goal-head">
-      <h2>This week</h2>
-      <div class="dots" aria-label="Days practised this week">
-        {% for d in ['M','T','W','T','F','S','S'] %}
+      <h2>{% if week_off %}No homework this week{% else %}This week's homework{% endif %}
+        {% if not week_off %}<span class="goal-due {{ 'today' if goal.due == 'due today' and not goal.done }}">{{ 'done ✓' if goal.done else goal.due }}</span>{% endif %}</h2>
+      <div class="dots" aria-label="Days practiced this week, Saturday to Friday">
+        {% for d in day_letters %}
           <span class="dot {{ 'on' if goal.days[loop.index0] }} {{ 'today' if loop.index0 == goal.today }}">{{ d }}</span>
         {% endfor %}
       </div>
     </div>
+    {% if not week_off %}
     {% for kind, label in [('vocab', 'Vocabulary'), ('grammar', 'Grammar')] %}
       {% set n = goal[kind] %}{% set t = goal.targets[kind] %}
       <div class="goalrow">
         <div class="goal-label"><span>{{ label }}</span>
-          <span class="goal-num">{% if goal.met[kind] %}✓ {{ n }} — done{% else %}{{ n }} of {{ t }}{% endif %}</span></div>
+          <span class="goal-num">{% if goal.met[kind] %}✓ {{ n }} cards — done{% else %}{{ n }} of {{ t }} cards{% endif %}</span></div>
         <div class="bar"><span style="width:{{ [100, (100 * n / t) if t else 100] | min }}%"
              class="{{ 'met' if goal.met[kind] }}"></span></div>
       </div>
     {% endfor %}
+    {% endif %}
+
+    {% if owed %}
+      {% set o = owed[0] %}
+      <div class="owed">
+        <strong>{{ o.label }}</strong> isn't finished: {{ o.total }} of {{ o.goal }} cards.
+        {% if owed | length > 1 %}({{ owed | length - 1 }} more week{{ 's' if owed | length > 2 }} after it too.){% endif %}
+        Once this week's cards are done, extra cards finish it — it will show as done late.
+      </div>
+    {% endif %}
 
     {% if spacing == 'idle' %}
-      <div class="spacing-flag">It's been <strong>{{ idle_days }} days</strong> since you practised.
+      <div class="spacing-flag">It's been <strong>{{ idle_days }} days</strong> since you practiced.
         Ten minutes today does more than an hour the night before a quiz.</div>
     {% elif spacing == 'never' %}
-      <div class="spacing-flag">You haven't practised yet. Start with a few minutes today —
+      <div class="spacing-flag">You haven't practiced yet. Start with a few minutes today —
         a little on several days sticks far better than one long go.</div>
     {% else %}
       <p class="small muted spacing-note">A few minutes on several days sticks better than
@@ -50,7 +63,7 @@
   {% endfor %}
   {% endif %}
 
-  <h2>Practise</h2>
+  <h2>Practice</h2>
 {% else %}
   <h1>Latin I practice</h1>
   {% if not is_teacher %}
@@ -72,7 +85,8 @@
 
 {% if signed_in_student and not is_teacher %}
   <p style="text-align:center;margin-top:18px">
-    <a href="{{ url_for('drill_progress') }}">See my progress</a></p>
+    <a href="{{ url_for('homework_page') }}">My homework, week by week</a> ·
+    <a href="{{ url_for('drill_progress') }}">My progress</a></p>
 {% endif %}
 
 {# Teacher tools are hidden, not merely protected, once a password is set:
@@ -81,10 +95,10 @@
 <h2>Teacher</h2>
 
 <a class="bigbtn" href="{{ url_for('teacher_home') }}">Teacher dashboard</a>
-<p class="small muted" style="margin-top:-4px">Who practised, what they know, the class list.</p>
+<p class="small muted" style="margin-top:-4px">Who practiced, what they know, the class list.</p>
 
 <a class="bigbtn secondary" href="{{ url_for('teacher_deadlines') }}">Goals &amp; deadlines</a>
-<p class="small muted" style="margin-top:-4px">The weekly practice goal, and the quizzes and tests students see coming.</p>
+<p class="small muted" style="margin-top:-4px">The weekly homework goal, homework weeks, and the quizzes and tests students see coming.</p>
 
 <a class="bigbtn secondary" href="{{ url_for('review_queue') }}">Review tool</a>
 <p class="small muted" style="margin-top:-4px">

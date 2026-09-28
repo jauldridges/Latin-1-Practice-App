@@ -1,4 +1,4 @@
-"""The weekly goal, the spacing reminder, and quizzes and tests students prepare for."""
+"""The homework week, the spacing reminder, and quizzes and tests students prepare for."""
 
 import os
 import sys
@@ -30,12 +30,35 @@ WED = at(30)
 
 
 class TestTheWeek(unittest.TestCase):
-    def test_a_week_starts_on_monday(self):
-        self.assertEqual(time.strftime("%a %d", time.localtime(goals.week_start(WED))), "Mon 28")
+    """Homework runs Saturday to Friday: the quiz is Friday, so the cards are due then."""
 
-    def test_sunday_night_is_still_this_week(self):
-        sunday = at(34, 22)   # Sun 4 Oct, 10pm
-        self.assertEqual(time.strftime("%d", time.localtime(goals.week_start(sunday))), "28")
+    def test_the_clock_is_the_schools(self):
+        # Render runs in UTC, where Friday ends at 8pm in Massachusetts.
+        self.assertEqual(os.environ.get("TZ"), os.environ.get("LATIN_TIMEZONE") or "America/New_York")
+
+    def test_a_week_starts_on_saturday(self):
+        self.assertEqual(time.strftime("%a %d", time.localtime(goals.week_start(WED))), "Sat 26")
+
+    def test_friday_night_is_still_this_week(self):
+        friday = at(32, 23)   # Fri 2 Oct, 11pm
+        self.assertEqual(goals.week_key(friday), "2026-09-26")
+
+    def test_saturday_starts_the_next_one(self):
+        self.assertEqual(goals.week_key(at(33, 0)), "2026-10-03")
+
+    def test_the_deadline_is_midnight_at_the_end_of_friday(self):
+        end = goals.week_end(goals.week_start(WED))
+        self.assertEqual(time.strftime("%a %d %H:%M", time.localtime(end)), "Sat 03 00:00")
+
+    def test_daylight_saving_does_not_move_midnight(self):
+        # Clocks go back on Sun 1 Nov 2026; a week is not 7 x 86400 seconds then.
+        start = goals.key_start("2026-11-04")
+        self.assertEqual(time.strftime("%a %d %b %H:%M", time.localtime(start)), "Sat 31 Oct 00:00")
+        self.assertEqual(time.strftime("%a %d %b %H:%M", time.localtime(goals.week_end(start))),
+                         "Sat 07 Nov 00:00")
+
+    def test_labels(self):
+        self.assertEqual(goals.week_label("2026-09-30"), "Sat 26 Sep – Fri 2 Oct")
 
 
 class TestWeeklyProgress(unittest.TestCase):
@@ -60,27 +83,126 @@ class TestWeeklyProgress(unittest.TestCase):
                                    ev(29, "MS014-RECOG-02", context="classwork")], None, WED)
         self.assertEqual(p["grammar"], 2)
 
-    def test_last_week_does_not_count(self):
-        p = goals.weekly_progress([ev(27, "vocab:aqua:la_en")], None, WED)   # Sunday before
-        self.assertEqual(p["vocab"], 0)
+    def test_last_friday_does_not_count_and_saturday_does(self):
+        self.assertEqual(goals.weekly_progress([ev(25, "vocab:aqua:la_en")], None, WED)["vocab"], 0)
+        self.assertEqual(goals.weekly_progress([ev(26, "vocab:aqua:la_en")], None, WED)["vocab"], 1)
 
     def test_the_days_show_where_the_practice_fell(self):
+        # Saturday first: S S M T W T F.
         p = goals.weekly_progress([ev(28, "vocab:aqua:la_en"), ev(30, "MS014-RECOG-01")], None, WED)
-        self.assertEqual(p["days"], [True, False, True, False, False, False, False])
-        self.assertEqual(p["today"], 2)
+        self.assertEqual(p["days"], [False, False, True, False, True, False, False])
+        self.assertEqual(p["today"], 4)
+        self.assertEqual(goals.DAY_LETTERS, ["S", "S", "M", "T", "W", "T", "F"])
+
+    def test_it_says_when_it_is_due(self):
+        self.assertEqual(goals.weekly_progress([], None, WED)["due"], "due Friday")
+        self.assertEqual(goals.weekly_progress([], None, at(32, 9))["due"], "due today")
 
     def test_meeting_the_goal(self):
         evs = [ev(28, "vocab:w%d:la_en" % i) for i in range(3)]
         p = goals.weekly_progress(evs, {"vocab": 3, "grammar": 5}, WED)
         self.assertTrue(p["met"]["vocab"])
         self.assertFalse(p["met"]["grammar"])
+        self.assertFalse(p["done"])
+        p = goals.weekly_progress(evs, {"vocab": 3, "grammar": 0}, WED)
+        self.assertTrue(p["done"])
 
     def test_default_targets_are_the_teachers_fifty_and_fifty(self):
         self.assertEqual(goals.DEFAULT_TARGETS, {"vocab": 50, "grammar": 50})
 
 
+SMALL = {"vocab": 2, "grammar": 1}     # a three-card week keeps these readable
+WEEKS = ["2026-09-12", "2026-09-19", "2026-09-26"]
+NOW = at(30, 20)                      # Wednesday evening of the third week
+
+
+def vocab(day, n, hour=15, tag="w"):
+    return [ev(day, "vocab:%s%d%d:la_en" % (tag, day, i), hour=hour) for i in range(n)]
+
+
+def gram(day, n, hour=15, tag="q"):
+    return [ev(day, "%s%d-%d" % (tag, day, i), hour=hour) for i in range(n)]
+
+
+def hist(events, weeks=WEEKS, targets=SMALL, now=NOW):
+    return {r["key"]: r for r in goals.homework_history(events, targets, weeks, now)}
+
+
+class TestHomeworkHistory(unittest.TestCase):
+    """On time by Friday is green; finished afterwards is yellow; never is red."""
+
+    def test_done_by_friday_is_on_time(self):
+        h = hist(vocab(14, 2) + gram(18, 1, hour=23))        # the last card at 11pm Friday
+        self.assertEqual(h["2026-09-12"]["status"], "on time")
+
+    def test_nothing_is_not_done_and_the_open_week_is_this_week(self):
+        h = hist([])
+        self.assertEqual(h["2026-09-19"]["status"], "not done")
+        self.assertEqual(h["2026-09-26"]["status"], "this week")
+
+    def test_a_missed_week_can_be_finished_late(self):
+        evs = vocab(21, 1)                                    # week 2: one card of three
+        evs += vocab(28, 2) + gram(28, 1)                     # week 3: its own homework...
+        evs += vocab(29, 1, tag="x") + gram(29, 1, tag="x")   # ...and then extra
+        h = hist(evs, weeks=WEEKS[1:])
+        self.assertEqual(h["2026-09-26"]["status"], "on time")
+        late = h["2026-09-19"]
+        self.assertEqual(late["status"], "late")
+        self.assertEqual(late["late"], {"vocab": 1, "grammar": 1})
+        self.assertEqual(time.strftime("%d", time.localtime(late["done_at"])), "29")
+
+    def test_this_weeks_homework_is_never_pulled_back_to_cover_an_old_week(self):
+        # Doing exactly each week's homework keeps each week on time; the missed
+        # week stays missed until extra is done. The other way round, one missed
+        # week would make every week after it late, forever.
+        h = hist(vocab(28, 2) + gram(28, 1))
+        self.assertEqual(h["2026-09-26"]["status"], "on time")
+        self.assertEqual(h["2026-09-19"]["status"], "not done")
+        self.assertEqual(h["2026-09-19"]["total"], 0)
+
+    def test_extra_goes_to_the_oldest_unfinished_week_first(self):
+        h = hist(vocab(28, 2) + gram(28, 1) + vocab(29, 2, tag="x") + gram(29, 1, tag="x"))
+        self.assertEqual(h["2026-09-12"]["status"], "late")
+        self.assertEqual(h["2026-09-19"]["status"], "not done")
+
+    def test_extra_vocabulary_does_not_pay_for_missing_grammar(self):
+        h = hist(vocab(14, 2) + vocab(28, 2) + gram(28, 1) + vocab(29, 5, tag="x"))
+        self.assertEqual(h["2026-09-12"]["status"], "not done")
+        self.assertEqual(h["2026-09-12"]["counts"], {"vocab": 2, "grammar": 0})
+
+    def test_a_week_before_friday_can_still_be_on_time(self):
+        h = hist(vocab(30, 2) + gram(30, 1))
+        self.assertEqual(h["2026-09-26"]["status"], "on time")
+
+    def test_a_vacation_week_is_not_owed(self):
+        weeks = goals.homework_weeks("2026-09-12", off=["2026-09-19"], now=NOW)
+        self.assertEqual(weeks, ["2026-09-12", "2026-09-26"])
+        # and cards done during it finish an earlier week
+        h = hist(vocab(21, 2) + gram(21, 1), weeks=weeks)
+        self.assertEqual(h["2026-09-12"]["status"], "late")
+        self.assertNotIn("2026-09-19", h)
+
+    def test_nothing_before_the_first_week_counts(self):
+        h = hist(vocab(7, 2) + gram(7, 1), weeks=["2026-09-12"])
+        self.assertEqual(h["2026-09-12"]["total"], 0)
+
+    def test_a_quiz_is_not_homework(self):
+        h = hist(vocab(14, 2) + [ev(15, "q1", context="quiz")])
+        self.assertEqual(h["2026-09-12"]["status"], "not done")
+
+    def test_any_date_names_its_week(self):
+        self.assertEqual(goals.homework_weeks("2026-09-30", now=NOW), ["2026-09-26"])
+
+    def test_all_time(self):
+        evs = vocab(14, 2) + gram(18, 1) + vocab(28, 1) + [ev(29, "q1", context="quiz")]
+        history = goals.homework_history(evs, SMALL, WEEKS, NOW)
+        t = goals.all_time(evs, history)
+        self.assertEqual((t["cards"], t["vocab"], t["grammar"], t["days"]), (4, 3, 1, 3))
+        self.assertEqual((t["on_time"], t["late"], t["not_done"]), (1, 0, 1))
+
+
 class TestSpacingFlag(unittest.TestCase):
-    def test_never_practised(self):
+    def test_never_practiced(self):
         self.assertEqual(goals.spacing_flag([], WED), "never")
 
     def test_two_days_off_is_fine(self):
@@ -91,7 +213,7 @@ class TestSpacingFlag(unittest.TestCase):
         self.assertEqual(goals.days_since_practice([ev(27, "vocab:aqua:la_en")], WED), 3)
 
     def test_a_quiz_is_not_practice(self):
-        # Sitting a quiz yesterday does not mean you practised.
+        # Sitting a quiz yesterday does not mean you practiced.
         self.assertEqual(goals.spacing_flag([ev(29, "MS014-RECOG-01", context="quiz")], WED), "never")
 
     def test_calendar_days_not_hours(self):
@@ -128,7 +250,7 @@ class TestScope(unittest.TestCase):
         nodes, _ = goals.scope(a, self.spec, self.words, {"MS-023", "MS-024"})
         self.assertEqual(nodes, ["MS-023"])
 
-    def test_nothing_is_offered_that_cannot_be_practised(self):
+    def test_nothing_is_offered_that_cannot_be_practiced(self):
         a = {"weeks": ["2026-09-14"], "excluded_nodes": []}
         nodes, _ = goals.scope(a, self.spec, self.words, set())
         self.assertEqual(nodes, [])
@@ -253,6 +375,68 @@ class TestTeacherScreens(_App):
         self.assertIsNone(store.get_assessment(self.db, aid))
 
 
+class TestHomeworkScreens(_App):
+    def practice(self, n_vocab, n_gram, ts=None):
+        ts = ts or time.time()
+        for i in range(n_vocab):
+            store.record_event(self.db, "403217", "vocab:w%d:la_en" % i, None, "x", "right",
+                               timestamp=ts - 1000 + i)
+        for i in range(n_gram):
+            store.record_event(self.db, "403217", "MS014-X-%d" % i, "MS-014", "x", "right",
+                               timestamp=ts - 500 + i)
+
+    def test_the_student_sees_their_weeks_and_all_time(self):
+        self.practice(3, 2)
+        body = self.student.get("/homework").data.decode()
+        self.assertIn("5<span> cards all time", body)
+        self.assertIn("This week", body)
+        self.assertIn("Saturday to Friday", body)
+        self.assertNotIn("mastery", body.lower())
+
+    def test_it_needs_a_signed_in_student(self):
+        r = self.server.app.test_client().get("/homework")
+        self.assertEqual(r.status_code, 302)
+        self.assertIn("/signin", r.headers["Location"])
+
+    def test_a_student_cannot_reach_the_gradebook(self):
+        for url in ("/teacher/homework", "/teacher/homework.csv"):
+            r = self.student.get(url)
+            self.assertEqual(r.status_code, 302)
+            self.assertIn("/login", r.headers["Location"])
+
+    def test_the_teacher_grid_and_its_spreadsheet(self):
+        self.practice(50, 50)
+        body = self.teacher.get("/teacher/homework").data.decode()
+        self.assertIn("403217", body)
+        csv_text = self.teacher.get("/teacher/homework.csv").data.decode()
+        self.assertTrue(csv_text.startswith("student_id,block,Sat "))
+        self.assertIn("403217,Block 3,on time", csv_text)
+
+    def test_did_it_means_the_weekly_goal(self):
+        self.practice(49, 50)
+        body = self.teacher.get("/teacher").data.decode()
+        self.assertIn("This homework week (Sat–Fri)", body)
+        self.assertIn('<span class="pill shaky">started</span>', body)
+        self.practice(50, 50)
+        self.assertIn('<span class="pill solid">done</span>', self.teacher.get("/teacher").data.decode())
+
+    def test_setting_the_homework_weeks(self):
+        self.teacher.post("/teacher/deadlines", data={
+            "form": "homework", "from": "2026-09-16",
+            "listed": ["2026-09-12", "2026-09-19"], "on": ["2026-09-12"]})
+        self.assertEqual(store.get_setting(self.db, "homework"),
+                         {"from": "2026-09-12", "off": ["2026-09-19"]})
+        page = self.teacher.get("/teacher/deadlines").data.decode()
+        self.assertIn("Sat 12 Sep – Fri 18 Sep", page)
+
+    def test_the_home_screen_says_what_is_owed(self):
+        self.teacher.post("/teacher/deadlines", data={
+            "form": "homework", "from": time.strftime("%Y-%m-%d", time.localtime(time.time() - 14 * 86400))})
+        body = self.student.get("/").data.decode()
+        self.assertIn("This week's homework", body)
+        self.assertIn("isn't finished: 0 of 100 cards", body)
+
+
 class TestWhatAStudentSees(_App):
     def test_home_shows_the_goal_and_whats_coming(self):
         self.add_quiz(["2026-09-07"])
@@ -268,14 +452,14 @@ class TestWhatAStudentSees(_App):
         self.assertNotIn("Old quiz", self.student.get("/").data.decode())
 
     def test_a_new_student_is_nudged_to_start(self):
-        self.assertIn("You haven't practised yet", self.student.get("/").data.decode())
+        self.assertIn("You haven't practiced yet", self.student.get("/").data.decode())
 
     def test_the_quiz_page(self):
         aid = self.add_quiz(["2026-09-07"])
         body = self.student.get("/due/%s" % aid).data.decode()
         self.assertIn("right on your last try", body)
-        self.assertIn("Practise these topics", body)
-        self.assertIn("Practise these words", body)
+        self.assertIn("Practice these topics", body)
+        self.assertIn("Practice these words", body)
         self.assertNotIn("mastery", body.lower())
 
     def test_an_unknown_quiz_is_a_404(self):
@@ -285,7 +469,7 @@ class TestWhatAStudentSees(_App):
         self.assertNotIn('class="goalcard"', self.teacher.get("/").data.decode())
 
 
-class TestPractisingForAQuiz(_App):
+class TestPracticingForAQuiz(_App):
     def test_topic_practice_stays_inside_the_quiz(self):
         topics = ["MS-014", "MS-015"]
         seen = set()
@@ -322,6 +506,22 @@ class TestPractisingForAQuiz(_App):
                 "response": "zzz", "latency_ms": "1000"})
             self.assertIn('value="%s"' % weeks, self.student.get(
                 "/drill/session?week=" + weeks + "&direction=la_en").data.decode())
+
+
+class TestAmericanSpelling(unittest.TestCase):
+    def test_practice_is_spelled_the_american_way(self):
+        # The teacher's rule: "practice" for noun and verb, never the British -ise form.
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        bad = []
+        for folder, _, files in os.walk(root):
+            if any(part in folder for part in (".git", "__pycache__", "data", "out")):
+                continue
+            for f in files:
+                if f.endswith((".py", ".html", ".md", ".yaml", ".css")):
+                    text = open(os.path.join(folder, f), encoding="utf-8").read()
+                    if ("practi" + "s") in text.lower():
+                        bad.append(f)
+        self.assertEqual(bad, [])
 
 
 class TestItTravels(unittest.TestCase):

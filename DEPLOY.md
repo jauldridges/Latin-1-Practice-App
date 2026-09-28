@@ -1,4 +1,4 @@
-# Putting it on Render, so kids can practise at home
+# Putting it on Render, so kids can practice at home
 
 Devices are 1:1 and go home. That is the whole point of this change: practice
 that only happens while your laptop is open and the student is on school wifi is
@@ -175,7 +175,7 @@ later is closed until someone opens it. A test walks the app's real URL map and
 asserts every route redirects to a door.
 
 **Students sign in with an ID number and a PIN they choose.** The PIN stops one
-student practising as another. It is four digits and it is not a password —
+student practicing as another. It is four digits and it is not a password —
 nothing behind it is a grade — and it would not stop someone determined. You
 clear a forgotten one from the roster.
 

@@ -17,7 +17,7 @@ Two doors, deliberately different, because the two users are not alike:
   student   an ID number and a four-digit PIN they choose the first time.
             Not a password: fourteen-year-olds forgetting passwords at 9pm is
             the failure mode that kills home practice, and nothing behind this
-            door is a grade. The PIN exists to stop one student practising as
+            door is a grade. The PIN exists to stop one student practicing as
             another. A forgotten one is cleared by the teacher — there is no
             email address in this system to send a reset to.
 
@@ -80,7 +80,7 @@ def student_ok():
     """A student is signed in on this device.
 
     Unlike the teacher gate there is no "off" switch. A shared class code used
-    to serve this purpose and is gone: it let anyone who knew the code practise
+    to serve this purpose and is gone: it let anyone who knew the code practice
     as any student, which is precisely what the PIN is for.
     """
     return bool(session.get(STUDENT_KEY))

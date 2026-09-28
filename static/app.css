@@ -342,3 +342,51 @@ a.duecard .due-go { grid-area: go; font-size: 14px; color: var(--accent); }
 .weekpick { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 6px; }
 .weekpick label { background: var(--card); border: 1px solid var(--line); border-radius: 8px;
   padding: 8px 10px; font-size: 15px; }
+
+/* ---- Homework: this week, week by week, all time ------------------------- */
+.goal-head { flex-wrap: wrap; row-gap: 8px; }
+.goal-due { display: inline-block; vertical-align: 2px; margin-left: 6px; font-size: 12px;
+  font-weight: 700; padding: 3px 9px; border-radius: 999px; background: #efedea; color: var(--muted); }
+.goal-due.today { background: #fbf1d6; color: var(--flag); }
+.goalcard.done { border-color: #b9d6c4; }
+.goalcard.done .goal-due { background: #e3f1e8; color: var(--solid); }
+.owed { margin-top: 12px; background: #fbf1d6; border: 1px solid #e7d59a; border-radius: 10px;
+  padding: 10px 12px; font-size: 15px; line-height: 1.45; }
+
+.alltime { background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 14px 16px; margin: 10px 0; }
+.alltime-big { font-size: 34px; font-weight: 800; color: var(--accent); line-height: 1.1;
+  font-variant-numeric: tabular-nums; }
+.alltime-big span { font-size: 17px; font-weight: 600; color: var(--muted); }
+
+.hwpill { display: inline-block; font-size: 13px; font-weight: 700; padding: 3px 10px;
+  border-radius: 999px; white-space: nowrap; }
+.hwpill.ontime { background: #e3f1e8; color: var(--solid); }
+.hwpill.late { background: #fbf1d6; color: #8a6508; }
+.hwpill.notdone { background: #f7dede; color: var(--wrong); }
+.hwpill.thisweek { background: #efedea; color: var(--ink); }
+
+ul.hwweeks { list-style: none; padding: 0; margin: 0; }
+li.hwweek { background: var(--card); border: 1px solid var(--line); border-left-width: 5px;
+  border-radius: 10px; padding: 10px 12px; margin: 8px 0; }
+li.hwweek.ontime { border-left-color: var(--solid); }
+li.hwweek.late { border-left-color: var(--shaky); }
+li.hwweek.notdone { border-left-color: var(--wrong); }
+li.hwweek.thisweek { border-left-color: var(--notyet); }
+.hw-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.hw-label { font-weight: 700; }
+.hw-counts { margin-top: 4px; font-variant-numeric: tabular-nums; }
+
+/* Teacher: the homework grid. Scrolls sideways inside its box, never the page. */
+.gridwrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
+table.hwgrid { border-collapse: collapse; font-size: 14px; min-width: 100%; }
+table.hwgrid th, table.hwgrid td { padding: 6px 8px; border-bottom: 1px solid var(--line);
+  text-align: center; white-space: nowrap; }
+table.hwgrid th:first-child, table.hwgrid td:first-child { text-align: left; position: sticky;
+  left: 0; background: var(--card); }
+table.hwgrid th { font-size: 12px; color: var(--muted); font-weight: 600; }
+td.hw-ontime { color: var(--solid); font-weight: 800; }
+td.hw-late { background: #fbf1d6; color: #8a6508; font-weight: 700; }
+td.hw-notdone { color: var(--wrong); }
+td.hw-thisweek { color: var(--muted); }
+@media (max-width: 400px) { nav.tabs a { font-size: 14px; padding: 11px 2px; } }

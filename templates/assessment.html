@@ -4,7 +4,7 @@
 <p class="small muted" style="margin-bottom:0">{{ kind }}</p>
 <h1 style="margin-top:2px">{{ a.title }}</h1>
 <p class="due-line"><span class="due-when {{ 'soon' if days is not none and 0 <= days <= 3 }}">{{ when }}</span>
-  {% if days is not none and days < 0 %}<span class="small muted">— this one has happened. Keep practising: it all comes back.</span>{% endif %}</p>
+  {% if days is not none and days < 0 %}<span class="small muted">— this one has happened. Keep practicing: it all comes back.</span>{% endif %}</p>
 
 {% set t = ready.topic_totals %}{% set w = ready.word_totals %}
 
@@ -23,7 +23,7 @@
       <span class="pill shaky">{{ t['shaky'] }} shaky</span>
       <span class="pill notyet">{{ t['not yet'] }} not yet</span>
     </div>
-    <a class="bigbtn" href="{{ url_for('practice_session', node=topics_param) }}">Practise these topics</a>
+    <a class="bigbtn" href="{{ url_for('practice_session', node=topics_param) }}">Practice these topics</a>
   </div>
   {% endif %}
   {% if w.total %}
@@ -36,13 +36,13 @@
       <span class="pill shaky">{{ w['shaky'] }} shaky</span>
       <span class="pill notyet">{{ w['not yet'] }} not yet</span>
     </div>
-    <a class="bigbtn" href="{{ url_for('drill_session', week=weeks_param, direction='both') }}">Practise these words</a>
+    <a class="bigbtn" href="{{ url_for('drill_session', week=weeks_param, direction='both') }}">Practice these words</a>
   </div>
   {% endif %}
 </div>
 
 {% if not t.total and not w.total %}
-<div class="card"><p>Nothing to practise for this one yet — check back once it's been taught.</p></div>
+<div class="card"><p>Nothing to practice for this one yet — check back once it's been taught.</p></div>
 {% endif %}
 
 <p class="small muted">
@@ -62,7 +62,7 @@
       {% if r.state == 'solid' %}<span class="pill solid">solid</span>
       {% elif r.state == 'shaky' %}<span class="pill shaky">shaky</span>
       {% else %}<span class="pill notyet">not yet</span>{% endif %}
-      <a class="minibtn" href="{{ url_for('practice_session', node=r.node) }}">Practise</a>
+      <a class="minibtn" href="{{ url_for('practice_session', node=r.node) }}">Practice</a>
     </span>
   </li>
   {% endfor %}

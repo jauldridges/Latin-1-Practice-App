@@ -54,7 +54,7 @@ class TestTheDashboardCsv(unittest.TestCase):
     copy of the numbers, and the app can hand it back if the original file is
     lost. So the generator has to read what the dashboard exports."""
 
-    CSV = ["student_id,block,state,attempts,days_practised",
+    CSV = ["student_id,block,state,attempts,days_practiced",
            "403217,Block 3,started,4,2",
            "418206,,nothing,0,0",
            '"905117",Block 5,started,9,3']

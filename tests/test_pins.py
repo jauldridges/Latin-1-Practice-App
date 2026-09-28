@@ -1,6 +1,6 @@
 """Tests for student sign-in: an ID number and a PIN they choose.
 
-The PIN's job is narrow — stop one student practising as another — and the
+The PIN's job is narrow — stop one student practicing as another — and the
 tests are correspondingly narrow. The one that matters most is the last class:
 identity must come from the session, because a PIN at the door means nothing if
 every screen behind it takes the student id from the URL.

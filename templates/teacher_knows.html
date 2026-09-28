@@ -32,7 +32,7 @@
 {% endif %}
 {% if nodes_untouched %}
 <details>
-  <summary class="small">{{ nodes_untouched | length }} topic(s) nobody has practised</summary>
+  <summary class="small">{{ nodes_untouched | length }} topic(s) nobody has practiced</summary>
   <ul class="small muted" style="padding-left:18px">
     {% for r in nodes_untouched %}<li>{{ r.key }} — {{ r.key | nodelabel }}</li>{% endfor %}
   </ul>
@@ -62,9 +62,9 @@
 {% endif %}
 {% if words_untouched %}
 <details>
-  <summary class="small">{{ words_untouched | length }} word(s) nobody has practised</summary>
+  <summary class="small">{{ words_untouched | length }} word(s) nobody has practiced</summary>
   <p class="small muted latin">{{ words_untouched | map(attribute='key') | join(', ') }}</p>
 </details>
 {% endif %}
-<a class="bigbtn secondary" href="{{ url_for('teacher_home', days=w.days, section=w.section) }}">Back to who practised</a>
+<a class="bigbtn secondary" href="{{ url_for('teacher_home', days=w.days, section=w.section) }}">Back to who practiced</a>
 {% endblock %}

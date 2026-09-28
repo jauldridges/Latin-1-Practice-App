@@ -12,7 +12,7 @@ Two ideas do the work:
         class-level figure starts from the roster and joins history onto it.
 
   a window, not a total
-        "Have they practised?" is meaningless without a since-when. Homework is
+        "Have they practiced?" is meaningless without a since-when. Homework is
         checked over an explicit date window (since last class, this week), and
         the window is always shown alongside the number.
 
@@ -21,12 +21,20 @@ Nothing in this module writes. Nothing in it grades.
 
 import time
 
+import schooltime  # noqa: F401  -- every day below is the school's day
+import stats
+
 DAY = 86400.0
 
-# What counts as having done the practice, per window. Deliberately low: the
-# point is to see who opened it at all, not to set a homework quota.
-DONE_ATTEMPTS = 20
+# The homework: this many cards of each kind a week, the teacher's number,
+# changed on Goals & deadlines. "Did it" on the dashboard means exactly this,
+# counted exactly the way the student's own home screen counts it.
+DEFAULT_TARGETS = {"vocab": 50, "grammar": 50}
 STARTED_ATTEMPTS = 1
+
+# Proctored contexts are assessments, not homework, and never count toward it.
+# Counting them would let a Friday quiz fill Monday's quota.
+NOT_HOMEWORK = {"quiz", "exam"}
 
 # Above this share right, a topic is not the thing to reteach on Monday. It is
 # a display threshold only — nothing is scored against it.
@@ -49,6 +57,24 @@ def kind_of(event):
     thing separating the two streams, so it is named once, here.
     """
     return "vocab" if str(event.get("item_id") or "").startswith("vocab:") else "grammar"
+
+
+def homework_events(events):
+    """Every answer that counts as homework: anything but a proctored quiz."""
+    return [e for e in events if (e.get("context") or "practice") not in NOT_HOMEWORK]
+
+
+def homework_counts(events):
+    """{"vocab": n, "grammar": n} cards studied, for ONE student's events.
+
+    A close sends the student straight back to retype, and "aqu" then "aqua"
+    is one card studied, not two -- the same rule the stats bar uses, so the
+    home screen, the stats bar and this dashboard cannot disagree.
+    """
+    counts = {"vocab": 0, "grammar": 0}
+    for e in stats.collapse_retries(homework_events(events)):
+        counts[kind_of(e)] += 1
+    return counts
 
 
 def window_bounds(days=7, now=None, start_of_day=True):
@@ -95,7 +121,7 @@ def accuracy(events):
 
 
 # --------------------------------------------------------------------------
-# Did they practise? — one row per student
+# Did they practice? — one row per student
 # --------------------------------------------------------------------------
 
 def activity(events, since=None, until=None):
@@ -108,6 +134,7 @@ def activity(events, since=None, until=None):
         "day_list": days,
         "vocab": sum(1 for e in win if kind_of(e) == "vocab"),
         "grammar": sum(1 for e in win if kind_of(e) == "grammar"),
+        "hw": homework_counts(win),
         "accuracy": accuracy(win),
         "last_at": max((e["timestamp"] for e in win), default=None),
         "ever_last_at": max((e["timestamp"] for e in events), default=None),
@@ -115,19 +142,21 @@ def activity(events, since=None, until=None):
     }
 
 
-def homework_state(act, done=DONE_ATTEMPTS, started=STARTED_ATTEMPTS):
-    """done | started | none — deliberately three words, like solid/shaky/not
-    yet, and deliberately not a grade."""
-    if act["attempts"] >= done:
+def homework_state(act, targets=None, started=STARTED_ATTEMPTS):
+    """done | started | none -- deliberately three words, like solid/shaky/not
+    yet. "done" is the weekly goal met inside the window: the teacher's
+    vocabulary AND grammar numbers, counted the way the student's home screen
+    counts them."""
+    targets = targets or DEFAULT_TARGETS
+    if all(act["hw"][k] >= targets[k] for k in targets):
         return "done"
     if act["attempts"] >= started:
         return "started"
     return "none"
 
 
-def class_activity(roster_rows, events, since=None, until=None,
-                   done=DONE_ATTEMPTS):
-    """The homework table: every rostered student, practised or not.
+def class_activity(roster_rows, events, since=None, until=None, targets=None):
+    """The homework table: every rostered student, practiced or not.
 
     IDs with events that are NOT on the roster are returned separately rather
     than dropped. A mistyped ID number looks perfectly well-formed, so that
@@ -142,7 +171,7 @@ def class_activity(roster_rows, events, since=None, until=None,
             "student_id": sid,
             # No display name: there is none to display. The ID is the label.
             "section": r.get("section"),
-            "state": homework_state(act, done=done),
+            "state": homework_state(act, targets),
             **act,
         })
     rows.sort(key=lambda x: (x["attempts"], x["days"]))

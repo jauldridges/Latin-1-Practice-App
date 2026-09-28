@@ -9,9 +9,9 @@ Repo: jauldridges/Latin-1-Practice-App, work on branch `main` unless I say other
 
 **What this is.** A Latin I practice app for my ~89 students at Libertas Academy
 (Blocks 3/4/5/7, FY27). Flask + Jinja + YAML, SQLite on my laptop and Postgres
-when hosted on Render. Students practise vocabulary and morphosyntax with
+when hosted on Render. Students practice vocabulary and morphosyntax with
 Leitner spacing; I have a review tool for approving questions and a teacher
-dashboard for who's practising and what they don't know.
+dashboard for who's practicing and what they don't know.
 
 **Rules that don't change.**
 - The app stores a **student ID number and nothing else** that identifies a
@@ -23,8 +23,10 @@ dashboard for who's practising and what they don't know.
 - Python 3.9-compatible, no build step, mobile-first server-rendered HTML.
   It has to work on a school Chromebook at home when I'm not there.
 - Run the full test suite before you tell me something's done. It should be
-  ~497 passing (about 14 skip unless a local Postgres is running).
+  ~526 passing (about 14 skip unless a local Postgres is running).
 - Never say "mastery" to a student. The words are solid / shaky / not yet.
+- American spelling: "practice" for noun and verb, never the British -ise form (a test enforces it).
+- School time zone is Eastern (Massachusetts); `schooltime.py` sets it.
 
 **How I work.** Make things simple for me — I'd rather not go back to the
 terminal. When you give me an update and say what's next, also tell me the step
@@ -42,8 +44,9 @@ re-running `make_ids.py` would produce different numbers.
 1. A **Reader** tab: a class passage where tapping a word shows its gloss, with
    comprehension questions after. I'll supply a sample week's passage.
    Then a separate **Translation** tab using passages tagged with spec nodes.
-   (Goals & deadlines — the weekly 50/50 goal and "Coming up" quizzes on the
-   student home screen — is built; see README.)
+   (Built already, see README: Goals & deadlines, the Saturday-to-Friday
+   homework week with on time / late / not done, the Homework tab, and the
+   gradebook grid at /teacher/homework.)
 2. Unit 3 morphosyntax (23 nodes, none written yet; it starts Nov 30).
 3. Approve the 40 new Units 0-1 questions in the review tool — that is my job,
    not the session's, but nothing reaches a student until it is done.

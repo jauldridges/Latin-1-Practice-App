@@ -2,7 +2,7 @@
 #
 # WHY THIS FILE EXISTS
 # Thirty-five of the 54 morphosyntax nodes in Units 0 and 1 carried fewer than
-# three questions, so a student who practised a node twice met the same card
+# three questions, so a student who practiced a node twice met the same card
 # twice. This file brings every one of them to three: 33 nodes get one more
 # question, and MS-030 and MS-044 — which had a single question each — get two.
 # Thirty-seven items.
@@ -252,7 +252,7 @@ items:
         node: MS-008
     note: >
       SHAPE ADDED: a cluster that does NOT split. MS008-APPLY-01 (patria) and
-      MS008-APPLY-02 (puella) both practise breaking consonants apart; a student
+      MS008-APPLY-02 (puella) both practice breaking consonants apart; a student
       who has only met those over-applies the rule and writes aq-ua. qu is one
       sound and travels together, which is MS-004 doing real work.
     versions:
