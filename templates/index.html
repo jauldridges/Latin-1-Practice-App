@@ -2,7 +2,55 @@
 {% block content %}
 {% if signed_in_student and not is_teacher %}
   <h1>Salvē!</h1>
-  <p class="muted">What are you practising today?</p>
+
+  {# The weekly goal: two numbers the teacher sets, counted Monday to Sunday.
+     The dots are the point as much as the bars -- spacing is the whole design
+     of this app, and a row of seven days shows it without a lecture. #}
+  {% if goal %}
+  <section class="goalcard">
+    <div class="goal-head">
+      <h2>This week</h2>
+      <div class="dots" aria-label="Days practised this week">
+        {% for d in ['M','T','W','T','F','S','S'] %}
+          <span class="dot {{ 'on' if goal.days[loop.index0] }} {{ 'today' if loop.index0 == goal.today }}">{{ d }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    {% for kind, label in [('vocab', 'Vocabulary'), ('grammar', 'Grammar')] %}
+      {% set n = goal[kind] %}{% set t = goal.targets[kind] %}
+      <div class="goalrow">
+        <div class="goal-label"><span>{{ label }}</span>
+          <span class="goal-num">{% if goal.met[kind] %}✓ {{ n }} — done{% else %}{{ n }} of {{ t }}{% endif %}</span></div>
+        <div class="bar"><span style="width:{{ [100, (100 * n / t) if t else 100] | min }}%"
+             class="{{ 'met' if goal.met[kind] }}"></span></div>
+      </div>
+    {% endfor %}
+
+    {% if spacing == 'idle' %}
+      <div class="spacing-flag">It's been <strong>{{ idle_days }} days</strong> since you practised.
+        Ten minutes today does more than an hour the night before a quiz.</div>
+    {% elif spacing == 'never' %}
+      <div class="spacing-flag">You haven't practised yet. Start with a few minutes today —
+        a little on several days sticks far better than one long go.</div>
+    {% else %}
+      <p class="small muted spacing-note">A few minutes on several days sticks better than
+        one long session. Your brain keeps what it has to fetch back after a gap.</p>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  {% if upcoming %}
+  <h2>Coming up</h2>
+  {% for a in upcoming %}
+    <a class="duecard" href="{{ url_for('assessment_page', aid=a.id) }}">
+      <span class="due-when {{ 'soon' if a.days is not none and a.days <= 3 }}">{{ a.when }}</span>
+      <span class="due-title">{{ a.title }}</span>
+      <span class="due-go">How ready am I? →</span>
+    </a>
+  {% endfor %}
+  {% endif %}
+
+  <h2>Practise</h2>
 {% else %}
   <h1>Latin I practice</h1>
   {% if not is_teacher %}
@@ -34,6 +82,9 @@
 
 <a class="bigbtn" href="{{ url_for('teacher_home') }}">Teacher dashboard</a>
 <p class="small muted" style="margin-top:-4px">Who practised, what they know, the class list.</p>
+
+<a class="bigbtn secondary" href="{{ url_for('teacher_deadlines') }}">Goals &amp; deadlines</a>
+<p class="small muted" style="margin-top:-4px">The weekly practice goal, and the quizzes and tests students see coming.</p>
 
 <a class="bigbtn secondary" href="{{ url_for('review_queue') }}">Review tool</a>
 <p class="small muted" style="margin-top:-4px">

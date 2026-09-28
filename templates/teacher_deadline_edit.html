@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block subtitle %}goals &amp; deadlines{% endblock %}
+{% block content %}
+<p class="small"><a href="{{ url_for('teacher_deadlines') }}">← Goals &amp; deadlines</a></p>
+<h1>{{ 'Edit' if a and a.id else 'Add' }} a quiz or test</h1>
+
+{% if error %}<div class="flags"><span class="lvl error">not saved</span> {{ error }}</div>{% endif %}
+{% if saved %}<div class="flags"><span class="lvl heuristic">saved</span>
+  Students can see it now. Untick any topics below it won't cover, then save again.</div>{% endif %}
+
+<form method="post" action="{{ url_for('teacher_deadline_edit') }}">
+  {% if a and a.id %}<input type="hidden" name="id" value="{{ a.id }}">{% endif %}
+
+  <label class="small muted" for="title" style="display:block;margin-top:10px">Title students will see</label>
+  <input type="text" id="title" name="title" value="{{ a.title if a else '' }}"
+         placeholder="Quiz: first and second declension" required>
+
+  <div class="goalform" style="margin-top:10px">
+    <label>Kind
+      <select name="kind">
+        {% for k, label in kinds %}<option value="{{ k }}" {{ 'selected' if a and a.kind == k }}>{{ label }}</option>{% endfor %}
+      </select></label>
+    <label>Date <input type="date" name="due_date" value="{{ a.due_date if a else '' }}" required></label>
+  </div>
+
+  <h2>Which weeks does it cover?</h2>
+  <p class="small muted" style="margin-top:-4px">Everything taught in the ticked weeks: the words
+    introduced that week and the grammar topics taught that week.</p>
+  <div class="weekpick">
+    {% for wk in all_weeks %}
+      <label><input type="checkbox" name="week" value="{{ wk }}"
+        {{ 'checked' if a and wk in a.weeks }}> {{ wk | weeklabel }}</label>
+    {% endfor %}
+  </div>
+
+  {% if topics %}
+  <h2>Topics it covers</h2>
+  <p class="small muted" style="margin-top:-4px">Grammar topics start ticked; Roman world, modern
+    world and reading topics start unticked — tick any this {{ (a.kind if a else 'quiz') }} tests.
+    {{ n_words }} word{{ 's' if n_words != 1 }} from those weeks are included too.
+    Topics with no approved questions yet can't be practised, so students won't see them.</p>
+  <input type="hidden" name="topics_shown" value="1">
+  <ul class="topics">
+    {% for t in topics %}
+    <li>
+      <label style="display:flex;gap:10px;align-items:flex-start;flex:1">
+        <input type="hidden" name="listed" value="{{ t.node }}">
+        <input type="checkbox" name="node" value="{{ t.node }}"
+          {{ 'checked' if not a or t.node not in a.excluded_nodes }} style="margin-top:3px">
+        <span class="topic-label"><span class="node-id">{{ t.node }}</span> {{ t.label }}</span>
+      </label>
+      <span class="small muted">{{ t.questions }} q</span>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  <button class="bigbtn" type="submit">Save</button>
+</form>
+
+{% if a and a.id %}
+<form method="post" action="{{ url_for('teacher_deadline_edit') }}"
+      onsubmit="return confirm('Delete this quiz or test? Students will stop seeing it.')">
+  <input type="hidden" name="id" value="{{ a.id }}">
+  <button class="bigbtn secondary" name="action" value="delete" type="submit">Delete</button>
+</form>
+{% endif %}
+{% endblock %}

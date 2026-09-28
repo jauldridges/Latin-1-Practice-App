@@ -287,3 +287,58 @@ ul.topics li { display: flex; align-items: center; justify-content: space-betwee
 ul.topics .topic-label { font-size: 15px; line-height: 1.35; }
 ul.topics .topic-side { display: flex; align-items: center; gap: 8px; flex: none; }
 ul.topics a.minibtn { text-decoration: none; color: var(--accent); font-weight: 600; }
+
+/* ---- The weekly goal and what's coming up ------------------------------- */
+.goalcard { background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 14px 16px; margin: 10px 0 6px; }
+.goal-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.goal-head h2 { margin: 0; font-size: 18px; }
+.dots { display: flex; gap: 4px; }
+.dot { width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center;
+  justify-content: center; font-size: 11px; font-weight: 700; color: var(--muted);
+  background: #efedea; }
+.dot.on { background: var(--accent); color: #fff; }
+.dot.today { box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--accent); }
+.goalrow { margin-top: 12px; }
+.goal-label { display: flex; justify-content: space-between; font-weight: 600; font-size: 15px; }
+.goal-num { font-variant-numeric: tabular-nums; color: var(--muted); font-weight: 600; }
+.bar { height: 10px; background: #efedea; border-radius: 999px; overflow: hidden; margin-top: 5px; }
+.bar > span { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.bar > span.met { background: var(--solid); }
+.spacing-flag { margin-top: 12px; background: #fbf1d6; border: 1px solid #e7d59a;
+  border-radius: 10px; padding: 10px 12px; font-size: 15px; line-height: 1.45; }
+.spacing-note { margin: 12px 0 0; }
+
+a.duecard { display: grid; grid-template-columns: auto 1fr; grid-template-areas:
+  "when title" "when go"; gap: 2px 12px; align-items: center; text-decoration: none;
+  color: var(--ink); background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 12px 14px; margin: 8px 0; }
+a.duecard .due-when { grid-area: when; }
+a.duecard .due-title { grid-area: title; font-weight: 700; }
+a.duecard .due-go { grid-area: go; font-size: 14px; color: var(--accent); }
+.due-when { display: inline-block; font-size: 13px; font-weight: 700; padding: 4px 10px;
+  border-radius: 999px; background: #efedea; color: var(--ink); white-space: nowrap; }
+.due-when.soon { background: #fbf1d6; color: var(--flag); }
+.due-line { margin: 4px 0 10px; }
+
+/* An assessment page: two halves, each with its number and its button. */
+.readiness { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.ready-half { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+.ready-title { font-weight: 700; font-size: 17px; }
+.ready-big { font-size: 34px; font-weight: 800; color: var(--accent); margin-top: 6px;
+  font-variant-numeric: tabular-nums; line-height: 1.1; }
+.ready-big span { font-size: 17px; font-weight: 600; color: var(--muted); }
+.ready-pills { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 2px; }
+.ready-half .bigbtn { margin-bottom: 0; }
+.lastmark { display: inline-block; margin-left: 6px; font-size: 12px; font-weight: 700; color: var(--right); }
+.lastmark.miss { color: var(--wrong); }
+
+/* Teacher: the goal form and the week picker. */
+.goalform { display: flex; gap: 12px; flex-wrap: wrap; }
+.goalform label { flex: 1; min-width: 140px; font-size: 14px; color: var(--muted); }
+.goalform input, .goalform select { display: block; width: 100%; margin-top: 4px; padding: 12px;
+  font-size: 17px; border: 1px solid var(--line); border-radius: 10px; background: #fff;
+  font-family: inherit; color: var(--ink); }
+.weekpick { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 6px; }
+.weekpick label { background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+  padding: 8px 10px; font-size: 15px; }

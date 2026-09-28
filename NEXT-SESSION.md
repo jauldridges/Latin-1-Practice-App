@@ -23,7 +23,7 @@ dashboard for who's practising and what they don't know.
 - Python 3.9-compatible, no build step, mobile-first server-rendered HTML.
   It has to work on a school Chromebook at home when I'm not there.
 - Run the full test suite before you tell me something's done. It should be
-  ~459 passing (about 14 skip unless a local Postgres is running).
+  ~497 passing (about 14 skip unless a local Postgres is running).
 - Never say "mastery" to a student. The words are solid / shaky / not yet.
 
 **How I work.** Make things simple for me — I'd rather not go back to the
@@ -39,10 +39,15 @@ live only in `out/` on my machine — that folder is gitignored on purpose, and
 re-running `make_ids.py` would produce different numbers.
 
 **What I want next**, unless I say otherwise when we start:
-1. Unit 3 morphosyntax (23 nodes, none written yet; it starts Nov 30).
-2. Approve the 40 new Units 0-1 questions in the review tool — that is my job,
+1. A **Reader** tab: a class passage where tapping a word shows its gloss, with
+   comprehension questions after. I'll supply a sample week's passage.
+   Then a separate **Translation** tab using passages tagged with spec nodes.
+   (Goals & deadlines — the weekly 50/50 goal and "Coming up" quizzes on the
+   student home screen — is built; see README.)
+2. Unit 3 morphosyntax (23 nodes, none written yet; it starts Nov 30).
+3. Approve the 40 new Units 0-1 questions in the review tool — that is my job,
    not the session's, but nothing reaches a student until it is done.
-3. Questions for MW-089 (Unit 1, taught 22 Sep) and MW-090 (Unit 2, 21 Oct).
+4. Questions for MW-089 (Unit 1, taught 22 Sep) and MW-090 (Unit 2, 21 Oct).
    Both were added to the spec in September and neither has any.
 
 **Two things a session should know before touching the bank.**

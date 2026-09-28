@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}{{ a.title }} — Latin I{% endblock %}
+{% block content %}
+<p class="small muted" style="margin-bottom:0">{{ kind }}</p>
+<h1 style="margin-top:2px">{{ a.title }}</h1>
+<p class="due-line"><span class="due-when {{ 'soon' if days is not none and 0 <= days <= 3 }}">{{ when }}</span>
+  {% if days is not none and days < 0 %}<span class="small muted">— this one has happened. Keep practising: it all comes back.</span>{% endif %}</p>
+
+{% set t = ready.topic_totals %}{% set w = ready.word_totals %}
+
+{# Two numbers per half, and the second one is the point. "Solid" needs a right
+   answer at least a week after first meeting something, so a student who
+   starts four days out cannot reach it however hard they work. "Right last
+   time" is what a few days of real study moves. #}
+<div class="readiness">
+  {% if t.total %}
+  <div class="ready-half">
+    <div class="ready-title">Grammar <span class="small muted">{{ t.total }} topic{{ 's' if t.total != 1 }}</span></div>
+    <div class="ready-big">{{ t.right_last }}<span> of {{ t.total }}</span></div>
+    <div class="small muted">right on your last try</div>
+    <div class="ready-pills">
+      <span class="pill solid">{{ t['solid'] }} solid</span>
+      <span class="pill shaky">{{ t['shaky'] }} shaky</span>
+      <span class="pill notyet">{{ t['not yet'] }} not yet</span>
+    </div>
+    <a class="bigbtn" href="{{ url_for('practice_session', node=topics_param) }}">Practise these topics</a>
+  </div>
+  {% endif %}
+  {% if w.total %}
+  <div class="ready-half">
+    <div class="ready-title">Vocabulary <span class="small muted">{{ w.total }} word{{ 's' if w.total != 1 }}</span></div>
+    <div class="ready-big">{{ w.right_last }}<span> of {{ w.total }}</span></div>
+    <div class="small muted">right on your last try</div>
+    <div class="ready-pills">
+      <span class="pill solid">{{ w['solid'] }} solid</span>
+      <span class="pill shaky">{{ w['shaky'] }} shaky</span>
+      <span class="pill notyet">{{ w['not yet'] }} not yet</span>
+    </div>
+    <a class="bigbtn" href="{{ url_for('drill_session', week=weeks_param, direction='both') }}">Practise these words</a>
+  </div>
+  {% endif %}
+</div>
+
+{% if not t.total and not w.total %}
+<div class="card"><p>Nothing to practise for this one yet — check back once it's been taught.</p></div>
+{% endif %}
+
+<p class="small muted">
+  <strong>Right last time</strong> is what you can move this week. <strong>Solid</strong>
+  takes longer on purpose: it needs you to get something right again at least a week
+  after you first met it, because that is what still works on the day.</p>
+
+{% if ready.topics %}
+<h2>Grammar topics</h2>
+<ul class="topics">
+  {% for r in ready.topics %}
+  <li>
+    <span class="topic-label">{{ r.label }}
+      {% if r.right_last %}<span class="lastmark" title="right on your last try">✓ last time</span>
+      {% elif r.tried %}<span class="lastmark miss">✗ last time</span>{% endif %}</span>
+    <span class="topic-side">
+      {% if r.state == 'solid' %}<span class="pill solid">solid</span>
+      {% elif r.state == 'shaky' %}<span class="pill shaky">shaky</span>
+      {% else %}<span class="pill notyet">not yet</span>{% endif %}
+      <a class="minibtn" href="{{ url_for('practice_session', node=r.node) }}">Practise</a>
+    </span>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% if ready.words %}
+<h2>Words</h2>
+{% for wk in word_weeks %}
+  <details class="week">
+    <summary><span class="week-name">{{ week_labels.get(wk, wk) }}</span>
+      <span class="week-counts">
+        {% set rows = ready.words | selectattr('week', 'equalto', wk) | list %}
+        <span class="pill solid">{{ rows | selectattr('state', 'equalto', 'solid') | list | length }}</span>
+        <span class="pill shaky">{{ rows | selectattr('state', 'equalto', 'shaky') | list | length }}</span>
+        <span class="pill notyet">{{ rows | selectattr('state', 'equalto', 'not yet') | list | length }}</span>
+      </span></summary>
+    <table class="progress">
+      <tbody>
+      {% for r in ready.words if r.week == wk %}
+        <tr>
+          <td class="latin">{{ r.latin }}</td>
+          <td>{{ r.en }}</td>
+          <td class="st">
+            {% if r.right_last %}<span class="lastmark">✓</span>{% elif r.tried %}<span class="lastmark miss">✗</span>{% endif %}
+            {% if r.state == 'solid' %}<span class="pill solid">solid</span>
+            {% elif r.state == 'shaky' %}<span class="pill shaky">shaky</span>
+            {% else %}<span class="pill notyet">not yet</span>{% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </details>
+{% endfor %}
+{% endif %}
+
+<p style="text-align:center;margin-top:18px"><a href="{{ url_for('index') }}">Back home</a></p>
+{% endblock %}

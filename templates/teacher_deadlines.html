@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block subtitle %}goals &amp; deadlines{% endblock %}
+{% block content %}
+<h1>Goals &amp; deadlines</h1>
+<p class="small muted">What students see on their home screen: this week's practice goal,
+and the quizzes and tests coming up. Nothing here is a grade.</p>
+
+<h2>Weekly practice goal</h2>
+{% if saved == 'goal' %}<div class="flags"><span class="lvl heuristic">saved</span> Students see the new goal straight away.</div>{% endif %}
+{% if saved == 'bad' %}<div class="flags"><span class="lvl error">not saved</span> Both goals need to be whole numbers.</div>{% endif %}
+<form method="post" class="card">
+  <p class="small muted" style="margin-top:0">Answers per week, Monday to Sunday. A retype after
+    a near-miss counts once; answers in a proctored quiz don't count.</p>
+  <div class="goalform">
+    <label>Vocabulary <input type="number" name="vocab" min="0" max="1000" value="{{ targets.vocab }}" inputmode="numeric"></label>
+    <label>Grammar <input type="number" name="grammar" min="0" max="1000" value="{{ targets.grammar }}" inputmode="numeric"></label>
+  </div>
+  <button class="bigbtn" type="submit">Save goal</button>
+</form>
+
+<h2>Quizzes &amp; tests</h2>
+<a class="bigbtn" href="{{ url_for('teacher_deadline_edit') }}">Add a quiz or test</a>
+{% if assessments %}
+<ul class="queue">
+  {% for a in assessments %}
+  <li><a href="{{ url_for('teacher_deadline_edit', id=a.id) }}" {% if a.past %}style="opacity:.55"{% endif %}>
+    <span><strong>{{ a.title }}</strong><br>
+      <span class="small muted">{{ kinds.get(a.kind, a.kind) }} · {{ a.due_date }} · {{ a.when }} · {{ a.weeks | length }} week{{ 's' if a.weeks | length != 1 }}</span></span>
+    <span class="small muted">edit</span></a></li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="small muted">None yet. Students will see "Coming up" on their home screen once you add one.</p>
+{% endif %}
+{% endblock %}

@@ -29,6 +29,7 @@ import drill
 import identity
 import practice
 import quiz as quizlib
+import goals
 import stats
 import store
 import teacher
@@ -117,7 +118,7 @@ def _close_db(exc):
 OPEN_PREFIXES = ("/static", "/login", "/logout", "/signin", "/signout",
                  "/favicon", "/healthz")
 TEACHER_PREFIXES = ("/review", "/teaching", "/teacher", "/quiz")
-STUDENT_PREFIXES = ("/drill", "/practice", "/q/")
+STUDENT_PREFIXES = ("/drill", "/practice", "/q/", "/due/")
 
 
 def _here():
@@ -356,9 +357,40 @@ def when(ts):
 # Landing
 # ==========================================================================
 
+def weekly_targets(db):
+    t = store.get_setting(db, "weekly_goal") or {}
+    return dict(goals.DEFAULT_TARGETS, **{k: int(v) for k, v in t.items()
+                                         if k in goals.DEFAULT_TARGETS})
+
+
+def upcoming_assessments(db, limit=4):
+    """Quizzes and tests from today onwards, soonest first."""
+    today = time.strftime("%Y-%m-%d")
+    out = []
+    for a in store.list_assessments(db):
+        if a["due_date"] >= today:
+            a["when"] = goals.when_label(a["due_date"])
+            a["days"] = goals.days_until(a["due_date"])
+            out.append(a)
+    return out[:limit]
+
+
+def _practiceable(db):
+    return {it["node"] for it in store.approved_items(db) if it["node"] in _taught_now()}
+
+
 @app.route("/")
 def index():
-    return render_template("index.html", counts=store.counts(get_db()))
+    db = get_db()
+    ctx = {"counts": store.counts(db)}
+    student = current_student()
+    if student and not auth.is_teacher():
+        events = store.events_for_student(db, student)
+        ctx["goal"] = goals.weekly_progress(events, weekly_targets(db))
+        ctx["spacing"] = goals.spacing_flag(events)
+        ctx["idle_days"] = goals.days_since_practice(events)
+        ctx["upcoming"] = upcoming_assessments(db)
+    return render_template("index.html", **ctx)
 
 
 # ==========================================================================
@@ -1045,8 +1077,16 @@ def practice_session():
         ctx = "practice"
     approved = store.approved_items(db)
     events = store.events_for_student(db, student)
-    item = practice.select_question(approved, events,
-                                    allowed_nodes=_taught_now(), node_id=node)
+    # A comma-separated list is a set of topics -- what "Practise everything on
+    # this quiz" sends. It is still cut to what has been taught: a question
+    # never arrives before its lesson, whichever door the student came in by.
+    if node and "," in node:
+        wanted = {n for n in node.split(",") if n}
+        item = practice.select_question(approved, events,
+                                        allowed_nodes=wanted & _taught_now())
+    else:
+        item = practice.select_question(approved, events,
+                                        allowed_nodes=_taught_now(), node_id=node)
     if item is None:
         return render_template("practice_none.html", student=student, node=node,
                                n_approved=len(approved))
@@ -1420,6 +1460,122 @@ def drill_progress():
 # nothing leaves no events, so without a class list the dashboard could only
 # ever show the kids who showed up.
 # ==========================================================================
+
+# ==========================================================================
+# Deadlines: the weekly goal, and the quizzes and tests students prepare for
+# ==========================================================================
+
+ASSESSMENT_KINDS = [("quiz", "Quiz"), ("test", "Test"), ("exam", "Exam")]
+
+
+def _week_topics(weeks, approved_counts):
+    """Every spec topic taught in the given weeks, for the teacher's tick list."""
+    rows = []
+    for nid, n in _SPEC.items():
+        if str(n.get("week")) in weeks:
+            rows.append({"node": nid, "label": n.get("label", nid),
+                         "week": str(n.get("week")), "day": str(n.get("day") or ""),
+                         "questions": approved_counts.get(nid, 0)})
+    rows.sort(key=lambda r: (r["day"], r["node"]))
+    return rows
+
+
+@app.route("/teacher/deadlines", methods=["GET", "POST"])
+def teacher_deadlines():
+    db = get_db()
+    saved = None
+    if request.method == "POST":
+        try:
+            targets = {k: max(0, int(request.form.get(k, ""))) for k in goals.DEFAULT_TARGETS}
+            store.set_setting(db, "weekly_goal", targets)
+            saved = "goal"
+        except ValueError:
+            saved = "bad"
+    today = time.strftime("%Y-%m-%d")
+    rows = []
+    for a in store.list_assessments(db):
+        a["when"] = goals.when_label(a["due_date"])
+        a["past"] = a["due_date"] < today
+        rows.append(a)
+    return render_template("teacher_deadlines.html", targets=weekly_targets(db),
+                           assessments=rows, saved=saved, kinds=dict(ASSESSMENT_KINDS))
+
+
+@app.route("/teacher/deadlines/edit", methods=["GET", "POST"])
+def teacher_deadline_edit():
+    db = get_db()
+    aid = request.values.get("id") or None
+    current = store.get_assessment(db, aid) if aid else None
+    if aid and current is None:
+        abort(404)
+    all_weeks = goals.all_weeks(_SPEC, _DRILL_WORDS)
+    error = None
+    if request.method == "POST":
+        if request.form.get("action") == "delete" and current:
+            store.delete_assessment(db, aid)
+            return redirect(url_for("teacher_deadlines"))
+        title = (request.form.get("title") or "").strip()
+        kind = request.form.get("kind") or "quiz"
+        due = (request.form.get("due_date") or "").strip()
+        weeks = [w for w in request.form.getlist("week") if w in all_weeks]
+        if not title:
+            error = "Give it a title students will recognise, like \"Quiz: first declension\"."
+        elif goals.days_until(due) is None:
+            error = "Pick a date."
+        elif not weeks:
+            error = "Tick at least one week, or there is nothing for students to prepare."
+        if not error:
+            excluded = set(current["excluded_nodes"]) if current else set()
+            listed = set(request.form.getlist("listed")) if request.form.get("topics_shown") else set()
+            ticked = set(request.form.getlist("node"))
+            # A week newly ticked brings its grammar topics in and leaves the
+            # other strands -- Roman world, modern world, reading strategy --
+            # offered but unticked. Two weeks of class is fifty topics across
+            # every strand; a quiz on the nominative and accusative is not
+            # testing the Norman Conquest, and its page should not say it is.
+            added = set(weeks) - set((current or {}).get("weeks") or [])
+            default_off = {nid for nid, n in _SPEC.items()
+                           if str(n.get("week")) in added and not nid.startswith("MS-")}
+            excluded = (excluded - listed) | (listed - ticked) | (default_off - listed)
+            aid = store.save_assessment(db, title, kind, due, weeks, excluded,
+                                        assessment_id=aid)
+            return redirect(url_for("teacher_deadline_edit", id=aid, saved=1))
+        current = {"id": aid, "title": title, "kind": kind, "due_date": due,
+                   "weeks": weeks, "excluded_nodes": (current or {}).get("excluded_nodes", [])}
+    approved_counts = {}
+    for it in store.approved_items(db):
+        approved_counts[it["node"]] = approved_counts.get(it["node"], 0) + 1
+    topics = _week_topics(set((current or {}).get("weeks") or []), approved_counts)
+    words = [w for w in _DRILL_WORDS
+             if goals.word_week_date(w) in set((current or {}).get("weeks") or [])]
+    return render_template("teacher_deadline_edit.html", a=current, all_weeks=all_weeks,
+                           topics=topics, n_words=len(words), kinds=ASSESSMENT_KINDS,
+                           error=error, saved=request.args.get("saved"))
+
+
+@app.route("/due/<aid>")
+def assessment_page(aid):
+    """What a quiz or test covers, and where this student stands on it."""
+    db = get_db()
+    student = current_student()
+    a = store.get_assessment(db, aid)
+    if a is None:
+        abort(404)
+    nodes, words = goals.scope(a, _SPEC, _DRILL_WORDS, _practiceable(db))
+    events = store.events_for_student(db, student)
+    ready = goals.readiness(nodes, words, events, _SPEC)
+    order = {w: i for i, w in enumerate(drill.WEEK_ORDER)}
+    word_weeks = sorted({w["week"] for w in words}, key=lambda w: order.get(w, 99))
+    # A trailing comma marks a set even when it holds one member, which is what
+    # tells the practice and drill screens to scope rather than pick one topic.
+    return render_template("assessment.html", a=a, ready=ready,
+                           when=goals.when_label(a["due_date"]),
+                           days=goals.days_until(a["due_date"]),
+                           kind=dict(ASSESSMENT_KINDS).get(a["kind"], "Quiz"),
+                           topics_param=",".join(nodes) + ",",
+                           weeks_param=",".join(word_weeks) + ",",
+                           word_weeks=word_weeks, week_labels=drill.WEEK_LABELS)
+
 
 WINDOW_CHOICES = [(1, "Today"), (2, "Since yesterday"), (7, "Last 7 days"),
                   (30, "Last 30 days"), (0, "All time")]

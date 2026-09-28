@@ -101,6 +101,11 @@ def _scope_words(words, week):
         allowed = set(WEEK_ORDER[: upto + 1])
         # "the current week's list" plus everything before it (cumulative floor)
         return [w for w in words if w["week"] in allowed]
+    if "," in week:
+        # Several weeks at once: what an assessment page sends to drill just
+        # the words that quiz covers.
+        chosen = {w for w in week.split(",") if w}
+        return [w for w in words if w["week"] in chosen]
     return [w for w in words if w["week"] == week]
 
 

@@ -81,7 +81,7 @@ start clean.
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
-| `tests/` | 459 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 497 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -356,6 +356,50 @@ And the rest, which is about reading and finding your way:
 Teacher screens are unchanged. `tests/test_student_ux.py` holds all of this,
 and the letter test was checked by putting the old template back: it fails
 naming the letter the student saw and the letter the old screen printed.
+
+## Goals & deadlines
+
+Teacher dashboard → **Goals & deadlines** (`/teacher/deadlines`). Two things
+live there, and both show up on every student's home screen.
+
+**The weekly goal** is two numbers — vocabulary answers and grammar answers —
+50 and 50 unless changed. A week is Monday to Sunday. A retype after a near-miss
+counts once (the same rule as the stats bar), and answers in a proctored quiz or
+exam don't count: a Friday quiz is not homework. Nothing is stored; the count is
+read from the event history, so changing the goal mid-year reads the past
+correctly. Under the two bars is a row of seven day-dots, because spacing is the
+point. A quiet line always says so; it turns into an amber flag once a student
+has gone more than two days without practising (or has never started).
+
+**Quizzes and tests** each have a title, a kind (quiz / test / exam), one date
+for everyone, and the teaching weeks they cover. Ticking weeks brings in every
+word introduced those weeks and every grammar topic taught those weeks; Roman
+world, modern world and reading topics start unticked, and any topic can be
+unticked. A student's home screen lists the next four under **Coming up**
+("in 3 days", "tomorrow"), and each one opens a page (`/due/<id>`) showing:
+
+- **Grammar** and **Vocabulary**, each with *right on your last try* as the big
+  number and solid / shaky / not yet under it. "Solid" needs a right answer a
+  week after first meeting something, so a student who starts four days out
+  cannot reach it however hard they work; *right last time* is the number a few
+  days of study moves, and the page says why the two differ.
+- every topic and word with its state and a ✓ / ✗ for the last try;
+- **Practise these topics** and **Practise these words**, which run ordinary
+  practice restricted to exactly that scope (grammar also stays inside what has
+  been taught — a topic with no approved question on a taught lesson is left off
+  the page rather than shown as something a student can't act on).
+
+Tables `settings` and `assessments` hold this; both are in the backup and the
+migration, neither is student data, and the end-of-year purge leaves them.
+`goals.py` holds the logic and `tests/test_goals.py` the tests (week boundaries,
+retries and quizzes not counting, the idle flag, scope staying inside the
+quiz's weeks and taught topics, the scoped practice and drill routes, and that
+a student cannot reach the teacher screens).
+
+Two known edges: the dashboard's **Did it** column still means 20 answers in the
+last rolling seven days, a different question from the weekly goal; and on
+Render the server clock is UTC, so "today" and Monday roll over in the evening
+US time until a `TZ` environment variable is set.
 
 ## Teaching text
 
@@ -814,7 +858,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-459 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+497 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

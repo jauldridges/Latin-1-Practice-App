@@ -87,6 +87,28 @@ CREATE TABLE IF NOT EXISTS teaching_approvals (
     approved_at  REAL NOT NULL
 );
 
+-- Small teacher settings, one row per key. Today: the weekly practice goal.
+CREATE TABLE IF NOT EXISTS settings (
+    key    TEXT PRIMARY KEY,
+    value  TEXT NOT NULL
+);
+
+-- Quizzes and tests given in class, so students can see what is coming and
+-- how ready they are for it. Not student data: no row here names or counts a
+-- student. The id is a short random token rather than a serial number, so a
+-- backup restores into either database without a sequence to repair.
+-- weeks: JSON list of Monday dates the assessment covers.
+-- excluded_nodes: JSON list of topics in those weeks the teacher left out.
+CREATE TABLE IF NOT EXISTS assessments (
+    id              TEXT PRIMARY KEY,
+    title           TEXT NOT NULL,
+    kind            TEXT NOT NULL,
+    due_date        TEXT NOT NULL,
+    weeks           TEXT NOT NULL,
+    excluded_nodes  TEXT NOT NULL,
+    created_at      REAL NOT NULL
+);
+
 -- Teaching text the teacher reworded in the app. teaching.yaml stays the
 -- source and is still never written to; a row here overrides it for one node.
 -- It has to live in the database rather than in the file because a hosted
@@ -681,6 +703,56 @@ def approve_teaching(conn, node_id, fingerprint):
 
 def unapprove_teaching(conn, node_id):
     conn.execute("DELETE FROM teaching_approvals WHERE node_id=?", (node_id,))
+    conn.commit()
+
+
+def get_setting(conn, key, default=None):
+    row = conn.execute("SELECT value FROM settings WHERE key=?", (key,)).fetchone()
+    return json.loads(row["value"]) if row else default
+
+
+def set_setting(conn, key, value):
+    conn.execute(
+        """INSERT INTO settings (key, value) VALUES (?,?)
+           ON CONFLICT(key) DO UPDATE SET value=excluded.value""",
+        (key, json.dumps(value)))
+    conn.commit()
+
+
+def _assessment(row):
+    return {"id": row["id"], "title": row["title"], "kind": row["kind"],
+            "due_date": row["due_date"], "weeks": json.loads(row["weeks"]),
+            "excluded_nodes": json.loads(row["excluded_nodes"])}
+
+
+def list_assessments(conn):
+    rows = conn.execute("SELECT * FROM assessments ORDER BY due_date, title").fetchall()
+    return [_assessment(r) for r in rows]
+
+
+def get_assessment(conn, assessment_id):
+    row = conn.execute("SELECT * FROM assessments WHERE id=?", (assessment_id,)).fetchone()
+    return _assessment(row) if row else None
+
+
+def save_assessment(conn, title, kind, due_date, weeks, excluded_nodes=(), assessment_id=None):
+    """Insert, or update when `assessment_id` names an existing one. Returns the id."""
+    import uuid
+    aid = assessment_id or uuid.uuid4().hex[:10]
+    conn.execute(
+        """INSERT INTO assessments (id, title, kind, due_date, weeks, excluded_nodes, created_at)
+           VALUES (?,?,?,?,?,?,?)
+           ON CONFLICT(id) DO UPDATE SET title=excluded.title, kind=excluded.kind,
+                due_date=excluded.due_date, weeks=excluded.weeks,
+                excluded_nodes=excluded.excluded_nodes""",
+        (aid, title, kind, due_date, json.dumps(sorted(set(weeks))),
+         json.dumps(sorted(set(excluded_nodes))), time.time()))
+    conn.commit()
+    return aid
+
+
+def delete_assessment(conn, assessment_id):
+    conn.execute("DELETE FROM assessments WHERE id=?", (assessment_id,))
     conn.commit()
 
 
