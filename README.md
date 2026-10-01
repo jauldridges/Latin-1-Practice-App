@@ -81,7 +81,7 @@ start clean.
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
-| `tests/` | 537 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 557 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -418,6 +418,57 @@ count late. Stored timestamps are unaffected.
 Tables `settings` and `assessments` hold all this; both are in the backup and the
 migration, neither is student data, and the end-of-year purge leaves them.
 `goals.py` holds the logic, `tests/test_goals.py` the tests.
+
+## Label the words (tap-to-place)
+
+`format: label-words` shows a whole Latin sentence with an empty box above each
+word and a bank of labels below. A student taps a label and then a box (or a
+box and then a label), or drags a label onto a box. Tapping is the main way in
+because HTML drag-and-drop is clumsy on a Chromebook trackpad and absent on a
+phone; every control is a button, so the keyboard works too. Tapping a filled
+box empties it.
+
+```yaml
+format: label-words
+stem: "Label each word with its case and its job. Then write the English."
+sentence:                       # in order; a word with no answer gets no box
+  - {latin: "Fēmina", answer: "nominative · subject"}
+  - {latin: "aquam",  answer: "accusative · direct object"}   # or a list of accepted labels
+  - {latin: "portat.", answer: "verb"}
+bank: ["nominative · subject", "nominative · predicate", "accusative · direct object",
+       "vocative · direct address", "verb"]
+translation_model_answer: "The woman carries the water."      # optional, not graded
+replaces: MS015-TRANS-01                                       # optional
+```
+
+**The teacher's rules for these.** This is the format for case-and-job
+morphosyntax questions from now on. Labels are *case · job*. A verb is just
+**verb** unless the question is about the verb's own form (a test holds this).
+Banks offer only cases taught by the question's week.
+
+**Why it can't be done by elimination.** Labels are reusable (two words can both
+be "nominative · subject"), and every bank must hold at least one label the
+sentence doesn't use. Check 9 in `checks.py` refuses an item whose answer isn't
+in its bank, whose bank has no spare label, or that has fewer than two boxes.
+
+**Grading.** Right only if every box is right; there is no *close*, since nothing
+is typed. Feedback redraws the sentence with each box green or red and the right
+label under a red one, then the usual *What happened?* menu. The English, when
+the question has one, is written after labeling and compared with the model,
+not graded. The same widget runs in proctored quizzes (no warning about empty
+boxes there) and in the review tool, which shows the sentence with the answers in
+place and the bank.
+
+**Two kinds of bank.** Case and job, as above; or the English for each word as it
+works in this sentence ("the girls", "of the sailor"), which tests how a case is
+translated and becomes most useful from the genitive on.
+
+**Replacing a question.** A new question can name one it `replaces`. The old one
+stays approved, keeps its history, and stops being served the moment the new one
+is approved (`store.approved_items`) — never before, so there is no gap. The
+duplicate-question check ignores such a pair. The six typed "label each word"
+questions are replaced this way (`latin1-items-unit01-labels.yaml`).
+`tests/test_label_words.py`.
 
 ## Word audio
 
@@ -904,7 +955,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-537 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+557 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

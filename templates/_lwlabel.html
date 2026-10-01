@@ -1,0 +1,4 @@
+{#- One label, as a chip or a filled box shows it: "accusative · direct object"
+    reads as two lines, the case over the job. -#}
+{%- set parts = (lbl or '').split(' · ', 1) -%}
+<span class="lw-main">{{ parts[0] }}</span>{% if parts | length > 1 %}<span class="lw-sub">{{ parts[1] }}</span>{% endif %}

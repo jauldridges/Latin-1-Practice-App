@@ -1,5 +1,5 @@
 """
-The eight mechanical checks. Run on import, before any human sees a question.
+The mechanical checks (eight from the spec, and a ninth for label-words). Run on import, before any human sees a question.
 Anything caught is attached to the question as a flag reason and routed to the
 flagged queue.
 
@@ -34,6 +34,7 @@ import re
 from collections import defaultdict, namedtuple
 
 from answercheck import clean, strip_macrons
+import practice
 
 Flag = namedtuple("Flag", ["check", "level", "detail"])
 
@@ -157,6 +158,9 @@ def check_vocabulary(item, allowed, level="heuristic"):
         scan.extend(str(v) for v in item["options"].values())
     for b in item.get("boxes") or []:
         scan.extend(str(a) for a in (b.get("answer") or []))
+    for w in item.get("sentence") or []:
+        if isinstance(w, dict):
+            scan.append(str(w.get("latin") or ""))
 
     reported = set()
     for text in scan:
@@ -314,6 +318,14 @@ def check_box_length(item):
     return flags
 
 
+def check_label_words(item):
+    """9. A label-words question that cannot work: an answer missing from the
+    bank, a bank with no distractor, too few boxes."""
+    if item.get("format") != practice.LABEL_WORDS:
+        return []
+    return [Flag("label_words", "error", p) for p in practice.label_problems(item)]
+
+
 # --------------------------------------------------------------------------
 # Cross-item check
 # --------------------------------------------------------------------------
@@ -323,10 +335,14 @@ def find_duplicate_questions(items):
     item_id -> Flag for the second and later members of each duplicate group."""
     groups = defaultdict(list)
     for it in items:
-        key = (it.get("node"), clean(it.get("stem")))
+        key = (it.get("node"), clean(practice.question_text(it)))
         groups[key].append(it)
     out = {}
     for (node, _stem), members in groups.items():
+        # A rewrite of a question in a new format shares its sentence on
+        # purpose and names what it replaces; that pair is not a duplicate.
+        replaced = {m.get("replaces") for m in members if m.get("replaces")}
+        members = [m for m in members if m.get("id") not in replaced]
         if len(members) > 1:
             first = members[0].get("id")
             for dup in members[1:]:
@@ -362,6 +378,7 @@ def run_all(items, valid_nodes, allowed, existing_items=None):
         fs += check_nodes_exist(it, valid_nodes)
         fs += check_macron(it)
         fs += check_box_length(it)
+        fs += check_label_words(it)
         if iid in dupes:
             fs.append(dupes[iid])
         if fs:

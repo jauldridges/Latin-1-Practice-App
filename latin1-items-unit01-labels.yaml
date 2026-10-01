@@ -1,0 +1,469 @@
+# Label-the-words questions: tap a label from the bank, tap the box above its
+# word (format: label-words; see practice.py). Two kinds:
+#
+#   - case and job: "accusative · direct object", "verb". The teacher's rule:
+#     a verb is just "verb" unless the question is about the verb's form.
+#   - the English for each word as it works in this sentence ("the girls",
+#     "of the sailor") -- how a case is translated, decided by context.
+#
+# Labels are reusable and every bank holds at least one label the sentence
+# doesn't use, so nothing can be finished by elimination (checks.py, check 9).
+#
+# The first six REPLACE the typed "label each word" questions. Each names the
+# question it replaces; the old one keeps its history and stops being served
+# the moment the new one is approved (store.approved_items).
+#
+# Banks only offer cases taught by the question's week. Genitive arrives on
+# 12 Oct, so the MS-052 / MS-054 / MS-056 questions use the bigger bank and
+# stay unserved until then.
+
+items:
+
+# ---------------------------------------------------------------------------
+# Conversions of the six typed labeling questions
+# ---------------------------------------------------------------------------
+
+- id: MS012-LABEL-01
+  node: MS-012
+  assess: translate
+  tier: 2
+  format: label-words
+  paper_ok: false
+  macron_matters: false
+  replaces: MS012-TRANS-01
+  stem: "Label each word with its case and its job. Then write the English."
+  sentence:
+    - {latin: "Puellam", answer: "accusative · direct object"}
+    - {latin: "nauta", answer: "nominative · subject"}
+    - {latin: "spectat.", answer: "verb"}
+  bank: ["nominative · subject", "nominative · predicate", "accusative · direct object", "vocative · direct address", "verb"]
+  translation_model_answer: "The sailor watches the girl."
+  touches: [MS-014, MS-015, MS-011]
+  what_went_wrong:
+    - {text: "I translated in the order the words appeared", node: MS-012}
+    - {text: "I didn't check the endings before deciding who did what", node: MS-011}
+    - {text: "I knew the endings but reversed them", node: MS-015}
+  note: >
+    Tap-to-place version of MS012-TRANS-01. The object comes first, so a
+    student reading by position labels Puellam the subject.
+  teaching: ""
+
+- id: MS012-LABEL-02
+  node: MS-012
+  assess: translate
+  tier: 1
+  format: label-words
+  paper_ok: false
+  macron_matters: false
+  replaces: MS012-TRANS-02
+  stem: "Label each word with its case and its job. Then write the English."
+  sentence:
+    - {latin: "Nauta", answer: "nominative · subject"}
+    - {latin: "puellam", answer: "accusative · direct object"}
+    - {latin: "spectat.", answer: "verb"}
+  bank: ["nominative · subject", "nominative · predicate", "accusative · direct object", "vocative · direct address", "verb"]
+  translation_model_answer: "The sailor watches the girl."
+  touches: [MS-014, MS-015, MS-011]
+  what_went_wrong:
+    - {text: "I guessed from word order instead of reading the endings", node: MS-012}
+    - {text: "I reversed the subject and object", node: MS-015}
+  note: >
+    Tap-to-place version of MS012-TRANS-02: the same sentence as LABEL-01 in
+    English order, the easier of the pair.
+  teaching: ""
+
+- id: MS015-LABEL-01
+  node: MS-015
+  assess: translate
+  tier: 1
+  format: label-words
+  paper_ok: false
+  macron_matters: false
+  replaces: MS015-TRANS-01
+  stem: "Label each word with its case and its job. Then write the English."
+  sentence:
+    - {latin: "Fēmina", answer: "nominative · subject"}
+    - {latin: "aquam", answer: "accusative · direct object"}
+    - {latin: "portat.", answer: "verb"}
+  bank: ["nominative · subject", "nominative · predicate", "accusative · direct object", "vocative · direct address", "verb"]
+  translation_model_answer: "The woman carries the water."
+  touches: [MS-014, MS-011]
+  what_went_wrong:
+    - {text: "I reversed the subject and the object", node: MS-015}
+    - {text: "I didn't read the endings before deciding roles", node: MS-011}
+  note: >
+    Tap-to-place version of MS015-TRANS-01.
+  teaching: ""
+
+- id: MS041-LABEL-01
+  node: MS-041
+  assess: translate
+  tier: 2
+  format: label-words
+  paper_ok: false
+  macron_matters: false
+  replaces: MS041-TRANS-01
+  stem: "Label each word with its case and its job. Then write the English."
+  sentence:
+    - {latin: "Poēta", answer: "nominative · subject"}
+    - {latin: "est", answer: "verb"}
+    - {latin: "clārus.", answer: "nominative · predicate"}
+  bank: ["nominative · subject", "nominative · predicate", "accusative · direct object", "vocative · direct address", "verb"]
+  translation_model_answer: "The poet is famous."
+  touches: [MS-040, MS-042, MS-047]
+  what_went_wrong:
+    - {text: "I labeled clārus as an object", node: MS-041}
+    - {text: "I couldn't translate est", node: MS-040}
+  note: >
+    Tap-to-place version of MS041-TRANS-01. "accusative · direct object" is
+    the tempting wrong label for clārus: something after the verb.
+  teaching: ""
+
+- id: CR005-LABEL-01
+  node: CR-005
+  assess: parse
+  tier: 2
+  format: label-words
+  paper_ok: false
+  macron_matters: false
+  replaces: CR005-PARSE-01
+  stem: "Label each word with its case and its job. Then write the English."
+  sentence:
+    - {latin: "Agricola", answer: "nominative · subject"}
+    - {latin: "dōnum", answer: "accusative · direct object"}
+    - {latin: "portat.", answer: "verb"}
+  bank: ["nominative · subject", "nominative · predicate", "accusative · direct object", "vocative · direct address", "verb"]
+  translation_model_answer: "The farmer carries the gift."
+  touches: [MS-014, MS-015, MS-026, MS-028, MS-034]
+  what_went_wrong:
+    - {text: "I couldn't tell whether dōnum was the subject or the object", node: MS-028}
+    - {text: "I labeled the cases but not the jobs", node: MS-013}
+    - {text: "I translated first and worked backwards", node: CR-005}
+  note: >
+    Tap-to-place version of CR005-PARSE-01. dōnum is resolvable only because
+    agricola is unambiguously nominative and portat is singular.
+  teaching: ""
+
+- id: CR005-LABEL-02
+  node: CR-005
+  assess: parse
+  tier: 2
+  format: label-words
+  paper_ok: false
+  macron_matters: false
+  replaces: CR005-PARSE-02
+  stem: "Label each word with its case and its job. Then write the English."
+  sentence:
+    - {latin: "Puellae", answer: "nominative · subject"}
+    - {latin: "dominum", answer: "accusative · direct object"}
+    - {latin: "vocant.", answer: "verb"}
+  bank: ["nominative · subject", "nominative · predicate", "accusative · direct object", "vocative · direct address", "verb"]
+  translation_model_answer: "The girls call the master."
+  touches: [MS-014, MS-015, MS-020, MS-024, MS-034, MS-037]
+  what_went_wrong:
+    - {text: "I read puellae as singular", node: MS-020}
+    - {text: "I reversed the subject and object", node: MS-015}
+    - {text: "I translated before labeling", node: CR-005}
+  note: >
+    Tap-to-place version of CR005-PARSE-02.
+  teaching: ""
+
+# ---------------------------------------------------------------------------
+# New: case and job, on what has been taught
+# ---------------------------------------------------------------------------
+
+- id: CR005-LABEL-03
+  node: CR-005
+  assess: parse
+  tier: 2
+  format: label-words
+  paper_ok: false
+  macron_matters: false
+  stem: "Label each word with its case and its job. Then write the English."
+  sentence:
+    - {latin: "Dominum", answer: "accusative · direct object"}
+    - {latin: "servī", answer: "nominative · subject"}
+    - {latin: "vocant.", answer: "verb"}
+  bank: ["nominative · subject", "nominative · predicate", "accusative · direct object", "vocative · direct address", "verb"]
+  translation_model_answer: "The slaves call the master."
+  touches: [MS-012, MS-024, MS-037]
+  what_went_wrong:
+    - {text: "I made dominum the subject because it came first", node: MS-012}
+    - {text: "I read servī as singular", node: MS-024}
+    - {text: "I didn't use the verb's ending to find the subject", node: MS-037}
+  note: >
+    Object first, and the plural verb points at servī. Second declension
+    throughout, so it doesn't repeat the first-declension conversions.
+  teaching: ""
+
+- id: CR005-LABEL-04
+  node: CR-005
+  assess: parse
+  tier: 2
+  format: label-words
+  paper_ok: false
+  macron_matters: false
+  stem: "Label each word with its case and its job. Then write the English."
+  sentence:
+    - {latin: "Puer", answer: "nominative · subject"}
+    - {latin: "dōna", answer: "accusative · direct object"}
+    - {latin: "videt.", answer: "verb"}
+  bank: ["nominative · subject", "nominative · predicate", "accusative · direct object", "vocative · direct address", "verb"]
+  translation_model_answer: "The boy sees the gifts."
+  touches: [MS-025, MS-027, MS-028, MS-035]
+  what_went_wrong:
+    - {text: "I couldn't tell whether dōna was the subject or the object", node: MS-028}
+    - {text: "I didn't use the verb's ending to find the subject", node: MS-037}
+    - {text: "I thought puer was accusative because it doesn't end in -us", node: MS-025}
+  note: >
+    dōna could be nominative or accusative; videt is singular, so the subject
+    is puer and dōna must be the object.
+  teaching: ""
+
+- id: MS028-LABEL-01
+  node: MS-028
+  assess: parse
+  tier: 3
+  format: label-words
+  paper_ok: false
+  macron_matters: false
+  stem: "Label each word with its case and its job. Then write the English."
+  sentence:
+    - {latin: "Dōna", answer: "accusative · direct object"}
+    - {latin: "puerī", answer: "nominative · subject"}
+    - {latin: "portant.", answer: "verb"}
+  bank: ["nominative · subject", "nominative · predicate", "accusative · direct object", "vocative · direct address", "verb"]
+  translation_model_answer: "The boys carry the gifts."
+  touches: [MS-012, MS-024, MS-029, CR-007]
+  what_went_wrong:
+    - {text: "I made Dōna the subject because it came first", node: MS-012}
+    - {text: "I forgot that a neuter plural can be accusative", node: MS-028}
+    - {text: "I didn't notice that puerī can't be the object", node: MS-024}
+  note: >
+    Both nouns are plural and the verb is plural, so the verb can't decide.
+    What decides is that puerī cannot be accusative (that would be puerōs),
+    so puerī is the subject and dōna -- either case on its own -- is the
+    object. Tier 3: the reasoning runs through what a form can't be.
+  teaching: ""
+
+- id: MS049-LABEL-01
+  node: MS-049
+  assess: parse
+  tier: 2
+  format: label-words
+  paper_ok: false
+  macron_matters: false
+  stem: "Label each word with its case and its job. Then write the English."
+  sentence:
+    - {latin: "Serve,", answer: "vocative · direct address"}
+    - {latin: "aquam", answer: "accusative · direct object"}
+    - {latin: "portā!", answer: "verb"}
+  bank: ["nominative · subject", "nominative · predicate", "accusative · direct object", "vocative · direct address", "verb"]
+  translation_model_answer: "Slave, carry the water!"
+  touches: [MS-050, MS-015]
+  what_went_wrong:
+    - {text: "I labeled Serve as the subject", node: MS-049}
+    - {text: "I didn't recognize portā as a command", node: MS-050}
+  note: >
+    The -e ending of a second-declension -us noun marks the vocative, and the
+    command has no subject of its own.
+  teaching: ""
+
+- id: MS049-LABEL-02
+  node: MS-049
+  assess: parse
+  tier: 3
+  format: label-words
+  paper_ok: false
+  macron_matters: false
+  stem: "Label each word with its case and its job. Then write the English."
+  sentence:
+    - {latin: "Puella,", answer: "vocative · direct address"}
+    - {latin: "nauta", answer: "nominative · subject"}
+    - {latin: "aquam", answer: "accusative · direct object"}
+    - {latin: "portat.", answer: "verb"}
+  bank: ["nominative · subject", "nominative · predicate", "accusative · direct object", "vocative · direct address", "verb"]
+  translation_model_answer: "Girl, the sailor is carrying the water."
+  touches: [MS-014, MS-037]
+  what_went_wrong:
+    - {text: "Puella looks nominative, so I made it the subject", node: MS-049}
+    - {text: "I gave the sentence two subjects and didn't notice", node: MS-037}
+  note: >
+    In the first declension the vocative looks exactly like the nominative.
+    The comma, and the fact that nauta is already the subject of a singular
+    verb, are what make Puella someone being spoken to.
+  teaching: ""
+
+- id: MS041-LABEL-02
+  node: MS-041
+  assess: parse
+  tier: 2
+  format: label-words
+  paper_ok: false
+  macron_matters: false
+  stem: "Label each word with its case and its job. Then write the English."
+  sentence:
+    - {latin: "Agricolae", answer: "nominative · subject"}
+    - {latin: "sunt", answer: "verb"}
+    - {latin: "bonī.", answer: "nominative · predicate"}
+  bank: ["nominative · subject", "nominative · predicate", "accusative · direct object", "vocative · direct address", "verb"]
+  translation_model_answer: "The farmers are good."
+  touches: [MS-040, MS-044, MS-046, MS-020]
+  what_went_wrong:
+    - {text: "I labeled bonī as an object", node: MS-041}
+    - {text: "I read Agricolae as singular", node: MS-020}
+    - {text: "I thought bonī couldn't go with agricolae because the endings are different", node: MS-046}
+  note: >
+    sunt never takes an object. bonī agrees with agricolae in case, number and
+    gender (masculine: farmers) even though the endings don't match.
+  teaching: ""
+
+- id: MS024-LABEL-01
+  node: MS-024
+  assess: translate
+  tier: 1
+  format: label-words
+  paper_ok: false
+  macron_matters: false
+  stem: "Put the English on each word, as it works in this sentence."
+  sentence:
+    - {latin: "Dominus", answer: "the master"}
+    - {latin: "servōs", answer: "the slaves"}
+    - {latin: "vocat.", answer: "calls"}
+  bank: ["the master", "the masters", "the slave", "the slaves", "calls", "call"]
+  touches: [MS-023, MS-037]
+  what_went_wrong:
+    - {text: "I read servōs as singular", node: MS-024}
+    - {text: "I mixed up calls and call", node: MS-037}
+  note: >
+    Number, not case: English shows singular and plural, so that is what the
+    English labels can test before genitive arrives.
+  teaching: ""
+
+# ---------------------------------------------------------------------------
+# Genitive (taught 12 Oct): unserved until then
+# ---------------------------------------------------------------------------
+
+- id: MS052-LABEL-01
+  node: MS-052
+  assess: parse
+  tier: 2
+  format: label-words
+  paper_ok: false
+  macron_matters: false
+  stem: "Label each word with its case and its job. Then write the English."
+  sentence:
+    - {latin: "Fīlia", answer: "nominative · subject"}
+    - {latin: "agricolae", answer: "genitive · possession"}
+    - {latin: "aquam", answer: "accusative · direct object"}
+    - {latin: "portat.", answer: "verb"}
+  bank: ["nominative · subject", "nominative · predicate", "accusative · direct object", "genitive · possession", "vocative · direct address", "verb"]
+  translation_model_answer: "The farmer's daughter carries water."
+  touches: [MS-053, MS-056, MS-014, MS-015]
+  what_went_wrong:
+    - {text: "I made agricolae a subject because it looks plural", node: MS-056}
+    - {text: "I didn't know what the genitive does", node: MS-052}
+    - {text: "I knew it was genitive but translated it without 'of' or 's", node: MS-052}
+  note: >
+    agricolae could be nominative plural, but portat is singular and fīlia is
+    already its subject, so agricolae is the farmer the daughter belongs to.
+  teaching: ""
+
+- id: MS052-LABEL-02
+  node: MS-052
+  assess: parse
+  tier: 2
+  format: label-words
+  paper_ok: false
+  macron_matters: false
+  stem: "Label each word with its case and its job. Then write the English."
+  sentence:
+    - {latin: "Servī", answer: "nominative · subject"}
+    - {latin: "dominī", answer: "genitive · possession"}
+    - {latin: "agrum", answer: "accusative · direct object"}
+    - {latin: "spectant.", answer: "verb"}
+  bank: ["nominative · subject", "nominative · predicate", "accusative · direct object", "genitive · possession", "vocative · direct address", "verb"]
+  translation_model_answer: "The master's slaves look at the field."
+  touches: [MS-054, MS-024, MS-037]
+  what_went_wrong:
+    - {text: "I made dominī a second subject", node: MS-054}
+    - {text: "I couldn't tell servī and dominī apart because they end the same way", node: MS-054}
+  note: >
+    servī and dominī have the same ending. Either could be the subject of
+    spectant; the one beside the other and doing no action is the owner.
+    Placing dominī after the noun it belongs to is the usual order.
+  teaching: ""
+
+- id: MS056-LABEL-01
+  node: MS-056
+  assess: translate
+  tier: 3
+  format: label-words
+  paper_ok: false
+  macron_matters: false
+  stem: "Put the English on each word, as it works in this sentence."
+  sentence:
+    - {latin: "Fīliae", answer: "the daughters"}
+    - {latin: "nautae", answer: "of the sailor"}
+    - {latin: "aquam", answer: "water"}
+    - {latin: "portant.", answer: "carry"}
+  bank: ["the daughter", "the daughters", "of the daughter", "the sailor", "the sailors", "of the sailor", "water", "carries", "carry"]
+  touches: [MS-052, MS-053, MS-029, CR-007]
+  what_went_wrong:
+    - {text: "I read nautae as 'the sailors'", node: MS-056}
+    - {text: "I read fīliae as 'of the daughter'", node: MS-056}
+    - {text: "I mixed up carries and carry", node: MS-037}
+  note: >
+    Both nouns end in -ae, and -ae is genitive singular or nominative plural.
+    portant needs a plural subject, so one of them is "the ___s"; with no et
+    joining them, the other belongs to it. Fīliae comes first and the sailor
+    is the owner, the usual order. A student could argue for "the daughters,
+    the sailors" -- the menu's contest option exists for that.
+  teaching: ""
+
+- id: MS054-LABEL-01
+  node: MS-054
+  assess: translate
+  tier: 2
+  format: label-words
+  paper_ok: false
+  macron_matters: false
+  stem: "Put the English on each word, as it works in this sentence."
+  sentence:
+    - {latin: "Dominus", answer: "the master"}
+    - {latin: "fīlium", answer: "the son"}
+    - {latin: "amīcī", answer: "of the friend"}
+    - {latin: "videt.", answer: "sees"}
+  bank: ["the master", "of the master", "the son", "the sons", "the friend", "of the friend", "the friends", "sees", "see"]
+  touches: [MS-052, MS-023, MS-024]
+  what_went_wrong:
+    - {text: "I read amīcī as 'the friends'", node: MS-054}
+    - {text: "I didn't know what the genitive does", node: MS-052}
+  note: >
+    amīcī could be nominative plural, but videt is singular and Dominus is its
+    subject, so amīcī says whose son.
+  teaching: ""
+
+- id: MS053-LABEL-01
+  node: MS-053
+  assess: translate
+  tier: 2
+  format: label-words
+  paper_ok: false
+  macron_matters: false
+  stem: "Put the English on each word, as it works in this sentence."
+  sentence:
+    - {latin: "Nauta", answer: "the sailor"}
+    - {latin: "viam", answer: "the road"}
+    - {latin: "fēminārum", answer: "of the women"}
+    - {latin: "spectat.", answer: "watches"}
+  bank: ["the sailor", "of the sailor", "the road", "the woman", "of the woman", "the women", "of the women", "watches", "watch"]
+  touches: [MS-052, MS-018, MS-019]
+  what_went_wrong:
+    - {text: "I read fēminārum as singular", node: MS-053}
+    - {text: "I didn't recognize -ārum as genitive", node: MS-053}
+  note: >
+    -ārum is only ever genitive plural, so this one tests recognizing the
+    ending rather than resolving an ambiguity. "of the woman" is the
+    distractor for a student who knows the case but not the number.
+  teaching: ""

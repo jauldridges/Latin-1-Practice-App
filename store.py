@@ -675,15 +675,22 @@ def events_for_student(conn, student_id):
 
 def approved_items(conn, node_id=None):
     """The approved question payloads — what the grammar practice app serves.
-    Nothing unreviewed or rejected ever reaches a student."""
-    if node_id:
-        rows = conn.execute(
-            "SELECT payload FROM items WHERE review_status='approved' AND node_id=? ORDER BY item_id",
-            (node_id,)).fetchall()
-    else:
-        rows = conn.execute(
-            "SELECT payload FROM items WHERE review_status='approved' ORDER BY node_id, item_id").fetchall()
-    return [json.loads(r["payload"]) for r in rows]
+    Nothing unreviewed or rejected ever reaches a student.
+
+    A question can name another it `replaces` (a typed labelling question
+    rewritten as tap-to-place, say). The old one stays approved and keeps its
+    history, but stops being served the moment its replacement is approved --
+    and not before, so there is never a gap."""
+    rows = conn.execute(
+        "SELECT payload FROM items WHERE review_status='approved' ORDER BY node_id, item_id").fetchall()
+    payloads = [json.loads(r["payload"]) for r in rows]
+    replaced = set()
+    for p in payloads:
+        for old in (p.get("replaces") if isinstance(p.get("replaces"), list) else [p.get("replaces")]):
+            if old:
+                replaced.add(old)
+    return [p for p in payloads
+            if p.get("id") not in replaced and (not node_id or p.get("node") == node_id)]
 
 
 def approved_node_counts(conn):

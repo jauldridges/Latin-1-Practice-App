@@ -40,6 +40,8 @@ def answer_is_blank(fmt, value):
         return True
     if fmt == "boxes":
         return not any(str(v).strip() for v in (value or []))
+    if fmt == practice.LABEL_WORDS:
+        return not any(str(v).strip() for v in ((value or {}).get("pick") or []))
     if fmt == "tag-then-translate":
         cases = (value or {}).get("case") or []
         jobs = (value or {}).get("job") or []
@@ -77,6 +79,11 @@ def grade_attempt(items_by_id, item_ids, answers):
                         "boxes": [dict(label=b.label, response=b.response,
                                        box_result=b.result, accepted=b.accepted,
                                        rule=b.rule) for b in box_results]}
+
+        elif fmt == practice.LABEL_WORDS:
+            res, label_results = practice.grade_labels(item, list((value or {}).get("pick") or []))
+            out[iid] = {"result": res, "labels": label_results,
+                        "typed": (value or {}).get("typed", "")}
 
         elif fmt == "tag-then-translate":
             cases = (value or {}).get("case") or []
@@ -154,6 +161,8 @@ def _response_summary(r):
         return str(r["picked"])
     if "boxes" in r:
         return " | ".join(str(b.get("response") or "") for b in r["boxes"])
+    if "labels" in r:
+        return practice.label_summary(r["labels"])
     if "tags" in r:
         return " | ".join(f"{t.get('case_response','')}/{t.get('job_response','')}"
                           for t in r["tags"])

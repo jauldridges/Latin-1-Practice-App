@@ -198,7 +198,18 @@ def _answers_of(item):
     elif fmt == "boxes":
         for b in item.get("boxes") or []:
             out.extend(a for a in (b.get("answer") or []) if a)
+    elif fmt == LABEL_WORDS:
+        for t in label_targets(item):
+            out.extend(t["accepted"])
     return [a for a in (_plain(x) for x in out) if len(a) >= 3]
+
+
+def question_text(item):
+    """Everything the student reads before answering: the stem, and for a
+    label-words question the sentence itself, which lives outside the stem."""
+    words = " ".join(str(w.get("latin", "")) for w in (item.get("sentence") or [])
+                     if isinstance(w, dict))
+    return (str(item.get("stem") or "") + " " + words).strip()
 
 
 def hint_examples(examples, item):
@@ -216,7 +227,7 @@ def hint_examples(examples, item):
     the answer still shows every example, and the approved wording is never
     changed -- this is a filter on one moment, not an edit to the text.
     """
-    stem = _plain(item.get("stem", "")).split()
+    stem = _plain(question_text(item)).split()
     windows = {" ".join(stem[i:i + 3]) for i in range(len(stem) - 2)}
     answers = _answers_of(item)
     kept = []
@@ -361,6 +372,90 @@ def grade_tags(item, case_responses, job_responses):
     else:
         overall = "close"
     return overall, results
+
+
+# --------------------------------------------------------------------------
+# Label the words: tap a label from the bank, tap the box over a word
+# --------------------------------------------------------------------------
+#
+# format: label-words
+#   sentence:  the words in order. A word with `answer` gets a box above it;
+#              a word without one (et, a preposition) is shown plain.
+#              answer is the accepted label, or a list of accepted labels.
+#   bank:      every label offered, in the order shown. Labels are reusable --
+#              "nominative · subject" can go on two words -- so the last box can
+#              never be filled by elimination, and the bank always holds at
+#              least one label the sentence doesn't use.
+#   translation_model_answer (optional): the English. The student writes it
+#              after labelling and compares; it is not graded.
+#
+# The same shape serves two kinds of question: case-and-job labels
+# ("accusative · direct object", "verb"), and the English for each word as it
+# works in this sentence ("the girls", "of the farmer").
+
+LABEL_WORDS = "label-words"
+
+
+def _as_list(v):
+    if v is None:
+        return []
+    return [str(x) for x in v] if isinstance(v, (list, tuple)) else [str(v)]
+
+
+def label_targets(item):
+    """The boxed words, in order: [{"word", "accepted"}]."""
+    out = []
+    for w in item.get("sentence") or []:
+        acc = _as_list(w.get("answer"))
+        if acc:
+            out.append({"word": str(w.get("latin", "")), "accepted": acc})
+    return out
+
+
+def label_problems(item):
+    """What is wrong with a label-words question, in plain words. Empty is fine."""
+    out = []
+    sentence = item.get("sentence")
+    if not isinstance(sentence, list) or not sentence:
+        return ["it has no sentence"]
+    if any(not isinstance(w, dict) or not str(w.get("latin") or "").strip() for w in sentence):
+        out.append("every sentence entry needs a latin word")
+    targets = label_targets(item)
+    if len(targets) < 2:
+        out.append("it needs at least two words with boxes")
+    bank = _as_list(item.get("bank"))
+    if len(set(bank)) != len(bank):
+        out.append("the bank lists a label twice")
+    if not 3 <= len(bank) <= 12:
+        out.append("the bank should offer 3 to 12 labels (it has %d)" % len(bank))
+    used = set()
+    for t in targets:
+        missing = [a for a in t["accepted"] if a not in bank]
+        if missing:
+            out.append("the answer for %s is not in the bank: %s" % (t["word"], ", ".join(missing)))
+        used.update(t["accepted"])
+    if bank and not (set(bank) - used):
+        out.append("every label in the bank is an answer -- add at least one that isn't, "
+                   "so nothing can be done by elimination")
+    return out
+
+
+def grade_labels(item, picks):
+    """Overall right only if every box is right. There is no close: the
+    student picks a label, so there is nothing to misspell."""
+    results = []
+    picks = list(picks) + [""] * len(label_targets(item))
+    for i, t in enumerate(label_targets(item)):
+        p = str(picks[i] or "").strip()
+        results.append({"word": t["word"], "picked": p, "accepted": t["accepted"],
+                        "result": "right" if p in t["accepted"] else "wrong"})
+    overall = "right" if results and all(r["result"] == "right" for r in results) else "wrong"
+    return overall, results
+
+
+def label_summary(results):
+    """The event's `response`: what went in each box."""
+    return " | ".join("%s=%s" % (r["word"], r["picked"] or "(blank)") for r in results)[:200]
 
 
 # --------------------------------------------------------------------------

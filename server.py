@@ -1184,6 +1184,20 @@ def practice_answer():
         cases = request.form.getlist("case")
         jobs = request.form.getlist("job")
         result, tag_results = practice.grade_tags(item, cases, jobs)
+    elif fmt == practice.LABEL_WORDS:
+        result, label_results = practice.grade_labels(item, request.form.getlist("pick"))
+        typed = request.form.get("typed", "")
+        store.record_event(db, student, item_id, item.get("node"),
+                           practice.label_summary(label_results), result,
+                           latency_ms=latency, context=ctx, version="v1")
+        return render_template("practice_feedback.html", student=student, item=item,
+                               node=node, context=ctx, result=result,
+                               introduced=nodeweek(item.get("node")),
+                               box_results=None, tag_results=None,
+                               label_results=label_results, picked=None, typed=typed,
+                               menu=practice.menu_for(item) if result == "wrong" else None,
+                               teaching=approved_teaching_for(db, item.get("node")),
+                               label=_NODE_LABEL.get(item["node"], ""))
     else:                                   # self-check
         typed = request.form.get("typed", "")
         result = "self"
@@ -1402,6 +1416,8 @@ def quiz_save(quiz_id):
         value = request.form.get("picked")
     elif fmt == "boxes":
         value = request.form.getlist("box")
+    elif fmt == practice.LABEL_WORDS:
+        value = {"pick": request.form.getlist("pick"), "typed": request.form.get("typed", "")}
     elif fmt == "tag-then-translate":
         value = {"case": request.form.getlist("case"),
                  "job": request.form.getlist("job"),

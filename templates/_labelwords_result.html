@@ -1,0 +1,25 @@
+{# The sentence again, each box green or red, with the right label under a red
+   one. Expects: item, results (from practice.grade_labels), typed. #}
+<div class="lw-sentence lw-result">
+  {% set ns = namespace(i=0) %}
+  {% for w in item.sentence %}
+    {% if w.answer %}
+      {% set r = results[ns.i] %}
+      <span class="lw-unit">
+        <span class="lw-slot filled {{ r.result }}">{% if r.picked %}{% with lbl=r.picked %}{% include "_lwlabel.html" %}{% endwith %}{% else %}<span class="lw-main">(empty)</span>{% endif %}</span>
+        <span class="lw-word latin">{{ w.latin }}</span>
+        {% if r.result != 'right' %}<span class="lw-fix">✓ {{ r.accepted[0] }}</span>{% endif %}
+      </span>
+      {% set ns.i = ns.i + 1 %}
+    {% else %}
+      <span class="lw-unit plain"><span class="lw-word latin">{{ w.latin }}</span></span>
+    {% endif %}
+  {% endfor %}
+</div>
+{% if item.translation_model_answer %}
+  <div class="card">
+    {% if typed %}<div class="small muted">You wrote</div><div>{{ typed }}</div>{% endif %}
+    <div class="small muted" {% if typed %}style="margin-top:8px"{% endif %}>English</div>
+    <div><strong>{{ item.translation_model_answer }}</strong></div>
+  </div>
+{% endif %}

@@ -47,6 +47,9 @@
     <label class="small muted" style="display:block;margin-top:10px">English</label>
     <textarea name="typed" rows="2">{{ saved.typed if saved and saved.typed else '' }}</textarea>
 
+  {% elif item.format == 'label-words' %}
+    {% with guard=false %}{% include "_labelwords.html" %}{% endwith %}
+
   {% else %}
     <textarea name="typed" rows="3" placeholder="Write your answer.">{{ saved if saved else '' }}</textarea>
   {% endif %}

@@ -1,0 +1,36 @@
+{# The tap-to-place widget, shared by practice and the proctored quiz.
+   Expects: item; optional saved = {"pick": [...], "typed": "..."}; guard (bool)
+   -- practice asks before checking with empty boxes, a quiz never does. #}
+{% set picks = (saved.pick if saved and saved.pick else []) %}
+<p class="small muted lw-help">Tap a label, then tap the box above its word — or drag it.
+  You can use a label more than once.</p>
+<div class="lw" data-lw {% if guard %}data-lw-guard{% endif %}>
+  <div class="lw-sentence">
+    {% set ns = namespace(i=0) %}
+    {% for w in item.sentence %}
+      {% if w.answer %}
+        {% set cur = picks[ns.i] if picks | length > ns.i else '' %}
+        <span class="lw-unit">
+          <button type="button" class="lw-slot {{ 'filled' if cur }}" data-i="{{ ns.i }}"
+                  aria-label="Box for {{ w.latin }}">{% if cur %}{% with lbl=cur %}{% include "_lwlabel.html" %}{% endwith %}{% endif %}</button>
+          <input type="hidden" name="pick" value="{{ cur }}">
+          <span class="lw-word latin">{{ w.latin }}</span>
+        </span>
+        {% set ns.i = ns.i + 1 %}
+      {% else %}
+        <span class="lw-unit plain"><span class="lw-word latin">{{ w.latin }}</span></span>
+      {% endif %}
+    {% endfor %}
+  </div>
+  <div class="lw-bank" role="group" aria-label="Labels">
+    {% for b in item.bank %}
+      <button type="button" class="lw-chip" draggable="true" data-label="{{ b }}">{% with lbl=b %}{% include "_lwlabel.html" %}{% endwith %}</button>
+    {% endfor %}
+  </div>
+  <p class="lw-warn small" hidden>Some boxes are still empty. Fill them, or press Check again to check anyway.</p>
+</div>
+{% if item.translation_model_answer %}
+  <label class="small muted" for="lw-typed" style="display:block;margin-top:12px">Now write the English</label>
+  <textarea id="lw-typed" name="typed" rows="2" placeholder="The English for the whole sentence">{{ saved.typed if saved and saved.typed else '' }}</textarea>
+{% endif %}
+<script src="{{ url_for('static', filename='labelwords.js') }}"></script>

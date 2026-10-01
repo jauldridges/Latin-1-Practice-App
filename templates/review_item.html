@@ -89,6 +89,16 @@
   {% if p.translation_model_answer %}<div class="box"><span class="label">model:</span> {{ p.translation_model_answer }}</div>{% endif %}
 {% endif %}
 
+{% if p.format == 'label-words' %}
+  <div class="small muted">The sentence, with the right label in each box{% if p.replaces %} ·
+    replaces <span class="node-id">{{ p.replaces }}</span>, which stops being served once you approve this{% endif %}:</div>
+  {% set fake = [] %}
+  {% for w in p.sentence if w.answer %}{% set _ = fake.append({'picked': (w.answer if w.answer is string else w.answer[0]), 'accepted': [w.answer] if w.answer is string else w.answer, 'result': 'right'}) %}{% endfor %}
+  {% with item=p, results=fake, typed=none %}{% include "_labelwords_result.html" %}{% endwith %}
+  <div class="small muted">Label bank shown to students (labels can be used more than once):</div>
+  <div class="lw-bank" style="margin-bottom:10px">{% for b in p.bank %}<span class="lw-chip">{% with lbl=b %}{% include "_lwlabel.html" %}{% endwith %}</span>{% endfor %}</div>
+{% endif %}
+
 {% if p.model_answer %}<div class="box"><span class="label">model answer:</span> {{ p.model_answer }}</div>{% endif %}
 
 {% if p.what_went_wrong %}

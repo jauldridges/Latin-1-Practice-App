@@ -51,6 +51,9 @@
       </div>
     {% endfor %}
 
+  {% elif item.format == 'label-words' %}
+    {% with guard=true, saved=none %}{% include "_labelwords.html" %}{% endwith %}
+
   {% else %}
     <textarea name="typed" rows="3" placeholder="Write your answer, then check it yourself."></textarea>
   {% endif %}
@@ -60,8 +63,10 @@
 
 <script>
   var t0 = Date.now();
+  // Not on a labelling question: its only text box is the English at the end,
+  // and jumping there would scroll the sentence off a phone screen.
   var first = document.querySelector('#qform input[type=text], #qform textarea');
-  if (first) first.focus();
+  if (first && !document.querySelector('[data-lw]')) first.focus();
   document.getElementById('qform').addEventListener('submit', function(){
     document.getElementById('latency_ms').value = String(Date.now() - t0);
   });

@@ -35,6 +35,10 @@
   </div>
 {% endif %}
 
+{% if label_results %}
+  {% with results=label_results %}{% include "_labelwords_result.html" %}{% endwith %}
+{% endif %}
+
 {% if tag_results %}
   <div style="margin-top:10px">
   {% for r in tag_results %}

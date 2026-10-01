@@ -59,6 +59,9 @@ spelling was off by a letter or two — worth a look.</p>
         </div>
       {% endfor %}
 
+    {% elif r.res.labels %}
+      {% with item=r.item, results=r.res.labels, typed=r.res.typed %}{% include "_labelwords_result.html" %}{% endwith %}
+
     {% elif r.res.tags %}
       {% for t in r.res.tags %}
         <div class="box">
