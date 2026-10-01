@@ -23,7 +23,7 @@ dashboard for who's practicing and what they don't know.
 - Python 3.9-compatible, no build step, mobile-first server-rendered HTML.
   It has to work on a school Chromebook at home when I'm not there.
 - Run the full test suite before you tell me something's done. It should be
-  ~557 passing (about 14 skip unless a local Postgres is running).
+  ~572 passing (about 14 skip unless a local Postgres is running).
 - Never say "mastery" to a student. The words are solid / shaky / not yet.
 - American spelling: "practice" for noun and verb, never the British -ise form (a test enforces it).
 - School time zone is Eastern (Massachusetts); `schooltime.py` sets it.
@@ -47,7 +47,9 @@ re-running `make_ids.py` would produce different numbers.
    (Built already, see README: Goals & deadlines, the Saturday-to-Friday
    homework week with on time / late / not done, the Homework tab, and the
    gradebook grid at /teacher/homework; and word audio — I record each vocab
-   word at /teacher/audio and students get a 🔊 button.)
+   word at /teacher/audio and students get a 🔊 button; and vocabulary hints —
+   each word in an example sentence, in vocab-examples.yaml. New words each
+   week need a sentence there, using only words and grammar already taught.)
 2. Unit 3 morphosyntax (23 nodes, none written yet; it starts Nov 30).
 3. Approve the 40 new Units 0-1 questions in the review tool — that is my job,
    not the session's, but nothing reaches a student until it is done.

@@ -452,3 +452,27 @@ ul.recwords li.has { border-left-color: var(--solid); }
 .lw-slot.filled:focus { background: #eef5f0; }
 .lw-chip:not(.selected):focus { background: #fff; }
 .lw-result { align-items: flex-start; }
+
+/* ---- Vocabulary hints: the word in a sentence ---------------------------- */
+.vhint { font-size: 17px; margin: 4px 0; }
+.latin-sentence { font-style: italic; }
+.vword { font-style: normal; font-weight: 800; color: var(--accent); }
+.latin-sentence .vword { font-style: italic; }
+.vhint-en { margin-top: 0; }
+.vexample { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+ul.vhints li { display: block; }
+.vh-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-bottom: 4px; }
+.vh-head .latin { font-weight: 700; font-style: italic; }
+.vh-actions { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px; margin-top: 8px; }
+.vh-actions .minibtn { padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px;
+  background: #fff; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; color: var(--ink); }
+.vh-actions .minibtn.del { color: var(--muted); }
+.vh-edit { flex: 1 1 100%; }
+.vh-edit summary { display: inline-block; list-style: none; }
+.vh-edit summary::-webkit-details-marker { display: none; }
+.vh-edit form { margin-top: 8px; }
+.vh-edit label { display: block; margin-top: 6px; }
+.vh-edit input[type=text] { display: block; width: 100%; margin-top: 4px; }
+.vh-edit { flex: 0 1 auto; }
+.vh-edit[open] { flex: 1 1 100%; }
+.vh-actions form.inline { display: inline; margin: 0; }

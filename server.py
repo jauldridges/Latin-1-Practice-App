@@ -34,6 +34,7 @@ import schooltime  # noqa: F401  -- the school's clock, set before anything read
 import stats
 import store
 import teacher
+import vocabhints
 from answercheck import check as check_answer
 
 app = Flask(__name__)
@@ -888,6 +889,116 @@ def drill_answer():
                            result=result, model=accepted[0],
                            introduced=weeklabel(word.get("week")),
                            **_drill_stats(store.events_for_student(db, student)))
+
+
+# ==========================================================================
+# Vocabulary hints — the word in an example sentence, approved by the teacher
+# ==========================================================================
+
+_VOCAB_HINTS = vocabhints.load()
+
+
+def vocab_hint_entry(db, latin):
+    """The example sentence in force for a word: the teacher's edit if there is
+    one, otherwise vocab-examples.yaml."""
+    k = vocabhints.key(latin)
+    return store.teaching_override(db, vocabhints.approval_key(latin)) or _VOCAB_HINTS.get(k)
+
+
+def vocab_hint_state(db, latin, entry=None, approvals=None):
+    entry = entry or vocab_hint_entry(db, latin)
+    if not entry:
+        return "none"
+    got = (approvals if approvals is not None else store.teaching_approvals(db)).get(
+        vocabhints.approval_key(latin))
+    if got == vocabhints.fingerprint(entry):
+        return "approved"
+    return "edited" if got else "draft"
+
+
+def approved_vocab_hint(latin):
+    """The sentence a student may see, or None. Nothing unapproved gets out."""
+    db = get_db()
+    entry = vocab_hint_entry(db, latin)
+    return entry if entry and vocab_hint_state(db, latin, entry) == "approved" else None
+
+
+@app.template_global()
+def vocab_card_hint(latin, ask):
+    return vocabhints.for_card(approved_vocab_hint(latin), ask)
+
+
+@app.template_global()
+def vocab_example(latin):
+    entry = approved_vocab_hint(latin)
+    if not entry:
+        return None
+    return {"segments": vocabhints.segments(entry), "en": entry.get("en") or "",
+            "latin": bool(entry.get("en"))}
+
+
+@app.route("/teacher/vocab-hints")
+def teacher_vocab_hints():
+    db = get_db()
+    approvals = store.teaching_approvals(db)
+    groups = []
+    for w in _DRILL_WORDS:
+        wk = w.get("week") or ""
+        if not groups or groups[-1]["week"] != wk:
+            groups.append({"week": wk, "label": drill.WEEK_LABELS.get(wk, wk), "rows": []})
+        entry = vocab_hint_entry(db, w["latin"])
+        groups[-1]["rows"].append({
+            "latin": w["latin"], "gloss": ", ".join(w.get("en") or [])[:40],
+            "entry": entry, "segments": vocabhints.segments(entry) if entry else [],
+            "state": vocab_hint_state(db, w["latin"], entry, approvals),
+            "anchor": "h-" + vocabhints.key(w["latin"]).replace(" ", "-")})
+    for grp in groups:
+        grp["approved"] = sum(1 for r in grp["rows"] if r["state"] == "approved")
+    rows = [r for grp in groups for r in grp["rows"]]
+    return render_template("teacher_vocab_hints.html", groups=groups,
+                           n_approved=sum(1 for r in rows if r["state"] == "approved"),
+                           total=len(rows), error=request.args.get("error"),
+                           error_word=request.args.get("word"))
+
+
+@app.route("/teacher/vocab-hints/save", methods=["POST"])
+def teacher_vocab_hint_save():
+    """Approve, withdraw, or reword-and-approve one word's sentence."""
+    db = get_db()
+    latin = request.form.get("word", "")
+    word = drill.find_word(_DRILL_WORDS, latin)
+    if word is None:
+        abort(404)
+    akey = vocabhints.approval_key(latin)
+    anchor = "#h-" + vocabhints.key(latin).replace(" ", "-")
+    action = request.form.get("action", "approve")
+    if action == "withdraw":
+        store.unapprove_teaching(db, akey)
+    elif action == "edit":
+        entry = {"word": word["latin"], "latin": (request.form.get("latin") or "").strip(),
+                 "en": (request.form.get("en") or "").strip()}
+        bad = vocabhints.problems(entry)
+        if bad:
+            return redirect(url_for("teacher_vocab_hints", error=bad[0], word=latin) + anchor)
+        store.set_teaching_override(db, akey, entry)
+        store.approve_teaching(db, akey, vocabhints.fingerprint(entry))
+    else:
+        entry = vocab_hint_entry(db, latin)
+        if entry:
+            store.approve_teaching(db, akey, vocabhints.fingerprint(entry))
+    return redirect(url_for("teacher_vocab_hints") + anchor)
+
+
+@app.route("/teacher/vocab-hints/approve-all", methods=["POST"])
+def teacher_vocab_hints_approve_all():
+    """Every sentence on the page, as it reads now. The teacher's click."""
+    db = get_db()
+    for w in _DRILL_WORDS:
+        entry = vocab_hint_entry(db, w["latin"])
+        if entry:
+            store.approve_teaching(db, vocabhints.approval_key(w["latin"]),
+                                   vocabhints.fingerprint(entry))
+    return redirect(url_for("teacher_vocab_hints"))
 
 
 # ==========================================================================

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block subtitle %}vocabulary hints{% endblock %}
+{% block content %}
+<p class="small"><a href="{{ url_for('teacher_home') }}">← Dashboard</a></p>
+<h1>Vocabulary hints</h1>
+<p class="small muted">Each word in an example sentence, for the Hint on a vocabulary card.
+  On a Latin → English card students see the sentence with the word in bold and
+  <strong>no English</strong>. On an English → Latin card the word is blanked out and the
+  English is shown. After answering they see both.</p>
+<p class="small muted">Students see a sentence only once you approve it. Changing the wording
+  with <strong>Edit</strong> saves and approves it. Mark the word with *asterisks*.</p>
+
+<div class="audio-progress"><strong>{{ n_approved }}</strong> of {{ total }} approved</div>
+{% if n_approved < total %}
+<form method="post" action="{{ url_for('teacher_vocab_hints_approve_all') }}"
+      onsubmit="return confirm('Approve every sentence on this page as it reads now?')">
+  <button class="bigbtn secondary" type="submit">Approve all {{ total - n_approved }} not yet approved</button>
+</form>
+{% endif %}
+
+{% for grp in groups %}
+<details class="week" {{ 'open' if grp.approved < grp.rows | length }}>
+  <summary><span class="week-name">{{ grp.label }}</span>
+    <span class="small muted">{{ grp.approved }} of {{ grp.rows | length }}</span></summary>
+  <ul class="recwords vhints">
+    {% for r in grp.rows %}
+    <li id="{{ r.anchor }}" class="{{ 'has' if r.state == 'approved' }}">
+      <div class="vh-body">
+        <div class="vh-head"><span class="latin">{{ r.latin }}</span>
+          <span class="small muted">{{ r.gloss }}</span>
+          {% if r.state == 'approved' %}<span class="pill solid">approved</span>
+          {% elif r.state == 'edited' %}<span class="pill shaky">changed since approval</span>
+          {% elif r.state == 'none' %}<span class="pill notyet">no sentence</span>
+          {% else %}<span class="pill notyet">not yet approved</span>{% endif %}</div>
+        {% if r.entry %}
+          <div class="{{ 'latin-sentence' if r.entry.en }}">{% for t, m in r.segments %}{% if m %}<strong class="vword">{{ t }}</strong>{% else %}{{ t }}{% endif %}{% endfor %}</div>
+          {% if r.entry.en %}<div class="small muted">{{ r.entry.en }}</div>{% endif %}
+        {% endif %}
+        {% if error and error_word == r.latin %}<div class="flags small"><span class="lvl error">not saved</span> {{ error }}</div>{% endif %}
+        <div class="vh-actions">
+          {% if r.entry and r.state != 'approved' %}
+          <form method="post" action="{{ url_for('teacher_vocab_hint_save') }}" class="inline">
+            <input type="hidden" name="word" value="{{ r.latin }}">
+            <button class="minibtn" name="action" value="approve" type="submit">Approve</button>
+          </form>
+          {% elif r.state == 'approved' %}
+          <form method="post" action="{{ url_for('teacher_vocab_hint_save') }}" class="inline">
+            <input type="hidden" name="word" value="{{ r.latin }}">
+            <button class="minibtn del" name="action" value="withdraw" type="submit">Withdraw</button>
+          </form>
+          {% endif %}
+          <details class="vh-edit">
+            <summary class="minibtn">Edit</summary>
+            <form method="post" action="{{ url_for('teacher_vocab_hint_save') }}">
+              <input type="hidden" name="word" value="{{ r.latin }}">
+              <input type="hidden" name="action" value="edit">
+              <label class="small muted">Sentence (mark the word with *asterisks*)
+                <input type="text" name="latin" value="{{ r.entry.latin if r.entry else '' }}"></label>
+              <label class="small muted">English (leave empty for an English sentence)
+                <input type="text" name="en" value="{{ r.entry.en if r.entry else '' }}"></label>
+              <button class="minibtn" type="submit">Save &amp; approve</button>
+            </form>
+          </details>
+        </div>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</details>
+{% endfor %}
+{% endblock %}

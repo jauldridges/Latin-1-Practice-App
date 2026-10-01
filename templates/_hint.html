@@ -1,15 +1,21 @@
 {# The hint. Closed by default and opened on purpose, because a hint a student
    chooses to take is a different thing from one the page hands them.
 
-   Vocabulary gets the week only. A drill card has no spec node and therefore
-   no teaching text, and inventing one here would mean telling a student what
-   the word means — which is the answer, not a hint.
+   Vocabulary gets the week and, once the teacher has approved it, the word in
+   an example sentence (vocabhints.py): in bold with no English on a Latin
+   card, blanked out on an English card. Saying what the word means would be
+   the answer, not a hint; a sentence is context.
 
    Teaching text appears only when the teacher has approved that exact wording;
    `hint` is already None otherwise. Nothing unread reaches a student. #}
-{% if hint or introduced %}
+{% set vh = vocab_card_hint(card.latin, card.ask) if card is defined and card else none %}
+{% if hint or introduced or vh %}
 <details class="hintbox">
   <summary>Hint</summary>
+  {% if vh %}
+    <p class="vhint {{ 'latin-sentence' if vh.latin }}">{% for t, m in vh.segments %}{% if m %}<strong class="vword">{{ t }}</strong>{% else %}{{ t }}{% endif %}{% endfor %}</p>
+    {% if vh.en %}<p class="small muted vhint-en">{{ vh.en }}</p>{% endif %}
+  {% endif %}
   {% if introduced %}
     <p class="small muted">Introduced {{ introduced }}.</p>
   {% endif %}

@@ -81,7 +81,7 @@ start clean.
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
-| `tests/` | 557 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 572 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -469,6 +469,29 @@ is approved (`store.approved_items`) — never before, so there is no gap. The
 duplicate-question check ignores such a pair. The six typed "label each word"
 questions are replaced this way (`latin1-items-unit01-labels.yaml`).
 `tests/test_label_words.py`.
+
+## Vocabulary hints
+
+A student asked: "what if you give me the word in an example Latin sentence?"
+`vocab-examples.yaml` holds one sentence per drill word, the word marked
+`*like this*`. The week-of-Aug-24 phrases (Latin used in English) get an English
+sentence that uses the phrase. Every Latin sentence uses only the 80 drill words
+and only the grammar taught by the end of September (nominative, accusative,
+vocative, present, *sum*, agreement, imperatives, *dēbeō* + infinitive).
+
+| Card | The hint shows |
+|---|---|
+| Latin → English | the sentence with the word in **bold**, and no English, which would be the answer |
+| English → Latin | the sentence with the word **blanked out**, plus its English |
+| after answering | the sentence and its English, either way |
+
+Nothing reaches a student until the teacher approves it at **Teacher dashboard →
+Vocabulary hints** (`/teacher/vocab-hints`): Approve, Withdraw, Edit (which saves
+and approves) per word, or Approve all. Approval is a fingerprint of the exact
+wording, kept in the teaching-text tables under a `vocabhint:` key, so a reworded
+sentence goes back to unapproved; the teaching-text pages never see these keys.
+`vocabhints.py`, `tests/test_vocab_hints.py` (including that a blanked sentence
+never shows the word elsewhere, and that every Latin word is on the list).
 
 ## Word audio
 
@@ -955,7 +978,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-557 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+572 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

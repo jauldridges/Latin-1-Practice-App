@@ -1,0 +1,119 @@
+# One example sentence per drill word: the vocabulary hint.
+#
+# A student asked for it: "what if you give me the word in an example Latin
+# sentence". The sentence gives context without giving the meaning away.
+#
+#   word   the headword exactly as in vocab.yaml
+#   latin  the sentence, with the word itself marked *like this*. A Latin
+#          sentence for Latin words; for the week-of-Aug-24 phrases, which are
+#          Latin used in English, an English sentence that uses the phrase.
+#   en     the English of a Latin sentence (omitted for the English ones)
+#
+# What a student sees:
+#   Latin -> English card:  the sentence with the word in bold, and NOT the
+#                           English, which would contain the answer.
+#   English -> Latin card:  the sentence with the word blanked out, and the
+#                           English, which only says what the prompt says.
+#   after answering:        the sentence and its English, every time.
+#
+# Every sentence uses only the 80 drill words and only grammar taught by the
+# end of September: nominative, accusative and vocative, the present, sum,
+# adjective agreement, imperatives and dēbeō + infinitive. No genitive,
+# dative, ablative or prepositions yet.
+#
+# Students see nothing here until the teacher approves it at
+# Teacher dashboard -> Vocabulary hints. Editing there saves and approves.
+
+examples:
+
+  # --- week of Aug 24: Latin phrases used in English ---
+  - {word: "et cetera",        latin: "We packed sandwiches, apples, water bottles, *et cetera*."}
+  - {word: "per sē",           latin: "The idea isn't bad *per sē* — it just needs more work."}
+  - {word: "ad hoc",           latin: "With no plan in place, the class put together an *ad hoc* team to fix the problem that afternoon."}
+  - {word: "alma māter",       latin: "My uncle still wears a sweatshirt from his *alma māter*, the college he graduated from."}
+  - {word: "ē plūribus ūnum",  latin: "*Ē plūribus ūnum* is printed on U.S. coins — think of the thirteen colonies and the country they formed."}
+  - {word: "carpe diem",       latin: "It's the last day of summer vacation — *carpe diem*, and get to the beach before it's over."}
+  - {word: "sīc",              latin: "The newspaper quoted the sign exactly: \"No dogs aloud\" [*sīc*]."}
+  - {word: "versus",           latin: "Tonight's game is the Red Sox *versus* the Yankees."}
+  - {word: "id est",           latin: "Bring only the essentials, *id est*, a pencil, your notebook, and your ID."}
+  - {word: "exemplī grātiā",   latin: "Some animals sleep through the winter, *exemplī grātiā* bears and bats."}
+
+  # --- week of Aug 31 ---
+  - {word: "aqua",       latin: "Nauta terram nōn videt, sed *aquam* videt.", en: "The sailor does not see land, but he sees water."}
+  - {word: "terra",      latin: "Nauta *terram* videt!", en: "The sailor sees land!"}
+  - {word: "via",        latin: "Agricolae *viam* longam parant.", en: "The farmers prepare a long road."}
+  - {word: "porta",      latin: "Virī *portam* magnam servant.", en: "The men guard the big gate."}
+  - {word: "īnsula",     latin: "Nautae *īnsulam* parvam vident.", en: "The sailors see a small island."}
+  - {word: "silva",      latin: "*Silvae* et agrī multī sunt.", en: "There are many forests and fields."}
+  - {word: "puella",     latin: "*Puella* aquam portat.", en: "The girl carries water."}
+  - {word: "fēmina",     latin: "*Fēmina* et vir amīcī sunt.", en: "The woman and the man are friends."}
+  - {word: "nauta",      latin: "*Nauta* aquam et stēllās spectat.", en: "The sailor watches the water and the stars."}
+  - {word: "agricola",   latin: "*Agricola* bonus agrum parat.", en: "The good farmer prepares the field."}
+  - {word: "patria",     latin: "Nautae *patriam* amant.", en: "The sailors love their homeland."}
+  - {word: "fāma",       latin: "Poēta *fāmam* magnam habet.", en: "The poet has great fame."}
+  - {word: "vīta",       latin: "*Vīta* bona est.", en: "Life is good."}
+  - {word: "lūna",       latin: "*Lūna* et stēllae clārae sunt.", en: "The moon and the stars are bright."}
+  - {word: "stēlla",     latin: "Nauta *stēllās* clārās spectat.", en: "The sailor looks at the bright stars."}
+
+  # --- week of Sep 8 ---
+  - {word: "amō",        latin: "Rēgīna patriam *amat*.", en: "The queen loves her homeland."}
+  - {word: "laudō",      latin: "Poēta rēgīnam *laudat*.", en: "The poet praises the queen."}
+  - {word: "portō",      latin: "Servī dōna *portant*.", en: "The slaves carry the gifts."}
+  - {word: "vocō",       latin: "Dominus servum *vocat*: \"Serve!\"", en: "The master calls the slave: \"Slave!\""}
+  - {word: "spectō",     latin: "Nautae lūnam et stēllās *spectant*.", en: "The sailors watch the moon and the stars."}
+  - {word: "nārrō",      latin: "Agricola bellum longum *nārrat*.", en: "The farmer tells about the long war."}
+  - {word: "parō",       latin: "Agricolae agrōs *parant*.", en: "The farmers prepare the fields."}
+  - {word: "servō",      latin: "Virī bonī patriam *servant*.", en: "Good men save their homeland."}
+  - {word: "superō",     latin: "Rēgīna nostra prōvinciam *superat*.", en: "Our queen conquers the province."}
+  - {word: "pugnō",      latin: "Virī *pugnant*; bellum longum est.", en: "The men fight; the war is long."}
+  - {word: "et",         latin: "Puer *et* puella aquam portant.", en: "The boy and the girl carry water."}
+  - {word: "nōn",        latin: "Servus *nōn* est līber.", en: "The slave is not free."}
+
+  # --- week of Sep 14 ---
+  - {word: "dominus",    latin: "*Dominus* multōs servōs habet.", en: "The master has many slaves."}
+  - {word: "servus",     latin: "*Servus* dōnum portat.", en: "The slave carries the gift."}
+  - {word: "amīcus",     latin: "Puella *amīcum* vocat.", en: "The girl calls her friend."}
+  - {word: "puer",       latin: "*Puer* parvus lūnam spectat.", en: "The little boy looks at the moon."}
+  - {word: "vir",        latin: "*Vir* bonus fēminam laudat.", en: "The good man praises the woman."}
+  - {word: "ager",       latin: "Agricola *agrum* parat.", en: "The farmer prepares the field."}
+  - {word: "bellum",     latin: "*Bellum* longum et malum est.", en: "The war is long and evil."}
+  - {word: "oppidum",    latin: "Agricolae *oppidum* parvum vident.", en: "The farmers see a small town."}
+  - {word: "dōnum",      latin: "Rēgīna *dōna* pulchra habet.", en: "The queen has beautiful gifts."}
+  - {word: "verbum",     latin: "Poēta multa *verba* habet.", en: "The poet has many words."}
+  - {word: "videō",      latin: "Puer lūnam et stēllās *videt*.", en: "The boy sees the moon and the stars."}
+  - {word: "habeō",      latin: "Agricola multōs agrōs *habet*.", en: "The farmer has many fields."}
+  - {word: "teneō",      latin: "Servus dōnum *tenet* et portat.", en: "The slave holds the gift and carries it."}
+  - {word: "moneō",      latin: "Poēta virōs *monet*: bellum malum est.", en: "The poet warns the men: war is evil."}
+
+  # --- week of Sep 21 ---
+  - {word: "poēta",      latin: "*Poēta* clārus bellum nārrat.", en: "The famous poet tells about the war."}
+  - {word: "rēgīna",     latin: "*Rēgīna* est fēmina clāra.", en: "The queen is a famous woman."}
+  - {word: "prōvincia",  latin: "*Prōvincia* nostra magna est.", en: "Our province is large."}
+  - {word: "magnus",     latin: "Oppidum parvum est, sed silva *magna* est.", en: "The town is small, but the forest is big."}
+  - {word: "parvus",     latin: "Puer *parvus* est, sed vir magnus est.", en: "The boy is small, but the man is big."}
+  - {word: "bonus",      latin: "Dominus *bonus* servōs laudat.", en: "The good master praises the slaves."}
+  - {word: "malus",      latin: "Dominus *malus* servōs nōn laudat.", en: "The bad master does not praise the slaves."}
+  - {word: "multus",     latin: "*Multae* stēllae clārae sunt.", en: "Many stars are bright."}
+  - {word: "longus",     latin: "Via *longa* est.", en: "The road is long."}
+  - {word: "altus",      latin: "Aqua *alta* est.", en: "The water is deep."}
+  - {word: "novus",      latin: "Puella dōnum *novum* habet.", en: "The girl has a new gift."}
+  - {word: "clārus",     latin: "Stēllae *clārae* sunt.", en: "The stars are bright."}
+  - {word: "sum",        latin: "Nauta *est* amīcus meus.", en: "The sailor is my friend."}
+  - {word: "dēbeō",      latin: "Servī aquam portāre *dēbent*.", en: "The slaves ought to carry water."}
+
+  # --- week of Sep 28 ---
+  - {word: "pulcher",    latin: "Rēgīna *pulchra* est.", en: "The queen is beautiful."}
+  - {word: "miser",      latin: "Servus *miser* est; līber nōn est.", en: "The slave is miserable; he is not free."}
+  - {word: "līber",      latin: "Nunc vir *līber* est!", en: "Now the man is free!"}
+  - {word: "noster",     latin: "Patria *nostra* pulchra est.", en: "Our homeland is beautiful."}
+  - {word: "vester",     latin: "Ager *vester* magnus est, agricolae.", en: "Your field is large, farmers."}
+  - {word: "meus",       latin: "Puer est amīcus *meus*.", en: "The boy is my friend."}
+  - {word: "tuus",       latin: "Est dōnum *tuum*, amīce!", en: "It is your gift, friend!"}
+  - {word: "sed",        latin: "Puer parvus est, *sed* bonus.", en: "The boy is small, but good."}
+  - {word: "quod",       latin: "Puella rēgīnam laudat, *quod* rēgīna bona est.", en: "The girl praises the queen because the queen is good."}
+  - {word: "ubi",        latin: "*Ubi* est porta?", en: "Where is the gate?"}
+  - {word: "nunc",       latin: "*Nunc* servus līber est.", en: "Now the slave is free."}
+  - {word: "saepe",      latin: "Nautae *saepe* stēllās spectant.", en: "Sailors often look at the stars."}
+  - {word: "semper",     latin: "Amīcus bonus *semper* amīcus est.", en: "A good friend is always a friend."}
+  - {word: "-que",       latin: "Puer puella*que* aquam portant.", en: "The boy and the girl carry water."}
+  - {word: "aut",        latin: "Puer *aut* puella portam servat.", en: "The boy or the girl guards the gate."}

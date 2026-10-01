@@ -19,6 +19,14 @@
     {% with latin=word.latin %}{% include "_say.html" %}{% endwith %}
   </div>
   {% if introduced %}<div class="introduced">Introduced {{ introduced }}.</div>{% endif %}
+  {% set ex = vocab_example(word.latin) %}
+  {% if ex %}
+    <div class="vexample">
+      <div class="small muted">In a sentence</div>
+      <div class="{{ 'latin-sentence' if ex.latin }}">{% for t, m in ex.segments %}{% if m %}<strong class="vword">{{ t }}</strong>{% else %}{{ t }}{% endif %}{% endfor %}</div>
+      {% if ex.en %}<div class="small muted">{{ ex.en }}</div>{% endif %}
+    </div>
+  {% endif %}
 </div>
 
 <a class="bigbtn" id="nextbtn" href="{{ url_for('drill_session', week=week, direction=direction) }}">Next word <span class="small" style="opacity:.75">(or press Enter)</span></a>
