@@ -37,7 +37,7 @@
        class="{{ 'on' if path.startswith('/drill/progress') }}">Progress</a>
   </nav>
   {% endif %}
-  <div class="wrap">
+  <div class="wrap {% block wrapclass %}{% endblock %}">
     {% block content %}{% endblock %}
   </div>
   {% block actionbar %}{% endblock %}

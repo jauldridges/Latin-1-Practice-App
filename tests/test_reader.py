@@ -53,6 +53,12 @@ class TestThePassages(unittest.TestCase):
         r["by_n"][5]["pieces"] = readings.pieces(r["by_n"][5])
         self.assertTrue(any("'bellum' has no gloss" in p for p in readings.problems(r)))
 
+    def test_questions_sit_with_the_paragraph_they_ask_about(self):
+        by_para = readings.questions_by_paragraph(CIN)
+        self.assertEqual([[q["id"] for q in qs] for qs in by_para],
+                         [["q1", "q2", "q3"], ["q4", "q5"], ["q6"], ["q7", "q8", "q9", "q10"]])
+        self.assertEqual([q["number"] for qs in by_para for q in qs], list(range(1, 11)))
+
     def test_grading(self):
         picks = {q["id"]: q["answer"] for q in CIN["questions"]}
         picks["q2"] = "b"
@@ -120,6 +126,16 @@ class TestScreens(unittest.TestCase):
         self.assertIn('data-gloss="in danger" data-note="">in perīculō</button>', body)
         self.assertIn('id="s20"', body)
         self.assertNotIn('data-gloss=""', body)
+        self.assertIn('id="glosspop"', body)
+
+    def test_each_question_comes_right_after_its_paragraph(self):
+        # So a student answers while reading: question 4 (about sentence 6)
+        # comes after the second paragraph and before the third.
+        self.publish()
+        body = self.student.get("/read/cincinnatus").data.decode()
+        self.assertLess(body.index('id="s10"'), body.index('id="q-q4"'))
+        self.assertLess(body.index('id="q-q4"'), body.index('id="s11"'))
+        self.assertLess(body.index('id="q-q1"'), body.index('id="s5"'))
 
     def test_checking_answers_records_them_and_points_back_at_the_story(self):
         self.publish()

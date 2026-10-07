@@ -947,6 +947,7 @@ def reader_page(slug):
                                    context=readings.CONTEXT, version="v1")
     return render_template("reader_page.html", r=r, results=results, picked=picked or {},
                            question_item=_question_item,
+                           para_questions=readings.questions_by_paragraph(r),
                            n_right=sum(1 for v in (results or {}).values() if v == "right"),
                            published=slug in published_readings(db))
 

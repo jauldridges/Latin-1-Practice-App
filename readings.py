@@ -149,6 +149,21 @@ def problems(reading):
     return out
 
 
+def questions_by_paragraph(reading):
+    """One list of questions per paragraph: each question sits with the
+    paragraph holding the first sentence it asks about, so a student answers
+    while reading rather than after. Questions keep their story order and
+    their numbers (1, 2, 3 ... across the whole passage)."""
+    paras = reading.get("paragraphs") or []
+    where = {n: i for i, p in enumerate(paras) for n in p}
+    out = [[] for _ in paras]
+    for num, q in enumerate(reading.get("questions") or [], start=1):
+        look = q.get("look") or []
+        i = where.get(look[0], len(paras) - 1) if look else len(paras) - 1
+        out[i].append(dict(q, number=num))
+    return out
+
+
 def grade(reading, picked):
     """{question id: "right" | "wrong" | "blank"} for a dict of picks."""
     out = {}

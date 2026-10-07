@@ -81,7 +81,7 @@ start clean.
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
-| `tests/` | 587 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 589 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -473,15 +473,21 @@ questions are replaced this way (`latin1-items-unit01-labels.yaml`).
 ## Reader
 
 Class stories, one YAML file each in `readings/` (format in `readings.py`).
-Every word on screen is a button: tap it and its gloss appears in a bar at the
-bottom of the screen, which never covers the line being read. The words the
+Every word on screen is a button: tap it and its gloss pops up right beside it
+(below the word, or above it near the bottom of the screen), with an arrow
+pointing at the word; tapping anywhere else or Escape closes it. A bar at the
+bottom of the screen was tried first and was too easy to miss. The words the
 teacher underlined in her packet are underlined on screen and glossed exactly as
 the packet glosses them, grammar label included ("king · Direct Object,
 accusative"); every other word has a short gloss too ("has — from habeō"), so
 nothing on the page is a dead end. A phrase the packet glosses as one unit
 ("in perīculō", "populus Italicus") is one tap.
 
-Under the story, English multiple-choice questions (CR-009). Options shuffle per
+English multiple-choice questions (CR-009) sit beside the story, in story
+order, so students answer as they read: on a Chromebook or wider they fill a
+column to the right that stays on screen and scrolls by itself, grouped by
+sentences; on a phone each group follows the paragraph it asks about
+(`readings.questions_by_paragraph`; `static/reader.js` moves the groups). Options shuffle per
 student like every other multiple-choice question. Each question names the
 sentences that answer it; a miss says "Look again at sentence 6" and the link
 scrolls there and flashes the sentence. Answers are recorded with context
@@ -1007,7 +1013,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-587 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+589 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 
