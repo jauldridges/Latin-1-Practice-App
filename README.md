@@ -81,7 +81,7 @@ start clean.
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
-| `tests/` | 572 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 587 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -469,6 +469,35 @@ is approved (`store.approved_items`) — never before, so there is no gap. The
 duplicate-question check ignores such a pair. The six typed "label each word"
 questions are replaced this way (`latin1-items-unit01-labels.yaml`).
 `tests/test_label_words.py`.
+
+## Reader
+
+Class stories, one YAML file each in `readings/` (format in `readings.py`).
+Every word on screen is a button: tap it and its gloss appears in a bar at the
+bottom of the screen, which never covers the line being read. The words the
+teacher underlined in her packet are underlined on screen and glossed exactly as
+the packet glosses them, grammar label included ("king · Direct Object,
+accusative"); every other word has a short gloss too ("has — from habeō"), so
+nothing on the page is a dead end. A phrase the packet glosses as one unit
+("in perīculō", "populus Italicus") is one tap.
+
+Under the story, English multiple-choice questions (CR-009). Options shuffle per
+student like every other multiple-choice question. Each question names the
+sentences that answer it; a miss says "Look again at sentence 6" and the link
+scrolls there and flashes the sentence. Answers are recorded with context
+`reading` and node CR-009, and are **not** homework cards (`teacher.NOT_HOMEWORK`).
+
+**Teacher dashboard → Reader** (`/teacher/reader`): Preview, Publish to students /
+Unpublish, any problem with the file (an unglossed word, a gloss for a word that
+isn't there, an answer that isn't an option), and each student's latest answer to
+each question. Students see a story only once it is published; the teacher can
+always open it, and the **AA** button makes the text big enough for a projector.
+A teacher checking answers sees the result and nothing is recorded.
+
+The first story is *Fābula dē Cincinnātō* (Week 8 packet, page 9). Three changes
+from the packet, listed at the top of the file: the title's case after *dē*, and
+the glosses for *prohibēre* and *nōminat*, which the packet glosses as *prohibet*
+and *creat*. `tests/test_reader.py`.
 
 ## Vocabulary hints
 
@@ -978,7 +1007,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-572 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+587 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

@@ -1,0 +1,336 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 8 class packet, page 9 (the teacher's story).
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too). "gloss · note" -- the note is the
+#           packet's grammar label.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them.
+#
+# Three changes from the packet, all flagged to the teacher:
+#   - title: "dē" takes the ablative, so "Fābula dē Cincinnātō" (and Fābula has
+#     a long ā);
+#   - sentence 3: the text has the infinitive prohibēre, so its gloss is
+#     "to stop" (the packet glosses prohibet, "stops");
+#   - sentence 9: the text has nōminat (with a long ō), glossed "names,
+#     appoints" (the packet glosses creat, "appoints").
+
+slug: cincinnatus
+title: "Fābula dē Cincinnātō"
+source: "Latin I — Week 8 class packet, page 9"
+paragraphs: [[1, 2, 3, 4], [5, 6, 7, 8, 9, 10], [11, 12, 13, 14, 15], [16, 17, 18, 19, 20]]
+
+sentences:
+  - n: 1
+    text: "Annus est 458 BC. Rōma rēgem nōn habet, quod Rōmānī rēgem timent."
+    new:
+      rēgem: "king · Direct Object, accusative"
+      timent: "fear"
+    words:
+      Annus: "year"
+      BC: "before Christ: 458 years before year 1"
+      est: "is — from sum"
+      Rōma: "Rome"
+      nōn: "not"
+      habet: "has — from habeō"
+      quod: "because"
+      Rōmānī: "the Romans"
+
+  - n: 2
+    text: "Duo cōnsulēs Rōmam regunt."
+    new:
+      Duo: "two"
+      cōnsulēs: "consuls · Subject, nominative"
+      regunt: "rule"
+    words:
+      Rōmam: "Rome"
+
+  - n: 3
+    text: "Ūnus cōnsul alterum prohibēre potest: “Vetō!” clāmat."
+    new:
+      Ūnus: "one"
+      cōnsul: "consul"
+      alterum: "the other · Direct Object, accusative"
+      prohibēre: "to stop"
+      Vetō: "I forbid"
+      clāmat: "shouts"
+    words:
+      potest: "is able, can"
+
+  - n: 4
+    text: "Senātus cōnsulēs monet."
+    new:
+      Senātus: "the Senate · Subject, nominative"
+      cōnsulēs: "consuls · Direct Object, accusative (same form as sentence 2)"
+    words:
+      monet: "warns, advises — from moneō"
+
+  - n: 5
+    text: "Nunc bellum magnum est!"
+    words:
+      Nunc: "now"
+      bellum: "war"
+      magnum: "big, great — from magnus"
+      est: "is — from sum"
+
+  - n: 6
+    text: "Aequī, populus Italicus, Rōmānōs oppugnant."
+    new:
+      Aequī: "the Aequi · Subject, nominative"
+      populus Italicus: "an Italian people · Appositive (it renames Aequī)"
+      oppugnant: "attack"
+    words:
+      Rōmānōs: "the Romans · Direct Object, accusative"
+
+  - n: 7
+    text: "Exercitus Rōmānus in perīculō est!"
+    new:
+      Exercitus: "army · Subject, nominative"
+      in perīculō: "in danger"
+    words:
+      Rōmānus: "Roman"
+      est: "is — from sum"
+
+  - n: 8
+    text: "Cōnsulēs Aequōs nōn superant."
+    words:
+      Cōnsulēs: "consuls · Subject, nominative"
+      Aequōs: "the Aequi · Direct Object, accusative"
+      nōn: "not"
+      superant: "overcome, defeat — from superō"
+
+  - n: 9
+    text: "Senātus dictātōrem nōminat."
+    new:
+      dictātōrem: "dictator · Direct Object, accusative"
+      nōminat: "names, appoints"
+    words:
+      Senātus: "the Senate · Subject, nominative"
+
+  - n: 10
+    text: "Dictātor sōlus imperat!"
+    new:
+      Dictātor: "dictator · Subject, nominative"
+      sōlus: "alone"
+      imperat: "commands"
+
+  - n: 11
+    text: "Ubi est Cincinnātus?"
+    words:
+      Ubi: "where"
+      est: "is — from sum"
+      Cincinnātus: "Cincinnatus"
+
+  - n: 12
+    text: "Cincinnātus agricola est, sed ōlim cōnsul fuit."
+    new:
+      ōlim: "once, long ago"
+      fuit: "he was"
+    words:
+      Cincinnātus: "Cincinnatus · Subject, nominative"
+      agricola: "farmer · Predicate Nominative"
+      est: "is — from sum"
+      sed: "but"
+      cōnsul: "consul · Predicate Nominative"
+
+  - n: 13
+    text: "Saepe agrum arat, et nunc agrum arat."
+    new:
+      arat: "plows"
+    words:
+      Saepe: "often"
+      agrum: "field · Direct Object, accusative — from ager"
+      et: "and"
+      nunc: "now"
+
+  - n: 14
+    text: "Nūntiī ad agrum veniunt et clāmant: “Cincinnāte, venī! Rōmam servā!”"
+    new:
+      Nūntiī: "messengers · Subject, nominative"
+      ad agrum: "to the field"
+      veniunt: "come"
+      Cincinnāte: "Cincinnatus · Vocative"
+      venī: "come! (a command to one person)"
+    words:
+      et: "and"
+      clāmant: "shout"
+      Rōmam: "Rome · Direct Object, accusative"
+      servā: "save! (a command to one person) — from servō"
+
+  - n: 15
+    text: "Cincinnātus aratrum relinquit et ad Rōmam venit."
+    new:
+      aratrum: "plow · Direct Object, accusative"
+      relinquit: "leaves"
+      ad Rōmam: "to Rome"
+      venit: "comes"
+    words:
+      Cincinnātus: "Cincinnatus · Subject, nominative"
+      et: "and"
+
+  - n: 16
+    text: "Cincinnātus est dictātor! Exercitum parat et clāmat: “Rōmānī, arma portāte et pugnāte!”"
+    new:
+      Exercitum: "army · Direct Object, accusative"
+      Rōmānī: "Romans · Vocative"
+      arma: "weapons · Direct Object, accusative"
+    words:
+      Cincinnātus: "Cincinnatus · Subject, nominative"
+      est: "is — from sum"
+      dictātor: "dictator · Predicate Nominative"
+      parat: "prepares — from parō"
+      et: "and"
+      clāmat: "shouts"
+      portāte: "carry! (a command to more than one person) — from portō"
+      pugnāte: "fight! (a command to more than one person) — from pugnō"
+
+  - n: 17
+    text: "Rōmānī pugnant et Aequōs superant. Cincinnātus Rōmam servat!"
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+      pugnant: "fight — from pugnō"
+      et: "and"
+      Aequōs: "the Aequi · Direct Object, accusative"
+      superant: "overcome, defeat — from superō"
+      Cincinnātus: "Cincinnatus · Subject, nominative"
+      Rōmam: "Rome · Direct Object, accusative"
+      servat: "saves — from servō"
+
+  - n: 18
+    text: "Nunc Cincinnātus potestātem habet, sed potestātem nōn amat."
+    new:
+      potestātem: "power · Direct Object, accusative"
+    words:
+      Nunc: "now"
+      Cincinnātus: "Cincinnatus · Subject, nominative"
+      habet: "has — from habeō"
+      sed: "but"
+      nōn: "not"
+      amat: "loves — from amō"
+
+  - n: 19
+    text: "Cincinnātus dictātūram dēpōnit et ad agrum redit."
+    new:
+      dictātūram: "dictatorship · Direct Object, accusative"
+      dēpōnit: "puts down, gives up"
+      redit: "returns"
+    words:
+      Cincinnātus: "Cincinnatus · Subject, nominative"
+      et: "and"
+      ad agrum: "to the field"
+
+  - n: 20
+    text: "Rōmānī Cincinnātum semper laudant, quod bonus cīvis est."
+    new:
+      cīvis: "citizen · Predicate Nominative"
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+      Cincinnātum: "Cincinnatus · Direct Object, accusative"
+      semper: "always"
+      laudant: "praise — from laudō"
+      quod: "because"
+      bonus: "good — from bonus; it describes cīvis"
+      est: "is — from sum"
+
+# Comprehension, in English (CR-009). Each question names the sentences that
+# answer it; a wrong answer sends the student back to them.
+questions:
+  - id: q1
+    ask: "Why does Rome have no king?"
+    look: [1]
+    options:
+      a: "The Romans fear kings."
+      b: "The king is away at war."
+      c: "The consuls forbid kings."
+      d: "The Senate cannot choose one."
+    answer: a
+
+  - id: q2
+    ask: "How many consuls rule Rome?"
+    look: [2]
+    options:
+      a: "Two"
+      b: "One"
+      c: "Three"
+      d: "None — the Senate rules"
+    answer: a
+
+  - id: q3
+    ask: "What can one consul do to the other?"
+    look: [3]
+    options:
+      a: "Stop him, by shouting “Vetō!”"
+      b: "Make him leave Rome"
+      c: "Name him dictator"
+      d: "Send him to the field"
+    answer: a
+
+  - id: q4
+    ask: "Who attacks the Romans?"
+    look: [6]
+    options:
+      a: "The Aequi, an Italian people"
+      b: "The consuls"
+      c: "The Senate"
+      d: "Cincinnatus's messengers"
+    answer: a
+
+  - id: q5
+    ask: "The consuls can't defeat the Aequi. What does the Senate do?"
+    look: [8, 9]
+    options:
+      a: "It names a dictator."
+      b: "It fights the Aequi itself."
+      c: "It makes the consuls kings."
+      d: "It warns the Aequi."
+    answer: a
+
+  - id: q6
+    ask: "What is Cincinnatus doing when the messengers come?"
+    look: [13, 14]
+    options:
+      a: "Plowing his field"
+      b: "Leading the army"
+      c: "Talking to the Senate"
+      d: "Ruling Rome as consul"
+    answer: a
+
+  - id: q7
+    ask: "What does Cincinnatus tell the Romans to do?"
+    look: [16]
+    options:
+      a: "Carry weapons and fight"
+      b: "Run back to their fields"
+      c: "Choose a new dictator"
+      d: "Make peace with the Aequi"
+    answer: a
+
+  - id: q8
+    ask: "How does Cincinnatus feel about power?"
+    look: [18]
+    options:
+      a: "He has it, but he doesn't love it."
+      b: "He loves it and wants more."
+      c: "He is afraid of it."
+      d: "He never has any."
+    answer: a
+
+  - id: q9
+    ask: "What does Cincinnatus do after he saves Rome?"
+    look: [19]
+    options:
+      a: "He gives up the dictatorship and goes back to his field."
+      b: "He becomes king of Rome."
+      c: "He stays dictator forever."
+      d: "He goes to fight another war."
+    answer: a
+
+  - id: q10
+    ask: "Why do the Romans always praise Cincinnatus?"
+    look: [20]
+    options:
+      a: "Because he is a good citizen"
+      b: "Because he is a rich farmer"
+      c: "Because he was a king"
+      d: "Because he defeated the Senate"
+    answer: a

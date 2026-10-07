@@ -29,10 +29,12 @@
        class="{{ 'on' if path.startswith('/drill') and not path.startswith('/drill/progress') }}">Vocabulary</a>
     <a href="{{ url_for('practice_home') }}"
        class="{{ 'on' if path.startswith('/practice') }}">Grammar</a>
+    <a href="{{ url_for('reader_index') }}"
+       class="{{ 'on' if path.startswith('/read') }}">Reading</a>
     <a href="{{ url_for('homework_page') }}"
        class="{{ 'on' if path.startswith('/homework') }}">Homework</a>
     <a href="{{ url_for('drill_progress') }}"
-       class="{{ 'on' if path.startswith('/drill/progress') }}">My progress</a>
+       class="{{ 'on' if path.startswith('/drill/progress') }}">Progress</a>
   </nav>
   {% endif %}
   <div class="wrap">

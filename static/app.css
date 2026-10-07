@@ -476,3 +476,48 @@ ul.vhints li { display: block; }
 .vh-edit { flex: 0 1 auto; }
 .vh-edit[open] { flex: 1 1 100%; }
 .vh-actions form.inline { display: inline; margin: 0; }
+
+/* ---- The Reader --------------------------------------------------------- */
+@media (max-width: 420px) { nav.tabs a { font-size: 13px; padding: 11px 1px; } }
+.reader-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.reader-head h1 { margin-bottom: 4px; }
+.reader-size { flex: none; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px;
+  background: #fff; font: inherit; font-weight: 700; font-size: 13px; cursor: pointer; color: var(--ink); }
+.reader-size span { font-size: 18px; }
+.reader-size[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+.rw-key.new { text-decoration: underline; text-underline-offset: 3px; }
+article.reader { background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 14px 16px; font-size: 20px; line-height: 1.9; margin: 10px 0 18px; }
+article.reader p { margin: 0 0 14px; text-indent: 1.2em; }
+article.reader p:last-child { margin-bottom: 0; }
+article.reader sup { font-size: 11px; font-weight: 700; color: var(--wrong); }
+.rs { border-radius: 6px; transition: background .4s; }
+.rs.flash { animation: rsflash 1.6s ease-out; }
+@keyframes rsflash { 0%, 40% { background: #fbf1d6; } 100% { background: transparent; } }
+button.rw { display: inline; padding: 0 1px; margin: 0; border: 0; background: none; font: inherit;
+  color: inherit; cursor: pointer; border-radius: 4px; -webkit-tap-highlight-color: transparent; }
+button.rw.new { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+button.rw:hover { background: #f1efe9; }
+button.rw.on { background: #e3f1e8; color: var(--accent); }
+button.rw:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.glossbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: flex;
+  align-items: flex-start; gap: 10px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  background: var(--card); border-top: 2px solid var(--accent);
+  box-shadow: 0 -4px 16px rgba(0,0,0,.08); font-size: 18px; }
+.glossbar[hidden] { display: none; }
+.gb-text { flex: 1; max-width: 760px; margin: 0 auto; }
+.gb-word { font-weight: 800; }
+.gb-note { color: var(--muted); margin-top: 2px; }
+.gb-close { flex: none; border: 1px solid var(--line); background: #fff; border-radius: 8px;
+  width: 36px; height: 36px; font-size: 16px; cursor: pointer; color: var(--muted); }
+fieldset.rq { border: 1px solid var(--line); border-radius: 12px; background: var(--card);
+  padding: 10px 12px 6px; margin: 0 0 12px; }
+fieldset.rq legend { font-weight: 700; padding: 0 4px; }
+fieldset.rq.right { border-color: #b9d6c4; }
+fieldset.rq.wrong, fieldset.rq.blank { border-color: #e7b3b3; }
+.rq-look { color: var(--wrong); font-weight: 600; }
+body.reader-big article.reader { font-size: 32px; line-height: 1.8; }
+body.reader-big .glossbar { font-size: 28px; }
+body.reader-big .reader-head h1 { font-size: 36px; }
+/* the gloss bar must not hide the last line of the page */
+body:has(#glossbar:not([hidden])) .wrap { padding-bottom: 120px; }

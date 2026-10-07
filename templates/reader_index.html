@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Reading — Latin I{% endblock %}
+{% block subtitle %}reading{% endblock %}
+{% block content %}
+<h1>Reading</h1>
+{% if not readings %}
+  <p class="muted">No passages yet. Your teacher will put the class stories here.</p>
+{% endif %}
+{% for r in readings %}
+  <a class="choice" href="{{ url_for('reader_page', slug=r.slug) }}">
+    <span class="choice-title latin">{{ r.title }}</span>
+    <span class="choice-body">{{ r.sentences | length }} sentences · {{ r.questions | length }} questions
+      {% if is_teacher and r.slug not in published %} · <strong>not published — students can't see it</strong>{% endif %}</span>
+  </a>
+{% endfor %}
+{% endblock %}

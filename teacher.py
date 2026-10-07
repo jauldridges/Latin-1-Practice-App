@@ -33,8 +33,9 @@ DEFAULT_TARGETS = {"vocab": 50, "grammar": 50}
 STARTED_ATTEMPTS = 1
 
 # Proctored contexts are assessments, not homework, and never count toward it.
-# Counting them would let a Friday quiz fill Monday's quota.
-NOT_HOMEWORK = {"quiz", "exam"}
+# Counting them would let a Friday quiz fill Monday's quota. Reader questions
+# aren't vocabulary or grammar cards either, so they don't fill the 50 + 50.
+NOT_HOMEWORK = {"quiz", "exam", "reading"}
 
 # Above this share right, a topic is not the thing to reteach on Monday. It is
 # a display threshold only — nothing is scored against it.

@@ -110,10 +110,10 @@ class TestFeedbackUsesTheLettersTheStudentSaw(_AsAStudent):
 
 
 class TestTheStudentScreens(_AsAStudent):
-    def test_every_student_screen_has_the_three_tabs(self):
-        for url in ("/", "/drill", "/practice", "/drill/progress"):
+    def test_every_student_screen_has_the_tabs(self):
+        for url in ("/", "/drill", "/practice", "/drill/progress", "/read", "/homework"):
             body = self.client.get(url).data.decode()
-            for tab in ("Vocabulary", "Grammar", "My progress"):
+            for tab in ("Vocabulary", "Grammar", "Reading", "Homework", "Progress"):
                 self.assertIn(">%s</a>" % tab, body, "%s is missing the %s tab" % (url, tab))
 
     def test_the_header_shows_who_is_signed_in_and_a_way_out(self):

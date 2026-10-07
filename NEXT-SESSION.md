@@ -41,9 +41,11 @@ live only in `out/` on my machine — that folder is gitignored on purpose, and
 re-running `make_ids.py` would produce different numbers.
 
 **What I want next**, unless I say otherwise when we start:
-1. A **Reader** tab: a class passage where tapping a word shows its gloss, with
-   comprehension questions after. I'll supply a sample week's passage.
-   Then a separate **Translation** tab using passages tagged with spec nodes.
+1. A separate **Translation** tab using passages tagged with spec nodes. The
+   **Reader** is built (README, "Reader"): one YAML file per story in
+   `readings/`, every word glossed, my packet's underlined words glossed my
+   way; I publish each story at Teacher dashboard -> Reader. New stories come
+   from my class packets.
    (Built already, see README: Goals & deadlines, the Saturday-to-Friday
    homework week with on time / late / not done, the Homework tab, and the
    gradebook grid at /teacher/homework; and word audio — I record each vocab

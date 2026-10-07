@@ -34,6 +34,7 @@ import schooltime  # noqa: F401  -- the school's clock, set before anything read
 import stats
 import store
 import teacher
+import readings
 import vocabhints
 from answercheck import check as check_answer
 
@@ -122,6 +123,9 @@ OPEN_PREFIXES = ("/static", "/login", "/logout", "/signin", "/signout",
 TEACHER_PREFIXES = ("/review", "/teaching", "/teacher", "/quiz")
 STUDENT_PREFIXES = ("/drill", "/practice", "/q/", "/due/", "/homework")
 AUDIO_PREFIX = "/audio/"
+# A signed-in student or the teacher: recordings, and Reader passages, which
+# the teacher opens to preview and to project in class.
+SHARED_PREFIXES = (AUDIO_PREFIX, "/read")
 
 
 def _here():
@@ -164,9 +168,9 @@ def _gate():
     path = request.path
     if path == "/" or path.startswith(OPEN_PREFIXES):
         return None
-    if path.startswith(AUDIO_PREFIX):
-        # The teacher hears her recordings on the recording page; students hear
-        # them on their cards. Nobody else.
+    if path.startswith(SHARED_PREFIXES):
+        # The teacher hears her recordings on the recording page and previews
+        # passages; students hear and read them. Nobody else.
         if auth.student_ok() or auth.is_teacher():
             return None
         return redirect(url_for("signin", next=_here()))
@@ -889,6 +893,99 @@ def drill_answer():
                            result=result, model=accepted[0],
                            introduced=weeklabel(word.get("week")),
                            **_drill_stats(store.events_for_student(db, student)))
+
+
+# ==========================================================================
+# The Reader — a class passage, every word tappable, questions after
+# ==========================================================================
+
+_READINGS = readings.load_all()
+
+
+def published_readings(db):
+    return set(store.get_setting(db, "readings_published") or [])
+
+
+def _reading_or_404(db, slug):
+    r = _READINGS.get(slug)
+    if r is None or (slug not in published_readings(db) and not auth.is_teacher()):
+        abort(404)
+    return r
+
+
+def _question_item(q):
+    """A question shaped like a choice item, so options shuffle per student the
+    same way every other multiple-choice question in the app does."""
+    return {"id": q["item_id"], "options": q.get("options") or {}, "answer": q.get("answer")}
+
+
+@app.route("/read")
+def reader_index():
+    db = get_db()
+    pub = published_readings(db)
+    shown = [r for slug, r in _READINGS.items() if slug in pub or auth.is_teacher()]
+    return render_template("reader_index.html", readings=shown, published=pub)
+
+
+@app.route("/read/<slug>", methods=["GET", "POST"])
+def reader_page(slug):
+    """The passage. POST checks the questions; a teacher previewing is graded
+    on screen but nothing is recorded, since a teacher is not a student."""
+    db = get_db()
+    r = _reading_or_404(db, slug)
+    results = picked = None
+    if request.method == "POST":
+        picked = {q["id"]: request.form.get(q["id"], "") for q in r.get("questions") or []}
+        results = readings.grade(r, picked)
+        student = current_student()
+        if student:                          # a teacher previewing has no student session
+            for q in r.get("questions") or []:
+                if results[q["id"]] == "blank":
+                    continue
+                store.record_event(db, student, q["item_id"], readings.NODE,
+                                   picked[q["id"]], results[q["id"]],
+                                   context=readings.CONTEXT, version="v1")
+    return render_template("reader_page.html", r=r, results=results, picked=picked or {},
+                           question_item=_question_item,
+                           n_right=sum(1 for v in (results or {}).values() if v == "right"),
+                           published=slug in published_readings(db))
+
+
+@app.route("/teacher/reader", methods=["GET", "POST"])
+def teacher_reader():
+    """Publish or withdraw passages, and see how each student did on the
+    questions -- their latest answer to each."""
+    db = get_db()
+    pub = published_readings(db)
+    if request.method == "POST":
+        slug = request.form.get("slug", "")
+        if slug in _READINGS:
+            if request.form.get("action") == "publish":
+                pub.add(slug)
+            else:
+                pub.discard(slug)
+            store.set_setting(db, "readings_published", sorted(pub))
+        return redirect(url_for("teacher_reader"))
+    roster_ids = [x["student_id"] for x in store.roster(db, active_only=True)]
+    events = [e for e in store.all_events(db) if e.get("context") == readings.CONTEXT]
+    rows = []
+    for slug, r in _READINGS.items():
+        qids = [q["item_id"] for q in r.get("questions") or []]
+        latest = {}
+        for e in events:                      # oldest first, so the last one wins
+            if e["item_id"] in qids:
+                latest.setdefault(e["student_id"], {})[e["item_id"]] = e
+        students = []
+        for sid in sorted(latest, key=lambda s: (s not in roster_ids, s)):
+            got = latest[sid]
+            students.append({"student_id": sid,
+                             "right": sum(1 for e in got.values() if e["result"] == "right"),
+                             "answered": len(got),
+                             "last": max(e["timestamp"] for e in got.values())})
+        rows.append({"r": r, "problems": readings.problems(r), "published": slug in pub,
+                     "students": students, "n_questions": len(qids),
+                     "not_yet": [s for s in roster_ids if s not in latest]})
+    return render_template("teacher_reader.html", rows=rows)
 
 
 # ==========================================================================

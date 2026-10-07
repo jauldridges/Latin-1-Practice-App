@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}{{ r.title }} — Latin I{% endblock %}
+{% block subtitle %}reading{% endblock %}
+{% block content %}
+{% if is_teacher %}
+<div class="node-banner small">Teacher preview{% if not published %} — <strong>not published</strong>, students
+  can't see it yet{% endif %}. Answers you check here aren't recorded.
+  <a href="{{ url_for('teacher_reader') }}">Reader settings</a></div>
+{% endif %}
+
+<div class="reader-head">
+  <h1 class="latin">{{ r.title }}</h1>
+  <button type="button" class="minibtn reader-size" id="readersize" aria-pressed="false"
+          title="Bigger text, for reading on a projector">A<span>A</span></button>
+</div>
+<p class="small muted">Tap any word to see what it means.
+  <span class="rw-key new">Underlined</span> words are new in this story.</p>
+
+{# Each word is a button: tappable on a phone, focusable with Tab, read out by
+   a screen reader as itself. The gloss goes into the bar at the bottom of the
+   screen rather than a pop-up, so it never covers the line being read. #}
+<article class="reader" id="reader">
+  {% for para in r.paragraphs %}
+  <p>{% for n in para %}{% set s = r.by_n[n] %}<span class="rs" id="s{{ n }}"><sup>{{ n }}</sup>&nbsp;{% for p in s.pieces %}{% if p.kind == 'word' %}<button type="button" class="rw {{ 'new' if p.new }}" data-gloss="{{ p.gloss }}" data-note="{{ p.note }}">{{ p.text }}</button>{% else %}{{ p.text }}{% endif %}{% endfor %}</span> {% endfor %}</p>
+  {% endfor %}
+</article>
+
+<div class="glossbar" id="glossbar" hidden aria-live="polite">
+  <div class="gb-text"><span class="gb-word latin"></span> — <span class="gb-gloss"></span>
+    <div class="gb-note small"></div></div>
+  <button type="button" class="gb-close" aria-label="Close">✕</button>
+</div>
+
+{% if r.questions %}
+<h2 id="questions">Questions</h2>
+{% if results %}
+  <div class="answer-feedback {{ 'right' if n_right == r.questions | length else 'close' }}">
+    {{ n_right }} of {{ r.questions | length }} right.
+    {% if n_right < r.questions | length %}Go back to the sentences named under each miss, then try again.{% endif %}
+  </div>
+{% else %}
+  <p class="small muted">Answer in English about the story. You can look back at it as often as you like.</p>
+{% endif %}
+<form method="post" action="{{ url_for('reader_page', slug=r.slug) }}#questions" class="rq-form">
+  {% for q in r.questions %}
+  {% set res = results[q.id] if results else none %}
+  <fieldset class="rq {{ res or '' }}" id="q-{{ q.id }}">
+    <legend>{{ loop.index }}. {{ q.ask }}
+      {% if res == 'right' %}<span class="pill solid">right</span>
+      {% elif res == 'wrong' %}<span class="pill" style="background:#f7dede;color:var(--wrong)">not quite</span>
+      {% elif res == 'blank' %}<span class="pill notyet">blank</span>{% endif %}</legend>
+    {% for disp, k, v in shown_options(question_item(q)) %}
+      <label class="opt" style="cursor:pointer">
+        <input type="radio" name="{{ q.id }}" value="{{ k }}" {{ 'checked' if picked.get(q.id) == k }} style="margin-top:4px">
+        <span class="k">{{ disp }}</span> <span>{{ v }}</span>
+      </label>
+    {% endfor %}
+    {% if res in ('wrong', 'blank') %}
+      <p class="small rq-look">Look again at
+        {% for n in q.look %}<a href="#s{{ n }}" class="looklink" data-s="{{ n }}">sentence {{ n }}</a>{{ ' and ' if not loop.last }}{% endfor %}.</p>
+    {% endif %}
+  </fieldset>
+  {% endfor %}
+  <button class="bigbtn" type="submit">{{ 'Check again' if results else 'Check my answers' }}</button>
+</form>
+{% endif %}
+
+<p style="text-align:center;margin-top:18px"><a href="{{ url_for('reader_index') }}">All stories</a></p>
+<script src="{{ url_for('static', filename='reader.js') }}"></script>
+{% endblock %}

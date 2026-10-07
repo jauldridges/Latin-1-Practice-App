@@ -82,6 +82,12 @@
   <span class="choice-title">Grammar</span>
   <span class="choice-body">Questions on what you've covered in class so far.</span>
 </a>
+{% if signed_in_student and not is_teacher %}
+<a class="choice" href="{{ url_for('reader_index') }}">
+  <span class="choice-title">Reading</span>
+  <span class="choice-body">The stories from class. Tap any word to see what it means.</span>
+</a>
+{% endif %}
 
 {% if signed_in_student and not is_teacher %}
   <p style="text-align:center;margin-top:18px">
@@ -102,6 +108,9 @@
 
 <a class="bigbtn secondary" href="{{ url_for('teacher_audio') }}">Record the vocabulary</a>
 <p class="small muted" style="margin-top:-4px">Say each word once; students get a 🔊 button on it.</p>
+
+<a class="bigbtn secondary" href="{{ url_for('teacher_reader') }}">Reader</a>
+<p class="small muted" style="margin-top:-4px">Class stories with tappable words and questions. Publish, preview, project.</p>
 
 <a class="bigbtn secondary" href="{{ url_for('teacher_vocab_hints') }}">Vocabulary hints</a>
 <p class="small muted" style="margin-top:-4px">Each word in an example sentence. Approve them to switch them on.</p>

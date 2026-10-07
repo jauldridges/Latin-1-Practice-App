@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block subtitle %}reader{% endblock %}
+{% block content %}
+<p class="small"><a href="{{ url_for('teacher_home') }}">← Dashboard</a></p>
+<h1>Reader</h1>
+<p class="small muted">Class stories with every word tappable and comprehension questions
+  after. Students see a story only once you publish it; you can always open it to preview
+  or to put on the projector (the <strong>AA</strong> button makes the text bigger).
+  Reading questions don't count toward the weekly vocabulary and grammar cards.</p>
+
+{% for row in rows %}
+{% set r = row.r %}
+<section class="card">
+  <div class="vh-head"><span class="latin" style="font-size:19px">{{ r.title }}</span>
+    {% if row.published %}<span class="pill solid">published</span>
+    {% else %}<span class="pill notyet">not published</span>{% endif %}</div>
+  <div class="small muted">{{ r.source }} · {{ r.sentences | length }} sentences ·
+    {{ row.n_questions }} questions</div>
+
+  {% if row.problems %}
+  <div class="flags small">
+    {% for p in row.problems %}<div><span class="lvl error">problem</span> {{ p }}</div>{% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="vh-actions">
+    <a class="minibtn" href="{{ url_for('reader_page', slug=r.slug) }}" style="text-decoration:none">Preview</a>
+    <form method="post" class="inline">
+      <input type="hidden" name="slug" value="{{ r.slug }}">
+      {% if row.published %}
+        <button class="minibtn del" name="action" value="withdraw" type="submit">Unpublish</button>
+      {% else %}
+        <button class="minibtn" name="action" value="publish" type="submit">Publish to students</button>
+      {% endif %}
+    </form>
+  </div>
+
+  {% if row.students %}
+  <h2 style="font-size:16px">How they did <span class="small muted">— latest answer to each question</span></h2>
+  <table class="progress">
+    <tr><th>Student</th><th>Right</th><th>Answered</th><th>Last</th></tr>
+    {% for s in row.students %}
+    <tr><td><a class="sid" href="{{ url_for('teacher_student', student_id=s.student_id) }}">{{ s.student_id }}</a></td>
+      <td>{{ s.right }} of {{ row.n_questions }}</td><td>{{ s.answered }}</td>
+      <td class="small">{{ s.last | when }}</td></tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+  {% if row.published and row.not_yet %}
+  <p class="small muted">Not answered yet: <span class="sid">{{ row.not_yet | join(', ') }}</span></p>
+  {% endif %}
+</section>
+{% endfor %}
+{% endblock %}
