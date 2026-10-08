@@ -81,7 +81,7 @@ start clean.
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
-| `tests/` | 589 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 592 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -469,6 +469,15 @@ is approved (`store.approved_items`) — never before, so there is no gap. The
 duplicate-question check ignores such a pair. The six typed "label each word"
 questions are replaced this way (`latin1-items-unit01-labels.yaml`).
 `tests/test_label_words.py`.
+
+## Games
+
+The teacher's own games, hosted elsewhere, listed under **Games** on the student
+home screen. The list is `games.yaml`: a `title` (the link text) and a `url`
+(must start with `https://`) per game, plus an optional one-line `about`. A
+game without a title or with a non-https address is left out rather than shown.
+Links open in a new tab so the practice app is still open when the game ends.
+`tests/test_games.py`.
 
 ## Reader
 
@@ -1013,7 +1022,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-589 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+592 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

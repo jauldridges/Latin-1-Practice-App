@@ -547,3 +547,10 @@ body.reader-big article.reader p.rp-text { font-size: 32px; line-height: 1.8; }
 .glosspop.above .gp-arrow { top: auto; bottom: -7px; }
 body.reader-big .glosspop { font-size: 26px; max-width: min(520px, calc(100vw - 16px)); }
 body.reader-big .gp-note { font-size: 20px; }
+
+/* ---- Games: links on the student home screen ----------------------------- */
+ul.games { list-style: none; padding: 0; margin: 8px 0; }
+ul.games li { background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--accent);
+  border-radius: 12px; padding: 14px 16px; margin: 8px 0; }
+ul.games a { font-size: 18px; font-weight: 700; }
+ul.games a::after { content: " ↗"; font-weight: 400; color: var(--muted); }

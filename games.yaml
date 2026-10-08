@@ -1,0 +1,13 @@
+# Games on the student home screen, under "Games", in this order.
+#
+# To add one, copy the two lines below and change them:
+#   title  the link text students see
+#   url    the full web address of the game (must start with https://)
+# Optional:
+#   about  one short line shown under the link
+#
+# Games open in a new tab, so the practice app stays open behind them.
+
+games:
+  - title: "Condenda Roma: Help Romulus Build Rome"
+    url: "https://jauldridges.github.io/build-rome-game/latin.html"

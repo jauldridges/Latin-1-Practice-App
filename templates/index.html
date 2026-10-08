@@ -87,6 +87,18 @@
   <span class="choice-title">Reading</span>
   <span class="choice-body">The stories from class. Tap any word to see what it means.</span>
 </a>
+
+{# Games: the teacher's own games, hosted elsewhere and listed in games.yaml.
+   They open in a new tab so the app is still there when the game ends. #}
+{% if games %}
+<h2>Games</h2>
+<ul class="games">
+  {% for gm in games %}
+  <li><a href="{{ gm.url }}" target="_blank" rel="noopener">{{ gm.title }}</a>
+    {% if gm.about %}<div class="small muted">{{ gm.about }}</div>{% endif %}</li>
+  {% endfor %}
+</ul>
+{% endif %}
 {% endif %}
 
 {% if signed_in_student and not is_teacher %}

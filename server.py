@@ -436,6 +436,26 @@ def _practiceable(db):
     return {it["node"] for it in store.approved_items(db) if it["node"] in _taught_now()}
 
 
+def load_games(path=os.path.join(os.path.dirname(os.path.abspath(__file__)), "games.yaml")):
+    """The Games list on the student home screen, from games.yaml. Only https
+    links with a title get through, so a typo can't put a broken or unsafe
+    link in front of students."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            doc = yaml.safe_load(f) or {}
+    except FileNotFoundError:
+        return []
+    out = []
+    for gm in doc.get("games") or []:
+        title, url = str(gm.get("title") or "").strip(), str(gm.get("url") or "").strip()
+        if title and url.startswith("https://"):
+            out.append({"title": title, "url": url, "about": str(gm.get("about") or "").strip()})
+    return out
+
+
+_GAMES = load_games()
+
+
 @app.route("/")
 def index():
     db = get_db()
@@ -451,6 +471,7 @@ def index():
         ctx["spacing"] = goals.spacing_flag(events)
         ctx["idle_days"] = goals.days_since_practice(events)
         ctx["upcoming"] = upcoming_assessments(db)
+        ctx["games"] = _GAMES
     return render_template("index.html", **ctx)
 
 
