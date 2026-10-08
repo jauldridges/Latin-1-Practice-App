@@ -948,29 +948,56 @@ def reader_index():
     return render_template("reader_index.html", readings=shown, published=pub)
 
 
+def _record_reading(db, r, qid, picked, result):
+    """One checked question becomes one event. A teacher previewing has no
+    student session, so nothing is recorded for them."""
+    student = current_student()
+    if not student or result == "blank":
+        return
+    q = next(q for q in r["questions"] if q["id"] == qid)
+    store.record_event(db, student, q["item_id"], readings.NODE, picked, result,
+                       context=readings.CONTEXT, version="v1")
+
+
 @app.route("/read/<slug>", methods=["GET", "POST"])
 def reader_page(slug):
-    """The passage. POST checks the questions; a teacher previewing is graded
-    on screen but nothing is recorded, since a teacher is not a student."""
+    """The passage. Each question has its own Check button; reader.js checks it
+    in place through reader_check. Without JavaScript the button posts here,
+    which checks that one question (or, with no button named, all of them)."""
     db = get_db()
     r = _reading_or_404(db, slug)
-    results = picked = None
+    results, picked = {}, {}
     if request.method == "POST":
-        picked = {q["id"]: request.form.get(q["id"], "") for q in r.get("questions") or []}
-        results = readings.grade(r, picked)
-        student = current_student()
-        if student:                          # a teacher previewing has no student session
-            for q in r.get("questions") or []:
-                if results[q["id"]] == "blank":
-                    continue
-                store.record_event(db, student, q["item_id"], readings.NODE,
-                                   picked[q["id"]], results[q["id"]],
-                                   context=readings.CONTEXT, version="v1")
-    return render_template("reader_page.html", r=r, results=results, picked=picked or {},
+        only = request.form.get("only")
+        qids = [only] if only else [q["id"] for q in r.get("questions") or []]
+        for qid in qids:
+            picked[qid] = request.form.get(qid, "")
+            res = readings.grade_one(r, qid, picked[qid])
+            if res is None:
+                abort(400)
+            results[qid] = res
+            _record_reading(db, r, qid, picked[qid], res)
+        # keep every other choice the student had made
+        for q in r.get("questions") or []:
+            picked.setdefault(q["id"], request.form.get(q["id"], ""))
+    return render_template("reader_page.html", r=r, results=results, picked=picked,
                            question_item=_question_item,
                            para_questions=readings.questions_by_paragraph(r),
-                           n_right=sum(1 for v in (results or {}).values() if v == "right"),
+                           hint_ids=lambda q: readings.hint_targets(r, q),
                            published=slug in published_readings(db))
+
+
+@app.route("/read/<slug>/check", methods=["POST"])
+def reader_check(slug):
+    """Check one question in place: {"result": "right" | "wrong" | "blank"}."""
+    db = get_db()
+    r = _reading_or_404(db, slug)
+    qid, picked = request.form.get("qid", ""), request.form.get("picked", "")
+    res = readings.grade_one(r, qid, picked)
+    if res is None:
+        abort(404)
+    _record_reading(db, r, qid, picked, res)
+    return {"result": res}
 
 
 @app.route("/teacher/reader", methods=["GET", "POST"])

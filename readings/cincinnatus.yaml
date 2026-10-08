@@ -233,11 +233,14 @@ sentences:
       est: "is — from sum"
 
 # Comprehension, in English (CR-009). Each question names the sentences that
-# answer it; a wrong answer sends the student back to them.
+# answer it (look) and the exact Latin that answers it (hint: sentence number
+# -> words, punctuation ignored). A wrong answer offers "See hint", which
+# highlights those words in the story.
 questions:
   - id: q1
     ask: "Why does Rome have no king?"
     look: [1]
+    hint: {1: "quod Rōmānī rēgem timent"}
     options:
       a: "The Romans fear kings."
       b: "The king is away at war."
@@ -248,6 +251,7 @@ questions:
   - id: q2
     ask: "How many consuls rule Rome?"
     look: [2]
+    hint: {2: "Duo cōnsulēs Rōmam regunt"}
     options:
       a: "Two"
       b: "One"
@@ -258,6 +262,7 @@ questions:
   - id: q3
     ask: "What can one consul do to the other?"
     look: [3]
+    hint: {3: "Ūnus cōnsul alterum prohibēre potest Vetō clāmat"}
     options:
       a: "Stop him, by shouting “Vetō!”"
       b: "Make him leave Rome"
@@ -268,6 +273,7 @@ questions:
   - id: q4
     ask: "Who attacks the Romans?"
     look: [6]
+    hint: {6: "Aequī populus Italicus Rōmānōs oppugnant"}
     options:
       a: "The Aequi, an Italian people"
       b: "The consuls"
@@ -278,6 +284,7 @@ questions:
   - id: q5
     ask: "The consuls can't defeat the Aequi. What does the Senate do?"
     look: [8, 9]
+    hint: {8: "Cōnsulēs Aequōs nōn superant", 9: "Senātus dictātōrem nōminat"}
     options:
       a: "It names a dictator."
       b: "It fights the Aequi itself."
@@ -288,6 +295,7 @@ questions:
   - id: q6
     ask: "What is Cincinnatus doing when the messengers come?"
     look: [13, 14]
+    hint: {13: "nunc agrum arat", 14: "Nūntiī ad agrum veniunt"}
     options:
       a: "Plowing his field"
       b: "Leading the army"
@@ -298,6 +306,7 @@ questions:
   - id: q7
     ask: "What does Cincinnatus tell the Romans to do?"
     look: [16]
+    hint: {16: "arma portāte et pugnāte"}
     options:
       a: "Carry weapons and fight"
       b: "Run back to their fields"
@@ -308,6 +317,7 @@ questions:
   - id: q8
     ask: "How does Cincinnatus feel about power?"
     look: [18]
+    hint: {18: "potestātem habet sed potestātem nōn amat"}
     options:
       a: "He has it, but he doesn't love it."
       b: "He loves it and wants more."
@@ -318,6 +328,7 @@ questions:
   - id: q9
     ask: "What does Cincinnatus do after he saves Rome?"
     look: [19]
+    hint: {19: "dictātūram dēpōnit et ad agrum redit"}
     options:
       a: "He gives up the dictatorship and goes back to his field."
       b: "He becomes king of Rome."
@@ -328,6 +339,7 @@ questions:
   - id: q10
     ask: "Why do the Romans always praise Cincinnatus?"
     look: [20]
+    hint: {20: "quod bonus cīvis est"}
     options:
       a: "Because he is a good citizen"
       b: "Because he is a rich farmer"

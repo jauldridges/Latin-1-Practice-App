@@ -16,45 +16,46 @@
 </div>
 <p class="small muted">Tap any word to see what it means.
   <span class="rw-key new">Underlined</span> words are new in this story.
-  {% if r.questions %}Answer the questions as you read — they go in story order.{% endif %}</p>
+  {% if r.questions %}Answer the questions as you read — they go in story order. Check each one as you go;
+  if you miss one, <strong>See hint</strong> lights up the Latin that answers it.{% endif %}</p>
 
-{% if results %}
-  <div class="answer-feedback {{ 'right' if n_right == r.questions | length else 'close' }}" id="score">
-    {{ n_right }} of {{ r.questions | length }} right.
-    {% if n_right < r.questions | length %}Look again at the sentences named under each miss, then check again.{% endif %}
-  </div>
+{% if r.questions %}
+<p class="rq-tally" id="rqtally" data-total="{{ r.questions | length }}">
+  <strong>{{ results.values() | select('equalto', 'right') | list | length }}</strong> of {{ r.questions | length }} questions right</p>
 {% endif %}
 
 {# One row per paragraph: the Latin, then the questions that paragraph
    answers, in story order. Each word is a button -- tappable, focusable with
    Tab -- and its gloss opens in a pop-up beside it. #}
-<form method="post" action="{{ url_for('reader_page', slug=r.slug) }}#score" class="rq-form">
+<form method="post" action="{{ url_for('reader_page', slug=r.slug) }}" class="rq-form"
+      data-check="{{ url_for('reader_check', slug=r.slug) }}">
 <div class="reader-layout">
 <article class="reader" id="reader">
   {% for para in r.paragraphs %}
   {% set qs = para_questions[loop.index0] %}
   <div class="rp-row {{ 'no-q' if not qs }}">
-    <p class="rp-text">{% for n in para %}{% set s = r.by_n[n] %}<span class="rs" id="s{{ n }}"><sup>{{ n }}</sup>&nbsp;{% for p in s.pieces %}{% if p.kind == 'word' %}<button type="button" class="rw {{ 'new' if p.new }}" data-gloss="{{ p.gloss }}" data-note="{{ p.note }}">{{ p.text }}</button>{% else %}{{ p.text }}{% endif %}{% endfor %}</span> {% endfor %}</p>
+    <p class="rp-text">{% for n in para %}{% set s = r.by_n[n] %}<span class="rs" id="s{{ n }}"><sup>{{ n }}</sup>&nbsp;{% for p in s.pieces %}{% if p.kind == 'word' %}<button type="button" id="w{{ n }}-{{ loop.index0 }}" class="rw {{ 'new' if p.new }}" data-gloss="{{ p.gloss }}" data-note="{{ p.note }}">{{ p.text }}</button>{% else %}{{ p.text }}{% endif %}{% endfor %}</span> {% endfor %}</p>
     {% if qs %}
     <div class="rp-qs" data-para="{{ loop.index0 }}">
       <div class="rq-group small muted">Sentences {{ para[0] }}–{{ para[-1] }}</div>
       {% for q in qs %}
-      {% set res = results[q.id] if results else none %}
-      <fieldset class="rq {{ res or '' }}" id="q-{{ q.id }}">
-        <legend>{{ q.number }}. {{ q.ask }}
-          {% if res == 'right' %}<span class="pill solid">right</span>
-          {% elif res == 'wrong' %}<span class="pill" style="background:#f7dede;color:var(--wrong)">not quite</span>
-          {% elif res == 'blank' %}<span class="pill notyet">blank</span>{% endif %}</legend>
+      {% set res = results.get(q.id) %}
+      <fieldset class="rq {{ res or '' }}" id="q-{{ q.id }}" data-qid="{{ q.id }}">
+        <legend>{{ q.number }}. {{ q.ask }}</legend>
         {% for disp, k, v in shown_options(question_item(q)) %}
           <label class="opt">
             <input type="radio" name="{{ q.id }}" value="{{ k }}" {{ 'checked' if picked.get(q.id) == k }}>
             <span class="k">{{ disp }}</span> <span>{{ v }}</span>
           </label>
         {% endfor %}
-        {% if res in ('wrong', 'blank') %}
-          <p class="small rq-look">Look again at
-            {% for n in q.look %}<a href="#s{{ n }}" class="looklink" data-s="{{ n }}">sentence {{ n }}</a>{{ ' and ' if not loop.last }}{% endfor %}.</p>
-        {% endif %}
+        <div class="rq-actions">
+          <button class="minibtn rq-check" type="submit" name="only" value="{{ q.id }}"
+                  formaction="{{ url_for('reader_page', slug=r.slug) }}#q-{{ q.id }}">Check</button>
+          <span class="rq-verdict" aria-live="polite">{% if res == 'right' %}✓ Right!{% elif res == 'wrong' %}Not quite.{% elif res == 'blank' %}Pick an answer first.{% endif %}</span>
+          {# The hint lights up the Latin that answers the question. #}
+          <button type="button" class="minibtn rq-hint" data-hint="{{ hint_ids(q) | join(' ') }}"
+                  {{ '' if res == 'wrong' else 'hidden' }}>See hint</button>
+        </div>
       </fieldset>
       {% endfor %}
     </div>
@@ -67,9 +68,6 @@
    phone (or without JavaScript) each group stays after its paragraph. #}
 <aside class="rq-side" id="rqside" aria-label="Questions"></aside>
 </div>
-{% if r.questions %}
-<button class="bigbtn rq-submit" id="rqsubmit" type="submit">{{ 'Check again' if results else 'Check my answers' }}</button>
-{% endif %}
 </form>
 
 <div class="glosspop" id="glosspop" role="dialog" aria-live="polite" hidden>

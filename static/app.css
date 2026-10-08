@@ -554,3 +554,18 @@ ul.games li { background: var(--card); border: 1px solid var(--line); border-lef
   border-radius: 12px; padding: 14px 16px; margin: 8px 0; }
 ul.games a { font-size: 18px; font-weight: 700; }
 ul.games a::after { content: " ↗"; font-weight: 400; color: var(--muted); }
+
+/* Reader: check each question; "See hint" lights up the Latin that answers it. */
+.rq-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 8px 0 6px; }
+.rq-actions .minibtn { padding: 7px 14px; border: 1px solid var(--line); border-radius: 8px;
+  background: #fff; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; color: var(--ink); }
+.rq-actions .rq-check { background: var(--accent); border-color: var(--accent); color: #fff; }
+.rq-actions .rq-check:disabled { opacity: .6; }
+.rq-actions .rq-hint { border-color: #e7d59a; background: #fbf1d6; color: #8a6508; }
+.rq-verdict { font-weight: 700; font-size: 15px; }
+fieldset.rq.right .rq-verdict { color: var(--solid); }
+fieldset.rq.wrong .rq-verdict, fieldset.rq.blank .rq-verdict { color: var(--wrong); }
+button.rw.hint-on { background: #fde68a; box-shadow: 0 0 0 2px #fde68a; }
+.rq-tally { font-size: 15px; margin: 4px 0 10px; }
+.side-qs .rq-side .rq-tally { position: sticky; top: 0; z-index: 2; background: var(--bg);
+  padding: 4px 2px 8px; margin: 0; }

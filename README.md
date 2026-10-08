@@ -81,7 +81,7 @@ start clean.
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
-| `tests/` | 592 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 596 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -496,11 +496,18 @@ English multiple-choice questions (CR-009) sit beside the story, in story
 order, so students answer as they read: on a Chromebook or wider they fill a
 column to the right that stays on screen and scrolls by itself, grouped by
 sentences; on a phone each group follows the paragraph it asks about
-(`readings.questions_by_paragraph`; `static/reader.js` moves the groups). Options shuffle per
-student like every other multiple-choice question. Each question names the
-sentences that answer it; a miss says "Look again at sentence 6" and the link
-scrolls there and flashes the sentence. Answers are recorded with context
-`reading` and node CR-009, and are **not** homework cards (`teacher.NOT_HOMEWORK`).
+(`readings.questions_by_paragraph`; `static/reader.js` moves the groups).
+Options shuffle per student like every other multiple-choice question.
+
+**Each question has its own Check button**, answered in place without leaving
+the page (`/read/<slug>/check`), with a running "N of 10 questions right". A
+miss shows **See hint**, which lights up the Latin that answers the question and
+scrolls to it. Each question's `hint` names those words (sentence number →
+words, punctuation ignored); the file check refuses a hint that isn't in the
+story. Without JavaScript the same button posts the form and checks that one
+question. Every check is recorded with context `reading` and node CR-009, and is
+**not** a homework card (`teacher.NOT_HOMEWORK`); the teacher's results show each
+student's latest answer to each question.
 
 **Teacher dashboard → Reader** (`/teacher/reader`): Preview, Publish to students /
 Unpublish, any problem with the file (an unglossed word, a gloss for a word that
@@ -1022,7 +1029,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-592 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+596 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

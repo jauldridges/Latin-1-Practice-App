@@ -146,7 +146,55 @@ def problems(reading):
             out.append("question %s: its answer is not one of its options" % q.get("id"))
         if any(n not in reading["by_n"] for n in q.get("look") or []):
             out.append("question %s: it points at a sentence that doesn't exist" % q.get("id"))
+        for n, phrase in (q.get("hint") or {}).items():
+            s = reading["by_n"].get(int(n))
+            if s is None or _find(s, phrase) is None:
+                out.append("question %s: its hint %r isn't in sentence %s" % (q.get("id"), phrase, n))
     return out
+
+
+def word_id(n, i):
+    """The id of piece i of sentence n on the page."""
+    return "w%s-%s" % (n, i)
+
+
+def _find(sentence, phrase):
+    """Piece indexes covering `phrase` (its words, in order, punctuation
+    ignored) in the sentence, or None."""
+    flat = []                                 # (piece index, folded word)
+    for i, p in enumerate(sentence["pieces"]):
+        if p["kind"] == "word":
+            flat += [(i, _fold(w)) for w in p["text"].split()]
+    want = [_fold(w) for w in _TOKEN.findall(phrase or "") if w[0].isalpha()]
+    for start in range(len(flat) - len(want) + 1):
+        if want and [w for _, w in flat[start:start + len(want)]] == want:
+            return sorted({i for i, _ in flat[start:start + len(want)]})
+    return None
+
+
+def hint_targets(reading, q):
+    """The words "See hint" highlights: the question's hint phrases, or failing
+    that, every word of the sentences it looks at."""
+    out = []
+    hint = q.get("hint") or {}
+    if hint:
+        for n, phrase in hint.items():
+            s = reading["by_n"].get(int(n))
+            found = _find(s, phrase) if s else None
+            out += [word_id(int(n), i) for i in (found or [])]
+    else:
+        for n in q.get("look") or []:
+            s = reading["by_n"].get(n)
+            out += [word_id(n, i) for i, p in enumerate(s["pieces"]) if p["kind"] == "word"] if s else []
+    return out
+
+
+def grade_one(reading, qid, picked):
+    """"right" | "wrong" | "blank" for one question, or None if there is no such question."""
+    for q in reading.get("questions") or []:
+        if q["id"] == qid:
+            return "blank" if not picked else ("right" if picked == q["answer"] else "wrong")
+    return None
 
 
 def questions_by_paragraph(reading):

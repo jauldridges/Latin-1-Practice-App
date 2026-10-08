@@ -137,24 +137,56 @@ class TestScreens(unittest.TestCase):
         self.assertLess(body.index('id="q-q4"'), body.index('id="s11"'))
         self.assertLess(body.index('id="q-q1"'), body.index('id="s5"'))
 
-    def test_checking_answers_records_them_and_points_back_at_the_story(self):
+    def test_checking_one_question_in_place(self):
         self.publish()
-        data = {q["id"]: q["answer"] for q in CIN["questions"]}
-        data["q4"] = "b"
-        body = self.student.post("/read/cincinnatus", data=data).data.decode()
-        self.assertIn("9 of 10 right", body)
-        self.assertIn('href="#s6"', body)                  # q4 is answered by sentence 6
+        r = self.student.post("/read/cincinnatus/check", data={"qid": "q4", "picked": "b"})
+        self.assertEqual(r.get_json(), {"result": "wrong"})
+        r = self.student.post("/read/cincinnatus/check", data={"qid": "q4", "picked": "a"})
+        self.assertEqual(r.get_json(), {"result": "right"})
+        self.assertEqual(self.student.post("/read/cincinnatus/check",
+                                           data={"qid": "q4", "picked": ""}).get_json(),
+                         {"result": "blank"})
+        self.assertEqual(self.student.post("/read/cincinnatus/check",
+                                           data={"qid": "nope", "picked": "a"}).status_code, 404)
         evs = store.events_for_student(self.db, "403217")
-        self.assertEqual(len(evs), 10)
-        self.assertEqual({e["context"] for e in evs}, {"reading"})
-        self.assertEqual({e["spec_node_id"] for e in evs}, {"CR-009"})
+        self.assertEqual([(e["result"], e["context"], e["spec_node_id"]) for e in evs],
+                         [("wrong", "reading", "CR-009"), ("right", "reading", "CR-009")])
         page = self.teacher.get("/teacher/reader").data.decode()
         self.assertIn("403217", page)
-        self.assertIn("9 of 10", page)
+        self.assertIn("1 of 10", page)            # latest answer to each question
+
+    def test_every_question_has_its_own_check_button(self):
+        self.publish()
+        body = self.student.get("/read/cincinnatus").data.decode()
+        self.assertEqual(body.count('class="minibtn rq-check"'), 10)
+        self.assertNotIn("Check my answers", body)
+
+    def test_without_javascript_a_check_button_checks_its_question(self):
+        self.publish()
+        body = self.student.post("/read/cincinnatus", data={"only": "q4", "q4": "b", "q1": "a"}).data.decode()
+        self.assertIn("Not quite.", body)
+        self.assertIn('data-hint="w6-0 w6-3 w6-6 w6-8"', body)     # Aequī, populus Italicus, Rōmānōs, oppugnant
+        self.assertEqual(len(store.events_for_student(self.db, "403217")), 1)
+
+    def test_the_hint_lights_up_the_latin_that_answers_it(self):
+        def words(q):
+            out = []
+            for wid in readings.hint_targets(CIN, q):
+                n, i = wid[1:].split("-")
+                out.append(CIN["by_n"][int(n)]["pieces"][int(i)]["text"])
+            return " ".join(out)
+        qs = {q["id"]: q for q in CIN["questions"]}
+        self.assertEqual(words(qs["q1"]), "quod Rōmānī rēgem timent")
+        self.assertEqual(words(qs["q5"]), "Cōnsulēs Aequōs nōn superant Senātus dictātōrem nōminat")
+
+    def test_a_hint_that_isnt_in_the_story_is_caught(self):
+        r = readings.load_one(CIN["path"])
+        r["questions"][0]["hint"] = {1: "rēgem amant"}
+        self.assertTrue(any("hint" in p for p in readings.problems(r)))
 
     def test_a_teacher_checking_records_nothing(self):
-        data = {q["id"]: q["answer"] for q in CIN["questions"]}
-        self.assertIn("10 of 10 right", self.teacher.post("/read/cincinnatus", data=data).data.decode())
+        r = self.teacher.post("/read/cincinnatus/check", data={"qid": "q1", "picked": "a"})
+        self.assertEqual(r.get_json(), {"result": "right"})
         self.assertEqual(store.all_events(self.db), [])
 
     def test_unpublish(self):

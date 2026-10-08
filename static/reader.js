@@ -1,6 +1,7 @@
 // The Reader: tap a word and its gloss pops up right beside it -- below the
 // word, or above it near the bottom of the screen -- with a little arrow
 // pointing at the word. Tapping anywhere else, Escape, or ✕ closes it.
+// Each question is checked on its own; a miss offers "See hint".
 // "AA" makes the text bigger for a projector, remembered on this device only.
 (function () {
   var pop = document.getElementById('glosspop');
@@ -51,34 +52,95 @@
   document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') hide(); });
   window.addEventListener('resize', function () { if (current) place(current); });
 
-  // "Look again at sentence 6": scroll there and flash it.
+  // Each question is checked on its own, in place, so a student answers as
+  // they read. A miss shows "See hint", which lights up the Latin that
+  // answers the question and scrolls it into view.
+  var form = reader.closest('form');
+  var checkUrl = form && form.dataset.check;
+  var tally = document.getElementById('rqtally');
+  var verdicts = {};
+  Array.prototype.forEach.call(document.querySelectorAll('fieldset.rq.right'), function (f) {
+    verdicts[f.dataset.qid] = 'right';
+  });
+  function showTally() {
+    if (!tally) return;
+    var n = 0;
+    for (var k in verdicts) if (verdicts[k] === 'right') n++;
+    tally.querySelector('strong').textContent = String(n);
+  }
+  function setVerdict(fs, res) {
+    fs.classList.remove('right', 'wrong', 'blank');
+    if (res) fs.classList.add(res);
+    fs.querySelector('.rq-verdict').textContent =
+      res === 'right' ? '✓ Right!' : res === 'wrong' ? 'Not quite.' :
+      res === 'blank' ? 'Pick an answer first.' : '';
+    fs.querySelector('.rq-hint').hidden = res !== 'wrong';
+    verdicts[fs.dataset.qid] = res;
+    showTally();
+  }
+  function clearHint() {
+    Array.prototype.forEach.call(document.querySelectorAll('.rw.hint-on'), function (w) {
+      w.classList.remove('hint-on');
+    });
+  }
+
   document.addEventListener('click', function (ev) {
-    var a = ev.target.closest('a.looklink');
-    if (!a) return;
-    var s = document.getElementById('s' + a.dataset.s);
-    if (!s) return;
-    ev.preventDefault();
-    s.scrollIntoView({behavior: 'smooth', block: 'center'});
-    s.classList.remove('flash'); void s.offsetWidth; s.classList.add('flash');
+    var check = ev.target.closest('button.rq-check');
+    if (check && checkUrl && window.fetch) {
+      ev.preventDefault();
+      var fs = check.closest('fieldset.rq');
+      var on = fs.querySelector('input[type=radio]:checked');
+      var body = new FormData();
+      body.append('qid', fs.dataset.qid);
+      body.append('picked', on ? on.value : '');
+      check.disabled = true;
+      fetch(checkUrl, {method: 'POST', body: body, credentials: 'same-origin'})
+        .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
+        .then(function (d) { setVerdict(fs, d.result); })
+        .catch(function () { form.requestSubmit ? form.requestSubmit(check) : form.submit(); })
+        .then(function () { check.disabled = false; });
+      return;
+    }
+    var hint = ev.target.closest('button.rq-hint');
+    if (hint) {
+      clearHint();
+      var first = null;
+      hint.dataset.hint.split(' ').forEach(function (id) {
+        var w = document.getElementById(id);
+        if (w) { w.classList.add('hint-on'); first = first || w; }
+      });
+      if (first) first.scrollIntoView({behavior: 'smooth', block: 'center'});
+    }
+  });
+
+  // Choosing a different answer clears the old verdict, so "Right!" never
+  // sits next to an answer that wasn't the one checked.
+  document.addEventListener('change', function (ev) {
+    var fs = ev.target.closest && ev.target.closest('fieldset.rq');
+    if (fs && ev.target.type === 'radio') {
+      fs.classList.remove('right', 'wrong', 'blank');
+      fs.querySelector('.rq-verdict').textContent = '';
+      fs.querySelector('.rq-hint').hidden = true;
+      delete verdicts[fs.dataset.qid];
+      showTally();
+    }
   });
 
   // Wide screens: every question group goes into the side column, in order,
   // with the Check button under them. Narrow screens: back after its paragraph.
   var side = document.getElementById('rqside');
-  var submit = document.getElementById('rqsubmit');
-  var form = reader.closest('form');
   var groups = Array.prototype.slice.call(document.querySelectorAll('.rp-qs'));
   var homes = groups.map(function (g) { return g.parentNode; });
   var wide = window.matchMedia('(min-width: 900px)');
   function arrange() {
     if (!side) return;
     if (wide.matches && groups.length) {
+      if (tally) side.appendChild(tally);
       groups.forEach(function (g) { side.appendChild(g); });
-      if (submit) side.appendChild(submit);
       form.classList.add('side-qs');
     } else {
+      if (tally) form.parentNode.insertBefore(tally, form);
       groups.forEach(function (g, i) { homes[i].appendChild(g); });
-      if (submit) form.appendChild(submit);
       form.classList.remove('side-qs');
     }
     if (current) place(current);
