@@ -28,7 +28,8 @@
    answers, in story order. Each word is a button -- tappable, focusable with
    Tab -- and its gloss opens in a pop-up beside it. #}
 <form method="post" action="{{ url_for('reader_page', slug=r.slug) }}" class="rq-form"
-      data-check="{{ url_for('reader_check', slug=r.slug) }}">
+      data-check="{{ url_for('reader_check', slug=r.slug) }}"
+      data-report="{{ url_for('reader_report', slug=r.slug) }}">
 <div class="reader-layout">
 <article class="reader" id="reader">
   {% for para in r.paragraphs %}
@@ -40,22 +41,44 @@
       <div class="rq-group small muted">Sentences {{ para[0] }}–{{ para[-1] }}</div>
       {% for q in qs %}
       {% set res = results.get(q.id) %}
-      <fieldset class="rq {{ res or '' }}" id="q-{{ q.id }}" data-qid="{{ q.id }}">
+      {% set open_q = not q.options %}
+      <fieldset class="rq {{ res or '' }} {{ 'open' if open_q }}" id="q-{{ q.id }}" data-qid="{{ q.id }}"
+                {% if open_q %}data-open{% endif %}>
         <legend>{{ q.number }}. {{ q.ask }}</legend>
+        {% if open_q %}
+          <textarea name="{{ q.id }}" rows="3" class="rq-text" maxlength="1000"
+                    placeholder="Write your answer in English.">{{ picked.get(q.id, '') }}</textarea>
+        {% else %}
         {% for disp, k, v in shown_options(question_item(q)) %}
           <label class="opt">
             <input type="radio" name="{{ q.id }}" value="{{ k }}" {{ 'checked' if picked.get(q.id) == k }}>
             <span class="k">{{ disp }}</span> <span>{{ v }}</span>
           </label>
         {% endfor %}
+        {% endif %}
         <div class="rq-actions">
           <button class="minibtn rq-check" type="submit" name="only" value="{{ q.id }}"
                   formaction="{{ url_for('reader_page', slug=r.slug) }}#q-{{ q.id }}">Check</button>
-          <span class="rq-verdict" aria-live="polite">{% if res == 'right' %}✓ Right!{% elif res == 'wrong' %}Not quite.{% elif res == 'blank' %}Pick an answer first.{% endif %}</span>
+          <span class="rq-verdict" aria-live="polite">{{ verdict_text(res, open_q) }}</span>
           {# The hint lights up the Latin that answers the question. #}
           <button type="button" class="minibtn rq-hint" data-hint="{{ hint_ids(q) | join(' ') }}"
-                  {{ '' if res == 'wrong' else 'hidden' }}>See hint</button>
+                  {{ '' if res in ('wrong', 'close', 'self') else 'hidden' }}>See hint</button>
         </div>
+        {% if open_q %}
+        {# A written answer is checked by comparing it with a model; the model
+           appears only after the student has written something and pressed Check. #}
+        <div class="rq-model" {{ '' if res in ('self', 'right', 'close', 'wrong') else 'hidden' }}>
+          <div class="small muted">A good answer</div>
+          <p class="rq-model-text">{{ q.model if res in ('self', 'right', 'close', 'wrong') else '' }}</p>
+          <div class="rq-report" {{ '' if res == 'self' else 'hidden' }}>
+            <div class="small muted">How did yours compare?</div>
+            {% for key, label in [('had', 'I had it'), ('partly', 'Partly'), ('missed', 'I missed it')] %}
+              <button class="minibtn rq-said" type="submit" name="report" value="{{ q.id }}:{{ key }}" data-said="{{ key }}"
+                      formaction="{{ url_for('reader_page', slug=r.slug) }}#q-{{ q.id }}">{{ label }}</button>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
       </fieldset>
       {% endfor %}
     </div>

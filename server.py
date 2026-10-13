@@ -948,14 +948,30 @@ def reader_index():
     return render_template("reader_index.html", readings=shown, published=pub)
 
 
+# What a student reads next to a checked question. reader.js carries the same
+# words, so a check in place and a check by reload say the same thing.
+_VERDICTS = {False: {"right": "✓ Right!", "wrong": "Not quite.", "blank": "Pick an answer first."},
+             True: {"self": "Compare yours with this answer:", "right": "✓ You had it.",
+                    "close": "Partly — look again at the hint.", "wrong": "Missed it — see the hint.",
+                    "blank": "Write an answer first."}}
+
+
+@app.template_global()
+def verdict_text(result, written=False):
+    return _VERDICTS[bool(written)].get(result or "", "")
+
+
 def _record_reading(db, r, qid, picked, result):
     """One checked question becomes one event. A teacher previewing has no
     student session, so nothing is recorded for them."""
     student = current_student()
-    if not student or result == "blank":
+    # "self" is a written answer not yet compared with the model: it is
+    # recorded when the student says how it went (reader_report).
+    if not student or result in ("blank", "self"):
         return
-    q = next(q for q in r["questions"] if q["id"] == qid)
-    store.record_event(db, student, q["item_id"], readings.NODE, picked, result,
+    q = readings.question(r, qid)
+    store.record_event(db, student, q["item_id"], readings.NODE,
+                       str(picked or "")[:readings.MAX_TYPED], result,
                        context=readings.CONTEXT, version="v1")
 
 
@@ -967,7 +983,19 @@ def reader_page(slug):
     db = get_db()
     r = _reading_or_404(db, slug)
     results, picked = {}, {}
-    if request.method == "POST":
+    if request.method == "POST" and request.form.get("report"):
+        # Without JavaScript: "I had it" / "Partly" / "I missed it" after a
+        # written answer, posted as "<qid>:<had|partly|missed>".
+        qid, _, said = request.form["report"].partition(":")
+        q = readings.question(r, qid)
+        if q is None or said not in readings.SELF_REPORT:
+            abort(400)
+        picked[qid] = request.form.get(qid, "")
+        results[qid] = readings.SELF_REPORT[said]
+        _record_reading(db, r, qid, picked[qid], results[qid])
+        for other in r.get("questions") or []:
+            picked.setdefault(other["id"], request.form.get(other["id"], ""))
+    elif request.method == "POST":
         only = request.form.get("only")
         qids = [only] if only else [q["id"] for q in r.get("questions") or []]
         for qid in qids:
@@ -989,7 +1017,9 @@ def reader_page(slug):
 
 @app.route("/read/<slug>/check", methods=["POST"])
 def reader_check(slug):
-    """Check one question in place: {"result": "right" | "wrong" | "blank"}."""
+    """Check one question in place: {"result": "right" | "wrong" | "blank"}, or
+    for a written answer {"result": "self", "model": ...} -- the model answer
+    is only sent once the student has written something."""
     db = get_db()
     r = _reading_or_404(db, slug)
     qid, picked = request.form.get("qid", ""), request.form.get("picked", "")
@@ -997,6 +1027,25 @@ def reader_check(slug):
     if res is None:
         abort(404)
     _record_reading(db, r, qid, picked, res)
+    if res == "self":
+        return {"result": res, "model": readings.question(r, qid)["model"]}
+    return {"result": res}
+
+
+@app.route("/read/<slug>/report", methods=["POST"])
+def reader_report(slug):
+    """How a written answer compared with the model, in the student's words:
+    had -> right, partly -> close, missed -> wrong. Recorded with what they wrote."""
+    db = get_db()
+    r = _reading_or_404(db, slug)
+    qid, said = request.form.get("qid", ""), request.form.get("reported", "")
+    q = readings.question(r, qid)
+    typed = request.form.get("typed", "")
+    if q is None or not readings.is_open(q) or said not in readings.SELF_REPORT \
+            or not typed.strip():
+        abort(400)
+    res = readings.SELF_REPORT[said]
+    _record_reading(db, r, qid, typed, res)
     return {"result": res}
 
 
@@ -1031,8 +1080,18 @@ def teacher_reader():
                              "right": sum(1 for e in got.values() if e["result"] == "right"),
                              "answered": len(got),
                              "last": max(e["timestamp"] for e in got.values())})
+        # Written answers, word for word: each student's latest, per question.
+        written = []
+        for num, q in enumerate(r.get("questions") or [], start=1):
+            if not readings.is_open(q):
+                continue
+            answers = [{"student_id": sid, "text": got[q["item_id"]]["response"],
+                        "result": got[q["item_id"]]["result"]}
+                       for sid, got in sorted(latest.items()) if q["item_id"] in got]
+            written.append({"number": num, "ask": q["ask"], "model": q.get("model", ""),
+                            "answers": answers})
         rows.append({"r": r, "problems": readings.problems(r), "published": slug in pub,
-                     "students": students, "n_questions": len(qids),
+                     "students": students, "n_questions": len(qids), "written": written,
                      "not_yet": [s for s in roster_ids if s not in latest]})
     return render_template("teacher_reader.html", rows=rows)
 

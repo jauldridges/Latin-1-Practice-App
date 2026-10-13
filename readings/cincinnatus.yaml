@@ -232,24 +232,33 @@ sentences:
       bonus: "good — from bonus; it describes cīvis"
       est: "is — from sum"
 
-# Comprehension, in English (CR-009). Each question names the sentences that
-# answer it (look) and the exact Latin that answers it (hint: sentence number
-# -> words, punctuation ignored). A wrong answer offers "See hint", which
-# highlights those words in the story.
+# Comprehension, in English (CR-009), in story order. Two kinds:
+#   multiple choice: options + answer (the answer is written as "a" by
+#     convention; options shuffle per student on screen);
+#   written answer: model -- the student writes, then compares with the model
+#     and marks "I had it" / "Partly" / "I missed it".
+# Every question names the sentences that answer it (look) and the exact Latin
+# that answers it (hint: sentence number -> words, punctuation ignored). A wrong
+# answer offers "See hint", which highlights those words in the story.
+#
+# p1-p9 are the Week 8 packet's "Practice B: Questions" (Day 2, Thursday 15 Oct),
+# in the packet's own wording. q2, q4-q10 are the app's own warm-ups, kept
+# next to the packet questions they lead into. (The app's first versions of
+# packet 1 and 2, q1 and q3, were replaced by the packet's.)
 questions:
-  - id: q1
-    ask: "Why does Rome have no king?"
+  - id: p1
+    ask: "Sentence 1: Why does Rome have no king?"
     look: [1]
     hint: {1: "quod Rōmānī rēgem timent"}
     options:
-      a: "The Romans fear kings."
-      b: "The king is away at war."
-      c: "The consuls forbid kings."
-      d: "The Senate cannot choose one."
+      a: "The Romans fear a king."
+      b: "The Senate has banned the word."
+      c: "The consuls are too strong."
+      d: "The Aequi are the king."
     answer: a
 
   - id: q2
-    ask: "How many consuls rule Rome?"
+    ask: "Sentence 2: How many consuls rule Rome?"
     look: [2]
     hint: {2: "Duo cōnsulēs Rōmam regunt"}
     options:
@@ -259,19 +268,19 @@ questions:
       d: "None — the Senate rules"
     answer: a
 
-  - id: q3
-    ask: "What can one consul do to the other?"
-    look: [3]
+  - id: p2
+    ask: "Sentences 2–3: How can one consul limit the other?"
+    look: [2, 3]
     hint: {3: "Ūnus cōnsul alterum prohibēre potest Vetō clāmat"}
     options:
-      a: "Stop him, by shouting “Vetō!”"
-      b: "Make him leave Rome"
-      c: "Name him dictator"
-      d: "Send him to the field"
+      a: "One consul can stop the other by saying Vetō!"
+      b: "The Senate votes on every decision."
+      c: "The consuls fight each other."
+      d: "Each consul rules a different city."
     answer: a
 
   - id: q4
-    ask: "Who attacks the Romans?"
+    ask: "Sentence 6: Who attacks the Romans?"
     look: [6]
     hint: {6: "Aequī populus Italicus Rōmānōs oppugnant"}
     options:
@@ -281,10 +290,19 @@ questions:
       d: "Cincinnatus's messengers"
     answer: a
 
+  - id: p3
+    ask: "Sentences 5–8: What problem does Rome face, and what shows that the consuls cannot solve it?"
+    look: [5, 6, 7, 8]
+    hint: {5: "bellum magnum est", 7: "Exercitus Rōmānus in perīculō est", 8: "Cōnsulēs Aequōs nōn superant"}
+    model: >-
+      Rome is in a big war: the Aequi are attacking the Romans, and the Roman
+      army is in danger (sentences 5–7). Sentence 8 shows the consuls cannot
+      solve it: Cōnsulēs Aequōs nōn superant — the consuls do not defeat the Aequi.
+
   - id: q5
-    ask: "The consuls can't defeat the Aequi. What does the Senate do?"
+    ask: "Sentences 8–9: The consuls can't defeat the Aequi. What does the Senate do?"
     look: [8, 9]
-    hint: {8: "Cōnsulēs Aequōs nōn superant", 9: "Senātus dictātōrem nōminat"}
+    hint: {9: "Senātus dictātōrem nōminat"}
     options:
       a: "It names a dictator."
       b: "It fights the Aequi itself."
@@ -292,8 +310,30 @@ questions:
       d: "It warns the Aequi."
     answer: a
 
+  - id: p4
+    ask: "Sentences 9–10: What makes the dictator different from the consuls?"
+    look: [9, 10]
+    hint: {2: "Duo cōnsulēs", 10: "Dictātor sōlus imperat"}
+    options:
+      a: "The dictator rules alone."
+      b: "The dictator rules for one year."
+      c: "The dictator is chosen by the Aequi."
+      d: "The dictator cannot command the army."
+    answer: a
+
+  - id: p5
+    ask: "Sentences 11–13: Before the messengers come, who is Cincinnātus?"
+    look: [11, 12, 13]
+    hint: {12: "Cincinnātus agricola est sed ōlim cōnsul fuit"}
+    options:
+      a: "A farmer who was once a consul"
+      b: "The dictator of Rome"
+      c: "A messenger of the Senate"
+      d: "A king of the Aequi"
+    answer: a
+
   - id: q6
-    ask: "What is Cincinnatus doing when the messengers come?"
+    ask: "Sentences 13–14: What is Cincinnātus doing when the messengers come?"
     look: [13, 14]
     hint: {13: "nunc agrum arat", 14: "Nūntiī ad agrum veniunt"}
     options:
@@ -303,8 +343,16 @@ questions:
       d: "Ruling Rome as consul"
     answer: a
 
+  - id: p6
+    ask: "Sentence 14: Find the vocative and one imperative. Then translate the messengers’ command."
+    look: [14]
+    hint: {14: "Cincinnāte venī Rōmam servā"}
+    model: >-
+      Vocative: Cincinnāte. Imperative: venī (or servā). The command:
+      “Cincinnatus, come! Save Rome!”
+
   - id: q7
-    ask: "What does Cincinnatus tell the Romans to do?"
+    ask: "Sentence 16: What does Cincinnātus tell the Romans to do?"
     look: [16]
     hint: {16: "arma portāte et pugnāte"}
     options:
@@ -314,8 +362,17 @@ questions:
       d: "Make peace with the Aequi"
     answer: a
 
+  - id: p7
+    ask: "Sentence 16: Whom does Cincinnātus command, and how can you tell it is more than one person?"
+    look: [16]
+    hint: {16: "Rōmānī arma portāte et pugnāte"}
+    model: >-
+      He commands the Romans (Rōmānī, vocative). The commands portāte and
+      pugnāte end in -te, the plural imperative, so he is speaking to more than
+      one person.
+
   - id: q8
-    ask: "How does Cincinnatus feel about power?"
+    ask: "Sentence 18: How does Cincinnātus feel about power?"
     look: [18]
     hint: {18: "potestātem habet sed potestātem nōn amat"}
     options:
@@ -326,7 +383,7 @@ questions:
     answer: a
 
   - id: q9
-    ask: "What does Cincinnatus do after he saves Rome?"
+    ask: "Sentence 19: What does Cincinnātus do after he saves Rome?"
     look: [19]
     hint: {19: "dictātūram dēpōnit et ad agrum redit"}
     options:
@@ -336,8 +393,17 @@ questions:
       d: "He goes to fight another war."
     answer: a
 
+  - id: p8
+    ask: "Sentences 17–19: What does Cincinnātus do after the victory? Use words from the Latin as evidence."
+    look: [17, 18, 19]
+    hint: {18: "potestātem nōn amat", 19: "dictātūram dēpōnit et ad agrum redit"}
+    model: >-
+      He gives up the dictatorship and goes back to his field: dictātūram
+      dēpōnit et ad agrum redit (sentence 19). He has power, but he does not
+      love it: potestātem nōn amat (sentence 18).
+
   - id: q10
-    ask: "Why do the Romans always praise Cincinnatus?"
+    ask: "Sentence 20: Why do the Romans always praise Cincinnātus?"
     look: [20]
     hint: {20: "quod bonus cīvis est"}
     options:
@@ -346,3 +412,13 @@ questions:
       c: "Because he was a king"
       d: "Because he defeated the Senate"
     answer: a
+
+  - id: p9
+    ask: "Sentence 20: Why do the Romans always praise Cincinnātus? Connect your answer to why the Romans feared a king."
+    look: [20]
+    hint: {1: "Rōmānī rēgem timent", 20: "quod bonus cīvis est"}
+    model: >-
+      Because he is a good citizen (bonus cīvis). The Romans feared a king —
+      one man holding all the power (sentence 1). As dictator Cincinnatus held
+      all the power, but he gave it up and went home, so he did not act like a
+      king.

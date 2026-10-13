@@ -81,7 +81,7 @@ start clean.
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
-| `tests/` | 596 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 601 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -498,6 +498,15 @@ column to the right that stays on screen and scrolls by itself, grouped by
 sentences; on a phone each group follows the paragraph it asks about
 (`readings.questions_by_paragraph`; `static/reader.js` moves the groups).
 Options shuffle per student like every other multiple-choice question.
+
+**Two kinds of question.** Multiple choice (`options` + `answer`), and written
+answers (`model`): the student writes in English, presses Check, sees the model
+answer (only once they have written something), and marks *I had it* / *Partly*
+/ *I missed it*, recorded as right / close / wrong with what they wrote. The
+teacher's Reader page lists every student's latest written answer to each
+question, word for word, with how they said it went. *Fābula dē Cincinnātō*
+carries the Week 8 packet's nine questions in the packet's wording (p1–p9, five
+of them written) and eight of the app's own multiple-choice warm-ups beside them.
 
 **Each question has its own Check button**, answered in place without leaving
 the page (`/read/<slug>/check`), with a running "N of 10 questions right". A
@@ -1029,7 +1038,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-596 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+601 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

@@ -15,9 +15,12 @@ A gloss is "meaning · note", the note being the grammar label the packet
 uses ("Direct Object, accusative"). A key may be several words ("in perīculō")
 and is matched as a unit, longest first.
 
-Questions are English multiple choice (CR-009), each naming the sentences that
-answer it. Answers are recorded as events with context "reading": they show up
-in the teacher's results for the passage, and they are not homework cards --
+Questions are in English (CR-009), each naming the sentences that answer it:
+multiple choice (options + answer), or a written answer (model), which the
+student checks against the model and marks "I had it" / "Partly" / "I missed
+it" -- the self-check the grammar practice uses. Answers are recorded as
+events with context "reading": they show up in the teacher's results for the
+passage (written answers word for word), and they are not homework cards --
 reading is not on the 50 + 50 (teacher.NOT_HOMEWORK).
 
 A passage reaches students only once the teacher publishes it (Teacher
@@ -142,7 +145,10 @@ def problems(reading):
             if p["kind"] == "word" and not p["gloss"]:
                 out.append("sentence %s: %r has no gloss" % (s["n"], p["text"]))
     for q in reading.get("questions") or []:
-        if q.get("answer") not in (q.get("options") or {}):
+        if is_open(q):
+            if not str(q.get("model") or "").strip():
+                out.append("question %s: a written-answer question needs a model answer" % q.get("id"))
+        elif q.get("answer") not in (q.get("options") or {}):
             out.append("question %s: its answer is not one of its options" % q.get("id"))
         if any(n not in reading["by_n"] for n in q.get("look") or []):
             out.append("question %s: it points at a sentence that doesn't exist" % q.get("id"))
@@ -189,12 +195,35 @@ def hint_targets(reading, q):
     return out
 
 
-def grade_one(reading, qid, picked):
-    """"right" | "wrong" | "blank" for one question, or None if there is no such question."""
+def is_open(q):
+    """A written-answer question: no options, a model answer instead."""
+    return not q.get("options")
+
+
+# What a student says after comparing their written answer with the model.
+SELF_REPORT = {"had": "right", "partly": "close", "missed": "wrong"}
+MAX_TYPED = 1000
+
+
+def question(reading, qid):
     for q in reading.get("questions") or []:
         if q["id"] == qid:
-            return "blank" if not picked else ("right" if picked == q["answer"] else "wrong")
+            return q
     return None
+
+
+def grade_one(reading, qid, picked):
+    """For one question: "right" | "wrong" | "blank" for multiple choice;
+    "self" for a written answer, which the student checks against the model;
+    None if there is no such question."""
+    q = question(reading, qid)
+    if q is None:
+        return None
+    if not str(picked or "").strip():
+        return "blank"
+    if is_open(q):
+        return "self"
+    return "right" if picked == q["answer"] else "wrong"
 
 
 def questions_by_paragraph(reading):
@@ -214,8 +243,5 @@ def questions_by_paragraph(reading):
 
 def grade(reading, picked):
     """{question id: "right" | "wrong" | "blank"} for a dict of picks."""
-    out = {}
-    for q in reading.get("questions") or []:
-        p = picked.get(q["id"])
-        out[q["id"]] = "blank" if not p else ("right" if p == q["answer"] else "wrong")
-    return out
+    return {q["id"]: grade_one(reading, q["id"], picked.get(q["id"]))
+            for q in reading.get("questions") or []}

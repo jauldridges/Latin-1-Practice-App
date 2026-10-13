@@ -4,7 +4,7 @@
 <p class="small"><a href="{{ url_for('teacher_home') }}">← Dashboard</a></p>
 <h1>Reader</h1>
 <p class="small muted">Class stories with every word tappable and comprehension questions
-  after. Students see a story only once you publish it; you can always open it to preview
+  beside them, checked one at a time. Written answers appear below, word for word. Students see a story only once you publish it; you can always open it to preview
   or to put on the projector (the <strong>AA</strong> button makes the text bigger).
   Reading questions don't count toward the weekly vocabulary and grammar cards.</p>
 
@@ -45,6 +45,25 @@
       <td class="small">{{ s.last | when }}</td></tr>
     {% endfor %}
   </table>
+  {% endif %}
+  {% if row.written %}
+  <h2 style="font-size:16px">Written answers <span class="small muted">— latest from each student, and how they said it went</span></h2>
+  {% for w in row.written %}
+  <details class="week">
+    <summary><span class="week-name">{{ w.number }}. {{ w.ask }}</span>
+      <span class="small muted">{{ w.answers | length }} answer{{ 's' if w.answers | length != 1 }}</span></summary>
+    <p class="small muted" style="margin:8px 0">Model: {{ w.model }}</p>
+    {% for a in w.answers %}
+      <div class="written-ans"><span class="sid">{{ a.student_id }}</span>
+        {% if a.result == 'right' %}<span class="pill solid">had it</span>
+        {% elif a.result == 'close' %}<span class="pill shaky">partly</span>
+        {% else %}<span class="pill notyet">missed it</span>{% endif %}
+        <div>{{ a.text }}</div></div>
+    {% else %}
+      <p class="small muted">No answers yet.</p>
+    {% endfor %}
+  </details>
+  {% endfor %}
   {% endif %}
   {% if row.published and row.not_yet %}
   <p class="small muted">Not answered yet: <span class="sid">{{ row.not_yet | join(', ') }}</span></p>

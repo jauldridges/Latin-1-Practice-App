@@ -569,3 +569,20 @@ button.rw.hint-on { background: #fde68a; box-shadow: 0 0 0 2px #fde68a; }
 .rq-tally { font-size: 15px; margin: 4px 0 10px; }
 .side-qs .rq-side .rq-tally { position: sticky; top: 0; z-index: 2; background: var(--bg);
   padding: 4px 2px 8px; margin: 0; }
+
+/* Reader: written answers, checked against a model. */
+textarea.rq-text { width: 100%; min-height: 76px; padding: 10px; border: 1px solid var(--line);
+  border-radius: 10px; font: inherit; font-size: 15px; background: #fff; resize: vertical; }
+.rq-model { margin: 4px 0 8px; padding: 10px 12px; background: #eef5f0; border-radius: 10px;
+  border: 1px solid #b9d6c4; }
+.rq-model p { margin: 4px 0 8px; font-size: 15px; }
+.rq-report { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.rq-report .small { flex: 1 1 100%; }
+.rq-report .minibtn { padding: 7px 12px; border: 1px solid var(--line); border-radius: 8px;
+  background: #fff; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; color: var(--ink); }
+fieldset.rq.close { border-color: #e7d59a; }
+fieldset.rq.close .rq-verdict { color: #8a6508; }
+fieldset.rq.self .rq-verdict { color: var(--ink); }
+.written-ans { border-top: 1px solid var(--line); padding: 8px 0; font-size: 15px; }
+.written-ans .sid { margin-right: 6px; }
+.rq-report[hidden], .rq-model[hidden], .rq-hint[hidden] { display: none; }

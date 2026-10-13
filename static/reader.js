@@ -57,6 +57,7 @@
   // answers the question and scrolls it into view.
   var form = reader.closest('form');
   var checkUrl = form && form.dataset.check;
+  var reportUrl = form && form.dataset.report;
   var tally = document.getElementById('rqtally');
   var verdicts = {};
   Array.prototype.forEach.call(document.querySelectorAll('fieldset.rq.right'), function (f) {
@@ -68,15 +69,39 @@
     for (var k in verdicts) if (verdicts[k] === 'right') n++;
     tally.querySelector('strong').textContent = String(n);
   }
-  function setVerdict(fs, res) {
-    fs.classList.remove('right', 'wrong', 'blank');
+  // The same words the server prints (server.py, _VERDICTS).
+  var VERDICTS = {
+    choice: {right: '✓ Right!', wrong: 'Not quite.', blank: 'Pick an answer first.'},
+    written: {self: 'Compare yours with this answer:', right: '✓ You had it.',
+              close: 'Partly — look again at the hint.', wrong: 'Missed it — see the hint.',
+              blank: 'Write an answer first.'}
+  };
+  function setVerdict(fs, res, model) {
+    var written = fs.hasAttribute('data-open');
+    fs.classList.remove('right', 'wrong', 'blank', 'close', 'self');
     if (res) fs.classList.add(res);
-    fs.querySelector('.rq-verdict').textContent =
-      res === 'right' ? '✓ Right!' : res === 'wrong' ? 'Not quite.' :
-      res === 'blank' ? 'Pick an answer first.' : '';
-    fs.querySelector('.rq-hint').hidden = res !== 'wrong';
+    fs.querySelector('.rq-verdict').textContent = (VERDICTS[written ? 'written' : 'choice'][res] || '');
+    fs.querySelector('.rq-hint').hidden = ['wrong', 'close', 'self'].indexOf(res) < 0;
+    if (written) {
+      var box = fs.querySelector('.rq-model');
+      if (model) fs.querySelector('.rq-model-text').textContent = model;
+      box.hidden = ['self', 'right', 'close', 'wrong'].indexOf(res) < 0;
+      fs.querySelector('.rq-report').hidden = res !== 'self';
+    }
     verdicts[fs.dataset.qid] = res;
     showTally();
+  }
+  function post(url, fields) {
+    var body = new FormData();
+    for (var k in fields) body.append(k, fields[k]);
+    return fetch(url, {method: 'POST', body: body, credentials: 'same-origin'})
+      .then(function (r) { if (!r.ok) throw new Error(); return r.json(); });
+  }
+  function answerOf(fs) {
+    var text = fs.querySelector('textarea.rq-text');
+    if (text) return text.value;
+    var on = fs.querySelector('input[type=radio]:checked');
+    return on ? on.value : '';
   }
   function clearHint() {
     Array.prototype.forEach.call(document.querySelectorAll('.rw.hint-on'), function (w) {
@@ -89,16 +114,21 @@
     if (check && checkUrl && window.fetch) {
       ev.preventDefault();
       var fs = check.closest('fieldset.rq');
-      var on = fs.querySelector('input[type=radio]:checked');
-      var body = new FormData();
-      body.append('qid', fs.dataset.qid);
-      body.append('picked', on ? on.value : '');
       check.disabled = true;
-      fetch(checkUrl, {method: 'POST', body: body, credentials: 'same-origin'})
-        .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
-        .then(function (d) { setVerdict(fs, d.result); })
+      post(checkUrl, {qid: fs.dataset.qid, picked: answerOf(fs)})
+        .then(function (d) { setVerdict(fs, d.result, d.model); })
         .catch(function () { form.requestSubmit ? form.requestSubmit(check) : form.submit(); })
         .then(function () { check.disabled = false; });
+      return;
+    }
+    // "I had it" / "Partly" / "I missed it", after a written answer.
+    var said = ev.target.closest('button.rq-said');
+    if (said && reportUrl && window.fetch) {
+      ev.preventDefault();
+      var f2 = said.closest('fieldset.rq');
+      post(reportUrl, {qid: f2.dataset.qid, reported: said.dataset.said, typed: answerOf(f2)})
+        .then(function (d) { setVerdict(f2, d.result); })
+        .catch(function () { form.requestSubmit ? form.requestSubmit(said) : form.submit(); });
       return;
     }
     var hint = ev.target.closest('button.rq-hint');
@@ -118,7 +148,7 @@
   document.addEventListener('change', function (ev) {
     var fs = ev.target.closest && ev.target.closest('fieldset.rq');
     if (fs && ev.target.type === 'radio') {
-      fs.classList.remove('right', 'wrong', 'blank');
+      fs.classList.remove('right', 'wrong', 'blank', 'close', 'self');
       fs.querySelector('.rq-verdict').textContent = '';
       fs.querySelector('.rq-hint').hidden = true;
       delete verdicts[fs.dataset.qid];
