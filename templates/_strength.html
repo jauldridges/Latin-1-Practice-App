@@ -1,0 +1,6 @@
+{#- How long a memory holds, as a bar that grows (fsrs.strength). Expects `st`. -#}
+{%- if st and st.days -%}
+<span class="strength" title="You'd probably still remember this after about {{ st.days | holds }}">
+  <span class="sbar"><span style="width:{{ (st.bar * 100) | round | int }}%"></span></span>
+  <span class="sdays">{{ st.days | holds }}</span></span>
+{%- endif -%}

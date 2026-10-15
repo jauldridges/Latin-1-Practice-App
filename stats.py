@@ -15,6 +15,8 @@ Two horizons:
 
 import time
 
+import fsrs
+
 SESSION_GAP = 30 * 60          # 30 minutes of inactivity ends a sitting
 DAY = 86400.0
 
@@ -70,29 +72,25 @@ def session_stats(events, gap=SESSION_GAP, now=None):
             out[r] += 1
     out["credited"] = out["right"] + out["close"]
     out["pct"] = int(round(100.0 * out["credited"] / out["studied"])) if out["studied"] else None
+    # Cards remembered this sitting (graded Hard, Good or Easy): each one's
+    # memory just got longer. This is the number that moves every session.
+    out["stronger"] = sum(1 for e in run if (fsrs.grade_of(e) or 0) >= fsrs.HARD)
     return out
 
 
 def readiness_from(events, now=None):
-    """solid | shaky | not yet for one item's history.
+    """solid | shaky | not yet for one item's (or one topic's) history.
 
-    Kept identical to the drill's rule so the two never disagree: several
-    rights, across more than one day, including at least one a week or more
-    after the item was first seen. The delayed success is the whole point — it
-    separates retention from a single evening of cramming.
+    The same rule as the drill's, so the two never disagree: the history is
+    replayed as one FSRS card (fsrs.py) and read from its stability -- solid
+    holds three weeks or more, not yet was never got right.
     """
-    now = now or time.time()
-    if not events:
-        return "not yet"
-    rights = [e for e in events if e.get("result") == "right"]
-    if not rights:
-        return "not yet"
-    first_seen = min(e["timestamp"] for e in events)
-    days = {time.strftime("%Y-%m-%d", time.localtime(e["timestamp"])) for e in rights}
-    delayed = any(e["timestamp"] - first_seen >= 7 * DAY for e in rights)
-    if len(rights) >= 3 and len(days) >= 2 and delayed:
-        return "solid"
-    return "shaky"
+    return fsrs.state(fsrs.replay(events))
+
+
+def strength_from(events, now=None):
+    """The strength bar for one item's or topic's history (fsrs.strength)."""
+    return fsrs.strength(fsrs.replay(events), now)
 
 
 def group_events(events, key_fn):
@@ -151,7 +149,7 @@ def grammar_progress(spec, universe, events, now=None):
     tried five.
 
     Returns weeks in teaching order, each {"week", "rows", "counts", "total"},
-    with rows {"node", "label", "state", "attempts"}.
+    with rows {"node", "label", "state", "strength", "attempts"}.
     """
     by = group_events(events, lambda e: e.get("spec_node_id"))
     weeks = {}
@@ -159,10 +157,11 @@ def grammar_progress(spec, universe, events, now=None):
         node = spec.get(nid) or {}
         wk = str(node.get("week") or node.get("day") or "")
         evs = by.get(nid, [])
+        card = fsrs.replay(evs)
         weeks.setdefault(wk, []).append({
             "node": nid, "label": node.get("label", nid),
-            "state": readiness_from(evs, now), "attempts": len(evs),
-            "day": str(node.get("day") or wk)})
+            "state": fsrs.state(card), "strength": fsrs.strength(card, now),
+            "attempts": len(evs), "day": str(node.get("day") or wk)})
     out = []
     for wk in sorted(weeks):
         rows = sorted(weeks[wk], key=lambda r: (r["day"], r["node"]))

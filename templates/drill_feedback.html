@@ -29,19 +29,11 @@
   {% endif %}
 </div>
 
-<a class="bigbtn" id="nextbtn" href="{{ url_for('drill_session', week=week, direction=direction) }}">Next word <span class="small" style="opacity:.75">(or press Enter)</span></a>
+{% if result != 'right' %}
+<p class="small muted spell-note">Only a spelling slip? Grade it by how well you knew the word.</p>
+{% endif %}
+{% include "_grades.html" %}
 
 {% include "_statsbar.html" %}
-
-<script>
-  // Keep the typing rhythm: Enter (or Space) moves to the next card, so a
-  // student never has to reach for the screen between words.
-  document.addEventListener('keydown', function (ev) {
-    if (ev.key === 'Enter' || ev.key === ' ') {
-      ev.preventDefault();
-      window.location = document.getElementById('nextbtn').href;
-    }
-  });
-</script>
 <p style="text-align:center"><a class="small" href="{{ url_for('drill_progress') }}">My progress</a></p>
 {% endblock %}

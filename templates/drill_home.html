@@ -6,6 +6,8 @@
     — <a href="{{ url_for('signout') }}">not you?</a></p>
 {% endif %}
 <h1>Vocabulary drill</h1>
+{% if due %}<p class="due-line"><strong>{{ due.vocab }}</strong> word{{ 's' if due.vocab != 1 }} due for review today.
+  {% if not due.vocab %}All caught up — new words and extra practice still count.{% endif %}</p>{% endif %}
 <p class="muted small">Type the answer — no multiple choice. Macrons are never required. This is practice; nothing here affects a grade.</p>
 
 <form method="post" action="{{ url_for('drill_start') }}" id="startform">

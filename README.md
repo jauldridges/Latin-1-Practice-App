@@ -81,7 +81,7 @@ start clean.
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
-| `tests/` | 601 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 623 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -418,6 +418,51 @@ count late. Stored timestamps are unaffected.
 Tables `settings` and `assessments` hold all this; both are in the backup and the
 migration, neither is student data, and the end-of-year purge leaves them.
 `goals.py` holds the logic, `tests/test_goals.py` the tests.
+
+## Spaced repetition: FSRS, graded by the student
+
+Vocabulary and grammar are scheduled by **FSRS** (`fsrs.py`), which replaced
+five Leitner boxes in October 2026. Students saw "shaky" on nearly everything:
+"solid" needed a right answer a week after first meeting a word however well it
+was known, "shaky" covered everything from one lucky answer to eight in a row,
+and one miss threw a word back to the start.
+
+FSRS keeps two numbers per card: **stability** (about how many days until the
+chance of remembering drops to 90%) and **difficulty**. It is the published
+FSRS-5 algorithm with its standard weights, written out in `fsrs.py` rather than
+installed. A card is a word (both directions together) or a grammar question; a
+topic's strength replays all its questions' answers as one card.
+
+**Students grade nearly everything themselves.** After every answer they see
+the check and the right answer, then four colored buttons: 🔴 **Again**, 🟠 **Hard**,
+🟢 **Good**, 🔵 **Easy**, each saying when the card would come back ("5 min",
+"3 days", "1 mo"). Keys 1–4 work; Enter takes the suggested grade (outlined: Good
+for right, Again for wrong). A wrong typed answer says "Only a spelling slip?
+Grade it by how well you knew it" — the teacher's call, because spelling makes
+the app's own check unreliable and judging your own recall is worth practicing.
+On a miss, "What happened?" is an optional pick that goes with the grade.
+**Drag-and-drop questions are graded by the app** (right → Good, wrong → Again).
+The Reader keeps its own I had it / Partly / I missed it and is not scheduled.
+
+The answer is recorded **when it is graded** (`/drill/grade`, `/practice/grade`),
+re-checked on the server, with the grade in the new `events.rating` column
+(1–4; 0 for a typo retyped on the spot; NULL for older answers and app-graded
+ones, read from `result`: right → Good, wrong → Again). `result` is always the
+app's own check, so the dashboard, accuracy and homework counts are unchanged.
+Nothing is stored about a card: September's answers replayed into stabilities on
+the first day, so nobody lost progress.
+
+**Scheduling** (`fsrs.pick`): due cards first, most likely forgotten first; then
+new ones in teaching order; then, with nothing left for today, extra practice on
+the weakest, so the 50 + 50 can always be reached. Never the card just answered
+while another is left. Again comes back in 5 minutes.
+
+**What students see.** solid / shaky / not yet stay, now read from stability:
+*not yet* never got it, *solid* holds three weeks or more, *shaky* in between.
+Every word and topic on My Progress has a strength bar that grows ("holds 9
+days"); the session bar counts "↑ N stronger" (cards remembered this sitting);
+the home screen and the Vocabulary and Grammar pages show how many are **due
+today**. `tests/test_fsrs.py`, `tests/test_drill.py`.
 
 ## Label the words (tap-to-place)
 
@@ -1038,7 +1083,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-601 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+623 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

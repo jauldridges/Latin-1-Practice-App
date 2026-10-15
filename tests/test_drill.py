@@ -1,4 +1,4 @@
-"""Tests for the drill's box schedule and the solid/shaky/not-yet logic."""
+"""Tests for the drill's schedule (FSRS) and the solid/shaky/not-yet logic."""
 
 import os
 import sys
@@ -16,35 +16,58 @@ def ev(latin, ask, result, ts):
     return {"item_id": f"vocab:{latin}:{ask}", "result": result, "timestamp": ts}
 
 
-class TestBox(unittest.TestCase):
-    def test_new_word_box1_due_now(self):
-        box, due = drill.box_and_due([])
-        self.assertEqual(box, 1)
-        self.assertEqual(due, 0.0)
+class TestSchedule(unittest.TestCase):
+    """The drill's schedule is FSRS (fsrs.py); these hold the drill's use of it."""
 
-    def test_right_moves_up(self):
-        t = 1000.0
-        evs = [ev("aqua", "la_en", "right", t), ev("aqua", "la_en", "right", t + 10)]
-        box, due = drill.box_and_due(evs)
-        self.assertEqual(box, 3)
-        self.assertEqual(due, (t + 10) + drill._INTERVALS[3])
+    def test_a_new_word_has_no_card(self):
+        self.assertIsNone(drill.card_state([]))
 
-    def test_wrong_resets_to_box1(self):
-        t = 1000.0
-        evs = [ev("aqua", "la_en", "right", t), ev("aqua", "la_en", "wrong", t + 10)]
-        box, _ = drill.box_and_due(evs)
-        self.assertEqual(box, 1)
+    def test_right_pushes_the_next_review_out(self):
+        t = 1_000_000.0
+        once = drill.card_state([ev("aqua", "la_en", "right", t)])
+        twice = drill.card_state([ev("aqua", "la_en", "right", t),
+                                  ev("aqua", "la_en", "right", t + 3 * DAY)])
+        self.assertGreater(once.due, t)
+        self.assertGreater(twice.stability, once.stability)
 
-    def test_close_does_not_change_box(self):
-        t = 1000.0
-        evs = [ev("aqua", "la_en", "right", t), ev("aqua", "la_en", "close", t + 10)]
-        box, _ = drill.box_and_due(evs)
-        self.assertEqual(box, 2)
+    def test_a_miss_is_a_setback_not_a_reset(self):
+        t = 1_000_000.0
+        evs = [ev("aqua", "la_en", "right", t + d * DAY) for d in (0, 3, 10, 30)]
+        strong = drill.card_state(evs)
+        after = drill.card_state(evs + [ev("aqua", "la_en", "wrong", t + 70 * DAY)])
+        self.assertLess(after.stability, strong.stability)
+        self.assertGreater(after.stability, drill.card_state([ev("aqua", "la_en", "wrong", t)]).stability)
 
-    def test_box_caps_at_5(self):
-        evs = [ev("aqua", "la_en", "right", 100 + i) for i in range(9)]
-        box, _ = drill.box_and_due(evs)
-        self.assertEqual(box, 5)
+    def test_a_retyped_typo_is_not_a_review(self):
+        t = 1_000_000.0
+        a = drill.card_state([ev("aqua", "la_en", "right", t)])
+        b = drill.card_state([ev("aqua", "la_en", "right", t), ev("aqua", "la_en", "close", t + 10)])
+        self.assertEqual(a.stability, b.stability)
+
+    def test_both_directions_are_one_word(self):
+        t = 1_000_000.0
+        card = drill.card_state([ev("aqua", "la_en", "right", t), ev("aqua", "en_la", "right", t + 3 * DAY)])
+        self.assertEqual(card.reps, 2)
+
+    def test_due_words_come_before_new_ones(self):
+        words = [{"latin": "aqua", "en": ["water"], "week": "week_of_aug_31"},
+                 {"latin": "terra", "en": ["land"], "week": "week_of_aug_31"},
+                 {"latin": "via", "en": ["road"], "week": "week_of_aug_31"}]
+        t = 1_000_000.0
+        evs = [ev("terra", "la_en", "wrong", t),               # due again in 5 minutes
+               ev("via", "la_en", "right", t + 1)]             # just answered
+        card = drill.next_card(words, evs, week="week_of_aug_31", now=t + 600)
+        self.assertEqual(card.latin, "terra")                  # not the new "aqua"
+
+    def test_never_the_word_just_answered_while_another_is_left(self):
+        words = [{"latin": "aqua", "en": ["water"], "week": "week_of_aug_31"},
+                 {"latin": "terra", "en": ["land"], "week": "week_of_aug_31"}]
+        t = 1_000_000.0
+        evs = [ev("aqua", "la_en", "right", t), ev("terra", "la_en", "right", t + 1)]
+        for _ in range(2):
+            card = drill.next_card(words, evs, week="week_of_aug_31", now=t + 60)
+            self.assertNotEqual(card.latin, evs[-1]["item_id"].split(":")[1])
+            evs.append(ev(drill._key(card.latin), "la_en", "right", evs[-1]["timestamp"] + 1))
 
 
 class TestReadiness(unittest.TestCase):

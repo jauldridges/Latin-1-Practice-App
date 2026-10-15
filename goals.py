@@ -41,10 +41,10 @@ that has not been taught.
 
 READINESS on an assessment page keeps solid / shaky / not yet exactly as they
 are everywhere else, and adds one more number: what the student got right on
-their most recent try. "Solid" needs a success at least a week after first
-meeting something, so a student who starts studying four days before a quiz
-cannot reach it however hard they work -- the right rule for memory, and a
-hopeless-looking page for a kid who is doing the right thing. "Right last
+their most recent try. "Solid" means a memory that would hold three weeks
+(fsrs.py), which takes reviews on several different days, so a student who
+starts studying four days before a quiz rarely reaches it -- the right rule
+for memory, and a hopeless-looking page for a kid who is doing the right thing. "Right last
 time" is the number a few days of real study can move.
 """
 

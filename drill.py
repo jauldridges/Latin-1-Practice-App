@@ -1,31 +1,22 @@
 """
-Vocabulary drill logic: card selection, the Leitner box schedule, and the
-solid / shaky / not-yet readiness state.
+Vocabulary drill logic: card selection, the schedule, and the solid / shaky /
+not-yet state.
 
-Design choices held to the spec:
-  - A simple box system, nothing more elaborate. Right moves a word up a box and
-    pushes its next appearance out; wrong drops it to box 1; close never counts
-    as wrong and does not change the box.
-  - State is DERIVED from the append-only event history, never stored. Replaying
-    a word's events gives its box, its due time, and its readiness state.
-  - "solid" requires retrieval that survived a gap: several rights, across more
-    than one sitting, including at least one right a week or more after the word
-    was first seen. That delayed-success condition is the whole point.
+The schedule is FSRS (fsrs.py), one card per word, both directions together:
+"puella" asked Latin to English and English to Latin is one memory. It
+replaced a five-box Leitner system in October 2026.
 
-A "sitting" is approximated by a distinct calendar day (UTC). See the writeup:
-this is an approximation of "a separate study session".
+State is DERIVED from the append-only event history, never stored. Replaying
+a word's events gives its stability, its due time and its state.
 """
 
 import time
 from collections import namedtuple
 
+import fsrs
 from answercheck import clean
 
 DAY = 86400.0
-
-# Leitner intervals (seconds) indexed by box level 1..5: the wait before the
-# word is due again once it has reached that box.
-_INTERVALS = {1: 0.0, 2: 1 * DAY, 3: 3 * DAY, 4: 7 * DAY, 5: 21 * DAY}
 
 WEEK_ORDER = ["week_of_aug_24", "week_of_aug_31", "week_of_sep_8",
               "week_of_sep_14", "week_of_sep_21", "week_of_sep_28"]
@@ -115,63 +106,54 @@ def _events_for_key(events, key):
                   key=lambda e: e["timestamp"])
 
 
-def box_and_due(word_events):
-    """Replay a word's events to a (box_level, due_timestamp). New word -> box 1,
-    due now."""
-    box = 1
-    last_ts = None
-    for e in word_events:
-        last_ts = e["timestamp"]
-        r = e["result"]
-        if r == "right":
-            box = min(box + 1, 5)
-        elif r == "wrong":
-            box = 1
-        # close: no change
-    if last_ts is None:
-        return 1, 0.0
-    return box, last_ts + _INTERVALS[box]
+def card_state(word_events):
+    """The word's FSRS card, replayed from its events; None if never studied."""
+    return fsrs.replay(word_events)
 
 
 def readiness(word_events, now=None):
-    """solid | shaky | not yet, from a word's history."""
-    now = now or time.time()
-    if not word_events:
-        return "not yet"
-    rights = [e for e in word_events if e["result"] == "right"]
-    if not rights:
-        return "not yet"
-    first_seen = min(e["timestamp"] for e in word_events)
-    days = {time.strftime("%Y-%m-%d", time.localtime(e["timestamp"])) for e in rights}
-    delayed = any(e["timestamp"] - first_seen >= 7 * DAY for e in rights)
-    if len(rights) >= 3 and len(days) >= 2 and delayed:
-        return "solid"
-    return "shaky"
+    """solid | shaky | not yet, from a word's history (fsrs.state)."""
+    return fsrs.state(card_state(word_events))
+
+
+def _word_of(event):
+    parts = str(event.get("item_id") or "").split(":")
+    return parts[1] if len(parts) > 2 and parts[0] == "vocab" else None
+
+
+def scheduled(words, events, week="current"):
+    """({word key: Card or None}, [keys in order]) for the words in scope."""
+    pool = _scope_words(words, week)
+    by_key = {}
+    for e in events:
+        k = _word_of(e)
+        if k is not None:
+            by_key.setdefault(k, []).append(e)
+    keys = [_key(w["latin"]) for w in pool]
+    return {k: card_state(by_key.get(k, [])) for k in keys}, keys
+
+
+def due_count(words, events, week="current", now=None):
+    """Reviews due now, not counting words never studied."""
+    cards, keys = scheduled(words, events, week)
+    return sum(1 for k in keys if fsrs.is_due(cards[k], now))
 
 
 def next_card(words, events, week="current", direction="both", now=None):
-    """Choose the next word to show and in which direction. Prefers words that
-    are due (new words are due immediately), lowest box first, then the most
-    overdue."""
+    """The next word and direction (fsrs.pick): due words, most likely
+    forgotten first; then new words in teaching order; then, with nothing
+    left for today, extra practice on the weakest. Never the word just
+    answered while another is available."""
     now = now or time.time()
     pool = _scope_words(words, week)
     if not pool:
         return None
-
-    scored = []
-    for w in pool:
-        wev = _events_for_key(events, _key(w["latin"]))
-        box, due = box_and_due(wev)
-        due_flag = due <= now
-        scored.append((w, wev, box, due, due_flag))
-
-    due_words = [s for s in scored if s[4]]
-    picklist = due_words or scored
-    # lowest box first, then most overdue (smallest due timestamp)
-    picklist.sort(key=lambda s: (s[2], s[3]))
-    w, wev, box, due, _ = picklist[0]
-
-    ask = _choose_direction(wev, direction)
+    cards, keys = scheduled(words, events, week)
+    vocab = [e for e in events if _word_of(e)]
+    last = _word_of(max(vocab, key=lambda e: e["timestamp"])) if vocab else None
+    k = fsrs.pick(cards, keys, now=now, avoid=last)
+    w = next(w for w in pool if _key(w["latin"]) == k)
+    ask = _choose_direction(_events_for_key(events, k), direction)
     return card_for(w, ask)
 
 
@@ -200,7 +182,8 @@ def _choose_direction(word_events, direction):
 # --------------------------------------------------------------------------
 
 ProgressRow = namedtuple("ProgressRow",
-                         ["latin", "en", "week", "state", "box", "attempts", "rights", "last_seen"])
+                         ["latin", "en", "week", "state", "strength", "attempts", "rights",
+                          "last_seen"])
 
 
 def progress_table(words, events, now=None):
@@ -208,13 +191,13 @@ def progress_table(words, events, now=None):
     rows = []
     for w in words:
         wev = _events_for_key(events, _key(w["latin"]))
-        state = readiness(wev, now)
-        box, _due = box_and_due(wev)
+        card = card_state(wev)
         rights = sum(1 for e in wev if e["result"] == "right")
         last_seen = max((e["timestamp"] for e in wev), default=None)
         rows.append(ProgressRow(
             latin=w["latin"], en=", ".join(w["en"][:3]), week=w["week"],
-            state=state, box=box, attempts=len(wev), rights=rights,
+            state=fsrs.state(card), strength=fsrs.strength(card, now),
+            attempts=len(wev), rights=rights,
             last_seen=(time.strftime("%b %d", time.localtime(last_seen)) if last_seen else "—"),
         ))
     order = {wk: i for i, wk in enumerate(WEEK_ORDER)}

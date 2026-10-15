@@ -8,9 +8,9 @@
 
 {% set t = ready.topic_totals %}{% set w = ready.word_totals %}
 
-{# Two numbers per half, and the second one is the point. "Solid" needs a right
-   answer at least a week after first meeting something, so a student who
-   starts four days out cannot reach it however hard they work. "Right last
+{# Two numbers per half, and the second one is the point. "Solid" means a
+   memory that would hold three weeks (fsrs.py), which takes reviews on several
+   days, so a student who starts four days out rarely reaches it. "Right last
    time" is what a few days of real study moves. #}
 <div class="readiness">
   {% if t.total %}
@@ -47,8 +47,8 @@
 
 <p class="small muted">
   <strong>Right last time</strong> is what you can move this week. <strong>Solid</strong>
-  takes longer on purpose: it needs you to get something right again at least a week
-  after you first met it, because that is what still works on the day.</p>
+  takes longer on purpose: it means you'd still remember it three weeks from now, and a
+  memory only gets that long by being remembered on several different days.</p>
 
 {% if ready.topics %}
 <h2>Grammar topics</h2>

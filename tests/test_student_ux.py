@@ -179,6 +179,9 @@ class TestGrammarOnTheProgressPage(_AsAStudent):
         item = {i["id"]: i for i in self.items}[iid]
         self.client.post("/practice/answer", data={
             "item_id": iid, "picked": item["answer"], "node": "MS-014", "context": "practice"})
+        self.client.post("/practice/grade", data={
+            "item_id": iid, "picked": item["answer"], "node": "MS-014", "context": "practice",
+            "rating": "3"})
         events = store.events_for_student(self.db, "403217")
         rows = [r for g in stats.grammar_progress(self.server._SPEC, {"MS-014"}, events)
                 for r in g["rows"]]

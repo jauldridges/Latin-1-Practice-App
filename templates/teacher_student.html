@@ -55,7 +55,7 @@
     <tr>
       <td><span class="latin">{{ r.latin }}</span></td>
       <td class="st"><span class="state {{ 'solid' if r.state == 'solid' else ('shaky' if r.state == 'shaky' else 'notyet') }}">{{ r.state }}</span></td>
-      <td class="small muted">box {{ r.box }}</td>
+      <td class="small muted">{% with st=r.strength %}{% include "_strength.html" %}{% endwith %}</td>
     </tr>
     {% endfor %}
   </table>

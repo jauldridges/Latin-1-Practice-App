@@ -487,8 +487,14 @@ class TestPracticingForAQuiz(_App):
         self.assertTrue(seen <= set(topics), seen)
 
     def test_it_still_never_serves_ahead_of_the_lesson(self):
-        # MS-052 is taught in October; asking for it by name must not bypass that.
-        body = self.student.get("/practice/session?node=MS-052,").data.decode()
+        # A topic not taught yet, asked for by name, must not bypass that. Found
+        # from today's date, so the test doesn't expire when the lesson arrives.
+        today = time.strftime("%Y-%m-%d")
+        spec = dataio.load_spec()
+        future = sorted(n for n in {i["node"] for i in self.items if i.get("format") == "choice"}
+                        if str(spec.get(n, {}).get("week") or "") > today)
+        self.assertTrue(future, "no question in the bank is ahead of today")
+        body = self.student.get("/practice/session?node=%s," % future[0]).data.decode()
         self.assertNotIn('name="item_id"', body)
 
     def test_word_practice_stays_inside_the_quiz_weeks(self):

@@ -29,6 +29,7 @@ import time
 from collections import namedtuple
 
 from answercheck import check as check_answer
+import fsrs
 
 # The fixed menu choices. Never written per item; appended to every item's own
 # what_went_wrong list. The last is the contest path.
@@ -76,21 +77,20 @@ def taught_nodes(spec, on_date=None):
 # Selection
 # --------------------------------------------------------------------------
 
-def _seen_stats(events, item_id):
-    evs = [e for e in events if e.get("item_id") == item_id]
-    if not evs:
-        return 0, 0.0, None
-    last = max(e["timestamp"] for e in evs)
-    misses = sum(1 for e in evs if e["result"] == "wrong")
-    return len(evs), last, misses
+def question_cards(items, events):
+    """{item id: FSRS card or None} -- one card per question."""
+    by = {}
+    for e in events:
+        by.setdefault(e.get("item_id"), []).append(e)
+    return {it.get("id"): fsrs.replay(by.get(it.get("id"), [])) for it in items}
 
 
 def select_question(items, events, allowed_nodes=None, node_id=None, now=None):
-    """Pick the next question.
-
-    Unseen questions first; then the ones missed before; then least recently
-    seen. Deterministic, so a refresh does not reshuffle the queue.
-    """
+    """Pick the next question by the FSRS schedule (fsrs.pick): questions due
+    for review, the most likely forgotten first; then questions never seen, in
+    a fixed order; then, with nothing left for today, more practice on the
+    weakest. Never the question just answered while another is available.
+    Deterministic, so a refresh does not reshuffle the queue."""
     now = now or time.time()
     pool = list(items)
     if node_id:
@@ -99,14 +99,18 @@ def select_question(items, events, allowed_nodes=None, node_id=None, now=None):
         pool = [i for i in pool if i.get("node") in allowed_nodes]
     if not pool:
         return None
+    pool.sort(key=lambda it: str(it.get("id")))
+    cards = question_cards(pool, events)
+    ids = {it.get("id") for it in pool}
+    mine = [e for e in events if e.get("item_id") in ids]
+    last = max(mine, key=lambda e: e["timestamp"])["item_id"] if mine else None
+    pick = fsrs.pick(cards, [it.get("id") for it in pool], now=now, avoid=last)
+    return next(it for it in pool if it.get("id") == pick)
 
-    scored = []
-    for it in pool:
-        seen, last, misses = _seen_stats(events, it.get("id"))
-        # unseen (0) sorts before seen; then more misses first; then oldest.
-        scored.append((seen, -(misses or 0), last, it.get("id"), it))
-    scored.sort(key=lambda s: (s[0], s[1], s[2], s[3]))
-    return scored[0][4]
+
+def due_count(items, events, now=None):
+    """Questions due for review now, not counting ones never seen."""
+    return sum(1 for c in question_cards(items, events).values() if fsrs.is_due(c, now))
 
 
 def practiceable(items, allowed_nodes):

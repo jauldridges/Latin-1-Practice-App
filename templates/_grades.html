@@ -1,0 +1,55 @@
+{# The four FSRS grades, after the answer is shown. The student says how it
+   went; that, not the app's own check, sets when the card comes back
+   (fsrs.py). Each button says when that would be. Keys 1-4 pick a grade;
+   Enter picks the suggested one, outlined.
+
+   Expects `grades` = {"action", "fields": [(name, value)], "suggest",
+   "waits": {1: "5 min", ...}} and optionally `reasons` (the what-went-wrong
+   menu, offered as an optional pick that goes with the grade). #}
+<form method="post" action="{{ grades.action }}" class="gradeform" id="gradeform">
+  {% for name, value in grades.fields %}<input type="hidden" name="{{ name }}" value="{{ value }}">{% endfor %}
+
+  {% if reasons %}
+  <details class="reasons" {{ 'open' if grades.suggest == 1 }}>
+    <summary>What happened? <span class="small muted">(optional — it helps your teacher know what to reteach)</span></summary>
+    {% for m in reasons %}
+      <label class="opt reason-opt"><input type="radio" name="reason_key" value="{{ m.key }}"
+        data-text="{{ m.text }}" data-node="{{ m.node or '' }}"> <span>{{ m.text }}</span></label>
+    {% endfor %}
+    <input type="hidden" name="reason_text" value="">
+    <input type="hidden" name="reason_node" value="">
+  </details>
+  {% endif %}
+
+  <div class="grade-q">How well did you know it?</div>
+  <div class="grades">
+    {% for g, name, hint in [(1, 'Again', "didn't know it"), (2, 'Hard', 'got it, barely'),
+                             (3, 'Good', 'knew it'), (4, 'Easy', 'knew it instantly')] %}
+    <button type="submit" name="rating" value="{{ g }}" class="grade g{{ g }} {{ 'suggest' if g == grades.suggest }}"
+            title="{{ hint }} — press {{ g }}">
+      <span class="g-name">{{ name }}</span>
+      <span class="g-when">{{ grades.waits[g] }}</span>
+    </button>
+    {% endfor %}
+  </div>
+  <p class="small muted grade-keys">Keys 1–4 work too · Enter = the outlined one</p>
+</form>
+<script>
+  (function () {
+    var form = document.getElementById('gradeform');
+    if (!form) return;
+    // A chosen reason travels with the grade.
+    form.addEventListener('change', function (ev) {
+      if (ev.target.name !== 'reason_key') return;
+      form.querySelector('input[name=reason_text]').value = ev.target.dataset.text;
+      form.querySelector('input[name=reason_node]').value = ev.target.dataset.node;
+    });
+    document.addEventListener('keydown', function (ev) {
+      if (ev.target.tagName === 'TEXTAREA' || ev.target.tagName === 'INPUT' && ev.target.type === 'text') return;
+      var b = null;
+      if (ev.key >= '1' && ev.key <= '4') b = form.querySelector('button.grade.g' + ev.key);
+      else if (ev.key === 'Enter') b = form.querySelector('button.grade.suggest');
+      if (b) { ev.preventDefault(); b.click(); }
+    });
+  })();
+</script>

@@ -74,12 +74,12 @@
 {# Two equal choices. The old page made vocabulary green and grammar grey,
    which told a student one of them mattered less. #}
 <a class="choice" href="{{ url_for('drill_home') }}">
-  <span class="choice-title">Vocabulary</span>
+  <span class="choice-title">Vocabulary{% if due %} <span class="due-chip {{ 'zero' if not due.vocab }}">{{ due.vocab }} due today</span>{% endif %}</span>
   <span class="choice-body">Type what the words mean. A few minutes most days works
     better than one long go.</span>
 </a>
 <a class="choice" href="{{ url_for('practice_home') }}">
-  <span class="choice-title">Grammar</span>
+  <span class="choice-title">Grammar{% if due %} <span class="due-chip {{ 'zero' if not due.grammar }}">{{ due.grammar }} due today</span>{% endif %}</span>
   <span class="choice-body">Questions on what you've covered in class so far.</span>
 </a>
 {% if signed_in_student and not is_teacher %}

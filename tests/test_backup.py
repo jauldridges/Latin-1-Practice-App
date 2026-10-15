@@ -85,7 +85,8 @@ class TestRoundTrip(unittest.TestCase):
             "event_times": [round(e["timestamp"], 3) for e in events],
             # Derived state: the figure that would silently break if timestamps
             # were lost, while every row count still matched.
-            "boxes": [(r.latin, r.box, r.state) for r in drill.progress_table(words, events)],
+            "boxes": [(r.latin, round(r.strength["days"], 6), r.state)
+                      for r in drill.progress_table(words, events)],
             "pin_works": store.check_pin(conn, "403217", "1234"),
         }
 

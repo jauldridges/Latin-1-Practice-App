@@ -6,6 +6,8 @@
     — <a href="{{ url_for('signout') }}">not you?</a></p>
 {% endif %}
 <h1>Grammar practice</h1>
+{% if due %}<p class="due-line"><strong>{{ due.grammar }}</strong> question{{ 's' if due.grammar != 1 }} due for review today.
+  {% if not due.grammar %}All caught up — new questions and extra practice still count.{% endif %}</p>{% endif %}
 <p class="small muted">Questions on what you've covered in class so far.
 This is practice — nothing here affects a grade.</p>
 

@@ -103,25 +103,28 @@
   {% endif %}
 {% endif %}
 
-{# ---- self-check half: model answer + self report ---- #}
-{% if result == 'self' and not self_done %}
+{# ---- self-check: what they wrote beside the model; the grade is the report ---- #}
+{% if result == 'self' %}
   <div class="card">
     <div class="small muted">You wrote</div>
     <div>{{ typed if typed else '(nothing)' }}</div>
     <div class="small muted" style="margin-top:10px">Model answer</div>
     <div><strong>{{ item.model_answer or item.translation_model_answer }}</strong></div>
   </div>
-  <form method="post" action="{{ url_for('practice_selfreport') }}">
-    <input type="hidden" name="item_id" value="{{ item.id }}">
-    <input type="hidden" name="node" value="{{ node or '' }}">
-    <input type="hidden" name="context" value="{{ context }}">
-    <input type="hidden" name="typed" value="{{ typed }}">
-    <button class="bigbtn" name="reported" value="had">I had it</button>
-    <button class="bigbtn secondary" name="reported" value="close">I was close</button>
-    <button class="bigbtn secondary" name="reported" value="missed">I didn't have it</button>
-  </form>
+{% endif %}
 
-{# ---- the what-went-wrong menu: only ever on a WRONG, never on a close ---- #}
+{# ---- the four grades: everything but a drag-and-drop question ---- #}
+{% if grades %}
+  {% if item.translation_model_answer and tag_results %}
+    <div class="card"><div class="small muted">English</div>
+      <strong>{{ item.translation_model_answer }}</strong></div>
+  {% endif %}
+  {% if result == 'wrong' and item.format != 'choice' %}
+    <p class="small muted spell-note">Only a spelling slip? Grade it by how well you knew it.</p>
+  {% endif %}
+  {% include "_grades.html" %}
+
+{# ---- drag and drop: graded by the app; the what-went-wrong menu on a miss ---- #}
 {% elif menu %}
   {% if item.translation_model_answer and tag_results %}
     <div class="card"><div class="small muted">English</div>

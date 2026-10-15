@@ -586,3 +586,35 @@ fieldset.rq.self .rq-verdict { color: var(--ink); }
 .written-ans { border-top: 1px solid var(--line); padding: 8px 0; font-size: 15px; }
 .written-ans .sid { margin-right: 6px; }
 .rq-report[hidden], .rq-model[hidden], .rq-hint[hidden] { display: none; }
+
+/* ---- FSRS grades: Again / Hard / Good / Easy ------------------------------ */
+.gradeform { margin: 14px 0 6px; }
+.grade-q { font-weight: 700; font-size: 16px; margin: 0 0 8px; text-align: center; }
+.grades { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+button.grade { display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px; min-height: 64px; padding: 8px 4px; border: 2px solid transparent; border-radius: 12px;
+  font: inherit; color: #fff; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+button.grade .g-name { font-weight: 800; font-size: 17px; }
+button.grade .g-when { font-size: 12px; opacity: .9; }
+button.grade.g1 { background: #b23b3b; }
+button.grade.g2 { background: #c2610c; }
+button.grade.g3 { background: #2f6f4f; }
+button.grade.g4 { background: #2f5d9c; }
+button.grade.suggest { box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px #1c1b19; }
+button.grade:active { transform: translateY(1px); }
+.grade-keys { text-align: center; margin: 8px 0 0; }
+.spell-note { margin: 10px 0 0; }
+details.reasons { background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  padding: 8px 12px; margin: 0 0 12px; }
+details.reasons summary { cursor: pointer; font-weight: 700; }
+details.reasons .reason-opt { margin: 6px 0; font-size: 15px; }
+
+/* Strength: how long a memory holds, as a bar that grows. */
+.strength { display: inline-flex; align-items: center; gap: 6px; vertical-align: middle; }
+.strength .sbar { width: 56px; height: 7px; border-radius: 999px; background: #efedea; overflow: hidden; }
+.strength .sbar > span { display: block; height: 100%; border-radius: 999px; background: var(--accent); }
+.strength .sdays { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.due-line { font-size: 15px; margin: 2px 0 10px; }
+.due-chip { display: inline-block; vertical-align: 3px; margin-left: 6px; font-size: 12px; font-weight: 700;
+  padding: 2px 9px; border-radius: 999px; background: #fbf1d6; color: #8a6508; }
+.due-chip.zero { background: #e3f1e8; color: var(--solid); }

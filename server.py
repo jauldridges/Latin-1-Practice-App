@@ -26,6 +26,7 @@ import backup
 import checks
 import dataio
 import drill
+import fsrs
 import identity
 import practice
 import quiz as quizlib
@@ -365,6 +366,12 @@ def say_url(latin):
     return url_for("word_audio", key=key, v=int(v))
 
 
+@app.template_filter("holds")
+def holds(days):
+    """How long a memory holds: "3 days", "2 wks" (fsrs.describe_days)."""
+    return fsrs.describe_days(days or 0)
+
+
 @app.template_filter("shortday")
 def shortday(ts):
     """"Mon 5 Oct" -- the day a late week was finished."""
@@ -471,6 +478,7 @@ def index():
         ctx["spacing"] = goals.spacing_flag(events)
         ctx["idle_days"] = goals.days_since_practice(events)
         ctx["upcoming"] = upcoming_assessments(db)
+        ctx["due"] = due_today(db, student, events)
         ctx["games"] = _GAMES
     return render_template("index.html", **ctx)
 
@@ -852,10 +860,22 @@ def _signed_in_student():
     return sid, None
 
 
+def due_today(db, student, events=None):
+    """{"vocab": n, "grammar": n} reviews due now -- the day's finish line.
+    Words and questions never seen don't count; they are new, not due."""
+    if not student:
+        return None
+    events = events if events is not None else store.events_for_student(db, student)
+    ready = practice.practiceable(store.approved_items(db), _taught_now())
+    return {"vocab": drill.due_count(_DRILL_WORDS, events, "current"),
+            "grammar": practice.due_count(ready, events)}
+
+
 @app.route("/drill")
 def drill_home():
     return render_template("drill_home.html", weeks=drill.WEEK_ORDER,
-                           week_labels=drill.WEEK_LABELS)
+                           week_labels=drill.WEEK_LABELS,
+                           due=due_today(get_db(), current_student()))
 
 
 @app.route("/drill/start", methods=["POST"])
@@ -881,8 +901,28 @@ def drill_session():
                            **_drill_stats(events))
 
 
+def grade_form(action, fields, suggest, card, now=None):
+    """What _grades.html needs: where to post, what to carry, which grade to
+    suggest, and when each grade would bring the card back."""
+    waits = {g: fsrs.describe_wait(sec) for g, sec in fsrs.preview(card, now).items()}
+    return {"action": action, "fields": fields, "suggest": suggest, "waits": waits}
+
+
+SUGGEST = {"right": fsrs.GOOD, "close": fsrs.HARD, "wrong": fsrs.AGAIN}
+
+
+def _rating_from_form():
+    r = request.form.get("rating", type=int)
+    if r not in fsrs.GRADES:
+        abort(400)
+    return r
+
+
 @app.route("/drill/answer", methods=["POST"])
 def drill_answer():
+    """Check a typed answer and show it with the four grades. Nothing is
+    recorded yet: the answer goes into the history when the student grades it
+    (drill_grade), so the grade and the answer are one record."""
     db = get_db()
     student = current_student()
     week = request.form.get("week", "current")
@@ -897,23 +937,52 @@ def drill_answer():
     accepted = drill.accepted_for(word, ask)
     result = check_answer(response, accepted, macron_matters=False)
     item_id = drill.item_id_for(word, ask)
-    store.record_event(db, student, item_id, drill.node_for(word), response, result,
-                       latency_ms=latency_ms, context="practice", version="v1")
     if result == "close":
         # Close never counts against the student and never reveals the answer;
-        # re-show the same card and let them retype. (The attempt is still
-        # logged as a "close" event.)
+        # re-show the same card and let them retype. Logged as a close with
+        # rating 0: an attempt, not a review.
+        store.record_event(db, student, item_id, drill.node_for(word), response, result,
+                           latency_ms=latency_ms, context="practice", version="v1", rating=0)
         card = drill.card_for(word, ask)
         return render_template("drill_card.html", student=student, week=week,
                                direction=direction, card=card,
                                introduced=weeklabel(word.get("week")),
                                notice="So close — check your spelling and try again.",
                                **_drill_stats(store.events_for_student(db, student)))
+    events = store.events_for_student(db, student)
+    pending = dict(student_id=student, item_id=item_id, result=result, response=response,
+                   timestamp=time.time(), context="practice", rating=SUGGEST[result])
+    word_card = drill.card_state(drill._events_for_key(events, drill._key(word["latin"])))
+    grades = grade_form(url_for("drill_grade"),
+                        [("week", week), ("direction", direction), ("latin", latin),
+                         ("ask", ask), ("response", response),
+                         ("latency_ms", latency_ms if latency_ms is not None else "")],
+                        SUGGEST[result], word_card)
     return render_template("drill_feedback.html", student=student, week=week,
                            direction=direction, word=word, ask=ask, response=response,
-                           result=result, model=accepted[0],
+                           result=result, model=accepted[0], grades=grades,
                            introduced=weeklabel(word.get("week")),
-                           **_drill_stats(store.events_for_student(db, student)))
+                           **_drill_stats(events + [pending]))
+
+
+@app.route("/drill/grade", methods=["POST"])
+def drill_grade():
+    """Record the answer with the student's own grade, then the next card.
+    The answer is checked again here rather than trusted from the page."""
+    db = get_db()
+    student = current_student()
+    word = drill.find_word(_DRILL_WORDS, request.form.get("latin", ""))
+    ask = request.form.get("ask", "")
+    if word is None or ask not in ("la_en", "en_la"):
+        abort(400)
+    rating = _rating_from_form()
+    response = request.form.get("response", "")
+    result = check_answer(response, drill.accepted_for(word, ask), macron_matters=False)
+    store.record_event(db, student, drill.item_id_for(word, ask), drill.node_for(word),
+                       response, result, latency_ms=request.form.get("latency_ms", type=int),
+                       context="practice", version="v1", rating=rating)
+    return redirect(url_for("drill_session", week=request.form.get("week", "current"),
+                            direction=request.form.get("direction", "both")))
 
 
 # ==========================================================================
@@ -1428,6 +1497,7 @@ def practice_home():
     nodes = [{"node": n, "label": _NODE_LABEL.get(n, ""), "count": c}
              for n, c in sorted(by_node.items())]
     return render_template("practice_home.html", nodes=nodes,
+                           due=due_today(db, current_student()),
                            n_ready=len(ready), n_approved=len(approved),
                            n_locked=len(approved) - len(ready))
 
@@ -1519,11 +1589,12 @@ def practice_answer():
         result = "self"
 
     # CLOSE never counts against the student and never opens the menu:
-    # re-show the question and let them retype. The attempt is still logged.
+    # re-show the question and let them retype. Logged with rating 0 -- an
+    # attempt, not a review.
     if result == "close":
         store.record_event(db, student, item_id, item.get("node"),
                            practice.response_summary(item, box_results, picked, typed),
-                           "close", latency_ms=latency, context=ctx, version="v1")
+                           "close", latency_ms=latency, context=ctx, version="v1", rating=0)
         return render_template("practice_question.html", student=student, item=item,
                                node=node, context=ctx,
                                label=_NODE_LABEL.get(item["node"], ""),
@@ -1532,19 +1603,85 @@ def practice_answer():
                                notice="So close — check your spelling and try again.",
                                **_practice_stats(db, store.events_for_student(db, student)))
 
-    if result != "self":
-        store.record_event(db, student, item_id, item.get("node"),
-                           practice.response_summary(item, box_results, picked, typed),
-                           result, latency_ms=latency, context=ctx, version="v1")
-
+    # Everything else is shown with the four grades and recorded when the
+    # student grades it (practice_grade). The answer travels with the grade
+    # and is checked again there.
+    fields = [("item_id", item_id), ("node", node or ""), ("context", ctx),
+              ("latency_ms", latency if latency is not None else "")]
+    if fmt == "choice":
+        fields.append(("picked", picked or ""))
+    elif fmt == "boxes":
+        fields += [("box", r) for r in request.form.getlist("box")]
+    elif fmt == "tag-then-translate":
+        fields += [("case", c) for c in request.form.getlist("case")]
+        fields += [("job", j) for j in request.form.getlist("job")]
+    else:
+        fields.append(("typed", typed or ""))
+    events = store.events_for_student(db, student)
+    card = practice.question_cards([item], events)[item_id]
+    grades = grade_form(url_for("practice_grade"), fields,
+                        SUGGEST.get(result, fsrs.GOOD), card)
     return render_template("practice_feedback.html", student=student, item=item,
                            node=node, context=ctx, result=result,
                            introduced=nodeweek(item.get("node")),
                            box_results=box_results, tag_results=tag_results,
-                           picked=picked, typed=typed,
-                           menu=practice.menu_for(item) if result == "wrong" else None,
+                           picked=picked, typed=typed, grades=grades,
+                           reasons=practice.menu_for(item) if result == "wrong" else None,
+                           menu=None,
                            teaching=approved_teaching_for(db, item.get("node")),
                            label=_NODE_LABEL.get(item["node"], ""))
+
+
+# A self-checked answer has no check of its own: the grade says how it went.
+SELF_RESULT = {fsrs.AGAIN: "wrong", fsrs.HARD: "close", fsrs.GOOD: "right", fsrs.EASY: "right"}
+
+
+@app.route("/practice/grade", methods=["POST"])
+def practice_grade():
+    """Record a grammar answer with the student's own grade (and the
+    what-went-wrong reason, if they picked one), then the next question."""
+    db = get_db()
+    student = current_student()
+    item_id = request.form.get("item_id", "")
+    node = request.form.get("node") or None
+    ctx = request.form.get("context", "practice")
+    if ctx not in VALID_CONTEXTS:
+        ctx = "practice"
+    row = store.get_item(db, item_id)
+    if row is None or row["review_status"] != "approved":
+        abort(404)
+    item = row["payload"]
+    fmt = item.get("format")
+    if fmt == practice.LABEL_WORDS:
+        abort(400)                       # graded by the app, never by the student
+    rating = _rating_from_form()
+    box_results = picked = typed = None
+    if fmt == "choice":
+        picked = request.form.get("picked")
+        result = practice.grade_choice(item, picked)
+    elif fmt == "boxes":
+        result, box_results = practice.grade_boxes(item, request.form.getlist("box"))
+    elif fmt == "tag-then-translate":
+        result, _tags = practice.grade_tags(item, request.form.getlist("case"),
+                                            request.form.getlist("job"))
+        typed = " | ".join("%s/%s" % cj for cj in zip(request.form.getlist("case"),
+                                                       request.form.getlist("job")))
+    else:
+        typed = request.form.get("typed", "")
+        result = SELF_RESULT[rating]
+    store.record_event(db, student, item_id, item.get("node"),
+                       practice.response_summary(item, box_results, picked, typed),
+                       result, latency_ms=request.form.get("latency_ms", type=int),
+                       context=ctx, version="v1", rating=rating)
+    key = request.form.get("reason_key", "")
+    if key:
+        contested = (key == practice.CONTEST_KEY)
+        store.record_miss_reason(db, student, item_id, row["node_id"], key,
+                                 request.form.get("reason_text", ""),
+                                 request.form.get("reason_node") or None, contested=contested)
+        if contested:
+            store.flag_item_live_fire(db, item_id, f"a student contested this question ({student})")
+    return redirect(url_for("practice_session", node=node or "", context=ctx))
 
 
 @app.route("/practice/selfreport", methods=["POST"])

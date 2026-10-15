@@ -23,7 +23,7 @@ dashboard for who's practicing and what they don't know.
 - Python 3.9-compatible, no build step, mobile-first server-rendered HTML.
   It has to work on a school Chromebook at home when I'm not there.
 - Run the full test suite before you tell me something's done. It should be
-  ~601 passing (about 14 skip unless a local Postgres is running).
+  ~623 passing (about 14 skip unless a local Postgres is running).
 - Never say "mastery" to a student. The words are solid / shaky / not yet.
 - American spelling: "practice" for noun and verb, never the British -ise form (a test enforces it).
 - School time zone is Eastern (Massachusetts); `schooltime.py` sets it.
@@ -57,6 +57,10 @@ re-running `make_ids.py` would produce different numbers.
    not the session's, but nothing reaches a student until it is done.
 4. Questions for MW-089 (Unit 1, taught 22 Sep) and MW-090 (Unit 2, 21 Oct).
    Both were added to the spec in September and neither has any.
+
+**Spaced repetition is FSRS (`fsrs.py`)**, graded by the students themselves
+(Again / Hard / Good / Easy) on everything except drag-and-drop. See README,
+"Spaced repetition". The grade is in `events.rating`; `result` stays the app's check.
 
 **Morphosyntax labeling questions use `format: label-words`** (tap-to-place:
 boxes above each word, a bank of *case · job* labels). A verb is just "verb"
