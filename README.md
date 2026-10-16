@@ -502,7 +502,7 @@ to answers from the day this shipped; older answers carry no verdict.
 
 ## The Magister
 
-The Magister -- a student's caricature of the teacher, cleaned up and colored
+The Magister -- a student's pencil caricature of the teacher, cleaned up
 (`static/magister.png`; the student's signature was left off, since the app
 carries no student names) -- on the student home screen says one line per visit, rotating through Expectations, How to study,
 The science of memory and Why Latin; each student hears every approved line
