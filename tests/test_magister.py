@@ -78,6 +78,14 @@ class TestScreens(unittest.TestCase):
             said.add(body.split('<div class="mg-name">Magister</div><p>')[1].split("</p>")[0])
         self.assertEqual(len(said), 3)
 
+    def test_he_is_the_drawing(self):
+        self.save(action="approve", id="latin-04")
+        body = self.student.get("/").data.decode()
+        self.assertIn("static/magister.png", body)
+        r = self.student.get("/static/magister.png")
+        self.assertEqual((r.status_code, r.data[:8]), (200, b"\x89PNG\r\n\x1a\n"))
+        r.close()
+
     def test_slow_down_lines_never_show_on_the_home_screen(self):
         self.save(action="approve", id="slowdown-03")
         self.assertNotIn("Even Caesar", self.student.get("/").data.decode())

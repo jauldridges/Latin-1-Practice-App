@@ -143,6 +143,28 @@ class TestRetriesCountOnce(unittest.TestCase):
                ev("vocab:aqua:la_en", "right", t + 10)]
         self.assertEqual(stats.session_stats(evs)["studied"], 3)
 
+    def test_the_same_card_back_to_back_is_two_studies_unless_it_was_a_retype(self):
+        # The last card one night and the first the next morning; a card
+        # relearned after Again with nothing else left. Both are real study,
+        # and the homework count used to drop the second.
+        t = 1_000_000.0
+        night = [ev("vocab:aqua:la_en", "right", t), ev("vocab:aqua:la_en", "right", t + 40000)]
+        self.assertEqual(len(stats.collapse_retries(night)), 2)
+        again = [ev("vocab:aqua:la_en", "wrong", t), ev("vocab:aqua:la_en", "right", t + 300)]
+        self.assertEqual(len(stats.collapse_retries(again)), 2)
+        # a close abandoned and the card met again the next day: two studies
+        later = [ev("vocab:aqua:la_en", "close", t), ev("vocab:aqua:la_en", "right", t + 40000)]
+        self.assertEqual(len(stats.collapse_retries(later)), 2)
+
+    def test_the_homework_count_includes_the_back_to_back_card(self):
+        import teacher
+        t = 1_000_000.0
+        evs = [ev("vocab:aqua:la_en", "right", t), ev("vocab:aqua:la_en", "right", t + 40000),
+               ev("vocab:via:la_en", "close", t + 40010), ev("vocab:via:la_en", "right", t + 40015)]
+        for e in evs:
+            e["context"] = "practice"
+        self.assertEqual(teacher.homework_counts(evs)["vocab"], 3)
+
     def test_a_retype_that_is_still_wrong_counts_as_wrong_once(self):
         t = 1_000_000.0
         evs = [ev("vocab:aqua:la_en", "close", t), ev("vocab:aqua:la_en", "wrong", t + 8)]

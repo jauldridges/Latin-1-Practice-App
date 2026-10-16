@@ -20,6 +20,7 @@ import time
 
 import fsrs
 import rush
+import stats
 
 QUIZ_CONTEXTS = ("quiz", "exam")
 SITTING_GAP = rush.SITTING_GAP          # 30 minutes without an answer ends a sitting
@@ -95,23 +96,9 @@ def _accuracy(evs):
 
 
 def _cards(evs):
-    """Cards studied. A near-miss the student retyped is one card, not two: since
-    self-grading the near-miss is stored with rating 0 and is dropped; before
-    it, a "close" followed straight away by the same card is the retype's first
-    half. Unlike stats.collapse_retries, the same card met again later (the
-    next day, or relearned after Again) stays a second card."""
-    evs = sorted(evs, key=lambda e: e["timestamp"])
-    out = []
-    for i, e in enumerate(evs):
-        if e.get("rating") == 0:
-            continue
-        nxt = evs[i + 1] if i + 1 < len(evs) else None
-        if (e.get("rating") is None and e.get("result") == "close" and nxt is not None
-                and nxt.get("item_id") == e.get("item_id")
-                and nxt["timestamp"] - e["timestamp"] <= SITTING_GAP):
-            continue
-        out.append(e)
-    return out
+    """Cards studied: a near-miss and its retype are one card, the rule every
+    count in the app uses (stats.collapse_retries)."""
+    return stats.collapse_retries(evs)
 
 
 def _secs(ms, cap):

@@ -84,7 +84,7 @@ start clean.
 | `rush.py` | The three "rushed" rules, sittings, and the dashboard flag. |
 | `magister.py`, `magister.yaml` | The cartoon Magister and his lines (teacher-approved). |
 | `analysis.py` | Data for analysis: the zip of spreadsheets split around an exam. |
-| `tests/` | 663 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 666 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -502,8 +502,9 @@ to answers from the day this shipped; older answers carry no verdict.
 
 ## The Magister
 
-A cartoon Roman teacher (`templates/_magister_svg.html`) on the student home
-screen says one line per visit, rotating through Expectations, How to study,
+The Magister -- a student's caricature of the teacher, cleaned up and colored
+(`static/magister.png`; the student's signature was left off, since the app
+carries no student names) -- on the student home screen says one line per visit, rotating through Expectations, How to study,
 The science of memory and Why Latin; each student hears every approved line
 before any repeats. Slow-down messages are a fifth group, shown only after
 three rushed cards in a row (with a built-in default if none is approved).
@@ -1135,7 +1136,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-663 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+666 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

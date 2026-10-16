@@ -35,20 +35,25 @@ def current_session(events, gap=SESSION_GAP, now=None):
 
 
 def collapse_retries(events):
-    """Consecutive attempts at the same card count as one study.
+    """A near-miss and the retype that fixes it count as one study.
 
     A close sends the student straight back to the same card to retype it, so
-    "aqu" then "aqua" is one word studied, not two — and the result that counts
+    "aqu" then "aqua" is one word studied, not two -- and the result that counts
     is the one they finished on. Counting both made a corrected close look like
     a miss, which is the opposite of what close is for.
 
-    Only a CONSECUTIVE run collapses. Meeting the same word again later in the
-    sitting is a real second study and stays a second study; spaced repetition
-    re-serves words on purpose and that must still show.
+    Only that pair collapses: a CLOSE followed by the same card within the
+    sitting. Any other repeat is a real second study and stays one -- the last
+    card one night and the first the next morning, or a card relearned after
+    Again. (Until Oct 2026 every consecutive repeat collapsed, which quietly
+    left those cards out of the homework count.)
     """
     out = []
     for e in sorted(events, key=lambda x: x["timestamp"]):
-        if out and out[-1].get("item_id") == e.get("item_id"):
+        prev = out[-1] if out else None
+        if (prev is not None and prev.get("result") == "close"
+                and prev.get("item_id") == e.get("item_id")
+                and e["timestamp"] - prev["timestamp"] <= SESSION_GAP):
             out[-1] = e          # the retype replaces the attempt it corrects
         else:
             out.append(e)
