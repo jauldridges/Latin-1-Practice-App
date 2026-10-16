@@ -81,7 +81,9 @@ start clean.
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
-| `tests/` | 623 tests. `python3 -m unittest discover -s tests`. |
+| `rush.py` | The three "rushed" rules, sittings, and the dashboard flag. |
+| `magister.py`, `magister.yaml` | The cartoon Magister and his lines (teacher-approved). |
+| `tests/` | 653 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -463,6 +465,44 @@ Every word and topic on My Progress has a strength bar that grows ("holds 9
 days"); the session bar counts "↑ N stronger" (cards remembered this sitting);
 the home screen and the Vocabulary and Grammar pages show how many are **due
 today**. `tests/test_fsrs.py`, `tests/test_drill.py`.
+
+## Rushing
+
+`rush.py` marks a single answer **rushed** for any of three reasons, stored
+in `events.rush` (the grade-button timer is `events.grade_ms`). A right answer
+is never rushed.
+
+| Reason | When |
+|---|---|
+| **looked_away** | wrong or blank, and a grade button pressed under 1.5 s after the answer appeared |
+| **graded_up** | Good or Easy on a blank, on a typed answer less than half like the real one (bad spelling of the right word passes), or on a wrong multiple-choice pick |
+| **guessed** | wrong, and answered faster than reading allows: 1.5 s for vocabulary, 2.5 s for grammar, 1 s per box on drag-and-drop |
+
+A **sitting** (answers with no gap over 30 minutes) is flagged on the dashboard
+when it has 10+ cards and a third or more were rushed: "⚑ 14 of 20 rushed",
+with the sitting card by card on the student's page. Three rushed in a row
+brings the Magister's slow-down message on the card screen.
+
+Goals & deadlines → **Rushed cards** decides whether rushed cards count toward
+the weekly 50 + 50 (default: they count, and are only flagged). The rules apply
+to answers from the day this shipped; older answers carry no verdict.
+`tests/test_rush.py`.
+
+## The Magister
+
+A cartoon Roman teacher (`templates/_magister_svg.html`) on the student home
+screen says one line per visit, rotating through Expectations, How to study,
+The science of memory and Why Latin; each student hears every approved line
+before any repeats. Slow-down messages are a fifth group, shown only after
+three rushed cards in a row (with a built-in default if none is approved).
+
+He says **only approved lines**: same fingerprint rule as teaching text, under
+`magister:` keys. Teacher dashboard → **The Magister** approves, withdraws,
+edits (saves and approves) and adds the teacher's own lines; `magister.yaml` is
+never written. Notes marked "for you" are teacher-only — rules-07/rules-08 and
+slowdown-02/slowdown-06 are pairs that say opposite things about whether
+rushed cards count, so approve the one that matches the switch.
+`tests/test_magister.py`.
 
 ## Label the words (tap-to-place)
 
@@ -1083,7 +1123,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-623 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+653 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

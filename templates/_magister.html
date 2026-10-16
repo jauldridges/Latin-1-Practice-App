@@ -1,0 +1,10 @@
+{#- The Magister and his speech bubble. Expects `say` (the words) and
+    optionally `small` (the in-practice size, for the slow-down message). -#}
+{% if say %}
+<aside class="magister {{ 'small' if small }}" aria-label="The Magister says">
+  <div class="mg-face">{% include "_magister_svg.html" %}</div>
+  <div class="mg-bubble"><div class="mg-name">Magister</div><p>{{ say }}</p>
+    {% if not small %}<button type="button" class="mg-close" aria-label="Close"
+      onclick="this.closest('.magister').hidden = true">✕</button>{% endif %}</div>
+</aside>
+{% endif %}

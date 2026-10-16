@@ -2,6 +2,7 @@
 {% block subtitle %}{{ student }}{% endblock %}
 {% block content %}
 {% if notice %}<div class="answer-feedback close">{{ notice }}</div>{% endif %}
+{% with say=nudge, small=true %}{% include "_magister.html" %}{% endwith %}
 
 {% include "_statsbar.html" %}
 

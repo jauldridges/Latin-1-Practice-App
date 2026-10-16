@@ -60,9 +60,17 @@ def kind_of(event):
     return "vocab" if str(event.get("item_id") or "").startswith("vocab:") else "grammar"
 
 
+# Whether a rushed card (rush.py) still counts toward the weekly goal. The
+# teacher's switch on Goals & deadlines; server.py sets it from the setting at
+# the start of every request, so every count on every screen agrees.
+COUNT_RUSHED = True
+
+
 def homework_events(events):
-    """Every answer that counts as homework: anything but a proctored quiz."""
-    return [e for e in events if (e.get("context") or "practice") not in NOT_HOMEWORK]
+    """Every answer that counts as homework: anything but a proctored quiz,
+    and -- if the teacher has switched it off -- not a rushed card."""
+    return [e for e in events if (e.get("context") or "practice") not in NOT_HOMEWORK
+            and (COUNT_RUSHED or not e.get("rush"))]
 
 
 def homework_counts(events):

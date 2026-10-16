@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block subtitle %}the magister{% endblock %}
+{% block content %}
+<p class="small"><a href="{{ url_for('teacher_home') }}">← Dashboard</a></p>
+<h1>The Magister</h1>
+{% with say="Salvē! Approve the lines you like, change the ones you don't, and write your own. I only ever say what you've approved." %}{% include "_magister.html" %}{% endwith %}
+<p class="small muted">Each time a student opens the app, the Magister says one approved line from
+  the first four groups — every student goes through all of them before any repeats. The
+  <strong>slow-down messages</strong> appear only after a student rushes three cards in a row.
+  <strong>Edit</strong> saves and approves. Lines marked <em>for you</em> carry a note only you see.</p>
+
+<div class="audio-progress"><strong>{{ n_approved }}</strong> of {{ total }} lines approved</div>
+{% if n_approved < total %}
+<form method="post" action="{{ url_for('teacher_magister_save') }}"
+      onsubmit="return confirm('Approve every line as it reads now? Check the ones with notes first — some say opposite things about rushed cards.')">
+  <input type="hidden" name="action" value="approve_all">
+  <button class="bigbtn secondary" type="submit">Approve all {{ total - n_approved }} not yet approved</button>
+</form>
+{% endif %}
+
+{% for grp in groups %}
+<details class="week" {{ 'open' if loop.first }}>
+  <summary><span class="week-name">{{ grp.label }}</span>
+    <span class="small muted">{{ grp.lines | selectattr('state', 'equalto', 'approved') | list | length }} of {{ grp.lines | length }}</span></summary>
+  <ul class="recwords vhints">
+    {% for l in grp.lines %}
+    <li id="m-{{ l.id }}" class="{{ 'has' if l.state == 'approved' }}">
+      <div class="vh-body">
+        <div class="vh-head">
+          {% if l.state == 'approved' %}<span class="pill solid">approved</span>
+          {% elif l.state == 'edited' %}<span class="pill shaky">changed since approval</span>
+          {% else %}<span class="pill notyet">not yet approved</span>{% endif %}
+          {% if l.custom %}<span class="small muted">your line</span>{% elif l.edited %}<span class="small muted">edited</span>{% endif %}
+        </div>
+        <div class="mg-text">{{ l.text }}</div>
+        {% if l.note %}<div class="small mg-note"><strong>For you:</strong> {{ l.note }}</div>{% endif %}
+        {% if error and error_id == l.id %}<div class="flags small"><span class="lvl error">not saved</span> {{ error }}</div>{% endif %}
+        <div class="vh-actions">
+          <form method="post" action="{{ url_for('teacher_magister_save') }}" class="inline">
+            <input type="hidden" name="id" value="{{ l.id }}">
+            {% if l.state == 'approved' %}
+              <button class="minibtn del" name="action" value="withdraw" type="submit">Withdraw</button>
+            {% else %}
+              <button class="minibtn" name="action" value="approve" type="submit">Approve</button>
+            {% endif %}
+            {% if l.custom %}<button class="minibtn del" name="action" value="delete" type="submit"
+              onclick="return confirm('Delete this line?')">Delete</button>{% endif %}
+          </form>
+          <details class="vh-edit">
+            <summary class="minibtn">Edit</summary>
+            <form method="post" action="{{ url_for('teacher_magister_save') }}">
+              <input type="hidden" name="id" value="{{ l.id }}">
+              <input type="hidden" name="action" value="edit">
+              <label class="small muted">What he says
+                <textarea name="text" rows="3" class="rq-text">{{ l.text }}</textarea></label>
+              <button class="minibtn" type="submit">Save &amp; approve</button>
+            </form>
+          </details>
+        </div>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</details>
+{% endfor %}
+
+<h2>Write your own line</h2>
+<form method="post" action="{{ url_for('teacher_magister_save') }}" class="card">
+  <input type="hidden" name="action" value="add">
+  <label class="small muted">What he says
+    <textarea name="text" rows="3" class="rq-text" placeholder="Salvē, discipulī! …"></textarea></label>
+  <div class="goalform" style="margin-top:8px">
+    <label>Kind of line
+      <select name="category">{% for c, label in categories %}<option value="{{ c }}">{{ label }}</option>{% endfor %}</select></label>
+  </div>
+  {% if error and error_id and error_id.startswith('custom-') %}<div class="flags small"><span class="lvl error">not saved</span> {{ error }}</div>{% endif %}
+  <button class="bigbtn" type="submit">Add &amp; approve</button>
+</form>
+{% endblock %}

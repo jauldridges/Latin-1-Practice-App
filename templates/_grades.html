@@ -8,6 +8,7 @@
    menu, offered as an optional pick that goes with the grade). #}
 <form method="post" action="{{ grades.action }}" class="gradeform" id="gradeform">
   {% for name, value in grades.fields %}<input type="hidden" name="{{ name }}" value="{{ value }}">{% endfor %}
+  <input type="hidden" name="grade_ms" value="">
 
   {% if reasons %}
   <details class="reasons" {{ 'open' if grades.suggest == 1 }}>
@@ -38,6 +39,12 @@
   (function () {
     var form = document.getElementById('gradeform');
     if (!form) return;
+    // How long the answer was on screen before the grade: rush.py's
+    // "graded before reading the answer".
+    var shown = Date.now();
+    form.addEventListener('submit', function () {
+      form.querySelector('input[name=grade_ms]').value = String(Date.now() - shown);
+    });
     // A chosen reason travels with the grade.
     form.addEventListener('change', function (ev) {
       if (ev.target.name !== 'reason_key') return;

@@ -20,6 +20,24 @@ and the quizzes and tests coming up. The week-by-week record for the gradebook i
   <button class="bigbtn" type="submit">Save goal</button>
 </form>
 
+<h2>Rushed cards</h2>
+{% if saved == 'rushed' %}<div class="flags"><span class="lvl heuristic">saved</span> Every homework count uses this now, past weeks included.</div>{% endif %}
+<form method="post" class="card">
+  <input type="hidden" name="form" value="rushed">
+  <p class="small muted" style="margin-top:0">A card is <strong>rushed</strong> when a student
+    (1) taps a grade within 1½ seconds of being shown they were wrong — too fast to read the answer;
+    (2) grades <em>Good</em> or <em>Easy</em> on a blank answer, on a typed answer sharing less than
+    half its letters with the right one, or on a wrong multiple-choice pick; or (3) gives a wrong
+    answer faster than the question can be read (1½ s for a word, 2½ s for a grammar question,
+    1 s per box on drag-and-drop). Right answers are never rushed. Rushed sittings are flagged ⚑
+    on your dashboard either way.</p>
+  <label class="opt"><input type="radio" name="count_rushed" value="yes" {{ 'checked' if count_rushed }}>
+    <span>Rushed cards <strong>still count</strong> toward the weekly cards — just flag them</span></label>
+  <label class="opt"><input type="radio" name="count_rushed" value="no" {{ 'checked' if not count_rushed }}>
+    <span>Rushed cards <strong>don't count</strong> toward the weekly cards</span></label>
+  <button class="bigbtn" type="submit">Save</button>
+</form>
+
 <h2>Homework weeks</h2>
 {% if saved == 'weeks' %}<div class="flags"><span class="lvl heuristic">saved</span> Students' homework pages use these weeks now.</div>{% endif %}
 {% if saved == 'badweeks' %}<div class="flags"><span class="lvl error">not saved</span> Pick the date homework starts counting from.</div>{% endif %}

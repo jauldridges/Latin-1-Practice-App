@@ -38,6 +38,9 @@
   {{ table.n_students }} students · "did it" means the weekly goal: {{ targets.vocab }} vocabulary
   and {{ targets.grammar }} grammar cards in this window, counted the way students' home screens count them.</p>
 
+{% if table.n_flagged %}<p class="small"><span class="rushflag">⚑ {{ table.n_flagged }} student{{ 's' if table.n_flagged != 1 }}</span>
+  had a sitting in this window where a third or more of the cards were rushed. Tap the flag to see the cards.</p>{% endif %}
+
 <a class="bigbtn" href="{{ url_for('teacher_homework', section=w.section) }}">Homework, week by week (for the gradebook)</a>
 
 <table class="progress">
@@ -47,6 +50,10 @@
     <td>
       <a class="sid" href="{{ url_for('teacher_student', student_id=r.student_id, days=w.days) }}">{{ r.student_id }}</a><br>
       <span class="pill {{ 'notyet' if r.state == 'none' else ('shaky' if r.state == 'started' else 'solid') }}">{{ r.state }}</span>
+      {% if r.flags %}{% set f = r.flags[-1] %}
+      <a class="rushflag" href="{{ url_for('teacher_student', student_id=r.student_id, days=w.days) }}#rushed"
+         title="{% for code, n in f.reasons.items() %}{{ n }} {{ rush_reasons.get(code, code) }}{{ '; ' if not loop.last }}{% endfor %}">⚑ {{ f.rushed }} of {{ f.cards }} rushed{% if r.flags | length > 1 %} ({{ r.flags | length }} sittings){% endif %}</a>
+      {% endif %}
       {% if r.section %}<span class="small muted"> {{ r.section }}</span>{% endif %}
     </td>
     <td>{{ r.hw.vocab }}</td>
@@ -76,6 +83,7 @@
 <a class="bigbtn secondary" href="{{ url_for('teacher_audio') }}">Record the vocabulary</a>
 <a class="bigbtn secondary" href="{{ url_for('teacher_reader') }}">Reader</a>
 <a class="bigbtn secondary" href="{{ url_for('teacher_vocab_hints') }}">Vocabulary hints</a>
+<a class="bigbtn secondary" href="{{ url_for('teacher_magister') }}">The Magister</a>
 <a class="bigbtn secondary" href="{{ url_for('teacher_roster') }}">Class list</a>
 <a class="bigbtn secondary" href="{{ url_for('teacher_data') }}">Backup &amp; end of year</a>
 <p style="text-align:center"><a class="small" href="{{ url_for('teacher_export', days=w.days, section=w.section) }}">Download this table as a spreadsheet</a></p>

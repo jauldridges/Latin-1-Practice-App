@@ -1,0 +1,194 @@
+# What the Magister says. One line shows on a student's home screen each time
+# they open the app; the slow-down lines show when they rush three cards in a
+# row (rush.py). A student sees a line only once the teacher approves it at
+# Teacher dashboard -> The Magister, where every line can be edited, withdrawn,
+# or added to. Editing saves and approves.
+#
+#   id        never changes, so an approval follows the line
+#   category  rules | study | science | latin | slowdown
+#   text      what he says (keep it to a sentence or two)
+#   note      for the teacher only, never shown to students
+
+lines:
+
+  # --- Expectations: how the app works and what's expected -----------------
+  - id: rules-01
+    category: rules
+    text: "Salvē! Your homework is 50 vocabulary cards and 50 grammar cards a week, Saturday to Friday. Finish by Friday night and it's on time."
+  - id: rules-02
+    category: rules
+    text: "A few minutes on several days beats one long session on Thursday night. Spread your 100 cards across the week."
+  - id: rules-03
+    category: rules
+    text: "After every card, grade yourself honestly: Again, Hard, Good or Easy. Your grade decides when you'll see that card again — it's not your grade in class."
+  - id: rules-04
+    category: rules
+    text: "Pressing Easy on a card you missed doesn't fool me. It only fools your schedule — and the card comes back after you've forgotten it."
+  - id: rules-05
+    category: rules
+    text: "Missed a word because of spelling? Grade it by how well you knew the word. Honesty about the Latin is what counts."
+  - id: rules-06
+    category: rules
+    text: "Didn't know it? That's fine. Leave it blank, read the answer carefully, and press Again. That's honest studying."
+  - id: rules-07
+    category: rules
+    text: "Cards you rush through are flagged for your teacher. Read the answer before you grade — that's where the learning happens."
+    note: "Use if rushed cards still count toward the weekly cards."
+  - id: rules-08
+    category: rules
+    text: "Rushed cards don't count toward your 50 + 50. Read each answer, then grade it, and every card counts."
+    note: "Use if rushed cards do NOT count toward the weekly cards."
+  - id: rules-09
+    category: rules
+    text: "Check 'due today' on your home screen. Clearing your due cards each day is the fastest way to make words solid."
+  - id: rules-10
+    category: rules
+    text: "Your strength bars grow each time you remember something on a later day. Cramming makes them grow a little. Spacing makes them grow a lot."
+  - id: rules-11
+    category: rules
+    text: "Missed a week? You can still finish it late. Once this week's cards are done, extra cards finish the oldest unfinished week."
+  - id: rules-12
+    category: rules
+    text: "Stuck on a grammar question? Open the Hint before you answer. It's there to help, not to trick you."
+
+  # --- How to study --------------------------------------------------------
+  - id: study-01
+    category: study
+    text: "Before you type, try to picture the word. Pulling it out of your memory is the exercise — even a wrong guess helps."
+  - id: study-02
+    category: study
+    text: "Say the Latin out loud. Hearing yourself say it gives your memory a second path to the word."
+  - id: study-03
+    category: study
+    text: "Tap the 🔊 button. Your teacher recorded every word, and hearing it helps it stick."
+  - id: study-04
+    category: study
+    text: "Open the Hint for an example sentence. A word in a sentence is easier to remember than a word on its own."
+  - id: study-05
+    category: study
+    text: "Ten minutes a day beats an hour once a week. Short and often is the secret."
+  - id: study-06
+    category: study
+    text: "Put your phone on silent while you practice. Your memory works best with your full attention."
+  - id: study-07
+    category: study
+    text: "If a word keeps slipping away, make a silly picture for it. Agricola: a farmer drinking a cola in his field."
+  - id: study-08
+    category: study
+    text: "Look for English words inside the Latin. Aqua → aquarium. Portāre → portable. Your English already knows more Latin than you think."
+  - id: study-09
+    category: study
+    text: "Sleep is part of studying. Practice, then rest — your brain sorts and stores what you learned while you sleep."
+  - id: study-10
+    category: study
+    text: "When you get one wrong, read the right answer slowly, once. One careful look is worth ten fast ones."
+  - id: study-11
+    category: study
+    text: "Mix it up: some vocabulary, then some grammar. Switching between them helps both stick."
+  - id: study-12
+    category: study
+    text: "Read the story out loud before you answer the Reader questions. Latin was meant to be heard."
+
+  # --- The science of memory --------------------------------------------------
+  - id: science-01
+    category: science
+    text: "Scientists call it the testing effect: trying to recall something strengthens your memory more than rereading it. Every card is a tiny test that makes the word stick."
+  - id: science-02
+    category: science
+    text: "In 1885 Hermann Ebbinghaus memorized lists of nonsense syllables and timed how fast he forgot them. Most forgetting happens in the first day or two — so review soon after you learn."
+  - id: science-03
+    category: science
+    text: "The spacing effect is one of the most-tested findings in psychology: the same practice, spread over several days, beats the same practice crammed into one night."
+  - id: science-04
+    category: science
+    text: "Rereading your notes feels like learning, but mostly it makes things look familiar. Recalling from memory feels harder — and that's exactly why it works."
+  - id: science-05
+    category: science
+    text: "Psychologists call it a 'desirable difficulty': a little struggle while you remember makes the memory stronger. If it feels hard, you're doing it right."
+  - id: science-06
+    category: science
+    text: "Each time you remember a word after a gap, the memory lasts longer. That's why this app waits longer and longer between reviews of the words you know."
+  - id: science-07
+    category: science
+    text: "When you're sure of an answer and it turns out wrong, you're especially likely to remember the correction. Mistakes are memorable — use them."
+  - id: science-08
+    category: science
+    text: "Guessing before you see the answer helps you learn it, even when the guess is wrong. So always try before you look."
+  - id: science-09
+    category: science
+    text: "While you sleep, your brain replays what you practiced. A short session in the evening, then a good night's sleep, is a powerful pair."
+  - id: science-10
+    category: science
+    text: "Cramming can get you through tomorrow's quiz, but most of it is gone a week later. Spaced practice is how you still know your Latin in June."
+  - id: science-11
+    category: science
+    text: "In experiments, students usually predict that rereading will work better than testing themselves. A week later, the ones who tested themselves remember more."
+  - id: science-12
+    category: science
+    text: "Testing yourself also shows you exactly what you don't know yet, so you spend your time where it matters."
+  - id: science-13
+    category: science
+    text: "A memory is like a path through a forest. Each time you walk it, it gets clearer and easier to find."
+
+  # --- Why Latin -----------------------------------------------------------
+  - id: latin-01
+    category: latin
+    text: "More than half of English words come from Latin, directly or through French. Learning Latin is secretly learning English."
+  - id: latin-02
+    category: latin
+    text: "Spanish, French, Italian, Portuguese and Romanian all grew out of Latin. Hundreds of millions of people speak a language descended from the one you're learning."
+  - id: latin-03
+    category: latin
+    text: "Doctors, lawyers and scientists use Latin every day — and every living thing on Earth has a Latin scientific name."
+  - id: latin-04
+    category: latin
+    text: "Your school's name is Latin! Lībertās means freedom."
+  - id: latin-05
+    category: latin
+    text: "The Massachusetts state motto is Latin: Ēnse petit placidam sub lībertāte quiētem — 'By the sword we seek peace, but peace only under liberty.'"
+  - id: latin-06
+    category: latin
+    text: "Ē plūribus ūnum — 'out of many, one' — is on American coins. You can already read the money in your pocket."
+  - id: latin-07
+    category: latin
+    text: "When you learn how Latin builds a sentence, you start to see how English does it too. Latin students often become sharper writers."
+  - id: latin-08
+    category: latin
+    text: "Julius Caesar, Cicero and Virgil wrote in the language you're learning. One day you'll read their own words, not a translation."
+  - id: latin-09
+    category: latin
+    text: "Latin is hiding in your science class: aqua in aquarium, terra in territory, stēlla in constellation, lūna in lunar."
+  - id: latin-10
+    category: latin
+    text: "For centuries, scholars across Europe wrote to each other in Latin. Isaac Newton wrote his great book on gravity in Latin."
+  - id: latin-11
+    category: latin
+    text: "The calendar on your wall is Roman. January is named for Iānus, the god of doorways, and March for Mars, the god of war."
+  - id: latin-12
+    category: latin
+    text: "'Student' comes from the Latin studēre — to be eager, to apply yourself. You're doing what the word means right now."
+  - id: latin-13
+    category: latin
+    text: "Mottoes love Latin: the Marines say Semper fidēlis, 'always faithful', and Harvard's is Vēritās, 'truth'."
+
+  # --- Slow-down messages (after three rushed cards in a row) -------------
+  - id: slowdown-01
+    category: slowdown
+    text: "Festīnā lentē — make haste slowly! You're moving fast. Read each answer before you grade it."
+  - id: slowdown-02
+    category: slowdown
+    text: "Slow down, discipule. Cards you rush don't stick, and your teacher can see them."
+    note: "Use if rushed cards still count toward the weekly cards."
+  - id: slowdown-03
+    category: slowdown
+    text: "Even Caesar read his maps before he marched. Take a breath and read the answer."
+  - id: slowdown-04
+    category: slowdown
+    text: "Speed isn't the goal — remembering is. Try the next few cards slowly and see how much better they stick."
+  - id: slowdown-05
+    category: slowdown
+    text: "Tired? It's fine to stop and come back later. Five careful minutes beat twenty rushed ones."
+  - id: slowdown-06
+    category: slowdown
+    text: "Rushed cards don't count toward your weekly cards. Slow down so your work counts."
+    note: "Use if rushed cards do NOT count toward the weekly cards."

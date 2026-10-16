@@ -24,6 +24,32 @@
 <p class="small muted">{{ act.vocab }} vocabulary · {{ act.grammar }} grammar ·
   last practiced {{ act.ever_last_at | when }} · {{ act.ever_attempts }} answers all year.</p>
 
+{% if rushed %}
+<h2 id="rushed">⚑ Rushed sittings</h2>
+<p class="small muted">Sittings of 10+ cards where a third or more were rushed: graded before
+  reading the answer, graded Good/Easy on a non-answer, or a wrong answer faster than the
+  question can be read. Right answers are never counted as rushed.</p>
+{% for sit in rushed %}
+<details class="week">
+  <summary><span class="week-name">{{ sit.start | when }} — {{ sit.rushed }} of {{ sit.cards }} rushed</span>
+    <span class="small muted">{% for code, n in sit.reasons.items() %}{{ n }} {{ rush_reasons.get(code, code) }}{{ '; ' if not loop.last }}{% endfor %}</span></summary>
+  <table class="progress">
+    <tr><th>Card</th><th>Typed</th><th>Check</th><th>Grade</th><th>Answer · grade time</th></tr>
+    {% for e in sit.events %}
+    <tr class="{{ 'rushrow' if e.rush }}">
+      <td class="small">{{ e.item_id.split(':')[1] if e.item_id.startswith('vocab:') else e.item_id }}</td>
+      <td>{{ e.response or '(blank)' }}</td>
+      <td class="small">{{ e.result }}</td>
+      <td class="small">{{ {1: 'Again', 2: 'Hard', 3: 'Good', 4: 'Easy'}.get(e.rating, '—') }}</td>
+      <td class="small">{{ '%.1f s' % (e.latency_ms / 1000) if e.latency_ms else '—' }} ·
+        {{ '%.1f s' % (e.grade_ms / 1000) if e.grade_ms else '—' }}{% if e.rush %} <span class="rushflag">⚑</span>{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</details>
+{% endfor %}
+{% endif %}
+
 {% if homework %}
 <h2>Homework</h2>
 <ul class="hwweeks">

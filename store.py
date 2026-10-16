@@ -61,7 +61,11 @@ CREATE TABLE IF NOT EXISTS events (
     -- the spot). NULL = an answer from before self-grading, or one the app
     -- grades itself (a quiz, a drag-and-drop question): its rating is read
     -- from `result`. `result` stays the app's own check, always.
-    rating        INTEGER
+    rating        INTEGER,
+    -- How long the answer was on screen before the student graded it (ms),
+    -- and whether the card was rushed: rush.py's reason codes, or NULL.
+    grade_ms      INTEGER,
+    rush          TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_events_student ON events(student_id);
 CREATE INDEX IF NOT EXISTS idx_events_item ON events(item_id);
@@ -251,8 +255,14 @@ def init_db(conn):
     if "skips" not in conn.table_columns("items"):
         conn.execute("ALTER TABLE items ADD COLUMN skips INTEGER DEFAULT 0")
     # ... and the self-grade column (October 2026). Older answers keep NULL.
-    if "rating" not in conn.table_columns("events"):
+    cols = conn.table_columns("events")
+    if "rating" not in cols:
         conn.execute("ALTER TABLE events ADD COLUMN rating INTEGER")
+    # ... and rushing (October 2026).
+    if "grade_ms" not in cols:
+        conn.execute("ALTER TABLE events ADD COLUMN grade_ms INTEGER")
+    if "rush" not in cols:
+        conn.execute("ALTER TABLE events ADD COLUMN rush TEXT")
     conn.commit()
     return purge_names(conn)
 
@@ -666,13 +676,13 @@ def flag_item_live_fire(conn, item_id, reason):
 
 def record_event(conn, student_id, item_id, spec_node_id, response, result,
                  latency_ms=None, context="practice", version="v1", timestamp=None,
-                 rating=None):
+                 rating=None, grade_ms=None, rush=None):
     conn.execute(
         """INSERT INTO events (student_id, timestamp, item_id, spec_node_id,
-               response, result, latency_ms, context, version, rating)
-           VALUES (?,?,?,?,?,?,?,?,?,?)""",
+               response, result, latency_ms, context, version, rating, grade_ms, rush)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?)""",
         (normalize_student(student_id), timestamp or time.time(), item_id, spec_node_id,
-         response, result, latency_ms, context, version, rating))
+         response, result, latency_ms, context, version, rating, grade_ms, rush))
     conn.commit()
 
 

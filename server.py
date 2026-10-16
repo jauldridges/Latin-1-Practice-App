@@ -31,11 +31,13 @@ import identity
 import practice
 import quiz as quizlib
 import goals
+import magister
 import schooltime  # noqa: F401  -- the school's clock, set before anything reads it
 import stats
 import store
 import teacher
 import readings
+import rush
 import vocabhints
 from answercheck import check as check_answer
 
@@ -413,6 +415,21 @@ def weekly_targets(db):
                                          if k in goals.DEFAULT_TARGETS})
 
 
+def count_rushed_setting(db):
+    """Do rushed cards count toward the weekly goal? Yes until the teacher says."""
+    v = store.get_setting(db, "count_rushed")
+    return True if v is None else bool(v)
+
+
+@app.before_request
+def _rushed_rule():
+    """Every count in this request follows the teacher's switch."""
+    if request.path.startswith(("/static", "/healthz", "/audio/")):
+        return None
+    teacher.COUNT_RUSHED = count_rushed_setting(get_db())
+    return None
+
+
 def homework_setting(db):
     """{"from": first homework week's Saturday, "off": [no-homework weeks]}."""
     s = store.get_setting(db, "homework") or {}
@@ -479,6 +496,9 @@ def index():
         ctx["idle_days"] = goals.days_since_practice(events)
         ctx["upcoming"] = upcoming_assessments(db)
         ctx["due"] = due_today(db, student, events)
+        # A different approved line each time the home screen opens.
+        session["mg"] = session.get("mg", -1) + 1
+        ctx["magister_line"] = magister_says(db, student, magister.HOME, session["mg"])
         ctx["games"] = _GAMES
     return render_template("index.html", **ctx)
 
@@ -898,6 +918,7 @@ def drill_session():
     return render_template("drill_card.html", student=student, week=week,
                            direction=direction, card=card,
                            introduced=weeklabel(drill.find_word(_DRILL_WORDS, card.latin).get("week")),
+                           nudge=slowdown_nudge(db, student, events),
                            **_drill_stats(events))
 
 
@@ -977,10 +998,14 @@ def drill_grade():
         abort(400)
     rating = _rating_from_form()
     response = request.form.get("response", "")
-    result = check_answer(response, drill.accepted_for(word, ask), macron_matters=False)
+    accepted = drill.accepted_for(word, ask)
+    result = check_answer(response, accepted, macron_matters=False)
+    latency = request.form.get("latency_ms", type=int)
+    grade_ms = request.form.get("grade_ms", type=int)
+    why = rush.verdict("vocab", result, rating, response, accepted, latency, grade_ms)
     store.record_event(db, student, drill.item_id_for(word, ask), drill.node_for(word),
-                       response, result, latency_ms=request.form.get("latency_ms", type=int),
-                       context="practice", version="v1", rating=rating)
+                       response, result, latency_ms=latency, context="practice", version="v1",
+                       rating=rating, grade_ms=grade_ms, rush=rush.encode(why))
     return redirect(url_for("drill_session", week=request.form.get("week", "current"),
                             direction=request.form.get("direction", "both")))
 
@@ -1163,6 +1188,101 @@ def teacher_reader():
                      "students": students, "n_questions": len(qids), "written": written,
                      "not_yet": [s for s in roster_ids if s not in latest]})
     return render_template("teacher_reader.html", rows=rows)
+
+
+# ==========================================================================
+# The Magister — a cartoon teacher's lines, approved by the real one
+# ==========================================================================
+
+_MAGISTER = magister.load()
+
+
+def magister_lines(db):
+    """Every line in force -- the file's (with the teacher's edits) and the
+    teacher's own -- each with its approval state, in category order."""
+    overrides = store.teaching_overrides(db)
+    approvals = store.teaching_approvals(db)
+    lines = []
+    for l in _MAGISTER:
+        lines.append(dict(overrides.get(magister.key(l["id"])) or l, id=l["id"], note=l["note"],
+                          edited=magister.key(l["id"]) in overrides, custom=False))
+    for k, v in sorted(overrides.items()):
+        if k.startswith(magister.PREFIX + "custom-"):
+            lines.append(dict(v, id=k[len(magister.PREFIX):], note="", edited=False, custom=True))
+    for l in lines:
+        got = approvals.get(magister.key(l["id"]))
+        l["state"] = ("approved" if got == magister.fingerprint(l) else "edited" if got else "draft")
+    order = {c: i for i, (c, _) in enumerate(magister.CATEGORIES)}
+    lines.sort(key=lambda l: order.get(l.get("category"), 99))
+    return lines
+
+
+def magister_says(db, student, categories, n):
+    """An approved line from these categories for this student, or None."""
+    ok = [l for l in magister_lines(db) if l["state"] == "approved" and l["category"] in categories]
+    return magister.rotate(ok, student, n)
+
+
+def slowdown_nudge(db, student, events):
+    """What the Magister says after three rushed cards in a row, or None."""
+    if not rush.rushing_now(events, now=time.time()):
+        return None
+    n = sum(1 for e in events if e.get("rush"))
+    line = magister_says(db, student, ("slowdown",), n)
+    return line["text"] if line else magister.DEFAULT_SLOWDOWN
+
+
+@app.route("/teacher/magister")
+def teacher_magister():
+    lines = magister_lines(get_db())
+    groups = [{"category": c, "label": label, "lines": [l for l in lines if l["category"] == c]}
+              for c, label in magister.CATEGORIES]
+    return render_template("teacher_magister.html", groups=groups,
+                           n_approved=sum(1 for l in lines if l["state"] == "approved"),
+                           total=len(lines), categories=magister.CATEGORIES,
+                           error=request.args.get("error"), error_id=request.args.get("id"))
+
+
+@app.route("/teacher/magister/save", methods=["POST"])
+def teacher_magister_save():
+    """approve | withdraw | edit (saves and approves) | add | delete (own lines),
+    or approve_all."""
+    db = get_db()
+    action = request.form.get("action", "approve")
+    lines = {l["id"]: l for l in magister_lines(db)}
+    if action == "approve_all":
+        for l in lines.values():
+            store.approve_teaching(db, magister.key(l["id"]), magister.fingerprint(l))
+        return redirect(url_for("teacher_magister"))
+    if action == "add":
+        lid = magister.new_custom_id()
+        line = {"category": request.form.get("category", "rules"),
+                "text": (request.form.get("text") or "").strip()}
+    else:
+        lid = request.form.get("id", "")
+        if lid not in lines:
+            abort(404)
+        line = lines[lid]
+    anchor = "#m-" + lid
+    if action == "withdraw":
+        store.unapprove_teaching(db, magister.key(lid))
+    elif action == "delete" and line.get("custom"):
+        store.clear_teaching_override(db, magister.key(lid))
+        store.unapprove_teaching(db, magister.key(lid))
+        anchor = ""
+    elif action in ("edit", "add"):
+        if action == "edit":
+            line = {"category": request.form.get("category") or line["category"],
+                    "text": (request.form.get("text") or "").strip()}
+        bad = magister.problems(line)
+        if bad:
+            return redirect(url_for("teacher_magister", error=bad[0], id=lid) + anchor)
+        entry = {"category": line["category"], "text": line["text"]}
+        store.set_teaching_override(db, magister.key(lid), entry)
+        store.approve_teaching(db, magister.key(lid), magister.fingerprint(entry))
+    else:
+        store.approve_teaching(db, magister.key(lid), magister.fingerprint(line))
+    return redirect(url_for("teacher_magister") + anchor)
 
 
 # ==========================================================================
@@ -1537,6 +1657,7 @@ def practice_session():
                            label=_NODE_LABEL.get(item["node"], ""),
                            hint=approved_teaching_for(db, item.get("node")),
                            introduced=nodeweek(item.get("node")),
+                           nudge=slowdown_nudge(db, student, events),
                            **_practice_stats(db, events))
 
 
@@ -1573,9 +1694,11 @@ def practice_answer():
     elif fmt == practice.LABEL_WORDS:
         result, label_results = practice.grade_labels(item, request.form.getlist("pick"))
         typed = request.form.get("typed", "")
+        why = rush.verdict("grammar", result, None, "", (), latency, None,
+                           typed=False, boxes=len(label_results))
         store.record_event(db, student, item_id, item.get("node"),
                            practice.label_summary(label_results), result,
-                           latency_ms=latency, context=ctx, version="v1")
+                           latency_ms=latency, context=ctx, version="v1", rush=rush.encode(why))
         return render_template("practice_feedback.html", student=student, item=item,
                                node=node, context=ctx, result=result,
                                introduced=nodeweek(item.get("node")),
@@ -1669,10 +1792,26 @@ def practice_grade():
     else:
         typed = request.form.get("typed", "")
         result = SELF_RESULT[rating]
+    latency = request.form.get("latency_ms", type=int)
+    grade_ms = request.form.get("grade_ms", type=int)
+    if fmt == "choice":
+        why = rush.verdict("grammar", result, rating, picked or "", (), latency, grade_ms, typed=False)
+    elif fmt == "boxes":
+        responses = request.form.getlist("box")
+        why = rush.verdict("grammar", result, rating, " ".join(responses),
+                           [" ".join((b.get("answer") or [""])[0] for b in item.get("boxes") or [])],
+                           latency, grade_ms, boxes=len(responses))
+    elif fmt == "tag-then-translate":
+        why = rush.verdict("grammar", result, rating, typed or "", [], latency, grade_ms,
+                           typed=False, boxes=2 * len(item.get("tag_boxes") or []))
+    else:                                 # self-check: no check of its own
+        why = rush.verdict("grammar", None, rating, typed or "", [], latency, grade_ms)
+        if not (typed or "").strip() and rating >= fsrs.GOOD:
+            why = why + ["graded_up"]
     store.record_event(db, student, item_id, item.get("node"),
                        practice.response_summary(item, box_results, picked, typed),
-                       result, latency_ms=request.form.get("latency_ms", type=int),
-                       context=ctx, version="v1", rating=rating)
+                       result, latency_ms=latency, context=ctx, version="v1",
+                       rating=rating, grade_ms=grade_ms, rush=rush.encode(why))
     key = request.form.get("reason_key", "")
     if key:
         contested = (key == practice.CONTEST_KEY)
@@ -2020,7 +2159,10 @@ def _week_topics(weeks, approved_counts):
 def teacher_deadlines():
     db = get_db()
     saved = None
-    if request.method == "POST" and request.form.get("form") == "homework":
+    if request.method == "POST" and request.form.get("form") == "rushed":
+        store.set_setting(db, "count_rushed", request.form.get("count_rushed") == "yes")
+        saved = "rushed"
+    elif request.method == "POST" and request.form.get("form") == "homework":
         start = (request.form.get("from") or "").strip()
         if goals.days_until(start) is None:
             saved = "badweeks"
@@ -2052,6 +2194,7 @@ def teacher_deadlines():
     hw_weeks = [{"key": k, "label": goals.week_label(k), "on": k not in hs["off"]}
                 for k in goals.homework_weeks(hs["from"], (), until=until)]
     return render_template("teacher_deadlines.html", targets=weekly_targets(db),
+                           count_rushed=count_rushed_setting(db),
                            homework=hs, hw_weeks=hw_weeks,
                            this_week=goals.week_key(time.time()),
                            assessments=rows, saved=saved, kinds=dict(ASSESSMENT_KINDS))
@@ -2188,7 +2331,13 @@ def teacher_home():
     events = store.all_events(db, since=w["since"], until=w["until"], section=w["section"])
     table = teacher.class_activity(roster_rows, events, w["since"], w["until"],
                                    targets=weekly_targets(db))
+    # Rushed sittings in the window (rush.py): a flag for a look, not a verdict.
+    by_sid = teacher.by_student(events)
+    for r in table["rows"]:
+        r["flags"] = rush.flagged_sittings(by_sid.get(r["student_id"], []))
+    table["n_flagged"] = sum(1 for r in table["rows"] if r["flags"])
     return render_template("teacher_home.html", w=w, table=table,
+                           rush_reasons=rush.REASONS,
                            targets=weekly_targets(db),
                            purge=PURGE_REPORT,
                            window_label=_window_label(w["days"]),
@@ -2247,8 +2396,10 @@ def teacher_student(student_id):
     vocab_rows = drill.progress_table(_DRILL_WORDS, events)
     node_rows = teacher.difficulty(events, teacher.node_key, universe=_grammar_universe(db))
     misses = store.miss_reasons_for_student(db, student_id, since=w["since"])
+    in_window = teacher.in_window(events, w["since"], w["until"])
     return render_template(
         "teacher_student.html", w=w, student=student_id,
+        rushed=list(reversed(rush.flagged_sittings(in_window))), rush_reasons=rush.REASONS,
         homework=list(reversed(homework_history(db, events))),
         person=person, act=act, has_pin=store.has_pin(db, student_id),
 

@@ -2,6 +2,7 @@
 {% block content %}
 {% if signed_in_student and not is_teacher %}
   <h1>Salvē!</h1>
+  {% with say=magister_line.text if magister_line else none %}{% include "_magister.html" %}{% endwith %}
 
   {# This week's homework: two numbers the teacher sets, counted Saturday to
      Friday because the quiz is on Friday. The dots are the point as much as
@@ -123,6 +124,9 @@
 
 <a class="bigbtn secondary" href="{{ url_for('teacher_reader') }}">Reader</a>
 <p class="small muted" style="margin-top:-4px">Class stories with tappable words and questions. Publish, preview, project.</p>
+
+<a class="bigbtn secondary" href="{{ url_for('teacher_magister') }}">The Magister</a>
+<p class="small muted" style="margin-top:-4px">The cartoon teacher on students' home screens. Approve what he says.</p>
 
 <a class="bigbtn secondary" href="{{ url_for('teacher_vocab_hints') }}">Vocabulary hints</a>
 <p class="small muted" style="margin-top:-4px">Each word in an example sentence. Approve them to switch them on.</p>

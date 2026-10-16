@@ -58,9 +58,16 @@ class TestPinStorage(unittest.TestCase):
         self.assertFalse(store.check_pin(self.conn, "403217", "9999"))
 
     def test_the_pin_is_never_stored(self):
+        # The row holds a random salt, a hash and a timestamp, and random hex
+        # contains "1234" now and then -- so check what matters: no column IS
+        # the PIN, and the hash is a real one that changes with the PIN.
         store.set_pin(self.conn, "403217", "1234")
-        row = self.conn.execute("SELECT * FROM student_pins").fetchone()
-        self.assertNotIn("1234", "".join(str(v) for v in dict(row).values()))
+        row = dict(self.conn.execute("SELECT * FROM student_pins").fetchone())
+        self.assertNotIn("1234", [str(v) for v in row.values()])
+        self.assertGreaterEqual(len(row["hash"]), 32)
+        store.set_pin(self.conn, "403217", "5678")
+        self.assertNotEqual(row["hash"],
+                            dict(self.conn.execute("SELECT * FROM student_pins").fetchone())["hash"])
 
     def test_has_pin(self):
         self.assertFalse(store.has_pin(self.conn, "403217"))

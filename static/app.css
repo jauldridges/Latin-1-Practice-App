@@ -618,3 +618,29 @@ details.reasons .reason-opt { margin: 6px 0; font-size: 15px; }
 .due-chip { display: inline-block; vertical-align: 3px; margin-left: 6px; font-size: 12px; font-weight: 700;
   padding: 2px 9px; border-radius: 999px; background: #fbf1d6; color: #8a6508; }
 .due-chip.zero { background: #e3f1e8; color: var(--solid); }
+
+/* ---- Rushing --------------------------------------------------------------- */
+.rushflag { display: inline-block; font-size: 12px; font-weight: 700; color: var(--wrong);
+  background: #f7dede; border-radius: 999px; padding: 1px 8px; text-decoration: none; white-space: nowrap; }
+tr.rushrow td { background: #fcf0f0; }
+
+/* ---- The Magister ---------------------------------------------------------- */
+.magister { display: flex; align-items: flex-end; gap: 10px; margin: 6px 0 14px; }
+.magister[hidden] { display: none; }
+.mg-face { flex: none; width: 92px; }
+.magister-svg { display: block; width: 100%; height: auto; }
+.mg-bubble { position: relative; flex: 1; background: var(--card); border: 2px solid #d9cfb8;
+  border-radius: 16px; padding: 10px 34px 12px 14px; margin-bottom: 18px; font-size: 16px;
+  line-height: 1.45; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+.mg-bubble::before { content: ""; position: absolute; left: -11px; bottom: 16px; width: 18px; height: 18px;
+  background: var(--card); border-left: 2px solid #d9cfb8; border-bottom: 2px solid #d9cfb8;
+  transform: rotate(45deg); }
+.mg-bubble p { margin: 2px 0 0; }
+.mg-name { font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #a23b3b; }
+.mg-close { position: absolute; top: 6px; right: 6px; width: 26px; height: 26px; border: 0; border-radius: 6px;
+  background: transparent; color: var(--muted); font-size: 14px; cursor: pointer; }
+.magister.small .mg-face { width: 58px; }
+.magister.small .mg-bubble { font-size: 15px; padding-right: 14px; margin-bottom: 10px; border-color: #e7b3b3; background: #fdf3f3; }
+.magister.small .mg-bubble::before { background: #fdf3f3; border-color: #e7b3b3; }
+.mg-text { font-size: 16px; line-height: 1.45; }
+.mg-note { color: #8a6508; margin-top: 4px; }
