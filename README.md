@@ -83,7 +83,8 @@ start clean.
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
 | `rush.py` | The three "rushed" rules, sittings, and the dashboard flag. |
 | `magister.py`, `magister.yaml` | The cartoon Magister and his lines (teacher-approved). |
-| `tests/` | 653 tests. `python3 -m unittest discover -s tests`. |
+| `analysis.py` | Data for analysis: the zip of spreadsheets split around an exam. |
+| `tests/` | 663 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -465,6 +466,17 @@ Every word and topic on My Progress has a strength bar that grows ("holds 9
 days"); the session bar counts "↑ N stronger" (cards remembered this sitting);
 the home screen and the Vocabulary and Grammar pages show how many are **due
 today**. `tests/test_fsrs.py`, `tests/test_drill.py`.
+
+## Data for analysis
+
+Teacher dashboard → **Data for analysis** downloads one zip: `students.csv`
+(one row per student), `sittings.csv`, `skills_by_student.csv`, `answers.csv`
+(every answer), `in_app_quizzes.csv`, `skill_list.csv`, and a `README.txt` that
+defines every column. Pick a quiz/test from Goals & deadlines (or type a date)
+and every row is marked before / exam day / after, with what the test covered
+marked `on_exam`. Student IDs only; what students typed is left out. Time is an
+estimate from the gaps between answers, each capped at five minutes.
+`tests/test_analysis.py`.
 
 ## Rushing
 
@@ -1123,7 +1135,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-653 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+663 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

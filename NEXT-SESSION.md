@@ -23,7 +23,7 @@ dashboard for who's practicing and what they don't know.
 - Python 3.9-compatible, no build step, mobile-first server-rendered HTML.
   It has to work on a school Chromebook at home when I'm not there.
 - Run the full test suite before you tell me something's done. It should be
-  ~653 passing (about 14 skip unless a local Postgres is running).
+  ~663 passing (about 14 skip unless a local Postgres is running).
 - Never say "mastery" to a student. The words are solid / shaky / not yet.
 - American spelling: "practice" for noun and verb, never the British -ise form (a test enforces it).
 - School time zone is Eastern (Massachusetts); `schooltime.py` sets it.

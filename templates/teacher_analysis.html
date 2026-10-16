@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block subtitle %}data for analysis{% endblock %}
+{% block content %}
+<p class="small"><a href="{{ url_for('teacher_home') }}">← Dashboard</a></p>
+<h1>Data for analysis</h1>
+<p class="small muted">Everything the app records about practice, as spreadsheets in one zip
+  file: one row per student, per sitting, per skill, and per answer, each marked
+  <strong>before</strong>, <strong>on</strong> or <strong>after</strong> the exam you pick. A
+  <code>README.txt</code> inside explains every column. Students appear by ID number only, and
+  what they typed is left out.</p>
+
+{% if bad == 'date' %}<div class="flags"><span class="lvl error">not downloaded</span> Type the date as YYYY-MM-DD, e.g. 2026-10-09.</div>{% endif %}
+<form method="get" action="{{ url_for('teacher_analysis_zip') }}" class="card">
+  <label class="small muted">Split the data around
+    <select name="exam">
+      {% for a in tests | reverse %}
+      <option value="{{ a.id }}" {{ 'selected' if pick and a.id == pick.id }}>{{ a.title }} — {{ kinds.get(a.kind, a.kind) }}, {{ a.due_date }}</option>
+      {% endfor %}
+      <option value="" {{ 'selected' if not pick }}>A date I type below (or no split)</option>
+    </select></label>
+  <p class="small muted">Picking a quiz or test from Goals &amp; deadlines also marks which
+    topics and words it covered. Not listed? Choose the last option and type its date.</p>
+  <label class="small muted">Date (only used with the last option)
+    <input type="text" name="date" placeholder="YYYY-MM-DD" autocomplete="off" inputmode="numeric"></label>
+  <label class="small muted">Block
+    <select name="section">
+      <option value="">All blocks</option>
+      {% for sct in sections %}<option value="{{ sct }}">{{ sct }}</option>{% endfor %}
+    </select></label>
+  <button class="bigbtn" type="submit">Download the zip</button>
+</form>
+{% endblock %}

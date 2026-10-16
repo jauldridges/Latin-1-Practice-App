@@ -12,15 +12,18 @@ The drill routes are added in build step 4; this file grows, it does not fork.
 """
 
 import csv
+import datetime
 import io
 import os
 import time
 import uuid
+import zipfile
 
 import yaml
 from flask import (Flask, g, redirect, render_template, request, Response,
                    session, url_for, abort)
 
+import analysis
 import auth
 import backup
 import checks
@@ -2488,6 +2491,95 @@ def teacher_homework_export():
         wtr.writerow([r["student_id"], r["section"] or ""] + cells)
     name = "homework-%s.csv" % time.strftime("%Y-%m-%d")
     return Response(buf.getvalue(), mimetype="text/csv",
+                    headers={"Content-Disposition": "attachment; filename=" + name})
+
+
+# --------------------------------------------------------------------------
+# Data for analysis: every answer, sitting and skill, split around an exam
+# --------------------------------------------------------------------------
+
+def _skill_catalog():
+    """{(kind, skill_id): {"name", "unit", "week"}} for every skill there is."""
+    cat = {}
+    for nid, n in _SPEC.items():
+        cat[("grammar", nid)] = {"name": n.get("label", ""), "unit": n.get("unit", ""),
+                                 "week": str(n.get("week") or "")}
+    for w in _DRILL_WORDS:
+        cat[("vocab", drill._key(w["latin"]))] = {
+            "name": "%s = %s" % (w["latin"], ", ".join(w.get("en") or [])),
+            "unit": "", "week": goals.word_week_date(w)}
+    for r in _READINGS.values():
+        cat[("reading", r["slug"])] = {"name": r.get("title", r["slug"]), "unit": "",
+                                       "week": str(r.get("week") or "")}
+    return cat
+
+
+def _analysis_exam(db):
+    """(assessment or None, exam date or None) from the query string: a test the
+    app knows about, or any date typed in."""
+    a = store.get_assessment(db, request.args.get("exam") or "") if request.args.get("exam") else None
+    raw = a["due_date"] if a else (request.args.get("date") or "").strip()
+    try:
+        return a, datetime.date(*time.strptime(raw, "%Y-%m-%d")[:3]) if raw else None
+    except ValueError:
+        return a, None
+
+
+@app.route("/teacher/analysis")
+def teacher_analysis():
+    db = get_db()
+    tests = store.list_assessments(db)
+    past = [a for a in tests if (goals.days_until(a["due_date"]) or 0) <= 0]
+    # The default is the latest test or exam already given, else the latest anything.
+    pick = ([a for a in past if a["kind"] in ("test", "exam")] or past or [None])[-1]
+    return render_template("teacher_analysis.html", tests=tests, pick=pick,
+                           sections=store.sections(db), kinds=dict(ASSESSMENT_KINDS),
+                           bad=request.args.get("bad"))
+
+
+@app.route("/teacher/analysis.zip")
+def teacher_analysis_zip():
+    """Six spreadsheets and a README in one zip, by student ID only."""
+    db = get_db()
+    section = request.args.get("section") or None
+    a, exam_date = _analysis_exam(db)
+    if request.args.get("date") and exam_date is None:
+        return redirect(url_for("teacher_analysis", bad="date"))
+    nodes, words = goals.scope(a, _SPEC, _DRILL_WORDS, _practiceable(db)) if a else ([], [])
+    roster_rows = store.roster(db, active_only=False, section=section)
+    events = store.all_events(db, section=section)
+    _, hw_rows = _class_homework(db, section)
+    quiz_rows = []
+    for q in store.list_quizzes(db):
+        for att in store.quiz_attempts(db, q["quiz_id"]):
+            if att.get("submitted_at") and (not section or att["student_id"] in
+                                            {r["student_id"] for r in roster_rows}):
+                quiz_rows.append(dict(att, title=q["title"], context=q["context"]))
+    fmts = {r["item_id"]: r["fmt"] or "" for r in
+            db.execute("SELECT item_id, fmt FROM items").fetchall()}
+    files = analysis.build(
+        events, roster_rows, _skill_catalog(), exam_date=exam_date,
+        exam_nodes=nodes, exam_words=[drill._key(w["latin"]) for w in words],
+        homework={r["student_id"]: r["summary"] for r in hw_rows},
+        quiz_rows=quiz_rows, item_formats=fmts)
+    if a:
+        exam = "%s (%s), %s -- what it covered is marked on_exam" % (
+            a["title"], dict(ASSESSMENT_KINDS).get(a["kind"], a["kind"]), a["due_date"])
+    elif exam_date:
+        exam = "%s (a date only: on_exam is left blank)" % exam_date
+    else:
+        exam = "none chosen (the before/after columns are blank)"
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr("README.txt", analysis.DICTIONARY.format(
+            downloaded=time.strftime("%Y-%m-%d %H:%M"), exam=exam,
+            block=section or "all blocks"))
+        for fname, rows in files.items():
+            out = io.StringIO()
+            csv.writer(out).writerows(rows)
+            z.writestr(fname, out.getvalue())
+    name = "latin1-practice-data-%s.zip" % time.strftime("%Y-%m-%d")
+    return Response(buf.getvalue(), mimetype="application/zip",
                     headers={"Content-Disposition": "attachment; filename=" + name})
 
 
