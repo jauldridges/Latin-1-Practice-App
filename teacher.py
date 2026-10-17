@@ -73,15 +73,50 @@ def homework_events(events):
             and (COUNT_RUSHED or not e.get("rush"))]
 
 
-def homework_counts(events):
-    """{"vocab": n, "grammar": n} cards studied, for ONE student's events.
+def card_key(event):
+    """Which card an answer belongs to: a vocabulary WORD (both directions are
+    one card, as in the schedule), or one question."""
+    iid = str(event.get("item_id") or "")
+    if iid.startswith("vocab:"):
+        parts = iid.split(":")
+        return "vocab:" + (parts[1] if len(parts) > 2 else iid)
+    return iid
 
-    A close sends the student straight back to retype, and "aqu" then "aqua"
-    is one card studied, not two -- the same rule the stats bar uses, so the
-    home screen, the stats bar and this dashboard cannot disagree.
+
+def homework_cards(events):
+    """The answers that count toward the weekly goal, for ONE student, oldest
+    first.
+
+    Two rules. A close sends the student straight back to retype, and "aqu"
+    then "aqua" is one card studied, not two (stats.collapse_retries). And a
+    card counts ONCE A DAY: answering the same two questions fifty times is
+    practice the app allows, but it is not fifty cards of homework. A student
+    did exactly that in October 2026 -- 101 answers to a two-question topic
+    -- and it applies to past weeks too, by the teacher's decision.
     """
-    counts = {"vocab": 0, "grammar": 0}
+    seen, out = set(), []
     for e in stats.collapse_retries(homework_events(events)):
+        k = (day_key(e["timestamp"]), card_key(e))
+        if k in seen:
+            continue
+        seen.add(k)
+        out.append(e)
+    return out
+
+
+def counted_today(events, key, now=None):
+    """Has this card already counted toward homework today?"""
+    today = day_key(now or time.time())
+    return any(card_key(e) == key and day_key(e["timestamp"]) == today
+               for e in homework_cards(events))
+
+
+def homework_counts(events):
+    """{"vocab": n, "grammar": n} cards that count, for ONE student's events
+    (homework_cards) -- the one rule the home screen, the homework grid and
+    this dashboard all use, so they cannot disagree."""
+    counts = {"vocab": 0, "grammar": 0}
+    for e in homework_cards(events):
         counts[kind_of(e)] += 1
     return counts
 

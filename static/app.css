@@ -644,3 +644,4 @@ tr.rushrow td { background: #fcf0f0; }
 .magister.small .mg-bubble::before { background: #fdf3f3; border-color: #e7b3b3; }
 .mg-text { font-size: 16px; line-height: 1.45; }
 .mg-note { color: #8a6508; margin-top: 4px; }
+.extra-note { text-align: center; margin: 4px 0 8px; }

@@ -21,6 +21,7 @@ import time
 import fsrs
 import rush
 import stats
+import teacher
 
 QUIZ_CONTEXTS = ("quiz", "exam")
 SITTING_GAP = rush.SITTING_GAP          # 30 minutes without an answer ends a sitting
@@ -101,6 +102,18 @@ def _cards(evs):
     return stats.collapse_retries(evs)
 
 
+def _same_day_repeats(cards):
+    """Cards that were the same card again on the same day -- not counted
+    toward homework (teacher.homework_cards). A large number on one skill is a
+    student looping a short topic."""
+    seen, n = set(), 0
+    for e in sorted(cards, key=lambda x: x["timestamp"]):
+        k = (local_date(e["timestamp"]), teacher.card_key(e))
+        n += k in seen
+        seen.add(k)
+    return n
+
+
 def _secs(ms, cap):
     return None if ms is None else min(max(int(ms), 0), cap * 1000) / 1000.0
 
@@ -179,7 +192,7 @@ def build(events, roster_rows, catalog, exam_date=None, exam_nodes=(), exam_word
                  "vocab_cards", "grammar_cards", "reading_answers", "accuracy_pct",
                  "rushed_cards", "exam_material_cards", "grammar_topics", "vocab_words"]]
     skill_rows = [["student_id", "block", "skill_kind", "skill_id", "skill_name", "unit",
-                   "week_taught", "on_exam", "cards", "cards_before_exam", "right", "close",
+                   "week_taught", "on_exam", "cards", "same_day_repeats", "cards_before_exam", "right", "close",
                    "wrong", "accuracy_pct", "accuracy_before_exam_pct", "days_practiced",
                    "first_practiced", "last_practiced", "est_minutes", "state_at_exam",
                    "state_now", "holds_days_now"]]
@@ -252,6 +265,7 @@ def build(events, roster_rows, catalog, exam_date=None, exam_nodes=(), exam_word
             skill_rows.append([
                 sid, block.get(sid, ""), key[0], key[1], info.get("name", ""),
                 info.get("unit", ""), info.get("week", ""), on_exam(key), len(cards),
+                _same_day_repeats(cards) if key[0] != "reading" else "",
                 len(before) if cutoff else "",
                 sum(1 for e in cards if e.get("result") == "right"),
                 sum(1 for e in cards if e.get("result") == "close"),
@@ -303,7 +317,7 @@ _STUDENT_HEADER = [
     # all practice, all time
     "first_practice", "last_practice", "days_practiced", "sittings", "est_minutes",
     "median_sitting_minutes", "longest_sitting_minutes", "cards", "vocab_cards",
-    "grammar_cards", "reading_answers", "accuracy_pct", "vocab_accuracy_pct",
+    "grammar_cards", "reading_answers", "same_day_repeats", "accuracy_pct", "vocab_accuracy_pct",
     "grammar_accuracy_pct", "reading_accuracy_pct", "median_vocab_answer_seconds",
     "median_grammar_answer_seconds", "graded_again", "graded_hard", "graded_good",
     "graded_easy", "wrong_but_graded_good_pct", "rushed_cards", "rushed_pct",
@@ -354,6 +368,7 @@ def _student_row(sid, blk, listed, practice, quiz, sits, evs, exam_date, cutoff,
            len({local_date(e["timestamp"]) for e in cards}), len(sits),
            round(sum(sit_mins), 1), _median(sit_mins), max(sit_mins) if sit_mins else "",
            len(cards), len(kinds["vocab"]), len(kinds["grammar"]), len(kinds["reading"]),
+           _same_day_repeats(kinds["vocab"] + kinds["grammar"]),
            _accuracy(cards), _accuracy(kinds["vocab"]), _accuracy(kinds["grammar"]),
            _accuracy(kinds["reading"]),
            _median([_secs(e.get("latency_ms"), 120) for e in kinds["vocab"]]),
@@ -479,6 +494,9 @@ days_practiced, sittings, est_minutes, cards ... all practice, all time.
 median_*_answer_seconds    typical time to answer one card.
 wrong_but_graded_good_pct  of cards the app judged wrong, the share the student
                            graded Good or Easy (an honesty / attention signal).
+same_day_repeats           vocab/grammar cards that were the same card again the same
+                           day. Homework counts each card once a day, so these
+                           did not count toward the weekly goal.
 flagged_sittings           sittings of 10+ cards with a third or more rushed.
 *_solid_now, *_shaky_now   memory state today.
 weeks_practiced_before_exam  distinct calendar weeks with practice before the

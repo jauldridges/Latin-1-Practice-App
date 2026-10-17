@@ -7,9 +7,9 @@ no count is stored, so changing a target in November reads September correctly.
 THE HOMEWORK WEEK runs Saturday to Friday, because the quiz is on Friday and
 the cards should be done for it. The goal is two numbers, vocabulary cards and
 grammar cards (50 and 50 unless the teacher changes them); a week is DONE when
-both are met. What counts is decided once, in teacher.homework_counts: any
-practice except a proctored quiz or exam, and one card per card studied (a
-retype after a near-miss is the same card).
+both are met. What counts is decided once, in teacher.homework_cards: any
+practice except a proctored quiz or exam, one card per card studied (a retype
+after a near-miss is the same card), and each card at most once a day.
 
 ON TIME OR LATE. A week met by Friday night is on time -- green, full credit.
 A week can still be finished afterwards, and is then late -- yellow, partial
@@ -198,7 +198,7 @@ def homework_history(events, targets=None, weeks=(), now=None):
 
     if rows:
         first = rows[0]["start"]
-        for e in stats.collapse_retries(_homework(events)):
+        for e in teacher.homework_cards(events):
             ts = e["timestamp"]
             if ts < first or ts > now:
                 continue

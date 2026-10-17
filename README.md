@@ -84,7 +84,7 @@ start clean.
 | `rush.py` | The three "rushed" rules, sittings, and the dashboard flag. |
 | `magister.py`, `magister.yaml` | The cartoon Magister and his lines (teacher-approved). |
 | `analysis.py` | Data for analysis: the zip of spreadsheets split around an exam. |
-| `tests/` | 666 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 673 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -368,8 +368,14 @@ things, all of which show up on students' screens.
 **The weekly homework goal** is two numbers — vocabulary cards and grammar
 cards — 50 and 50 unless changed. A **homework week runs Saturday to Friday**,
 because the quiz is on Friday; a week is done when both numbers are met. A
-retype after a near-miss counts once (the same rule as the stats bar) and answers
-in a proctored quiz or exam don't count. Nothing is stored: every count is read
+retype after a near-miss counts once (the same rule as the stats bar), **each
+card counts at most once a day** (a word in either direction is one card), and
+answers in a proctored quiz or exam don't count (`teacher.homework_cards`). The
+once-a-day rule came from a student who answered a two-question topic 101 times;
+it applies to past weeks too. A card already counted today says so on screen
+("extra practice"), and a single topic whose questions are all done until
+tomorrow stops with "That's everything in this topic for today" and offers a
+mix instead of looping. Nothing is stored: every count is read
 from the event history, so changing the goal mid-year re-reads every week.
 
 **On time, late, not done.** A week met by Friday night is *on time* (green ✓,
@@ -1136,7 +1142,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-666 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+673 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

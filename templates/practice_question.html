@@ -5,6 +5,8 @@
 {% with say=nudge, small=true %}{% include "_magister.html" %}{% endwith %}
 
 {% include "_statsbar.html" %}
+{% if extra %}<p class="small muted extra-note">You've already had this one today, so this is extra
+  practice — it won't add to this week's cards.</p>{% endif %}
 
 <div class="meta-row">
   <span class="badge tier">{{ label }}</span>

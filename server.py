@@ -922,6 +922,7 @@ def drill_session():
                            direction=direction, card=card,
                            introduced=weeklabel(drill.find_word(_DRILL_WORDS, card.latin).get("week")),
                            nudge=slowdown_nudge(db, student, events),
+                           extra=teacher.counted_today(events, "vocab:" + drill._key(card.latin)),
                            **_drill_stats(events))
 
 
@@ -1650,6 +1651,9 @@ def practice_session():
         item = practice.select_question(approved, events,
                                         allowed_nodes=wanted & _taught_now())
     else:
+        if node and practice.topic_done_today(approved, events, node):
+            return render_template("practice_topic_done.html", student=student,
+                                   label=_NODE_LABEL.get(node, node))
         item = practice.select_question(approved, events,
                                         allowed_nodes=_taught_now(), node_id=node)
     if item is None:
@@ -1657,6 +1661,7 @@ def practice_session():
                                n_approved=len(approved))
     return render_template("practice_question.html", student=student, item=item,
                            node=node, context=ctx, notice=None,
+                           extra=teacher.counted_today(events, item["id"]),
                            label=_NODE_LABEL.get(item["node"], ""),
                            hint=approved_teaching_for(db, item.get("node")),
                            introduced=nodeweek(item.get("node")),

@@ -5,6 +5,8 @@
 {% with say=nudge, small=true %}{% include "_magister.html" %}{% endwith %}
 
 {% include "_statsbar.html" %}
+{% if extra %}<p class="small muted extra-note">You've already had this one today, so this is extra
+  practice — it won't add to this week's cards.</p>{% endif %}
 
 <p class="small muted" style="text-align:center">{{ card.instruction }}</p>
 <div class="prompt {{ 'latin' if card.ask == 'la_en' else '' }}">{{ card.prompt }}

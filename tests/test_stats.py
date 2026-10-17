@@ -159,8 +159,9 @@ class TestRetriesCountOnce(unittest.TestCase):
     def test_the_homework_count_includes_the_back_to_back_card(self):
         import teacher
         t = 1_000_000.0
-        evs = [ev("vocab:aqua:la_en", "right", t), ev("vocab:aqua:la_en", "right", t + 40000),
-               ev("vocab:via:la_en", "close", t + 40010), ev("vocab:via:la_en", "right", t + 40015)]
+        # the last card one night, the first the next morning
+        evs = [ev("vocab:aqua:la_en", "right", t), ev("vocab:aqua:la_en", "right", t + 86400),
+               ev("vocab:via:la_en", "close", t + 86410), ev("vocab:via:la_en", "right", t + 86415)]
         for e in evs:
             e["context"] = "practice"
         self.assertEqual(teacher.homework_counts(evs)["vocab"], 3)

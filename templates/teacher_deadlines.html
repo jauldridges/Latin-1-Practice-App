@@ -11,8 +11,8 @@ and the quizzes and tests coming up. The week-by-week record for the gradebook i
 {% if saved == 'bad' %}<div class="flags"><span class="lvl error">not saved</span> Both goals need to be whole numbers.</div>{% endif %}
 <form method="post" class="card">
   <p class="small muted" style="margin-top:0">Cards per homework week, Saturday to Friday. A week
-    is done when both are met. A retype after a near-miss counts once; answers in a proctored
-    quiz don't count. Changing these changes every week, past ones included.</p>
+    is done when both are met. A retype after a near-miss counts once, each card counts at most
+    once a day, and answers in a proctored quiz don't count. Changing these changes every week, past ones included.</p>
   <div class="goalform">
     <label>Vocabulary <input type="number" name="vocab" min="0" max="1000" value="{{ targets.vocab }}" inputmode="numeric"></label>
     <label>Grammar <input type="number" name="grammar" min="0" max="1000" value="{{ targets.grammar }}" inputmode="numeric"></label>

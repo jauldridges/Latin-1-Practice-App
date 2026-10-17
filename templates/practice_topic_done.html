@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ student }}{% endblock %}
+{% block content %}
+{# One topic, every question answered, none back before tomorrow. Looping the
+   same few questions is not study, and it is not homework either (each card
+   counts once a day), so the topic stops here and sends them on. #}
+<h1>That's everything in this topic for today</h1>
+<p class="muted">You've answered every question in <strong>{{ label }}</strong>. They'll come
+  back when it's time to review them. Keep going with a mix of everything you've learned —
+  that's where your next cards are.</p>
+<a class="bigbtn" href="{{ url_for('practice_session') }}">Practice a mix</a>
+<a class="bigbtn secondary" href="{{ url_for('practice_home') }}">Choose another topic</a>
+{% endblock %}

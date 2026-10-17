@@ -108,6 +108,22 @@ def select_question(items, events, allowed_nodes=None, node_id=None, now=None):
     return next(it for it in pool if it.get("id") == pick)
 
 
+def topic_done_today(items, events, node_id, now=None):
+    """True when every question in one topic has been answered and none comes
+    back before tomorrow. Then the topic is finished for the day: serving its
+    questions again would only loop, and a two-question topic looped fifty
+    times is how a student once filled the weekly grammar goal. A question
+    graded Again comes back within minutes, so it keeps the topic open."""
+    now = now or time.time()
+    pool = [i for i in items if i.get("node") == node_id]
+    if not pool:
+        return False
+    lt = time.localtime(now)
+    tomorrow = time.mktime((lt.tm_year, lt.tm_mon, lt.tm_mday + 1, 0, 0, 0, 0, 0, -1))
+    return all(c is not None and c.due >= tomorrow
+               for c in question_cards(pool, events).values())
+
+
 def due_count(items, events, now=None):
     """Questions due for review now, not counting ones never seen."""
     return sum(1 for c in question_cards(items, events).values() if fsrs.is_due(c, now))
