@@ -84,7 +84,7 @@ start clean.
 | `rush.py` | The three "rushed" rules, sittings, and the dashboard flag. |
 | `magister.py`, `magister.yaml` | The cartoon Magister and his lines (teacher-approved). |
 | `analysis.py` | Data for analysis: the zip of spreadsheets split around an exam. |
-| `tests/` | 673 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 680 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -484,6 +484,16 @@ marked `on_exam`. Student IDs only; what students typed is left out. Time is an
 estimate from the gaps between answers, each capped at five minutes.
 `tests/test_analysis.py`.
 
+## Looping
+
+`teacher.loops` flags a day when a student answered, ten or more times, cards
+in one topic (a grammar topic, or vocabulary) that they had already got right
+that day -- the pattern of a student filling the 50 + 50 from a two-question
+topic. A card missed and relearned is not a repeat. The dashboard shows
+"⟳ looped MW-017 ×38" next to the student, and their page has a "⟳ Looping"
+table. The repeats already don't count (each card counts once a day); the flag
+is so the teacher can talk to the student. `tests/test_once_a_day.py`.
+
 ## Rushing
 
 `rush.py` marks a single answer **rushed** for any of three reasons, stored
@@ -585,7 +595,12 @@ Links open in a new tab so the practice app is still open when the game ends.
 
 ## Reader
 
-Class stories, one YAML file each in `readings/` (format in `readings.py`).
+Class stories, one YAML file each in `readings/` (format in `readings.py`),
+named by packet week (`08-cincinnatus.yaml`, `09a-dei-primi.yaml` ...) so they
+list in teaching order; the URL comes from the `slug` inside, not the file name.
+Week 9: three stories from the story packet (the first gods; Jupiter's
+children; Ceres and Proserpina). That packet had no question pages, so their
+questions are the app's own until the teacher sends the packet's.
 Every word on screen is a button: tap it and its gloss pops up right beside it
 (below the word, or above it near the bottom of the screen), with an arrow
 pointing at the word; tapping anywhere else or Escape closes it. A bar at the
@@ -1142,7 +1157,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-673 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+680 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

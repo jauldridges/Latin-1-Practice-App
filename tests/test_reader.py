@@ -29,6 +29,16 @@ class TestThePassages(unittest.TestCase):
         self.assertEqual(CIN["title"], "Fābula dē Cincinnātō")
         self.assertEqual(len(CIN["questions"]), 17)
 
+    def test_the_week_9_stories_list_in_teaching_order(self):
+        self.assertEqual(list(ALL), ["cincinnatus", "dei-primi", "liberi-iovis",
+                                     "ceres-proserpina"])
+        self.assertEqual([len(ALL[s]["sentences"]) for s in list(ALL)[1:]], [20, 18, 18])
+        # the packet's underlined words are underlined on screen
+        p = [x for x in ALL["ceres-proserpina"]["by_n"][13]["pieces"] if x["kind"] == "word"]
+        self.assertEqual([(x["text"], x["new"]) for x in p],
+                         [("Sed", False), ("Prōserpina", False), ("sex grāna", True),
+                          ("Pūnicī mālī", True), ("gustat", True)])
+
     def test_a_phrase_is_one_tap(self):
         words = [p for p in CIN["by_n"][7]["pieces"] if p["kind"] == "word"]
         self.assertIn(("in perīculō", "in danger"), [(p["text"], p["gloss"]) for p in words])

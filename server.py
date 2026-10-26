@@ -2331,6 +2331,10 @@ def _grammar_universe(db):
     return {it["node"] for it in store.approved_items(db) if it["node"] in taught}
 
 
+def _topic_label(topic):
+    return "Vocabulary" if topic == "vocab" else "%s %s" % (topic, _NODE_LABEL.get(topic, ""))
+
+
 @app.route("/teacher")
 def teacher_home():
     db = get_db()
@@ -2343,9 +2347,13 @@ def teacher_home():
     by_sid = teacher.by_student(events)
     for r in table["rows"]:
         r["flags"] = rush.flagged_sittings(by_sid.get(r["student_id"], []))
+        # Looping a topic (teacher.loops): the biggest day first.
+        r["loops"] = sorted(teacher.loops(by_sid.get(r["student_id"], [])),
+                            key=lambda x: -x["repeats"])
     table["n_flagged"] = sum(1 for r in table["rows"] if r["flags"])
+    table["n_looping"] = sum(1 for r in table["rows"] if r["loops"])
     return render_template("teacher_home.html", w=w, table=table,
-                           rush_reasons=rush.REASONS,
+                           rush_reasons=rush.REASONS, topic_label=_topic_label, loop_min=teacher.LOOP_MIN,
                            targets=weekly_targets(db),
                            purge=PURGE_REPORT,
                            window_label=_window_label(w["days"]),
@@ -2408,6 +2416,7 @@ def teacher_student(student_id):
     return render_template(
         "teacher_student.html", w=w, student=student_id,
         rushed=list(reversed(rush.flagged_sittings(in_window))), rush_reasons=rush.REASONS,
+        looping=list(reversed(teacher.loops(in_window))), topic_label=_topic_label,
         homework=list(reversed(homework_history(db, events))),
         person=person, act=act, has_pin=store.has_pin(db, student_id),
 

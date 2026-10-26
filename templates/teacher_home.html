@@ -38,6 +38,9 @@
   {{ table.n_students }} students · "did it" means the weekly goal: {{ targets.vocab }} vocabulary
   and {{ targets.grammar }} grammar cards in this window, counted the way students' home screens count them.</p>
 
+{% if table.n_looping %}<p class="small"><span class="rushflag loopflag">⟳ {{ table.n_looping }} student{{ 's' if table.n_looping != 1 }}</span>
+  looped a topic in this window: on one day, {{ loop_min }}+ answers to questions they had already got
+  right that day. Those repeats don't count toward homework. Tap the flag to see which topic.</p>{% endif %}
 {% if table.n_flagged %}<p class="small"><span class="rushflag">⚑ {{ table.n_flagged }} student{{ 's' if table.n_flagged != 1 }}</span>
   had a sitting in this window where a third or more of the cards were rushed. Tap the flag to see the cards.</p>{% endif %}
 
@@ -53,6 +56,10 @@
       {% if r.flags %}{% set f = r.flags[-1] %}
       <a class="rushflag" href="{{ url_for('teacher_student', student_id=r.student_id, days=w.days) }}#rushed"
          title="{% for code, n in f.reasons.items() %}{{ n }} {{ rush_reasons.get(code, code) }}{{ '; ' if not loop.last }}{% endfor %}">⚑ {{ f.rushed }} of {{ f.cards }} rushed{% if r.flags | length > 1 %} ({{ r.flags | length }} sittings){% endif %}</a>
+      {% endif %}
+      {% if r.loops %}{% set lp = r.loops[0] %}
+      <a class="rushflag loopflag" href="{{ url_for('teacher_student', student_id=r.student_id, days=w.days) }}#looping"
+         title="{{ lp.repeats }} repeats of {{ topic_label(lp.topic) }} on {{ lp.day }}">⟳ looped {{ 'vocab' if lp.topic == 'vocab' else lp.topic }} ×{{ lp.repeats }}{% if r.loops | length > 1 %} ({{ r.loops | length }} days){% endif %}</a>
       {% endif %}
       {% if r.section %}<span class="small muted"> {{ r.section }}</span>{% endif %}
     </td>

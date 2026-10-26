@@ -1,0 +1,360 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 9 story packet, Day 3 (Wednesday 21 Oct), pages 3–4.
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too), with the case added to the note.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them.
+#
+# The packet has no questions for this story, so q1-q10 are the app's own,
+# in story order. Send the packet's questions to replace or join them.
+
+slug: liberi-iovis
+title: "Fābula dē Līberīs Iovis"
+source: "Latin I — Week 9 story packet, Day 3 (Wed 21 Oct)"
+paragraphs: [[1, 2, 3, 4, 5], [6, 7, 8, 9], [10, 11, 12, 13], [14, 15, 16, 17, 18]]
+
+sentences:
+  - n: 1
+    text: "Iuppiter est dominus deōrum, et Iūnō est rēgīna deōrum."
+    words:
+      Iuppiter: "Jupiter · Subject, nominative"
+      est: "is — from sum"
+      dominus: "lord, master · Predicate Nominative"
+      deōrum: "of the gods · genitive plural"
+      et: "and"
+      Iūnō: "Juno · Subject, nominative"
+      rēgīna: "queen · Predicate Nominative"
+
+  - n: 2
+    text: "Iūnō est soror et uxor Iovis. Eheu!"
+    new:
+      soror: "sister"
+      uxor: "wife"
+      Iovis: "of Jupiter"
+    words:
+      Iūnō: "Juno · Subject, nominative"
+      est: "is — from sum"
+      et: "and"
+      Eheu: "oh no! alas!"
+
+  - n: 3
+    text: "Fīliī Iovis et Iūnōnis sunt Mārs et Vulcānus."
+    new:
+      Iūnōnis: "of Juno"
+      Mārs: "Mars"
+    words:
+      Fīliī: "sons · Subject, nominative"
+      Iovis: "of Jupiter · genitive"
+      et: "and"
+      sunt: "are — from sum"
+      Vulcānus: "Vulcan"
+
+  - n: 4
+    text: "Mārs est deus bellī; bellum semper amat."
+    words:
+      Mārs: "Mars · Subject, nominative"
+      est: "is — from sum"
+      deus: "god · Predicate Nominative"
+      bellī: "of war · genitive"
+      bellum: "war · Direct Object, accusative"
+      semper: "always"
+      amat: "loves — from amō"
+
+  - n: 5
+    text: "Vulcānus est deus ignis. Vulcānus nōn est pulcher, sed arma deōrum parat."
+    new:
+      ignis: "of fire"
+      arma: "weapons (neuter plural) · Direct Object, accusative"
+    words:
+      Vulcānus: "Vulcan · Subject, nominative"
+      est: "is — from sum"
+      deus: "god · Predicate Nominative"
+      nōn: "not"
+      pulcher: "handsome, good-looking"
+      sed: "but"
+      deōrum: "of the gods · genitive plural"
+      parat: "makes, prepares — from parō"
+
+  - n: 6
+    text: "Sed Iuppiter multās aliās fēminās amat, et Iūnō est īrāta!"
+    new:
+      aliās: "other"
+      īrāta: "angry"
+    words:
+      Sed: "but"
+      Iuppiter: "Jupiter · Subject, nominative"
+      multās: "many — from multus"
+      fēminās: "women · Direct Object, accusative"
+      amat: "loves — from amō"
+      et: "and"
+      Iūnō: "Juno · Subject, nominative"
+      est: "is — from sum"
+
+  - n: 7
+    text: "Lātōna est fēmina pulchra, et Iuppiter Lātōnam cupit. Itaque Lātōna nihil auxiliī habet."
+    new:
+      Lātōna: "Latona, a Titan’s daughter"
+      cupit: "desires"
+      Itaque: "and so"
+    words:
+      est: "is — from sum"
+      fēmina: "woman · Predicate Nominative"
+      pulchra: "beautiful — from pulcher"
+      et: "and"
+      Iuppiter: "Jupiter · Subject, nominative"
+      Lātōnam: "Latona · Direct Object, accusative"
+      nihil: "no, nothing (nihil auxiliī = no help)"
+      auxiliī: "of help · genitive"
+      habet: "has — from habeō"
+
+  - n: 8
+    text: "Līberī Lātōnae et Iovis sunt Apollō et Diāna."
+    new:
+      Apollō: "Apollo"
+    words:
+      Līberī: "children · Subject, nominative"
+      Lātōnae: "of Latona · genitive"
+      et: "and"
+      Iovis: "of Jupiter · genitive"
+      sunt: "are — from sum"
+      Diāna: "Diana"
+
+  - n: 9
+    text: "Apollō est deus mūsicae et lūcis. Diāna est dea silvārum et lūnae."
+    new:
+      mūsicae: "of music"
+      lūcis: "of light"
+    words:
+      Apollō: "Apollo · Subject, nominative"
+      est: "is — from sum"
+      deus: "god · Predicate Nominative"
+      et: "and"
+      Diāna: "Diana · Subject, nominative"
+      dea: "goddess · Predicate Nominative"
+      silvārum: "of the forests · genitive plural"
+      lūnae: "of the moon · genitive"
+
+  - n: 10
+    text: "Māia est fīlia Atlantis. Fīlius Māiae et Iovis est Mercurius."
+    new:
+      Atlantis: "of Atlas"
+    words:
+      Māia: "Maia · Subject, nominative"
+      est: "is — from sum"
+      fīlia: "daughter · Predicate Nominative"
+      Fīlius: "son · Subject, nominative"
+      Māiae: "of Maia · genitive"
+      et: "and"
+      Iovis: "of Jupiter · genitive"
+      Mercurius: "Mercury · Predicate Nominative"
+
+  - n: 11
+    text: "Mercurius est nūntius deōrum et deus pecūniae. Itaque Mercurius semper multum pecūniae habet!"
+    new:
+      nūntius: "messenger"
+    words:
+      Mercurius: "Mercury · Subject, nominative"
+      est: "is — from sum"
+      deōrum: "of the gods · genitive plural"
+      et: "and"
+      deus: "god · Predicate Nominative"
+      pecūniae: "of money · genitive"
+      Itaque: "and so"
+      semper: "always"
+      multum: "a lot (multum pecūniae = a lot of money)"
+      habet: "has — from habeō"
+
+  - n: 12
+    text: "Semelē est fēmina mortālis. Fīlius Semelēs et Iovis est Bacchus, deus vīnī."
+    new:
+      Semelē: "Semele"
+      mortālis: "mortal, human"
+      Semelēs: "of Semele"
+      vīnī: "of wine"
+    words:
+      est: "is — from sum"
+      fēmina: "woman · Predicate Nominative"
+      Fīlius: "son · Subject, nominative"
+      et: "and"
+      Iovis: "of Jupiter · genitive"
+      Bacchus: "Bacchus · Predicate Nominative"
+      deus: "god · renames Bacchus"
+
+  - n: 13
+    text: "Bacchus semper satis vīnī habet!"
+    words:
+      Bacchus: "Bacchus · Subject, nominative"
+      semper: "always"
+      satis: "enough (satis vīnī = enough wine)"
+      vīnī: "of wine · genitive"
+      habet: "has — from habeō"
+
+  - n: 14
+    text: "Cerēs est dea agrōrum. Cerēs magnam cōpiam frūmentī habet."
+    new:
+      Cerēs: "Ceres"
+      frūmentī: "of grain"
+    words:
+      est: "is — from sum"
+      dea: "goddess · Predicate Nominative"
+      agrōrum: "of the fields · genitive plural"
+      magnam: "great, large — from magnus"
+      cōpiam: "supply, plenty · Direct Object, accusative"
+      habet: "has — from habeō"
+
+  - n: 15
+    text: "Fīlia Cereris et Iovis est Prōserpina, puella pulchra."
+    new:
+      Cereris: "of Ceres"
+    words:
+      Fīlia: "daughter · Subject, nominative"
+      et: "and"
+      Iovis: "of Jupiter · genitive"
+      est: "is — from sum"
+      Prōserpina: "Proserpina · Predicate Nominative"
+      puella: "girl · renames Prōserpina"
+      pulchra: "beautiful — from pulcher"
+
+  - n: 16
+    text: "Et Minerva? Minerva nūllam mātrem habet!"
+    new:
+      nūllam: "no"
+      mātrem: "mother · Direct Object, accusative"
+    words:
+      Et: "and"
+      Minerva: "Minerva"
+      habet: "has — from habeō"
+
+  - n: 17
+    text: "Minerva ē capite Iovis nāscitur, armāta!"
+    new:
+      ē capite Iovis: "out of Jupiter’s head"
+      nāscitur: "is born"
+      armāta: "armed, wearing armor"
+    words:
+      Minerva: "Minerva · Subject, nominative"
+
+  - n: 18
+    text: "Minerva est dea sapientiae et bellī. Minerva multum sapientiae habet, et Athēnās servat."
+    new:
+      sapientiae: "of wisdom"
+      Athēnās: "the city of Athens · Direct Object, accusative"
+    words:
+      Minerva: "Minerva · Subject, nominative"
+      est: "is — from sum"
+      dea: "goddess · Predicate Nominative"
+      et: "and"
+      bellī: "of war · genitive"
+      multum: "a lot (multum sapientiae = a lot of wisdom)"
+      habet: "has — from habeō"
+      servat: "protects, saves — from servō"
+
+# Comprehension, in English (CR-009), in story order. The app's own: the
+# packet has no questions for this story.
+questions:
+  - id: q1
+    ask: "Sentences 1–2: Who is Juno?"
+    look: [1, 2]
+    hint: {1: "Iūnō est rēgīna deōrum", 2: "Iūnō est soror et uxor Iovis"}
+    options:
+      a: "Queen of the gods, and Jupiter's sister and wife"
+      b: "Jupiter's daughter"
+      c: "The goddess of war"
+      d: "A mortal woman Jupiter loves"
+    answer: a
+
+  - id: q2
+    ask: "Sentence 4: What does Mars always love?"
+    look: [4]
+    hint: {4: "bellum semper amat"}
+    options:
+      a: "War"
+      b: "Music"
+      c: "Wine"
+      d: "His mother"
+    answer: a
+
+  - id: q3
+    ask: "Sentence 5: Vulcan is not handsome. What does he do?"
+    look: [5]
+    hint: {5: "arma deōrum parat"}
+    options:
+      a: "He makes the gods' weapons."
+      b: "He carries the gods' messages."
+      c: "He protects Athens."
+      d: "He fights in every war."
+    answer: a
+
+  - id: q4
+    ask: "Sentence 6: Why is Juno angry?"
+    look: [6]
+    hint: {6: "Iuppiter multās aliās fēminās amat"}
+    options:
+      a: "Jupiter loves many other women."
+      b: "Mars always loves war."
+      c: "Vulcan is not handsome."
+      d: "Jupiter is lord of the gods."
+    answer: a
+
+  - id: q5
+    ask: "Sentence 9: What are Apollo and Diana the gods of?"
+    look: [9]
+    hint: {9: "Apollō est deus mūsicae et lūcis Diāna est dea silvārum et lūnae"}
+    options:
+      a: "Apollo: music and light. Diana: the forests and the moon."
+      b: "Apollo: war. Diana: wisdom."
+      c: "Apollo: wine. Diana: grain."
+      d: "Apollo: the sea. Diana: the sky."
+    answer: a
+
+  - id: q6
+    ask: "Sentence 11: What are Mercury's two jobs?"
+    look: [11]
+    hint: {11: "nūntius deōrum et deus pecūniae"}
+    options:
+      a: "Messenger of the gods and god of money"
+      b: "God of war and god of fire"
+      c: "King of the gods and god of the sky"
+      d: "God of wine and god of music"
+    answer: a
+
+  - id: q7
+    ask: "Iovis appears in sentences 3, 10 and 12. What case is it, and what does it mean each time?"
+    look: [3, 10, 12]
+    hint: {3: "Fīliī Iovis", 10: "Fīlius Māiae et Iovis", 12: "Fīlius Semelēs et Iovis"}
+    model: >-
+      Genitive: "of Jupiter". Fīliī Iovis = the sons of Jupiter; Fīlius Māiae
+      et Iovis = the son of Maia and Jupiter; Fīlius Semelēs et Iovis = the son
+      of Semele and Jupiter. The story names each child "of" its parents with
+      the genitive.
+
+  - id: q8
+    ask: "Sentences 12–13: How is Bacchus's mother different from the other mothers in the story?"
+    look: [12]
+    hint: {12: "Semelē est fēmina mortālis"}
+    model: >-
+      Semele is a mortal, human woman (fēmina mortālis). The other mothers are
+      goddesses (Juno, Ceres) or Titans' daughters (Latona, Maia).
+
+  - id: q9
+    ask: "Sentences 16–17: Why does Minerva have no mother?"
+    look: [16, 17]
+    hint: {17: "ē capite Iovis nāscitur"}
+    options:
+      a: "She is born out of Jupiter's head."
+      b: "Her mother is hidden inside the earth."
+      c: "She is born from the foam of the sea."
+      d: "Juno is angry with her mother."
+    answer: a
+
+  - id: q10
+    ask: "Sentence 18: Which city does Minerva protect?"
+    look: [18]
+    hint: {18: "Athēnās servat"}
+    options:
+      a: "Athens"
+      b: "Rome"
+      c: "Troy"
+      d: "Carthage"
+    answer: a

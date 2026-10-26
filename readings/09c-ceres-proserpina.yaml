@@ -1,0 +1,337 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 9 story packet, Day 4 (Thursday 22 Oct), pages 5–6.
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too), with the case added to the note.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them.
+#
+# The packet has no questions for this story, so q1-q9 are the app's own, in
+# story order. Send the packet's questions to replace or join them.
+
+slug: ceres-proserpina
+title: "Fābula dē Cerere et Prōserpinā"
+source: "Latin I — Week 9 story packet, Day 4 (Thu 22 Oct)"
+paragraphs: [[1, 2, 3, 4, 5], [6, 7, 8, 9], [10, 11, 12, 13], [14, 15, 16, 17, 18]]
+
+sentences:
+  - n: 1
+    text: "Cerēs est dea agrōrum et frūmentī."
+    new:
+      frūmentī: "of grain"
+    words:
+      Cerēs: "Ceres · Subject, nominative"
+      est: "is — from sum"
+      dea: "goddess · Predicate Nominative"
+      agrōrum: "of the fields · genitive plural"
+      et: "and"
+
+  - n: 2
+    text: "Prōserpina est fīlia Cereris; fōrma puellae est magna."
+    new:
+      Cereris: "of Ceres"
+    words:
+      Prōserpina: "Proserpina · Subject, nominative"
+      est: "is — from sum"
+      fīlia: "daughter · Predicate Nominative"
+      fōrma: "beauty · Subject, nominative"
+      puellae: "of the girl · genitive"
+      magna: "great — from magnus"
+
+  - n: 3
+    text: "Prōserpina et amīcae saepe in prātō ambulant."
+    new:
+      in prātō: "in a meadow"
+      ambulant: "walk"
+    words:
+      Prōserpina: "Proserpina · Subject, nominative"
+      et: "and"
+      amīcae: "friends (girls) · Subject, nominative"
+      saepe: "often"
+
+  - n: 4
+    text: "Plūtō, deus mortuōrum, Prōserpinam videt et amat."
+    new:
+      Plūtō: "Pluto"
+      mortuōrum: "of the dead"
+    words:
+      deus: "god · renames Plūtō"
+      Prōserpinam: "Proserpina · Direct Object, accusative"
+      videt: "sees — from videō"
+      et: "and"
+      amat: "loves — from amō"
+
+  - n: 5
+    text: "Plūtō Prōserpinam rapit et sub terram ad rēgnum suum portat."
+    new:
+      rapit: "kidnaps, carries off"
+      sub terram: "under the earth"
+      ad rēgnum suum: "to his kingdom"
+    words:
+      Plūtō: "Pluto · Subject, nominative"
+      Prōserpinam: "Proserpina · Direct Object, accusative"
+      et: "and"
+      portat: "carries — from portō"
+
+  - n: 6
+    text: "Cerēs fīliam vocat: “Prōserpina! Ubi es?” Sed fīlia nōn respondet."
+    new:
+      Ubi es: "where are you"
+      respondet: "answers"
+    words:
+      Cerēs: "Ceres · Subject, nominative"
+      fīliam: "daughter · Direct Object, accusative"
+      vocat: "calls — from vocō"
+      Prōserpina: "Proserpina · Vocative"
+      Sed: "but"
+      fīlia: "daughter · Subject, nominative"
+      nōn: "not"
+
+  - n: 7
+    text: "Cerēs est misera. Nōn labōrat; agrōs nōn cūrat."
+    new:
+      cūrat: "takes care of"
+    words:
+      Cerēs: "Ceres · Subject, nominative"
+      est: "is — from sum"
+      misera: "unhappy — from miser"
+      Nōn: "not"
+      labōrat: "works — from labōrō"
+      agrōs: "fields · Direct Object, accusative"
+
+  - n: 8
+    text: "Nunc agrī nihil frūmentī habent. Agricolae satis cibī nōn habent."
+    new:
+      cibī: "of food"
+    words:
+      Nunc: "now"
+      agrī: "fields · Subject, nominative"
+      nihil: "no, nothing (nihil frūmentī = no grain)"
+      frūmentī: "of grain · genitive"
+      habent: "have — from habeō"
+      Agricolae: "farmers · Subject, nominative"
+      satis: "enough (satis cibī = enough food)"
+      nōn: "not"
+
+  - n: 9
+    text: "Populus timet, et deī quoque timent: hominēs nūlla dōna deīs dant!"
+    new:
+      quoque: "also"
+      hominēs: "people, humans · Subject, nominative"
+      nūlla: "no"
+      deīs: "to the gods"
+    words:
+      Populus: "the people · Subject, nominative"
+      timet: "is afraid — from timeō"
+      et: "and"
+      deī: "gods · Subject, nominative"
+      timent: "are afraid — from timeō"
+      dōna: "gifts · Direct Object, accusative"
+      dant: "give — from dō"
+
+  - n: 10
+    text: "Iuppiter Mercurium, nūntium deōrum, vocat."
+    new:
+      nūntium: "messenger · renames Mercurium"
+    words:
+      Iuppiter: "Jupiter · Subject, nominative"
+      Mercurium: "Mercury · Direct Object, accusative"
+      deōrum: "of the gods · genitive plural"
+      vocat: "calls — from vocō"
+
+  - n: 11
+    text: "“Mercurī,” clāmat Iuppiter, “iuvā Cererem! Portā Prōserpinam ad mātrem!”"
+    new:
+      Mercurī: "Mercury · Vocative (like fīlius → fīlī)"
+      clāmat: "shouts"
+      Cererem: "Ceres · Direct Object, accusative"
+      ad mātrem: "to her mother"
+    words:
+      Iuppiter: "Jupiter · Subject, nominative"
+      iuvā: "help! — a command, from iuvō"
+      Portā: "carry! bring! — a command, from portō"
+      Prōserpinam: "Proserpina · Direct Object, accusative"
+
+  - n: 12
+    text: "Mercurius ad rēgnum Plūtōnis volat."
+    new:
+      ad rēgnum Plūtōnis: "to the kingdom of Pluto"
+      volat: "flies"
+    words:
+      Mercurius: "Mercury · Subject, nominative"
+
+  - n: 13
+    text: "Sed Prōserpina sex grāna Pūnicī mālī gustat."
+    new:
+      sex grāna: "six seeds · Direct Object, accusative"
+      Pūnicī mālī: "of a pomegranate"
+      gustat: "tastes"
+    words:
+      Sed: "but"
+      Prōserpina: "Proserpina · Subject, nominative"
+
+  - n: 14
+    text: "Lēx deōrum est clāra: sī cibum mortuōrum gustās, in rēgnō mortuōrum manēre dēbēs."
+    new:
+      Lēx: "law · Subject, nominative"
+      sī: "if"
+      gustās: "you taste"
+      in rēgnō: "in the kingdom"
+      manēre: "to stay"
+    words:
+      deōrum: "of the gods · genitive plural"
+      est: "is — from sum"
+      clāra: "clear — from clārus"
+      cibum: "food · Direct Object, accusative"
+      mortuōrum: "of the dead · genitive plural"
+      dēbēs: "you must, you ought — from dēbeō"
+
+  - n: 15
+    text: "Itaque Prōserpina sex mēnsēs cum Plūtōne et sex mēnsēs cum mātre habitat."
+    new:
+      Itaque: "and so"
+      sex mēnsēs: "for six months"
+      cum Plūtōne: "with Pluto"
+      cum mātre: "with her mother"
+      habitat: "lives"
+    words:
+      Prōserpina: "Proserpina · Subject, nominative"
+      et: "and"
+
+  - n: 16
+    text: "Ubi Prōserpina cum mātre est, Cerēs laeta est, et agrī multum frūmentī habent."
+    new:
+      Ubi: "when (here)"
+      laeta: "happy"
+    words:
+      Prōserpina: "Proserpina · Subject, nominative"
+      cum mātre: "with her mother"
+      est: "is — from sum"
+      Cerēs: "Ceres · Subject, nominative"
+      et: "and"
+      agrī: "fields · Subject, nominative"
+      multum: "a lot (multum frūmentī = a lot of grain)"
+      frūmentī: "of grain · genitive"
+      habent: "have — from habeō"
+
+  - n: 17
+    text: "Ubi Prōserpina sub terrā est, Cerēs misera est, et agrī nihil habent."
+    new:
+      sub terrā: "under the earth"
+    words:
+      Ubi: "when (as in sentence 16)"
+      Prōserpina: "Proserpina · Subject, nominative"
+      est: "is — from sum"
+      Cerēs: "Ceres · Subject, nominative"
+      misera: "unhappy — from miser"
+      et: "and"
+      agrī: "fields · Subject, nominative"
+      nihil: "nothing · Direct Object"
+      habent: "have — from habeō"
+
+  - n: 18
+    text: "Sīc Rōmānī hiemem et aestātem explicant."
+    new:
+      Sīc: "in this way"
+      hiemem et aestātem: "winter and summer · Direct Objects, accusative"
+      explicant: "explain"
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+
+# Comprehension, in English (CR-009), in story order. The app's own: the
+# packet has no questions for this story.
+questions:
+  - id: q1
+    ask: "Sentence 4: Who is Pluto?"
+    look: [4]
+    hint: {4: "Plūtō deus mortuōrum"}
+    options:
+      a: "The god of the dead"
+      b: "The messenger of the gods"
+      c: "Proserpina's father"
+      d: "The god of the fields"
+    answer: a
+
+  - id: q2
+    ask: "Sentences 3–5: What happens to Proserpina in the meadow?"
+    look: [3, 4, 5]
+    hint: {5: "Plūtō Prōserpinam rapit et sub terram ad rēgnum suum portat"}
+    options:
+      a: "Pluto carries her off under the earth to his kingdom."
+      b: "She runs away from her mother."
+      c: "She gets lost in the forest."
+      d: "Mercury takes her to Jupiter."
+    answer: a
+
+  - id: q3
+    ask: "Sentences 6–8: Ceres can't find her daughter. What happens to the fields?"
+    look: [6, 7, 8]
+    hint: {7: "agrōs nōn cūrat", 8: "agrī nihil frūmentī habent"}
+    options:
+      a: "Ceres stops taking care of them, and they grow no grain."
+      b: "They grow more grain than ever."
+      c: "Pluto takes them for his kingdom."
+      d: "The farmers stop working, so Ceres is angry."
+    answer: a
+
+  - id: q4
+    ask: "Sentence 9: Why are even the gods afraid?"
+    look: [9]
+    hint: {9: "hominēs nūlla dōna deīs dant"}
+    options:
+      a: "People give the gods no gifts."
+      b: "Pluto is coming for them too."
+      c: "Ceres is going to fight Jupiter."
+      d: "The people want a new king."
+    answer: a
+
+  - id: q5
+    ask: "Sentences 10–11: What does Jupiter tell Mercury to do?"
+    look: [10, 11]
+    hint: {11: "Portā Prōserpinam ad mātrem"}
+    options:
+      a: "Bring Proserpina back to her mother."
+      b: "Punish Pluto."
+      c: "Give the gods gifts."
+      d: "Take care of the fields."
+    answer: a
+
+  - id: q6
+    ask: "Sentence 11: Find the two commands Jupiter gives, and the word that shows whom he is talking to."
+    look: [11]
+    hint: {11: "Mercurī clāmat Iuppiter iuvā Cererem Portā"}
+    model: >-
+      The commands are iuvā ("help!") and portā ("carry, bring!"). Mercurī is
+      vocative, so Jupiter is talking to Mercury.
+
+  - id: q7
+    ask: "Sentences 13–14: Why can't Proserpina just go home for good?"
+    look: [13, 14]
+    hint: {13: "sex grāna Pūnicī mālī gustat", 14: "sī cibum mortuōrum gustās in rēgnō mortuōrum manēre dēbēs"}
+    options:
+      a: "She tasted six pomegranate seeds, and the gods' law says whoever tastes the food of the dead must stay."
+      b: "Pluto won't let Mercury into his kingdom."
+      c: "She wants to stay with Pluto forever."
+      d: "Jupiter changes his mind."
+    answer: a
+
+  - id: q8
+    ask: "Sentence 15: How does Proserpina spend her year?"
+    look: [15]
+    hint: {15: "sex mēnsēs cum Plūtōne et sex mēnsēs cum mātre habitat"}
+    options:
+      a: "Six months with Pluto and six months with her mother"
+      b: "All year with her mother"
+      c: "All year with Pluto"
+      d: "Six seeds' worth of days with Pluto, then home for good"
+    answer: a
+
+  - id: q9
+    ask: "Sentences 16–18: What do the Romans explain with this story? Use the Latin to show which season goes with which half of Proserpina's year."
+    look: [16, 17, 18]
+    hint: {16: "Cerēs laeta est", 17: "Cerēs misera est", 18: "hiemem et aestātem explicant"}
+    model: >-
+      Winter and summer (hiemem et aestātem, sentence 18). When Proserpina is
+      with her mother, Ceres is happy (laeta) and the fields have a lot of
+      grain: summer (sentence 16). When she is under the earth, Ceres is
+      unhappy (misera) and the fields have nothing: winter (sentence 17).

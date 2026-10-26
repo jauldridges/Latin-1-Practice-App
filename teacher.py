@@ -21,6 +21,7 @@ Nothing in this module writes. Nothing in it grades.
 
 import time
 
+import fsrs
 import schooltime  # noqa: F401  -- every day below is the school's day
 import stats
 
@@ -109,6 +110,38 @@ def counted_today(events, key, now=None):
     today = day_key(now or time.time())
     return any(card_key(e) == key and day_key(e["timestamp"]) == today
                for e in homework_cards(events))
+
+
+# Looping: answering again, the same day, cards already got right that day.
+# Ten such repeats in one topic on one day is a flag -- the pattern of a student
+# filling the weekly goal from a two-question topic (homework_cards). A card
+# missed and relearned is not a repeat: relearning is the point of Again.
+LOOP_MIN = 10
+
+
+def loops(events):
+    """[{day, start, topic, answers, cards, repeats}] for ONE student, oldest
+    first: each day and topic with LOOP_MIN or more repeats. The topic is the
+    grammar topic (spec node), or "vocab" for vocabulary words."""
+    groups = {}
+    practice = [e for e in events if (e.get("context") or "practice") not in NOT_HOMEWORK]
+    for e in stats.collapse_retries(practice):
+        topic = "vocab" if kind_of(e) == "vocab" else (e.get("spec_node_id") or "")
+        groups.setdefault((day_key(e["timestamp"]), topic), []).append(e)
+    out = []
+    for (day, topic), evs in sorted(groups.items()):
+        known, cards, repeats = set(), set(), 0
+        for e in evs:
+            k = card_key(e)
+            cards.add(k)
+            if k in known:
+                repeats += 1
+            if (fsrs.grade_of(e) or 0) >= fsrs.HARD:
+                known.add(k)
+        if repeats >= LOOP_MIN:
+            out.append({"day": day, "start": evs[0]["timestamp"], "topic": topic,
+                        "answers": len(evs), "cards": len(cards), "repeats": repeats})
+    return out
 
 
 def homework_counts(events):

@@ -24,6 +24,20 @@
 <p class="small muted">{{ act.vocab }} vocabulary · {{ act.grammar }} grammar ·
   last practiced {{ act.ever_last_at | when }} · {{ act.ever_attempts }} answers all year.</p>
 
+{% if looping %}
+<h2 id="looping">⟳ Looping</h2>
+<p class="small muted">Days when this student answered, again and again, questions they had already
+  got right that day — ten or more repeats in one topic. Each card counts toward homework once a
+  day, so the repeats did not count.</p>
+<table class="progress">
+  <tr><th>Day</th><th>Topic</th><th>Answers</th><th>Different cards</th><th>Repeats</th></tr>
+  {% for lp in looping %}
+  <tr><td class="small">{{ lp.start | when }}</td><td>{{ topic_label(lp.topic) }}</td>
+    <td>{{ lp.answers }}</td><td>{{ lp.cards }}</td><td><strong>{{ lp.repeats }}</strong></td></tr>
+  {% endfor %}
+</table>
+{% endif %}
+
 {% if rushed %}
 <h2 id="rushed">⚑ Rushed sittings</h2>
 <p class="small muted">Sittings of 10+ cards where a third or more were rushed: graded before

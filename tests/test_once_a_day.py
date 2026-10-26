@@ -65,6 +65,7 @@ class _App(unittest.TestCase):
         sys.modules.pop("server", None)
         import server
         server.app.config["TESTING"] = True
+        self.server = server
         self.db = store.connect(self.db_path)
         items = dataio.load_bank()
         flags, _ = checks.run_all(items, set(dataio.load_spec()),
@@ -117,6 +118,55 @@ class TestAFinishedTopic(_App):
         for i in range(40):
             self.did(RECALL if i % 2 else RECOG, ago=400 - i)
         self.assertIn("2 of 50 cards", self.c.get("/").data.decode())
+
+
+class TestTheLoopFlag(unittest.TestCase):
+    def test_a_loop_is_flagged(self):
+        t = noon(2026, 10, 14)
+        evs = [ev(RECALL if i % 2 else RECOG, t + i * 10) for i in range(101)]
+        (lp,) = teacher.loops(evs)
+        self.assertEqual((lp["topic"], lp["answers"], lp["cards"], lp["repeats"]),
+                         ("MW-017", 101, 2, 99))
+
+    def test_relearning_missed_cards_is_not_a_loop(self):
+        # a struggling student: every card missed, then got right on the retry
+        t = noon(2026, 10, 14)
+        evs = []
+        for i in range(30):
+            evs += [ev("Q-%d" % i, t + i * 60, "wrong", 1, node="MS-020"),
+                    ev("Q-%d" % i, t + i * 60 + 30, "right", 3, node="MS-020")]
+        self.assertEqual(teacher.loops(evs), [])
+
+    def test_under_ten_repeats_is_not_a_loop(self):
+        t = noon(2026, 10, 14)
+        evs = [ev(RECALL if i % 2 else RECOG, t + i * 10) for i in range(11)]   # 9 repeats
+        self.assertEqual(teacher.loops(evs), [])
+        evs.append(ev(RECALL, t + 200))                                         # the tenth
+        self.assertEqual(len(teacher.loops(evs)), 1)
+
+    def test_repeats_on_different_days_are_not_one_loop(self):
+        evs = [ev(RECALL, noon(2026, 10, d)) for d in range(1, 21)]
+        self.assertEqual(teacher.loops(evs), [])
+
+
+class TestTheDashboard(_App):
+    def test_the_teacher_sees_the_loop(self):
+        for i in range(40):
+            self.did(RECALL if i % 2 else RECOG, ago=400 - i)
+        t = self.server.app.test_client()
+        t.post("/login", data={"password": "teacherpw", "next": "/teacher"})
+        home = t.get("/teacher").data.decode()
+        self.assertIn("⟳ looped MW-017 ×38", home)
+        self.assertIn("⟳ 1 student", home)
+        page = t.get("/teacher/student/403217").data.decode()
+        self.assertIn('id="looping"', page)
+        self.assertIn("The Romance languages", page)
+
+    def test_no_loop_no_flag(self):
+        self.did(RECALL)
+        t = self.server.app.test_client()
+        t.post("/login", data={"password": "teacherpw", "next": "/teacher"})
+        self.assertNotIn("⟳", t.get("/teacher").data.decode())
 
 
 if __name__ == "__main__":

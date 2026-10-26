@@ -1,0 +1,375 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 9 story packet, Day 2 (Tuesday 20 Oct), pages 1–2.
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too). "gloss · note" -- the note is the
+#           packet's grammar label, with the case added as in Fābula dē
+#           Cincinnātō.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them.
+#
+# The packet has no questions for this story, so q1-q10 are the app's own,
+# in story order. Send the packet's questions to replace or join them.
+#
+# One thing flagged to the teacher: sentence 5 glosses Ops, Hyperīōn,
+# Promētheus and Atlās but not Ōceanus. The app glosses Ōceanus too.
+
+slug: dei-primi
+title: "Fābula dē Deīs Prīmīs"
+source: "Latin I — Week 9 story packet, Day 2 (Tue 20 Oct)"
+paragraphs: [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15], [16, 17, 18, 19, 20]]
+
+sentences:
+  - n: 1
+    text: "Ōlim nihil est."
+    new:
+      Ōlim: "once, long ago"
+    words:
+      nihil: "nothing · Subject, nominative"
+      est: "is, there is — from sum"
+
+  - n: 2
+    text: "Tum Terra et Caelus sunt."
+    new:
+      Tum: "then"
+    words:
+      Terra: "Earth (a goddess) · Subject, nominative"
+      et: "and"
+      Caelus: "Sky (a god) · Subject, nominative"
+      sunt: "are, exist — from sum"
+
+  - n: 3
+    text: "Terra est dea, et Caelus est deus."
+    words:
+      Terra: "Earth · Subject, nominative"
+      est: "is — from sum"
+      dea: "goddess · Predicate Nominative"
+      et: "and"
+      Caelus: "Sky · Subject, nominative"
+      deus: "god · Predicate Nominative"
+
+  - n: 4
+    text: "Terra et Caelus multōs līberōs habent: Tītānēs."
+    new:
+      Tītānēs: "the Titans · renames līberōs"
+    words:
+      Terra: "Earth · Subject, nominative"
+      et: "and"
+      Caelus: "Sky · Subject, nominative"
+      multōs: "many — from multus; it describes līberōs"
+      līberōs: "children · Direct Object, accusative"
+      habent: "have — from habeō"
+
+  - n: 5
+    text: "Saturnus, Ops, Ōceanus, Hyperīōn, Promētheus, et Atlās sunt līberī Caelī et Terrae."
+    new:
+      Ops: "Ops (a Titan)"
+      Hyperīōn: "Hyperion (a Titan)"
+      Promētheus: "Prometheus (a Titan)"
+      Atlās: "Atlas (a Titan)"
+    words:
+      Saturnus: "Saturn (a Titan) · Subject, nominative"
+      Ōceanus: "Oceanus (a Titan)"
+      et: "and"
+      sunt: "are — from sum"
+      līberī: "children · Predicate Nominative"
+      Caelī: "of Sky · genitive"
+      Terrae: "of Earth · genitive"
+
+  - n: 6
+    text: "Sed Caelus līberōs suōs nōn amat."
+    new:
+      suōs: "his own"
+    words:
+      Sed: "but"
+      Caelus: "Sky · Subject, nominative"
+      līberōs: "children · Direct Object, accusative"
+      nōn: "not"
+      amat: "loves — from amō"
+
+  - n: 7
+    text: "Caelus līberōs in terrā cēlat."
+    new:
+      in terrā: "inside the earth"
+      cēlat: "hides"
+    words:
+      Caelus: "Sky · Subject, nominative"
+      līberōs: "children · Direct Object, accusative"
+
+  - n: 8
+    text: "Terra est misera. Saturnum vocat: “Fīlī mī, iuvā mātrem tuam!”"
+    new:
+      Fīlī mī: "my son · Vocative"
+      mātrem: "mother · Direct Object, accusative"
+    words:
+      Terra: "Earth · Subject, nominative"
+      est: "is — from sum"
+      misera: "unhappy, wretched — from miser"
+      Saturnum: "Saturn · Direct Object, accusative"
+      vocat: "calls — from vocō"
+      iuvā: "help! — a command, from iuvō"
+      tuam: "your — from tuus; it describes mātrem"
+
+  - n: 9
+    text: "Saturnus Caelum superat. Nunc Saturnus est dominus deōrum."
+    words:
+      Saturnus: "Saturn · Subject, nominative"
+      Caelum: "Sky (Caelus) · Direct Object, accusative"
+      superat: "overcomes, defeats — from superō"
+      Nunc: "now"
+      est: "is — from sum"
+      dominus: "lord, master · Predicate Nominative"
+      deōrum: "of the gods · genitive plural"
+
+  - n: 10
+    text: "Et ex spūmā maris Venus nāscitur, dea pulchra. Omnēs fōrmam Veneris laudant."
+    new:
+      ex spūmā maris: "from the foam of the sea"
+      nāscitur: "is born"
+      Omnēs: "everyone"
+      Veneris: "of Venus"
+    words:
+      Et: "and"
+      Venus: "Venus · Subject, nominative"
+      dea: "goddess · renames Venus"
+      pulchra: "beautiful — from pulcher"
+      fōrmam: "beauty · Direct Object, accusative"
+      laudant: "praise — from laudō"
+
+  - n: 11
+    text: "Līberī Saturnī et Opis sunt Iuppiter, Iūnō, Neptūnus, Plūtō, Cerēs, et Vesta."
+    new:
+      Opis: "of Ops"
+      Iuppiter: "Jupiter"
+      Iūnō: "Juno"
+      Plūtō: "Pluto"
+      Cerēs: "Ceres"
+    words:
+      Līberī: "children · Subject, nominative"
+      Saturnī: "of Saturn · genitive"
+      et: "and"
+      sunt: "are — from sum"
+      Neptūnus: "Neptune"
+      Vesta: "Vesta"
+
+  - n: 12
+    text: "Sed Terra Saturnum monet: “Fīlius tuus tē superāre potest!”"
+    new:
+      tē: "you · Direct Object, accusative"
+    words:
+      Sed: "but"
+      Terra: "Earth · Subject, nominative"
+      Saturnum: "Saturn · Direct Object, accusative"
+      monet: "warns — from moneō"
+      Fīlius: "son · Subject, nominative"
+      tuus: "your"
+      superāre: "to overcome, to defeat"
+      potest: "is able, can"
+
+  - n: 13
+    text: "Saturnus timet. Itaque līberōs suōs dēvorat!"
+    new:
+      Itaque: "and so"
+      dēvorat: "swallows"
+    words:
+      Saturnus: "Saturn · Subject, nominative"
+      timet: "is afraid — from timeō"
+      līberōs: "children · Direct Object, accusative"
+      suōs: "his own"
+
+  - n: 14
+    text: "Ops est misera. Ops fīlium parvum, Iovem, in īnsulā cēlat."
+    new:
+      Iovem: "Jupiter · renames fīlium"
+      in īnsulā: "on an island"
+      cēlat: "hides"
+    words:
+      Ops: "Ops · Subject, nominative"
+      est: "is — from sum"
+      misera: "unhappy — from miser"
+      fīlium: "son · Direct Object, accusative"
+      parvum: "small, little — from parvus"
+
+  - n: 15
+    text: "Ops saxum in fasciīs parat. Saturnus saxum dēvorat, nōn Iovem!"
+    new:
+      saxum: "rock · Direct Object, accusative"
+      in fasciīs: "in baby blankets"
+    words:
+      Ops: "Ops · Subject, nominative"
+      parat: "gets ready, prepares — from parō"
+      Saturnus: "Saturn · Subject, nominative"
+      dēvorat: "swallows"
+      nōn: "not"
+      Iovem: "Jupiter · Direct Object, accusative"
+
+  - n: 16
+    text: "Iuppiter crēscit et magnus est."
+    new:
+      crēscit: "grows up"
+    words:
+      Iuppiter: "Jupiter · Subject, nominative"
+      et: "and"
+      magnus: "big, great"
+      est: "is — from sum"
+
+  - n: 17
+    text: "Iuppiter Saturnum superat, et Saturnus līberōs ēvomit."
+    new:
+      ēvomit: "throws up"
+    words:
+      Iuppiter: "Jupiter · Subject, nominative"
+      Saturnum: "Saturn · Direct Object, accusative"
+      superat: "overcomes, defeats — from superō"
+      et: "and"
+      Saturnus: "Saturn · Subject, nominative"
+      līberōs: "children · Direct Object, accusative"
+
+  - n: 18
+    text: "Deī et deae, fīliī fīliaeque Saturnī, Tītānēs superant."
+    new:
+      Tītānēs: "the Titans · Direct Object, accusative"
+    words:
+      Deī: "gods · Subject, nominative"
+      et: "and"
+      deae: "goddesses · Subject, nominative"
+      fīliī: "sons · renames deī"
+      fīliaeque: "and daughters — fīliae + -que"
+      Saturnī: "of Saturn · genitive"
+      superant: "overcome, defeat — from superō"
+
+  - n: 19
+    text: "Promētheus Iovem iuvat. Sed Atlās contrā Iovem pugnat."
+    new:
+      Iovem: "Jupiter · Direct Object, accusative"
+      contrā Iovem: "against Jupiter"
+    words:
+      Promētheus: "Prometheus · Subject, nominative"
+      iuvat: "helps — from iuvō"
+      Sed: "but"
+      Atlās: "Atlas · Subject, nominative"
+      pugnat: "fights — from pugnō"
+
+  - n: 20
+    text: "Nunc Atlās caelum semper tenet, et Iuppiter est dominus deōrum."
+    new:
+      caelum: "the sky · Direct Object, accusative"
+    words:
+      Nunc: "now"
+      Atlās: "Atlas · Subject, nominative"
+      semper: "always"
+      tenet: "holds — from teneō"
+      et: "and"
+      Iuppiter: "Jupiter · Subject, nominative"
+      est: "is — from sum"
+      dominus: "lord, master · Predicate Nominative"
+      deōrum: "of the gods · genitive plural"
+
+# Comprehension, in English (CR-009), in story order. The app's own: the
+# packet has no questions for this story.
+questions:
+  - id: q1
+    ask: "Sentences 2–3: Who are Terra and Caelus?"
+    look: [2, 3]
+    hint: {3: "Terra est dea et Caelus est deus"}
+    options:
+      a: "Earth, a goddess, and Sky, a god"
+      b: "Two of the Titans"
+      c: "Saturn's children"
+      d: "The first king and queen of Rome"
+    answer: a
+
+  - id: q2
+    ask: "Sentences 4–5: Who are the Titans?"
+    look: [4, 5]
+    hint: {5: "sunt līberī Caelī et Terrae"}
+    options:
+      a: "The children of Sky and Earth"
+      b: "The children of Jupiter"
+      c: "Giants who live in the sea"
+      d: "The enemies of Earth"
+    answer: a
+
+  - id: q3
+    ask: "Sentences 6–7: What does Caelus do to his children?"
+    look: [6, 7]
+    hint: {7: "Caelus līberōs in terrā cēlat"}
+    options:
+      a: "He hides them inside the earth."
+      b: "He swallows them."
+      c: "He sends them to an island."
+      d: "He makes them lords of the gods."
+    answer: a
+
+  - id: q4
+    ask: "Sentence 8: Whom does Terra call for help, and how can you tell she is speaking straight to him?"
+    look: [8]
+    hint: {8: "Saturnum vocat Fīlī mī iuvā mātrem tuam"}
+    model: >-
+      She calls Saturn (Saturnum vocat). Fīlī mī is vocative, "my son", so she
+      is talking to him directly: "My son, help your mother!"
+
+  - id: q5
+    ask: "Sentence 10: Where does Venus come from?"
+    look: [10]
+    hint: {10: "ex spūmā maris Venus nāscitur"}
+    options:
+      a: "From the foam of the sea"
+      b: "From Jupiter's head"
+      c: "From inside the earth"
+      d: "From an island"
+    answer: a
+
+  - id: q6
+    ask: "Sentences 12–13: Why does Saturn swallow his children?"
+    look: [12, 13]
+    hint: {12: "Fīlius tuus tē superāre potest", 13: "Saturnus timet"}
+    options:
+      a: "Earth warns him that his son can overcome him, and he is afraid."
+      b: "He does not love his children, just like Caelus."
+      c: "Ops tells him to."
+      d: "He is hungry."
+    answer: a
+
+  - id: q7
+    ask: "Sentences 14–15: How does Ops save Jupiter?"
+    look: [14, 15]
+    hint: {14: "Iovem in īnsulā cēlat", 15: "Ops saxum in fasciīs parat"}
+    options:
+      a: "She hides him on an island and gives Saturn a rock wrapped in baby blankets."
+      b: "She asks Earth to hide him inside the earth."
+      c: "She fights Saturn herself."
+      d: "She sends him to Atlas."
+    answer: a
+
+  - id: q8
+    ask: "Sentences 17–18: What happens after Jupiter defeats Saturn?"
+    look: [17, 18]
+    hint: {17: "Saturnus līberōs ēvomit", 18: "Tītānēs superant"}
+    options:
+      a: "Saturn throws up his children, and the gods and goddesses defeat the Titans."
+      b: "Saturn swallows Jupiter too."
+      c: "The Titans make Saturn lord of the gods again."
+      d: "Jupiter hides Saturn inside the earth."
+    answer: a
+
+  - id: q9
+    ask: "Sentences 19–20: Why does Atlas hold up the sky forever?"
+    look: [19, 20]
+    hint: {19: "Atlās contrā Iovem pugnat", 20: "Atlās caelum semper tenet"}
+    options:
+      a: "He fought against Jupiter."
+      b: "He helped Jupiter."
+      c: "Saturn ordered him to."
+      d: "He is the god of the sky."
+    answer: a
+
+  - id: q10
+    ask: "Sentences 9 and 20 both say “… est dominus deōrum.” Who is lord of the gods each time, and how did each one get there?"
+    look: [9, 17, 20]
+    hint: {9: "Saturnus Caelum superat", 17: "Iuppiter Saturnum superat", 20: "Iuppiter est dominus deōrum"}
+    model: >-
+      Sentence 9: Saturn, because he overcame Caelus (Saturnus Caelum
+      superat). Sentence 20: Jupiter, because he overcame Saturn (Iuppiter
+      Saturnum superat, sentence 17) and the gods defeated the Titans
+      (sentence 18). Each son defeats his father.
