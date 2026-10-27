@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block subtitle %}grammar badges{% endblock %}
+{% block content %}
+{% if r.passed %}
+  <div class="answer-feedback right">✓ {{ 'Badge earned' if r.mode == 'earn' else 'Badge refreshed' }}: {{ b.title }}</div>
+  <p>{{ r.right }} of {{ r.n }} right. It holds about <strong>{{ st.days_left }} day{{ '' if st.days_left == 1 else 's' }}</strong>
+    before it needs a refresh — each refresh on time makes it hold longer.</p>
+{% else %}
+  <div class="answer-feedback wrong">Not yet: {{ b.title }}</div>
+  <p>{{ r.right }} of {{ r.n }} right — you need {{ r.need }}. Open the <strong>Hint</strong> on the
+    questions below when you try again; a new check asks different questions where it can.</p>
+{% endif %}
+
+<table class="progress">
+  {% for q in questions %}
+  <tr><td style="width:2em">{{ '✓' if q.ok else '✗' }}</td>
+    <td class="small">{{ q.label }}</td></tr>
+  {% endfor %}
+</table>
+
+{% if not r.passed %}
+<form method="post" action="{{ url_for('badge_start', bid=b.id) }}">
+  <button class="bigbtn" type="submit">Try again</button></form>
+{% elif refresh %}
+<form method="post" action="{{ url_for('badge_start', bid=refresh[0].id) }}">
+  <button class="bigbtn" type="submit">Next: refresh {{ refresh[0].title }}</button></form>
+{% elif start_here %}
+<form method="post" action="{{ url_for('badge_start', bid=start_here.id) }}">
+  <button class="bigbtn" type="submit">Next: {{ start_here.title }}</button></form>
+{% endif %}
+<a class="bigbtn secondary" href="{{ url_for('badge_map_page') }}">Back to the map</a>
+{% endblock %}

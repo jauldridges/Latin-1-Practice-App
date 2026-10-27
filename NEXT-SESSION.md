@@ -23,7 +23,7 @@ dashboard for who's practicing and what they don't know.
 - Python 3.9-compatible, no build step, mobile-first server-rendered HTML.
   It has to work on a school Chromebook at home when I'm not there.
 - Run the full test suite before you tell me something's done. It should be
-  ~680 passing (about 14 skip unless a local Postgres is running).
+  ~698 passing (about 14 skip unless a local Postgres is running).
 - Never say "mastery" to a student. The words are solid / shaky / not yet.
 - American spelling: "practice" for noun and verb, never the British -ise form (a test enforces it).
 - School time zone is Eastern (Massachusetts); `schooltime.py` sets it.
@@ -68,6 +68,16 @@ answer gets a rushed verdict (looked away / graded up / guessed) in
 deadlines decides whether rushed cards count. The cartoon Magister on the home
 screen says only lines I've approved at Teacher dashboard -> The Magister. See
 README, "Rushing" and "The Magister".
+
+**Grammar practice is badges (`badges.py`, `badges.yaml`)** once I switch them
+on at Goals & deadlines: the Grammar tab is a map of badges (groups of spec
+topics), each earned with a 6-question check and kept with 3-question
+refreshes as it fades. From the switch-over week the homework is 50 vocab cards
+plus every badge up to date. New topics need a place in `badges.yaml` (a test
+checks every Unit 0-2 grammar topic is in exactly one badge -- extend it to
+Unit 3 when those topics are written). Next planned: a weekly diagnostic
+sentence (translate, check against a model in pieces, plus tap-to-label) that
+points to the badges to study, then a class-by-badges grid for me.
 
 **Morphosyntax labeling questions use `format: label-words`** (tap-to-place:
 boxes above each word, a bank of *case · job* labels). A verb is just "verb"

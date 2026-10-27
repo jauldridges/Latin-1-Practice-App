@@ -7,6 +7,7 @@
   {{ targets.grammar }} grammar cards. <strong style="color:var(--solid)">✓</strong> done by
   Friday · <strong style="color:#8a6508">late</strong> finished afterwards (hover or tap for the day) ·
   a number is how many of the {{ targets.vocab + targets.grammar }} cards they did, not finished.
+  In weeks with grammar badges, "30 · 4/6" means 30 vocabulary cards and 4 of 6 badges up to date.
   Students are ID numbers only — match them against your paper list.</p>
 
 {% if sections %}
@@ -38,7 +39,8 @@
     {% for h in r.weeks %}
       {% if h.status == 'on time' %}<td class="hw-ontime" title="{{ h.label }}: on time">✓</td>
       {% elif h.status == 'late' %}<td class="hw-late" title="{{ h.label }}: finished {{ h.done_at | shortday }}">late</td>
-      {% elif h.status == 'this week' %}<td class="hw-thisweek" title="{{ h.label }}: in progress">{{ h.total }}…</td>
+      {% elif h.status == 'this week' %}<td class="hw-thisweek" title="{{ h.label }}: in progress">{% if h.badges %}{{ h.counts.vocab }} · {{ h.badges.required | length - h.badges.missing | length }}/{{ h.badges.required | length }}…{% else %}{{ h.total }}…{% endif %}</td>
+      {% elif h.badges %}<td class="hw-notdone" title="{{ h.label }}: vocabulary {{ h.counts.vocab }} of {{ h.targets.vocab }}, badges {{ h.badges.required | length - h.badges.missing | length }} of {{ h.badges.required | length }}">{{ h.counts.vocab }} · {{ h.badges.required | length - h.badges.missing | length }}/{{ h.badges.required | length }}</td>
       {% else %}<td class="hw-notdone" title="{{ h.label }}: {{ h.total }} of {{ h.goal }}">{{ h.total }}</td>{% endif %}
     {% endfor %}
     <td>{{ r.summary.on_time }}</td><td>{{ r.summary.late }}</td><td>{{ r.summary.not_done }}</td>

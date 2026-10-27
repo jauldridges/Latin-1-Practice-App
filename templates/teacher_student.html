@@ -24,6 +24,21 @@
 <p class="small muted">{{ act.vocab }} vocabulary · {{ act.grammar }} grammar ·
   last practiced {{ act.ever_last_at | when }} · {{ act.ever_attempts }} answers all year.</p>
 
+{% if badge_rows %}
+<h2 id="badges">Grammar badges</h2>
+<table class="progress">
+  <tr><th>Badge</th><th>State</th><th>Last check</th></tr>
+  {% for b in badge_rows %}
+  <tr><td class="small">{{ b.title }}</td>
+    <td>{% if b.due %}<span class="pill shaky">needs a refresh</span>
+      {% elif b.earned %}<span class="pill {{ 'solid' if b.state == 'solid' else 'shaky' }}">{{ b.state }}</span>
+        <span class="small muted">{{ b.days_left }} day{{ '' if b.days_left == 1 else 's' }} left</span>
+      {% else %}<span class="pill notyet">not yet</span>{% endif %}</td>
+    <td class="small">{% if b.last %}{{ b.last.timestamp | when }} · {{ b.last.response }}{{ ' ✓' if b.last.result == 'right' else ' ✗' }}{% else %}<span class="muted">—</span>{% endif %}</td></tr>
+  {% endfor %}
+</table>
+{% endif %}
+
 {% if looping %}
 <h2 id="looping">⟳ Looping</h2>
 <p class="small muted">Days when this student answered, again and again, questions they had already
@@ -75,7 +90,9 @@
       {% elif h.status == 'this week' %}<span class="hwpill thisweek">this week</span>
       {% else %}<span class="hwpill notdone">not done</span>{% endif %}</div>
     <div class="hw-counts small">Vocabulary {{ h.counts.vocab }}/{{ h.targets.vocab }} ·
-      Grammar {{ h.counts.grammar }}/{{ h.targets.grammar }}</div>
+      {% if h.badges %}Badges {{ h.badges.required | length - h.badges.missing | length }}/{{ h.badges.required | length }}{% if h.badges.missing %}
+      <span class="muted">(missing: {{ h.badges.missing | map('badgetitle') | join(', ') }})</span>{% endif %}
+      {% else %}Grammar {{ h.counts.grammar }}/{{ h.targets.grammar }}{% endif %}</div>
   </li>
   {% endfor %}
 </ul>

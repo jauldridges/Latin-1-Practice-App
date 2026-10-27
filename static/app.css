@@ -646,3 +646,30 @@ tr.rushrow td { background: #fcf0f0; }
 .mg-note { color: #8a6508; margin-top: 4px; }
 .extra-note { text-align: center; margin: 4px 0 8px; }
 .loopflag { color: #7a4f00; background: #f6e7c6; }
+
+/* ---- Grammar badges ---------------------------------------------------------- */
+.badgemap { margin-top: 10px; }
+.bm-row { margin: 0; }
+.bm-label { font-size: 15px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 8px 0 8px; }
+.bm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.bm-arrow { text-align: center; color: var(--line); font-size: 26px; line-height: 1; margin: 6px 0 0; }
+.bcard { background: var(--card); border: 2px solid var(--line); border-radius: 14px; padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 4px; }
+.bcard .bd-icon { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 18px; background: #efedea; color: var(--notyet); }
+.bcard .bd-title { font-weight: 700; line-height: 1.25; }
+.bcard .bd-about { line-height: 1.35; }
+.bcard .bd-after { font-size: 12px; }
+.bcard form { margin-top: 4px; }
+.bcard.earned { border-color: #b9d6c4; }
+.bcard.earned .bd-icon { background: #e3f1e8; color: var(--solid); }
+.bcard.due { border-color: #e9cf8a; background: #fffaf0; }
+.bcard.due .bd-icon { background: #fbf1d6; color: var(--shaky); }
+.bcard .bd-state.due { color: var(--shaky); font-weight: 700; }
+.bcard.here { border-color: var(--accent); box-shadow: 0 0 0 3px #e3f1e8; }
+.bcard.coming { border-style: dashed; background: transparent; opacity: .75; }
+.bcard .fade { height: 6px; border-radius: 3px; background: #efedea; overflow: hidden; }
+.bcard .fade span { display: block; height: 100%; background: var(--solid); }
+.starthere { background: var(--card); border: 2px solid var(--accent); border-radius: 14px; padding: 12px 14px; margin: 10px 0 14px; }
+.starthere .sh-title { font-size: 20px; font-weight: 800; }
+.badge-todo { display: flex; flex-wrap: wrap; gap: 6px; }
+.badgebar { background: #eef5f0; color: var(--solid); border-radius: 10px; padding: 6px 10px; margin: 6px 0 10px; font-size: 15px; }

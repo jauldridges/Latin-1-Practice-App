@@ -1,0 +1,154 @@
+# Grammar badges: the Grammar tab's map, and (from the week the teacher picks
+# on Goals & deadlines) the grammar half of the weekly homework.
+#
+# A badge is a group of spec topics. It appears on the map once its first
+# topic has been taught, and its checks draw only on approved questions from
+# topics already taught. The arrows on the map come from the spec's prereqs:
+# badge B builds on badge A when one of B's topics lists one of A's.
+#
+# Rows are the map's levels, top to bottom. Within a row, badges are in
+# teaching order -- the first one not yet earned whose foundations are earned
+# is "Start here".
+#
+# `about` is the line a student reads under the badge. Keep it short.
+#
+# DRAFT for the teacher (October 2026): edit freely -- regroup topics, rename,
+# reorder. Every Unit 0-2 grammar topic (MS-) is in exactly one badge.
+
+rows:
+  - id: background
+    label: "Background"
+  - id: how
+    label: "How Latin works"
+  - id: nouns
+    label: "Nouns"
+  - id: verbs
+    label: "Verbs"
+  - id: adjectives
+    label: "Adjectives"
+
+badges:
+  # --- Background ----------------------------------------------------------
+  - id: origins
+    row: background
+    title: "Where Latin comes from"
+    about: "Latin's family, and the languages that grew out of it."
+    nodes: [RW-006, MW-017, MW-018, MW-019, MW-036]
+
+  - id: sounds
+    row: background
+    title: "How Latin sounds"
+    about: "The alphabet, consonants, vowels, macrons and diphthongs."
+    nodes: [MS-001, MS-002, MS-003, MS-004, MS-005, MS-006, MS-007]
+
+  - id: syllables
+    row: background
+    title: "Syllables & stress"
+    about: "Splitting words into syllables and finding the stress."
+    nodes: [MS-008, MS-009, MS-010]
+
+  # --- How Latin works -----------------------------------------------------
+  - id: endings
+    row: how
+    title: "Endings do the work"
+    about: "Inflection, case, free word order, no articles, and the little joining words."
+    nodes: [MS-011, MS-012, MS-013, MS-159, MS-051]
+
+  # --- Nouns ---------------------------------------------------------------
+  - id: subjects-objects
+    row: nouns
+    title: "Subjects & objects"
+    about: "The nominative does the action; the accusative receives it."
+    nodes: [MS-014, MS-015]
+
+  - id: first-declension
+    row: nouns
+    title: "First declension"
+    about: "Dictionary entries, stems, and the -a nouns."
+    nodes: [MS-016, MS-017, MS-018, MS-019, MS-020, MS-021, MS-022]
+
+  - id: second-declension
+    row: nouns
+    title: "Second declension"
+    about: "-us, -er and neuter -um nouns, and telling look-alike forms apart."
+    nodes: [MS-023, MS-024, MS-025, MS-026, MS-027, MS-028, MS-029]
+
+  - id: genitive
+    row: nouns
+    title: "Genitive"
+    about: "“Of”: possession and the genitive of the whole."
+    nodes: [MS-052, MS-053, MS-054, MS-055, MS-056]
+
+  - id: dative
+    row: nouns
+    title: "Dative"
+    about: "“To” or “for”: indirect objects, special verbs, and possession with sum."
+    nodes: [MS-057, MS-058, MS-059, MS-060, MS-061]
+
+  - id: third-declension
+    row: nouns
+    title: "Third declension"
+    about: "Stems from the genitive, the endings, gender, and adjectives with them."
+    nodes: [MS-062, MS-063, MS-064, MS-065, MS-070, MS-071]
+
+  - id: third-neuters-istems
+    row: nouns
+    title: "Third-declension neuters & i-stems"
+    about: "Neuter third-declension nouns, and the i-stems."
+    nodes: [MS-066, MS-067, MS-068, MS-069]
+
+  # --- Verbs ---------------------------------------------------------------
+  - id: verb-endings
+    row: verbs
+    title: "Verb endings"
+    about: "Person and number, the personal endings, and agreement."
+    nodes: [MS-030, MS-031, MS-037, MS-038]
+
+  - id: conjugations
+    row: verbs
+    title: "First & second conjugation"
+    about: "Principal parts, the present stem, and the present tense."
+    nodes: [MS-032, MS-033, MS-034, MS-035, MS-036, MS-039]
+
+  - id: sum
+    row: verbs
+    title: "Sum and the predicate nominative"
+    about: "“To be”, and the noun that renames the subject."
+    nodes: [MS-040, MS-041]
+
+  - id: infinitives
+    row: verbs
+    title: "Infinitives"
+    about: "“To ___”, the stem, and verbs like dēbeō that need one."
+    nodes: [MS-076, MS-156, MS-157]
+
+  - id: talking-to
+    row: verbs
+    title: "Talking to someone"
+    about: "The vocative, and giving commands."
+    nodes: [MS-049, MS-050]
+
+  - id: third-fourth-conjugation
+    row: verbs
+    title: "Third & fourth conjugation"
+    about: "The present tense of -ere, -iō and -īre verbs, and their infinitives."
+    nodes: [MS-072, MS-073, MS-074, MS-075, MS-158]
+
+  - id: more-commands
+    row: verbs
+    title: "More commands"
+    about: "Commands in the third and fourth conjugations, and “don't!” with nōlī."
+    nodes: [MS-077, MS-078]
+
+  # --- Adjectives ----------------------------------------------------------
+  - id: adjective-agreement
+    row: adjectives
+    title: "Adjective agreement"
+    about: "-us, -a, -um, and matching case, number and gender."
+    nodes: [MS-042, MS-043, MS-044, MS-045, MS-046]
+
+  - id: using-adjectives
+    row: adjectives
+    title: "Using adjectives"
+    about: "Where an adjective sits, and adjectives used as nouns."
+    nodes: [MS-047, MS-048]

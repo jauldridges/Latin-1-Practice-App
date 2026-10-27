@@ -26,6 +26,7 @@ from flask import (Flask, g, redirect, render_template, request, Response,
 import analysis
 import auth
 import backup
+import badges
 import checks
 import dataio
 import drill
@@ -131,7 +132,7 @@ STUDENT_PREFIXES = ("/drill", "/practice", "/q/", "/due/", "/homework")
 AUDIO_PREFIX = "/audio/"
 # A signed-in student or the teacher: recordings, and Reader passages, which
 # the teacher opens to preview and to project in class.
-SHARED_PREFIXES = (AUDIO_PREFIX, "/read")
+SHARED_PREFIXES = (AUDIO_PREFIX, "/read", "/badges")
 
 
 def _here():
@@ -440,11 +441,39 @@ def homework_setting(db):
             "off": list(s.get("off") or [])}
 
 
-def homework_history(db, events, now=None):
+_BADGE_ROWS, _BADGES = badges.load()
+_BADGE_BY_ID = {b["id"]: b for b in _BADGES}
+
+
+def badges_from(db):
+    """The homework week grammar badges begin (a Saturday, YYYY-MM-DD), or
+    None while the teacher hasn't switched them on (Goals & deadlines)."""
+    return (store.get_setting(db, "badges") or {}).get("from") or None
+
+
+def badge_rule(db):
+    """What goals.py needs to count badges as the grammar homework, or None.
+    Which badges a week asks for is worked out once per deadline per request."""
+    frm = badges_from(db)
+    if not frm:
+        return None
+    approved = store.approved_items(db)
+    memo = {}
+
+    def required(deadline):
+        if deadline not in memo:
+            friday = time.strftime("%Y-%m-%d", time.localtime(deadline - 3600))
+            memo[deadline] = [b["id"] for b in badges.available(_BADGES, _SPEC, approved, friday)]
+        return memo[deadline]
+    return {"from": frm, "required": required}
+
+
+def homework_history(db, events, now=None, rule=None):
     """One student's homework weeks, oldest first, from Goals & deadlines."""
     hs = homework_setting(db)
     weeks = goals.homework_weeks(hs["from"], hs["off"], now)
-    return goals.homework_history(events, weekly_targets(db), weeks, now)
+    return goals.homework_history(events, weekly_targets(db), weeks, now,
+                                  badge_rule=rule or badge_rule(db))
 
 
 def upcoming_assessments(db, limit=4):
@@ -490,8 +519,10 @@ def index():
     student = current_student()
     if student and not auth.is_teacher():
         events = store.events_for_student(db, student)
-        ctx["goal"] = goals.weekly_progress(events, weekly_targets(db))
-        history = homework_history(db, events)
+        rule = badge_rule(db)
+        ctx["goal"] = goals.weekly_progress(events, weekly_targets(db), badge_rule=rule)
+        ctx["badge_titles"] = {b["id"]: b["title"] for b in _BADGES}
+        history = homework_history(db, events, rule=rule)
         # Weeks still owed, oldest first: extra cards finish these (late).
         ctx["owed"] = [r for r in history if r["status"] == "not done"]
         ctx["week_off"] = goals.week_key(time.time()) in homework_setting(db)["off"]
@@ -1608,9 +1639,198 @@ def _taught_now():
     return practice.taught_nodes(_SPEC)
 
 
+# --------------------------------------------------------------------------
+# Grammar badges (badges.py): the map, and a badge check
+# --------------------------------------------------------------------------
+
+def _short_date(day):
+    try:
+        t = time.strptime(str(day), "%Y-%m-%d")
+    except ValueError:
+        return ""
+    return "%s %d" % (time.strftime("%b", t), t.tm_mday)
+
+
+def badge_map(db, student, now=None):
+    """Everything the map shows: rows of badges with this student's state,
+    what each builds on, Start here, and what this week asks for."""
+    now = now or time.time()
+    today = time.strftime("%Y-%m-%d", time.localtime(now))
+    approved = store.approved_items(db)
+    taught = practice.taught_nodes(_SPEC, today)
+    avail = {b["id"] for b in badges.available(_BADGES, _SPEC, approved, today)}
+    events = store.events_for_student(db, student) if student else []
+    built_on = badges.foundations(_BADGES, _SPEC)
+    order = sorted((b for b in _BADGES if b["id"] in avail),
+                   key=lambda b: (badges.first_taught(b, _SPEC), _BADGES.index(b)))
+    st = {bid: badges.status(events, bid, now) for bid in avail}
+    start_here = None
+    for b in order:
+        if not st[b["id"]]["earned"] and all(
+                st[p]["earned"] for p in built_on[b["id"]] if p in avail):
+            start_here = b["id"]
+            break
+    rows = []
+    for row in _BADGE_ROWS:
+        cards = []
+        for b in _BADGES:
+            if b["row"] != row["id"]:
+                continue
+            c = {"id": b["id"], "title": b["title"], "about": b["about"],
+                 "available": b["id"] in avail,
+                 "coming": _short_date(badges.first_taught(b, _SPEC)),
+                 "builds_on": [_BADGE_BY_ID[p]["title"] for p in built_on[b["id"]]],
+                 "questions": len(badges.pool(b, approved, taught)),
+                 "start_here": b["id"] == start_here}
+            if c["available"]:
+                c.update(st[b["id"]])
+                card = fsrs.replay(badges.markers(events, b["id"], until=now + 1))
+                if c["earned"] and card is not None and card.due > card.last:
+                    c["left"] = max(0.0, min(1.0, (card.due - now) / (card.due - card.last)))
+            cards.append(c)
+        if cards:
+            rows.append({"label": row["label"], "badges": cards})
+    week = None
+    rule = badge_rule(db)
+    if student and rule:
+        week = goals.weekly_progress(events, weekly_targets(db), now, badge_rule=rule)["badges"]
+    return {"rows": rows, "start_here": start_here, "week": week,
+            "refresh": [b["id"] for b in order if st[b["id"]]["due"]],
+            "n_available": len(avail),
+            "n_up_to_date": sum(1 for b in avail if st[b]["up_to_date"])}
+
+
+@app.route("/teacher/badges")
+def teacher_badges():
+    """What each badge covers: its topics, when it appears, its approved
+    questions -- the list the teacher approves (badges.yaml)."""
+    db = get_db()
+    approved = store.approved_items(db)
+    taught_all = set(_SPEC)
+    built_on = badges.foundations(_BADGES, _SPEC)
+    per_node = {}
+    for it in approved:
+        per_node[it["node"]] = per_node.get(it["node"], 0) + 1
+    rows = []
+    for row in _BADGE_ROWS:
+        out = []
+        for b in _BADGES:
+            if b["row"] != row["id"]:
+                continue
+            out.append({"b": b, "first": _short_date(badges.first_taught(b, _SPEC)),
+                        "topics": [{"id": n, "label": _NODE_LABEL.get(n, ""),
+                                    "n": per_node.get(n, 0)} for n in b["nodes"]],
+                        "questions": len(badges.pool(b, approved, taught_all)),
+                        "builds_on": [_BADGE_BY_ID[p]["title"] for p in built_on[b["id"]]]})
+        rows.append({"label": row["label"], "badges": out})
+    return render_template("teacher_badges.html", rows=rows, on=badges_from(db),
+                           earn=badges.EARN_N, refresh=badges.REFRESH_N)
+
+
+@app.route("/badges")
+def badge_map_page():
+    db = get_db()
+    student = current_student()
+    return render_template("badges.html", m=badge_map(db, student), student=student,
+                           on=bool(badges_from(db)),
+                           titles={b["id"]: b["title"] for b in _BADGES})
+
+
+@app.route("/badges/<bid>/start", methods=["POST"])
+def badge_start(bid):
+    """Begin a check: pick its questions and hand over to the practice screens,
+    which carry node "badge:<id>" through every answer and back here."""
+    db = get_db()
+    student = current_student()
+    b = _BADGE_BY_ID.get(bid)
+    if b is None or not student:
+        abort(404)
+    items = badges.pool(b, store.approved_items(db), _taught_now())
+    if not items:
+        return redirect(url_for("badge_map_page"))
+    events = store.events_for_student(db, student)
+    mode = badges.status(events, bid)["next"]
+    picked = badges.pick(items, events, badges.check_size(mode, len(items)))
+    session["badge_run"] = {"b": bid, "mode": mode, "items": [it["id"] for it in picked],
+                            "t": time.time()}
+    return redirect(url_for("practice_session", node=badges.PREFIX + bid))
+
+
+def badge_banner(node):
+    """For the question screens: "Genitive · question 2 of 6", or None."""
+    run = session.get("badge_run")
+    if not run or not str(node or "").startswith(badges.PREFIX) or node[len(badges.PREFIX):] != run["b"]:
+        return None
+    events = store.events_for_student(get_db(), current_student())
+    done = len(badges.answered(run["items"], events, run["t"]))
+    return {"title": _BADGE_BY_ID[run["b"]]["title"], "mode": run["mode"],
+            "i": min(done + 1, len(run["items"])), "n": len(run["items"])}
+
+
+app.jinja_env.globals["badge_banner"] = badge_banner
+
+
+def _badge_next(db, student, bid):
+    """The next question of the check under way, or -- all answered -- its
+    result, recorded once as the badge's event."""
+    run = session.get("badge_run")
+    if not run or run["b"] != bid or not student:
+        return redirect(url_for("badge_map_page"))
+    events = store.events_for_student(db, student)
+    got = badges.answered(run["items"], events, run["t"])
+    if len(got) < len(run["items"]):
+        row = store.get_item(db, run["items"][len(got)])
+        if row is None or row["review_status"] != "approved":
+            session.pop("badge_run", None)            # the bank changed under the check
+            return redirect(url_for("badge_map_page"))
+        item = row["payload"]
+        return render_template("practice_question.html", student=student, item=item,
+                               node=badges.PREFIX + bid, context="practice", notice=None,
+                               label=_NODE_LABEL.get(item["node"], ""),
+                               hint=approved_teaching_for(db, item.get("node")),
+                               introduced=nodeweek(item.get("node")),
+                               nudge=slowdown_nudge(db, student, events),
+                               **_practice_stats(db, events))
+    n, right = len(got), sum(1 for _, ok in got if ok)
+    passed = right >= badges.needed(run["mode"], n)
+    store.record_event(db, student, badges.item_id(bid), None,
+                       "%s %d/%d" % (run["mode"], right, n), "right" if passed else "wrong",
+                       context=badges.CONTEXT, version="v1",
+                       rating=fsrs.GOOD if passed else fsrs.AGAIN)
+    session.pop("badge_run", None)
+    session["badge_last"] = {"b": bid, "mode": run["mode"], "passed": passed,
+                             "right": right, "n": n, "need": badges.needed(run["mode"], n),
+                             "got": got}
+    return redirect(url_for("badge_done", bid=bid))
+
+
+@app.route("/badges/<bid>/done")
+def badge_done(bid):
+    db = get_db()
+    student = current_student()
+    last = session.get("badge_last")
+    if not last or last["b"] != bid or bid not in _BADGE_BY_ID:
+        return redirect(url_for("badge_map_page"))
+    events = store.events_for_student(db, student)
+    questions = []
+    for iid, ok in last["got"]:
+        row = store.get_item(db, iid)
+        node = row["node_id"] if row else ""
+        questions.append({"ok": ok, "label": _NODE_LABEL.get(node, node), "node": node})
+    m = badge_map(db, student)
+    return render_template("badge_done.html", b=_BADGE_BY_ID[bid], r=last,
+                           st=badges.status(events, bid), questions=questions,
+                           start_here=m["start_here"] and _BADGE_BY_ID[m["start_here"]],
+                           refresh=[_BADGE_BY_ID[x] for x in m["refresh"]])
+
+
 @app.route("/practice")
 def practice_home():
     db = get_db()
+    # From the week the teacher switches badges on, the Grammar tab is the
+    # badge map. The topic list stays reachable for extra practice.
+    if badges_from(db) and not request.args.get("topics"):
+        return redirect(url_for("badge_map_page"))
     taught = _taught_now()
     approved = store.approved_items(db)
     ready = practice.practiceable(approved, taught)
@@ -1641,6 +1861,8 @@ def practice_session():
     ctx = request.args.get("context", "practice")
     if ctx not in VALID_CONTEXTS:
         ctx = "practice"
+    if node and node.startswith(badges.PREFIX):
+        return _badge_next(db, student, node[len(badges.PREFIX):])
     approved = store.approved_items(db)
     events = store.events_for_student(db, student)
     # A comma-separated list is a set of topics -- what "Practice everything on
@@ -2126,10 +2348,12 @@ def homework_page():
     """Every homework week so far, newest first, and the all-time totals."""
     db = get_db()
     events = store.events_for_student(db, current_student())
-    history = homework_history(db, events)
+    rule = badge_rule(db)
+    history = homework_history(db, events, rule=rule)
     return render_template("homework.html", history=list(reversed(history)),
                            alltime=goals.all_time(events, history),
-                           goal=goals.weekly_progress(events, weekly_targets(db)))
+                           goal=goals.weekly_progress(events, weekly_targets(db), badge_rule=rule),
+                           badge_titles={b["id"]: b["title"] for b in _BADGES})
 
 
 # ==========================================================================
@@ -2170,6 +2394,14 @@ def teacher_deadlines():
     if request.method == "POST" and request.form.get("form") == "rushed":
         store.set_setting(db, "count_rushed", request.form.get("count_rushed") == "yes")
         saved = "rushed"
+    elif request.method == "POST" and request.form.get("form") == "badges":
+        start = (request.form.get("badges_from") or "").strip()
+        if start and goals.days_until(start) is None:
+            saved = "bad"
+        else:
+            store.set_setting(db, "badges",
+                              {"from": goals.week_key(goals.key_start(start)) if start else None})
+            saved = "badges"
     elif request.method == "POST" and request.form.get("form") == "homework":
         start = (request.form.get("from") or "").strip()
         if goals.days_until(start) is None:
@@ -2201,8 +2433,12 @@ def teacher_deadlines():
     until = max(last_teaching, goals.week_key(time.time()))
     hw_weeks = [{"key": k, "label": goals.week_label(k), "on": k not in hs["off"]}
                 for k in goals.homework_weeks(hs["from"], (), until=until)]
+    this = goals.week_key(time.time())
+    badge_weeks = [{"key": k, "label": goals.week_label(k)}
+                   for k in goals.homework_weeks(this, (), until=until)[:6]]
     return render_template("teacher_deadlines.html", targets=weekly_targets(db),
                            count_rushed=count_rushed_setting(db),
+                           badges_from=badges_from(db), badge_weeks=badge_weeks,
                            homework=hs, hw_weeks=hw_weeks,
                            this_week=goals.week_key(time.time()),
                            assessments=rows, saved=saved, kinds=dict(ASSESSMENT_KINDS))
@@ -2341,10 +2577,26 @@ def teacher_home():
     w = _window_args(default=THIS_HOMEWORK_WEEK)
     roster_rows = store.roster(db, active_only=True, section=w["section"])
     events = store.all_events(db, since=w["since"], until=w["until"], section=w["section"])
+    targets = weekly_targets(db)
+    rule = badge_rule(db)
+    this = goals.week_start()
+    badge_now = bool(rule and goals.week_key(this) >= rule["from"])
+    if badge_now:
+        targets = dict(targets, grammar=0)          # grammar is badges this week
     table = teacher.class_activity(roster_rows, events, w["since"], w["until"],
-                                   targets=weekly_targets(db))
+                                   targets=targets)
     # Rushed sittings in the window (rush.py): a flag for a look, not a verdict.
     by_sid = teacher.by_student(events)
+    if badge_now:
+        # This homework week's badges, whatever the window: "did it" needs them.
+        mine = teacher.by_student(store.all_events(db, section=w["section"]))
+        for r in table["rows"]:
+            r["badges"] = goals.badge_week(mine.get(r["student_id"], []), rule,
+                                           this, goals.week_end(this))
+            if r["state"] == "done" and r["badges"]["missing"]:
+                r["state"] = "started"
+        table["n_done"] = sum(1 for x in table["rows"] if x["state"] == "done")
+        table["n_started"] = sum(1 for x in table["rows"] if x["state"] == "started")
     for r in table["rows"]:
         r["flags"] = rush.flagged_sittings(by_sid.get(r["student_id"], []))
         # Looping a topic (teacher.loops): the biggest day first.
@@ -2352,7 +2604,7 @@ def teacher_home():
                             key=lambda x: -x["repeats"])
     table["n_flagged"] = sum(1 for r in table["rows"] if r["flags"])
     table["n_looping"] = sum(1 for r in table["rows"] if r["loops"])
-    return render_template("teacher_home.html", w=w, table=table,
+    return render_template("teacher_home.html", w=w, table=table, badge_now=badge_now,
                            rush_reasons=rush.REASONS, topic_label=_topic_label, loop_min=teacher.LOOP_MIN,
                            targets=weekly_targets(db),
                            purge=PURGE_REPORT,
@@ -2402,6 +2654,22 @@ def teacher_misses():
                            windows=WINDOW_CHOICES, sections=store.sections(db))
 
 
+def _student_badges(db, events):
+    """One student's badges for the teacher: every badge on the map today."""
+    today = time.strftime("%Y-%m-%d")
+    out = []
+    for b in badges.available(_BADGES, _SPEC, store.approved_items(db), today):
+        st = badges.status(events, b["id"])
+        ms = badges.markers(events, b["id"])
+        out.append(dict(st, title=b["title"], last=ms[-1] if ms else None))
+    return out
+
+
+@app.template_filter("badgetitle")
+def badgetitle(bid):
+    return _BADGE_BY_ID[bid]["title"] if bid in _BADGE_BY_ID else bid
+
+
 @app.route("/teacher/student/<path:student_id>")
 def teacher_student(student_id):
     db = get_db()
@@ -2417,6 +2685,7 @@ def teacher_student(student_id):
         "teacher_student.html", w=w, student=student_id,
         rushed=list(reversed(rush.flagged_sittings(in_window))), rush_reasons=rush.REASONS,
         looping=list(reversed(teacher.loops(in_window))), topic_label=_topic_label,
+        badge_rows=_student_badges(db, events),
         homework=list(reversed(homework_history(db, events))),
         person=person, act=act, has_pin=store.has_pin(db, student_id),
 
@@ -2463,9 +2732,11 @@ def _class_homework(db, section=None):
     hs = homework_setting(db)
     weeks = goals.homework_weeks(hs["from"], hs["off"])
     targets = weekly_targets(db)
+    rule = badge_rule(db)
     rows = []
     for r in roster_rows:
-        hist = goals.homework_history(grouped.get(r["student_id"], []), targets, weeks)
+        hist = goals.homework_history(grouped.get(r["student_id"], []), targets, weeks,
+                                      badge_rule=rule)
         rows.append({"student_id": r["student_id"], "section": r.get("section"),
                      "weeks": list(reversed(hist)),
                      "summary": goals.all_time([], hist)})
@@ -2500,6 +2771,11 @@ def teacher_homework_export():
         for h in r["weeks"]:
             if h["status"] in ("on time", "late"):
                 cells.append(h["status"])
+            elif h.get("badges"):
+                b = h["badges"]
+                cells.append("%s (vocab %d/%d, badges %d/%d)" % (
+                    h["status"], h["counts"]["vocab"], h["targets"]["vocab"],
+                    len(b["required"]) - len(b["missing"]), len(b["required"])))
             else:
                 cells.append("%s (%d/%d)" % (h["status"], h["total"], h["goal"]))
         wtr.writerow([r["student_id"], r["section"] or ""] + cells)

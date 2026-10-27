@@ -3,8 +3,9 @@
 {% block content %}
 <h1>Homework</h1>
 <p class="small muted" style="margin-top:-6px">Each week runs Saturday to Friday:
-  {{ goal.targets.vocab }} vocabulary cards and {{ goal.targets.grammar }} grammar cards,
-  done by Friday night.</p>
+  {% if goal.badges %}{{ goal.targets.vocab }} vocabulary cards and every grammar badge up to date
+  (earned, and refreshed if it was fading){% else %}{{ goal.targets.vocab }} vocabulary cards and
+  {{ goal.targets.grammar }} grammar cards{% endif %}, done by Friday night.</p>
 
 {# All time first: the running total is the thing that only ever goes up. #}
 <section class="alltime">
@@ -36,12 +37,16 @@
     </div>
     <div class="hw-counts small">
       Vocabulary {{ w.counts.vocab }}/{{ w.targets.vocab }} ·
-      Grammar {{ w.counts.grammar }}/{{ w.targets.grammar }}
+      {% if w.badges %}Badges {{ w.badges.required | length - w.badges.missing | length }}/{{ w.badges.required | length }}
+      {% else %}Grammar {{ w.counts.grammar }}/{{ w.targets.grammar }}{% endif %}
       {% if w.status == 'late' and w.done_at %}<span class="muted"> · finished {{ w.done_at | shortday }}</span>{% endif %}
     </div>
     {% if w.status == 'not done' %}
     <div class="small muted">You can still finish it: once this week's cards are done,
-      extra cards count toward the oldest unfinished week.</div>
+      extra cards count toward the oldest unfinished week{% if w.badges and w.badges.missing %},
+      and earning
+      {% for bid in w.badges.missing %}<a href="{{ url_for('badge_map_page') }}#b-{{ bid }}">{{ badge_titles[bid] }}</a>{{ ', ' if not loop.last }}{% endfor %}
+      finishes its badges{% endif %}.</div>
     {% endif %}
   </li>
   {% endfor %}

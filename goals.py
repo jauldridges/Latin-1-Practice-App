@@ -50,6 +50,7 @@ time" is the number a few days of real study can move.
 
 import time
 
+import badges
 import drill
 import stats
 import teacher
@@ -122,16 +123,21 @@ def _targets(targets):
     return dict(DEFAULT_TARGETS, **(targets or {}))
 
 
-def weekly_progress(events, targets=None, now=None):
+def weekly_progress(events, targets=None, now=None, badge_rule=None):
     """This homework week's cards against the goal, and which days had any.
 
     Returns {"vocab", "grammar", "targets", "days", "today", "met", "done",
-    "due"} where `days` is seven booleans, Saturday first -- the picture of
-    spacing -- and `due` is what a student reads: "due Friday", "due today".
+    "due", "badges"} where `days` is seven booleans, Saturday first -- the
+    picture of spacing -- and `due` is what a student reads: "due Friday",
+    "due today". In a badge week, `badges` is badge_week's answer and grammar
+    cards are not part of the goal.
     """
     now = now or time.time()
-    targets = _targets(targets)
     start = week_start(now)
+    targets = week_targets(targets, week_key(start), badge_rule)
+    week_badges = None
+    if badge_rule and week_key(start) >= badge_rule["from"]:
+        week_badges = badge_week(events, badge_rule, start, week_end(start))
     mine = [e for e in _homework(events) if start <= e["timestamp"] <= now]
     counts = teacher.homework_counts(mine)
     days = [False] * 7
@@ -139,14 +145,16 @@ def weekly_progress(events, targets=None, now=None):
         days[(time.localtime(e["timestamp"]).tm_wday - HOMEWORK_STARTS_ON) % 7] = True
     today = (time.localtime(now).tm_wday - HOMEWORK_STARTS_ON) % 7
     met = {k: counts[k] >= targets[k] for k in KINDS}
+    done = all(met.values()) and (week_badges is None or not week_badges["missing"])
     return {
         "vocab": counts["vocab"], "grammar": counts["grammar"],
         "targets": targets,
         "days": days,
         "today": today,
         "met": met,
-        "done": all(met.values()),
+        "done": done,
         "due": "due today" if today == 6 else "due Friday",
+        "badges": week_badges,
     }
 
 
@@ -166,7 +174,41 @@ def homework_weeks(first, off=(), now=None, until=None):
     return out
 
 
-def homework_history(events, targets=None, weeks=(), now=None):
+def week_targets(targets, key, badge_rule=None):
+    """The card targets for one homework week. From the week grammar badges
+    begin, grammar is badges rather than cards: its card target is 0."""
+    t = _targets(targets)
+    if badge_rule and str(key) >= badge_rule["from"]:
+        t = dict(t, grammar=0)
+    return t
+
+
+def badge_week(events, rule, start, end):
+    """The badges a homework week asks for and how each went.
+
+    {"required": [ids], "on_time": [ids], "late": {id: ts}, "missing": [ids],
+     "done_at": ts or None} -- done_at is when the last required badge was
+    done, None while any is missing."""
+    events = [e for e in events if badges.is_marker(e)]
+    req = rule["required"](end)
+    out = {"required": req, "on_time": [], "late": {}, "missing": [], "done_at": None}
+    times = []
+    for bid in req:
+        how, ts = badges.done_for_week(events, bid, start, end)
+        if how == "on time":
+            out["on_time"].append(bid)
+            times.append(ts)
+        elif how == "late":
+            out["late"][bid] = ts
+            times.append(ts)
+        else:
+            out["missing"].append(bid)
+    if not out["missing"]:
+        out["done_at"] = max(times) if times else start
+    return out
+
+
+def homework_history(events, targets=None, weeks=(), now=None, badge_rule=None):
     """Every homework week in `weeks`, oldest first, with how it went.
 
     Each row: key, label, start, end, counts {vocab, grammar} (what went toward
@@ -174,27 +216,34 @@ def homework_history(events, targets=None, weeks=(), now=None):
     after Friday), done_at, and status -- "on time", "late", "not done", or
     "this week" while it is still open. The allocation rule is in the module
     docstring.
+
+    `badge_rule` ({"from": week key, "required": f(deadline) -> badge ids})
+    switches the grammar half to badges from that week on: those weeks also
+    carry "badges" (badge_week) and are done when the vocabulary is met AND
+    every badge is up to date. A badge passed after Friday makes the week late.
     """
     now = now or time.time()
-    targets = _targets(targets)
     rows = []
     for k in weeks:
         start = key_start(k)
         rows.append({"key": k, "label": week_label(k), "start": start,
                      "end": week_end(start),
+                     "targets": week_targets(targets, k, badge_rule),
                      "counts": {x: 0 for x in KINDS}, "late": {x: 0 for x in KINDS},
-                     "done_at": None})
+                     "done_at": None, "badges": None})
     by_key = {r["key"]: r for r in rows}
+    for r in rows:
+        if badge_rule and r["key"] >= badge_rule["from"]:
+            r["badges"] = badge_week(events, badge_rule, r["start"], r["end"])
 
     def complete(r):
-        return all(r["counts"][x] >= targets[x] for x in KINDS)
+        cards = all(r["counts"][x] >= r["targets"][x] for x in KINDS)
+        return cards and (r["badges"] is None or r["badges"]["done_at"] is not None)
 
     def give(r, kind, ts, late):
         r["counts"][kind] += 1
         if late:
             r["late"][kind] += 1
-        if r["done_at"] is None and complete(r):
-            r["done_at"] = ts
 
     if rows:
         first = rows[0]["start"]
@@ -205,22 +254,34 @@ def homework_history(events, targets=None, weeks=(), now=None):
             kind = teacher.kind_of(e)
             own_key = week_key(ts)
             own = by_key.get(own_key)
-            if own is not None and own["counts"][kind] < targets[kind]:
+            if own is not None and own["counts"][kind] < own["targets"][kind]:
                 give(own, kind, ts, late=False)
-                continue
-            for r in rows:
-                if r["key"] >= own_key:
-                    break
-                if r["counts"][kind] < targets[kind]:
-                    give(r, kind, ts, late=True)
-                    break
+                r = own
+            else:
+                r = None
+                for cand in rows:
+                    if cand["key"] >= own_key:
+                        break
+                    if cand["counts"][kind] < cand["targets"][kind]:
+                        give(cand, kind, ts, late=True)
+                        r = cand
+                        break
+            # The moment the cards are met. A badge week is done when the
+            # badges are too, whichever came last.
+            if r is not None and r.get("cards_at") is None and all(
+                    r["counts"][x] >= r["targets"][x] for x in KINDS):
+                r["cards_at"] = ts
 
     for r in rows:
-        r["targets"] = targets
+        if r.get("cards_at") is None and all(r["targets"][x] <= 0 for x in KINDS):
+            r["cards_at"] = r["start"]
         r["total"] = sum(r["counts"].values())
-        r["goal"] = sum(targets[x] for x in KINDS)
+        r["goal"] = sum(r["targets"][x] for x in KINDS)
         if complete(r):
-            r["status"] = "late" if any(r["late"].values()) else "on time"
+            r["done_at"] = max(r.get("cards_at") or r["start"],
+                               (r["badges"] or {}).get("done_at") or r["start"])
+            late = any(r["late"].values()) or bool((r["badges"] or {}).get("late"))
+            r["status"] = "late" if late else "on time"
         elif now < r["end"]:
             r["status"] = "this week"
         else:

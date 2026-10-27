@@ -50,6 +50,10 @@ lines:
   - id: rules-12
     category: rules
     text: "Stuck on a grammar question? Open the Hint before you answer. It's there to help, not to trick you."
+  - id: rules-14
+    category: rules
+    text: "Your grammar homework is badges: earn the new ones, and refresh any that are fading. A refresh is only three questions."
+    note: "Approve once grammar badges are switched on."
   - id: rules-13
     category: rules
     text: "Each card counts once a day toward your 50 + 50. Seeing a card again is good practice, but fresh cards are what fill your week."

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ student or 'grammar badges' }}{% endblock %}
+{% block content %}
+{# The Grammar tab: a map of badges, top (background) to bottom. Each badge is a
+   short check on a group of topics (badges.yaml); once earned it fades on the
+   same memory model as every card, and a three-question refresh keeps it.
+   Never "mastery" on this page: solid / shaky / not yet, and "earned". #}
+<h1>Grammar badges</h1>
+
+{% if not student %}
+<div class="flags small"><span class="lvl heuristic">teacher preview</span>
+  This is the map students see{% if not on %} once you switch badges on at Goals &amp; deadlines{% endif %}.
+  Question counts are approved questions on topics already taught.</div>
+{% endif %}
+
+{% if student and m.week %}
+  {% set wk = m.week %}
+  <section class="goalcard {{ 'done' if not wk.missing }}">
+    <div class="goal-head"><h2>This week's badges</h2>
+      <span class="goal-due">{{ wk.required | length - wk.missing | length }} of {{ wk.required | length }} up to date</span></div>
+    {% if wk.missing %}
+      <p class="small muted" style="margin:4px 0 8px">Earn or refresh these by Friday:</p>
+      <div class="badge-todo">
+      {% for bid in wk.missing %}
+        <form method="post" action="{{ url_for('badge_start', bid=bid) }}" class="inline">
+          <button class="minibtn" type="submit">{{ titles[bid] }}</button></form>
+      {% endfor %}
+      </div>
+    {% else %}
+      <p class="small" style="margin:4px 0 0">✓ Every badge is up to date. Nice work.</p>
+    {% endif %}
+  </section>
+{% elif student %}
+  <p class="muted">{{ m.n_up_to_date }} of {{ m.n_available }} badges up to date.</p>
+{% endif %}
+
+{% if student and m.start_here %}
+  {% for row in m.rows %}{% for b in row.badges %}{% if b.start_here %}
+  <div class="starthere">
+    <div class="small muted">Start here</div>
+    <div class="sh-title">{{ b.title }}</div>
+    <div class="small">{{ b.about }}</div>
+    <form method="post" action="{{ url_for('badge_start', bid=b.id) }}">
+      <button class="bigbtn" type="submit">Earn this badge</button></form>
+  </div>
+  {% endif %}{% endfor %}{% endfor %}
+{% endif %}
+
+<div class="badgemap">
+{% for row in m.rows %}
+  {% if not loop.first %}<div class="bm-arrow" aria-hidden="true">↓</div>{% endif %}
+  <section class="bm-row">
+    <h2 class="bm-label">{{ row.label }}</h2>
+    <div class="bm-grid">
+    {% for b in row.badges %}
+      {% if not b.available %}
+        <div class="bcard coming"><div class="bd-icon">○</div>
+          <div class="bd-title">{{ b.title }}</div>
+          <div class="small muted">Coming {{ b.coming }}</div></div>
+      {% else %}
+        {% set kind = 'due' if b.due else ('earned' if b.earned else 'notyet') %}
+        <div class="bcard {{ kind }} {{ 'here' if b.start_here and student }}" id="b-{{ b.id }}">
+          <div class="bd-icon">{{ '⟳' if b.due else ('✓' if b.earned else '○') }}</div>
+          <div class="bd-title">{{ b.title }}</div>
+          <div class="small muted bd-about">{{ b.about }}</div>
+          {% if student %}
+            {% if b.due %}
+              <div class="small bd-state due">Needs a refresh</div>
+            {% elif b.earned %}
+              <div class="small bd-state"><span class="pill {{ 'solid' if b.state == 'solid' else 'shaky' }}">{{ b.state }}</span>
+                holds {{ b.days_left }} more day{{ '' if b.days_left == 1 else 's' }}</div>
+              <div class="fade" title="How much is left before it needs a refresh"><span style="width:{{ ((b.left or 0) * 100) | round | int }}%"></span></div>
+            {% else %}
+              <div class="small bd-state"><span class="pill notyet">not yet</span></div>
+            {% endif %}
+            <form method="post" action="{{ url_for('badge_start', bid=b.id) }}">
+              <button class="minibtn" type="submit">{{ 'Refresh' if b.due else ('Check again' if b.earned else 'Earn it') }}</button></form>
+          {% else %}
+            <div class="small muted">{{ b.questions }} question{{ '' if b.questions == 1 else 's' }}</div>
+          {% endif %}
+          {% if b.builds_on %}<div class="small muted bd-after">After: {{ b.builds_on | join(', ') }}</div>{% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+    </div>
+  </section>
+{% endfor %}
+</div>
+
+<p class="small muted" style="margin-top:18px">A badge check is a few questions on its topics: six to
+  earn it (get five right), three to refresh it (get two). An earned badge fades as time passes —
+  each refresh makes it hold longer.</p>
+<p style="text-align:center"><a class="small" href="{{ url_for('practice_home', topics=1) }}">Extra practice by topic</a></p>
+{% endblock %}

@@ -20,6 +20,30 @@ and the quizzes and tests coming up. The week-by-week record for the gradebook i
   <button class="bigbtn" type="submit">Save goal</button>
 </form>
 
+<h2>Grammar badges</h2>
+{% if saved == 'badges' %}<div class="flags"><span class="lvl heuristic">saved</span>
+  {% if badges_from %}Students see the badge map now; homework counts badges from {{ badges_from }}.{% else %}Badges are off.{% endif %}</div>{% endif %}
+<form method="post" class="card">
+  <input type="hidden" name="form" value="badges">
+  <p class="small muted" style="margin-top:0">When badges are on, the Grammar tab is the
+    <a href="{{ url_for('badge_map_page') }}">badge map</a>, and from the week you pick the weekly
+    homework is <strong>{{ targets.vocab }} vocabulary cards and every badge up to date</strong>:
+    each badge taught by Friday earned, and refreshed if it was fading. Grammar cards stop counting
+    from that week; earlier weeks keep the cards rule. See <a href="{{ url_for('teacher_badges') }}">what
+    each badge covers</a>.</p>
+  <label class="opt"><input type="radio" name="badges_from" value="" {{ 'checked' if not badges_from }}>
+    <span>Off — grammar homework is still {{ targets.grammar }} cards</span></label>
+  {% if badges_from and badges_from not in badge_weeks | map(attribute='key') | list %}
+  <label class="opt"><input type="radio" name="badges_from" value="{{ badges_from }}" checked>
+    <span>On since the week of {{ badges_from }}</span></label>
+  {% endif %}
+  {% for w in badge_weeks %}
+  <label class="opt"><input type="radio" name="badges_from" value="{{ w.key }}" {{ 'checked' if badges_from == w.key }}>
+    <span>On — badges count from the homework week <strong>{{ w.label }}</strong>{% if loop.first %} (this week){% endif %}</span></label>
+  {% endfor %}
+  <button class="bigbtn" type="submit">Save</button>
+</form>
+
 <h2>Rushed cards</h2>
 {% if saved == 'rushed' %}<div class="flags"><span class="lvl heuristic">saved</span> Every homework count uses this now, past weeks included.</div>{% endif %}
 <form method="post" class="card">

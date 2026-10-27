@@ -3,6 +3,9 @@
 {% block content %}
 {% if notice %}<div class="answer-feedback close">{{ notice }}</div>{% endif %}
 {% with say=nudge, small=true %}{% include "_magister.html" %}{% endwith %}
+{% set bb = badge_banner(node) %}
+{% if bb %}<div class="badgebar">{{ 'Earning' if bb.mode == 'earn' else 'Refreshing' }} <strong>{{ bb.title }}</strong>
+  · question {{ bb.i }} of {{ bb.n }}</div>{% endif %}
 
 {% include "_statsbar.html" %}
 {% if extra %}<p class="small muted extra-note">You've already had this one today, so this is extra

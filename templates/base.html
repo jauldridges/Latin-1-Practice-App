@@ -28,7 +28,7 @@
     <a href="{{ url_for('drill_home') }}"
        class="{{ 'on' if path.startswith('/drill') and not path.startswith('/drill/progress') }}">Vocabulary</a>
     <a href="{{ url_for('practice_home') }}"
-       class="{{ 'on' if path.startswith('/practice') }}">Grammar</a>
+       class="{{ 'on' if path.startswith('/practice') or path.startswith('/badges') }}">Grammar</a>
     <a href="{{ url_for('reader_index') }}"
        class="{{ 'on' if path.startswith('/read') }}">Reading</a>
     <a href="{{ url_for('homework_page') }}"

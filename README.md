@@ -83,8 +83,9 @@ start clean.
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
 | `rush.py` | The three "rushed" rules, sittings, and the dashboard flag. |
 | `magister.py`, `magister.yaml` | The cartoon Magister and his lines (teacher-approved). |
+| `badges.py`, `badges.yaml` | Grammar badges: the map, checks, fading, and the homework rule. |
 | `analysis.py` | Data for analysis: the zip of spreadsheets split around an exam. |
-| `tests/` | 680 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 698 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -472,6 +473,38 @@ Every word and topic on My Progress has a strength bar that grows ("holds 9
 days"); the session bar counts "↑ N stronger" (cards remembered this sitting);
 the home screen and the Vocabulary and Grammar pages show how many are **due
 today**. `tests/test_fsrs.py`, `tests/test_drill.py`.
+
+## Grammar badges
+
+The Grammar tab is a map of **badges** (`badges.yaml`, `badges.py`): each a
+group of spec topics, in rows from Background to Adjectives, with arrows taken
+from the spec's prereqs. A badge appears the day its first topic is taught.
+**Earning** it is a 6-question check across its topics (5 right); once earned it
+**fades** on the same memory model as every card (`fsrs.py`, run on the badge
+itself: pass = Good, not passed = Again), and a 3-question **refresh** (2 right)
+keeps it. A first pass holds about 3 days, then about 10, a month, and so on.
+"Right" is the app's own check (right or close); only a question the app can't
+check uses the student's grade. Questions are picked across topics, least
+recently seen first, so a retake asks different ones where the badge has them.
+
+A finished check is one event (`badge:<id>`, context `badge`, score in
+`response`); the questions inside it are ordinary practice events. The record
+is left out of card counts, accuracy, rushing and the session bar.
+
+**Homework.** Goals & deadlines -> Grammar badges switches it on from a
+homework week: the Grammar tab becomes the map, and from that week the homework
+is the vocabulary cards **and every badge up to date** -- each badge on the map
+by Friday earned, and refreshed if it was fading (passed during the week, or
+not needing a refresh at the deadline). Grammar cards stop counting from that
+week (they still make up older unfinished card weeks); earlier weeks keep the
+50 + 50 rule. A badge passed after Friday finishes the week late. The home
+card, Homework tab, dashboard ("Badges 4/6"), homework grid and CSV, and the
+student page (a badge table) all show it. Teacher dashboard -> Grammar badges
+lists each badge's topics and approved-question count. The old topic list is
+still at `/practice?topics=1` ("Extra practice by topic").
+
+The grouping is a DRAFT for the teacher (Oct 2026): every Unit 0-2 grammar
+topic is in exactly one badge (tested). `tests/test_badges.py`.
 
 ## Data for analysis
 
@@ -1157,7 +1190,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-680 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+698 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

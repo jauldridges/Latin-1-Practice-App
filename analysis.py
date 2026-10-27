@@ -35,7 +35,8 @@ GRADE_NAMES = {0: "retype", 1: "again", 2: "hard", 3: "good", 4: "easy"}
 # --------------------------------------------------------------------------
 
 def activity(e):
-    """vocab | grammar | reading | quiz (an in-app proctored quiz or exam)."""
+    """vocab | grammar | reading | quiz (an in-app proctored quiz or exam) |
+    badge (the record of a finished badge check)."""
     if "_act" not in e:
         e["_act"] = _activity(e)
     return e["_act"]
@@ -44,6 +45,8 @@ def activity(e):
 def _activity(e):
     if (e.get("context") or "practice") in QUIZ_CONTEXTS:
         return "quiz"
+    if e.get("context") == "badge":          # a finished badge check (badges.py)
+        return "badge"
     iid = str(e.get("item_id") or "")
     if iid.startswith("vocab:"):
         return "vocab"
@@ -66,6 +69,8 @@ def _skill_of(e):
         return ("vocab", parts[1] if len(parts) > 2 else iid)
     if iid.startswith("read:"):
         return ("reading", iid.split(":")[1])
+    if iid.startswith("badge:"):
+        return ("badge", iid.split(":", 1)[1])
     return ("grammar", e.get("spec_node_id") or "")
 
 
@@ -200,7 +205,7 @@ def build(events, roster_rows, catalog, exam_date=None, exam_nodes=(), exam_word
 
     for sid in students:
         evs = by_student.get(sid, [])
-        practice = [e for e in evs if activity(e) != "quiz"]
+        practice = [e for e in evs if activity(e) not in ("quiz", "badge")]
         quiz = [e for e in evs if activity(e) == "quiz"]
         sits = sittings(practice)
         sitting_no = {}
@@ -252,7 +257,8 @@ def build(events, roster_rows, catalog, exam_date=None, exam_nodes=(), exam_word
         # (a quiz answer is a retrieval too), exactly as the app's own pages do.
         groups = {}
         for e in evs:
-            groups.setdefault(skill_of(e), []).append(e)
+            if activity(e) != "badge":
+                groups.setdefault(skill_of(e), []).append(e)
         for key in sorted(groups, key=lambda k: (k[0], k[1])):
             allk = groups[key]
             prac = [e for e in allk if activity(e) != "quiz"]
@@ -447,6 +453,10 @@ in_app_quizzes.csv     Quizzes taken inside the app (most quizzes are on paper a
                        are NOT here).
 skill_list.csv         Every skill, practiced or not: name, unit, week taught, on
                        the exam or not.
+
+answers.csv also holds one row per finished grammar-badge check (activity
+"badge", skill_id the badge, response like "earn 5/6"): the record of the
+check, not an answer. The questions inside a check are ordinary grammar rows.
 
 WORDS USED
 ----------

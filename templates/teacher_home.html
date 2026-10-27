@@ -36,7 +36,8 @@
 </div>
 <p class="small muted">{{ window_label }}{% if w.section %} · {{ w.section }}{% endif %} ·
   {{ table.n_students }} students · "did it" means the weekly goal: {{ targets.vocab }} vocabulary
-  and {{ targets.grammar }} grammar cards in this window, counted the way students' home screens count them.</p>
+  {% if badge_now %}cards in this window and every grammar badge up to date this homework week{% else %}and
+  {{ targets.grammar }} grammar cards in this window{% endif %}, counted the way students' home screens count them.</p>
 
 {% if table.n_looping %}<p class="small"><span class="rushflag loopflag">⟳ {{ table.n_looping }} student{{ 's' if table.n_looping != 1 }}</span>
   looped a topic in this window: on one day, {{ loop_min }}+ answers to questions they had already got
@@ -47,7 +48,7 @@
 <a class="bigbtn" href="{{ url_for('teacher_homework', section=w.section) }}">Homework, week by week (for the gradebook)</a>
 
 <table class="progress">
-  <tr><th>Student</th><th>Vocab</th><th>Grammar</th><th>Days</th><th>Right</th><th>Last</th></tr>
+  <tr><th>Student</th><th>Vocab</th><th>{{ 'Badges' if badge_now else 'Grammar' }}</th><th>Days</th><th>Right</th><th>Last</th></tr>
   {% for r in table.rows %}
   <tr>
     <td>
@@ -64,7 +65,7 @@
       {% if r.section %}<span class="small muted"> {{ r.section }}</span>{% endif %}
     </td>
     <td>{{ r.hw.vocab }}</td>
-    <td>{{ r.hw.grammar }}</td>
+    <td>{% if r.badges %}<span title="{{ r.badges.missing | length }} to earn or refresh this week">{{ r.badges.required | length - r.badges.missing | length }}/{{ r.badges.required | length }}</span>{% else %}{{ r.hw.grammar }}{% endif %}</td>
     <td>{{ r.days }}</td>
     <td>{% if r.accuracy is none %}<span class="muted">—</span>{% else %}{{ (r.accuracy * 100) | round | int }}%{% endif %}</td>
     <td class="small">{{ r.last_at | when }}{% if not r.last_at and r.ever_last_at %}<span class="muted"> (last: {{ r.ever_last_at | when }})</span>{% endif %}</td>
@@ -90,6 +91,7 @@
 <a class="bigbtn secondary" href="{{ url_for('teacher_audio') }}">Record the vocabulary</a>
 <a class="bigbtn secondary" href="{{ url_for('teacher_reader') }}">Reader</a>
 <a class="bigbtn secondary" href="{{ url_for('teacher_vocab_hints') }}">Vocabulary hints</a>
+<a class="bigbtn secondary" href="{{ url_for('teacher_badges') }}">Grammar badges</a>
 <a class="bigbtn secondary" href="{{ url_for('teacher_magister') }}">The Magister</a>
 <a class="bigbtn secondary" href="{{ url_for('teacher_roster') }}">Class list</a>
 <a class="bigbtn secondary" href="{{ url_for('teacher_analysis') }}">Data for analysis</a>

@@ -69,6 +69,8 @@ def session_stats(events, gap=SESSION_GAP, now=None):
     student it does not count against them. It also keeps the bar from reading
     0% during the moment they are retyping.
     """
+    # A finished badge check's record (context "badge") is not an answer.
+    events = [e for e in events if e.get("context") != "badge"]
     run = collapse_retries(current_session(events, gap=gap, now=now))
     out = {"studied": len(run), "right": 0, "close": 0, "wrong": 0}
     for e in run:

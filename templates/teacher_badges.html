@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block subtitle %}grammar badges{% endblock %}
+{% block content %}
+<p class="small"><a href="{{ url_for('teacher_home') }}">← Dashboard</a></p>
+<h1>Grammar badges</h1>
+<p class="small muted">The draft grouping of grammar topics into badges. A badge appears on the map
+  the day its first topic is taught, and its checks ask only approved questions on topics already
+  taught: {{ earn }} to earn it (five right), {{ refresh }} to refresh it (two right). A badge with
+  few approved questions repeats them — approving more in the Review tool fixes that.
+  To regroup, rename or reorder, tell Claude; the list lives in <code>badges.yaml</code>.</p>
+<p><a class="bigbtn secondary" href="{{ url_for('badge_map_page') }}">See the map as students do</a>
+  <a class="bigbtn secondary" href="{{ url_for('teacher_deadlines') }}">{{ 'Badges are on' if on else 'Switch badges on' }} (Goals &amp; deadlines)</a></p>
+
+{% for row in rows %}
+<h2>{{ row.label }}</h2>
+{% for x in row.badges %}
+<details class="week">
+  <summary><span class="week-name">{{ x.b.title }}</span>
+    <span class="small muted">from {{ x.first }} · {{ x.questions }} approved question{{ '' if x.questions == 1 else 's' }}
+      {% if x.questions < earn %}<span class="pill shaky">few questions</span>{% endif %}</span></summary>
+  <p class="small">{{ x.b.about }}</p>
+  {% if x.builds_on %}<p class="small muted">Builds on: {{ x.builds_on | join(', ') }}</p>{% endif %}
+  <table class="progress">
+    <tr><th>Topic</th><th>Approved</th></tr>
+    {% for t in x.topics %}
+    <tr><td class="small"><strong>{{ t.id }}</strong> {{ t.label }}</td><td>{{ t.n }}</td></tr>
+    {% endfor %}
+  </table>
+</details>
+{% endfor %}
+{% endfor %}
+{% endblock %}

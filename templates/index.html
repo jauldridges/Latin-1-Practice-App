@@ -20,7 +20,7 @@
       </div>
     </div>
     {% if not week_off %}
-    {% for kind, label in [('vocab', 'Vocabulary'), ('grammar', 'Grammar')] %}
+    {% for kind, label in ([('vocab', 'Vocabulary')] if goal.badges else [('vocab', 'Vocabulary'), ('grammar', 'Grammar')]) %}
       {% set n = goal[kind] %}{% set t = goal.targets[kind] %}
       <div class="goalrow">
         <div class="goal-label"><span>{{ label }}</span>
@@ -29,14 +29,26 @@
              class="{{ 'met' if goal.met[kind] }}"></span></div>
       </div>
     {% endfor %}
+    {% if goal.badges %}
+      {% set req = goal.badges.required | length %}{% set ok = req - goal.badges.missing | length %}
+      <div class="goalrow">
+        <div class="goal-label"><span>Grammar badges</span>
+          <span class="goal-num">{% if not goal.badges.missing %}✓ all {{ req }} up to date{% else %}{{ ok }} of {{ req }} up to date{% endif %}</span></div>
+        <div class="bar"><span style="width:{{ (100 * ok / req) if req else 100 }}%"
+             class="{{ 'met' if not goal.badges.missing }}"></span></div>
+        {% if goal.badges.missing %}<div class="small" style="margin-top:4px">To do:
+          {% for bid in goal.badges.missing[:4] %}<a href="{{ url_for('badge_map_page') }}#b-{{ bid }}">{{ badge_titles[bid] }}</a>{{ ', ' if not loop.last }}{% endfor %}{% if goal.badges.missing | length > 4 %} and {{ goal.badges.missing | length - 4 }} more{% endif %}</div>{% endif %}
+      </div>
+    {% endif %}
     {% endif %}
 
     {% if owed %}
       {% set o = owed[0] %}
       <div class="owed">
-        <strong>{{ o.label }}</strong> isn't finished: {{ o.total }} of {{ o.goal }} cards.
+        <strong>{{ o.label }}</strong> isn't finished: {{ o.total }} of {{ o.goal }} cards{% if o.badges and o.badges.missing %},
+          {{ o.badges.missing | length }} badge{{ 's' if o.badges.missing | length != 1 }} to earn or refresh{% endif %}.
         {% if owed | length > 1 %}({{ owed | length - 1 }} more week{{ 's' if owed | length > 2 }} after it too.){% endif %}
-        Once this week's cards are done, extra cards finish it — it will show as done late.
+        Once this week's work is done, extra cards{% if o.badges %} and those badges{% endif %} finish it — it will show as done late.
       </div>
     {% endif %}
 
@@ -80,8 +92,13 @@
     better than one long go.</span>
 </a>
 <a class="choice" href="{{ url_for('practice_home') }}">
+  {% if goal and goal.badges %}
+  <span class="choice-title">Grammar badges <span class="due-chip {{ 'zero' if not goal.badges.missing }}">{{ goal.badges.missing | length }} to do</span></span>
+  <span class="choice-body">Earn each badge with a short check, and refresh the ones that are fading.</span>
+  {% else %}
   <span class="choice-title">Grammar{% if due %} <span class="due-chip {{ 'zero' if not due.grammar }}">{{ due.grammar }} due today</span>{% endif %}</span>
   <span class="choice-body">Questions on what you've covered in class so far.</span>
+  {% endif %}
 </a>
 {% if signed_in_student and not is_teacher %}
 <a class="choice" href="{{ url_for('reader_index') }}">
@@ -124,6 +141,9 @@
 
 <a class="bigbtn secondary" href="{{ url_for('teacher_reader') }}">Reader</a>
 <p class="small muted" style="margin-top:-4px">Class stories with tappable words and questions. Publish, preview, project.</p>
+
+<a class="bigbtn secondary" href="{{ url_for('teacher_badges') }}">Grammar badges</a>
+<p class="small muted" style="margin-top:-4px">The badge map students practice grammar on: what each badge covers.</p>
 
 <a class="bigbtn secondary" href="{{ url_for('teacher_magister') }}">The Magister</a>
 <p class="small muted" style="margin-top:-4px">The cartoon teacher on students' home screens. Approve what he says.</p>

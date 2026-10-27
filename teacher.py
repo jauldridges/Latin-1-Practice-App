@@ -36,7 +36,9 @@ STARTED_ATTEMPTS = 1
 # Proctored contexts are assessments, not homework, and never count toward it.
 # Counting them would let a Friday quiz fill Monday's quota. Reader questions
 # aren't vocabulary or grammar cards either, so they don't fill the 50 + 50.
-NOT_HOMEWORK = {"quiz", "exam", "reading"}
+NOT_HOMEWORK = {"quiz", "exam", "reading", "badge"}
+# "badge" is the record of a finished badge check (badges.py), not a card:
+# the questions inside the check are ordinary practice and count as cards.
 
 # Above this share right, a topic is not the thing to reteach on Monday. It is
 # a display threshold only — nothing is scored against it.
@@ -202,7 +204,9 @@ def accuracy(events):
 # --------------------------------------------------------------------------
 
 def activity(events, since=None, until=None):
-    """One student's activity in a window."""
+    """One student's activity in a window. A finished badge check's record is
+    not an answer (badges.py), so it is left out of every count here."""
+    events = [e for e in events if e.get("context") != "badge"]
     win = in_window(events, since, until)
     days = sorted({day_key(e["timestamp"]) for e in win})
     return {
