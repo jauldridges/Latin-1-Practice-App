@@ -85,7 +85,7 @@ start clean.
 | `magister.py`, `magister.yaml` | The cartoon Magister and his lines (teacher-approved). |
 | `badges.py`, `badges.yaml` | Grammar badges: the map, checks, fading, and the homework rule. |
 | `analysis.py` | Data for analysis: the zip of spreadsheets split around an exam. |
-| `tests/` | 698 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 700 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -476,9 +476,14 @@ today**. `tests/test_fsrs.py`, `tests/test_drill.py`.
 
 ## Grammar badges
 
-The Grammar tab is a map of **badges** (`badges.yaml`, `badges.py`): each a
-group of spec topics, in rows from Background to Adjectives, with arrows taken
-from the spec's prereqs. A badge appears the day its first topic is taught.
+The Grammar tab is a **tree of badges** (`badges.yaml`, `badges.py`): each a
+group of spec topics, drawn as a circle, with lines taken from the spec's
+prereqs (shortcut lines removed: `badges.direct_foundations`) and rows by how
+deep a badge sits (`badges.levels`). Tap a circle -- or point to it with a
+mouse -- for its description: complete sentences, "This badge covers ...",
+written for a student who missed the lesson (tested). A ring around each
+earned circle shrinks as the badge fades; a red dot marks this week's to-dos.
+A badge appears the day its first topic is taught (greyed and dashed before).
 **Earning** it is a 6-question check across its topics (5 right); once earned it
 **fades** on the same memory model as every card (`fsrs.py`, run on the badge
 itself: pass = Good, not passed = Again), and a 3-question **refresh** (2 right)
@@ -1190,7 +1195,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-698 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+700 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

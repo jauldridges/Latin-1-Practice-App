@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block subtitle %}{{ student or 'grammar badges' }}{% endblock %}
 {% block content %}
-{# The Grammar tab: a map of badges, top (background) to bottom. Each badge is a
-   short check on a group of topics (badges.yaml); once earned it fades on the
-   same memory model as every card, and a three-question refresh keeps it.
-   Never "mastery" on this page: solid / shaky / not yet, and "earned". #}
+{# The Grammar tab: a tree of badges, from the background at the top down to
+   what builds on it. Each badge is a short check on a group of topics
+   (badges.yaml); once earned it fades on the same memory model as every card,
+   and a three-question refresh keeps it. Tap (or hover) a circle for what it
+   covers. Never "mastery" on this page: solid / shaky / not yet, and "earned". #}
 <h1>Grammar badges</h1>
 
 {% if not student %}
@@ -13,82 +14,184 @@
   Question counts are approved questions on topics already taught.</div>
 {% endif %}
 
+{% set todo = (m.week.missing if student and m.week else []) %}
 {% if student and m.week %}
-  {% set wk = m.week %}
-  <section class="goalcard {{ 'done' if not wk.missing }}">
+  <section class="goalcard weekline {{ 'done' if not todo }}">
     <div class="goal-head"><h2>This week's badges</h2>
-      <span class="goal-due">{{ wk.required | length - wk.missing | length }} of {{ wk.required | length }} up to date</span></div>
-    {% if wk.missing %}
-      <p class="small muted" style="margin:4px 0 8px">Earn or refresh these by Friday:</p>
-      <div class="badge-todo">
-      {% for bid in wk.missing %}
-        <form method="post" action="{{ url_for('badge_start', bid=bid) }}" class="inline">
-          <button class="minibtn" type="submit">{{ titles[bid] }}</button></form>
-      {% endfor %}
-      </div>
-    {% else %}
-      <p class="small" style="margin:4px 0 0">✓ Every badge is up to date. Nice work.</p>
-    {% endif %}
+      <span class="goal-due">{{ m.week.required | length - todo | length }} of {{ m.week.required | length }} up to date</span></div>
+    <p class="small" style="margin:2px 0 0">{% if todo %}Earn or refresh the circles with a
+      <span class="todo-dot" aria-hidden="true"></span> by Friday.{% else %}✓ Every badge is up to date. Nice work.{% endif %}</p>
   </section>
 {% elif student %}
   <p class="muted">{{ m.n_up_to_date }} of {{ m.n_available }} badges up to date.</p>
 {% endif %}
 
 {% if student and m.start_here %}
-  {% for row in m.rows %}{% for b in row.badges %}{% if b.start_here %}
+  {% for b in m.cards if b.start_here %}
   <div class="starthere">
     <div class="small muted">Start here</div>
     <div class="sh-title">{{ b.title }}</div>
-    <div class="small">{{ b.about }}</div>
+    <p class="small" style="margin:4px 0 8px">{{ b.about }}</p>
     <form method="post" action="{{ url_for('badge_start', bid=b.id) }}">
       <button class="bigbtn" type="submit">Earn this badge</button></form>
   </div>
-  {% endif %}{% endfor %}{% endfor %}
+  {% endfor %}
 {% endif %}
 
-<div class="badgemap">
-{% for row in m.rows %}
-  {% if not loop.first %}<div class="bm-arrow" aria-hidden="true">↓</div>{% endif %}
-  <section class="bm-row">
-    <h2 class="bm-label">{{ row.label }}</h2>
-    <div class="bm-grid">
-    {% for b in row.badges %}
-      {% if not b.available %}
-        <div class="bcard coming"><div class="bd-icon">○</div>
-          <div class="bd-title">{{ b.title }}</div>
-          <div class="small muted">Coming {{ b.coming }}</div></div>
-      {% else %}
-        {% set kind = 'due' if b.due else ('earned' if b.earned else 'notyet') %}
-        <div class="bcard {{ kind }} {{ 'here' if b.start_here and student }}" id="b-{{ b.id }}">
-          <div class="bd-icon">{{ '⟳' if b.due else ('✓' if b.earned else '○') }}</div>
-          <div class="bd-title">{{ b.title }}</div>
-          <div class="small muted bd-about">{{ b.about }}</div>
-          {% if student %}
-            {% if b.due %}
-              <div class="small bd-state due">Needs a refresh</div>
-            {% elif b.earned %}
-              <div class="small bd-state"><span class="pill {{ 'solid' if b.state == 'solid' else 'shaky' }}">{{ b.state }}</span>
-                holds {{ b.days_left }} more day{{ '' if b.days_left == 1 else 's' }}</div>
-              <div class="fade" title="How much is left before it needs a refresh"><span style="width:{{ ((b.left or 0) * 100) | round | int }}%"></span></div>
-            {% else %}
-              <div class="small bd-state"><span class="pill notyet">not yet</span></div>
-            {% endif %}
-            <form method="post" action="{{ url_for('badge_start', bid=b.id) }}">
-              <button class="minibtn" type="submit">{{ 'Refresh' if b.due else ('Check again' if b.earned else 'Earn it') }}</button></form>
-          {% else %}
-            <div class="small muted">{{ b.questions }} question{{ '' if b.questions == 1 else 's' }}</div>
-          {% endif %}
-          {% if b.builds_on %}<div class="small muted bd-after">After: {{ b.builds_on | join(', ') }}</div>{% endif %}
-        </div>
-      {% endif %}
+<p class="small muted tree-help">Each circle is a badge. Lines show what builds on what: start at
+  the top and work down. Tap a circle (or point to it) to see what it covers.</p>
+
+<div class="tree" id="tree">
+  <svg class="tree-lines" aria-hidden="true"></svg>
+  {% for level in m.tree %}
+  <div class="tree-level">
+    {% for b in level %}
+      {% set kind = 'coming' if not b.available else ('due' if b.due else ('earned' if b.earned else 'notyet')) %}
+      <button type="button" class="node {{ kind }} {{ 'here' if b.start_here and student }} {{ 'todo' if b.id in todo }}"
+              id="n-{{ b.id }}" data-id="{{ b.id }}" data-parents="{{ b.parents | join(' ') }}"
+              aria-controls="pop-{{ b.id }}" aria-expanded="false" title="{{ b.title }}">
+        <span class="node-ring" style="--left: {{ ((b.left if b.earned and not b.due and b.left is not none else (1 if b.due or b.earned else 0)) * 360) | round | int }}deg">
+          <span class="node-icon">{{ '⟳' if b.due else ('✓' if b.earned else ('·' if not b.available else '')) }}</span></span>
+        {% if b.id in todo %}<span class="todo-dot" aria-label="to do this week"></span>{% endif %}
+        <span class="node-name">{{ b.title }}</span>
+      </button>
     {% endfor %}
-    </div>
-  </section>
-{% endfor %}
+  </div>
+  {% endfor %}
+
+  {% for b in m.cards %}
+  <div class="bpop" id="pop-{{ b.id }}" role="dialog" aria-label="{{ b.title }}" hidden>
+    <button type="button" class="bpop-close" aria-label="Close">✕</button>
+    <div class="small muted">{{ b.family }}</div>
+    <div class="bpop-title">{{ b.title }}</div>
+    {% if b.unready %}
+      <div class="small bpop-state">Its questions aren't ready yet — it will open soon.</div>
+    {% elif not b.available %}
+      <div class="small bpop-state">Coming {{ b.coming }}, when the class gets to it.</div>
+    {% elif student %}
+      {% if b.due %}<div class="small bpop-state due">Needs a refresh: three quick questions bring it back.</div>
+      {% elif b.earned %}<div class="small bpop-state"><span class="pill {{ 'solid' if b.state == 'solid' else 'shaky' }}">{{ b.state }}</span>
+        Earned — it holds {{ b.days_left }} more day{{ '' if b.days_left == 1 else 's' }} before it needs a refresh.</div>
+      {% else %}<div class="small bpop-state"><span class="pill notyet">not yet</span> Six questions; get five right to earn it.</div>{% endif %}
+    {% endif %}
+    <p class="bpop-about">{{ b.about }}</p>
+    {% if b.builds_on %}<p class="small muted">Builds on: {{ b.builds_on | join(', ') }}.</p>{% endif %}
+    {% if b.available and student %}
+      <form method="post" action="{{ url_for('badge_start', bid=b.id) }}">
+        <button class="bigbtn" type="submit">{{ 'Refresh it' if b.due else ('Check it again' if b.earned else 'Earn this badge') }}</button></form>
+    {% elif b.available %}
+      <p class="small muted">{{ b.questions }} approved question{{ '' if b.questions == 1 else 's' }}.</p>
+    {% endif %}
+  </div>
+  {% endfor %}
 </div>
+
+<ul class="tree-key small muted">
+  <li><span class="key earned">✓</span> earned — the green ring shrinks as it fades</li>
+  <li><span class="key due">⟳</span> needs a refresh</li>
+  <li><span class="key notyet"></span> not yet earned</li>
+  <li><span class="key coming"></span> coming soon</li>
+</ul>
+
+<details class="week treelist">
+  <summary><span class="week-name">All badges as a list</span></summary>
+  <ul class="recwords">
+  {% for level in m.tree %}{% for b in level %}
+    <li><strong>{{ b.title }}</strong>
+      <span class="small muted">— {% if b.unready %}questions coming soon{% elif not b.available %}coming {{ b.coming }}{% elif not student %}{{ b.questions }} questions{% elif b.due %}needs a refresh{% elif b.earned %}{{ b.state }}, {{ b.days_left }} days left{% else %}not yet{% endif %}</span>
+      <div class="small">{{ b.about }}</div></li>
+  {% endfor %}{% endfor %}
+  </ul>
+</details>
 
 <p class="small muted" style="margin-top:18px">A badge check is a few questions on its topics: six to
   earn it (get five right), three to refresh it (get two). An earned badge fades as time passes —
   each refresh makes it hold longer.</p>
 <p style="text-align:center"><a class="small" href="{{ url_for('practice_home', topics=1) }}">Extra practice by topic</a></p>
+
+<script>
+(function () {
+  var tree = document.getElementById('tree');
+  if (!tree) return;
+  var svg = tree.querySelector('.tree-lines');
+  var NS = 'http://www.w3.org/2000/svg';
+
+  // Lines from each badge up to the badges it builds on.
+  function draw() {
+    var box = tree.getBoundingClientRect();
+    svg.setAttribute('width', box.width);
+    svg.setAttribute('height', box.height);
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    tree.querySelectorAll('.node').forEach(function (n) {
+      var ring = n.querySelector('.node-ring').getBoundingClientRect();
+      (n.getAttribute('data-parents') || '').split(' ').forEach(function (pid) {
+        var p = pid && document.getElementById('n-' + pid);
+        if (!p) return;
+        // From under the parent's name to the top of this circle.
+        var pr = p.querySelector('.node-ring').getBoundingClientRect();
+        var x1 = pr.left + pr.width / 2 - box.left;
+        var y1 = p.querySelector('.node-name').getBoundingClientRect().bottom - box.top + 2;
+        var x2 = ring.left + ring.width / 2 - box.left, y2 = ring.top - box.top;
+        var path = document.createElementNS(NS, 'path');
+        var mid = (y1 + y2) / 2;
+        path.setAttribute('d', 'M' + x1 + ',' + y1 + ' C' + x1 + ',' + mid + ' ' + x2 + ',' + mid + ' ' + x2 + ',' + y2);
+        var done = p.classList.contains('earned') && (n.classList.contains('earned') || n.classList.contains('due'));
+        path.setAttribute('class', done ? 'done' : '');
+        svg.appendChild(path);
+      });
+    });
+  }
+
+  // The description card: tap to open (and keep open); on a mouse, hover too.
+  var open = null, pinned = false;
+  function show(node, pin) {
+    hide();
+    var pop = document.getElementById('pop-' + node.getAttribute('data-id'));
+    pop.hidden = false;
+    var box = tree.getBoundingClientRect(), r = node.getBoundingClientRect();
+    var w = Math.min(320, box.width);
+    pop.style.width = w + 'px';
+    var left = r.left + r.width / 2 - box.left - w / 2;
+    pop.style.left = Math.max(0, Math.min(box.width - w, left)) + 'px';
+    pop.style.top = (r.bottom - box.top + 6) + 'px';
+    node.setAttribute('aria-expanded', 'true');
+    open = node; pinned = pin;
+  }
+  function hide() {
+    if (!open) return;
+    document.getElementById('pop-' + open.getAttribute('data-id')).hidden = true;
+    open.setAttribute('aria-expanded', 'false');
+    open = null; pinned = false;
+  }
+  tree.addEventListener('click', function (ev) {
+    var node = ev.target.closest('.node');
+    if (node) {
+      if (open === node && pinned) hide(); else show(node, true);
+      ev.stopPropagation();
+      return;
+    }
+    if (ev.target.closest('.bpop-close')) { hide(); return; }
+  });
+  document.addEventListener('click', function (ev) {
+    if (open && !ev.target.closest('.bpop') && !ev.target.closest('.node')) hide();
+  });
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') hide(); });
+  if (window.matchMedia && window.matchMedia('(hover: hover)').matches) {
+    tree.querySelectorAll('.node').forEach(function (n) {
+      n.addEventListener('mouseenter', function () { if (!pinned) show(n, false); });
+      n.addEventListener('mouseleave', function (ev) {
+        if (!pinned && !(ev.relatedTarget && ev.relatedTarget.closest && ev.relatedTarget.closest('.bpop'))) hide();
+      });
+    });
+    tree.querySelectorAll('.bpop').forEach(function (p) {
+      p.addEventListener('mouseleave', function () { if (!pinned) hide(); });
+    });
+  }
+  draw();
+  window.addEventListener('resize', function () { draw(); if (open) show(open, pinned); });
+  // A link from the home screen (#b-genitive) opens that badge.
+  var want = location.hash.match(/^#b-(.+)$/);
+  if (want) { var n = document.getElementById('n-' + want[1]); if (n) { n.scrollIntoView({block: 'center'}); show(n, true); } }
+})();
+</script>
 {% endblock %}

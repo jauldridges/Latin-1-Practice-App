@@ -1652,7 +1652,7 @@ def _short_date(day):
 
 
 def badge_map(db, student, now=None):
-    """Everything the map shows: rows of badges with this student's state,
+    """Everything the map shows: the tree of badges with this student's state,
     what each builds on, Start here, and what this week asks for."""
     now = now or time.time()
     today = time.strftime("%Y-%m-%d", time.localtime(now))
@@ -1670,31 +1670,43 @@ def badge_map(db, student, now=None):
                 st[p]["earned"] for p in built_on[b["id"]] if p in avail):
             start_here = b["id"]
             break
-    rows = []
-    for row in _BADGE_ROWS:
-        cards = []
-        for b in _BADGES:
-            if b["row"] != row["id"]:
-                continue
-            c = {"id": b["id"], "title": b["title"], "about": b["about"],
-                 "available": b["id"] in avail,
-                 "coming": _short_date(badges.first_taught(b, _SPEC)),
-                 "builds_on": [_BADGE_BY_ID[p]["title"] for p in built_on[b["id"]]],
-                 "questions": len(badges.pool(b, approved, taught)),
-                 "start_here": b["id"] == start_here}
-            if c["available"]:
-                c.update(st[b["id"]])
-                card = fsrs.replay(badges.markers(events, b["id"], until=now + 1))
-                if c["earned"] and card is not None and card.due > card.last:
-                    c["left"] = max(0.0, min(1.0, (card.due - now) / (card.due - card.last)))
-            cards.append(c)
-        if cards:
-            rows.append({"label": row["label"], "badges": cards})
+    family = {r["id"]: r["label"] for r in _BADGE_ROWS}
+    direct = badges.direct_foundations(_BADGES, _SPEC)
+    level = badges.levels(_BADGES, _SPEC)
+    cards = {}
+    for b in _BADGES:
+        c = {"id": b["id"], "title": b["title"], "about": b["about"],
+             "family": family.get(b["row"], ""),
+             "available": b["id"] in avail,
+             "coming": _short_date(badges.first_taught(b, _SPEC)),
+             # taught already, but no approved questions to ask yet
+             "unready": b["id"] not in avail and badges.first_taught(b, _SPEC) <= today,
+             "builds_on": [_BADGE_BY_ID[p]["title"] for p in direct[b["id"]]],
+             "parents": direct[b["id"]],
+             "questions": len(badges.pool(b, approved, taught)),
+             "start_here": b["id"] == start_here, "earned": False, "due": False}
+        if c["available"]:
+            c.update(st[b["id"]])
+            card = fsrs.replay(badges.markers(events, b["id"], until=now + 1))
+            if c["earned"] and card is not None and card.due > card.last:
+                c["left"] = max(0.0, min(1.0, (card.due - now) / (card.due - card.last)))
+        cards[b["id"]] = c
+    # The tree: one row per level, each row ordered under its parents (the
+    # mean position of the badges it builds on) so the lines rarely cross.
+    tree, pos = [], {}
+    for lv in range(max(level.values()) + 1 if level else 0):
+        in_file = [b["id"] for b in _BADGES if level[b["id"]] == lv]
+        ids = sorted(in_file, key=lambda i: (sum(pos[p] for p in direct[i]) / len(direct[i])
+                                             if direct[i] else (in_file.index(i) + 0.5) / len(in_file)))
+        for n, i in enumerate(ids):
+            pos[i] = (n + 0.5) / len(ids)
+        tree.append([cards[i] for i in ids])
     week = None
     rule = badge_rule(db)
     if student and rule:
         week = goals.weekly_progress(events, weekly_targets(db), now, badge_rule=rule)["badges"]
-    return {"rows": rows, "start_here": start_here, "week": week,
+    return {"tree": tree, "cards": [cards[b["id"]] for b in _BADGES],
+            "start_here": start_here, "week": week,
             "refresh": [b["id"] for b in order if st[b["id"]]["due"]],
             "n_available": len(avail),
             "n_up_to_date": sum(1 for b in avail if st[b]["up_to_date"])}

@@ -111,6 +111,44 @@ def foundations(badges, spec):
     return out
 
 
+def direct_foundations(badges, spec):
+    """foundations() with the shortcuts taken out: B builds directly on A unless
+    A is already underneath another of B's foundations. Genitive builds on
+    Second declension, which builds on First declension -- so no line from
+    First declension straight to Genitive. These are the map's lines."""
+    found = foundations(badges, spec)
+    below = {}
+
+    def under(bid, seen=()):
+        if bid not in below:
+            out = set()
+            for p in found.get(bid, []):
+                if p not in seen:
+                    out |= {p} | under(p, seen + (bid,))
+            below[bid] = out
+        return below[bid]
+
+    return {bid: [p for p in pre if not any(p in under(q) for q in pre if q != p)]
+            for bid, pre in found.items()}
+
+
+def levels(badges, spec):
+    """{badge id: level}: 0 for a badge that builds on nothing, otherwise one
+    below the deepest badge it builds on -- the rows of the tree."""
+    found = foundations(badges, spec)
+    out = {}
+
+    def level(bid, seen=()):
+        if bid not in out:
+            pre = [p for p in found.get(bid, []) if p not in seen]
+            out[bid] = 1 + max((level(p, seen + (bid,)) for p in pre), default=-1)
+        return out[bid]
+
+    for b in badges:
+        level(b["id"])
+    return out
+
+
 # --------------------------------------------------------------------------
 # A student's badge
 # --------------------------------------------------------------------------

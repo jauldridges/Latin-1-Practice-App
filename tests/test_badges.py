@@ -47,6 +47,24 @@ class TestTheList(unittest.TestCase):
         self.assertNotIn("master", words)          # never "mastery" to a student
         self.assertNotIn("practi" + "se", words)            # American spelling
 
+    def test_every_description_is_complete_sentences(self):
+        for b in BADGES:
+            self.assertTrue(b["about"].startswith("This badge covers "), b["id"])
+            self.assertTrue(b["about"].endswith((".", ".”")), b["id"])
+            self.assertGreater(len(b["about"].split()), 12, b["id"])
+
+    def test_the_tree_runs_downhill(self):
+        # Every line goes from a higher row to a lower one: no badge builds on
+        # itself, even through others.
+        lv = badges.levels(BADGES, SPEC)
+        found = badges.foundations(BADGES, SPEC)
+        for bid, pre in found.items():
+            for p in pre:
+                self.assertLess(lv[p], lv[bid], (p, bid))
+        direct = badges.direct_foundations(BADGES, SPEC)
+        self.assertEqual(direct["genitive"], ["second-declension"])    # no shortcut lines
+        self.assertEqual([b for b in BADGES if lv[b["id"]] == 0 and b["id"] == "sounds"][0]["id"], "sounds")
+
     def test_the_arrows_come_from_the_spec(self):
         found = badges.foundations(BADGES, SPEC)
         self.assertIn("subjects-objects", found["second-declension"])
@@ -208,6 +226,12 @@ class TestTheMap(_App):
         page = self.c.get("/badges").data.decode()
         self.assertIn("Talking to someone", page)
         self.assertIn("Start here", page)
+        self.assertIn('data-parents="second-declension conjugations"', page)   # talking-to's lines
+        self.assertIn('id="pop-talking-to"', page)
+        self.assertIn("This badge covers talking straight to someone", page)
+        # only one badge has approved questions here: the rest are greyed
+        self.assertIn('class="node coming', page)
+        self.assertIn("questions aren&#39;t ready yet", page.replace("'", "&#39;"))
         self.assertNotIn("master", page.lower())
         self.assertEqual(self.c.get("/practice?topics=1").status_code, 200)
 
@@ -220,7 +244,8 @@ class TestTheMap(_App):
         self.assertTrue(st["earned"] and st["up_to_date"])
         page = self.c.get("/badges").data.decode()
         self.assertIn("holds 2 more days", page)
-        self.assertIn("Check again", page)
+        self.assertIn("Check it again", page)
+        self.assertIn('class="node earned', page)
 
     def test_not_yet(self):
         self.switch_on()

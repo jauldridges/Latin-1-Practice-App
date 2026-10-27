@@ -10,7 +10,10 @@
 # teaching order -- the first one not yet earned whose foundations are earned
 # is "Start here".
 #
-# `about` is the line a student reads under the badge. Keep it short.
+# `about` is what a student reads when they tap the badge: complete sentences,
+# starting "This badge covers", in words a student who missed the lesson can
+# follow. The map lays badges out as a tree by what builds on what; `row` is
+# the badge's family (Nouns, Verbs ...), shown with its description.
 #
 # DRAFT for the teacher (October 2026): edit freely -- regroup topics, rename,
 # reorder. Every Unit 0-2 grammar topic (MS-) is in exactly one badge.
@@ -32,123 +35,123 @@ badges:
   - id: origins
     row: background
     title: "Where Latin comes from"
-    about: "Latin's family, and the languages that grew out of it."
+    about: "This badge covers the history of the Latin language: the family of languages it belongs to, how everyday spoken Latin grew into Spanish, French, Italian and the other Romance languages, and why English is full of Latin words."
     nodes: [RW-006, MW-017, MW-018, MW-019, MW-036]
 
   - id: sounds
     row: background
     title: "How Latin sounds"
-    about: "The alphabet, consonants, vowels, macrons and diphthongs."
+    about: "This badge covers how to pronounce Latin: the letters of the alphabet, how the consonants and vowels sound, what the long marks over vowels (macrons) mean, and the vowel pairs called diphthongs."
     nodes: [MS-001, MS-002, MS-003, MS-004, MS-005, MS-006, MS-007]
 
   - id: syllables
     row: background
     title: "Syllables & stress"
-    about: "Splitting words into syllables and finding the stress."
+    about: "This badge covers how to split a Latin word into syllables, how to tell whether a syllable is long or short, and how to find the syllable that gets the stress."
     nodes: [MS-008, MS-009, MS-010]
 
   # --- How Latin works -----------------------------------------------------
   - id: endings
     row: how
     title: "Endings do the work"
-    about: "Inflection, case, free word order, no articles, and the little joining words."
-    nodes: [MS-011, MS-012, MS-013, MS-159, MS-051]
+    about: "This badge covers the big idea of Latin grammar: a word's ending, not its place in the sentence, tells you what job it does. It also covers what a case is, why Latin word order is free, and the joining words et, sed, -que and aut."
+    nodes: [MS-011, MS-012, MS-013, MS-051]
 
   # --- Nouns ---------------------------------------------------------------
   - id: subjects-objects
     row: nouns
     title: "Subjects & objects"
-    about: "The nominative does the action; the accusative receives it."
-    nodes: [MS-014, MS-015]
+    about: "This badge covers the first two cases: the nominative, used for the subject (who does the action), and the accusative, used for the direct object (who or what receives it). It also covers adding “a” or “the” when you translate, since Latin has no words for them."
+    nodes: [MS-014, MS-015, MS-159]
 
   - id: first-declension
     row: nouns
     title: "First declension"
-    about: "Dictionary entries, stems, and the -a nouns."
+    about: "This badge covers the first group of nouns, the ones that end in -a: how to read a noun's dictionary entry, how to find its stem, its subject and object forms in the singular and plural, and why most of these nouns are feminine."
     nodes: [MS-016, MS-017, MS-018, MS-019, MS-020, MS-021, MS-022]
 
   - id: second-declension
     row: nouns
     title: "Second declension"
-    about: "-us, -er and neuter -um nouns, and telling look-alike forms apart."
+    about: "This badge covers the second group of nouns: masculine nouns ending in -us or -er and neuter nouns ending in -um, their forms in the singular and plural, and how to tell apart endings that look the same."
     nodes: [MS-023, MS-024, MS-025, MS-026, MS-027, MS-028, MS-029]
 
   - id: genitive
     row: nouns
     title: "Genitive"
-    about: "“Of”: possession and the genitive of the whole."
+    about: "This badge covers the genitive case, which means “of”: how it shows who owns something, its endings in the first and second declensions, and phrases like “a lot of money” that use it."
     nodes: [MS-052, MS-053, MS-054, MS-055, MS-056]
 
   - id: dative
     row: nouns
     title: "Dative"
-    about: "“To” or “for”: indirect objects, special verbs, and possession with sum."
+    about: "This badge covers the dative case, which means “to” or “for”: the indirect object, its endings in the first and second declensions, the verbs that take a dative, and saying that someone has something with the dative and sum."
     nodes: [MS-057, MS-058, MS-059, MS-060, MS-061]
 
   - id: third-declension
     row: nouns
     title: "Third declension"
-    about: "Stems from the genitive, the endings, gender, and adjectives with them."
+    about: "This badge covers the third group of nouns: using the genitive to find the stem, the singular and plural endings, why each noun's gender has to be learned, and how adjectives agree with these nouns."
     nodes: [MS-062, MS-063, MS-064, MS-065, MS-070, MS-071]
 
   - id: third-neuters-istems
     row: nouns
     title: "Third-declension neuters & i-stems"
-    about: "Neuter third-declension nouns, and the i-stems."
+    about: "This badge covers the neuter nouns of the third declension and the i-stem nouns, which add an i in some of their forms."
     nodes: [MS-066, MS-067, MS-068, MS-069]
 
   # --- Verbs ---------------------------------------------------------------
   - id: verb-endings
     row: verbs
     title: "Verb endings"
-    about: "Person and number, the personal endings, and agreement."
+    about: "This badge covers how a verb's ending tells you who is doing the action (I, you, he or she, we, you all, they), how a verb agrees with its subject, and why Latin can leave the subject out."
     nodes: [MS-030, MS-031, MS-037, MS-038]
 
   - id: conjugations
     row: verbs
     title: "First & second conjugation"
-    about: "Principal parts, the present stem, and the present tense."
+    about: "This badge covers the first two groups of verbs: a verb's dictionary entry (its principal parts), how to find the present stem, the present-tense forms, how to tell the two groups apart, and three ways to translate the present."
     nodes: [MS-032, MS-033, MS-034, MS-035, MS-036, MS-039]
 
   - id: sum
     row: verbs
     title: "Sum and the predicate nominative"
-    about: "“To be”, and the noun that renames the subject."
+    about: "This badge covers the verb sum, “to be,” in all its present forms, and the predicate nominative: a noun after “is” or “are” that renames the subject."
     nodes: [MS-040, MS-041]
 
   - id: infinitives
     row: verbs
     title: "Infinitives"
-    about: "“To ___”, the stem, and verbs like dēbeō that need one."
+    about: "This badge covers the infinitive, the “to ___” form of a verb: how to recognize it, how its stem differs from the present stem, and verbs like dēbeō (“ought”) that need an infinitive to finish their meaning."
     nodes: [MS-076, MS-156, MS-157]
 
   - id: talking-to
     row: verbs
     title: "Talking to someone"
-    about: "The vocative, and giving commands."
+    about: "This badge covers talking straight to someone: the vocative case, used to call a person by name, and the imperative, used to give a command to one person or to several."
     nodes: [MS-049, MS-050]
 
   - id: third-fourth-conjugation
     row: verbs
     title: "Third & fourth conjugation"
-    about: "The present tense of -ere, -iō and -īre verbs, and their infinitives."
+    about: "This badge covers the third and fourth groups of verbs: their present-tense forms (including verbs like capiō), how to tell all four groups apart, and their infinitives."
     nodes: [MS-072, MS-073, MS-074, MS-075, MS-158]
 
   - id: more-commands
     row: verbs
     title: "More commands"
-    about: "Commands in the third and fourth conjugations, and “don't!” with nōlī."
+    about: "This badge covers giving commands with third- and fourth-group verbs, the short commands dīc, dūc and fac, and how to say “don't!” with nōlī and nōlīte."
     nodes: [MS-077, MS-078]
 
   # --- Adjectives ----------------------------------------------------------
   - id: adjective-agreement
     row: adjectives
     title: "Adjective agreement"
-    about: "-us, -a, -um, and matching case, number and gender."
+    about: "This badge covers adjectives that end in -us, -a, -um, and how an adjective matches its noun in case, number and gender, even when their endings look different, as in nauta bonus."
     nodes: [MS-042, MS-043, MS-044, MS-045, MS-046]
 
   - id: using-adjectives
     row: adjectives
     title: "Using adjectives"
-    about: "Where an adjective sits, and adjectives used as nouns."
+    about: "This badge covers the two places an adjective can go (next to its noun, “the good farmer,” or after “is,” “the farmer is good”) and adjectives used on their own as nouns, like bonī, “good people.”"
     nodes: [MS-047, MS-048]
