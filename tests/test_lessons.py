@@ -95,25 +95,56 @@ class TestTheScreens(unittest.TestCase):
     def lesson(self, who):
         return who.get("/badges/%s/lesson" % self.BADGE)
 
+    def review(self, bid=None):
+        return self.t.get("/teacher/lessons/%s" % (bid or self.BADGE))
+
     def test_nothing_shows_until_the_teacher_approves(self):
         self.assertIn("/badges", self.lesson(self.c).headers["Location"])
         page = self.c.get("/badges").data.decode()
         self.assertNotIn("Start lesson", page)
         self.assertIn("Earn this badge", page)
-        preview = self.lesson(self.t).data.decode()
-        self.assertIn("teacher preview", preview)
-        self.assertIn("Not approved yet", preview)
+        self.assertIn("not yet approved", self.review().data.decode())
 
-    def test_the_preview_leads_back_to_the_lessons_and_can_approve(self):
-        preview = self.lesson(self.t).data.decode()
-        self.assertIn('href="/teacher/lessons#l-%s">← Back to the lessons' % self.BADGE, preview)
-        self.assertNotIn("Back to the map", preview)
-        self.assertIn("Approve this lesson", preview)
-        self.assertIn('id="showall"', preview)
-        r = self.t.post("/teacher/lessons", data={"action": "approve", "id": self.BADGE})
-        self.assertIn("/teacher/lessons#l-%s" % self.BADGE, r.headers["Location"])
-        self.assertIn("Withdraw", self.lesson(self.t).data.decode())
-        self.assertIn("Back to the map", self.lesson(self.c).data.decode())   # students: the map
+    def test_the_review_screen(self):
+        # A teacher opening the student's lesson link lands on the review screen.
+        self.assertIn("/teacher/lessons/%s" % self.BADGE, self.lesson(self.t).headers["Location"])
+        page = self.review().data.decode()
+        self.assertIn("Approve &amp; next", page)
+        self.assertIn('id="showall"', page)
+        self.assertIn("← All lessons", page)
+        self.assertIn("Skip →", page)
+        self.assertIn("Quick check in the lesson", page)
+        self.assertIn("How do you tell several people", page)       # the lesson's quick check
+        self.assertIn("The badge check asks from these", page)
+        self.assertIn("<strong>Answer:</strong>", page)                # its approved questions
+        self.assertNotIn("Back to the map", page)
+
+    def test_approve_and_next_goes_to_the_next_unapproved_lesson(self):
+        order = self.server._lesson_order()
+        i = order.index(self.BADGE)
+        # the one right after is already approved: it is skipped
+        after = order[i + 1]
+        self.t.post("/teacher/lessons", data={"action": "approve", "id": after})
+        r = self.t.post("/teacher/lessons", data={"action": "approve", "id": self.BADGE, "then": "next"})
+        self.assertTrue(r.headers["Location"].endswith("/teacher/lessons/%s" % order[i + 2]))
+        self.assertIn("approved", self.review().data.decode())
+        self.assertIn("Withdraw", self.review().data.decode())
+
+    def test_the_last_approval_says_done(self):
+        self.t.post("/teacher/lessons", data={"action": "approve_all"})
+        self.t.post("/teacher/lessons", data={"action": "withdraw", "id": self.BADGE})
+        r = self.t.post("/teacher/lessons", data={"action": "approve", "id": self.BADGE, "then": "next"})
+        self.assertIn("done=1", r.headers["Location"])
+        self.assertIn("Every lesson is approved", self.t.get(r.headers["Location"]).data.decode())
+
+    def test_the_list_starts_reviewing(self):
+        page = self.t.get("/teacher/lessons").data.decode()
+        first = self.server._lesson_order()[0]
+        self.assertIn('href="/teacher/lessons/%s">Start reviewing' % first, page)
+        self.assertIn('href="/teacher/lessons/%s"><strong>' % self.BADGE, page)
+
+    def test_a_student_cannot_review(self):
+        self.assertIn("/login", self.c.get("/teacher/lessons/%s" % self.BADGE).headers["Location"])
 
     def test_an_approved_lesson_comes_before_the_check(self):
         self.t.post("/teacher/lessons", data={"action": "approve", "id": self.BADGE})

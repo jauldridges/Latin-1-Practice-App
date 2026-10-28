@@ -90,7 +90,7 @@
       {% endif %}
     {% elif b.available %}
       <p class="small muted">{{ b.questions }} approved question{{ '' if b.questions == 1 else 's' }} ·
-        <a href="{{ url_for('badge_lesson', bid=b.id) }}">preview lesson {{ b.n }}</a></p>
+        <a href="{{ url_for('teacher_lesson_review', bid=b.id) }}">review lesson {{ b.n }}</a></p>
     {% endif %}
   </div>
   {% endfor %}

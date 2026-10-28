@@ -4,16 +4,35 @@
 {# The lesson before a badge (lessons.py): one step at a time, like a class.
    Without JavaScript every step simply shows, in order. #}
 {% if preview %}
-<p class="small"><a href="{{ url_for('teacher_lessons') }}#l-{{ b.id }}">← Back to the lessons</a></p>
-<div class="flags small preview-bar"><span class="lvl heuristic">teacher preview</span>
-  {% if approved %}Approved: students see this lesson before the badge's first check.
-  {% else %}Not approved yet — students go straight to the check.{% endif %}
-  <form method="post" action="{{ url_for('teacher_lessons') }}" class="inline">
-    <input type="hidden" name="id" value="{{ b.id }}">
-    {% if approved %}<button class="minibtn del" name="action" value="withdraw" type="submit">Withdraw</button>
-    {% else %}<button class="minibtn" name="action" value="approve" type="submit">Approve this lesson</button>{% endif %}
-  </form>
-  <button type="button" class="minibtn" id="showall">Show every step</button>
+{# The teacher's review screen (/teacher/lessons/<id>): approve without
+   leaving, and go straight on to the next lesson. #}
+<div class="reviewbar">
+  <div class="rb-top">
+    <a class="small" href="{{ url_for('teacher_lessons') }}#l-{{ b.id }}">← All lessons</a>
+    <span class="small muted">{{ n_approved }} of {{ total }} approved</span>
+  </div>
+  <div class="rb-state small">
+    Lesson {{ number }}:
+    {% if state == 'approved' %}<span class="pill solid">approved</span>
+    {% elif state == 'changed' %}<span class="pill shaky">changed since approval</span>
+    {% else %}<span class="pill notyet">not yet approved</span>{% endif %}
+    {% if problems %}<span class="lvl error">problem</span> {{ problems | join('; ') }}{% endif %}
+  </div>
+  <div class="rb-actions">
+    {% if prev_id %}<a class="minibtn" href="{{ url_for('teacher_lesson_review', bid=prev_id) }}">← Previous</a>{% endif %}
+    <form method="post" action="{{ url_for('teacher_lessons') }}" class="inline">
+      <input type="hidden" name="id" value="{{ b.id }}">
+      {% if state == 'approved' %}
+        <input type="hidden" name="then" value="stay">
+        <button class="minibtn del" name="action" value="withdraw" type="submit">Withdraw</button>
+      {% elif not problems %}
+        <input type="hidden" name="then" value="next">
+        <button class="minibtn approve-next" name="action" value="approve" type="submit">✓ Approve &amp; next →</button>
+      {% endif %}
+    </form>
+    {% if next_id %}<a class="minibtn" href="{{ url_for('teacher_lesson_review', bid=next_id) }}">Skip →</a>{% endif %}
+    <button type="button" class="minibtn" id="showall">Show every step</button>
+  </div>
 </div>
 {% else %}
 <p class="small"><a href="{{ url_for('badge_map_page') }}#b-{{ b.id }}">← Back to the map</a></p>
@@ -88,6 +107,35 @@
 
   <div class="lnav"><button type="button" class="bigbtn" id="lnext">Next</button></div>
 </div>
+
+{% if preview %}
+<section class="cfu">
+  <h2>Checks for understanding</h2>
+  {% for c in checks %}
+  <div class="cfu-item">
+    <div class="lex-label">Quick check in the lesson</div>
+    <p class="lcheck-ask">{{ c.ask }}</p>
+    <ul class="cfu-opts">
+      {% for o, t in c.options %}<li class="{{ 'right' if o == c.answer }}">{{ '✓' if o == c.answer else '·' }} {{ t }}</li>{% endfor %}
+    </ul>
+    <p class="small muted">Why: {{ c.why }}</p>
+  </div>
+  {% endfor %}
+
+  <h3>The badge check asks from these {{ questions | length }} approved question{{ '' if questions | length == 1 else 's' }}</h3>
+  <p class="small muted">Six at a time to earn the badge (five right), three to refresh it. Questions you
+    haven't approved in the Review tool aren't here and are never asked.</p>
+  <ol class="cfu-qs">
+    {% for q in questions %}
+    <li><span class="small muted">{{ q.node }}</span> {{ q.stem }}
+      {% if q.options %}<div class="small muted">{{ q.options | join(' / ') }}</div>{% endif %}
+      <div class="small"><strong>Answer:</strong> {{ q.answer }}</div></li>
+    {% else %}
+    <li class="muted">None approved yet.</li>
+    {% endfor %}
+  </ol>
+</section>
+{% endif %}
 
 <script>
 (function () {

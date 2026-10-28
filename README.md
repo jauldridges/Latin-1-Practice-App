@@ -86,7 +86,7 @@ start clean.
 | `lessons.py`, `badge_lessons.yaml` | The lesson at the start of each badge (teacher-approved). |
 | `badges.py`, `badges.yaml` | Grammar badges: the map, checks, fading, and the homework rule. |
 | `analysis.py` | Data for analysis: the zip of spreadsheets split around an exam. |
-| `tests/` | 719 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 723 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -511,7 +511,13 @@ check". The not-yet circles on the map show their lesson number; a passed
 badge offers "Next: Lesson 6". Refreshes skip the lesson, but "Read lesson 5
 again" is always there. Lessons need the teacher's approval (Teacher dashboard
 -> Grammar badges -> Badge lessons; fingerprint under `lesson:<id>`); without
-one, a badge starts at its check. Examples use only class vocabulary.
+one, a badge starts at its check. The teacher reviews at
+`/teacher/lessons/<id>`: the lesson plays as students see it under a bar
+with Previous / Approve & next / Skip / Show every step, and below it the
+checks for understanding -- the lesson's quick check with its answer, and
+every approved question the badge check can ask, with answers. Approve & next
+goes to the next lesson not yet approved; "Start reviewing" on the list picks
+up where the teacher left off. Examples use only class vocabulary.
 `tests/test_lessons.py`.
 
 A finished check is one event (`badge:<id>`, context `badge`, score in
@@ -1217,7 +1223,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-719 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+723 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

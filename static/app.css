@@ -784,3 +784,18 @@ em.la { font-style: italic; font-weight: 600; color: #3a3428; }
 }
 .preview-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
 .preview-bar form { margin: 0; }
+/* The teacher's lesson review: a bar that stays put while the lesson plays. */
+.reviewbar { position: sticky; top: 0; z-index: 10; background: #fffaf0; border: 1px solid #e9cf8a;
+  border-radius: 12px; padding: 8px 12px; margin: 0 0 10px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+.rb-top { display: flex; justify-content: space-between; gap: 10px; }
+.rb-state { margin: 4px 0 6px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.rb-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.rb-actions form { margin: 0; }
+.minibtn.approve-next { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 700; }
+.cfu { margin-top: 20px; }
+.cfu-item { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin: 10px 0; }
+.cfu-opts { list-style: none; padding: 0; margin: 4px 0 6px; }
+.cfu-opts li { padding: 2px 0; }
+.cfu-opts li.right { color: var(--solid); font-weight: 700; }
+.cfu-qs li { margin-bottom: 10px; }
+body:has(.reviewbar) .lstep { scroll-margin-top: 140px; }

@@ -1791,6 +1791,8 @@ def badge_lesson(bid):
         abort(404)
     student = current_student()
     teacher_view = auth.is_teacher()
+    if teacher_view and not student and bid in _LESSONS:
+        return redirect(url_for("teacher_lesson_review", bid=bid))
     lesson = lesson_for(db, bid) or (_LESSONS.get(bid) if teacher_view else None)
     if lesson is None:
         return redirect(url_for("badge_map_page") + "#b-" + bid)
@@ -1818,6 +1820,14 @@ def teacher_lessons():
             store.approve_teaching(db, lessons.key(bid), lessons.fingerprint(_LESSONS[bid]))
         elif bid in _LESSONS and action == "withdraw":
             store.unapprove_teaching(db, lessons.key(bid))
+        then = request.form.get("then")
+        if then == "next":
+            nxt = _next_lesson_to_review(db, bid)
+            if nxt:
+                return redirect(url_for("teacher_lesson_review", bid=nxt))
+            return redirect(url_for("teacher_lessons", done=1))
+        if then == "stay" and bid in _LESSONS:
+            return redirect(url_for("teacher_lesson_review", bid=bid))
         return redirect(url_for("teacher_lessons") + ("#l-" + bid if bid else ""))
     approvals = store.teaching_approvals(db)
     rows = []
@@ -1829,8 +1839,78 @@ def teacher_lessons():
         rows.append({"b": b, "n": _LESSON_NO[b["id"]], "state": state,
                      "steps": len(l["steps"]) if l else 0,
                      "problems": lessons.problems(l) if l else []})
-    return render_template("teacher_lessons.html", rows=rows,
-                           n_approved=sum(1 for r in rows if r["state"] == "approved"))
+    return render_template("teacher_lessons.html", rows=rows, done=request.args.get("done"),
+                           n_approved=sum(1 for r in rows if r["state"] == "approved"),
+                           first=_next_lesson_to_review(db, None))
+
+
+def _lesson_order():
+    return [b["id"] for b in sorted(_BADGES, key=lambda x: _LESSON_NO[x["id"]]) if b["id"] in _LESSONS]
+
+
+def _next_lesson_to_review(db, after):
+    """The next lesson, in course order after `after`, that isn't approved yet
+    (wrapping round to the start), or None when every lesson is approved."""
+    order = _lesson_order()
+    approvals = store.teaching_approvals(db)
+    start = order.index(after) + 1 if after in order else 0
+    for bid in order[start:] + order[:start]:
+        if bid != after and approvals.get(lessons.key(bid)) != lessons.fingerprint(_LESSONS[bid]):
+            return bid
+    return None
+
+
+def _answer_text(item):
+    """The right answer to a question, in a line, for the teacher's review."""
+    fmt = item.get("format")
+    if fmt == "choice":
+        return (item.get("options") or {}).get(item.get("answer"), "")
+    if fmt == "boxes":
+        return " · ".join("%s%s" % ((b.get("label") + ": ") if b.get("label") else "",
+                                    (b.get("answer") or [""])[0]) for b in item.get("boxes") or [])
+    if fmt == practice.LABEL_WORDS:
+        return " · ".join("%s = %s" % (t["word"], t["accepted"][0]) for t in practice.label_targets(item))
+    if fmt == "tag-then-translate":
+        tags = " · ".join("%s = %s, %s" % (t.get("word"), (t.get("case") or [""])[0], (t.get("job") or [""])[0])
+                          for t in item.get("tag_boxes") or [])
+        return "%s — %s" % (tags, item.get("translation_model_answer") or "")
+    return item.get("model_answer") or item.get("answer") or ""
+
+
+@app.route("/teacher/lessons/<bid>")
+def teacher_lesson_review(bid):
+    """One lesson to review: it plays as students see it, its checks for
+    understanding are listed underneath, and Approve & next moves on."""
+    db = get_db()
+    b = _BADGE_BY_ID.get(bid)
+    lesson = _LESSONS.get(bid)
+    if b is None or lesson is None:
+        abort(404)
+    order = _lesson_order()
+    i = order.index(bid)
+    approvals = store.teaching_approvals(db)
+    got = approvals.get(lessons.key(bid))
+    state = ("approved" if got == lessons.fingerprint(lesson) else "changed" if got else "draft")
+    checks_ = [st for st in _lesson_steps(lesson) if st["kind"] == "check"]
+    approved_items = store.approved_items(db)
+    nodes = set(b["nodes"])
+    questions = [{"id": it["id"], "node": it["node"], "stem": practice.question_text(it),
+                  "options": list((it.get("options") or {}).values()) if it.get("format") == "choice" else [],
+                  "answer": _answer_text(it)}
+                 for it in sorted(approved_items, key=lambda x: (x["node"], str(x["id"])))
+                 if it.get("node") in nodes]
+    family = {r["id"]: r["label"] for r in _BADGE_ROWS}.get(b["row"], "")
+    return render_template("badge_lesson.html", b=b, steps=_lesson_steps(lesson),
+                           number=_LESSON_NO[bid], total=len(_BADGES), family=family,
+                           bst=None, student=None, preview=True, review=True,
+                           approved=state == "approved", state=state,
+                           problems=lessons.problems(lesson),
+                           prev_id=order[i - 1] if i > 0 else None,
+                           next_id=order[i + 1] if i + 1 < len(order) else None,
+                           n_approved=sum(1 for k in order
+                                          if approvals.get(lessons.key(k)) == lessons.fingerprint(_LESSONS[k])),
+                           checks=checks_, questions=questions,
+                           node_label=_NODE_LABEL)
 
 
 @app.route("/teacher/badges")
