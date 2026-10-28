@@ -86,7 +86,7 @@ start clean.
 | `lessons.py`, `badge_lessons.yaml` | The lesson at the start of each badge (teacher-approved). |
 | `badges.py`, `badges.yaml` | Grammar badges: the map, checks, fading, and the homework rule. |
 | `analysis.py` | Data for analysis: the zip of spreadsheets split around an exam. |
-| `tests/` | 711 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 719 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -492,6 +492,14 @@ keeps it. A first pass holds about 3 days, then about 10, a month, and so on.
 "Right" is the app's own check (right or close); only a question the app can't
 check uses the student's grade. Questions are picked across topics, least
 recently seen first, so a retake asks different ones where the badge has them.
+
+**Hints.** A grammar question's Hint is never just the date: it shows the
+topic's teaching text once the teacher approves it (`teaching.yaml`, now with
+all Unit 2 topics drafted; a test checks every topic with questions has
+text), and until then the badge lesson's line to remember. Either way it ends
+with "Look back at Lesson N" (a new tab, so a check under way is kept). The
+teacher's Grammar badges page shows "hints 3/5" per badge with links to read
+and approve. `tests/test_hints.py`.
 
 **Lessons.** Each badge opens with a short lesson (`badge_lessons.yaml`,
 `lessons.py`), numbered in teaching order ("Lesson 5 of 20"): a few steps shown
@@ -1209,7 +1217,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-711 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+719 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

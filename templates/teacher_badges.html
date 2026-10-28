@@ -8,6 +8,9 @@
   taught: {{ earn }} to earn it (five right), {{ refresh }} to refresh it (two right). A badge with
   few approved questions repeats them — approving more in the Review tool fixes that.
   To regroup, rename or reorder, tell Claude; the list lives in <code>badges.yaml</code>.</p>
+<p class="small muted"><strong>Hints.</strong> A question's Hint shows its topic's teaching text once
+  you approve it ("hints 3/5" below). Until then it shows the badge lesson's line to remember and a
+  link back to the lesson — so approving the lessons gives every question a real hint straight away.</p>
 <p><a class="bigbtn" href="{{ url_for('teacher_lessons') }}">Badge lessons — preview and approve</a>
   <a class="bigbtn secondary" href="{{ url_for('badge_map_page') }}">See the map as students do</a>
   <a class="bigbtn secondary" href="{{ url_for('teacher_deadlines') }}">{{ 'Badges are on' if on else 'Switch badges on' }} (Goals &amp; deadlines)</a></p>
@@ -18,13 +21,15 @@
 <details class="week">
   <summary><span class="week-name">{{ x.b.title }}</span>
     <span class="small muted">from {{ x.first }} · {{ x.questions }} approved question{{ '' if x.questions == 1 else 's' }}
+      · hints {{ x.hinted }}/{{ x.topics | length }}{% if not x.lesson %} · lesson not approved{% endif %}
       {% if x.questions < earn %}<span class="pill shaky">few questions</span>{% endif %}</span></summary>
   <p class="small">{{ x.b.about }}</p>
   {% if x.builds_on %}<p class="small muted">Builds on: {{ x.builds_on | join(', ') }}</p>{% endif %}
   <table class="progress">
-    <tr><th>Topic</th><th>Approved</th></tr>
+    <tr><th>Topic</th><th>Questions</th><th>Hint text</th></tr>
     {% for t in x.topics %}
-    <tr><td class="small"><strong>{{ t.id }}</strong> {{ t.label }}</td><td>{{ t.n }}</td></tr>
+    <tr><td class="small"><strong>{{ t.id }}</strong> {{ t.label }}</td><td>{{ t.n }}</td>
+      <td class="small">{% if t.hint %}<span class="pill solid">approved</span>{% else %}<a href="{{ url_for('teaching_read', node_id=t.id) }}">read &amp; approve</a>{% endif %}</td></tr>
     {% endfor %}
   </table>
 </details>

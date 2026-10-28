@@ -3,13 +3,20 @@
 {% block content %}
 {# The lesson before a badge (lessons.py): one step at a time, like a class.
    Without JavaScript every step simply shows, in order. #}
-<p class="small"><a href="{{ url_for('badge_map_page') }}#b-{{ b.id }}">← Back to the map</a></p>
-
 {% if preview %}
-<div class="flags small"><span class="lvl heuristic">teacher preview</span>
+<p class="small"><a href="{{ url_for('teacher_lessons') }}#l-{{ b.id }}">← Back to the lessons</a></p>
+<div class="flags small preview-bar"><span class="lvl heuristic">teacher preview</span>
   {% if approved %}Approved: students see this lesson before the badge's first check.
-  {% else %}Not approved yet — students go straight to the check.
-  <a href="{{ url_for('teacher_lessons') }}#l-{{ b.id }}">Approve it</a>.{% endif %}</div>
+  {% else %}Not approved yet — students go straight to the check.{% endif %}
+  <form method="post" action="{{ url_for('teacher_lessons') }}" class="inline">
+    <input type="hidden" name="id" value="{{ b.id }}">
+    {% if approved %}<button class="minibtn del" name="action" value="withdraw" type="submit">Withdraw</button>
+    {% else %}<button class="minibtn" name="action" value="approve" type="submit">Approve this lesson</button>{% endif %}
+  </form>
+  <button type="button" class="minibtn" id="showall">Show every step</button>
+</div>
+{% else %}
+<p class="small"><a href="{{ url_for('badge_map_page') }}#b-{{ b.id }}">← Back to the map</a></p>
 {% endif %}
 
 <div class="lesson" id="lesson">
@@ -117,6 +124,14 @@
     if (i > 0) s.scrollIntoView({behavior: 'smooth', block: 'start'});
   }
   next.addEventListener('click', function () { if (at < steps.length - 1) show(at + 1); });
+  // Teacher preview: read the whole lesson at once.
+  var all = document.getElementById('showall');
+  if (all) all.addEventListener('click', function () {
+    steps.forEach(function (s) { s.classList.add('shown', 'answered'); });
+    root.querySelectorAll('.lcheck-why').forEach(function (w) { w.hidden = false; });
+    at = steps.length - 1;
+    update();
+  });
 
   root.addEventListener('click', function (ev) {
     var replay = ev.target.closest('.lreplay');

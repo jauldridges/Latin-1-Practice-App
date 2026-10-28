@@ -104,6 +104,17 @@ class TestTheScreens(unittest.TestCase):
         self.assertIn("teacher preview", preview)
         self.assertIn("Not approved yet", preview)
 
+    def test_the_preview_leads_back_to_the_lessons_and_can_approve(self):
+        preview = self.lesson(self.t).data.decode()
+        self.assertIn('href="/teacher/lessons#l-%s">← Back to the lessons' % self.BADGE, preview)
+        self.assertNotIn("Back to the map", preview)
+        self.assertIn("Approve this lesson", preview)
+        self.assertIn('id="showall"', preview)
+        r = self.t.post("/teacher/lessons", data={"action": "approve", "id": self.BADGE})
+        self.assertIn("/teacher/lessons#l-%s" % self.BADGE, r.headers["Location"])
+        self.assertIn("Withdraw", self.lesson(self.t).data.decode())
+        self.assertIn("Back to the map", self.lesson(self.c).data.decode())   # students: the map
+
     def test_an_approved_lesson_comes_before_the_check(self):
         self.t.post("/teacher/lessons", data={"action": "approve", "id": self.BADGE})
         page = self.c.get("/badges").data.decode()

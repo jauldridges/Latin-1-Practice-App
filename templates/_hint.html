@@ -9,15 +9,19 @@
    Teaching text appears only when the teacher has approved that exact wording;
    `hint` is already None otherwise. Nothing unread reaches a student. #}
 {% set vh = vocab_card_hint(card.latin, card.ask) if card is defined and card else none %}
-{% if hint or introduced or vh %}
+{# A grammar question's badge lesson, once approved: its line to remember
+   stands in while the topic's teaching text waits for approval, and the
+   lesson is always a tap away -- in a new tab, so a check under way is kept. #}
+{% set lh = lesson_hint(item.node) if item is defined and item else none %}
+{% if hint or introduced or vh or lh %}
 <details class="hintbox">
   <summary>Hint</summary>
   {% if vh %}
     <p class="vhint {{ 'latin-sentence' if vh.latin }}">{% for t, m in vh.segments %}{% if m %}<strong class="vword">{{ t }}</strong>{% else %}{{ t }}{% endif %}{% endfor %}</p>
     {% if vh.en %}<p class="small muted vhint-en">{{ vh.en }}</p>{% endif %}
   {% endif %}
-  {% if introduced %}
-    <p class="small muted">Introduced {{ introduced }}.</p>
+  {% if lh and not hint %}
+    <p class="small"><strong>Remember:</strong> {{ lh.remember }}</p>
   {% endif %}
   {% if hint %}
     <p class="small">{{ hint.explain }}</p>
@@ -27,6 +31,12 @@
     {% if safe %}
       <ul class="small">{% for ex in safe %}<li>{{ ex }}</li>{% endfor %}</ul>
     {% endif %}
+  {% endif %}
+  {% if lh %}
+    <p class="small"><a href="{{ url_for('badge_lesson', bid=lh.bid) }}" target="_blank" rel="noopener">Look back at Lesson {{ lh.n }}: {{ lh.title }} ↗</a></p>
+  {% endif %}
+  {% if introduced %}
+    <p class="small muted">Introduced {{ introduced }}.</p>
   {% endif %}
 </details>
 {% endif %}

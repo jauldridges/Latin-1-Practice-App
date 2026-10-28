@@ -1759,6 +1759,29 @@ def _lesson_steps(lesson):
     return out
 
 
+_NODE_BADGE = {n: b["id"] for b in _BADGES for n in b["nodes"]}
+
+
+@app.template_global("lesson_hint")
+def lesson_hint(node_id):
+    """For a grammar question's Hint: the approved lesson its badge opens with
+    -- {"n", "title", "bid", "remember"} -- or None. The Hint then never says
+    only when a topic was introduced: while a topic's teaching text waits for
+    approval, the lesson's one line to remember stands in for it, and the
+    lesson itself is a tap away."""
+    bid = _NODE_BADGE.get(node_id)
+    if bid is None:
+        return None
+    if "hint_approvals" not in g:
+        g.hint_approvals = store.teaching_approvals(get_db())
+    lesson = lesson_for(get_db(), bid, g.hint_approvals)
+    if lesson is None:
+        return None
+    remember = next((st["remember"] for st in lesson["steps"] if lessons.kind(st) == "remember"), "")
+    return {"n": _LESSON_NO[bid], "title": _BADGE_BY_ID[bid]["title"], "bid": bid,
+            "remember": Markup(lessons.inline(remember))}
+
+
 @app.route("/badges/<bid>/lesson")
 def badge_lesson(bid):
     """The lesson before a badge: a few steps, one at a time, then the check."""
@@ -1827,9 +1850,14 @@ def teacher_badges():
         for b in _BADGES:
             if b["row"] != row["id"]:
                 continue
+            hinted = sum(1 for n in b["nodes"] if approved_teaching_for(db, n))
             out.append({"b": b, "first": _short_date(badges.first_taught(b, _SPEC)),
+                        "hinted": hinted,
+                        "lesson": lesson_for(db, b["id"]) is not None,
                         "topics": [{"id": n, "label": _NODE_LABEL.get(n, ""),
-                                    "n": per_node.get(n, 0)} for n in b["nodes"]],
+                                    "n": per_node.get(n, 0),
+                                    "hint": approved_teaching_for(db, n) is not None}
+                                   for n in b["nodes"]],
                         "questions": len(badges.pool(b, approved, taught_all)),
                         "builds_on": [_BADGE_BY_ID[p]["title"] for p in built_on[b["id"]]]})
         rows.append({"label": row["label"], "badges": out})

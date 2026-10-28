@@ -1,5 +1,5 @@
 # ============================================================
-# Latin I — Teaching text, Units 0 and 1
+# Latin I — Teaching text, Units 0, 1 and 2
 # Libertas Academy Charter School · FY27 · J. Sullivan
 #
 # DRAFT FOR APPROVAL. Every entry below is status: draft.
@@ -32,7 +32,7 @@
 
 meta:
   course: Latin I
-  scope: Units 0 and 1 (118 nodes)
+  scope: Units 0 and 1 (118 nodes); Unit 2 grammar added October 2026
   drafted: 2026-08-30
   drafted_by: generated draft, awaiting teacher approval
   approval_rule: >
@@ -2140,3 +2140,419 @@ nodes:
     when_wrong: >
       These three endings all produce verbs. If the word names an action
       rather than a thing or a quality, look for one of them on the end.
+
+  # ==========================================================
+  # Unit 2 (drafted October 2026, awaiting approval). Same three
+  # parts as above; examples use the class vocabulary and the
+  # Unit 2 words in content-vocab-unit02.yaml.
+  # ==========================================================
+
+  MS-052:
+    status: draft
+    label: Genitive case — possession function
+    explain: >
+      The genitive case shows that one noun belongs to, or is part of,
+      another. Translate it with "of", or with an apostrophe-s. It never
+      does the action and never receives it: it hangs on another noun.
+    examples:
+      - "ager agricolae — the field of the farmer, the farmer's field"
+      - "fīlia rēgīnae — the daughter of the queen, the queen's daughter"
+      - "Ask: of whom? of what? The answer is the genitive."
+    when_wrong: >
+      If you made the genitive the subject or the object, look again at
+      what it is attached to. A genitive always describes another noun
+      next to it: whose field, whose daughter.
+
+  MS-053:
+    status: draft
+    label: First declension — genitive singular and plural
+    explain: >
+      In the first declension the genitive singular ends in -ae and the
+      genitive plural ends in -ārum.
+    examples:
+      - "puella → puellae (of the girl) → puellārum (of the girls)"
+      - "via → viae → viārum"
+      - "silva → silvae → silvārum"
+    when_wrong: >
+      -ārum belongs to the genitive plural only. It is easy to blur with
+      the accusative plural -ās: -ās is the object, -ārum means "of".
+
+  MS-054:
+    status: draft
+    label: Second declension — genitive singular and plural
+    explain: >
+      In the second declension the genitive singular ends in -ī and the
+      genitive plural ends in -ōrum. Neuter nouns use the same endings.
+    examples:
+      - "dominus → dominī (of the master) → dominōrum (of the masters)"
+      - "puer → puerī → puerōrum"
+      - "bellum → bellī → bellōrum"
+    when_wrong: >
+      -ī is also the nominative plural of -us nouns. Decide by the job:
+      if the word hangs on another noun, it is genitive ("of"); if it is
+      doing the action, it is the plural subject.
+
+  MS-055:
+    status: draft
+    label: Genitive of the whole (partitive)
+    explain: >
+      After words of amount — multum (a lot), satis (enough), nihil
+      (nothing) — the thing being measured goes in the genitive. English
+      often drops the "of": translate naturally.
+    examples:
+      - "multum aquae — a lot of water"
+      - "satis cibī — enough food"
+      - "nihil pecūniae — no money (literally, nothing of money)"
+    when_wrong: >
+      The amount word does the job in the sentence; the genitive just
+      says what it is an amount of. "Enough food" is better English than
+      "enough of food", but the Latin is still genitive.
+
+  MS-056:
+    status: draft
+    label: Genitive singular and nominative plural are identical in first declension
+    explain: >
+      In the first declension, -ae can be the genitive singular ("of the
+      girl") or the nominative plural ("the girls"). The rest of the
+      sentence decides which: look at the verb, and at what the word is
+      attached to.
+    examples:
+      - "Puellae ambulant — the girls walk. The plural verb needs a plural subject."
+      - "Aqua puellae est — it is the girl's water. Puellae hangs on aqua."
+      - "If the verb is singular and already has a subject, -ae is probably genitive."
+    when_wrong: >
+      Check the verb's ending first. A plural verb (-nt) with no other
+      plural noun in sight makes -ae the subject; otherwise ask whether
+      the word means "of" something.
+
+  MS-057:
+    status: draft
+    label: Dative case — indirect object function
+    explain: >
+      The dative case means "to" or "for". Its main job is the indirect
+      object: the person something is given, shown or told to. The thing
+      given is the direct object, in the accusative.
+    examples:
+      - "Puella nautae aquam dat — the girl gives water to the sailor."
+      - "Fābulam puerīs nārrō — I tell a story to the boys."
+      - "Ask: to whom? for whom? The answer is the dative."
+    when_wrong: >
+      Separate the two objects: the accusative is the thing handed over,
+      the dative is the person who receives it. English can say both
+      "gives the sailor water" and "gives water to the sailor".
+
+  MS-058:
+    status: draft
+    label: First declension — dative singular and plural
+    explain: >
+      In the first declension the dative singular ends in -ae and the
+      dative plural in -īs.
+    examples:
+      - "puella → puellae (to the girl) → puellīs (to the girls)"
+      - "nauta → nautae → nautīs"
+      - "agricola → agricolae → agricolīs"
+    when_wrong: >
+      -ae now has three possible jobs: "of the girl", "to the girl", or
+      "the girls". Use the sentence: is someone receiving something
+      (dative), does it hang on another noun (genitive), or is it the
+      subject (nominative plural)?
+
+  MS-059:
+    status: draft
+    label: Second declension — dative singular and plural
+    explain: >
+      In the second declension the dative singular ends in -ō and the
+      dative plural in -īs. Neuters use the same endings.
+    examples:
+      - "dominus → dominō (to the master) → dominīs (to the masters)"
+      - "puer → puerō → puerīs"
+      - "dōnum → dōnō → dōnīs"
+    when_wrong: >
+      On a verb, -ō means "I"; on a second-declension noun it is the
+      dative singular. Check which kind of word it is before you
+      translate.
+
+  MS-060:
+    status: draft
+    label: Dative with special verbs (credo, noceo, pareo, persuadeo)
+    explain: >
+      A few verbs take their object in the dative, not the accusative:
+      crēdō (I trust, believe), noceō (I harm), pāreō (I obey) and
+      persuādeō (I persuade). Latin thinks of them as "give trust to",
+      "do harm to", "be obedient to".
+    examples:
+      - "Servus dominō pāret — the slave obeys the master."
+      - "Amīcō crēdō — I trust my friend."
+      - "Bellum agricolīs nocet — war harms the farmers."
+    when_wrong: >
+      English uses a plain direct object ("obey the master"), so the
+      accusative feels natural. With these four verbs the person is
+      dative: learn them as a set.
+
+  MS-061:
+    status: draft
+    label: Dative of possession with sum
+    explain: >
+      Est or sunt with a dative is a way to say someone has something:
+      "to the farmer there is a field" means "the farmer has a field".
+      The thing owned is the subject, in the nominative; the owner is in
+      the dative.
+    examples:
+      - "Agricolae est ager — the farmer has a field."
+      - "Puellīs sunt dōna — the girls have gifts."
+      - "Translate with has / have: it is much better English."
+    when_wrong: >
+      If you made the dative the subject, find the nominative instead:
+      that is the thing owned. Then turn it around into English: the
+      dative person "has" it.
+
+  MS-062:
+    status: draft
+    label: Third declension — the genitive singular reveals the stem
+    explain: >
+      A third-declension noun's dictionary entry gives the nominative and
+      the genitive. The genitive ends in -is; take it off and what is
+      left is the stem, which every other form is built on.
+    examples:
+      - "rēx, rēgis → stem rēg-"
+      - "mīles, mīlitis → stem mīlit-"
+      - "corpus, corporis → stem corpor-"
+    when_wrong: >
+      In the third declension the nominative often hides the stem, so you
+      cannot build forms from it. Always go back to the genitive.
+
+  MS-063:
+    status: draft
+    label: Third declension masculine/feminine — nominative singular is unpredictable
+    explain: >
+      Third-declension nominatives come in many shapes: -x, -s, -er, -ō,
+      -or and more. You cannot predict them, so learn each noun as a
+      pair, nominative and genitive together.
+    examples:
+      - "rēx, rēgis — king"
+      - "pater, patris — father"
+      - "homō, hominis — person"
+      - "virtūs, virtūtis — courage"
+    when_wrong: >
+      A nominative in -er or -us does not make a noun second declension.
+      The genitive in -is is what tells you it is third.
+
+  MS-064:
+    status: draft
+    label: Third declension masculine/feminine — singular endings
+    explain: >
+      In the singular: the nominative varies, the genitive ends in -is,
+      the dative in -ī, and the accusative in -em.
+    examples:
+      - "rēx, rēgis, rēgī, rēgem"
+      - "mīles, mīlitis, mīlitī, mīlitem"
+      - "Rēx mīlitem vocat — the king calls the soldier."
+    when_wrong: >
+      Here -ī is the dative singular, not the nominative plural it would
+      be on a second-declension noun, and -em is the accusative.
+
+  MS-065:
+    status: draft
+    label: Third declension masculine/feminine — plural endings
+    explain: >
+      In the plural: the nominative and the accusative both end in -ēs,
+      the genitive in -um, and the dative in -ibus.
+    examples:
+      - "rēgēs, rēgum, rēgibus, rēgēs"
+      - "Mīlitēs rēgem laudant — the soldiers praise the king."
+      - "Rēx mīlitēs laudat — the king praises the soldiers."
+    when_wrong: >
+      Because -ēs can be subject or object, let the verb decide: a plural
+      verb (-nt) points to an -ēs subject; a singular verb with another
+      subject makes the -ēs word the object.
+
+  MS-066:
+    status: draft
+    label: Third declension neuter — singular and plural
+    explain: >
+      Third-declension neuters follow the neuter rule: the nominative and
+      the accusative are the same, and the plural ends in -a. The other
+      endings are the usual third-declension ones.
+    examples:
+      - "corpus, corporis: corpus, corpora (body, bodies)"
+      - "nōmen, nōminis: nōmen, nōmina (name, names)"
+      - "tempus, temporis: tempus, tempora (time, times)"
+    when_wrong: >
+      The -us of corpus and tempus is not the second-declension -us. The
+      genitive in -is shows these are third-declension neuters, so their
+      plural is corpora and tempora, never corpī.
+
+  MS-067:
+    status: draft
+    label: i-stem nouns — identifying them
+    explain: >
+      Some third-declension nouns are i-stems. Spot them three ways: the
+      nominative and genitive have the same number of syllables; or the
+      nominative ends in -s or -x and the stem ends in two consonants; or
+      it is a neuter ending in -e, -al or -ar.
+    examples:
+      - "cīvis, cīvis — same number of syllables"
+      - "urbs, urbis — stem urb- ends in two consonants"
+      - "mare, maris — neuter in -e"
+    when_wrong: >
+      Count the syllables of the nominative and the genitive, then look
+      at the end of the stem. Rēx, rēgis fails both tests, so it is not
+      an i-stem.
+
+  MS-068:
+    status: draft
+    label: i-stem nouns — genitive plural in -ium
+    explain: >
+      The clearest sign of an i-stem is the genitive plural, -ium instead
+      of -um.
+    examples:
+      - "cīvis → cīvium (of the citizens)"
+      - "urbs → urbium (of the cities)"
+      - "Compare: rēx → rēgum, not an i-stem."
+    when_wrong: >
+      Only i-stems take -ium. Check the noun against the i-stem tests
+      before you choose the ending.
+
+  MS-069:
+    status: draft
+    label: Third declension i-stem neuters — -i, -ia, -ium
+    explain: >
+      Neuters ending in -e, -al or -ar are i-stems. Their plural ends in
+      -ia (nominative and accusative) and their genitive plural in -ium.
+    examples:
+      - "mare, maris: maria (seas), marium (of the seas)"
+      - "animal, animālis: animālia (animals), animālium (of the animals)"
+    when_wrong: >
+      The neuter plural still ends in -a; for these nouns it is -ia. And
+      as for every i-stem, the genitive plural is -ium.
+
+  MS-070:
+    status: draft
+    label: Gender of third declension nouns must be learned, not deduced
+    explain: >
+      Third-declension nouns can be masculine, feminine or neuter, and the
+      ending will not tell you which. Learn the gender with the word.
+      Adjectives show it.
+    examples:
+      - "rēx, rēgis, m. — rēx bonus"
+      - "virtūs, virtūtis, f. — virtūs magna"
+      - "corpus, corporis, n. — corpus parvum"
+    when_wrong: >
+      Check the dictionary entry: the m., f. or n. after the genitive is
+      the only reliable guide.
+
+  MS-071:
+    status: draft
+    label: Adjective agreement with third declension nouns
+    explain: >
+      An adjective still agrees with its noun in gender, number and case,
+      but it keeps its own endings. With a third-declension noun the two
+      endings usually look different.
+    examples:
+      - "rēx bonus — the good king (both masculine nominative singular)"
+      - "rēgem bonum — the good king, as the object"
+      - "rēgēs bonī — the good kings"
+    when_wrong: >
+      Don't copy the noun's ending onto the adjective. Work out the noun's
+      gender, number and case, then give the adjective its own ending for
+      those.
+
+  MS-072:
+    status: draft
+    label: Present active indicative — third conjugation
+    explain: >
+      Third-conjugation verbs have an infinitive in short -ere. In the
+      present their endings are -ō, -is, -it, -imus, -itis, -unt.
+    examples:
+      - "dūcō, dūcere: dūcō, dūcis, dūcit, dūcimus, dūcitis, dūcunt"
+      - "Rēx mīlitēs dūcit — the king leads the soldiers."
+      - "mittō, mittere — mittunt: they send"
+    when_wrong: >
+      "They" is -unt in the third conjugation, not -ant or -ent. And the
+      vowel before the ending is short i (dūcis, dūcit), not a or e.
+
+  MS-073:
+    status: draft
+    label: Present active indicative — third conjugation -io verbs
+    explain: >
+      A few third-conjugation verbs keep an i in two places, the "I" form
+      and the "they" form: capiō, capere. Otherwise they look like dūcō.
+    examples:
+      - "capiō, capere: capiō, capis, capit, capimus, capitis, capiunt"
+      - "faciō, facere: faciō, facis, facit, facimus, facitis, faciunt"
+    when_wrong: >
+      An -iō verb with a short -ere infinitive is third conjugation, not
+      fourth. The infinitive is what tells them apart.
+
+  MS-074:
+    status: draft
+    label: Present active indicative — fourth conjugation
+    explain: >
+      Fourth-conjugation verbs have an infinitive in long -īre. In the
+      present they keep an i throughout: -iō, -īs, -it, -īmus, -ītis,
+      -iunt.
+    examples:
+      - "audiō, audīre: audiō, audīs, audit, audīmus, audītis, audiunt"
+      - "veniō, venīre — veniunt: they come"
+    when_wrong: >
+      "They" is -iunt in the fourth conjugation. If you wrote -int or
+      -unt, you dropped the i.
+
+  MS-075:
+    status: draft
+    label: Identifying conjugation from the infinitive — all four
+    explain: >
+      The infinitive sorts every verb into its family: -āre is first
+      conjugation, -ēre second, short -ere third, -īre fourth. An -iō
+      first part with an -ere infinitive is a third-conjugation -iō verb.
+    examples:
+      - "portāre → first · habēre → second"
+      - "dūcere → third · audīre → fourth"
+      - "capiō, capere → third, -iō type"
+    when_wrong: >
+      Watch the macron: habēre (long ē) is second conjugation, dūcere
+      (short e) is third. Say them aloud: habĒre, DŪcere.
+
+  MS-158:
+    status: draft
+    label: Infinitive forms of the third and fourth conjugations
+    explain: >
+      The infinitive is still the "to ___" form. In the third conjugation
+      it ends in short -ere, in the fourth in long -īre.
+    examples:
+      - "dūcere — to lead · capere — to take"
+      - "audīre — to hear · venīre — to come"
+      - "Rēx populum regere dēbet — the king ought to rule the people."
+    when_wrong: >
+      Third-conjugation -ere has a short e; don't confuse it with the
+      second conjugation's -ēre.
+
+  MS-077:
+    status: draft
+    label: Imperative — third and fourth conjugation, and the irregulars dic, duc, fac, fer
+    explain: >
+      To command one person, use the present stem: mitte!, cape!, audī!
+      For more than one, add -te; in the third conjugation the short e
+      becomes i first: mittite!, capite!, audīte! Four verbs drop the
+      final e in the singular: dīc!, dūc!, fac!, fer!
+    examples:
+      - "mittere → mitte! (send!) → mittite!"
+      - "audīre → audī! (listen!) → audīte!"
+      - "dīcere → dīc! (say!) · dūcere → dūc! · facere → fac! · ferre → fer!"
+    when_wrong: >
+      The third-conjugation plural is -ite, not -ete. And dīc, dūc, fac,
+      fer have no final e in the singular — they have to be learned.
+
+  MS-078:
+    status: draft
+    label: Negative commands with noli / nolite plus infinitive
+    explain: >
+      To tell someone not to do something, use nōlī (to one person) or
+      nōlīte (to more than one) with an infinitive.
+    examples:
+      - "Nōlī pugnāre! — Don't fight!"
+      - "Nōlīte timēre! — Don't be afraid! (to a group)"
+      - "Nōlī clāmāre! — Don't shout!"
+    when_wrong: >
+      The second verb stays in the infinitive (-re). Choose nōlī or
+      nōlīte by how many people are being told.

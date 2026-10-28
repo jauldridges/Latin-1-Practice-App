@@ -782,3 +782,5 @@ em.la { font-style: italic; font-weight: 600; color: #3a3428; }
   .lstep.play, .lstep.play .lw, .lstep.play .lw-tag, .lstep.play .lw-note, .lstep.play .lex-english,
   .lstep.play .lex-after, .lstep.play .ltable tr + tr, .lcheck-why, .node.here .node-ring { animation: none; }
 }
+.preview-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.preview-bar form { margin: 0; }
