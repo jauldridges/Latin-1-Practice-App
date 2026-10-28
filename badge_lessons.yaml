@@ -1,0 +1,664 @@
+# The lesson at the start of each grammar badge (lessons.py has the format).
+#
+# Each lesson is short on purpose: what the idea is, one worked example the
+# student watches unfold, a quick check, and the one line to keep. The badge's
+# check comes straight after. Examples use only words from the class
+# vocabulary lists (Unit 2 nouns and verbs from content-vocab-unit02.yaml),
+# with macrons.
+#
+# DRAFT for the teacher (October 2026). Nothing here reaches a student until
+# it is approved at Teacher dashboard -> Grammar badges -> Lessons; editing a
+# lesson afterwards needs approving again.
+
+lessons:
+
+  # ---------------------------------------------------------------- 1
+  origins:
+    steps:
+      - say: |
+          Latin was the language of ancient Rome. It belongs to a big family of languages
+          called **Indo-European**, which also includes Greek, German and English.
+
+          People all across the Roman Empire spoke everyday Latin. Over the centuries,
+          that spoken Latin slowly changed in each place, until it became new languages: **Spanish, Portuguese, French, Italian and Romanian**. These are the
+          **Romance languages**, "Roman" languages.
+      - example:
+          intro: "Watch one Latin word travel. *aqua* means water:"
+          words:
+            - {w: "aqua", tag: "Latin", note: "the ancestor"}
+            - {w: "agua", tag: "Spanish"}
+            - {w: "água", tag: "Portuguese"}
+            - {w: "acqua", tag: "Italian"}
+          english: "The same word, changed a little in each place."
+          after: "English isn't a Romance language, but it borrowed thousands of Latin words: *aquarium*, *aquatic*."
+      - check:
+          ask: "Why do Spanish and Italian look so much alike?"
+          options:
+            a: "Both grew out of the Latin spoken by ordinary Romans."
+            b: "Italian came from Spanish."
+            c: "They are both Germanic languages, like English."
+          answer: a
+          why: "They are sister languages: both are what everyday spoken Latin became over the centuries."
+      - remember: "Latin → Spanish, Portuguese, French, Italian, Romanian. English borrowed Latin words but isn't a Romance language."
+
+  # ---------------------------------------------------------------- 2
+  sounds:
+    steps:
+      - say: |
+          Latin is spelled the way it sounds, and every letter is pronounced. A few letters
+          work differently from English:
+
+          **c** is always hard, like *k*. **g** is always hard, as in *go*. **v** sounds
+          like English *w*. An **i** before a vowel at the start of a word sounds like *y*.
+
+          A line over a vowel, a **macron** (ā), means the vowel is long: hold it a
+          little longer. Two vowels together like **ae** and **au** make one sound, a
+          **diphthong**.
+      - example:
+          intro: "Say each word as it lights up:"
+          words:
+            - {w: "Cicerō", tag: "KIH-keh-roh", note: "c is always hard"}
+            - {w: "vīta", tag: "WEE-tah", note: "v sounds like w"}
+            - {w: "Iūlia", tag: "YOO-lee-ah", note: "i before a vowel = y"}
+            - {w: "Caesar", tag: "KYE-sar", note: "ae sounds like “eye”"}
+          english: "Every letter counts, and it always sounds the same."
+      - table:
+          caption: "Diphthongs: two vowels, one sound"
+          head: ["Latin", "sounds like", "example"]
+          rows:
+            - ["**ae**", "eye", "*puellae*"]
+            - ["**au**", "ow (as in how)", "*nauta*"]
+            - ["**oe**", "oy (as in boy)", "*poena*"]
+      - check:
+          ask: "How do you say the c in *cēna* (dinner)?"
+          options:
+            a: "like k: KAY-nah"
+            b: "like s: SAY-nah"
+            c: "like ch: CHAY-nah"
+          answer: a
+          why: "In Latin, c is always hard, like k — never s or ch."
+      - remember: "c and g are always hard, v = w, a macron means long, ae = eye."
+
+  # ---------------------------------------------------------------- 3
+  syllables:
+    steps:
+      - say: |
+          Every syllable has exactly one vowel or diphthong. To split a word, put a single
+          consonant between two vowels with the **second** syllable, and split two
+          consonants down the middle.
+
+          A syllable is **long** if its vowel is long (has a macron) or is a diphthong, or
+          if its vowel is followed by two consonants. Otherwise it is short.
+      - example:
+          intro: "Where does the stress go? Watch the second-to-last syllable:"
+          words:
+            - {w: "pu·EL·la", tag: "stress EL", note: "e + ll: two consonants make it long"}
+            - {w: "a·MĪ·cus", tag: "stress MĪ", note: "ī has a macron: long"}
+            - {w: "FĒ·mi·na", tag: "stress FĒ", note: "mi is short, so step back one"}
+          english: "Long second-to-last syllable? Stress it. Short? Stress the one before."
+      - check:
+          ask: "Where is the stress in *a·gri·co·la*?"
+          options:
+            a: "a·GRI·co·la"
+            b: "a·gri·CO·la"
+            c: "A·gri·co·la"
+          answer: a
+          why: "The second-to-last syllable, co, is short (short o, one consonant after it), so the stress steps back to GRI."
+      - remember: "Two-syllable words: stress the first. Longer words: stress the second-to-last syllable if it's long; if it's short, the one before it."
+
+  # ---------------------------------------------------------------- 4
+  endings:
+    steps:
+      - say: |
+          In English, **word order** tells you who does what: "The girl calls the sailor"
+          and "The sailor calls the girl" mean different things.
+
+          Latin works differently. Each noun's **ending** shows its job in the sentence.
+          The job is called its **case**. Because the endings carry the meaning, Latin can
+          put its words in almost any order — and it uses order for emphasis instead.
+      - example:
+          intro: "Three orders, one meaning. Watch the endings:"
+          words:
+            - {w: "Puella", tag: "subject", note: "-a: the one doing it"}
+            - {w: "nautam", tag: "object", note: "-am: the one it's done to"}
+            - {w: "vocat.", tag: "verb", note: "calls"}
+          english: "The girl calls the sailor."
+          after: "*Nautam puella vocat.* and *Vocat puella nautam.* mean exactly the same thing. Putting *nautam* first just stresses it: it's the **sailor** she calls."
+      - say: |
+          Small joining words don't change at all: *et* (and), *sed* (but), *aut* (or).
+          And *-que* joins on to the end of the second word: *puella nautaque* = the girl
+          **and** the sailor.
+      - check:
+          ask: "*Nautam vocat puella.* Who is calling?"
+          options:
+            a: "the girl"
+            b: "the sailor"
+          answer: a
+          why: "*puella* has the subject ending -a, so she's the one calling. *nautam* (-am) is the one being called, even though it comes first."
+      - remember: "Read the endings, not the order. The ending tells you the job."
+
+  # ---------------------------------------------------------------- 5
+  subjects-objects:
+    steps:
+      - say: |
+          The two cases you need first:
+
+          The **nominative** is for the **subject**, the one doing the action.
+          The **accusative** is for the **direct object**, the one receiving it.
+
+          Latin has no words for "a", "an" or "the". When you translate, you add them
+          yourself: *puella* can be "a girl" or "the girl".
+      - example:
+          intro: "Ask two questions: who is doing it, and to whom?"
+          words:
+            - {w: "Agricola", tag: "nominative · subject", note: "who calls? the farmer"}
+            - {w: "dominum", tag: "accusative · direct object", note: "calls whom? the master"}
+            - {w: "vocat.", tag: "verb"}
+          english: "The farmer calls the master."
+      - table:
+          caption: "Singular endings so far"
+          head: ["", "-a nouns", "-us nouns"]
+          rows:
+            - ["nominative (subject)", "puell**a**", "domin**us**"]
+            - ["accusative (direct object)", "puell**am**", "domin**um**"]
+      - check:
+          ask: "*Servum puella videt.* What does it mean?"
+          options:
+            a: "The girl sees the slave."
+            b: "The slave sees the girl."
+          answer: a
+          why: "*puella* (-a) is nominative, the subject. *servum* (-um) is accusative, the one being seen."
+      - remember: "Nominative = subject (who does it). Accusative = direct object (who gets it). You supply “a” or “the”."
+
+  # ---------------------------------------------------------------- 6
+  first-declension:
+    steps:
+      - say: |
+          A **declension** is a family of nouns that share the same set of endings. The
+          first declension is the family of nouns ending in **-a**.
+
+          A dictionary lists a noun like this: *puella, puellae, f.* — the nominative, the
+          genitive, and the gender. To find the **stem**, take the genitive and drop its
+          ending: *puellae* → **puell-**. Then add the endings to the stem.
+      - table:
+          caption: "First declension: puella, puellae, f. (girl)"
+          head: ["", "singular", "plural"]
+          rows:
+            - ["nominative", "puell**a**", "puell**ae**"]
+            - ["accusative", "puell**am**", "puell**ās**"]
+      - example:
+          intro: "Plurals work the same way:"
+          words:
+            - {w: "Puellae", tag: "nominative plural · subject", note: "-ae: the girls"}
+            - {w: "aquam", tag: "accusative singular · object", note: "-am: water"}
+            - {w: "portant.", tag: "verb", note: "-nt: they carry"}
+          english: "The girls carry water."
+      - say: |
+          Almost all first-declension nouns are **feminine**. A few that name men's jobs
+          are **masculine**: *nauta* (sailor), *agricola* (farmer), *poēta* (poet).
+      - check:
+          ask: "Which form is accusative plural?"
+          options:
+            a: "*fēminās*"
+            b: "*fēminae*"
+            c: "*fēminam*"
+          answer: a
+          why: "-ās is the accusative plural ending. -ae is nominative plural, -am accusative singular."
+      - remember: "Stem = genitive minus -ae. Endings: -a, -am (singular); -ae, -ās (plural)."
+
+  # ---------------------------------------------------------------- 7
+  second-declension:
+    steps:
+      - say: |
+          The second declension has two kinds of nouns. Most are **masculine**, ending in
+          *-us* (*dominus*) or *-er* (*puer*, *ager*). Others are **neuter**, ending in
+          *-um* (*bellum*, *dōnum*).
+
+          Find the stem from the genitive, as always: *dominī* → domin-, *puerī* → puer-
+          (it keeps the e), *agrī* → agr- (it drops the e).
+      - table:
+          caption: "Second declension"
+          head: ["", "masculine sg", "masculine pl", "neuter sg", "neuter pl"]
+          rows:
+            - ["nominative", "domin**us**", "domin**ī**", "dōn**um**", "dōn**a**"]
+            - ["accusative", "domin**um**", "domin**ōs**", "dōn**um**", "dōn**a**"]
+      - example:
+          intro: "Neuters look the same as subject and object. Let the sentence decide:"
+          words:
+            - {w: "Puer", tag: "nominative · subject", note: "the boy"}
+            - {w: "dōnum", tag: "accusative · object", note: "could be either case — but the boy is already the subject"}
+            - {w: "portat.", tag: "verb", note: "carries"}
+          english: "The boy carries the gift."
+      - check:
+          ask: "*Amīcī oppida spectant.* Which word is the subject?"
+          options:
+            a: "*amīcī*, the friends"
+            b: "*oppida*, the towns"
+          answer: a
+          why: "*amīcī* is masculine nominative plural (-ī). *oppida* is neuter plural, and towns aren't doing the looking — they're being looked at."
+      - remember: "Neuters: nominative and accusative are always the same, and the plural ends in -a. Use the sentence to decide which job."
+
+  # ---------------------------------------------------------------- 8
+  verb-endings:
+    steps:
+      - say: |
+          A Latin verb's ending tells you **who** is doing the action — the person (I, you,
+          he) and the number (one or more). So Latin often doesn't need a separate word for
+          "I" or "they": the ending already says it.
+      - table:
+          caption: "The personal endings"
+          head: ["ending", "who", "example"]
+          rows:
+            - ["**-ō**", "I", "*port**ō*** — I carry"]
+            - ["**-s**", "you", "*portā**s*** — you carry"]
+            - ["**-t**", "he, she, it", "*porta**t*** — he carries"]
+            - ["**-mus**", "we", "*portā**mus*** — we carry"]
+            - ["**-tis**", "you all", "*portā**tis*** — you all carry"]
+            - ["**-nt**", "they", "*porta**nt*** — they carry"]
+      - example:
+          intro: "The verb must match its subject:"
+          words:
+            - {w: "Nautae", tag: "plural subject", note: "the sailors"}
+            - {w: "aquam", tag: "object"}
+            - {w: "portant.", tag: "-nt: they", note: "plural, to match nautae"}
+          english: "The sailors carry water."
+          after: "Without a subject word, *Aquam portant* still means “**They** carry water.”"
+      - check:
+          ask: "What does *laudāmus* mean?"
+          options:
+            a: "we praise"
+            b: "they praise"
+            c: "you all praise"
+          answer: a
+          why: "-mus means “we”."
+      - remember: "-ō I · -s you · -t he/she/it · -mus we · -tis you all · -nt they."
+
+  # ---------------------------------------------------------------- 9
+  conjugations:
+    steps:
+      - say: |
+          A **conjugation** is a family of verbs. A dictionary gives a verb's **principal
+          parts**: *amō, amāre* (I love, to love). The second part, the infinitive, tells
+          you the family: **-āre** = first conjugation, **-ēre** = second conjugation.
+
+          Drop the -re to get the **present stem**: *amāre* → amā-, *vidēre* → vidē-. Then
+          add the personal endings.
+      - table:
+          caption: "Present tense"
+          head: ["", "1st: amāre", "2nd: vidēre"]
+          rows:
+            - ["I", "am**ō**", "vide**ō**"]
+            - ["you", "amā**s**", "vidē**s**"]
+            - ["he, she, it", "ama**t**", "vide**t**"]
+            - ["we", "amā**mus**", "vidē**mus**"]
+            - ["you all", "amā**tis**", "vidē**tis**"]
+            - ["they", "ama**nt**", "vide**nt**"]
+      - example:
+          intro: "One Latin present, three English ones:"
+          words:
+            - {w: "Puella", tag: "subject"}
+            - {w: "silvam", tag: "object"}
+            - {w: "spectat.", tag: "present tense", note: "spectāre: first conjugation"}
+          english: "The girl looks at / is looking at / does look at the forest."
+      - check:
+          ask: "*habeō, habēre* — which conjugation?"
+          options:
+            a: "second"
+            b: "first"
+          answer: a
+          why: "The infinitive ends in -ēre, so it's second conjugation."
+      - remember: "-āre = 1st, -ēre = 2nd. Stem = infinitive minus -re. The present can be “loves,” “is loving” or “does love.”"
+
+  # ---------------------------------------------------------------- 10
+  sum:
+    steps:
+      - say: |
+          *Sum* means “I am.” It's the most common verb in Latin, and it's irregular, so
+          its forms have to be learned by heart.
+
+          *Sum* doesn't do anything to anyone: it **links** the subject to another word that
+          renames or describes it. That word stays in the **nominative**. It's called the
+          **predicate nominative**.
+      - table:
+          caption: "sum, esse (to be)"
+          head: ["", "singular", "plural"]
+          rows:
+            - ["1st", "**sum** — I am", "**sumus** — we are"]
+            - ["2nd", "**es** — you are", "**estis** — you all are"]
+            - ["3rd", "**est** — he/she/it is", "**sunt** — they are"]
+      - example:
+          intro: "Compare an action with a link:"
+          words:
+            - {w: "Fēmina", tag: "subject · nominative"}
+            - {w: "est", tag: "linking verb"}
+            - {w: "poēta.", tag: "predicate nominative", note: "renames the subject, so it stays nominative"}
+          english: "The woman is a poet."
+          after: "With an action verb the second noun changes: *Fēmina poētam laudat* — the woman praises the poet."
+      - check:
+          ask: "Which is right: “The farmer is a sailor”?"
+          options:
+            a: "*Agricola est nauta.*"
+            b: "*Agricola est nautam.*"
+          answer: a
+          why: "After *est* the noun renames the subject, so it stays nominative: *nauta*, not *nautam*."
+      - remember: "sum, es, est, sumus, estis, sunt. After a form of sum: nominative, not accusative."
+
+  # ---------------------------------------------------------------- 11
+  infinitives:
+    steps:
+      - say: |
+          The **infinitive** is the “to ___” form of a verb: *amāre*, to love; *vidēre*, to
+          see. It's the second principal part, and it ends in **-re**.
+
+          Take the -re off and you have the present stem: *amā-*, *vidē-*. Some verbs, like
+          *dēbeō* (I ought), need an infinitive to finish their meaning.
+      - example:
+          intro: "dēbet needs a second verb to be complete:"
+          words:
+            - {w: "Puella", tag: "subject"}
+            - {w: "aquam", tag: "object", note: "of portāre"}
+            - {w: "portāre", tag: "infinitive", note: "to carry"}
+            - {w: "dēbet.", tag: "verb", note: "ought"}
+          english: "The girl ought to carry the water."
+      - check:
+          ask: "What does *vocāre* mean?"
+          options:
+            a: "to call"
+            b: "he calls"
+            c: "they call"
+          answer: a
+          why: "-re is the infinitive ending: “to call.”"
+      - remember: "-re = “to ___.” Drop the -re for the present stem. dēbeō + infinitive = ought to ___."
+
+  # ---------------------------------------------------------------- 12
+  adjective-agreement:
+    steps:
+      - say: |
+          An **adjective** describes a noun. In Latin it must **agree** with its noun: the
+          same **case**, the same **number** (singular or plural), and the same **gender**.
+
+          Many adjectives have three sets of endings, one for each gender:
+          *magnus* (masculine), *magna* (feminine), *magnum* (neuter).
+      - example:
+          intro: "Each adjective matches its noun:"
+          words:
+            - {w: "puella bona", tag: "feminine", note: "a good girl"}
+            - {w: "dominus bonus", tag: "masculine", note: "a good master"}
+            - {w: "dōnum bonum", tag: "neuter", note: "a good gift"}
+          english: "Same adjective, three genders."
+      - example:
+          intro: "Careful: matching doesn't always mean the same letters."
+          words:
+            - {w: "nauta", tag: "masculine noun", note: "first declension, but masculine"}
+            - {w: "bonus", tag: "masculine adjective", note: "agrees in gender, so -us"}
+          english: "a good sailor"
+      - check:
+          ask: "Which fits: *agricola ___* (a big farmer)?"
+          options:
+            a: "*magnus*"
+            b: "*magna*"
+          answer: a
+          why: "*agricola* is masculine, so the adjective is masculine: *magnus*, even though the endings look different."
+      - remember: "An adjective agrees with its noun in case, number and gender — not always in spelling."
+
+  # ---------------------------------------------------------------- 13
+  using-adjectives:
+    steps:
+      - say: |
+          An adjective can sit in two places. **Next to its noun**, it describes it as part
+          of the name: “the good farmer.” **After a linking verb** like *est*, it says
+          something about the subject: “the farmer is good.”
+
+          An adjective can also stand **on its own as a noun**: *bonī* = good men, good
+          people; *multa* = many things.
+      - example:
+          intro: "Same words, two ideas:"
+          words:
+            - {w: "Agricola", tag: "subject"}
+            - {w: "bonus", tag: "next to its noun", note: "“the good farmer”"}
+            - {w: "labōrat.", tag: "verb", note: "works"}
+          english: "The good farmer works."
+          after: "*Agricola est bonus.* = “The farmer **is** good.” Now *bonus* is the predicate."
+      - check:
+          ask: "*Bonōs laudāmus.* What does it mean?"
+          options:
+            a: "We praise good people."
+            b: "We are good."
+            c: "The good men praise us."
+          answer: a
+          why: "*bonōs* stands alone as a noun, “good people,” and it's accusative: the ones we praise."
+      - remember: "Next to a noun: describes it. After est: says it. On its own: it is the noun."
+
+  # ---------------------------------------------------------------- 14
+  talking-to:
+    steps:
+      - say: |
+          To call someone by name, Latin uses the **vocative** case. It usually looks just
+          like the nominative — except for **-us** nouns, which change to **-e**:
+          *Marcus* → *Marce!*, *amīcus* → *amīce!* (And *-ius* names become *-ī*:
+          *fīlius* → *fīlī!*)
+
+          To give an order, use the **imperative**: the present stem for one person
+          (*portā!*), the stem + **-te** for more than one (*portāte!*).
+      - example:
+          intro: "A full command:"
+          words:
+            - {w: "Amīce,", tag: "vocative", note: "amīcus → amīce: “friend!”"}
+            - {w: "aquam", tag: "object"}
+            - {w: "portā!", tag: "imperative, one person", note: "stem portā-"}
+          english: "Friend, carry the water!"
+          after: "To a crowd: *Amīcī, aquam portāte!* — “Friends, carry the water!”"
+      - check:
+          ask: "How do you tell several people “Look!”?"
+          options:
+            a: "*Spectāte!*"
+            b: "*Spectā!*"
+            c: "*Spectant!*"
+          answer: a
+          why: "The plural imperative is the stem + -te: *spectāte*. (*Spectant* means “they look.”)"
+      - remember: "Vocative: like the nominative, but -us → -e. Command: stem (one), stem + -te (more than one)."
+
+  # ---------------------------------------------------------------- 15
+  genitive:
+    steps:
+      - say: |
+          The **genitive** case means **“of.”** It shows who owns something or what
+          something belongs to: *ager agricolae* = the field of the farmer, the farmer's
+          field.
+
+          It also says “of” after words of amount: *multum aquae* = a lot **of** water.
+      - table:
+          caption: "Genitive endings"
+          head: ["", "singular", "plural"]
+          rows:
+            - ["1st declension", "puell**ae** — of the girl", "puell**ārum** — of the girls"]
+            - ["2nd declension", "domin**ī** — of the master", "domin**ōrum** — of the masters"]
+      - example:
+          intro: "Find the “of” word:"
+          words:
+            - {w: "Fīlia", tag: "subject"}
+            - {w: "agricolae", tag: "genitive", note: "of the farmer"}
+            - {w: "aquam", tag: "object"}
+            - {w: "portat.", tag: "verb"}
+          english: "The farmer's daughter carries water."
+      - say: |
+          Watch out: in the first declension, *puellae* can be **genitive singular** (of the
+          girl) or **nominative plural** (the girls). The rest of the sentence tells you
+          which.
+      - check:
+          ask: "*Puellae nautās vocant.* Is *puellae* genitive here?"
+          options:
+            a: "No — it's the subject: “The girls call the sailors.”"
+            b: "Yes — “of the girl.”"
+          answer: a
+          why: "*vocant* needs a plural subject, and *puellae* is the only nominative plural in the sentence."
+      - remember: "Genitive = “of”: -ae / -ārum, -ī / -ōrum."
+
+  # ---------------------------------------------------------------- 16
+  dative:
+    steps:
+      - say: |
+          The **dative** case means **“to”** or **“for.”** Its main job is the **indirect
+          object**: the person something is given, shown or told **to**.
+
+          A few verbs take the dative instead of the accusative, like *pāreō* (I obey).
+          And *est* + dative says someone has something: *Agricolae est ager* = “To the
+          farmer there is a field” = the farmer has a field.
+      - table:
+          caption: "Dative endings"
+          head: ["", "singular", "plural"]
+          rows:
+            - ["1st declension", "puell**ae** — to the girl", "puell**īs** — to the girls"]
+            - ["2nd declension", "domin**ō** — to the master", "domin**īs** — to the masters"]
+      - example:
+          intro: "Three nouns, three jobs:"
+          words:
+            - {w: "Agricola", tag: "nominative · subject", note: "who gives?"}
+            - {w: "puellae", tag: "dative · indirect object", note: "to whom?"}
+            - {w: "dōnum", tag: "accusative · direct object", note: "gives what?"}
+            - {w: "dat.", tag: "verb", note: "gives"}
+          english: "The farmer gives a gift to the girl."
+      - check:
+          ask: "*Nauta poētīs fābulam nārrat.* Who hears the story?"
+          options:
+            a: "the poets"
+            b: "the sailor"
+          answer: a
+          why: "*poētīs* is dative plural: the story is told **to** the poets. The sailor (*nauta*) is the one telling it."
+      - remember: "Dative = “to/for”: -ae / -īs, -ō / -īs. Ask “to whom?”"
+
+  # ---------------------------------------------------------------- 17
+  third-declension:
+    steps:
+      - say: |
+          The third declension is a big family whose nominative singular can look like
+          almost anything: *rēx* (king), *mīles* (soldier), *pater* (father). So you **must**
+          learn the genitive, which ends in **-is** and shows the stem: *rēgis* → rēg-,
+          *mīlitis* → mīlit-.
+
+          Gender can't be guessed from the ending either: learn it with the word. And
+          adjectives still agree in case, number and gender: *rēx bonus*.
+      - table:
+          caption: "Third declension: rēx, rēgis, m. (king)"
+          head: ["", "singular", "plural"]
+          rows:
+            - ["nominative", "rēx", "rēg**ēs**"]
+            - ["genitive", "rēg**is**", "rēg**um**"]
+            - ["dative", "rēg**ī**", "rēg**ibus**"]
+            - ["accusative", "rēg**em**", "rēg**ēs**"]
+      - example:
+          intro: "Find the stem, then read the endings:"
+          words:
+            - {w: "Rēx", tag: "nominative · subject", note: "the king"}
+            - {w: "mīlitem", tag: "accusative · object", note: "stem mīlit- + -em"}
+            - {w: "vocat.", tag: "verb"}
+          english: "The king calls the soldier."
+      - check:
+          ask: "What is the stem of *pater, patris* (father)?"
+          options:
+            a: "*patr-*"
+            b: "*pater-*"
+          answer: a
+          why: "The stem comes from the genitive: *patris* minus -is = *patr-*."
+      - remember: "Learn the genitive: it gives the stem. Singular -is, -ī, -em; plural -ēs, -um, -ibus, -ēs."
+
+  # ---------------------------------------------------------------- 18
+  third-neuters-istems:
+    steps:
+      - say: |
+          Third-declension **neuters** follow the neuter rule you already know: the
+          nominative and accusative are the same, and the plural ends in **-a**:
+          *corpus* (body) → *corpora* (bodies).
+
+          **i-stem** nouns add an **i** in a few places — most noticeably the genitive
+          plural, **-ium** instead of -um: *cīvis* → *cīvium* (of the citizens).
+      - table:
+          caption: "corpus, corporis, n. (body)"
+          head: ["", "singular", "plural"]
+          rows:
+            - ["nominative", "corpus", "corpor**a**"]
+            - ["genitive", "corpor**is**", "corpor**um**"]
+            - ["dative", "corpor**ī**", "corpor**ibus**"]
+            - ["accusative", "corpus", "corpor**a**"]
+      - example:
+          intro: "Spotting an i-stem:"
+          words:
+            - {w: "cīvis, cīvis", tag: "same syllables", note: "nominative and genitive the same length"}
+            - {w: "urbs, urbis", tag: "two consonants", note: "stem ends in two consonants: urb-"}
+            - {w: "mare, maris", tag: "neuter in -e", note: "plural maria, “seas”"}
+          english: "These are i-stems: genitive plurals cīvium, urbium, marium."
+      - check:
+          ask: "Which is the genitive plural of *urbs* (city)?"
+          options:
+            a: "*urbium*"
+            b: "*urbum*"
+          answer: a
+          why: "*urbs* is an i-stem (its stem *urb-* ends in two consonants), so its genitive plural is -ium."
+      - remember: "Neuters: nominative = accusative, plural in -a. i-stems: genitive plural -ium."
+
+  # ---------------------------------------------------------------- 19
+  third-fourth-conjugation:
+    steps:
+      - say: |
+          Two more verb families. The **third conjugation** has an infinitive in short
+          **-ere**: *dūcō, dūcere* (to lead). The **fourth** has **-īre**: *audiō, audīre*
+          (to hear). Some third-conjugation verbs keep an **i** like the fourth: *capiō,
+          capere* (to take).
+
+          So the infinitive sorts every verb: **-āre** 1st, **-ēre** 2nd, **-ere** 3rd,
+          **-īre** 4th.
+      - table:
+          caption: "Present tense"
+          head: ["", "3rd: dūcere", "3rd -iō: capere", "4th: audīre"]
+          rows:
+            - ["I", "dūc**ō**", "capi**ō**", "audi**ō**"]
+            - ["you", "dūc**is**", "cap**is**", "audī**s**"]
+            - ["he, she, it", "dūc**it**", "cap**it**", "audi**t**"]
+            - ["we", "dūc**imus**", "cap**imus**", "audī**mus**"]
+            - ["you all", "dūc**itis**", "cap**itis**", "audī**tis**"]
+            - ["they", "dūc**unt**", "capi**unt**", "audi**unt**"]
+      - example:
+          intro: "Read the ending, then the family:"
+          words:
+            - {w: "Rēx", tag: "subject"}
+            - {w: "mīlitēs", tag: "object, plural"}
+            - {w: "dūcit.", tag: "3rd conjugation", note: "-it: he leads"}
+          english: "The king leads the soldiers."
+      - check:
+          ask: "*veniō, venīre* (to come) — which conjugation?"
+          options:
+            a: "fourth"
+            b: "third"
+          answer: a
+          why: "The infinitive ends in long -īre, so it's fourth conjugation."
+      - remember: "-āre 1st · -ēre 2nd · -ere 3rd · -īre 4th. 3rd-conjugation “they” is -unt; 4th and -iō verbs: -iunt."
+
+  # ---------------------------------------------------------------- 20
+  more-commands:
+    steps:
+      - say: |
+          Commands in the third and fourth conjugations work the same way, with one change:
+          the third-conjugation short **-e** becomes **-i-** before **-te**.
+          *mitte!* (send!, one person) → *mittite!* (send!, more than one); *audī!* →
+          *audīte!*
+
+          Three common verbs drop their -e for one person: *dīc!* (say!), *dūc!* (lead!),
+          *fac!* (do, make!).
+
+          To say “Don't!”, use *nōlī* (one person) or *nōlīte* (more) + an infinitive.
+      - example:
+          intro: "“Don't” is nōlī + “to ___”:"
+          words:
+            - {w: "Nōlī", tag: "don't (one person)", note: "literally “be unwilling”"}
+            - {w: "pugnāre!", tag: "infinitive", note: "to fight"}
+          english: "Don't fight!"
+          after: "To a group: *Nōlīte pugnāre!*"
+      - check:
+          ask: "How do you tell one friend “Listen!”?"
+          options:
+            a: "*Audī!*"
+            b: "*Audīte!*"
+            c: "*Nōlī audīre!*"
+          answer: a
+          why: "One person: the stem, *audī!* (*Audīte!* is for more than one, and *Nōlī audīre!* means “Don't listen!”)"
+      - remember: "Command: stem (one), -ite / -īte (more). dīc, dūc, fac. Don't = nōlī / nōlīte + infinitive."

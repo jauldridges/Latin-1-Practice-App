@@ -22,6 +22,7 @@ import zipfile
 import yaml
 from flask import (Flask, g, redirect, render_template, request, Response,
                    session, url_for, abort)
+from markupsafe import Markup
 
 import analysis
 import auth
@@ -32,6 +33,7 @@ import dataio
 import drill
 import fsrs
 import identity
+import lessons
 import practice
 import quiz as quizlib
 import goals
@@ -1671,6 +1673,7 @@ def badge_map(db, student, now=None):
             start_here = b["id"]
             break
     family = {r["id"]: r["label"] for r in _BADGE_ROWS}
+    approvals = store.teaching_approvals(db)
     direct = badges.direct_foundations(_BADGES, _SPEC)
     level = badges.levels(_BADGES, _SPEC)
     cards = {}
@@ -1684,7 +1687,9 @@ def badge_map(db, student, now=None):
              "builds_on": [_BADGE_BY_ID[p]["title"] for p in direct[b["id"]]],
              "parents": direct[b["id"]],
              "questions": len(badges.pool(b, approved, taught)),
-             "start_here": b["id"] == start_here, "earned": False, "due": False}
+             "start_here": b["id"] == start_here, "earned": False, "due": False,
+             "n": _LESSON_NO[b["id"]],
+             "lesson": lesson_for(db, b["id"], approvals) is not None}
         if c["available"]:
             c.update(st[b["id"]])
             card = fsrs.replay(badges.markers(events, b["id"], until=now + 1))
@@ -1710,6 +1715,99 @@ def badge_map(db, student, now=None):
             "refresh": [b["id"] for b in order if st[b["id"]]["due"]],
             "n_available": len(avail),
             "n_up_to_date": sum(1 for b in avail if st[b]["up_to_date"])}
+
+
+_LESSONS = lessons.load()
+_LESSON_NO = lessons.numbered(_BADGES, _SPEC, badges.first_taught)
+
+
+def lesson_for(db, bid, approvals=None):
+    """The badge's lesson if the teacher approved this wording, else None."""
+    lesson = _LESSONS.get(bid)
+    if lesson is None:
+        return None
+    approvals = approvals if approvals is not None else store.teaching_approvals(db)
+    return lesson if approvals.get(lessons.key(bid)) == lessons.fingerprint(lesson) else None
+
+
+def _lesson_steps(lesson):
+    """The steps, ready for the page: text already turned into safe HTML."""
+    out = []
+    for st in lesson["steps"]:
+        k = lessons.kind(st)
+        v = st[k]
+        if k == "say":
+            out.append({"kind": k, "paras": [Markup(p) for p in lessons.paragraphs(v)]})
+        elif k == "remember":
+            out.append({"kind": k, "text": Markup(lessons.inline(v))})
+        elif k == "example":
+            out.append({"kind": k, "intro": Markup(lessons.inline(v.get("intro"))),
+                        "words": [{"w": w.get("w", ""), "tag": w.get("tag", ""),
+                                   "note": Markup(lessons.inline(w.get("note", "")))}
+                                  for w in v.get("words") or []],
+                        "english": Markup(lessons.inline(v.get("english"))),
+                        "after": Markup(lessons.inline(v.get("after", "")))})
+        elif k == "table":
+            out.append({"kind": k, "caption": Markup(lessons.inline(v.get("caption", ""))),
+                        "head": [Markup(lessons.inline(h)) for h in v.get("head") or []],
+                        "rows": [[Markup(lessons.inline(c)) for c in r] for r in v.get("rows") or []]})
+        elif k == "check":
+            out.append({"kind": k, "ask": Markup(lessons.inline(v.get("ask"))),
+                        "options": [(o, Markup(lessons.inline(t)))
+                                    for o, t in (v.get("options") or {}).items()],
+                        "answer": v.get("answer"), "why": Markup(lessons.inline(v.get("why")))})
+    return out
+
+
+@app.route("/badges/<bid>/lesson")
+def badge_lesson(bid):
+    """The lesson before a badge: a few steps, one at a time, then the check."""
+    db = get_db()
+    b = _BADGE_BY_ID.get(bid)
+    if b is None:
+        abort(404)
+    student = current_student()
+    teacher_view = auth.is_teacher()
+    lesson = lesson_for(db, bid) or (_LESSONS.get(bid) if teacher_view else None)
+    if lesson is None:
+        return redirect(url_for("badge_map_page") + "#b-" + bid)
+    events = store.events_for_student(db, student) if student else []
+    approved = lesson_for(db, bid) is not None
+    family = {r["id"]: r["label"] for r in _BADGE_ROWS}.get(b["row"], "")
+    return render_template("badge_lesson.html", b=b, steps=_lesson_steps(lesson),
+                           number=_LESSON_NO[bid], total=len(_BADGES), family=family,
+                           bst=badges.status(events, bid) if student else None,
+                           student=student, preview=teacher_view and not student,
+                           approved=approved)
+
+
+@app.route("/teacher/lessons", methods=["GET", "POST"])
+def teacher_lessons():
+    """Every badge lesson in course order, to preview and approve."""
+    db = get_db()
+    if request.method == "POST":
+        action, bid = request.form.get("action"), request.form.get("id", "")
+        if action == "approve_all":
+            for k, l in _LESSONS.items():
+                if not lessons.problems(l):
+                    store.approve_teaching(db, lessons.key(k), lessons.fingerprint(l))
+        elif bid in _LESSONS and action == "approve" and not lessons.problems(_LESSONS[bid]):
+            store.approve_teaching(db, lessons.key(bid), lessons.fingerprint(_LESSONS[bid]))
+        elif bid in _LESSONS and action == "withdraw":
+            store.unapprove_teaching(db, lessons.key(bid))
+        return redirect(url_for("teacher_lessons") + ("#l-" + bid if bid else ""))
+    approvals = store.teaching_approvals(db)
+    rows = []
+    for b in sorted(_BADGES, key=lambda x: _LESSON_NO[x["id"]]):
+        l = _LESSONS.get(b["id"])
+        got = approvals.get(lessons.key(b["id"]))
+        state = ("missing" if l is None else "approved" if got == lessons.fingerprint(l)
+                 else "changed" if got else "draft")
+        rows.append({"b": b, "n": _LESSON_NO[b["id"]], "state": state,
+                     "steps": len(l["steps"]) if l else 0,
+                     "problems": lessons.problems(l) if l else []})
+    return render_template("teacher_lessons.html", rows=rows,
+                           n_approved=sum(1 for r in rows if r["state"] == "approved"))
 
 
 @app.route("/teacher/badges")
@@ -1830,9 +1928,12 @@ def badge_done(bid):
         node = row["node_id"] if row else ""
         questions.append({"ok": ok, "label": _NODE_LABEL.get(node, node), "node": node})
     m = badge_map(db, student)
+    nxt = m["start_here"] and _BADGE_BY_ID[m["start_here"]]
     return render_template("badge_done.html", b=_BADGE_BY_ID[bid], r=last,
                            st=badges.status(events, bid), questions=questions,
-                           start_here=m["start_here"] and _BADGE_BY_ID[m["start_here"]],
+                           start_here=nxt, next_no=nxt and _LESSON_NO[nxt["id"]],
+                           next_lesson=bool(nxt and lesson_for(db, nxt["id"])),
+                           has_lesson=lesson_for(db, bid) is not None,
                            refresh=[_BADGE_BY_ID[x] for x in m["refresh"]])
 
 

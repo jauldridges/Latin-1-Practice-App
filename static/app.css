@@ -717,3 +717,68 @@ tr.rushrow td { background: #fcf0f0; }
 .starthere { background: var(--card); border: 2px solid var(--accent); border-radius: 14px; padding: 12px 14px; margin: 10px 0 6px; }
 .starthere .sh-title { font-size: 20px; font-weight: 800; }
 .badgebar { background: #eef5f0; color: var(--solid); border-radius: 10px; padding: 6px 10px; margin: 6px 0 10px; font-size: 15px; }
+
+/* ---- Badge lessons ---------------------------------------------------------- */
+.lesson-head h1 { margin: 2px 0 8px; }
+.lprog { height: 8px; border-radius: 4px; background: #e8e4dd; overflow: hidden; }
+.lprog span { display: block; height: 100%; width: 0; background: var(--accent); transition: width .5s ease; }
+#lcount { margin: 4px 0 6px; }
+.lstep { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px;
+  margin: 12px 0; font-size: 17px; line-height: 1.55; scroll-margin-top: 12px; }
+.lstep p { margin: 0 0 10px; }
+.lstep p:last-child { margin-bottom: 0; }
+.lesson.js .lstep { display: none; }
+.lesson.js .lstep.shown { display: block; }
+.lstep.play { animation: lstepin .45s ease both; }
+@keyframes lstepin { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+em.la { font-style: italic; font-weight: 600; color: #3a3428; }
+.lex-label { font-size: 12px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.lex-intro { color: var(--muted); }
+/* Each box is as wide as its Latin word -- a word is never broken -- and its
+   labels wrap underneath (width 0 + min-width 100% keeps them from widening it).
+   A sentence too long for the screen wraps between words. */
+.lex { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 12px 0 10px; }
+.lw { flex: 0 0 auto; min-width: 92px; display: flex; flex-direction: column; align-items: stretch;
+  text-align: center; padding: 6px 5px 8px; border-radius: 12px; }
+.lw-latin { font-size: clamp(17px, 5.2vw, 22px); font-weight: 700; font-style: italic; white-space: nowrap; }
+.lw-tag, .lw-note { width: 0; min-width: 100%; }
+.lw-tag { margin-top: 4px; font-size: 12.5px; line-height: 1.25; font-weight: 700; color: #fff; background: var(--accent);
+  border-radius: 10px; padding: 3px 5px; }
+.lw-note { margin-top: 4px; font-size: 13px; line-height: 1.3; color: var(--muted); }
+.lex-english { text-align: center; font-size: 18px; font-weight: 600; margin: 4px 0 8px; }
+.lex-after { font-size: 15.5px; }
+.lreplay { display: block; margin: 6px auto 0; }
+/* The worked example unfolds: each word lights up, its label drops in, then the English. */
+.lstep.play .lw { animation: lwlight 1s ease both; animation-delay: calc(var(--i) * 1.1s + .3s); }
+.lstep.play .lw-tag, .lstep.play .lw-note { animation: lwdrop .45s ease both; animation-delay: calc(var(--i) * 1.1s + .65s); }
+.lstep.play .lex-english, .lstep.play .lex-after { animation: lwfade .6s ease both; animation-delay: calc(var(--n) * 1.1s + .5s); }
+@keyframes lwlight { 0% { background: transparent; } 35% { background: #fbf1d6; } 100% { background: #f6f3ec; } }
+@keyframes lwdrop { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+@keyframes lwfade { from { opacity: 0; } to { opacity: 1; } }
+.ltable-wrap { overflow-x: auto; }
+.ltable { border-collapse: collapse; width: 100%; font-size: 15.5px; }
+.ltable th { text-align: left; font-size: 13px; color: var(--muted); font-weight: 700; padding: 4px 8px; border-bottom: 2px solid var(--line); }
+.ltable td { padding: 6px 8px; border-bottom: 1px solid var(--line); }
+.ltable td strong { color: var(--accent); }
+.lstep.play .ltable tr + tr { animation: lwdrop .4s ease both; animation-delay: calc(var(--i) * .35s + .2s); }
+.lcheck-ask { font-weight: 650; }
+.lcheck-opts { display: flex; flex-direction: column; gap: 8px; }
+.lopt { text-align: left; font: inherit; font-size: 16.5px; padding: 10px 14px; border-radius: 12px;
+  border: 2px solid var(--line); background: #faf9f6; color: var(--ink); cursor: pointer; }
+.lopt:hover { border-color: #cfc9bf; }
+.lopt.right { border-color: var(--right); background: #eef5f0; }
+.lopt.wrong { border-color: var(--wrong); background: #fbeeee; }
+.lcheck-why { margin-top: 10px; padding: 10px 12px; border-radius: 10px; font-size: 15.5px; animation: lwdrop .35s ease both; }
+.lcheck-why.right { background: #eef5f0; }
+.lcheck-why.wrong { background: #fbf1d6; }
+.lremember { display: flex; gap: 12px; align-items: flex-start; }
+.lr-icon { flex: none; width: 34px; height: 34px; border-radius: 50%; background: #fbf1d6; color: var(--shaky);
+  display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.lstep-remember { border-color: #e9cf8a; background: #fffaf0; font-weight: 600; }
+.lfinish { border: 2px solid var(--accent); }
+.lnav { position: sticky; bottom: 0; padding: 10px 0 12px; background: linear-gradient(to bottom, rgba(246,245,242,0), var(--bg) 30%); }
+.lnav .bigbtn[disabled] { opacity: .55; cursor: default; }
+@media (prefers-reduced-motion: reduce) {
+  .lstep.play, .lstep.play .lw, .lstep.play .lw-tag, .lstep.play .lw-note, .lstep.play .lex-english,
+  .lstep.play .lex-after, .lstep.play .ltable tr + tr, .lcheck-why, .node.here .node-ring { animation: none; }
+}

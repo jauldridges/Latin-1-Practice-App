@@ -8,7 +8,8 @@
   taught: {{ earn }} to earn it (five right), {{ refresh }} to refresh it (two right). A badge with
   few approved questions repeats them — approving more in the Review tool fixes that.
   To regroup, rename or reorder, tell Claude; the list lives in <code>badges.yaml</code>.</p>
-<p><a class="bigbtn secondary" href="{{ url_for('badge_map_page') }}">See the map as students do</a>
+<p><a class="bigbtn" href="{{ url_for('teacher_lessons') }}">Badge lessons — preview and approve</a>
+  <a class="bigbtn secondary" href="{{ url_for('badge_map_page') }}">See the map as students do</a>
   <a class="bigbtn secondary" href="{{ url_for('teacher_deadlines') }}">{{ 'Badges are on' if on else 'Switch badges on' }} (Goals &amp; deadlines)</a></p>
 
 {% for row in rows %}

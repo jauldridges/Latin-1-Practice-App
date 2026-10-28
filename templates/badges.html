@@ -29,11 +29,15 @@
 {% if student and m.start_here %}
   {% for b in m.cards if b.start_here %}
   <div class="starthere">
-    <div class="small muted">Start here</div>
+    <div class="small muted">Start here · Lesson {{ b.n }}</div>
     <div class="sh-title">{{ b.title }}</div>
     <p class="small" style="margin:4px 0 8px">{{ b.about }}</p>
+    {% if b.lesson %}
+    <a class="bigbtn" href="{{ url_for('badge_lesson', bid=b.id) }}">Start lesson {{ b.n }}</a>
+    {% else %}
     <form method="post" action="{{ url_for('badge_start', bid=b.id) }}">
       <button class="bigbtn" type="submit">Earn this badge</button></form>
+    {% endif %}
   </div>
   {% endfor %}
 {% endif %}
@@ -51,7 +55,7 @@
               id="n-{{ b.id }}" data-id="{{ b.id }}" data-parents="{{ b.parents | join(' ') }}"
               aria-controls="pop-{{ b.id }}" aria-expanded="false" title="{{ b.title }}">
         <span class="node-ring" style="--left: {{ ((b.left if b.earned and not b.due and b.left is not none else (1 if b.due or b.earned else 0)) * 360) | round | int }}deg">
-          <span class="node-icon">{{ '⟳' if b.due else ('✓' if b.earned else ('·' if not b.available else '')) }}</span></span>
+          <span class="node-icon">{{ '⟳' if b.due else ('✓' if b.earned else b.n) }}</span></span>
         {% if b.id in todo %}<span class="todo-dot" aria-label="to do this week"></span>{% endif %}
         <span class="node-name">{{ b.title }}</span>
       </button>
@@ -62,7 +66,7 @@
   {% for b in m.cards %}
   <div class="bpop" id="pop-{{ b.id }}" role="dialog" aria-label="{{ b.title }}" hidden>
     <button type="button" class="bpop-close" aria-label="Close">✕</button>
-    <div class="small muted">{{ b.family }}</div>
+    <div class="small muted">Lesson {{ b.n }} · {{ b.family }}</div>
     <div class="bpop-title">{{ b.title }}</div>
     {% if b.unready %}
       <div class="small bpop-state">Its questions aren't ready yet — it will open soon.</div>
@@ -77,10 +81,16 @@
     <p class="bpop-about">{{ b.about }}</p>
     {% if b.builds_on %}<p class="small muted">Builds on: {{ b.builds_on | join(', ') }}.</p>{% endif %}
     {% if b.available and student %}
-      <form method="post" action="{{ url_for('badge_start', bid=b.id) }}">
-        <button class="bigbtn" type="submit">{{ 'Refresh it' if b.due else ('Check it again' if b.earned else 'Earn this badge') }}</button></form>
+      {% if b.lesson and not b.earned %}
+        <a class="bigbtn" href="{{ url_for('badge_lesson', bid=b.id) }}">Start lesson {{ b.n }}</a>
+      {% else %}
+        <form method="post" action="{{ url_for('badge_start', bid=b.id) }}">
+          <button class="bigbtn" type="submit">{{ 'Refresh it' if b.due else ('Check it again' if b.earned else 'Earn this badge') }}</button></form>
+        {% if b.lesson %}<p class="small" style="text-align:center;margin:6px 0 0"><a href="{{ url_for('badge_lesson', bid=b.id) }}">Read lesson {{ b.n }} again</a></p>{% endif %}
+      {% endif %}
     {% elif b.available %}
-      <p class="small muted">{{ b.questions }} approved question{{ '' if b.questions == 1 else 's' }}.</p>
+      <p class="small muted">{{ b.questions }} approved question{{ '' if b.questions == 1 else 's' }} ·
+        <a href="{{ url_for('badge_lesson', bid=b.id) }}">preview lesson {{ b.n }}</a></p>
     {% endif %}
   </div>
   {% endfor %}
@@ -89,18 +99,18 @@
 <ul class="tree-key small muted">
   <li><span class="key earned">✓</span> earned — the green ring shrinks as it fades</li>
   <li><span class="key due">⟳</span> needs a refresh</li>
-  <li><span class="key notyet"></span> not yet earned</li>
+  <li><span class="key notyet">5</span> not yet earned — the number is its lesson</li>
   <li><span class="key coming"></span> coming soon</li>
 </ul>
 
 <details class="week treelist">
   <summary><span class="week-name">All badges as a list</span></summary>
   <ul class="recwords">
-  {% for level in m.tree %}{% for b in level %}
-    <li><strong>{{ b.title }}</strong>
+  {% for b in m.cards | sort(attribute='n') %}
+    <li><strong>{{ b.n }}. {{ b.title }}</strong>
       <span class="small muted">— {% if b.unready %}questions coming soon{% elif not b.available %}coming {{ b.coming }}{% elif not student %}{{ b.questions }} questions{% elif b.due %}needs a refresh{% elif b.earned %}{{ b.state }}, {{ b.days_left }} days left{% else %}not yet{% endif %}</span>
       <div class="small">{{ b.about }}</div></li>
-  {% endfor %}{% endfor %}
+  {% endfor %}
   </ul>
 </details>
 

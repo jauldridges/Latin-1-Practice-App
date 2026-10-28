@@ -24,9 +24,12 @@
 {% elif refresh %}
 <form method="post" action="{{ url_for('badge_start', bid=refresh[0].id) }}">
   <button class="bigbtn" type="submit">Next: refresh {{ refresh[0].title }}</button></form>
+{% elif start_here and next_lesson %}
+<a class="bigbtn" href="{{ url_for('badge_lesson', bid=start_here.id) }}">Next: Lesson {{ next_no }} · {{ start_here.title }}</a>
 {% elif start_here %}
 <form method="post" action="{{ url_for('badge_start', bid=start_here.id) }}">
   <button class="bigbtn" type="submit">Next: {{ start_here.title }}</button></form>
 {% endif %}
+{% if not r.passed and has_lesson %}<a class="bigbtn secondary" href="{{ url_for('badge_lesson', bid=b.id) }}">Read the lesson again</a>{% endif %}
 <a class="bigbtn secondary" href="{{ url_for('badge_map_page') }}">Back to the map</a>
 {% endblock %}

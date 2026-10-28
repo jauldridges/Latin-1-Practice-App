@@ -23,7 +23,7 @@ dashboard for who's practicing and what they don't know.
 - Python 3.9-compatible, no build step, mobile-first server-rendered HTML.
   It has to work on a school Chromebook at home when I'm not there.
 - Run the full test suite before you tell me something's done. It should be
-  ~700 passing (about 14 skip unless a local Postgres is running).
+  ~711 passing (about 14 skip unless a local Postgres is running).
 - Never say "mastery" to a student. The words are solid / shaky / not yet.
 - American spelling: "practice" for noun and verb, never the British -ise form (a test enforces it).
 - School time zone is Eastern (Massachusetts); `schooltime.py` sets it.
@@ -75,7 +75,10 @@ topics), each earned with a 6-question check and kept with 3-question
 refreshes as it fades. From the switch-over week the homework is 50 vocab cards
 plus every badge up to date. New topics need a place in `badges.yaml` (a test
 checks every Unit 0-2 grammar topic is in exactly one badge -- extend it to
-Unit 3 when those topics are written). Next planned: a weekly diagnostic
+Unit 3 when those topics are written). Each badge opens with a lesson (`badge_lessons.yaml`): explanation, animated worked
+example, quick check, one line to remember; I approve them at Grammar badges ->
+Badge lessons. A new badge needs a lesson too (a test checks every badge has one).
+Next planned: a weekly diagnostic
 sentence (translate, check against a model in pieces, plus tap-to-label) that
 points to the badges to study, then a class-by-badges grid for me.
 

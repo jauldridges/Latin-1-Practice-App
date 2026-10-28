@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block subtitle %}badge lessons{% endblock %}
+{% block content %}
+<p class="small"><a href="{{ url_for('teacher_badges') }}">← Grammar badges</a></p>
+<h1>Badge lessons</h1>
+<p class="small muted">Before a badge's first check, a student works through its lesson: a short
+  explanation, a worked example that animates, a quick check, and one line to remember. Students
+  see a lesson only once you approve it; until then the badge starts straight at its check.
+  Preview each one as a student sees it. To change the wording, tell Claude — the lessons live in
+  <code>badge_lessons.yaml</code>, and a changed lesson needs approving again.</p>
+
+<div class="audio-progress"><strong>{{ n_approved }}</strong> of {{ rows | length }} lessons approved</div>
+{% if n_approved < rows | length %}
+<form method="post" onsubmit="return confirm('Approve every lesson as it reads now?')">
+  <input type="hidden" name="action" value="approve_all">
+  <button class="bigbtn secondary" type="submit">Approve all {{ rows | length - n_approved }} not yet approved</button>
+</form>
+{% endif %}
+
+<table class="progress">
+  <tr><th>Lesson</th><th>State</th><th></th></tr>
+  {% for r in rows %}
+  <tr id="l-{{ r.b.id }}">
+    <td><strong>{{ r.n }}.</strong> {{ r.b.title }}<div class="small muted">{{ r.steps }} steps</div>
+      {% if r.problems %}<div class="flags small"><span class="lvl error">problem</span> {{ r.problems | join('; ') }}</div>{% endif %}</td>
+    <td>{% if r.state == 'approved' %}<span class="pill solid">approved</span>
+      {% elif r.state == 'changed' %}<span class="pill shaky">changed since approval</span>
+      {% elif r.state == 'missing' %}<span class="pill notyet">no lesson</span>
+      {% else %}<span class="pill notyet">not yet approved</span>{% endif %}</td>
+    <td style="white-space:nowrap">
+      {% if r.state != 'missing' %}
+      <a class="minibtn" href="{{ url_for('badge_lesson', bid=r.b.id) }}">Preview</a>
+      <form method="post" class="inline"><input type="hidden" name="id" value="{{ r.b.id }}">
+        {% if r.state == 'approved' %}<button class="minibtn del" name="action" value="withdraw" type="submit">Withdraw</button>
+        {% elif not r.problems %}<button class="minibtn" name="action" value="approve" type="submit">Approve</button>{% endif %}
+      </form>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

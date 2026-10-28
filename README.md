@@ -83,9 +83,10 @@ start clean.
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
 | `rush.py` | The three "rushed" rules, sittings, and the dashboard flag. |
 | `magister.py`, `magister.yaml` | The cartoon Magister and his lines (teacher-approved). |
+| `lessons.py`, `badge_lessons.yaml` | The lesson at the start of each badge (teacher-approved). |
 | `badges.py`, `badges.yaml` | Grammar badges: the map, checks, fading, and the homework rule. |
 | `analysis.py` | Data for analysis: the zip of spreadsheets split around an exam. |
-| `tests/` | 700 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 711 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -491,6 +492,19 @@ keeps it. A first pass holds about 3 days, then about 10, a month, and so on.
 "Right" is the app's own check (right or close); only a question the app can't
 check uses the student's grade. Questions are picked across topics, least
 recently seen first, so a retake asks different ones where the badge has them.
+
+**Lessons.** Each badge opens with a short lesson (`badge_lessons.yaml`,
+`lessons.py`), numbered in teaching order ("Lesson 5 of 20"): a few steps shown
+one at a time -- the idea in two or three sentences, a worked example that
+animates (each Latin word lights up and its label drops in, then the English),
+an endings table whose rows appear one by one, a one-tap quick check answered
+on the page (never recorded), and one line to remember -- then "Start the
+check". The not-yet circles on the map show their lesson number; a passed
+badge offers "Next: Lesson 6". Refreshes skip the lesson, but "Read lesson 5
+again" is always there. Lessons need the teacher's approval (Teacher dashboard
+-> Grammar badges -> Badge lessons; fingerprint under `lesson:<id>`); without
+one, a badge starts at its check. Examples use only class vocabulary.
+`tests/test_lessons.py`.
 
 A finished check is one event (`badge:<id>`, context `badge`, score in
 `response`); the questions inside it are ordinary practice events. The record
@@ -1195,7 +1209,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-700 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+711 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

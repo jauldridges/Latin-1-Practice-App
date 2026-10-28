@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block subtitle %}lesson {{ number }}{% endblock %}
+{% block content %}
+{# The lesson before a badge (lessons.py): one step at a time, like a class.
+   Without JavaScript every step simply shows, in order. #}
+<p class="small"><a href="{{ url_for('badge_map_page') }}#b-{{ b.id }}">← Back to the map</a></p>
+
+{% if preview %}
+<div class="flags small"><span class="lvl heuristic">teacher preview</span>
+  {% if approved %}Approved: students see this lesson before the badge's first check.
+  {% else %}Not approved yet — students go straight to the check.
+  <a href="{{ url_for('teacher_lessons') }}#l-{{ b.id }}">Approve it</a>.{% endif %}</div>
+{% endif %}
+
+<div class="lesson" id="lesson">
+  <div class="lesson-head">
+    <div class="small muted">Lesson {{ number }} of {{ total }} · {{ family }}</div>
+    <h1>{{ b.title }}</h1>
+    <div class="lprog" aria-hidden="true"><span id="lbar"></span></div>
+    <div class="small muted" id="lcount" aria-live="polite"></div>
+  </div>
+
+  {% for st in steps %}
+  <section class="lstep lstep-{{ st.kind }}" data-kind="{{ st.kind }}">
+    {% if st.kind == 'say' %}
+      {% for p in st.paras %}<p>{{ p }}</p>{% endfor %}
+
+    {% elif st.kind == 'example' %}
+      <div class="lex-label">Worked example</div>
+      {% if st.intro %}<p class="lex-intro">{{ st.intro }}</p>{% endif %}
+      <div class="lex" style="--n: {{ st.words | length }}">
+        {% for w in st.words %}
+        <div class="lw" style="--i: {{ loop.index0 }}">
+          <div class="lw-latin">{{ w.w }}</div>
+          {% if w.tag %}<div class="lw-tag">{{ w.tag }}</div>{% endif %}
+          {% if w.note %}<div class="lw-note">{{ w.note }}</div>{% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      <div class="lex-english" style="--n: {{ st.words | length }}"><span class="small muted">English:</span> {{ st.english }}</div>
+      {% if st.after %}<p class="lex-after" style="--n: {{ st.words | length }}">{{ st.after }}</p>{% endif %}
+      <button type="button" class="minibtn lreplay">↻ Play it again</button>
+
+    {% elif st.kind == 'table' %}
+      {% if st.caption %}<div class="lex-label">{{ st.caption }}</div>{% endif %}
+      <div class="ltable-wrap"><table class="ltable">
+        <tr>{% for h in st.head %}<th>{{ h }}</th>{% endfor %}</tr>
+        {% for r in st.rows %}<tr style="--i: {{ loop.index0 }}">{% for c in r %}<td>{{ c }}</td>{% endfor %}</tr>{% endfor %}
+      </table></div>
+
+    {% elif st.kind == 'check' %}
+      <div class="lex-label">Quick check</div>
+      <p class="lcheck-ask">{{ st.ask }}</p>
+      <div class="lcheck-opts" data-answer="{{ st.answer }}">
+        {% for o, t in st.options %}<button type="button" class="lopt" data-o="{{ o }}">{{ t }}</button>{% endfor %}
+      </div>
+      <div class="lcheck-why" hidden><strong class="lcheck-verdict"></strong> {{ st.why }}</div>
+
+    {% elif st.kind == 'remember' %}
+      <div class="lremember"><span class="lr-icon" aria-hidden="true">★</span>
+        <div><div class="lex-label">Remember</div>{{ st.text }}</div></div>
+    {% endif %}
+  </section>
+  {% endfor %}
+
+  <section class="lstep lfinish" data-kind="finish">
+    {% if preview %}
+      <p>From here, a student goes straight on to the badge check: six questions, five right to earn it.</p>
+      <a class="bigbtn secondary" href="{{ url_for('teacher_lessons') }}#l-{{ b.id }}">Back to the lessons</a>
+    {% elif bst and bst.earned %}
+      <p><strong>You've earned this badge.</strong> {% if bst.due %}It's fading — a three-question refresh brings it back.{% else %}Checking it again now and then keeps it strong.{% endif %}</p>
+      <form method="post" action="{{ url_for('badge_start', bid=b.id) }}">
+        <button class="bigbtn" type="submit">{{ 'Refresh it' if bst.due else 'Check it again' }}</button></form>
+    {% else %}
+      <p><strong>Ready?</strong> Now earn the badge: six questions on this lesson. Get five right and
+        it's yours. Every question has a Hint if you need it.</p>
+      <form method="post" action="{{ url_for('badge_start', bid=b.id) }}">
+        <button class="bigbtn" type="submit">Start the check</button></form>
+    {% endif %}
+  </section>
+
+  <div class="lnav"><button type="button" class="bigbtn" id="lnext">Next</button></div>
+</div>
+
+<script>
+(function () {
+  var root = document.getElementById('lesson');
+  root.classList.add('js');
+  var steps = Array.prototype.slice.call(root.querySelectorAll('.lstep'));
+  var next = document.getElementById('lnext');
+  var bar = document.getElementById('lbar'), count = document.getElementById('lcount');
+  var real = steps.length - 1;                   // the last section is the finish
+  var at = -1;
+
+  function play(step) {
+    step.classList.remove('play');
+    void step.offsetWidth;                       // restart the animation
+    step.classList.add('play');
+  }
+  function waiting(step) {
+    return step && step.getAttribute('data-kind') === 'check' && !step.classList.contains('answered');
+  }
+  function update() {
+    var done = Math.min(at + 1, real);
+    bar.style.width = (100 * done / real) + '%';
+    count.textContent = at < real ? 'Step ' + (at + 1) + ' of ' + real : 'Lesson complete';
+    if (at >= real) { next.parentNode.hidden = true; return; }
+    next.disabled = waiting(steps[at]);
+    next.textContent = waiting(steps[at]) ? 'Answer to go on' : (at === real - 1 ? 'Finish the lesson' : 'Next');
+  }
+  function show(i) {
+    var s = steps[i];
+    s.classList.add('shown');
+    play(s);
+    at = i;
+    update();
+    if (i > 0) s.scrollIntoView({behavior: 'smooth', block: 'start'});
+  }
+  next.addEventListener('click', function () { if (at < steps.length - 1) show(at + 1); });
+
+  root.addEventListener('click', function (ev) {
+    var replay = ev.target.closest('.lreplay');
+    if (replay) { play(replay.closest('.lstep')); return; }
+    var opt = ev.target.closest('.lopt');
+    if (!opt) return;
+    var box = opt.closest('.lcheck-opts'), step = opt.closest('.lstep');
+    if (step.classList.contains('answered')) return;
+    var right = opt.getAttribute('data-o') === box.getAttribute('data-answer');
+    box.querySelectorAll('.lopt').forEach(function (o) {
+      if (o.getAttribute('data-o') === box.getAttribute('data-answer')) o.classList.add('right');
+    });
+    if (!right) opt.classList.add('wrong');
+    step.classList.add('answered');
+    var why = step.querySelector('.lcheck-why');
+    why.querySelector('.lcheck-verdict').textContent = right ? '✓ Right.' : 'Not quite.';
+    why.className = 'lcheck-why ' + (right ? 'right' : 'wrong');
+    why.hidden = false;
+    update();
+  });
+  show(0);
+})();
+</script>
+{% endblock %}
