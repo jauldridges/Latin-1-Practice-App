@@ -6,7 +6,7 @@
   <span class="small muted">{{ answered }} answered</span>
 </div>
 
-<div class="stem">{{ item.stem }}</div>
+<div class="stem">{{ stem_html(item) }}</div>
 
 <form method="post" action="{{ url_for('quiz_save', quiz_id=q.quiz_id) }}" id="qf">
   <input type="hidden" name="item_id" value="{{ item.id }}">

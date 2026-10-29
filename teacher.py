@@ -36,7 +36,7 @@ STARTED_ATTEMPTS = 1
 # Proctored contexts are assessments, not homework, and never count toward it.
 # Counting them would let a Friday quiz fill Monday's quota. Reader questions
 # aren't vocabulary or grammar cards either, so they don't fill the 50 + 50.
-NOT_HOMEWORK = {"quiz", "exam", "reading", "badge"}
+NOT_HOMEWORK = {"quiz", "exam", "reading", "badge", "nle"}
 # "badge" is the record of a finished badge check (badges.py), not a card:
 # the questions inside the check are ordinary practice and count as cards.
 

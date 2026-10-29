@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ student }}{% endblock %}
+{% block content %}
+<h1>Practice NLE</h1>
+<p>Real questions from past National Latin Exams. Like the real thing, you answer
+  every question first and see how you did at the end. Every question you miss comes
+  with a hint and, where there is one, the lesson that covers it.</p>
+
+{% for s in going %}
+<a class="choice nle-going" href="{{ url_for('nle_take', sid=s.quiz_id) }}">
+  <span class="choice-title">Carry on: {{ s.title }}</span>
+  <span class="choice-body">{{ s.answers | length }} of {{ s.item_ids | length }} answered. Your answers are saved.</span>
+</a>
+{% endfor %}
+
+<h2>Mash-up</h2>
+<p class="small muted">Questions mixed from several years, only on what we've covered so far.</p>
+<div class="nle-starts">
+  {% for n in sizes %}
+  <form method="post" action="{{ url_for('nle_start') }}">
+    <input type="hidden" name="kind" value="mashup">
+    <input type="hidden" name="size" value="{{ n }}">
+    <button class="bigbtn {{ 'secondary' if not loop.first }}" type="submit">
+      {% if n >= 40 %}Full-length mash-up · {{ n }} questions{% else %}Quick mash-up · {{ n }} questions{% endif %}</button>
+  </form>
+  {% endfor %}
+</div>
+<p class="small muted">The full-length one ends with a reading passage, the way the real exam does.</p>
+
+<h2>A whole past exam</h2>
+<p class="small muted">Exactly as it was printed. Some questions are on things we haven't
+  covered yet — they're marked, so you'll know.</p>
+<ul class="nle-exams">
+  {% for e in exams %}
+  <li>
+    <form method="post" action="{{ url_for('nle_start') }}">
+      <input type="hidden" name="kind" value="exam">
+      <input type="hidden" name="exam" value="{{ e.id }}">
+      <button class="linkish" type="submit"><strong>{{ e.name }}</strong></button>
+      <span class="small muted">{{ e.n }} questions{% if e.best is not none %} · your best: {{ e.best }} of {{ e.n }}{% endif %}</span>
+    </form>
+  </li>
+  {% endfor %}
+</ul>
+
+{% if done %}
+<h2>Your results</h2>
+<ul class="nle-done">
+  {% for s in done %}
+  <li><a href="{{ url_for('nle_results', sid=s.quiz_id) }}">{{ s.title }}</a>
+    <span class="small muted">· {{ s.right }} of {{ s.total }}</span></li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

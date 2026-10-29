@@ -80,9 +80,13 @@ def first_taught(badge, spec):
 
 
 def pool(badge, approved, taught):
-    """The approved questions a check on this badge may ask, in id order."""
-    nodes = set(badge["nodes"]) & set(taught)
-    return sorted((it for it in approved if it.get("node") in nodes),
+    """The approved questions a check on this badge may ask, in id order. A
+    question that leans on another topic too (`needs`, as past-NLE questions
+    do) waits until that one has been taught as well."""
+    taught = set(taught)
+    nodes = set(badge["nodes"]) & taught
+    return sorted((it for it in approved if it.get("node") in nodes
+                   and all(n in taught for n in it.get("needs") or [])),
                   key=lambda it: str(it.get("id")))
 
 

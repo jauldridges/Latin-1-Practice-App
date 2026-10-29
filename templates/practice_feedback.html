@@ -10,8 +10,8 @@
   <div class="answer-feedback wrong">Not quite.</div>
 {% endif %}
 
-<div class="meta-row"><span class="badge tier">{{ label }}</span></div>
-<div class="small muted">{{ item.stem }}</div>
+<div class="meta-row"><span class="badge tier">{{ label }}</span>{% if item.nle %} <span class="badge nletag">From the {{ item.nle.label }}</span>{% endif %}</div>
+<div class="small muted">{{ stem_html(item) }}</div>
 {% if introduced %}<div class="introduced">Introduced {{ introduced }}.</div>{% endif %}
 
 {# ---- what they gave, and what was right ---- #}

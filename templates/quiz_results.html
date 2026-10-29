@@ -32,7 +32,7 @@ spelling was off by a letter or two — worth a look.</p>
       {% elif res == 'unanswered' %}<span class="pill notyet">blank</span>
       {% else %}<span class="pill" style="background:#f7dede;color:var(--wrong)">wrong</span>{% endif %}
     </div>
-    <div style="margin:6px 0">{{ r.item.stem }}</div>
+    <div style="margin:6px 0">{{ stem_html(r.item) }}</div>
 
     {% if r.item.format == 'choice' %}
       {% for disp, k, v in shown_options(r.item) %}

@@ -1,0 +1,495 @@
+# 2025 National Latin Exam — Beginning Latin. Transcribed from the exam PDF; answers worked out
+# by hand (no answer key supplied). `node` is the course topic each question tests.
+exam:
+  id: 2025-beginning
+  year: 2025
+  kind: beginning
+  title: Beginning Latin
+  source_note: ACL/NJCL National Latin Exam 2025, Beginning Latin. Used with permission for non-commercial classroom
+    practice.
+passages:
+- id: scorpion
+  title: HOW A SCORPION BECAME A CONSTELLATION
+  subtitle: ''
+  note: ''
+  source: ''
+  questions:
+  - 31
+  - 40
+  lines:
+  - n: 1
+    latin: Nocte in caelō sunt multae stellae et hominēs multās cōnstellātiōnēs
+  - n: 2
+    latin: vident. Inter eās est quaedam cōnstellātiō, Scorpiō nōmine. Haec est
+    gloss: quaedam = a certain; Haec = This
+    underline:
+    - quaedam
+    - Haec
+  - n: 3
+    latin: 'fābula dē Scorpiōne et dē īrā deae:'
+    gloss: dē = about
+    underline:
+    - dē
+  - n: 4
+    latin: Diāna, dea vēnātiōnis, īrāta erat quod Ōrīōn, vir fortis sed malus,
+    gloss: vēnātiōnis = of the hunt
+    underline:
+    - vēnātiōnis
+  - n: 5
+    latin: multa animālia in silvīs interfēcit. Erat cervus sacer, quī Diānam valdē
+    gloss: cervus = stag
+    underline:
+    - cervus
+  - n: 6
+    latin: dēlectābat. Ōrīōn cervum sacrum capere cupiēbat. Itaque Diāna
+    gloss: cupiēbat = was wanting
+    underline:
+    - cupiēbat
+  - n: 7
+    latin: maximum scorpiōnem mittere cōnstituit quod Ōrīōnem pūnīre cupiēbat.
+    gloss: cōnstituit = decided
+    underline:
+    - cōnstituit
+  - n: 8
+    latin: Ubi Ōrīōn per silvās ambulābat, maximus scorpiō ad Ōrīōnem vēnit
+  - n: 9
+    latin: et eum caudā vulnerāvit. Cauda scorpiōnis habēbat multum venēnum.
+    gloss: caudā = with its tail; venēnum = poison
+    underline:
+    - caudā
+    - venēnum
+  - n: 10
+    latin: Ōrīōn valdē dolēbat et mox erat mortuus. Posteā, Diāna scorpiōnem
+    gloss: valdē dolēbat = he was suffering very much
+    underline:
+    - valdē dolēbat
+  - n: 11
+    latin: inter stellās posuit, quod dea hominēs scīre dē malō Ōrīōne cupiēbat.
+  - n: 12
+    latin: Nunc, ubi hominēs in caelō Scorpiōnem vident, semper fābulam
+  - n: 13
+    latin: Ōrīōnis in memoriā tenent et animālia servāre cupiunt.
+items:
+- n: 1
+  stem: Mercātōrēs ē tabernā currēbant.
+  options:
+    a: out of the shop
+    b: through the shop
+    c: behind the shop
+    d: toward the shop
+  answer: a
+  node: MS-087
+  underline:
+  - ē tabernā
+- n: 2
+  stem: Pater fīliae librum legere potuit.
+  options:
+    a: is able to read
+    b: are able to read
+    c: to be able to read
+    d: was able to read
+  answer: d
+  node: MS-112
+  underline:
+  - legere potuit
+- n: 3
+  stem: Decem leōnēs in arēnā erant. Trēs gladiātōrēs arēnam intrāvērunt et duo leōnēs ex arēnā fūgērunt. Quot leōnēs
+    in arēnā nunc manent?
+  options:
+    a: II
+    b: III
+    c: VIII
+    d: X
+  answer: c
+  node: RW-063
+- n: 4
+  stem: In forō saepe labōrābātis.
+  options:
+    a: We are working
+    b: They do work
+    c: You used to work
+    d: I have worked
+  answer: c
+  node: MS-095
+  underline:
+  - labōrābātis
+- n: 5
+  stem: Spectābantne leōnēs ursāsque in amphitheātrō?
+  options:
+    a: lions or bears
+    b: lions and bears
+    c: either lions or bears
+    d: neither lions nor bears
+  answer: b
+  node: MS-051
+  underline:
+  - leōnēs ursāsque
+- n: 6
+  stem: Māter mea est fēmina plēna magnae virtūtis.
+  options:
+    a: from great courage
+    b: of great courage
+    c: by great courage
+    d: for great courage
+  answer: b
+  node: MS-052
+  needs:
+  - MS-064
+  underline:
+  - magnae virtūtis
+- n: 7
+  stem: Labōrā dīligenter, Mānī!
+  options:
+    a: by Manius
+    b: of Manius
+    c: Manius
+    d: for Manius
+  answer: c
+  node: MS-049
+  underline:
+  - Mānī
+- n: 8
+  stem: Sunt _____ et multa animālia in urbe.
+  options:
+    a: multōrum cīvium
+    b: multī cīvēs
+    c: multīs cīvibus
+    d: multōs cīvēs
+  answer: b
+  node: MS-014
+  needs:
+  - MS-065
+- n: 9
+  stem: Nōlī, amīce, librōs dēlēre!
+  options:
+    a: I don’t want to destroy the books!
+    b: He destroyed all the books!
+    c: We refused to destroy the books!
+    d: Don’t destroy the books!
+  answer: d
+  node: MS-078
+  underline:
+  - Nōlī
+  - librōs dēlēre
+- n: 10
+  stem: Cūr Iūlia clāmāvit? Iūlia clāmāvit quod magnum canem vīdit.
+  options:
+    a: Why
+    b: Where
+    c: When
+    d: How
+  answer: a
+  node: VOCAB
+  underline:
+  - Cūr
+- n: 11
+  stem: Fāma numquam dormit.
+  options:
+    a: Fame never sleeps.
+    b: Fame often sleeps.
+    c: Fame sometimes sleeps.
+    d: Fame always sleeps.
+  answer: a
+  node: VOCAB
+  underline:
+  - Fāma numquam dormit
+- n: 12
+  stem: Dux fēminārum erat benigna.
+  options:
+    a: She was the leader of kind women.
+    b: The leader and women are kind.
+    c: The leader of the women was kind.
+    d: The women were kind to the leader.
+  answer: c
+  node: MS-052
+  underline:
+  - Dux fēminārum erat benigna
+- n: 13
+  stem: Puellae prope _____ et rīvum ambulant.
+  options:
+    a: mōns
+    b: montem
+    c: montī
+    d: montis
+  answer: b
+  node: MS-084
+  needs:
+  - MS-064
+- n: 14
+  stem: Atalanta magnā cum celeritāte cucurrit.
+  options:
+    a: with great speed
+    b: of great speed
+    c: without great speed
+    d: because of great speed
+  answer: a
+  node: MS-091
+  underline:
+  - magnā cum celeritāte
+- n: 15
+  stem: Rēgīna fīliam laetē laudāvit.
+  options:
+    a: The queen praised her happy daughter.
+    b: The happy queen praised her daughters.
+    c: The queen happily praised her daughter.
+    d: The queen and her daughters happily praised each other.
+  answer: c
+  node: MS-132
+  underline:
+  - Rēgīna fīliam laetē laudāvit
+- n: 16
+  stem: Piscātrīx pīrātīs piscēs dabat.
+  options:
+    a: against the pirates
+    b: near the pirates
+    c: of the pirates
+    d: to the pirates
+  answer: d
+  node: MS-057
+  underline:
+  - pīrātīs
+- n: 17
+  stem: Medicus equōs medicīnā sānāvit.
+  options:
+    a: with the medicine
+    b: of the medicine
+    c: the medicine
+    d: for the medicine
+  answer: a
+  node: MS-089
+  underline:
+  - medicīnā
+- n: 18
+  stem: Heri elephantī herbās et folia cōnsūmpsērunt.
+  options:
+    a: ate
+    b: were eating
+    c: are eating
+    d: to eat
+  answer: a
+  node: MS-105
+  underline:
+  - cōnsūmpsērunt
+- n: 19
+  stem: Aurum et argentum invēnī! Euge!
+  options:
+    a: Alas!
+    b: Look!
+    c: Yikes!
+    d: Hooray!
+  answer: d
+  node: VOCAB
+  underline:
+  - Euge
+- n: 20
+  stem: Cibum optimum vendō. Placetne tibi?
+  options:
+    a: Were you allowed?
+    b: Was it necessary for you?
+    c: Does it please you?
+    d: Are you able?
+  answer: c
+  node: VOCAB
+  underline:
+  - Placetne tibi
+- n: 21
+  stem: Sum dea agricultūrae. Ego frūmentum cūrō. Fīlia mea est Prōserpina. Cornūcōpiam saepe teneō. Quis sum?
+  options:
+    a: Jūnō
+    b: Cerēs
+    c: Venus
+    d: Minerva
+  answer: b
+  node: RW-064
+  image: nle/2025-beginning-B-p1-1.png
+- n: 22
+  stem: What was the port of the city Rome, possibly named because of its location at the mouth of the Tiber River?
+  options:
+    a: Brundisium
+    b: Capua
+    c: Pompeiī
+    d: Ōstia
+  answer: d
+  node: RW-002
+- n: 23
+  stem: It was announced today that Taylor will be graduating _____ and will be giving the valedictory speech at
+    this year’s graduation.
+  options:
+    a: mihi nōmen est
+    b: per annum
+    c: id est
+    d: summā cum laude
+  answer: d
+  node: MW-043
+- n: 24
+  stem: What is the meaning of the Latin at the root of inoculate, monocle, and ocular?
+  options:
+    a: ear
+    b: nose
+    c: mouth
+    d: eye
+  answer: d
+  node: MW-009
+  underline:
+  - inoculate
+  - monocle
+  - ocular
+- n: 25
+  stem: Which of the following occurred LAST chronologically?
+  options:
+    a: Romulus saw twelve vultures in the sky.
+    b: Aeneas led the Trojan survivors to Italy.
+    c: Brutus and Collatinus became the first two consuls of Rome.
+    d: Augustus became the first emperor of Rome.
+  answer: d
+  node: RW-039
+- n: 26
+  stem: Which young man rejected the advances of the nymph Echo, causing her to waste away into nothing but her
+    voice, before he eventually fell in love with his own reflection?
+  options:
+    a: Phaethon
+    b: Orpheus
+    c: Narcissus
+    d: Icarus
+  answer: c
+  node: RW-064
+- n: 27
+  stem: Los Milagros in Mérida, Spain, and the Pont du Gard near Nîmes, France (seen in the image to the right),
+    are still standing today. What type of Roman engineering marvels are these?
+  options:
+    a: temples
+    b: aqueducts
+    c: baths
+    d: theaters
+  answer: b
+  node: RW-088
+  image: nle/2025-beginning-B-p2-1.png
+- n: 28
+  stem: Ubi senātor Rōmānus cum familiā cēnam saepe cēnābat?
+  options:
+    a: in trīclīniō
+    b: in cubiculō
+    c: in lātrīnā
+    d: in tablīnō
+  answer: a
+  node: RW-048
+- n: 29
+  stem: Which of the following would be an appropriate response if someone asks you “Quid agis hodiē?” or “Quōmodo
+    tē habēs hodiē?”
+  options:
+    a: Optimē, et tū?
+    b: Mihi nōmen est Mārcus.
+    c: Valēte, omnēs!
+    d: Licetne mihi īre ad amphitheātrum?
+  answer: a
+  node: VOCAB
+- n: 30
+  stem: Which of the following is NOT typical Roman clothing worn by senators?
+  options:
+    a: tunicae
+    b: togae
+    c: stolae
+    d: calceī HOW A SCORPION BECAME A CONSTELLATION
+  answer: c
+  node: RW-054
+- n: 31
+  stem: In lines 1- 2, to what does eās refer?
+  options:
+    a: sky
+    b: night
+    c: people
+    d: constellations
+  answer: d
+  node: CR-015
+  passage: scorpion
+- n: 32
+  stem: According to lines 2-3 (Inter…deae), what is this story about?
+  options:
+    a: All the stars and constellations in the sky.
+    b: One particular constellation and the wrath of a goddess.
+    c: The origin for all the stars appearing at night.
+    d: The reason why a goddess created the constellations.
+  answer: b
+  node: CR-009
+  passage: scorpion
+- n: 33
+  stem: Why was Diana angry at Orion (lines 4-5)?
+  options:
+    a: He wanted to marry Diana.
+    b: He killed many woodland creatures.
+    c: He claimed that he was a brave fighter.
+    d: He said he was a better hunter than Diana.
+  answer: b
+  node: CR-009
+  passage: scorpion
+- n: 34
+  stem: How did Diana decide to punish Orion in lines 6-7 (Itaque…cupiēbat)?
+  options:
+    a: by shooting him with arrows
+    b: by trapping him in the woods
+    c: by killing his sacred stag
+    d: by sending a creature of unusual size
+  answer: d
+  node: CR-009
+  passage: scorpion
+- n: 35
+  stem: Which of the following derivatives of mittere (line 7) can mean “an acceptance of a person to an event or
+    group”?
+  options:
+    a: admission
+    b: omission
+    c: transmission
+    d: submission
+  answer: a
+  node: MW-009
+  passage: scorpion
+- n: 36
+  stem: Where was Orion when he was attacked, according to lines 8-9?
+  options:
+    a: by a river
+    b: near the beach
+    c: within the city
+    d: in the woods
+  answer: d
+  node: CR-009
+  passage: scorpion
+- n: 37
+  stem: Which of the following expresses the same idea as mox (line 10)?
+  options:
+    a: numquam
+    b: brevī tempore
+    c: saepe
+    d: ad īnfīnītum
+  answer: b
+  node: VOCAB
+  passage: scorpion
+- n: 38
+  stem: What does the Latin phrase inter stellās mean (line 11)?
+  options:
+    a: from the stars
+    b: beyond the stars
+    c: among the stars
+    d: under the stars
+  answer: c
+  node: MS-084
+  passage: scorpion
+- n: 39
+  stem: Why did the scorpion become a constellation, according to lines 10-11?
+  options:
+    a: Diana wanted people to know about Orion’s wrongdoing.
+    b: Diana wanted to punish the scorpion for not following her orders.
+    c: Diana wanted Orion to continue his suffering.
+    d: Diana wanted to warn the gods about the scorpion’s power.
+  answer: a
+  node: CR-009
+  passage: scorpion
+- n: 40
+  stem: Which of the following is a lasting outcome from Orion’s story?
+  options:
+    a: Hunters try not to boast about their skills.
+    b: People want to protect animals.
+    c: Divinities continue to receive many prayers.
+    d: The other gods praise Diana’s accomplishments.
+  answer: b
+  node: CR-009
+  passage: scorpion

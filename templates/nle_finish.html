@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ student }}{% endblock %}
+{% block content %}
+<h1>Ready to finish?</h1>
+<p class="small muted">{{ q.title }}</p>
+
+{% if blanks %}
+  <div class="answer-feedback close">
+    {{ blanks | length }} question{{ 's' if blanks | length != 1 }} still blank:
+    {% for i in blanks %}<a href="{{ url_for('nle_take', sid=sid, n=i) }}">{{ i }}</a>{{ ', ' if not loop.last }}{% endfor %}
+  </div>
+  <p class="small muted">On the real exam a blank is simply wrong, so it's worth a guess.</p>
+{% else %}
+  <div class="answer-feedback right">All {{ total }} answered.</div>
+{% endif %}
+
+<form method="post" action="{{ url_for('nle_submit', sid=sid) }}"
+      onsubmit="return confirm('Finish and see your score? You can\'t change answers after this.')">
+  <button class="bigbtn" type="submit">Finish and see my score</button>
+</form>
+<a class="bigbtn secondary" href="{{ url_for('nle_take', sid=sid, n=blanks[0] if blanks else 1) }}">Go back to the questions</a>
+{% endblock %}

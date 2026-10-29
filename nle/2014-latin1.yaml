@@ -1,0 +1,461 @@
+# 2014 National Latin Exam — Latin I. Transcribed from the exam PDF; answers worked out
+# by hand (no answer key supplied). `node` is the course topic each question tests.
+exam:
+  id: 2014-latin1
+  year: 2014
+  kind: latin1
+  title: Latin I
+  source_note: ACL/NJCL National Latin Exam 2014, Latin I. Used with permission for non-commercial classroom practice.
+passages:
+- id: cincinnatus
+  title: CINCINNATUS
+  subtitle: A Roman hero retires.
+  note: ''
+  source: ''
+  questions:
+  - 31
+  - 40
+  lines:
+  - n: 1
+    latin: Ōlim erat Rōmānus clārus, Cincinnātus nōmine. Fuerat dux magnus in bellō,
+    gloss: Fuerat = He had been
+    underline:
+    - Fuerat
+  - n: 2
+    latin: sed posteā erat agricola et cum dīligentiā agrōs cūrābat. Ēheu! Hostēs ferōcēs ad
+    gloss: posteā = afterwards; ferōcēs = fierce
+    underline:
+    - posteā
+    - ferōcēs
+  - n: 3
+    latin: urbem Rōmam iter faciēbant. Omnēs Rōmānī erant territī, et senātōrēs nūntiōs
+  - n: 4
+    latin: ad Cincinnātum mīsērunt. Nūntiī ad vīllam eius advēnērunt, sed Cincinnātus nōn
+    gloss: eius = his
+    underline:
+    - eius
+  - n: 5
+    latin: cupīvit nūntiōs salūtāre quod nōndum togam gerēbat. Postquam togam induit
+    gloss: nōndum = not yet; Postquam = After
+    underline:
+    - nōndum
+    - Postquam
+  - n: 6
+    latin: et nūntiōs salūtāvit, exclāmāvērunt, “Erisne dictātor noster? Dā Rōmānīs
+  - n: 7
+    latin: auxilium!” Cincinnātus cum nūntiīs ad urbem vēnit, et proeliō hostēs superāvit.
+    gloss: proeliō = in battle
+    underline:
+    - proeliō
+  - n: 8
+    latin: Post victōriam senātōrēs eum rogāvērunt, “Remanēbisne adhūc dictātor?”
+    gloss: eum = him; adhūc = still
+    underline:
+    - eum
+    - adhūc
+  - n: 9
+    latin: Cincinnātus dēclārāvit, “Minimē! Necesse est mihi ad vīllam meam redīre et
+    gloss: redīre = to return
+    underline:
+    - redīre
+  - n: 10
+    latin: agrōs meōs cūrāre. Valēte!” Tum Cincinnātus ad agrōs suōs redīvit.
+items:
+- n: 1
+  stem: In vīllā magnā cum frātribus et sorōribus habitō.
+  options:
+    a: toward my brothers and sisters
+    b: by my brothers and sisters
+    c: with my brothers and sisters
+    d: for my brothers and sisters
+  answer: c
+  node: MS-088
+  underline:
+  - cum frātribus et sorōribus
+- n: 2
+  stem: Est silva prope vīllam familiae nostrae.
+  options:
+    a: to our family
+    b: of our family
+    c: by our family
+    d: from our family
+  answer: b
+  node: MS-052
+  underline:
+  - familiae nostrae
+- n: 3
+  stem: Pater meus est _____ et in agrīs cotīdiē labōrat.
+  options:
+    a: agricola
+    b: agricolae
+    c: agricolam
+    d: agricolā
+  answer: a
+  node: MS-041
+- n: 4
+  stem: Sunt quattuor puerī et duae puellae in familiā meā. Quot līberī sunt in familiā meā?
+  options:
+    a: quīnque
+    b: sex
+    c: octō
+    d: decem
+  answer: b
+  node: VOCAB
+- n: 5
+  stem: Crās omnēs līberī ad urbem _____ et magistrum vidēbunt.
+  options:
+    a: ambulāvērunt
+    b: ambulābant
+    c: ambulāre
+    d: ambulābunt
+  answer: d
+  node: MS-098
+- n: 6
+  stem: Magister semper exclāmābat, “Salvēte, discipulī! Sedēte! Nōlīte surgere!”
+  options:
+    a: Stand up now
+    b: Stand up quickly
+    c: Do not stand up
+    d: Please stand up
+  answer: c
+  node: MS-078
+  underline:
+  - Nōlīte surgere
+- n: 7
+  stem: Magister _____ librōs habēbat.
+  options:
+    a: multī
+    b: multōs
+    c: multās
+    d: multō
+  answer: b
+  node: MS-043
+- n: 8
+  stem: Sed hodiē puerī puellaeque librōs nōn legunt.
+  options:
+    a: neither the boys nor the girls
+    b: either the boys or the girls
+    c: not only the boys but also the girls
+    d: the boys and the girls
+  answer: d
+  node: MS-051
+  underline:
+  - puerī puellaeque
+- n: 9
+  stem: Discipulī stilīs in tabellīs scrībunt.
+  options:
+    a: for styluses
+    b: of styluses
+    c: with styluses
+    d: the styluses
+  answer: c
+  node: MS-089
+  underline:
+  - stilīs
+- n: 10
+  stem: Magister, quī in sellā sedet, discipulōs semper spectat.
+  options:
+    a: always
+    b: often
+    c: never
+    d: sometimes
+  answer: a
+  node: VOCAB
+  underline:
+  - semper
+- n: 11
+  stem: Mārcus nōn scrībit, et magister clāmat, “Nunc scrībe, _____!”
+  options:
+    a: Mārcī
+    b: Mārcō
+    c: Mārcus
+    d: Mārce
+  answer: d
+  node: MS-049
+- n: 12
+  stem: Amīcus Mārcō stilum dat.
+  options:
+    a: to Marcus
+    b: of Marcus
+    c: from Marcus
+    d: by Marcus
+  answer: a
+  node: MS-057
+  underline:
+  - Mārcō
+- n: 13
+  stem: Nunc omnēs discipulī magnā cum cūrā scrībunt.
+  options:
+    a: for great care
+    b: by great care
+    c: with great care
+    d: of great care
+  answer: c
+  node: MS-091
+  underline:
+  - magnā cum cūrā
+- n: 14
+  stem: Magister discipulīs nūntiat, “Ego laetus sum. Vōs estis discipulī bonī!”
+  options:
+    a: He
+    b: You
+    c: We
+    d: They
+  answer: b
+  node: MS-116
+  underline:
+  - Vōs
+- n: 15
+  stem: Magister erat poēta.
+  options:
+    a: was
+    b: were
+    c: is
+    d: will be
+  answer: a
+  node: MS-097
+  underline:
+  - erat
+- n: 16
+  stem: Discipulī verba poētārum Rōmānōrum saepe memoriā tenent.
+  options:
+    a: create
+    b: offer
+    c: remember
+    d: respect
+  answer: c
+  node: VOCAB
+  underline:
+  - memoriā tenent
+- n: 17
+  stem: Quis est poēta optimus?
+  options:
+    a: What
+    b: When
+    c: Where
+    d: Who
+  answer: d
+  node: MS-130
+  underline:
+  - Quis
+- n: 18
+  stem: Omnēs Rōmānī Vergilium amāre dēbent.
+  options:
+    a: we love
+    b: to love
+    c: they love
+    d: he loves
+  answer: b
+  node: MS-157
+  underline:
+  - amāre
+- n: 19
+  stem: Which Roman deity’s symbol is shown in the picture?
+  options:
+    a: Juno
+    b: Minerva
+    c: Diana
+    d: Venus
+  answer: b
+  node: RW-065
+  image: nle/2014-latin1-B-p1-1.png
+- n: 20
+  stem: What is the name of the great, domed temple in Rome dedicated to all the gods?
+  options:
+    a: Circus Maximus
+    b: Pantheon
+    c: Campus Martius
+    d: Palatine
+  answer: b
+  node: RW-089
+- n: 21
+  stem: In which room of a Roman house might you find the larārium and the impluvium?
+  options:
+    a: trīclīnium
+    b: cubiculum
+    c: ātrium
+    d: culīna
+  answer: c
+  node: RW-048
+- n: 22
+  stem: Transmission, missile, and emit are all English derivatives of the Latin verb that means to
+  options:
+    a: remain
+    b: move
+    c: warn
+    d: send
+  answer: d
+  node: MW-009
+- n: 23
+  stem: The abbreviation i.e. stands for the Latin words id est and is best translated
+  options:
+    a: that is
+    b: for example
+    c: therefore
+    d: and the rest
+  answer: a
+  node: MW-044
+- n: 24
+  stem: Which of the following places was NOT located on the Italian peninsula?
+  options:
+    a: Pompeiī
+    b: Brundisium
+    c: Troia
+    d: Ōstia
+  answer: c
+  node: RW-002
+- n: 25
+  stem: Which Roman god is often represented by a statue of a long-haired youth with a lyre or a bow and a quiver
+    of arrows?
+  options:
+    a: Apollo
+    b: Mars
+    c: Mercury
+    d: Vulcan
+  answer: a
+  node: RW-064
+- n: 26
+  stem: The Latin words Novus ordō seclōrum, found on a U.S. dollar bill, may be translated
+  options:
+    a: Out of many one
+    b: New order of the ages
+    c: He has favored our beginnings
+    d: In God we trust
+  answer: b
+  node: MW-063
+- n: 27
+  stem: How is the year 1976 expressed in Roman numerals?
+  options:
+    a: MCMLXXVI
+    b: MMLX
+    c: MCMVI
+    d: MMXII
+  answer: a
+  node: RW-063
+- n: 28
+  stem: If a Latin student answers, “Adsum,” what does the teacher understand?
+  options:
+    a: everyone is ready
+    b: someone is sick
+    c: the student is late
+    d: the student is present
+  answer: d
+  node: VOCAB
+- n: 29
+  stem: Iēntāculum, prandium, and cēna are Latin words that refer to
+  options:
+    a: a woman’s clothes
+    b: architecture
+    c: meals
+    d: rooms of a house
+  answer: c
+  node: RW-055
+- n: 30
+  stem: According to Roman history, Romulus, Numa, Tullus Hostilius, and Tarquinius Priscus were
+  options:
+    a: consuls
+    b: emperors
+    c: generals
+    d: kings CINCINNATUS A Roman hero retires.
+  answer: d
+  node: RW-009
+- n: 31
+  stem: According to lines 1-2, Cincinnatus had been known for his
+  options:
+    a: wealth
+    b: artistic ability
+    c: military leadership
+    d: wisdom
+  answer: c
+  node: CR-009
+  passage: cincinnatus
+- n: 32
+  stem: Which English word best describes Cincinnatus as a farmer (line 2)?
+  options:
+    a: reckless
+    b: careful
+    c: negligent
+    d: cautious
+  answer: b
+  node: CR-009
+  passage: cincinnatus
+- n: 33
+  stem: In lines 2-3 (Hostēs...faciēbant), we learn that the enemy was
+  options:
+    a: approaching the city
+    b: stealing crops
+    c: collecting more troops
+    d: preparing to make camp
+  answer: a
+  node: CR-009
+  passage: cincinnatus
+- n: 34
+  stem: According to lines 3-4 (Omnēs...mīsērunt), the senators sent messengers because everyone in Rome
+  options:
+    a: feared the attackers
+    b: wanted to surrender
+    c: was fleeing
+    d: was praying to the gods
+  answer: a
+  node: CR-009
+  passage: cincinnatus
+- n: 35
+  stem: What was Cincinnatus’ reaction when the messengers arrived (lines 4-5)?
+  options:
+    a: He laughed.
+    b: He continued to read a book.
+    c: He asked for time to think.
+    d: He didn’t want to greet them.
+  answer: d
+  node: CR-009
+  passage: cincinnatus
+- n: 36
+  stem: In lines 5-7 (Postquam...auxilium), the messengers
+  options:
+    a: asked for help
+    b: helped Cincinnatus plow
+    c: were disappointed
+    d: arrived too late
+  answer: a
+  node: CR-009
+  passage: cincinnatus
+- n: 37
+  stem: After he won a victory over the attackers (lines 8-10), Cincinnatus did not want
+  options:
+    a: lots of money
+    b: additional lands
+    c: a triumphal parade
+    d: a powerful position
+  answer: d
+  node: CR-009
+  passage: cincinnatus
+- n: 38
+  stem: In line 9, mihi is best translated
+  options:
+    a: by me
+    b: for me
+    c: with me
+    d: from me
+  answer: b
+  node: MS-057
+  passage: cincinnatus
+- n: 39
+  stem: According to lines 9-10, Cincinnatus
+  options:
+    a: returned to farming
+    b: ruled in Rome
+    c: became a senator
+    d: led the army
+  answer: a
+  node: CR-009
+  passage: cincinnatus
+- n: 40
+  stem: George Washington, the first U.S. president, is called the American Cincinnatus because he
+  options:
+    a: married a widow
+    b: chopped down a cherry tree
+    c: threw a coin across a river
+    d: refused a third term as president
+  answer: d
+  node: MW-072
+  passage: cincinnatus

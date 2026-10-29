@@ -96,7 +96,7 @@ def sittings(events, gap=SITTING_GAP):
     """Graded answers split into sittings, oldest first. Retyped typos
     (rating 0) and quiz answers aren't cards studied, so they're left out."""
     graded = sorted((e for e in events
-                     if e.get("rating") not in (0,) and e.get("context") not in ("quiz", "exam", "reading", "badge")),
+                     if e.get("rating") not in (0,) and e.get("context") not in ("quiz", "exam", "reading", "badge", "nle")),
                     key=lambda e: e["timestamp"])
     out, cur = [], []
     for e in graded:

@@ -1,0 +1,528 @@
+# 2022 National Latin Exam — Beginning Latin. Transcribed from the exam PDF; answers worked out
+# by hand (no answer key supplied). `node` is the course topic each question tests.
+exam:
+  id: 2022-beginning
+  year: 2022
+  kind: beginning
+  title: Beginning Latin
+  source_note: ACL/NJCL National Latin Exam 2022, Beginning Latin. Used with permission for non-commercial classroom
+    practice.
+passages:
+- id: magic-river-1
+  title: THE SEARCH FOR THE MAGIC RIVER
+  subtitle: Pachacoutec, a famous Incan, needs help solving a problem.
+  note: Pachacoutec is nom. sing. (pa-shuh-KOO-tek)
+  source: ''
+  questions:
+  - 29
+  - 34
+  lines:
+  - n: 1
+    latin: Ōlim habitābat rēx superbus, nōmine Pachacoutec. Rēx senēscēbat
+    gloss: senēscēbat = was growing old
+    underline:
+    - senēscēbat
+  - n: 2
+    latin: et fīlius rēgis, nōmine Topa, aegrotābat. Rēx dē vītā fīliī dēspērābat. Itaque
+    gloss: aegrotābat = was sick; Itaque = And so
+    underline:
+    - aegrotābat
+    - Itaque
+  - n: 3
+    latin: multōs medicōs ad aulam convocāvit. Medicī autem fīlium adiuvāre nōn
+    gloss: aulam = palace
+    underline:
+    - aulam
+  - n: 4
+    latin: poterant. Statim Pachacoutec miser ad āram sacram appropinquāvit et
+    gloss: āra = altar
+    underline:
+    - āram
+  - n: 5
+    latin: 'auxilium petīvit. Rēx vōcem ex ārā audīvit: “Cum prīmum Topa aquam'
+    gloss: Cum prīmum = As soon as
+    underline:
+    - Cum prīmum
+  - n: 6
+    latin: ē flūmine magicō bibit, sānus erit. Poteris aquam mīram invenīre ubi flūmen
+    gloss: erit = he will be; Poteris = You will be able
+    underline:
+    - erit
+    - Poteris
+  - n: 7
+    latin: caelum tangit. Necesse est virīs invenīre flūmen."
+    gloss: tangit = touches
+    underline:
+    - tangit
+  - n: 8
+    latin: Pachacoutec igitur virōs petēbat. Itaque nūntiōs per tōtum rēgnum mittēbat.
+    gloss: igitur = therefore
+    underline:
+    - igitur
+  - n: 9
+    latin: Mox duo frātrēs longum iter ad flūmen facere cōnstituērunt. Frātrēs
+    gloss: iter = journey; cōnstituērunt = decided
+    underline:
+    - iter
+    - cōnstituērunt
+  - n: 10
+    latin: suam sorōrem, Sumam, cum parentibus relīquērunt.
+    gloss: suam = their
+    underline:
+    - suam
+- id: magic-river-2
+  title: THE SEARCH FOR THE MAGIC RIVER — the story continues
+  subtitle: ''
+  note: ''
+  source: Inspired by an Ecuadorian folktale
+  questions:
+  - 35
+  - 40
+  lines:
+  - n: 11
+    latin: Sed frātrēs sine aquā revēnērunt. Itaque Pachacoutec eōs in carcerem
+    gloss: eōs = them; carcerem = prison
+    underline:
+    - eōs
+    - carcerem
+  - n: 12
+    latin: īrātē iēcit. Suma ad aulam festīnāvit et ante omnēs fortiter stetit et
+    gloss: aulam = palace
+  - n: 13
+    latin: 'exclāmāvit: “Heus! Sine dubiō aquam magicam reportāre possum.”'
+    gloss: Heus = Hey
+    underline:
+    - Heus
+  - n: 14
+    latin: Pachacoutec diū rīdēbat sed tandem cōnsēnsit.
+  - n: 15
+    latin: Prīmā lūce Suma exiit. Post multās hōrās Suma dēfessa in viā cōnsēdit.
+    gloss: Prīmā lūce = At dawn
+    underline:
+    - Prīmā lūce
+  - n: 16
+    latin: Dum cēnābat, trēs avēs pulchrās vīdit. Suma avibus cibum laetē dedit. Subitō
+  - n: 17
+    latin: avēs in caelum volāvērunt et Sumam ad flūmen, ubi caelum tangit, dūxērunt.
+  - n: 18
+    latin: Triumphāns Suma aquam reportāvit. Topa nunc erat sānus. Itaque
+  - n: 19
+    latin: Pachacoutec frātrēs Sumae līberāvit.
+items:
+- n: 1
+  stem: Cūr Achilles Patroclum in pugnam nōn mittit?
+  options:
+    a: How
+    b: Why
+    c: When
+    d: Where
+  answer: b
+  node: VOCAB
+  underline:
+  - Cūr
+- n: 2
+  stem: Nōs dōnum magnō cum gaudiō accēpimus.
+  options:
+    a: of great joy
+    b: great joy
+    c: with great joy
+    d: for great joy
+  answer: c
+  node: MS-091
+  underline:
+  - magnō cum gaudiō
+- n: 3
+  stem: Cotīdiē circum mūrōs urbis currēbās.
+  options:
+    a: you are running
+    b: you used to run
+    c: you have run
+    d: you will run
+  answer: b
+  node: MS-096
+  underline:
+  - currēbās
+- n: 4
+  stem: Plaudite vehementer, spectātōrēs, ubi recitātiōnem poētae audītis!
+  options:
+    a: Applaud
+    b: To applaud
+    c: We are applauding
+    d: You applauded
+  answer: a
+  node: MS-077
+  underline:
+  - Plaudite
+- n: 5
+  stem: Troiānī ad portum Siciliae nāvigant.
+  options:
+    a: of Sicily
+    b: to Sicily
+    c: from Sicily
+    d: by Sicily
+  answer: a
+  node: MS-052
+  underline:
+  - Siciliae
+- n: 6
+  stem: Ego Forum Rōmānum numquam vīdī.
+  options:
+    a: soon
+    b: never
+    c: yesterday
+    d: now
+  answer: b
+  node: VOCAB
+  underline:
+  - numquam
+- n: 7
+  stem: Deus Mercurius erat _____ mercātōrum.
+  options:
+    a: patrōnus
+    b: patrōnī
+    c: patrōnum
+    d: patrōnō
+  answer: a
+  node: MS-041
+- n: 8
+  stem: Promētheus ignem hominibus dedit.
+  options:
+    a: from the people
+    b: by people
+    c: to people
+    d: of the people
+  answer: c
+  node: MS-057
+  needs:
+  - MS-065
+  underline:
+  - hominibus
+- n: 9
+  stem: Hodiē nōs neque stilōs neque tabulās ad scholam portāmus.
+  options:
+    a: both…and
+    b: either…or
+    c: some…others
+    d: neither…nor
+  answer: d
+  node: MS-051
+  underline:
+  - neque
+- n: 10
+  stem: Intrāte, _____, et celeriter cōnsīdite!
+  options:
+    a: discipulī
+    b: discipulus
+    c: discipule
+    d: discipulīs
+  answer: a
+  node: MS-049
+  needs:
+  - MS-050
+- n: 11
+  stem: Sulpicia amīcās ad cēnam epistulā invītāvit.
+  options:
+    a: with a letter
+    b: for a letter
+    c: about the letter
+    d: of the letter
+  answer: a
+  node: MS-089
+  underline:
+  - epistulā
+- n: 12
+  stem: Familia cibum trāns montēs portāvit.
+  options:
+    a: between the mountains
+    b: into the mountains
+    c: across the mountains
+    d: by the mountains
+  answer: c
+  node: MS-084
+  underline:
+  - trāns montēs
+- n: 13
+  stem: Cupiō piscēs et pānem in forō emere.
+  options:
+    a: to buy
+    b: buy
+    c: you buy
+    d: bought
+  answer: a
+  node: MS-076
+  underline:
+  - emere
+- n: 14
+  stem: Architēctae templum novum cīvibus dēmōnstrant.
+  options:
+    a: showed
+    b: were showing
+    c: are showing
+    d: will show
+  answer: c
+  node: MS-039
+  underline:
+  - dēmōnstrant
+- n: 15
+  stem: Quam cāra est īnfans ubi dormit!
+  options:
+    a: Who
+    b: What
+    c: Where
+    d: How
+  answer: d
+  node: VOCAB
+  underline:
+  - Quam
+- n: 16
+  stem: Familiam et amīcōs saepe cūrāre poterat.
+  options:
+    a: He was able
+    b: They were able
+    c: We were able
+    d: You were able
+  answer: a
+  node: MS-112
+  underline:
+  - poterat
+- n: 17
+  stem: Cornēlia nōs in amphitheātrō salūtāvit.
+  options:
+    a: we
+    b: us
+    c: to us
+    d: by us
+  answer: b
+  node: MS-115
+  underline:
+  - nōs
+- n: 18
+  stem: Erāsne in lūdō heri?
+  options:
+    a: Are you
+    b: Will you be
+    c: Have you been
+    d: Were you
+  answer: d
+  node: MS-097
+  underline:
+  - Erāsne
+- n: 19
+  stem: Flaccus novem librōs habet. Flāvia decem librōs habet. Quot librōs habent?
+  options:
+    a: XII
+    b: XVII
+    c: XVIII
+    d: XIX
+  answer: d
+  node: RW-063
+- n: 20
+  stem: In Amphitheātrō Flāviō _____ ferōciter pugnābant.
+  options:
+    a: gladiātor
+    b: gladiātōrēs
+    c: gladiātōre
+    d: gladiātōrum
+  answer: b
+  node: MS-014
+  needs:
+  - MS-065
+- n: 21
+  stem: Ecce! Vidēs multōs amīcōs in ātriō, cibum in culīnā, hortum in peristȳliō. Ubi es?
+  options:
+    a: in thermīs
+    b: in basilicā
+    c: in vīllā
+    d: in tabernīs
+  answer: c
+  node: RW-048
+- n: 22
+  stem: The French word mère, the Spanish word madre, and the English word matron ultimately all derive from what
+    Latin word?
+  options:
+    a: marītus
+    b: māter
+    c: mare
+    d: magister
+  answer: b
+  node: MW-019
+- n: 23
+  stem: Which god of music traded his herd of cows and a magic wand in exchange for the lyre pictured here?
+  options:
+    a: Ares
+    b: Dionysus
+    c: Apollo
+    d: Zeus
+  answer: c
+  node: RW-064
+  image: nle/2022-beginning-p1-1.png
+- n: 24
+  stem: According to its Latin root, a creature with lupine features would resemble what animal?
+  options:
+    a: eagle
+    b: horse
+    c: fish
+    d: wolf
+  answer: d
+  node: MW-009
+  underline:
+  - lupine
+- n: 25
+  stem: Which room of the Roman thermae was designated for hot baths?
+  options:
+    a: caldārium
+    b: tepidārium
+    c: frīgidārium
+    d: apodytērium
+  answer: a
+  node: RW-060
+- n: 26
+  stem: After the exile of Tarquinius Superbus and the end of the Monarchy, the Roman Republic began with Brutus
+    and Collatinus holding which office?
+  options:
+    a: emperor
+    b: dictator
+    c: consul
+    d: censor
+  answer: c
+  node: RW-015
+- n: 27
+  stem: Because the senator misspoke during their speech, they later had to correct their _______.
+  options:
+    a: lapsus linguae
+    b: per capita
+    c: nota bene
+    d: magna cum laude
+  answer: a
+  node: MW-043
+- n: 28
+  stem: The Via Appia ran from Rome to which port city often used to sail to Greece, which is also marked on the
+    map?
+  options:
+    a: Capua
+    b: Ostia
+    c: Brundisium
+    d: Pompeii Pachacoutec, a famous Incan, needs help solving a problem Pachacoutec is nom. sing. (pa-shuh-KOO-tek)
+  answer: c
+  node: RW-087
+  image: nle/2022-beginning-p1-2.png
+- n: 29
+  stem: In line 1, what do we learn about Pachacoutec?
+  options:
+    a: He is a proud king.
+    b: He is a learned doctor.
+    c: He is a lucky general.
+    d: He is a strict teacher.
+  answer: a
+  node: CR-009
+  passage: magic-river-1
+- n: 30
+  stem: Why does Pachacoutec ask for help from doctors (line 2)?
+  options:
+    a: He is growing old.
+    b: He is concerned for his people.
+    c: His son is sick.
+    d: He is sick.
+  answer: c
+  node: CR-009
+  passage: magic-river-1
+- n: 31
+  stem: According to lines 4-5, from whom does Pachacoutec later seek advice?
+  options:
+    a: a sacred altar
+    b: his top general
+    c: other doctors
+    d: a wretched man
+  answer: a
+  node: CR-009
+  passage: magic-river-1
+- n: 32
+  stem: According to the advice that Pachacoutec receives (lines 6-7), where is he able to find this magical water?
+  options:
+    a: at the middle of the ocean
+    b: near the sacred altar
+    c: deep in a mountain cave
+    d: where the river meets the sky
+  answer: d
+  node: CR-009
+  passage: magic-river-1
+- n: 33
+  stem: According to line 8, whom does Pachacoutec send throughout the whole kingdom?
+  options:
+    a: his son
+    b: doctors
+    c: his wife
+    d: messengers
+  answer: d
+  node: CR-009
+  passage: magic-river-1
+- n: 34
+  stem: Who volunteers first to find the magic water in lines 9-10?
+  options:
+    a: Suma’s brothers
+    b: Pachacoutec himself
+    c: four local heroes
+    d: Topa
+  answer: a
+  node: CR-009
+  passage: magic-river-1
+- n: 35
+  stem: According to line 11, why does Pachacoutec punish the brave men?
+  options:
+    a: They failed at their task.
+    b: They drank the water themselves.
+    c: They abandoned their sister.
+    d: They tried to overthrow the king.
+  answer: a
+  node: CR-009
+  passage: magic-river-2
+- n: 36
+  stem: According to lines 12-13, how does Suma feel about the task?
+  options:
+    a: scared
+    b: confident
+    c: humbled
+    d: alarmed
+  answer: b
+  node: CR-009
+  passage: magic-river-2
+- n: 37
+  stem: In line 14, how does Pachacoutec respond to Suma’s pledge to assist him?
+  options:
+    a: He refuses to accept her help.
+    b: He is amused but agrees to her help.
+    c: He is confused and questions her.
+    d: He is overjoyed by her enthusiasm.
+  answer: b
+  node: CR-009
+  passage: magic-river-2
+- n: 38
+  stem: According to line 15, what does Suma do after traveling for a long time?
+  options:
+    a: She grows tired and sits down.
+    b: She grows hungry and hunts birds.
+    c: She climbs a tree to look around.
+    d: She falls asleep by a river.
+  answer: a
+  node: CR-009
+  passage: magic-river-2
+- n: 39
+  stem: What guides Suma on her journey (lines 16-17)?
+  options:
+    a: a voice from the altar
+    b: two shooting stars
+    c: three grateful birds
+    d: a treasure map
+  answer: c
+  node: CR-009
+  passage: magic-river-2
+- n: 40
+  stem: At the end of the passage, why are the brothers freed?
+  options:
+    a: Suma saved the life of the king’s son.
+    b: The brothers revealed the river’s location.
+    c: The brothers struck a deal with the king.
+    d: Suma overthrew the king.
+  answer: a
+  node: CR-009
+  passage: magic-river-2

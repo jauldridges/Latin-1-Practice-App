@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ student }}{% endblock %}
+{% block content %}
+<p class="small"><a href="{{ url_for('nle_home') }}">← Practice NLE</a></p>
+<h1>{{ q.title }}</h1>
+
+<div class="nle-score">
+  <div class="n">{{ right }} <span>of {{ total }}</span></div>
+  {% if award %}
+    <div class="nle-award {{ award.medal }}">On the real exam, that earns <strong>{{ award.name }}</strong>.</div>
+  {% elif total == 40 %}
+    <div class="small muted">On the real exam, 27 earns Cum Laude.</div>
+  {% endif %}
+  {% if covered_total and covered_total < total %}
+    <div class="small muted">On what we've covered so far: {{ covered_right }} of {{ covered_total }}.</div>
+  {% endif %}
+</div>
+
+{% if work_on %}
+<h2>What to work on</h2>
+<p class="small muted">Open a hint, or do the lesson — it brings you straight back here.</p>
+{% for t in work_on %}
+<div class="card nle-topic">
+  <div><strong>{{ t.help.label }}</strong>
+    {% if not t.covered %}<span class="pill notyet">not covered yet</span>{% endif %}</div>
+  <div class="small muted">Missed:
+    {% for i in t.missed %}<a href="#q{{ i }}">{{ i }}</a>{{ ', ' if not loop.last }}{% endfor %}</div>
+  {% if t.help.lesson %}
+    <a class="minibtn" href="{{ url_for('badge_lesson', bid=t.help.lesson.bid, back=back) }}">Do Lesson {{ t.help.lesson.n }}: {{ t.help.lesson.title }}</a>
+  {% endif %}
+  {% if t.help.teaching or t.help.remember %}
+  <details class="hintbox"><summary>Hint</summary>
+    {% if t.help.teaching %}<p class="small">{{ t.help.teaching.explain }}</p>
+    {% else %}<p class="small"><strong>Remember:</strong> {{ t.help.remember }}</p>{% endif %}
+  </details>
+  {% endif %}
+</div>
+{% endfor %}
+{% endif %}
+
+<h2>Every question</h2>
+{% for r in rows %}
+<div class="card nle-q {{ 'ok' if r.ok else 'miss' }}" id="q{{ r.pos }}">
+  <div class="meta-row">
+    <span class="badge tier">{{ r.pos }}</span>
+    {% if r.ok %}<span class="pill solid">right</span>
+    {% elif not r.picked %}<span class="pill notyet">blank</span>
+    {% else %}<span class="pill wrongpill">wrong</span>{% endif %}
+    {% if r.item.nle %}<span class="small muted">{{ r.item.nle.label }}, question {{ r.item.nle.n }}</span>{% endif %}
+  </div>
+  {% if r.passage %}<div class="small muted">Reading: {{ r.passage.title }}</div>{% endif %}
+  <div style="margin:6px 0">{{ stem_html(r.item) }}</div>
+  {% if r.item.image %}<img class="nle-img small" src="{{ url_for('static', filename=r.item.image) }}" alt="The picture for this question">{% endif %}
+  {% for disp, k, v in shown_options(r.item) %}
+    {% if k == r.item.answer or k == r.picked %}
+    <div class="opt {{ 'correct' if k == r.item.answer }}">
+      <span class="k">{{ disp | upper }}){% if k == r.item.answer %} ✓{% endif %}</span> <span>{{ v }}</span>
+      {% if k == r.picked and k != r.item.answer %}<span class="small muted">— you picked this</span>{% endif %}
+    </div>
+    {% endif %}
+  {% endfor %}
+
+  {% if not r.ok %}
+    {% set h = r.help %}
+    <details class="hintbox"><summary>Hint</summary>
+      {% if h.lines %}
+        <p class="small">Look back at line{{ 's' if h.lines | length > 1 }} {{ h.lines[0].n }}{% if h.lines | length > 1 %}–{{ h.lines[-1].n }}{% endif %}:</p>
+        <ul class="nle-look small">{% for l in h.lines %}<li><span class="ln">{{ l.n }}</span> <span class="la">{{ l.html }}</span>{% if l.gloss %} <span class="muted">({{ l.gloss }})</span>{% endif %}</li>{% endfor %}</ul>
+      {% endif %}
+      {% if h.teaching %}<p class="small">{{ h.teaching.explain }}</p>
+      {% elif h.remember %}<p class="small"><strong>Remember:</strong> {{ h.remember }}</p>{% endif %}
+      <p class="small muted">This question is about: {{ h.label }}.</p>
+    </details>
+    {% if h.lesson %}
+      <a class="minibtn" href="{{ url_for('badge_lesson', bid=h.lesson.bid, back=back ~ '#q' ~ r.pos) }}">Do Lesson {{ h.lesson.n }}: {{ h.lesson.title }}</a>
+    {% endif %}
+  {% endif %}
+</div>
+{% endfor %}
+
+<div class="nle-starts">
+  <form method="post" action="{{ url_for('nle_start') }}">
+    <input type="hidden" name="kind" value="mashup"><input type="hidden" name="size" value="20">
+    <button class="bigbtn" type="submit">Try a quick mash-up</button></form>
+  <a class="bigbtn secondary" href="{{ url_for('nle_home') }}">Back to Practice NLE</a>
+</div>
+{% endblock %}

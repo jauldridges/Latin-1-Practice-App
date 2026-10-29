@@ -1,0 +1,489 @@
+# 2023 National Latin Exam — Beginning Latin. Transcribed from the exam PDF; answers worked out
+# by hand (no answer key supplied). `node` is the course topic each question tests.
+exam:
+  id: 2023-beginning
+  year: 2023
+  kind: beginning
+  title: Beginning Latin
+  source_note: ACL/NJCL National Latin Exam 2023, Beginning Latin. Used with permission for non-commercial classroom
+    practice.
+passages:
+- id: sparrow
+  title: PASSER ET FABA
+  subtitle: A sparrow finds a bean.
+  note: PASSER = Sparrow; FABA = Bean
+  source: Adapted from a Nepalese folktale
+  questions:
+  - 31
+  - 40
+  lines:
+  - n: 1
+    latin: Ōlim passer fabam in agrō vīdit. “Euge!” clāmāvit passer. “Hodiē nōn
+    gloss: Euge = Hooray
+    underline:
+    - Euge
+  - n: 2
+    latin: necesse est cibum quaerere.” Passer fabam in pontem posuit et ad rīvum ante
+    gloss: quaerere = to look for; pontem = bridge
+    underline:
+    - quaerere
+    - pontem
+  - n: 3
+    latin: cēnam volāvit. Ubi passer ad pontem revēnit, faba nōn iam aderat. Tum
+  - n: 4
+    latin: passer mīlitem in ponte vīdit et rogāvit, “Adiuvā mē! Vīdistīne fabam meam?”
+    gloss: Adiuvā = Help
+    underline:
+    - Adiuvā
+  - n: 5
+    latin: Mīles respondit, “Quis tam parvum passerem adiuvāre velit?” Mīles rīdēbat et
+    gloss: tam = so; velit = would want
+    underline:
+    - tam
+    - velit
+  - n: 6
+    latin: discessit. Mox et senātor et minister pontem trānsībant, et passerem adiuvāre
+  - n: 7
+    latin: quoque nōlēbant. Etiam iūstus et magnus rēx, quī in elephantō sedēbat, fabam
+  - n: 8
+    latin: quaerere nōlēbat. Passer miser erat sine spē et cibō.
+    gloss: spē = hope
+    underline:
+    - spē
+  - n: 9
+    latin: Mox formīca passerem vīdit et rogāvit, “Quid est? Cūr tam miser es?” Ubi
+    gloss: formīca = an ant
+    underline:
+    - formīca
+  - n: 10
+    latin: passer tōtam fābulam nārrāvit, formīca auxilium passerī prōmīsit. Tum
+  - n: 11
+    latin: formīca ad aurem elephantī ascendit et dīxit, “Nisi rēgem quaerere fabam
+    gloss: Nisi = Unless
+    underline:
+    - Nisi
+  - n: 12
+    latin: iubēbis, aurem tuam mordēbō.” Elephantus perterritus rēgī dīxit, “Nisi
+    gloss: mordēbō = I will bite
+    underline:
+    - mordēbō
+  - n: 13
+    latin: passerem adiuvābis, ō rēx, tē in terram dēiciam!” Rēx iussit ministrum quaerere
+    gloss: dēiciam = I will throw down
+    underline:
+    - dēiciam
+  - n: 14
+    latin: fabam; tum minister senātōrem iussit. Tandem senātor mīlitem iussit, “Quaere,
+  - n: 15
+    latin: mīles, fabam passerī. Nisi fabam inveniēs, tē dē ponte dēiciam!” Mīles diū
+    gloss: inveniēs = you find; diū = for a long time
+    underline:
+    - inveniēs
+    - diū
+  - n: 16
+    latin: quaerēbat et tandem fabam invēnit. Passer fabam laetē cōnsūmpsit.
+items:
+- n: 1
+  stem: Plīnius epistulam stilō scrīpsit.
+  options:
+    a: with a pen
+    b: for a pen
+    c: of a pen
+    d: a pen
+  answer: a
+  node: MS-089
+  underline:
+  - stilō
+- n: 2
+  stem: Est saepe difficile mihi dormīre.
+  options:
+    a: will sleep
+    b: have slept
+    c: to sleep
+    d: are sleeping
+  answer: c
+  node: MS-076
+  underline:
+  - dormīre
+- n: 3
+  stem: Amīcus meus ad thermās cum patre vēnit.
+  options:
+    a: of his father
+    b: for his father
+    c: his father
+    d: with his father
+  answer: d
+  node: MS-088
+  underline:
+  - cum patre
+- n: 4
+  stem: Agricola multās vaccās in agrō cūrābat.
+  options:
+    a: is taking care of
+    b: was taking care of
+    c: will take care of
+    d: has taken care of
+  answer: b
+  node: MS-095
+  underline:
+  - cūrābat
+- n: 5
+  stem: Cleopatra erat _____ Aegyptī.
+  options:
+    a: rēgīna
+    b: rēgīnae
+    c: rēgīnam
+    d: rēgīnā
+  answer: a
+  node: MS-041
+- n: 6
+  stem: Pater cibum optimum hospitī praeclārō dabat.
+  options:
+    a: of his famous guest
+    b: to his famous guest
+    c: from his famous guest
+    d: by his famous guest
+  answer: b
+  node: MS-057
+  needs:
+  - MS-064
+  underline:
+  - hospitī praeclārō
+- n: 7
+  stem: Tempestās est semper splendida. Heri sōl lūcēbat, _____ sōl lūcet, et crās sōl lūcēbit.
+  options:
+    a: numquam
+    b: statim
+    c: saepe
+    d: hodiē
+  answer: d
+  node: VOCAB
+- n: 8
+  stem: Cantābisne mihi pulchrum carmen post cēnam?
+  options:
+    a: Will you sing
+    b: Were you singing
+    c: Are you singing
+    d: Did you sing
+  answer: a
+  node: MS-098
+  underline:
+  - Cantābisne
+- n: 9
+  stem: Nōmina omnium animālium scīvistī.
+  options:
+    a: I knew
+    b: You knew
+    c: He knew
+    d: We knew
+  answer: b
+  node: MS-104
+  underline:
+  - scīvistī
+- n: 10
+  stem: Trāns rīvum et per silvās ad casam mātris ā casā nostrā prōcēdimus. In this sentence, what is our final
+    destination?
+  options:
+    a: a river
+    b: the woods
+    c: mother’s house
+    d: our house
+  answer: c
+  node: MS-084
+- n: 11
+  stem: “Nōlī, pater, in ātriō clāmāre! Īnfāns dormit!”
+  options:
+    a: He shouted
+    b: Don’t shout
+    c: Why not shout
+    d: No one shouts
+  answer: b
+  node: MS-078
+  underline:
+  - Nōlī
+  - clāmāre
+- n: 12
+  stem: Fīlius meus in peristȳliō quiētē legit.
+  options:
+    a: to quiet
+    b: quiet
+    c: quiets
+    d: quietly [This question updated on 3/23/23]
+  answer: d
+  node: MS-132
+  underline:
+  - quiētē
+- n: 13
+  stem: Sum optimus amīcus hominis. Saepe dormiō ad pedēs dominī meī. Cum dominō ambulāre amō. Quid sum?
+  options:
+    a: avis
+    b: canis
+    c: piscis
+    d: ursus
+  answer: b
+  node: VOCAB
+- n: 14
+  stem: Venīte, _____, ad forum nōbīscum!
+  options:
+    a: Mārce et Lūcī
+    b: fīlia mea
+    c: mercātor
+    d: tū
+  answer: a
+  node: MS-049
+- n: 15
+  stem: Aenēās Dīdōnem amat sed necesse est Troiānīs discēdere.
+  options:
+    a: and
+    b: not
+    c: because
+    d: but
+  answer: d
+  node: MS-051
+  underline:
+  - sed
+- n: 16
+  stem: To what question would the response, “Pecūnia est in saccō,” make sense?
+  options:
+    a: Estne pecūnia gravis?
+    b: Ubi est pecūnia?
+    c: Cūr pecūniam habēs?
+    d: Quandō pecūniam invēnistī?
+  answer: b
+  node: VOCAB
+- n: 17
+  stem: Lūcia decem rosās habet. Lūcia quattuor Cornēliae dat. Quot nunc habet Lūcia?
+  options:
+    a: duo
+    b: quattuor
+    c: sex
+    d: octō
+  answer: c
+  node: VOCAB
+- n: 18
+  stem: Multa animālia sunt magna saevaque.
+  options:
+    a: Many animals are not large or very fierce.
+    b: Many animals are large but not fierce.
+    c: Many animals are large and fierce.
+    d: Many animals are neither large nor fierce.
+  answer: c
+  node: MS-051
+  underline:
+  - Multa animālia sunt magna saevaque
+- n: 19
+  stem: Super Bowl LVII was this year. Which Super Bowl was it?
+  options:
+    a: '12'
+    b: '17'
+    c: '42'
+    d: '57'
+  answer: d
+  node: RW-063
+- n: 20
+  stem: Students know that sometimes teachers should listen to the vōx populī. What should the teachers listen to?
+  options:
+    a: their own instincts
+    b: public opinion
+    c: the wisdom of a mentor
+    d: their administrator’s orders
+  answer: b
+  node: MW-043
+- n: 21
+  stem: Ubi gladiātōrēs imperātōrī dīcēbant, “Nōs moritūrī tē salūtāmus”?
+  options:
+    a: in Colossēō
+    b: in Campō Martiō
+    c: in Templō Iovis
+    d: in Cūriā
+  answer: a
+  node: RW-090
+- n: 22
+  stem: 'What did the Romans call #4 on the map, where the Trojan War took place?'
+  options:
+    a: Italia
+    b: Graecia
+    c: Āfrica
+    d: Asia
+  answer: d
+  node: RW-004
+  image: nle/2023-beginning-p1-1.png
+- n: 23
+  stem: Quae rēgiō in pictūrā numerum nōn habet?
+  options:
+    a: Hispānia
+    b: Britannia
+    c: Gallia
+    d: Germānia
+  answer: b
+  node: RW-004
+  image: nle/2023-beginning-p1-1.png
+- n: 24
+  stem: How should Latin teachers say goodbye to their students at the end of class?
+  options:
+    a: Salvē!
+    b: Salvēte!
+    c: Valē!
+    d: Valēte!
+  answer: d
+  node: VOCAB
+- n: 25
+  stem: What name was shared by three brothers who defended Rome against the Cūriātiī of Alba Longa and by a man
+    who defended Rome on the Pōns Sublicius from the Etruscans?
+  options:
+    a: Mucius
+    b: Coriolanus
+    c: Horatius
+    d: Cincinnatus
+  answer: c
+  node: RW-011
+- n: 26
+  stem: Your digitī, pollex, and palma are parts of your _____.
+  options:
+    a: caput
+    b: oculī
+    c: manus
+    d: aurēs
+  answer: c
+  node: VOCAB
+- n: 27
+  stem: Who left behind his wife Creusa as he fled from Troy with his father Anchises and son Ascanius?
+  options:
+    a: Priam
+    b: Hector
+    c: Aeneas
+    d: Paris
+  answer: c
+  node: RW-008
+- n: 28
+  stem: The English words effort, fortify, and comfort all derive from the same Latin adjective. What does it mean?
+  options:
+    a: lucky
+    b: strong
+    c: calm
+    d: difficult
+  answer: b
+  node: MW-009
+  underline:
+  - effort
+  - fortify
+  - comfort
+- n: 29
+  stem: What goddess changed Actaeon into a stag that was attacked by his own hunting dogs, because he had seen
+    her bathing in the woods?
+  options:
+    a: Diana
+    b: Minerva
+    c: Ceres
+    d: Vesta
+  answer: a
+  node: RW-064
+- n: 30
+  stem: Quid erat Rēgīna Viārum ab urbe Rōmā ad urbem Brundisium?
+  options:
+    a: Flūmen Tiberis
+    b: Aqua Claudia
+    c: Cloāca Maxima
+    d: Via Appia PASSER ET FABA PASSER = Sparrow; FABA = Bean A sparrow finds a bean.
+  answer: d
+  node: RW-087
+- n: 31
+  stem: Where did the sparrow put the bean which he had found (line 2)?
+  options:
+    a: in a field
+    b: on a bridge
+    c: by the river
+    d: on the table
+  answer: b
+  node: CR-009
+  passage: sparrow
+- n: 32
+  stem: What does the phrase faba nōn iam aderat reveal (line 3)?
+  options:
+    a: The bean had been cooked.
+    b: The bean was broken.
+    c: The bean had sprouted.
+    d: The bean was now missing.
+  answer: d
+  node: CR-009
+  passage: sparrow
+- n: 33
+  stem: In lines 3-4, for what kind of help was the sparrow asking the soldier?
+  options:
+    a: preparing his dinner
+    b: building a bridge
+    c: finding his bean
+    d: guarding his field
+  answer: c
+  node: CR-009
+  passage: sparrow
+- n: 34
+  stem: How did the soldier respond to the sparrow’s request (lines 5-6)?
+  options:
+    a: with fear and distrust
+    b: with laughter and disrespect
+    c: with joy and compassion
+    d: with confusion and frustration
+  answer: b
+  node: CR-009
+  passage: sparrow
+- n: 35
+  stem: In line 6, what is the best translation of et senātor et minister?
+  options:
+    a: either a senator or a minister
+    b: neither a senator nor a minister
+    c: no other senator or minister
+    d: both a senator and a minister
+  answer: d
+  node: MS-051
+  passage: sparrow
+- n: 36
+  stem: In lines 9-10, who offered to help the sparrow?
+  options:
+    a: the ant
+    b: the minister
+    c: the king
+    d: the soldier
+  answer: a
+  node: CR-009
+  passage: sparrow
+- n: 37
+  stem: In lines 10-12, what does the ant do?
+  options:
+    a: save the elephant
+    b: avoid the elephant
+    c: threaten the elephant
+    d: thank the elephant
+  answer: c
+  node: CR-009
+  passage: sparrow
+- n: 38
+  stem: How is Quaere, mīles, fabam (lines 14-15) best translated?
+  options:
+    a: To look for the soldier’s bean
+    b: The soldier looks for the bean
+    c: I look for the soldier and the bean
+    d: Soldier, look for the bean
+  answer: d
+  node: MS-077
+  passage: sparrow
+- n: 39
+  stem: In lines 12-16, who does NOT face punishment?
+  options:
+    a: the sparrow
+    b: the elephant
+    c: the king
+    d: the soldier
+  answer: a
+  node: CR-009
+  passage: sparrow
+- n: 40
+  stem: Which of the following Latin phrases best summarizes the lesson of the story?
+  options:
+    a: adiuvāte etiam parvum
+    b: nōlīte cōnsūmere fabās
+    c: cavēte omnēs elephantōs
+    d: minister est sacer
+  answer: a
+  node: CR-013
+  passage: sparrow

@@ -1,0 +1,488 @@
+# 2018 National Latin Exam — Latin I. Transcribed from the exam PDF; answers worked out
+# by hand (no answer key supplied). `node` is the course topic each question tests.
+exam:
+  id: 2018-latin1
+  year: 2018
+  kind: latin1
+  title: Latin I
+  source_note: ACL/NJCL National Latin Exam 2018, Latin I. Used with permission for non-commercial classroom practice.
+passages:
+- id: foolish-request
+  title: A FOOLISH REQUEST
+  subtitle: ''
+  note: ''
+  source: Inspired by the Homeric Hymns and later retellings
+  questions:
+  - 30
+  - 40
+  lines:
+  - n: 1
+    latin: Aurōra, dea prīmae lūcis, mortālem Tīthōnum amābat. Itaque Aurōra ā Iove
+    gloss: Iove = Jupiter
+    underline:
+    - Iove
+  - n: 2
+    latin: auxilium petīvit. Dea immortālitātem Tīthōnō cupīvit, quod cum adulēscente
+    gloss: petīvit = sought
+    underline:
+    - petīvit
+  - n: 3
+    latin: semper vīvere volēbat.
+  - n: 4
+    latin: Verba continua Aurōrae Iovem vexābant, sed tandem rēx deōrum annuit.
+    gloss: vexābant = annoyed; annuit = agreed
+    underline:
+    - vexābant
+    - annuit
+  - n: 5
+    latin: Diū et Aurōra et Tīthōnus laetē vīvēbant. Aurōra tamen mūtātiōnēs in Tīthōnō
+  - n: 6
+    latin: sentīre coepit. Prīmō Tīthōnus nōn iam corpus validum adulēscentis habuit.
+    gloss: sentīre coepit = began to notice; validum = strong
+    underline:
+    - sentīre coepit
+    - validum
+  - n: 7
+    latin: Coma virī erat cāna, tum alba. Aurōra misera errōrem sēnsit. Dea Tīthōnō
+    gloss: cāna = gray
+    underline:
+    - cāna
+  - n: 8
+    latin: immortālitātem sed nōn quoque adulēscentiam perpetuam petīverat! Post multōs
+    gloss: petīverat = had sought
+    underline:
+    - petīverat
+  - n: 9
+    latin: annōs Tīthōnus erat senex. Vīvēbat miserē quod nōn morī poterat! Tandem
+    gloss: senex = an old man; morī = to die
+    underline:
+    - senex
+    - morī
+  - n: 10
+    latin: Tīthōnus neque ambulāre neque verba dīcere poterat. Aurōra eum in cicādam
+    gloss: cicādam = cicada/cricket-like insect
+    underline:
+    - cicādam
+  - n: 11
+    latin: misericordiā mūtāvit. Hodiē Tīthōnus, nunc etiam cicāda, in parvā ollā
+    gloss: misericordiā = out of pity; ollā = jar
+    underline:
+    - misericordiā
+    - ollā
+  - n: 12
+    latin: in aulā Aurōrae habitat.
+    gloss: aulā = palace
+    underline:
+    - aulā
+items:
+- n: 1
+  stem: Canēs sub arbore quiēscēbant.
+  options:
+    a: are resting
+    b: were resting
+    c: will rest
+    d: have rested
+  answer: b
+  node: MS-096
+  underline:
+  - quiēscēbant
+- n: 2
+  stem: Magnum aedificium vīdī et rogāvī, “Quid est?”
+  options:
+    a: “What is it?”
+    b: “Who are you?”
+    c: “Is that it?”
+    d: “How are you?”
+  answer: a
+  node: MS-130
+  underline:
+  - Quid est
+- n: 3
+  stem: Magister discipulīs laetīs fābulam nārrat.
+  options:
+    a: of the happy students
+    b: to the happy students
+    c: in front of the happy students
+    d: near the happy students
+  answer: b
+  node: MS-057
+  underline:
+  - discipulīs laetīs
+- n: 4
+  stem: Herculēs Cerberum capere poterat.
+  options:
+    a: Hercules wanted to capture Cerberus.
+    b: Hercules tried to capture Cerberus.
+    c: It was necessary for Hercules to capture Cerberus.
+    d: Hercules was able to capture Cerberus.
+  answer: d
+  node: MS-112
+  underline:
+  - Herculēs Cerberum capere poterat
+- n: 5
+  stem: Deus amōris erat _____ Veneris.
+  options:
+    a: fīlius
+    b: fīliī
+    c: fīlium
+    d: fīliō
+  answer: a
+  node: MS-041
+- n: 6
+  stem: Mīlitēs trāns viam ambulant.
+  options:
+    a: around
+    b: under
+    c: across
+    d: near
+  answer: c
+  node: MS-084
+  underline:
+  - trāns
+- n: 7
+  stem: Puerī magnōs piscēs patrī cum gaudiō dabunt. The adjective magnōs agrees with
+  options:
+    a: Puerī
+    b: piscēs
+    c: patrī
+    d: gaudiō
+  answer: b
+  node: MS-071
+- n: 8
+  stem: Discipula IV librōs lēgit. Quot librōs lēgit?
+  options:
+    a: quattuor
+    b: quīnque
+    c: sex
+    d: quīndecim
+  answer: a
+  node: RW-063
+- n: 9
+  stem: Crās vōs vidēbimus!
+  options:
+    a: we are seeing
+    b: we were seeing
+    c: we will see
+    d: we have seen
+  answer: c
+  node: MS-098
+  underline:
+  - vidēbimus
+- n: 10
+  stem: Pater perterritus clāmōrēs līberōrum audiēbat.
+  options:
+    a: the children
+    b: of the children
+    c: to the children
+    d: with the children
+  answer: b
+  node: MS-052
+  underline:
+  - līberōrum
+- n: 11
+  stem: Aenēās rēgīnam amābat, sed mox necesse erat discēdere.
+  options:
+    a: immediately
+    b: often
+    c: always
+    d: soon
+  answer: d
+  node: VOCAB
+  underline:
+  - mox
+- n: 12
+  stem: Certē puellae _____ saepe vexant.
+  options:
+    a: frātrī
+    b: frātre
+    c: frātrēs
+    d: frātribus
+  answer: c
+  node: MS-015
+  needs:
+  - MS-065
+- n: 13
+  stem: Audīte, cīvēs, verba rēgis!
+  options:
+    a: Hear
+    b: To hear
+    c: They hear
+    d: We hear
+  answer: a
+  node: MS-077
+  underline:
+  - Audīte
+- n: 14
+  stem: Iāsōn cum Argonautīs nāvigāvit.
+  options:
+    a: sails
+    b: was sailing
+    c: will sail
+    d: has sailed
+  answer: d
+  node: MS-105
+  underline:
+  - nāvigāvit
+- n: 15
+  stem: Scītisne fābulam dē Rōmulō Remōque?
+  options:
+    a: Do you know
+    b: Who knows
+    c: Did you know
+    d: Don’t we know
+  answer: a
+  node: MS-031
+  underline:
+  - Scītisne
+- n: 16
+  stem: “Numquam tē amābō!” exclāmat Pyrrha.
+  options:
+    a: “I still don’t love you!”
+    b: “I never will love you!”
+    c: “You have always loved me!”
+    d: “How long I have loved you!”
+  answer: b
+  node: MS-098
+  underline:
+  - Numquam tē amābō
+- n: 17
+  stem: Gladiātor tēlō leōnem necāre temptat.
+  options:
+    a: a weapon
+    b: of a weapon
+    c: from a weapon
+    d: with a weapon
+  answer: d
+  node: MS-089
+  underline:
+  - tēlō
+- n: 18
+  stem: Tū virum _____.
+  options:
+    a: laudābam
+    b: laudābās
+    c: laudābat
+    d: laudābāmus
+  answer: b
+  node: MS-037
+- n: 19
+  stem: Neque pater neque māter mē intellegit.
+  options:
+    a: If not…then
+    b: Not only…but also
+    c: Neither…nor
+    d: Both…and
+  answer: c
+  node: MS-051
+  underline:
+  - Neque
+  - neque
+- n: 20
+  stem: The English words aqueduct, introduce, and deductive all derive from the Latin verb meaning to
+  options:
+    a: touch
+    b: teach
+    c: lead
+    d: trade
+  answer: c
+  node: MW-009
+  underline:
+  - aqueduct
+  - introduce
+  - deductive
+- n: 21
+  stem: For the ancient Romans, Pluto’s kidnapping of Proserpina to the Underworld was used to explain
+  options:
+    a: the seasons
+    b: volcanic eruptions
+    c: earthquakes
+    d: the rainbow
+  answer: a
+  node: RW-064
+- n: 22
+  stem: Gladiator fights, beast hunts, and public executions all happened in the
+  options:
+    a: cūria
+    b: amphitheātrum
+    c: templum
+    d: thermae
+  answer: b
+  node: RW-090
+- n: 23
+  stem: The Latin word for eye gives us which of the following derivatives?
+  options:
+    a: capital
+    b: orator
+    c: binoculars
+    d: pectoral
+  answer: c
+  node: MW-009
+  underline:
+  - eye
+- n: 24
+  stem: Which of the following events happened last?
+  options:
+    a: the end of the Trojan War
+    b: the reign of Augustus, the first emperor
+    c: the growth of the Senate during the Roman Republic
+    d: the expulsion of the kings from Rome
+  answer: b
+  node: RW-039
+- n: 25
+  stem: Who in Roman society wore a bulla?
+  options:
+    a: mothers
+    b: merchants
+    c: senators
+    d: children
+  answer: d
+  node: RW-054
+- n: 26
+  stem: When a teacher takes attendance, which response would NOT be logically possible
+  options:
+    a: “Abest.”
+    b: “Adsum.”
+    c: “Hīc!”
+    d: “Absum.”
+  answer: d
+  node: VOCAB
+- n: 27
+  stem: The top students were proud to receive an extra seal on their diplomas noting that they were graduating
+    _____.
+  options:
+    a: summā cum laude
+    b: S.P.Q.R.
+    c: persōna nōn grāta
+    d: A.D.
+  answer: a
+  node: MW-043
+- n: 28
+  stem: What goddess, mother of Cupid, had doves, sparrows, and the myrtle tree as her symbols?
+  options:
+    a: Ceres
+    b: Venus
+    c: Juno
+    d: Minerva
+  answer: b
+  node: RW-064
+- n: 29
+  stem: Which number on the map represents the location of the Tiber River?
+  options:
+    a: '1'
+    b: '2'
+    c: '3'
+    d: 4 A FOOLISH REQUEST
+  answer: c
+  node: RW-001
+  image: nle/2018-latin1-p2-1.png
+- n: 30
+  stem: In line 1, dea prīmae lūcis reveals that Aurora was the goddess of
+  options:
+    a: the moon
+    b: wisdom
+    c: beauty
+    d: the dawn
+  answer: d
+  node: CR-009
+  passage: foolish-request
+- n: 31
+  stem: Why did Aurora ask for help from Jupiter (lines 1-3)?
+  options:
+    a: She wanted to be more powerful.
+    b: She wanted to live with Tithonus forever.
+    c: She wanted to be young again.
+    d: She wanted to punish the young mortal.
+  answer: b
+  node: CR-009
+  passage: foolish-request
+- n: 32
+  stem: In line 4, Jupiter granted Aurora’s wish because of her
+  options:
+    a: constant asking
+    b: undeniable beauty
+    c: great intelligence
+    d: respectful silence
+  answer: a
+  node: CR-009
+  passage: foolish-request
+- n: 33
+  stem: What is the best translation of laetē in line 5?
+  options:
+    a: happy
+    b: happier
+    c: most happy
+    d: happily
+  answer: d
+  node: MS-132
+  passage: foolish-request
+- n: 34
+  stem: In line 6, the phrase corpus validum is in what case?
+  options:
+    a: nominative
+    b: genitive
+    c: accusative
+    d: ablative
+  answer: c
+  node: MS-066
+  passage: foolish-request
+- n: 35
+  stem: According to line 6 (Prīmō…habuit), what was the first change in Tithonus that Aurora noticed?
+  options:
+    a: He was getting forgetful.
+    b: He was becoming hairier.
+    c: He could no longer speak.
+    d: His body was weaker.
+  answer: d
+  node: CR-009
+  passage: foolish-request
+- n: 36
+  stem: Based on your knowledge of the Latin word alba (line 7), it is not surprising that the beard of Albus Dumbledore
+    is
+  options:
+    a: white
+    b: long
+    c: smooth
+    d: thick
+  answer: a
+  node: MW-084
+  passage: foolish-request
+- n: 37
+  stem: In lines 7-8 (Aurōra…petīverat), what did Aurora realize?
+  options:
+    a: She had never really loved Tithonus.
+    b: Tithonus no longer loved her.
+    c: She had made a mistake in her request.
+    d: Jupiter had not listened to her.
+  answer: c
+  node: CR-009
+  passage: foolish-request
+- n: 38
+  stem: In line 9, why was Tithonus unhappy?
+  options:
+    a: He could not die.
+    b: Aurora had tried to kill him.
+    c: Aurora had died.
+    d: He knew he would soon die.
+  answer: a
+  node: CR-009
+  passage: foolish-request
+- n: 39
+  stem: In line 10, we learn that Tithonus was no longer able to
+  options:
+    a: eat
+    b: see
+    c: speak
+    d: hear
+  answer: c
+  node: CR-009
+  passage: foolish-request
+- n: 40
+  stem: What words of wisdom could serve as the moral of this story?
+  options:
+    a: Fortune favors the brave.
+    b: The early bird catches the worm.
+    c: Be careful what you wish for.
+    d: He who hesitates is lost.
+  answer: c
+  node: CR-009
+  passage: foolish-request

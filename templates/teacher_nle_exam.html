@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block subtitle %}teacher · practice NLE{% endblock %}
+{% block content %}
+<p class="small"><a href="{{ url_for('teacher_nle') }}">← All exams</a></p>
+<h1>{{ e.name }}</h1>
+<p class="small muted">{{ e.label }}. The answer marked ✓ is the one the app counts right.
+  The topic is where a miss sends the student for a hint and a lesson.</p>
+
+{% set ns = namespace(last=None) %}
+{% for r in rows %}
+  {% if r.passage and r.passage.id != ns.last %}
+    {% set ns.last = r.passage.id %}
+    {% with passage=r.passage, hi=None %}{% include "_nle_passage.html" %}{% endwith %}
+  {% endif %}
+  <div class="card nle-key" id="q{{ r.item.nle.n if r.item.nle else loop.index }}">
+    <div class="meta-row">
+      <span class="badge tier">{{ r.item.nle.n if r.item.nle else loop.index }}</span>
+      <span class="node-id">{{ r.item.node }}</span> <span class="small muted">{{ r.label }}</span>
+      {% if r.badge %}<span class="pill solid" title="Also asked in this badge's checks">badge: {{ r.badge }}</span>{% endif %}
+      {% if r.status != 'approved' %}<span class="pill notyet">{{ r.status }}</span>{% endif %}
+    </div>
+    <div style="margin:6px 0">{{ stem_html(r.item) }}</div>
+    {% if r.item.image %}<img class="nle-img small" src="{{ url_for('static', filename=r.item.image) }}" alt="">{% endif %}
+    {% for k in ['a', 'b', 'c', 'd'] %}{% if k in r.item.options %}
+      <div class="small {{ 'nle-right' if k == r.item.answer }}">{{ k | upper }}) {{ r.item.options[k] }}{% if k == r.item.answer %} ✓{% endif %}</div>
+    {% endif %}{% endfor %}
+    {% if r.item.needs %}<div class="small muted">Also needs: {{ r.item.needs | join(', ') }}</div>{% endif %}
+    <div class="small"><a href="{{ url_for('review_edit', item_id=r.item.id) }}">Edit</a> ·
+      <a href="{{ url_for('review_item', item_id=r.item.id) }}">Open in the Review tool</a></div>
+  </div>
+{% endfor %}
+{% endblock %}

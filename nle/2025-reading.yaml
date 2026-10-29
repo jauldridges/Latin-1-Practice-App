@@ -1,0 +1,490 @@
+# 2025 National Latin Exam — Beginning Latin Reading Comprehension. Transcribed from the exam PDF; answers worked out
+# by hand (no answer key supplied). `node` is the course topic each question tests.
+exam:
+  id: 2025-reading
+  year: 2025
+  kind: reading
+  title: Beginning Latin Reading Comprehension
+  source_note: ACL/NJCL National Latin Exam 2025, Beginning Latin Reading Comprehension. Used with permission for
+    non-commercial classroom practice.
+passages:
+- id: marcella-1
+  title: MARCELLA ET PŪPA
+  subtitle: An original story in three parts
+  note: PŪPA = DOLL
+  source: ''
+  questions:
+  - 1
+  - 13
+  lines:
+  - n: 1
+    latin: Marcella erat īnfāns et ambulāre cum difficultāte discēbat. Māter et duo frātrēs
+  - n: 2
+    latin: Marcellam docēre temptābant. Etiam in familiā erat canis, Rēx nōmine, quī
+  - n: 3
+    latin: saepe in hortō dormiēbat. Ūnō diē Tiberius, frāter senior, Marcellam in pedēs
+  - n: 4
+    latin: saepe tollēbat et Aulus, frāter iūnior, quī trāns cameram stābat, pūpam eī
+    gloss: tollēbat = was lifting (up); cameram = room; eī = to her
+    underline:
+    - tollēbat
+    - cameram
+    - eī
+  - n: 5
+    latin: dēmōnstrābat. Tiberius sorōrem verbīs placidīs incitābat, sed Aulus pūpam
+    gloss: incitābat = was urging
+    underline:
+    - incitābat
+  - n: 6
+    latin: saepe quassābat et sonīs similibus īnfantī lacrimantī clāmābat. Marcella in
+    gloss: quassābat = was shaking
+    underline:
+    - quassābat
+  - n: 7
+    latin: clūnēs semper cadēbat et Tiberium respiciēbat. Aulus, quod erat vexātus,
+    gloss: clūnēs = her bottom; vexātus = annoyed
+    underline:
+    - clūnēs
+    - vexātus
+  - n: 8
+    latin: pūpam cum īrā dēiciēbat. Canis Rēx pūpam in faucibus saepe capiēbat et
+    gloss: dēiciēbat = was throwing down; faucibus = jaws
+    underline:
+    - dēiciēbat
+    - faucibus
+  - n: 9
+    latin: ē camerā portābat. Tum Marcella clāmābat lacrimābatque.
+- id: marcella-2
+  title: MARCELLA ET PŪPA — part 2
+  subtitle: ''
+  note: ''
+  source: ''
+  questions:
+  - 14
+  - 22
+  lines:
+  - n: 10
+    latin: Posterō diē frātrēs in vīllā lūdēbant. Aulus parvum equum ligneum, quī
+    gloss: ligneum = wooden
+    underline:
+    - ligneum
+  - n: 11
+    latin: rotās habēbat, trahēbat. Tiberius in impluviō parvam nāvem propellēbat.
+    gloss: rotās = wheels
+    underline:
+    - rotās
+  - n: 12
+    latin: Rēx sub lūce sōlis dormiēbat. Subitō māter intrāvit et Marcellam cum pūpā
+  - n: 13
+    latin: prope puerōs dēposuit. Tiberius, quī iam erat īrātus quod nāvis ad costam
+    gloss: costam = side
+    underline:
+    - costam
+  - n: 14
+    latin: dēvolvēbātur, murmurābat atque ad tablīnum discēdēbat. Sorōrem cūrāre
+    gloss: dēvolvēbātur = kept turning over
+    underline:
+    - dēvolvēbātur
+  - n: 15
+    latin: nōn cupiēbat!
+- id: marcella-3
+  title: MARCELLA ET PŪPA — part 3
+  subtitle: ''
+  note: ''
+  source: ''
+  questions:
+  - 23
+  - 36
+  lines:
+  - n: 16
+    latin: Nunc Marcella statim ad impluvium aquae plēnum serpere incipit. Aulus
+  - n: 17
+    latin: sorōrem animadvertit et clāmat, “Cavē, Tiberī! Marcella ad impluvium
+    gloss: animadvertit = notices
+    underline:
+    - animadvertit
+  - n: 18
+    latin: 'serpit! Cape eam!” Multa simul accidunt: Aulus, quī surgere temptat, ad'
+    gloss: accidunt = happen
+    underline:
+    - accidunt
+  - n: 19
+    latin: pavīmentum cadit. Tiberius ē tablīnō revenit et Marcellam petit. Rēx,
+  - n: 20
+    latin: magnā vōce lātrāns, circum pedēs omnium currit. Antequam frāter senior
+  - n: 21
+    latin: ad sorōrem pervenit, Marcella, equum Aulī vidēns, surgit et pūpam in aquam
+  - n: 22
+    latin: iacit. Puella, quae incertīs crūribus cum difficultāte ambulat, equum petit.
+    gloss: crūribus = with…legs
+    underline:
+    - crūribus
+  - n: 23
+    latin: Rēx in aquam impluviī currit et pūpam capit. Tiberius exclāmat, “Ecce,
+  - n: 24
+    latin: Aule! Pūpa Marcellam nōn excitat, quod equum tuum cupiēbat! Nunc soror
+  - n: 25
+    latin: nostra ambulāre potest!” Aulus rīdēns exclāmat, “Et Rēx natāre potest!”
+items:
+- n: 1
+  stem: What was Marcella unable to do (line 1)?
+  options:
+    a: see
+    b: read
+    c: count
+    d: walk
+  answer: d
+  node: CR-009
+  passage: marcella-1
+- n: 2
+  stem: According to lines 1-2, how many children are in this family?
+  options:
+    a: I
+    b: II
+    c: III
+    d: IV
+  answer: c
+  node: CR-009
+  passage: marcella-1
+- n: 3
+  stem: According to lines 1-2 (Marcella…temptābant), what were Marcella’s family members trying to do?
+  options:
+    a: have her play with the dog
+    b: teach her to walk
+    c: make a doll for her
+    d: feed her a meal
+  answer: b
+  node: CR-009
+  passage: marcella-1
+- n: 4
+  stem: Where did Rex the dog often sleep (lines 2-3, Rēx…dormiēbat)?
+  options:
+    a: in the atrium
+    b: in the kitchen
+    c: in the bedroom
+    d: in the garden
+  answer: d
+  node: CR-009
+  passage: marcella-1
+- n: 5
+  stem: According to lines 3-5 (Ūnō diē…dēmōnstrābat), who was located closest to Marcella?
+  options:
+    a: the dog
+    b: Tiberius
+    c: Aulus
+    d: the mother
+  answer: b
+  node: CR-009
+  passage: marcella-1
+- n: 6
+  stem: Why does Tiberius lift up Marcella (lines 3-4, Tiberius…tollēbat)?
+  options:
+    a: He is standing her up onto her feet.
+    b: He wants to show her the picture on the wall.
+    c: He is moving her away from the water.
+    d: He is separating her from her brother Aulus.
+  answer: a
+  node: CR-009
+  passage: marcella-1
+- n: 7
+  stem: Which of the following English words is NOT a derivative of the root of the verb form stābat (line 4)?
+  options:
+    a: stance
+    b: station
+    c: stagnant
+    d: statue
+  answer: c
+  node: MW-009
+  passage: marcella-1
+- n: 8
+  stem: What is Aulus doing from across the room (lines 4-5, Aulus…dēmōnstrābat)?
+  options:
+    a: He is laughing at Marcella trying to sing.
+    b: He makes animal noises to distract Marcella.
+    c: He is hiding his toys from Marcella.
+    d: He is showing the doll to Marcella.
+  answer: d
+  node: CR-009
+  passage: marcella-1
+- n: 9
+  stem: According to line 5, how does Tiberius try to encourage Marcella?
+  options:
+    a: He talks to her calmly.
+    b: He holds the dog for her to pet.
+    c: He gives her the doll.
+    d: He claps his hands.
+  answer: a
+  node: CR-009
+  passage: marcella-1
+- n: 10
+  stem: In lines 5-6 (Aulus…clāmābat), what is one way Aulus tries to get Marcella’s attention?
+  options:
+    a: He makes crying sounds like a baby.
+    b: He sings a silly song.
+    c: He throws toys at her.
+    d: He repeatedly calls out her name.
+  answer: a
+  node: CR-009
+  passage: marcella-1
+- n: 11
+  stem: In lines 7-8 (Aulus…dēiciēbat), how does Aulus react to Marcella’s efforts?
+  options:
+    a: He gives praise.
+    b: He becomes happy.
+    c: He loses his temper.
+    d: He makes fun of her.
+  answer: c
+  node: CR-009
+  passage: marcella-1
+- n: 12
+  stem: According to lines 8-9, what often makes Marcella scream and cry?
+  options:
+    a: Tiberius not paying attention to her
+    b: Marcella’s mother putting her to bed
+    c: Marcella losing her doll
+    d: Aulus making fun of her
+  answer: c
+  node: CR-009
+  passage: marcella-1
+- n: 13
+  stem: Which of the following is TRUE, according to lines 8-9?
+  options:
+    a: The dog once made Marcella happy.
+    b: The dog always attacked intruders.
+    c: The dog never left Marcella’s side.
+    d: The dog sometimes caused Marcella to cry.
+  answer: d
+  node: CR-009
+  passage: marcella-1
+- n: 14
+  stem: Which Olympian god was associated with an equum which he first created in a competition to win the patronage
+    of the city of Athens?
+  options:
+    a: Neptune
+    b: Jupiter
+    c: Mercury
+    d: Vulcan
+  answer: a
+  node: RW-064
+  passage: marcella-2
+- n: 15
+  stem: In line 10, to whom or what does quī refer?
+  options:
+    a: the brothers
+    b: the horse
+    c: the wheels
+    d: the house
+  answer: b
+  node: CR-015
+  passage: marcella-2
+- n: 16
+  stem: According to lines 10-11, what was Aulus doing to the small wooden horse?
+  options:
+    a: painting it
+    b: destroying it
+    c: pulling it
+    d: building it
+  answer: c
+  node: CR-009
+  passage: marcella-2
+- n: 17
+  stem: In line 11, we learn that Tiberius was playing with a small boat in the impluvium. In what part of their
+    Roman house would this be located?
+  options:
+    a: peristȳlium
+    b: cubiculum
+    c: ātrium
+    d: trīclīnium
+  answer: c
+  node: RW-048
+  passage: marcella-2
+- n: 18
+  stem: According to line 12, what was the dog doing?
+  options:
+    a: chewing on a bone
+    b: barking at the boys
+    c: chasing a mouse
+    d: lying in the sun
+  answer: d
+  node: CR-009
+  passage: marcella-2
+- n: 19
+  stem: What happened to Marcella in lines 12-13 (māter…dēposuit)?
+  options:
+    a: She was knocked over by the dog.
+    b: She was placed near her brothers.
+    c: Someone took her doll.
+    d: Her brothers made her cry.
+  answer: b
+  node: CR-009
+  passage: marcella-2
+- n: 20
+  stem: According to lines 13-14 (Tiberius…discēdēbat), why did Tiberius become angry?
+  options:
+    a: Aulus was making waves in the impluvium.
+    b: His boat did not stay upright in the water.
+    c: His mother told him not to play in the impluvium.
+    d: Marcella wanted to play with the boat.
+  answer: b
+  node: CR-009
+  passage: marcella-2
+- n: 21
+  stem: In line 14, what did Tiberius do as a result of his anger?
+  options:
+    a: He left the atrium.
+    b: He shouted at his brother.
+    c: He argued with his mother.
+    d: He threw down his boat.
+  answer: a
+  node: CR-009
+  passage: marcella-2
+- n: 22
+  stem: What was Tiberius trying to avoid (lines 14-15)?
+  options:
+    a: taking care of his sister
+    b: playing with his brother
+    c: talking to his mother
+    d: cleaning up after the dog
+  answer: a
+  node: CR-009
+  passage: marcella-2
+- n: 23
+  stem: A derivative in English for serpere (line 16) is “serpent.” What does Marcella begin to do (serpere incipit)?
+  options:
+    a: eat
+    b: crawl
+    c: run
+    d: laugh
+  answer: b
+  node: MW-010
+  passage: marcella-3
+- n: 24
+  stem: According to lines 16-18, what is Aulus trying to prevent by shouting to Tiberius?
+  options:
+    a: Marcella waking up their mother
+    b: Marcella interrupting the boys’ play
+    c: Marcella starting to cry again
+    d: Marcella falling into the impluvium
+  answer: d
+  node: CR-009
+  passage: marcella-3
+- n: 25
+  stem: What does Aulus urge Tiberius to do (line 18)?
+  options:
+    a: distract her
+    b: scold her
+    c: praise her
+    d: catch her
+  answer: d
+  node: MS-077
+  passage: marcella-3
+- n: 26
+  stem: What does Multa simul accidunt (line 18) tell us?
+  options:
+    a: The boys do not understand what is happening.
+    b: Many things happen at the same time.
+    c: Nothing interesting ever happens.
+    d: Marcella wonders what is happening.
+  answer: b
+  node: CR-009
+  passage: marcella-3
+- n: 27
+  stem: What happens to Aulus when he tries to get up (lines 18-19)?
+  options:
+    a: He falls to the floor.
+    b: He lands in the impluvium.
+    c: He gets hit by Marcella’s doll.
+    d: He drops his toy horse.
+  answer: a
+  node: CR-009
+  passage: marcella-3
+- n: 28
+  stem: According to line 19, what does Tiberius do?
+  options:
+    a: He tries to help his brother.
+    b: He comes back into the atrium.
+    c: He picks up their toys.
+    d: He runs to get their mother.
+  answer: b
+  node: CR-009
+  passage: marcella-3
+- n: 29
+  stem: According to lines 19-20, where does the dog run?
+  options:
+    a: through the impluvium
+    b: out of the room
+    c: toward Marcella
+    d: around everyone’s feet
+  answer: d
+  node: CR-009
+  passage: marcella-3
+- n: 30
+  stem: According to lines 20-21 (Antequam…pervenit), who heads for Marcella first?
+  options:
+    a: Tiberius
+    b: their mother
+    c: the dog
+    d: Aulus
+  answer: a
+  node: CR-009
+  passage: marcella-3
+- n: 31
+  stem: In lines 21-22, which of the following actions does Marcella NOT do?
+  options:
+    a: standing up
+    b: screaming
+    c: throwing her doll into the water
+    d: looking at Aulus’ toy horse
+  answer: b
+  node: CR-009
+  passage: marcella-3
+- n: 32
+  stem: According to line 22 (Puella…petit), how is Marcella described?
+  options:
+    a: angry
+    b: afraid
+    c: unsteady
+    d: graceful
+  answer: c
+  node: CR-009
+  passage: marcella-3
+- n: 33
+  stem: In line 22 (Puella…petit), what do we learn about Marcella?
+  options:
+    a: She says her first words.
+    b: She refuses to play with her brothers.
+    c: She throws the toy boat into the water.
+    d: She walks for the first time.
+  answer: d
+  node: CR-009
+  passage: marcella-3
+- n: 34
+  stem: Which of the following English words is derived from the root of the verb form petit (line 22)?
+  options:
+    a: petition
+    b: pet
+    c: petty
+    d: petrify
+  answer: a
+  node: MW-009
+  passage: marcella-3
+- n: 35
+  stem: According to line 23, what does the dog Rex do?
+  options:
+    a: barks at the children
+    b: nudges Marcella along
+    c: rushes into the water
+    d: hurries out of the room
+  answer: c
+  node: CR-009
+  passage: marcella-3
+- n: 36
+  stem: What was Marcella’s motivation for her actions at the end of the story?
+  options:
+    a: She wanted to play with her doll.
+    b: She wanted to play with Tiberius’ toy boat.
+    c: She wanted to play with Aulus’ toy horse.
+    d: She wanted to play in the water.
+  answer: c
+  node: CR-009
+  passage: marcella-3

@@ -38,6 +38,7 @@ import practice
 import quiz as quizlib
 import goals
 import magister
+import nle
 import schooltime  # noqa: F401  -- the school's clock, set before anything reads it
 import stats
 import store
@@ -73,6 +74,9 @@ _EXEMPLARS = dataio.load_exemplars()
 _VALID_NODES = set(_SPEC)
 _ALLOWED_LATIN = dataio.allowed_latin(_EXEMPLARS)
 _NODE_LABEL = {nid: n.get("label", "") for nid, n in _SPEC.items()}
+_NODE_LABEL.update(nle.EXTRA_LABELS)
+_NLE = nle.load()                      # past National Latin Exams, newest first
+_NLE_BY_ID = {e["id"]: e for e in _NLE}
 _DRILL_WORDS = dataio.load_drill_words()
 _TEACHING = dataio.load_teaching()
 
@@ -96,6 +100,9 @@ def _prepare_storage():
     conn = store.connect(DB_PATH)
     try:
         report = store.init_db(conn)
+        synced = nle.sync(conn, _NLE)
+        if synced["inserted"] or synced["updated"]:
+            print("[nle] past-exam questions: %r" % (synced,), flush=True)
         if report and any(report.get(k) for k in
                           ("roster_rows", "events", "miss_reasons", "quiz_attempts")):
             PURGE_REPORT = report
@@ -130,7 +137,7 @@ def _close_db(exc):
 OPEN_PREFIXES = ("/static", "/login", "/logout", "/signin", "/signout",
                  "/favicon", "/healthz")
 TEACHER_PREFIXES = ("/review", "/teaching", "/teacher", "/quiz")
-STUDENT_PREFIXES = ("/drill", "/practice", "/q/", "/due/", "/homework")
+STUDENT_PREFIXES = ("/drill", "/practice", "/q/", "/due/", "/homework", "/nle")
 AUDIO_PREFIX = "/audio/"
 # A signed-in student or the teacher: recordings, and Reader passages, which
 # the teacher opens to preview and to project in class.
@@ -905,7 +912,15 @@ def shown_options(item):
     """
     return practice.display_options(
         item.get("options"),
-        practice.option_seed(current_student(), item.get("id")))
+        practice.option_seed(current_student(), item.get("id")),
+        keep_order=bool(item.get("keep_order")))
+
+
+@app.template_global("stem_html")
+def stem_html(item):
+    """A question's stem, escaped, with the words the exam underlines
+    underlined (past-NLE questions; nothing else has any)."""
+    return Markup(nle.mark_up((item or {}).get("stem"), (item or {}).get("underline")))
 
 
 def _signed_in_student():
@@ -1799,11 +1814,16 @@ def badge_lesson(bid):
     events = store.events_for_student(db, student) if student else []
     approved = lesson_for(db, bid) is not None
     family = {r["id"]: r["label"] for r in _BADGE_ROWS}.get(b["row"], "")
+    # Opened from a practice NLE's results: the way back is the first thing on
+    # the page and the last. Only a path inside the app's own practice NLEs is
+    # honoured, so the link can never be pointed somewhere else.
+    back = request.args.get("back") or ""
+    back = back if back.startswith("/nle/s/") and "//" not in back else None
     return render_template("badge_lesson.html", b=b, steps=_lesson_steps(lesson),
                            number=_LESSON_NO[bid], total=len(_BADGES), family=family,
                            bst=badges.status(events, bid) if student else None,
                            student=student, preview=teacher_view and not student,
-                           approved=approved)
+                           approved=approved, back=back)
 
 
 @app.route("/teacher/lessons", methods=["GET", "POST"])
@@ -2094,7 +2114,7 @@ def practice_session():
         item = practice.select_question(approved, events,
                                         allowed_nodes=wanted & _taught_now())
     else:
-        if node and practice.topic_done_today(approved, events, node):
+        if node and practice.topic_done_today(approved, events, node, taught=_taught_now()):
             return render_template("practice_topic_done.html", student=student,
                                    label=_NODE_LABEL.get(node, node))
         item = practice.select_question(approved, events,
@@ -2540,6 +2560,270 @@ def quiz_results(quiz_id):
                      "label": _NODE_LABEL.get(item.get("node"), "")})
     return render_template("quiz_results.html", q=q, student=student, rows=rows,
                            summary=quizlib.summarise(attempt["results"]))
+
+
+# --------------------------------------------------------------------------
+# Practice NLE: past National Latin Exams, sat straight through (nle.py)
+#
+# A sitting is stored as a quiz of its own (context "nle") with the student's
+# one attempt, so it is saved as they go, backed up and wiped at year end like
+# any quiz. Only the student who started it can open it.
+# --------------------------------------------------------------------------
+
+def _nle_live(db):
+    """Past-NLE question ids still approved (the teacher may reject one)."""
+    rows = db.execute("SELECT item_id FROM items WHERE review_status='approved' AND item_id LIKE ?",
+                      (nle.PREFIX + "%",)).fetchall()
+    return {r["item_id"] for r in rows}
+
+
+def _nle_sitting(db, sid):
+    """(quiz, attempt) for the signed-in student's own sitting, or abort."""
+    q = store.get_quiz(db, sid)
+    student = current_student()
+    if q is None or q.get("context") != nle.CONTEXT or not student:
+        abort(404)
+    attempt = store.find_attempt(db, sid, student)
+    if attempt is None:
+        abort(404)
+    return q, attempt
+
+
+def _nle_score(results):
+    right = sum(1 for r in (results or {}).values() if r.get("result") in ("right", "close"))
+    return right, len(results or {})
+
+
+@app.route("/nle")
+def nle_home():
+    db = get_db()
+    student = current_student()
+    sittings = store.student_sittings(db, student) if student else []
+    going = [s for s in sittings if not s["submitted_at"]]
+    done = []
+    best = {}
+    for s in sittings:
+        if s["submitted_at"]:
+            right, total = _nle_score(s["results"])
+            done.append(dict(s, right=right, total=total))
+            best[s["title"]] = max(best.get(s["title"], 0), right)
+    exams = [{"id": e["id"], "name": e["name"], "kind": e["kind"], "n": len(e["items"]),
+              "best": best.get(e["name"])} for e in _NLE]
+    return render_template("nle_home.html", student=student, going=going, done=done[:12],
+                           exams=exams, sizes=nle.MASHUP_SIZES)
+
+
+@app.route("/nle/start", methods=["POST"])
+def nle_start():
+    db = get_db()
+    student = current_student()
+    live = _nle_live(db)
+    if request.form.get("kind") == "exam":
+        exam = _NLE_BY_ID.get(request.form.get("exam") or "")
+        if exam is None:
+            abort(404)
+        title, ids = exam["name"], nle.exam_ids(exam, live)
+        # Starting an exam already under way carries on with it.
+        going = next((x for x in store.student_sittings(db, student)
+                      if x["title"] == title and not x["submitted_at"]), None)
+        if going:
+            return redirect(url_for("nle_take", sid=going["quiz_id"]))
+    else:
+        size = request.form.get("size", type=int) or nle.MASHUP_SIZES[0]
+        size = size if size in nle.MASHUP_SIZES else nle.MASHUP_SIZES[0]
+        seen = {e["item_id"] for e in store.events_for_student(db, student)
+                if e.get("context") == nle.CONTEXT}
+        sid_seed = "%s|%s" % (student, time.time())
+        title = "Mash-up · %d questions" % size
+        ids = nle.mashup(_NLE, live, _taught_now(), size, sid_seed, seen)
+    if not ids:
+        return redirect(url_for("nle_home"))
+    sid = "nle-" + quizlib.new_quiz_id()
+    store.create_quiz(db, sid, title, ids, context=nle.CONTEXT)
+    store.get_or_start_attempt(db, sid, student)
+    return redirect(url_for("nle_take", sid=sid))
+
+
+def _nle_passage(item):
+    """The reading passage this question belongs to, ready for the page."""
+    pid = item.get("passage")
+    if not pid:
+        return None
+    exam = _NLE_BY_ID.get((item.get("nle") or {}).get("exam"))
+    p = (exam or {}).get("passages", {}).get(pid)
+    if p is None:
+        return None
+    return dict(p, lines=[dict(l, html=Markup(nle.mark_up(l["latin"], l.get("underline"))))
+                          for l in p["lines"]])
+
+
+@app.route("/nle/s/<sid>")
+def nle_take(sid):
+    db = get_db()
+    q, attempt = _nle_sitting(db, sid)
+    if attempt["submitted_at"]:
+        return redirect(url_for("nle_results", sid=sid))
+    ids = q["item_ids"]
+    pos = max(1, min(request.args.get("n", type=int) or 1, len(ids)))
+    items = _items_by_id(db, ids)
+    item = items.get(ids[pos - 1])
+    if item is None:
+        abort(404)
+    answers = attempt["answers"]
+    return render_template(
+        "nle_take.html", q=q, sid=sid, item=item, pos=pos, total=len(ids),
+        saved=answers.get(item["id"]), passage=_nle_passage(item), hi=nle.look_back(item),
+        covered=nle.covered(item, _taught_now()),
+        grid=[{"n": i, "done": bool(answers.get(iid))} for i, iid in enumerate(ids, 1)],
+        answered=sum(1 for iid in ids if answers.get(iid)), student=current_student())
+
+
+@app.route("/nle/s/<sid>/save", methods=["POST"])
+def nle_save(sid):
+    db = get_db()
+    q, attempt = _nle_sitting(db, sid)
+    if attempt["submitted_at"]:
+        return redirect(url_for("nle_results", sid=sid))
+    iid = request.form.get("item_id", "")
+    picked = request.form.get("picked")
+    if iid in q["item_ids"] and picked:
+        store.save_attempt_answer(db, attempt["attempt_id"], iid, picked)
+    pos = request.form.get("pos", type=int) or 1
+    goto = request.form.get("goto", "next")
+    if goto == "finish":
+        return redirect(url_for("nle_finish", sid=sid))
+    if goto == "back":
+        nxt = pos - 1
+    elif goto.isdigit():
+        nxt = int(goto)
+    else:
+        nxt = pos + 1
+    if nxt > len(q["item_ids"]):
+        return redirect(url_for("nle_finish", sid=sid))
+    return redirect(url_for("nle_take", sid=sid, n=max(1, nxt)))
+
+
+@app.route("/nle/s/<sid>/finish")
+def nle_finish(sid):
+    db = get_db()
+    q, attempt = _nle_sitting(db, sid)
+    if attempt["submitted_at"]:
+        return redirect(url_for("nle_results", sid=sid))
+    blanks = [i for i, iid in enumerate(q["item_ids"], 1) if not attempt["answers"].get(iid)]
+    return render_template("nle_finish.html", q=q, sid=sid, blanks=blanks,
+                           total=len(q["item_ids"]), student=current_student())
+
+
+@app.route("/nle/s/<sid>/submit", methods=["POST"])
+def nle_submit(sid):
+    db = get_db()
+    q, attempt = _nle_sitting(db, sid)
+    if not attempt["submitted_at"]:
+        items = _items_by_id(db, q["item_ids"])
+        results = quizlib.grade_attempt(items, q["item_ids"], attempt["answers"])
+        store.submit_attempt(db, attempt["attempt_id"], results)
+        for row in quizlib.events_for_attempt(results, items, nle.CONTEXT):
+            store.record_event(db, current_student(), row["item_id"], row["spec_node_id"],
+                               row["response"], row["result"],
+                               context=row["context"], version=row["version"])
+    return redirect(url_for("nle_results", sid=sid))
+
+
+def _nle_help(db, item, approvals):
+    """What a miss offers: the hint (approved teaching text, else the lesson's
+    line to remember, else the lines of the passage to look back at) and the
+    lesson, when its badge has an approved one."""
+    node = item.get("node")
+    bid = _NODE_BADGE.get(node)
+    lesson = lesson_for(db, bid, approvals) if bid else None
+    out = {"label": _NODE_LABEL.get(node, node), "teaching": approved_teaching_for(db, node),
+           "lesson": None, "remember": None, "lines": None}
+    if lesson is not None:
+        out["lesson"] = {"bid": bid, "n": _LESSON_NO[bid], "title": _BADGE_BY_ID[bid]["title"]}
+        rem = next((st["remember"] for st in lesson["steps"] if lessons.kind(st) == "remember"), "")
+        out["remember"] = Markup(lessons.inline(rem))
+    span = nle.look_back(item)
+    passage = _nle_passage(item)
+    if span and passage:
+        out["lines"] = [l for l in passage["lines"] if span[0] <= l["n"] <= span[1]]
+    return out
+
+
+@app.route("/nle/s/<sid>/results")
+def nle_results(sid):
+    db = get_db()
+    q, attempt = _nle_sitting(db, sid)
+    if not attempt["submitted_at"]:
+        return redirect(url_for("nle_finish", sid=sid))
+    items = _items_by_id(db, q["item_ids"])
+    taught = _taught_now()
+    approvals = store.teaching_approvals(db)
+    rows, topics = [], {}
+    for i, iid in enumerate(q["item_ids"], 1):
+        item = items.get(iid)
+        if item is None:
+            continue
+        res = attempt["results"].get(iid, {})
+        ok = res.get("result") in ("right", "close")
+        row = {"pos": i, "item": item, "ok": ok, "picked": res.get("picked"),
+               "covered": nle.covered(item, taught), "passage": _nle_passage(item)}
+        if not ok:
+            row["help"] = _nle_help(db, item, approvals)
+            t = topics.setdefault(item["node"], {"node": item["node"], "help": row["help"],
+                                                 "missed": [], "covered": row["covered"]})
+            t["missed"].append(i)
+        rows.append(row)
+    right, total = _nle_score(attempt["results"])
+    cov = [r for r in rows if r["covered"]]
+    work_on = sorted(topics.values(), key=lambda t: (not t["covered"], -len(t["missed"]), t["node"]))
+    return render_template(
+        "nle_results.html", q=q, sid=sid, rows=rows, right=right, total=total,
+        award=nle.score_award(right, total), work_on=work_on,
+        covered_right=sum(1 for r in cov if r["ok"]), covered_total=len(cov),
+        back=url_for("nle_results", sid=sid), student=current_student())
+
+
+@app.route("/teacher/nle")
+def teacher_nle():
+    """Every past exam in the app, and the class's practice NLEs."""
+    db = get_db()
+    live = _nle_live(db)
+    exams = []
+    for e in _NLE:
+        n_live = sum(1 for p in e["items"] if p["id"] in live)
+        exams.append({"id": e["id"], "name": e["name"], "n": len(e["items"]), "live": n_live,
+                      "badge": sum(1 for p in e["items"] if not p.get("exam_only")
+                                   and p["node"] in _NODE_BADGE)})
+    sittings = []
+    for s in store.context_sittings(db)[:60]:
+        right, total = _nle_score(s["results"])
+        sittings.append(dict(s, right=right, total=total,
+                             when=time.strftime("%a %b %-d, %-I:%M %p", time.localtime(s["submitted_at"]))))
+    return render_template("teacher_nle.html", exams=exams, sittings=sittings,
+                           n_items=sum(e["n"] for e in exams))
+
+
+@app.route("/teacher/nle/<exam_id>")
+def teacher_nle_exam(exam_id):
+    """One past exam as the app has it: each question, the answer the app
+    marks right, and the topic it is filed under -- to check the key."""
+    db = get_db()
+    e = _NLE_BY_ID.get(exam_id)
+    if e is None:
+        abort(404)
+    items = _items_by_id(db, [p["id"] for p in e["items"]])
+    status = {r["item_id"]: r["review_status"] for r in db.execute(
+        "SELECT item_id, review_status FROM items WHERE item_id LIKE ?",
+        (nle.PREFIX + e["id"] + "-%",)).fetchall()}
+    rows = []
+    for p in e["items"]:
+        it = items.get(p["id"], p)
+        rows.append({"item": it, "status": status.get(p["id"], "?"),
+                     "label": _NODE_LABEL.get(it["node"], it["node"]),
+                     "badge": _BADGE_BY_ID[_NODE_BADGE[it["node"]]]["title"]
+                     if it["node"] in _NODE_BADGE and not it.get("exam_only") else None,
+                     "passage": _nle_passage(it)})
+    return render_template("teacher_nle_exam.html", e=e, rows=rows)
 
 
 @app.route("/drill/progress")
@@ -3061,7 +3345,7 @@ def teacher_analysis_zip():
     events = store.all_events(db, section=section)
     _, hw_rows = _class_homework(db, section)
     quiz_rows = []
-    for q in store.list_quizzes(db):
+    for q in store.list_quizzes(db, include_nle=True):
         for att in store.quiz_attempts(db, q["quiz_id"]):
             if att.get("submitted_at") and (not section or att["student_id"] in
                                             {r["student_id"] for r in roster_rows}):

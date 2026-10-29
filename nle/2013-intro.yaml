@@ -1,0 +1,490 @@
+# 2013 National Latin Exam — Introduction to Latin. Transcribed from the exam PDF; answers worked out
+# by hand (no answer key supplied). `node` is the course topic each question tests.
+exam:
+  id: 2013-intro
+  year: 2013
+  kind: intro
+  title: Introduction to Latin
+  source_note: ACL/NJCL National Latin Exam 2013, Introduction to Latin. Used with permission for non-commercial
+    classroom practice.
+passages:
+- id: road-home
+  title: THE ROAD HOME
+  subtitle: ''
+  note: ''
+  source: ''
+  questions:
+  - 31
+  - 40
+  lines:
+  - n: 1
+    latin: Vir malus statuam puellae ēripere temptābat, sed puella ad
+    gloss: ēripere = snatch
+    underline:
+    - ēripere
+  - n: 2
+    latin: vīllam suam currēbat. Puella hunc inimīcum timēbat. Ubi vir
+    gloss: suam = her; hunc inimīcum = this unfriendly man
+    underline:
+    - suam
+    - hunc inimīcum
+  - n: 3
+    latin: malus ad puellam appropinquābat, puella clāmāre coepit.
+    gloss: appropinquābat = was approaching; coepit = began
+    underline:
+    - appropinquābat
+    - coepit
+  - n: 4
+    latin: Amīcus clāmōrēs puellae audiēbat et ad puellam currebat.
+    gloss: clāmōrēs = the shouts
+    underline:
+    - clāmōrēs
+  - n: 5
+    latin: Amīcus et inimīcus inter sē pugnābant. Puella perterrita ad
+    gloss: inter sē = with each other
+    underline:
+    - inter sē
+  - n: 6
+    latin: agrum proximum festīnābat et auxilium rogābat. Agricolae
+    gloss: proximum = nearby; auxilium = help
+    underline:
+    - proximum
+    - auxilium
+  - n: 7
+    latin: ex agrō ad pugnam festīnābant. Ubi advēnērunt, inimīcum
+    gloss: advēnērunt = arrived
+    underline:
+    - advēnērunt
+  - n: 8
+    latin: exanimātum in terrā vidēbant. Amīcus in inimīcō sedēbat.
+    gloss: exanimātum = unconscious
+    underline:
+    - exanimātum
+  - n: 9
+    latin: Amīcus erat victor. Agricolae gaudēbant. Ūnus agricola
+  - n: 10
+    latin: clāmābat, “Grātiās tibi agimus! Vir malus omnēs in viīs et
+    gloss: omnēs = everyone
+    underline:
+    - omnēs
+  - n: 11
+    latin: in oppidō oppugnābat. Nunc habitāre et ambulāre in pāce
+    gloss: pāce = peace
+    underline:
+    - pāce
+  - n: 12
+    latin: possumus.” Puella laeta ad mātrem statuam portat.
+    gloss: possumus = we are able
+    underline:
+    - possumus
+items:
+- n: 1
+  stem: The abbreviation N.B. stands for the Latin phrase Notā Bene which means
+  options:
+    a: Note well
+    b: Make haste
+    c: And the rest
+    d: Farewell
+  answer: a
+  node: MW-044
+- n: 2
+  stem: If your older sister says your behavior is puerile, she means you are
+  options:
+    a: childish
+    b: sad
+    c: clever
+    d: sick
+  answer: a
+  node: MW-009
+  underline:
+  - puerile
+- n: 3
+  stem: Based on your knowledge of Latin, the purpose of a convocation is to
+  options:
+    a: give people news
+    b: assign people to help
+    c: call people together
+    d: ask people their opinion
+  answer: c
+  node: MW-009
+  underline:
+  - convocation
+- n: 4
+  stem: What should the class do when the teacher says, “Sedēte”?
+  options:
+    a: stand
+    b: be quiet
+    c: leave
+    d: remain seated
+  answer: d
+  node: MS-050
+- n: 5
+  stem: Who was the Roman goddess of wisdom, war, and weaving?
+  options:
+    a: Juno
+    b: Diana
+    c: Minerva
+    d: Venus
+  answer: c
+  node: RW-065
+- n: 6
+  stem: Quid est nōmen deī Rōmānī in pictūrā?
+  options:
+    a: Mercury
+    b: Neptune
+    c: Apollo
+    d: Mars
+  answer: d
+  node: RW-064
+  image: nle/2013-intro-A-p1-2.png
+- n: 7
+  stem: Quot oculōs vidēs in pictūrā?
+  options:
+    a: I
+    b: II
+    c: III
+    d: IV
+  answer: a
+  node: RW-063
+  image: nle/2013-intro-A-p1-2.png
+- n: 8
+  stem: The island of Sicily is on the map in the area numbered
+  options:
+    a: '1'
+    b: '2'
+    c: '3'
+    d: '4'
+  answer: b
+  node: RW-002
+  image: nle/2013-intro-A-p1-1.png
+- n: 9
+  stem: Gallia is on the map in the area numbered
+  options:
+    a: '5'
+    b: '6'
+    c: '7'
+    d: '8'
+  answer: b
+  node: RW-004
+  image: nle/2013-intro-A-p1-1.png
+- n: 10
+  stem: After the long flight, the airline passengers were glad to return to terra firma.
+  options:
+    a: solid ground
+    b: a rural area
+    c: their homeland
+    d: unknown territory
+  answer: a
+  node: MW-043
+- n: 11
+  stem: A Roman woman wore a long gown called a
+  options:
+    a: caliga
+    b: toga
+    c: stola
+    d: bulla
+  answer: c
+  node: RW-054
+- n: 12
+  stem: Where would a Roman typically go to watch chariot racing?
+  options:
+    a: templum
+    b: Forum
+    c: cubiculum
+    d: Circus Maximus A GIFT FOR MOTHER
+  answer: d
+  node: RW-091
+- n: 13
+  stem: Rōma multās tabernās habet.
+  options:
+    a: was having
+    b: to have
+    c: were having
+    d: has
+  answer: d
+  node: MS-039
+  underline:
+  - habet
+- n: 14
+  stem: Multī virī et multae fēminae tabernās vīsitāre amant.
+  options:
+    a: are visiting
+    b: were visiting
+    c: to visit
+    d: was visiting
+  answer: c
+  node: MS-076
+  underline:
+  - vīsitāre
+- n: 15
+  stem: Multī Rōmānī in tabernīs labōrant.
+  options:
+    a: of the shops
+    b: in the shops
+    c: near the shops
+    d: into the shops
+  answer: b
+  node: MS-086
+  underline:
+  - in tabernīs
+- n: 16
+  stem: Sed est perīculum in viīs Rōmae.
+  options:
+    a: of Rome
+    b: Rome
+    c: by Rome
+    d: from Rome
+  answer: a
+  node: MS-052
+  underline:
+  - Rōmae
+- n: 17
+  stem: Ōlim puella ad Forum ambulābat.
+  options:
+    a: Soon
+    b: Today
+    c: Once
+    d: Always
+  answer: c
+  node: VOCAB
+  underline:
+  - Ōlim
+- n: 18
+  stem: Puella circum Forum tabernās vīsitābat.
+  options:
+    a: in the Forum
+    b: around the Forum
+    c: by the Forum
+    d: far from the Forum
+  answer: b
+  node: MS-084
+  underline:
+  - circum Forum
+- n: 19
+  stem: Puella multās statuās et pictūrās in tabernīs spectābat.
+  options:
+    a: was looking at
+    b: to look at
+    c: is looking at
+    d: look at
+  answer: a
+  node: MS-095
+  underline:
+  - spectābat
+- n: 20
+  stem: Sed puella multam pecūniam nōn habēbat.
+  options:
+    a: with much money
+    b: of much money
+    c: for much money
+    d: much money
+  answer: d
+  node: MS-015
+  underline:
+  - multam pecūniam
+- n: 21
+  stem: Puella _____ statuam prope mūrum tabernae spectābat.
+  options:
+    a: parvae
+    b: parvam
+    c: parvās
+    d: parvīs
+  answer: b
+  node: MS-043
+- n: 22
+  stem: Tabernārius benignus puellae statuam dābat.
+  options:
+    a: by the girl
+    b: from the girl
+    c: to the girl
+    d: the girls
+  answer: c
+  node: MS-057
+  underline:
+  - puellae
+- n: 23
+  stem: “Tibi statuam dō, quod tū es puella bona,” tabernārius puellae nūntiābat.
+  options:
+    a: I am giving
+    b: They are giving
+    c: You are giving
+    d: We are giving
+  answer: a
+  node: MS-031
+  underline:
+  - dō
+- n: 24
+  stem: Dōnum erat parva statua deae Vestae.
+  options:
+    a: are
+    b: is
+    c: were
+    d: was
+  answer: d
+  node: MS-097
+  underline:
+  - erat
+- n: 25
+  stem: Puella erat laeta quod māter deam Vestam amābat.
+  options:
+    a: when
+    b: but
+    c: and
+    d: because
+  answer: d
+  node: VOCAB
+  underline:
+  - quod
+- n: 26
+  stem: Puella ad casam ambulābat, sed ūnus vir malus et magnus in viā stābat.
+  options:
+    a: one
+    b: angry
+    c: lazy
+    d: good
+  answer: a
+  node: VOCAB
+  underline:
+  - ūnus
+- n: 27
+  stem: “Dā mihi pecūniam tuam et statuam!” vir clāmābat.
+  options:
+    a: To give
+    b: Give
+    c: I give
+    d: We give
+  answer: b
+  node: MS-050
+  underline:
+  - Dā
+- n: 28
+  stem: “Cūr?” rogābat puella.
+  options:
+    a: What
+    b: Where
+    c: Why
+    d: Who
+  answer: c
+  node: VOCAB
+  underline:
+  - Cūr
+- n: 29
+  stem: “Ego pecūniam nōn _____,” vir respondēbat.
+  options:
+    a: habet
+    b: habēs
+    c: habēmus
+    d: habeō
+  answer: d
+  node: MS-037
+- n: 30
+  stem: “Sed statua est dōnum,” puella timidē lacrimābat.
+  options:
+    a: fearfully
+    b: fear
+    c: fearful
+    d: fearing THE ROAD HOME
+  answer: a
+  node: MS-132
+  underline:
+  - timidē
+- n: 31
+  stem: In lines 1-2, the girl began to run to her house when
+  options:
+    a: she tripped and fell
+    b: the bad man cursed at her
+    c: the bad man tried to steal the gift
+    d: she heard a loud noise
+  answer: c
+  node: CR-009
+  passage: road-home
+- n: 32
+  stem: In lines 2-3 (Ubi...coepit), when the bad man got closer to the girl she
+  options:
+    a: ran faster
+    b: shouted
+    c: hid
+    d: fell suddenly
+  answer: b
+  node: CR-009
+  passage: road-home
+- n: 33
+  stem: In line 4 (Amīcus...currēbat), who came to help the girl?
+  options:
+    a: a stranger
+    b: a guard
+    c: a soldier
+    d: a friend
+  answer: d
+  node: CR-009
+  passage: road-home
+- n: 34
+  stem: In lines 5-6, (Puella...rogābat) where did the girl go to ask for help?
+  options:
+    a: the shops
+    b: a temple
+    c: a field
+    d: the baths
+  answer: c
+  node: CR-009
+  passage: road-home
+- n: 35
+  stem: In lines 7-8 (Ubi...vidēbant), we learn that _____ was unconscious.
+  options:
+    a: the unfriendly man
+    b: the girl
+    c: the friend
+    d: the farmer
+  answer: a
+  node: CR-009
+  passage: road-home
+- n: 36
+  stem: In line 8, when the men arrived to help, the friend was
+  options:
+    a: thanking the shopkeeper
+    b: sitting on the man
+    c: rejoicing with the crowd
+    d: calling the girl
+  answer: b
+  node: CR-009
+  passage: road-home
+- n: 37
+  stem: In lines 9-10 (Ūnus...agimus), someone
+  options:
+    a: questions the friend
+    b: thanks the friend
+    c: laughs at the friend
+    d: curses the friend
+  answer: b
+  node: CR-009
+  passage: road-home
+- n: 38
+  stem: What has the bad man been doing to people in this town (lines 10-11)?
+  options:
+    a: lying to them
+    b: following them
+    c: cursing at them
+    d: attacking them
+  answer: d
+  node: CR-009
+  passage: road-home
+- n: 39
+  stem: According to lines 11-12, the people in this town are now able to
+  options:
+    a: walk freely
+    b: swim safely
+    c: sail happily
+    d: talk openly
+  answer: a
+  node: CR-009
+  passage: road-home
+- n: 40
+  stem: This story demonstrates that when you help one person, you may
+  options:
+    a: earn the praise of the gods
+    b: endanger others
+    c: help everyone
+    d: lose your reputation
+  answer: c
+  node: CR-009
+  passage: road-home

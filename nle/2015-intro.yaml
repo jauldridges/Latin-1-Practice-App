@@ -1,0 +1,492 @@
+# 2015 National Latin Exam — Introduction to Latin. Transcribed from the exam PDF; answers worked out
+# by hand (no answer key supplied). `node` is the course topic each question tests.
+exam:
+  id: 2015-intro
+  year: 2015
+  kind: intro
+  title: Introduction to Latin
+  source_note: ACL/NJCL National Latin Exam 2015, Introduction to Latin. Used with permission for non-commercial
+    classroom practice.
+passages:
+- id: struggle
+  title: THE STRUGGLE
+  subtitle: ''
+  note: ''
+  source: ''
+  questions:
+  - 31
+  - 40
+  lines:
+  - n: 1
+    latin: Vir Germānicus ex forō fugit. Senātor et duo
+    gloss: fugit = flees
+    underline:
+    - fugit
+  - n: 2
+    latin: fīliī virum agitant. Senātor virum comprehendit.
+    gloss: agitant = chase; comprehendit = takes hold of
+    underline:
+    - agitant
+    - comprehendit
+  - n: 3
+    latin: Senātor cum virō pugnat. Turba pugnam videt et
+    gloss: Turba = A crowd
+    underline:
+    - Turba
+  - n: 4
+    latin: circumvenit. Vir turbam timet. Vir effugere
+    gloss: circumvenit = surrounds; effugere = to escape
+    underline:
+    - circumvenit
+    - effugere
+  - n: 5
+    latin: temptat et inter duōs puerōs currit. Vir forte puerōs
+    gloss: currit = runs; forte = accidentally
+    underline:
+    - currit
+    - forte
+  - n: 6
+    latin: offendit et in terram dēcidit.
+    gloss: offendit = bumps into; dēcidit = falls down
+    underline:
+    - offendit
+    - dēcidit
+  - n: 7
+    latin: “Tū fīliōs meōs offendere audēs,” senātor clāmat.
+    gloss: audēs = dare
+    underline:
+    - audēs
+  - n: 8
+    latin: “Ego tibi supplicium postulō quod fīliōs meōs vulnerās.
+    gloss: supplicium postulō = ask for the death penalty; vulnerās = you are hurting
+    underline:
+    - supplicium postulō
+    - vulnerās
+  - n: 9
+    latin: “Pater,” ūnus fīlius inquit, “vir Germānicus forte
+  - n: 10
+    latin: nōs vulnerābat. Nōlī pūnīre virum. Vir est viātor.
+    gloss: Nōlī pūnīre = Don’t punish; viātor = traveler
+    underline:
+    - Nōlī pūnīre
+    - viātor
+  - n: 11
+    latin: Potest portare litterās ad Germāniam.”
+    gloss: litterās = a letter
+    underline:
+    - litterās
+  - n: 12
+    latin: “Ita vērō,” senātor respondet, “Tū es callidus.”
+    gloss: callidus = clever
+items:
+- n: 1
+  stem: Which animal has four legs?
+  options:
+    a: piscis
+    b: avis
+    c: equus
+    d: homō
+  answer: c
+  node: VOCAB
+- n: 2
+  stem: What animal is associated with the founding of Rome?
+  options:
+    a: elephant
+    b: rabbit
+    c: goose
+    d: wolf
+  answer: d
+  node: RW-007
+- n: 3
+  stem: Which deity do the symbols on this coin represent?
+  options:
+    a: Juno
+    b: Venus
+    c: Minerva
+    d: Vesta
+  answer: c
+  node: RW-065
+  image: nle/2015-intro-A-p1-1.png
+- n: 4
+  stem: The Latin phrase ita vērō is the opposite of
+  options:
+    a: bene
+    b: minimē
+    c: salvē
+    d: grātiās
+  answer: b
+  node: VOCAB
+- n: 5
+  stem: What main room of a Roman house had an impluvium and compluvium as well as a shrine to the household gods?
+  options:
+    a: cubiculum
+    b: ātrium
+    c: culīna
+    d: trīclīnium
+  answer: b
+  node: RW-048
+- n: 6
+  stem: What is the Latin for “in God we hope,” the motto of Brown University?
+  options:
+    a: in locō parentis
+    b: in tōtō
+    c: in deō spērāmus
+    d: in vīnō vēritās
+  answer: c
+  node: MW-065
+- n: 7
+  stem: Cleopatra was multilingual.
+  options:
+    a: a lover of many cultures
+    b: a speaker of many languages
+    c: a citizen of many countries
+    d: a woman of many facial expressions
+  answer: b
+  node: MW-009
+  underline:
+  - multilingual
+- n: 8
+  stem: Where would a Roman go to shop, to socialize, and to hear speeches?
+  options:
+    a: Forum
+    b: Colosseum
+    c: Circus Maximus
+    d: Pantheon
+  answer: a
+  node: RW-086
+- n: 9
+  stem: Gallia is on the map in the area numbered
+  options:
+    a: '5'
+    b: '6'
+    c: '7'
+    d: '8'
+  answer: b
+  node: RW-004
+  image: nle/2015-intro-A-p1-2.png
+- n: 10
+  stem: Graecia is on the map in the area numbered
+  options:
+    a: '1'
+    b: '2'
+    c: '3'
+    d: '4'
+  answer: c
+  node: RW-004
+  image: nle/2015-intro-A-p1-2.png
+- n: 11
+  stem: In the abbreviation A.D., the letter “A” stands for the Latin word
+  options:
+    a: Ad
+    b: Annō
+    c: Aut
+    d: Ab
+  answer: b
+  node: MW-044
+- n: 12
+  stem: The farmers could not inhabit the rocky coastal area.
+  options:
+    a: protect
+    b: plow
+    c: clean up
+    d: live in
+  answer: d
+  node: MW-009
+  underline:
+  - inhabit
+- n: 13
+  stem: Alexandrīa magnum forum habet.
+  options:
+    a: has
+    b: have
+    c: was having
+    d: to have
+  answer: a
+  node: MS-039
+  underline:
+  - habet
+- n: 14
+  stem: Multī virī et fēminae forum vīsitant quod hodiē caelum est pulchrum.
+  options:
+    a: when
+    b: and
+    c: but
+    d: because
+  answer: d
+  node: VOCAB
+  underline:
+  - quod
+- n: 15
+  stem: Virī et fēminae ex multīs patriīs veniunt.
+  options:
+    a: from many countries
+    b: to many countries
+    c: for many countries
+    d: by many countries
+  answer: a
+  node: MS-087
+  underline:
+  - ex multīs patriīs
+- n: 16
+  stem: Multās linguās audiunt.
+  options:
+    a: I hear
+    b: They hear
+    c: He hears
+    d: You hear
+  answer: b
+  node: MS-031
+  underline:
+  - audiunt
+- n: 17
+  stem: Multī virī Graecī in Forō laetē labōrant.
+  options:
+    a: happiness
+    b: happy
+    c: happily
+    d: to be happy
+  answer: c
+  node: MS-132
+  underline:
+  - laetē
+- n: 18
+  stem: Duo puerī inter virōs ambulant.
+  options:
+    a: One
+    b: Two
+    c: Three
+    d: Four
+  answer: b
+  node: VOCAB
+  underline:
+  - Duo
+- n: 19
+  stem: Puerī virōs barbarōs et virōs Rōmānōs vident.
+  options:
+    a: for Roman men
+    b: of Roman men
+    c: by Roman men
+    d: Roman men
+  answer: d
+  node: MS-015
+  underline:
+  - virōs Rōmānōs
+- n: 20
+  stem: Ūnus vir ex silvīs Germāniae venit.
+  options:
+    a: with Germany
+    b: for Germany
+    c: Germany
+    d: of Germany
+  answer: d
+  node: MS-052
+  underline:
+  - Germāniae
+- n: 21
+  stem: Vir Germānicus est īrātus.
+  options:
+    a: anger
+    b: angry
+    c: angrily
+    d: to be angry
+  answer: b
+  node: MS-047
+  underline:
+  - īrātus
+- n: 22
+  stem: Senātor virum Germānicum vituperābat.
+  options:
+    a: is cursing
+    b: will curse
+    c: to curse
+    d: was cursing
+  answer: d
+  node: MS-095
+- n: 23
+  stem: Vir ā senātōre ad templum properāre temptat.
+  options:
+    a: hurries
+    b: to hurry
+    c: hurry
+    d: was hurrying
+  answer: b
+  node: MS-076
+  underline:
+  - properāre
+- n: 24
+  stem: Vacca sacra ante templum stat.
+  options:
+    a: the temple
+    b: to the temple
+    c: in front of the temple
+    d: of the temple
+  answer: c
+  node: MS-084
+  underline:
+  - ante templum
+- n: 25
+  stem: Vir post vaccam _____ stat, et senātor virum nōn videt.
+  options:
+    a: sacra
+    b: sacram
+    c: sacrae
+    d: sacrārum
+  answer: b
+  node: MS-043
+- n: 26
+  stem: Sed duo puerī virum vident.
+  options:
+    a: boys
+    b: to the boys
+    c: from the boys
+    d: with the boys
+  answer: a
+  node: MS-014
+  underline:
+  - puerī
+- n: 27
+  stem: Puerī sunt fīliī senātōris.
+  options:
+    a: are
+    b: were
+    c: was
+    d: is
+  answer: a
+  node: MS-040
+  underline:
+  - sunt
+- n: 28
+  stem: Duo puerī senātōri virum mōnstrant.
+  options:
+    a: to the senator
+    b: of the senator
+    c: with the senator
+    d: from the senator
+  answer: a
+  node: MS-057
+  needs:
+  - MS-064
+  underline:
+  - senātōri
+- n: 29
+  stem: “Spectā virum! Ex forō properat!” puerī clāmant.
+  options:
+    a: Is looking at
+    b: To look at
+    c: Was looking at
+    d: Look at
+  answer: d
+  node: MS-050
+  underline:
+  - Spectā
+- n: 30
+  stem: “Ego tē moneō. Manē!” senātor virō clāmat.
+  options:
+    a: We
+    b: I
+    c: You
+    d: Me THE STRUGGLE
+  answer: b
+  node: MS-115
+  underline:
+  - Ego
+- n: 31
+  stem: In lines 1-2, the German man is being chased by
+  options:
+    a: two other German men
+    b: the crowd
+    c: the senator and his two sons
+    d: the guards and soldiers
+  answer: c
+  node: CR-009
+  passage: struggle
+- n: 32
+  stem: In line 2, the man is caught by
+  options:
+    a: the senator
+    b: the two sons
+    c: the crowd
+    d: two German men
+  answer: a
+  node: CR-009
+  passage: struggle
+- n: 33
+  stem: In line 3, the man fights with
+  options:
+    a: the crowd
+    b: two German men
+    c: the two sons
+    d: the senator
+  answer: d
+  node: CR-009
+  passage: struggle
+- n: 34
+  stem: In lines 3-4, what draws the attention of the crowd?
+  options:
+    a: the holy temple
+    b: a merchant
+    c: the fight
+    d: the sacred cow
+  answer: c
+  node: CR-009
+  passage: struggle
+- n: 35
+  stem: In lines 3-4, the man is afraid because he
+  options:
+    a: was surrounded by a crowd
+    b: fell to the ground
+    c: disturbed the sacred cow
+    d: violated the temple
+  answer: a
+  node: CR-009
+  passage: struggle
+- n: 36
+  stem: In lines 4-5, the man tries to escape by
+  options:
+    a: fighting the crowd
+    b: running between the two boys
+    c: killing the senator
+    d: hiding in a temple
+  answer: b
+  node: CR-009
+  passage: struggle
+- n: 37
+  stem: In lines 7-8, the senator is angry because the man
+  options:
+    a: started a mob
+    b: stole valuable items
+    c: hurt his two boys
+    d: violated a temple
+  answer: c
+  node: CR-009
+  passage: struggle
+- n: 38
+  stem: In lines 9-11, one of the sons is
+  options:
+    a: practical
+    b: angry
+    c: lucky
+    d: lazy
+  answer: a
+  node: CR-009
+  passage: struggle
+- n: 39
+  stem: In lines 10-11, the son wants his father to
+  options:
+    a: write a letter to the king of Germany
+    b: send the man back to Germany
+    c: order the man to write a letter of apology before returning to Germany
+    d: have the man carry a letter to Germany
+  answer: d
+  node: CR-009
+  passage: struggle
+- n: 40
+  stem: Based on line 12 of the story, what likely happens next?
+  options:
+    a: Vir in templum properat.
+    b: Senātor virum līberat.
+    c: Senator virum verberat.
+    d: Duo fīliī virum pulsant.
+  answer: b
+  node: CR-013
+  passage: struggle

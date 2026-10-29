@@ -1,0 +1,501 @@
+# 2021 National Latin Exam — Beginning Latin. Transcribed from the exam PDF; answers worked out
+# by hand (no answer key supplied). `node` is the course topic each question tests.
+exam:
+  id: 2021-beginning
+  year: 2021
+  kind: beginning
+  title: Beginning Latin
+  source_note: ACL/NJCL National Latin Exam 2021, Beginning Latin. Used with permission for non-commercial classroom
+    practice.
+passages:
+- id: butterflies
+  title: WHY BUTTERFLIES DON’T LIVE IN HOUSES
+  subtitle: Mariposa copes with her sorrow.
+  note: Mariposa means butterfly in Spanish.
+  source: Based on a Mexican folktale
+  questions:
+  - 30
+  - 40
+  lines:
+  - n: 1
+    latin: Ōlim papiliōnēs in domibus habitābant. Puella, nōmine Maripōsa,
+    gloss: papiliōnēs = butterflies; domibus = houses
+    underline:
+    - papiliōnēs
+    - domibus
+  - n: 2
+    latin: in parvā domō habitābat. Dum in viā ambulat, subitō pecūniam
+  - n: 3
+    latin: cōnspexit. “Quam fortūnāta sum!” Maripōsa clāmāvit. “Ad forum
+  - n: 4
+    latin: festīnāre cupiō.” In forō textum multīs colōribus rēgālibus cōnspexit.
+    gloss: textum = fabric; rēgālibus = royal
+    underline:
+    - textum
+    - rēgālibus
+  - n: 5
+    latin: Maripōsa exclāmāvit, “Textum mihi magnopere placet!”
+    gloss: magnopere = greatly
+    underline:
+    - magnopere
+  - n: 6
+    latin: Maripōsa stolam pulchram ē textō fēcit et saepe stolam gerēbat quae
+  - n: 7
+    latin: multōs colōrēs rēgālēs habēbat. Ūnō diē in forō puer, Pūblius Flōrus,
+    gloss: diē = day
+    underline:
+    - diē
+  - n: 8
+    latin: Maripōsam gerentem stolam vīdit. Puer exclāmāvit, “Salvē, mea rēgīna!”
+    gloss: gerentem = wearing
+    underline:
+    - gerentem
+  - n: 9
+    latin: Mox puella et puer erant amīcī.
+  - n: 10
+    latin: Post multōs annōs Pūblius dēclārāvit, “Volō tē in mātrimōnium dūcere.”
+  - n: 11
+    latin: Maripōsa laetē respondit, “Ita vērō! Amō tē.” Ante diem nūptiālem
+    gloss: nūptiālem = wedding
+    underline:
+    - nūptiālem
+  - n: 12
+    latin: Pūblius tamen ē vītā discessit. Post mortem Pūblī, Maripōsa misera erat.
+    gloss: discessit = departed
+    underline:
+    - discessit
+  - n: 13
+    latin: Amīcī multōs et variōs flōrēs Maripōsae dōnāvērunt. Incēpit amāre
+    gloss: Incēpit = She began
+    underline:
+    - Incēpit
+  - n: 14
+    latin: odōrem flōrum. Itaque Maripōsa inter flōrēs circum oppidum volābat et
+    gloss: volābat = was flying
+    underline:
+    - volābat
+  - n: 15
+    latin: domum numquam reveniēbat. Hodiē papiliōnēs, sīcut Maripōsa, nōn iam
+    gloss: sīcut = just like
+    underline:
+    - sīcut
+  - n: 16
+    latin: in domibus vīvunt, sed hūc illūc volant et flōrēs olfaciunt.
+    gloss: hūc illūc = here and there; olfaciunt = smell
+    underline:
+    - hūc illūc
+    - olfaciunt
+items:
+- n: 1
+  stem: Quid est nōmen tibi?
+  options:
+    a: What
+    b: Where
+    c: How
+    d: Why
+  answer: a
+  node: MS-130
+  underline:
+  - Quid
+- n: 2
+  stem: Canis in ātriō dormiēbat.
+  options:
+    a: is sleeping
+    b: was sleeping
+    c: does sleep
+    d: to sleep
+  answer: b
+  node: MS-096
+  underline:
+  - dormiēbat
+- n: 3
+  stem: Et puerī et puellae cantāre amant.
+  options:
+    a: Each...and
+    b: Neither…nor
+    c: Either…or
+    d: Both...and
+  answer: d
+  node: MS-051
+  underline:
+  - Et
+  - et
+- n: 4
+  stem: Currite, cīvēs, ad Colossēum! Nunc est spectāculum!
+  options:
+    a: Run
+    b: To run
+    c: Do not run
+    d: They have run
+  answer: a
+  node: MS-077
+  underline:
+  - Currite
+- n: 5
+  stem: Vōs multās fābulās dē deīs Olympicīs scītis.
+  options:
+    a: We
+    b: I
+    c: They
+    d: You
+  answer: d
+  node: MS-116
+  underline:
+  - Vōs
+- n: 6
+  stem: Omnēs hominēs verba senātōris audiunt.
+  options:
+    a: by the senator
+    b: of the senator
+    c: for the senator
+    d: with the senator
+  answer: b
+  node: MS-052
+  needs:
+  - MS-064
+  underline:
+  - senātōris
+- n: 7
+  stem: Multī spectātōrēs ad theātrum hodiē veniunt.
+  options:
+    a: by
+    b: in
+    c: to
+    d: out of
+  answer: c
+  node: MS-084
+  underline:
+  - ad
+- n: 8
+  stem: Pūblius mātrī fābulam longam nārrāvit.
+  options:
+    a: of his mother
+    b: by his mother
+    c: with his mother
+    d: to his mother
+  answer: d
+  node: MS-057
+  needs:
+  - MS-064
+  underline:
+  - mātrī
+- n: 9
+  stem: Mārcus et Iūlia in viīs currere nōn poterant.
+  options:
+    a: have not been able
+    b: not to be able
+    c: are not able
+    d: were not able
+  answer: d
+  node: MS-112
+  underline:
+  - nōn poterant
+- n: 10
+  stem: Discipula epistulam stilō scrībēbat.
+  options:
+    a: instead of a stylus
+    b: near a stylus
+    c: with a stylus
+    d: of a stylus
+  answer: c
+  node: MS-089
+  underline:
+  - stilō
+- n: 11
+  stem: Puellae amīcās cārās laudāvērunt.
+  options:
+    a: praise
+    b: praised
+    c: to praise
+    d: were praising
+  answer: b
+  node: MS-105
+  underline:
+  - laudāvērunt
+- n: 12
+  stem: Portā cibum, _____, in vīllam!
+  options:
+    a: Mārcus
+    b: Mārce
+    c: Mārcum
+    d: Mārcō
+  answer: b
+  node: MS-049
+- n: 13
+  stem: Fēmina cum sorōre in silvam festīnat.
+  options:
+    a: away from her sister
+    b: to her sister
+    c: near her sister
+    d: with her sister
+  answer: d
+  node: MS-088
+  underline:
+  - cum sorōre
+- n: 14
+  stem: Mātrēs in Forum lentē ambulant.
+  options:
+    a: to slow down
+    b: how slow
+    c: slowly
+    d: slowness
+  answer: c
+  node: MS-132
+  underline:
+  - lentē
+- n: 15
+  stem: Quot sunt decem minus ūnus?
+  options:
+    a: VI
+    b: VII
+    c: VIII
+    d: IX
+  answer: d
+  node: RW-063
+- n: 16
+  stem: William Shakespeare wrote, “To be or not to be – that is the question.” In that quote, what is the Latin
+    for “to be”?
+  options:
+    a: sumus
+    b: esse
+    c: fuī
+    d: est
+  answer: b
+  node: MS-076
+- n: 17
+  stem: Cicerō erat _____.
+  options:
+    a: ōrātor clārus
+    b: ōrātōrem clārum
+    c: ōrātōris clārī
+    d: ōrātōre clārō
+  answer: a
+  node: MS-041
+  needs:
+  - MS-063
+- n: 18
+  stem: Senātōrēs ad Cūriam magnā celeritāte appropinquābant.
+  options:
+    a: of great speed
+    b: great speed
+    c: with great speed
+    d: for great speed
+  answer: c
+  node: MS-091
+  underline:
+  - magnā celeritāte
+- n: 19
+  stem: “Tange,” magistra inquit, “pedēs tuōs.”
+  options:
+    a: mouth
+    b: eyes
+    c: head
+    d: feet
+  answer: d
+  node: VOCAB
+  underline:
+  - pedēs
+- n: 20
+  stem: In what part of a Roman house would one expect to find a garden?
+  options:
+    a: in culīnā
+    b: in cubiculō
+    c: in peristȳliō
+    d: in tablīnō
+  answer: c
+  node: RW-048
+- n: 21
+  stem: What Greek deity is often depicted with winged sandals and the snake-entwined staff pictured here?
+  options:
+    a: Hades
+    b: Hera
+    c: Hephaestus
+    d: Hermes
+  answer: d
+  node: RW-064
+  image: nle/2021-beginning-p1-1.png
+- n: 22
+  stem: Where would a Roman boy wear his bulla?
+  options:
+    a: around his waist
+    b: on his head
+    c: around his neck
+    d: on his finger
+  answer: c
+  node: RW-054
+- n: 23
+  stem: In addition to Pompeii, which of these cities did Mt. Vesuvius destroy?
+  options:
+    a: Brundisium
+    b: Herculaneum
+    c: Ostia
+    d: Rome
+  answer: b
+  node: RW-092
+- n: 24
+  stem: In what type of contest did Arachne and Minerva participate?
+  options:
+    a: archery
+    b: weaving
+    c: running
+    d: singing
+  answer: b
+  node: RW-064
+- n: 25
+  stem: Who were the chief executive officials in the government of the Roman Republic?
+  options:
+    a: consuls
+    b: emperors
+    c: kings
+    d: priests
+  answer: a
+  node: RW-015
+- n: 26
+  stem: Quot annōs habēs? is asking
+  options:
+    a: What day is it?
+    b: How old are you?
+    c: What time is it?
+    d: Who is your mother?
+  answer: b
+  node: VOCAB
+- n: 27
+  stem: According to its Latin root, a laboratory is a place for
+  options:
+    a: hiding items
+    b: washing
+    c: working
+    d: storing food
+  answer: c
+  node: MW-009
+  underline:
+  - laboratory
+- n: 28
+  stem: One might use the Latin abbreviation ____ to restate or clarify something already mentioned.
+  options:
+    a: i.e.
+    b: A.D.
+    c: p.m.
+    d: R.I.P.
+  answer: a
+  node: MW-044
+- n: 29
+  stem: According to legend, what was Cincinnatus doing when he was asked to be dictator?
+  options:
+    a: eating his dinner
+    b: visiting a friend
+    c: making a speech
+    d: plowing a field WHY BUTTERFLIES DON’T LIVE IN HOUSES Mariposa copes with her sorrow. Mariposa means butterfly
+      in Spanish.
+  answer: d
+  node: RW-025
+- n: 30
+  stem: According to line 1 (Ōlim...habitābant), why were houses once important to butterflies?
+  options:
+    a: They used to live inside them.
+    b: There are flowers around houses.
+    c: Houses protect butterflies from people.
+    d: The weather was unpleasant.
+  answer: a
+  node: CR-009
+  passage: butterflies
+- n: 31
+  stem: According to lines 2-3, what is Mariposa doing?
+  options:
+    a: writing a story
+    b: climbing a tree
+    c: walking in the road
+    d: painting a picture
+  answer: c
+  node: CR-009
+  passage: butterflies
+- n: 32
+  stem: What is the best translation of “Quam fortūnāta sum!” (line 3)?
+  options:
+    a: “There is my fortune!”
+    b: “How fortunate I am!”
+    c: “That girl is so fortunate!”
+    d: “I have a good fortune!”
+  answer: b
+  node: CR-009
+  passage: butterflies
+- n: 33
+  stem: According to line 4, why was the fabric so special?
+  options:
+    a: It was new.
+    b: It was multi-colored.
+    c: It was expensive.
+    d: It was her mother’s.
+  answer: b
+  node: CR-009
+  passage: butterflies
+- n: 34
+  stem: According to line 6, Mariposa wore the stola
+  options:
+    a: often
+    b: just once
+    c: on special occasions
+    d: once a year
+  answer: a
+  node: CR-009
+  passage: butterflies
+- n: 35
+  stem: In line 10, after many years Publius
+  options:
+    a: asked about the stola
+    b: sang to Mariposa
+    c: proposed marriage to Mariposa
+    d: destroyed the stola
+  answer: c
+  node: CR-009
+  passage: butterflies
+- n: 36
+  stem: According to line 11, Mariposa agreed to
+  options:
+    a: marry Publius
+    b: become a queen
+    c: travel away
+    d: receive a message
+  answer: a
+  node: CR-009
+  passage: butterflies
+- n: 37
+  stem: Based on lines 11-12, why was Mariposa sad?
+  options:
+    a: Flowers made her sneeze.
+    b: Her marriage was unhappy.
+    c: She lost her stola.
+    d: Publius died.
+  answer: d
+  node: CR-009
+  passage: butterflies
+- n: 38
+  stem: According to line 13, what did Mariposa’s friends give her?
+  options:
+    a: flowers
+    b: a pet
+    c: perfume
+    d: food
+  answer: a
+  node: CR-009
+  passage: butterflies
+- n: 39
+  stem: In line 14, where was Mariposa flying?
+  options:
+    a: to the town
+    b: in front of the town
+    c: around the town
+    d: away from the town
+  answer: c
+  node: MS-084
+  passage: butterflies
+- n: 40
+  stem: Based upon this folktale, why do butterflies fly around from place to place?
+  options:
+    a: to flee their enemies
+    b: to enjoy the fragrance of flowers
+    c: to exercise their wings
+    d: to look for new houses
+  answer: b
+  node: CR-009
+  passage: butterflies

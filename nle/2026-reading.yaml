@@ -1,0 +1,448 @@
+# 2026 National Latin Exam — Beginning Latin Reading Comprehension. Transcribed from the exam PDF; answers worked out
+# by hand (no answer key supplied). `node` is the course topic each question tests.
+exam:
+  id: 2026-reading
+  year: 2026
+  kind: reading
+  title: Beginning Latin Reading Comprehension
+  source_note: ACL/NJCL National Latin Exam 2026, Beginning Latin Reading Comprehension. Used with permission for
+    non-commercial classroom practice.
+passages:
+- id: achilles-1
+  title: ACHILLES AND HIS HORSES
+  subtitle: A reimagining of an ancient tale
+  note: ''
+  source: ''
+  questions:
+  - 1
+  - 18
+  lines:
+  - n: 1
+    latin: Achillēs erat fortis mīles Graecus. Hector erat validus mīles Troiānus. Hector
+  - n: 2
+    latin: Patroclum, amīcum cārum Achillis, in bellō interfēcit. Itaque Achillēs, trīstis et
+  - n: 3
+    latin: īrātus, hostem crūdēlem interficere volēbat.
+  - n: 4
+    latin: Achillēs duōs equōs, Xanthum et Balium, habēbat. Celerēs et validī erant hī
+  - n: 5
+    latin: equī, quōs Neptūnus patrī Achillis dederat. Posteā pater fīliō fortī eōs dedit.
+    gloss: quōs = which; dederat = had given
+  - n: 6
+    latin: Equī et mentēs sapientēs et animās fidēlēs habēbant. Dominum saepe cūrābant.
+  - n: 7
+    latin: Dominō sōlī sonum facere et capita dēmittere solēbant, ubi appropinquābat.
+    gloss: solēbant = they were accustomed
+  - n: 8
+    latin: Xanthus et Balius dominum currū in bellum dūcere solēbant. Ōlim equī Patroclum,
+    gloss: currū = in a chariot
+  - n: 9
+    latin: quī arma Achillis gerēbat, in bellum contrā Hectorem tulerant.
+    gloss: tulerant = had brought
+  - n: 10
+    latin: Equī prope amīcum mortuum manēbant. Oculī equōrum lacrimīs madēbant.
+    gloss: madēbant = were dripping
+  - n: 11
+    latin: Achillēs miser rogāvit, “Ēheu! Cūr vōs corpus Patroclī ad castra Graeca nōn
+  - n: 12
+    latin: tulistis? Dūcite mē, equī celerēs, in bellum! Necesse est mihi Hectorem interficere.”
+- id: achilles-2
+  title: ACHILLES AND HIS HORSES — the story continues
+  subtitle: ''
+  note: ''
+  source: ''
+  questions:
+  - 19
+  - 36
+  lines:
+  - n: 13
+    latin: Subitō oculī equōrum sunt clārī. Xanthus, dīcēns sīcut homō (per dōnum
+    gloss: sīcut = just as
+  - n: 14
+    latin: rēgīnae deōrum), “Ō Achillēs,” inquit, “tē in bellum celeriter portābimus.
+  - n: 15
+    latin: Licet tibi Hectorem interficere sed mortem nōn effugere. Parcae tē vocant.
+    gloss: effugere = to escape; Parcae = The Fates
+  - n: 16
+    latin: Intellegisne?”
+  - n: 17
+    latin: Achillēs verba audit neque timet. “Fātum meum sciō,” inquit, “Patroclus
+  - n: 18
+    latin: mortuus est. Mox ego ūnā cum Patroclō erō. Sed prius necesse est mihi
+    gloss: ūnā = together; prius = first
+  - n: 19
+    latin: Hectorem interficere!” Xanthus respondet, “Intellegō. Auxilium tibi dabō.”
+    gloss: Auxilium = help
+  - n: 20
+    latin: Subitō ventus deōrum flat et Xanthus iterum tacet. Furiae vōcem remōvērunt.
+    gloss: flat = blows
+  - n: 21
+    latin: Numquam verba iterum dīcere poterit. Tum equī in bellum cum dominō celeriter
+  - n: 22
+    latin: currunt sīcut ventī super mare flant. Achillēs fortiter pugnat et Hectorem
+  - n: 23
+    latin: interficit. Sed Xanthus et Balius fātum ultimum hērōis iam vident. Iterum
+    gloss: hērōis = of the hero
+  - n: 24
+    latin: oculī eōrum lacrimīs madent.
+items:
+- n: 1
+  stem: Which of the following qualities was shared by both Hector and Achilles, according to line 1?
+  options:
+    a: strength
+    b: being Greek
+    c: being Trojan
+    d: affection
+  answer: a
+  node: CR-009
+  passage: achilles-1
+- n: 2
+  stem: According to lines 2-3, what caused Achilles to feel sad and angry?
+  options:
+    a: The Greeks have fought for too long.
+    b: Achilles’ soldiers were taken from him.
+    c: Achilles was afraid of losing the battle.
+    d: Hector killed Achilles’ friend.
+  answer: d
+  node: CR-009
+  passage: achilles-1
+- n: 3
+  stem: In lines 2-3, what did Achilles want to do (Itaque Achillēs...volēbat)?
+  options:
+    a: see his friend Patroclus
+    b: refuse to fight in battle
+    c: kill the enemy whom he blames
+    d: seek the comfort of his parents
+  answer: c
+  node: CR-009
+  passage: achilles-1
+- n: 4
+  stem: Who or what was described as swift and strong (lines 4-5)?
+  options:
+    a: Patroclus’ weapons
+    b: Achilles’ horses
+    c: Neptune
+    d: the Greeks
+  answer: b
+  node: CR-009
+  passage: achilles-1
+- n: 5
+  stem: To whom does fīliō fortī (line 5) refer?
+  options:
+    a: Neptune
+    b: a sea nymph
+    c: Patroclus
+    d: Achilles
+  answer: d
+  node: CR-015
+  passage: achilles-1
+- n: 6
+  stem: How did Achilles come to own Xanthus and Balius (line 5)?
+  options:
+    a: They were a present.
+    b: They were spoils of war.
+    c: They appeared in a storm.
+    d: They were saved from a disaster.
+  answer: a
+  node: CR-009
+  passage: achilles-1
+- n: 7
+  stem: In line 6, (Equī…habēbant), what do we learn that the horses possessed?
+  options:
+    a: strength and aggression
+    b: intelligence and loyalty
+    c: training and discipline
+    d: curiosity and independence
+  answer: b
+  node: CR-009
+  passage: achilles-1
+- n: 8
+  stem: What does et…et mean in line 6?
+  options:
+    a: again…again
+    b: both…and
+    c: neither…nor
+    d: either…or
+  answer: b
+  node: MS-051
+  passage: achilles-1
+- n: 9
+  stem: Who is the subject of cūrābant (line 6)?
+  options:
+    a: the gods
+    b: the Greeks
+    c: the horses
+    d: the Trojans
+  answer: c
+  node: CR-003
+  passage: achilles-1
+- n: 10
+  stem: In line 7, what was the first way the horses showed affection for their master (Dominō…solēbant)?
+  options:
+    a: making angry faces at his enemies
+    b: refusing to let others approach
+    c: neighing at his presence
+    d: only eating food given by him
+  answer: c
+  node: CR-009
+  passage: achilles-1
+- n: 11
+  stem: How else did the horses acknowledge their master in line 7?
+  options:
+    a: They lowered their heads when he approached them.
+    b: They swished their tails at his arrival.
+    c: They perked up their ears to listen to him.
+    d: They touched him with their noses.
+  answer: a
+  node: CR-009
+  passage: achilles-1
+- n: 12
+  stem: According to line 8, what did the horses usually do?
+  options:
+    a: make more noise than other horses
+    b: pull a chariot for many Greek soldiers
+    c: bring Achilles into battle
+    d: neigh to attract other horses
+  answer: c
+  node: CR-009
+  passage: achilles-1
+- n: 13
+  stem: In lines 8-9, what did the horses do?
+  options:
+    a: leave Patroclus alone in battle
+    b: bring Patroclus dressed as Achilles into battle
+    c: allow Patroclus to rescue Achilles from battle
+    d: bring Hector out of battle to fight Patroclus
+  answer: b
+  node: CR-009
+  passage: achilles-1
+- n: 14
+  stem: According to line 10, where were the horses?
+  options:
+    a: on a mountain
+    b: behind Hector
+    c: beside Patroclus
+    d: in their stalls
+  answer: c
+  node: CR-009
+  passage: achilles-1
+- n: 15
+  stem: In line 10, the horses are described as _____.
+  options:
+    a: sorrowful
+    b: angry
+    c: disinterested
+    d: violent
+  answer: a
+  node: CR-009
+  passage: achilles-1
+- n: 16
+  stem: Why was Achilles dissatisfied with the horses in lines 11-12?
+  options:
+    a: for not being fast enough
+    b: for not bringing back Patroclus’ corpse
+    c: for refusing to let him kill Hector
+    d: for refusing to fight
+  answer: b
+  node: CR-009
+  passage: achilles-1
+- n: 17
+  stem: What did Achilles order Xanthus and Balius to do (line 12)?
+  options:
+    a: bring soldiers to help
+    b: take him into battle
+    c: kill Hector
+    d: thank the gods
+  answer: b
+  node: MS-077
+  passage: achilles-1
+- n: 18
+  stem: According to line 12, what did Achilles want to do?
+  options:
+    a: to find his armor
+    b: to curse the gods
+    c: to avenge a friend
+    d: to save a family member
+  answer: c
+  node: CR-009
+  passage: achilles-1
+- n: 19
+  stem: What unusual thing does Xanthus do (lines 13-14)?
+  options:
+    a: brings a gift to the gods
+    b: emits fire from his eyes
+    c: turns into a person
+    d: speaks to his owner
+  answer: d
+  node: CR-009
+  passage: achilles-2
+- n: 20
+  stem: Based on lines 13-14 and your knowledge of mythology, who had given a gift to Xanthus?
+  options:
+    a: Jupiter
+    b: Mars
+    c: Venus
+    d: Juno
+  answer: d
+  node: RW-064
+  passage: achilles-2
+- n: 21
+  stem: Which English word is derived from the root of the Latin form portābimus (line 14)?
+  options:
+    a: portray
+    b: portion
+    c: portable
+    d: potion
+  answer: c
+  node: MW-009
+  passage: achilles-2
+- n: 22
+  stem: What do the horses agree to do (line 14)?
+  options:
+    a: carry Achilles quickly
+    b: fight alongside Achilles
+    c: die with Achilles
+    d: pray to the gods for Achilles
+  answer: a
+  node: CR-009
+  passage: achilles-2
+- n: 23
+  stem: In line 15 what does Licet tibi mean?
+  options:
+    a: You are pleased
+    b: You are allowed
+    c: You ought
+    d: You do not want
+  answer: b
+  node: VOCAB
+  passage: achilles-2
+- n: 24
+  stem: To whom do tibi and tē refer in line 15?
+  options:
+    a: Xanthus
+    b: Achilles
+    c: Hector
+    d: the Fates
+  answer: b
+  node: CR-015
+  passage: achilles-2
+- n: 25
+  stem: What is the best meaning of Intellegisne (line 16)?
+  options:
+    a: I don’t understand you.
+    b: Will you ever understand?
+    c: Do you understand?
+    d: Now I understand.
+  answer: c
+  node: CR-009
+  passage: achilles-2
+- n: 26
+  stem: How does Achilles respond to the message he hears (line 17)?
+  options:
+    a: He is scared.
+    b: He is amused.
+    c: He is brave.
+    d: He is confused.
+  answer: c
+  node: CR-009
+  passage: achilles-2
+- n: 27
+  stem: What does Achilles acknowledge (line 18)?
+  options:
+    a: his impending death
+    b: his own strength
+    c: his great joy
+    d: his refusal to fight
+  answer: a
+  node: CR-009
+  passage: achilles-2
+- n: 28
+  stem: What does Xanthus imply when he says, “Intellegō. Auxilium tibi dabō.” (line 19)?
+  options:
+    a: He will kill Hector.
+    b: He will deliver Achilles to Hector.
+    c: He will find an ally to support Achilles.
+    d: He will rest before a big battle.
+  answer: b
+  node: CR-009
+  passage: achilles-2
+- n: 29
+  stem: According to lines 20-21, what does the blowing wind signal?
+  options:
+    a: the speed of the horses
+    b: Xanthus’ lasting silence
+    c: the capture of Balius
+    d: a victory in battle
+  answer: b
+  node: CR-009
+  passage: achilles-2
+- n: 30
+  stem: Who took away Xanthus’ gift (line 20)?
+  options:
+    a: Achilles
+    b: Patroclus
+    c: Balius
+    d: the Furies
+  answer: d
+  node: CR-009
+  passage: achilles-2
+- n: 31
+  stem: To what are the horses compared (lines 21-22)?
+  options:
+    a: heroes
+    b: ships
+    c: winds
+    d: runners
+  answer: c
+  node: CR-009
+  passage: achilles-2
+- n: 32
+  stem: Which Latin clause shows the horses carrying out Achilles’ demand of them?
+  options:
+    a: Numquam…poterit (line 21)
+    b: Tum…currunt (lines 21-22)
+    c: Achillēs…pugnat (line 22)
+    d: Hectorem interficit (lines 22-23)
+  answer: b
+  node: CR-009
+  passage: achilles-2
+- n: 33
+  stem: Who is the hērōis (line 23)?
+  options:
+    a: Hector
+    b: Patroclus
+    c: Peleus
+    d: Achilles
+  answer: d
+  node: CR-015
+  passage: achilles-2
+- n: 34
+  stem: To what does fātum ultimum hērōis (line 23) refer at the end of the passage?
+  options:
+    a: Achilles’ death
+    b: Achilles’ power
+    c: Achilles’ marriage
+    d: Achilles’ disgrace
+  answer: a
+  node: CR-009
+  passage: achilles-2
+- n: 35
+  stem: To whom does eōrum in line 24 refer?
+  options:
+    a: the gods
+    b: the Furies
+    c: Achilles and Hector
+    d: Xanthus and Balius
+  answer: d
+  node: CR-015
+  passage: achilles-2
+- n: 36
+  stem: Based on your knowledge of mythology and geography, near what city did the events of this story take place?
+  options:
+    a: Rome
+    b: Carthage
+    c: Delphi
+    d: Troy
+  answer: d
+  node: RW-008
+  passage: achilles-2

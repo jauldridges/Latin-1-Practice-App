@@ -799,3 +799,59 @@ em.la { font-style: italic; font-weight: 600; color: #3a3428; }
 .cfu-opts li.right { color: var(--solid); font-weight: 700; }
 .cfu-qs li { margin-bottom: 10px; }
 body:has(.reviewbar) .lstep { scroll-margin-top: 140px; }
+
+/* ---- Practice NLE (nle.py) ------------------------------------------- */
+.badge.nletag { background: #fdf4dc; color: #7a5a08; }
+img.nle-img { display: block; max-width: min(100%, 360px); max-height: 320px; margin: 8px 0 12px;
+  border: 1px solid var(--line); border-radius: 6px; background: #fff; }
+img.nle-img.small { max-width: min(100%, 220px); max-height: 200px; }
+.nle-head { margin-bottom: 10px; }
+.nle-head .lprog { height: 6px; background: var(--line); border-radius: 3px; margin-top: 6px; overflow: hidden; }
+.nle-head .lprog span { display: block; height: 100%; background: var(--accent); }
+.nle-passage { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  padding: 12px 14px; margin: 8px 0 14px; max-height: 55vh; overflow: auto; }
+.nle-ptitle { font-weight: 700; letter-spacing: .02em; }
+.nle-psub { margin-top: 2px; }
+ol.nle-lines { list-style: none; margin: 8px 0; padding: 0; }
+ol.nle-lines li { display: grid; grid-template-columns: 1.8em 1fr; column-gap: 8px; padding: 3px 0;
+  font-family: Georgia, "Times New Roman", serif; font-size: 17px; line-height: 1.45; }
+ol.nle-lines li.hi { background: #fdf4dc; }
+ol.nle-lines .ln, ul.nle-look .ln { color: var(--muted); font: 12px/1.9 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; text-align: right; }
+ol.nle-lines .gl { grid-column: 2; font: 13px/1.35 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--muted); }
+@media (min-width: 760px) {
+  ol.nle-lines li { grid-template-columns: 1.8em 1fr 15em; }
+  ol.nle-lines .gl { grid-column: 3; padding-left: 10px; border-left: 1px solid var(--line); }
+}
+ul.nle-look { list-style: none; padding: 0; margin: 4px 0 8px; font-family: Georgia, serif; }
+details.nle-grid-box { margin-top: 12px; }
+.nle-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(42px, 1fr)); gap: 6px; margin-top: 8px; }
+.nle-cell { padding: 9px 0; border: 1px solid var(--line); border-radius: 6px; background: var(--card);
+  font: inherit; font-size: 15px; cursor: pointer; color: var(--ink); }
+.nle-cell.done { background: #eef5f0; border-color: #b9d6c4; }
+.nle-cell.here { outline: 2px solid var(--accent); }
+.nle-score { text-align: center; margin: 6px 0 18px; }
+.nle-score .n { font-size: 44px; font-weight: 800; color: var(--accent); line-height: 1.1; }
+.nle-score .n span { font-size: 20px; color: var(--muted); font-weight: 600; }
+.nle-award { margin-top: 6px; font-size: 16px; }
+.nle-award.gold strong { color: #9a7300; }
+.nle-award.silver strong { color: #5f6b75; }
+.nle-topic .minibtn, .nle-q .minibtn { display: inline-block; margin-top: 8px; text-decoration: none; }
+.nle-q.miss { border-left: 4px solid var(--wrong); }
+.nle-q.ok { border-left: 4px solid var(--right); }
+.pill.wrongpill { background: #f7dede; color: var(--wrong); }
+.nle-starts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.nle-starts form, .nle-starts a { flex: 1 1 240px; }
+.nle-starts .bigbtn { width: 100%; margin: 0; }
+ul.nle-exams, ul.nle-done { list-style: none; padding: 0; margin: 0; }
+ul.nle-exams li, ul.nle-done li { padding: 10px 0; border-bottom: 1px solid var(--line); }
+button.linkish { background: none; border: 0; padding: 0; font: inherit; color: var(--accent);
+  cursor: pointer; text-align: left; text-decoration: underline; }
+a.nle-back { position: sticky; top: 100px; z-index: 3; display: block; margin: 0 0 12px;
+  padding: 10px 14px; background: #fdf4dc; border: 1px solid #ecd9a3; border-radius: 8px;
+  font-weight: 700; text-decoration: none; color: #7a5a08; }
+.nle-right { font-weight: 700; color: var(--accent); }
+.stem u, .nle-lines u, .nle-look u { text-decoration-thickness: 2px; text-underline-offset: 3px; }
+/* Six tabs on a phone: each as wide as its word, a little smaller. */
+@media (max-width: 480px) {
+  nav.tabs a { flex: 1 1 auto; font-size: 13px; padding: 11px 2px; }
+}

@@ -23,7 +23,7 @@ import rush
 import stats
 import teacher
 
-QUIZ_CONTEXTS = ("quiz", "exam")
+QUIZ_CONTEXTS = ("quiz", "exam", "nle")      # nle: a practice NLE (nle.py)
 SITTING_GAP = rush.SITTING_GAP          # 30 minutes without an answer ends a sitting
 CARD_CAP_S = 300                        # one card never counts for more than 5 minutes
 FIRST_CARD_S = 20                       # a sitting's first card, when its timing is missing

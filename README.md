@@ -86,7 +86,8 @@ start clean.
 | `lessons.py`, `badge_lessons.yaml` | The lesson at the start of each badge (teacher-approved). |
 | `badges.py`, `badges.yaml` | Grammar badges: the map, checks, fading, and the homework rule. |
 | `analysis.py` | Data for analysis: the zip of spreadsheets split around an exam. |
-| `tests/` | 723 tests. `python3 -m unittest discover -s tests`. |
+| `nle.py`, `nle/`, `static/nle/` | Past National Latin Exams: 15 exams, pre-approved, in badge checks and Practice NLE. |
+| `tests/` | 750 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -538,6 +539,50 @@ still at `/practice?topics=1` ("Extra practice by topic").
 
 The grouping is a DRAFT for the teacher (Oct 2026): every Unit 0-2 grammar
 topic is in exactly one badge (tested). `tests/test_badges.py`.
+
+## Practice NLE
+
+Fifteen past National Latin Exams, transcribed from the PDFs into `nle/*.yaml`
+(one per exam; pictures and maps in `static/nle/`): Latin I 2014, 2016,
+2018–2020; Beginning Latin 2021–2026; the 2025 and 2026 Reading Comprehension
+exams; Introduction to Latin 2013 and 2015 — 592 questions. Used with the NLE's
+permission for non-commercial classroom practice. No answer keys came with the
+PDFs, so the answers were worked out by hand; Teacher dashboard → **Practice
+NLE** → an exam shows each question with the answer the app counts right and
+its topic, to check against the key.
+
+Every question carries the course topic it tests (`node`: a spec node, or
+`VOCAB` for a word's meaning), plus any other topic it leans on (`needs`: a
+dative question written with *senātōrī* needs the third declension). The words
+the exam underlines are underlined (`underline`).
+
+- **Pre-approved.** At startup `nle.sync()` copies the questions into the bank
+  as approved, the first time each appears. After that the bank is the truth:
+  reject one in the Review tool and it stays rejected; edit one and the edit
+  survives the next deploy.
+- **In badge checks and topic practice**, a grammar question joins its badge's
+  pool once its topic and everything in `needs` has been taught, labelled
+  “From the 2019 National Latin Exam”, options in the printed A–D order. A
+  question that needs its reading passage or picture (`exam_only`) appears only
+  in Practice NLE.
+- **Practice NLE** (the NLE tab, `/nle`): a whole past exam as printed
+  (questions on things not covered yet are marked), or a mash-up — 20 single
+  questions from several years on what has been covered, or 40 ending with one
+  reading passage; questions a student hasn't met in a practice NLE come first.
+  Answers save as they go; nothing is graded until the student finishes, as on
+  the real exam. The results give the score (and the award a 40-question score
+  would earn), what to work on by topic, and every question with the right
+  answer. Each miss has a Hint (the approved teaching text, else the lesson's
+  line to remember, plus the passage lines a reading question points to) and,
+  when the topic's badge has an approved lesson, **Do Lesson N** — the lesson
+  opens with “← Back to your practice NLE”, which returns to that question.
+- A sitting is stored as a quiz (context `nle`) with the student's one attempt,
+  so it is backed up and wiped at year end like any quiz, and only the student
+  who started it can open it. Answers are recorded as events with context
+  `nle`: they never count as homework, and Data for analysis files them with
+  the quizzes. The teacher's Quizzes list leaves them out.
+
+`tests/test_nle.py`.
 
 ## Data for analysis
 
@@ -1223,7 +1268,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-723 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+750 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

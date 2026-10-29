@@ -105,6 +105,10 @@
   <span class="choice-title">Reading</span>
   <span class="choice-body">The stories from class. Tap any word to see what it means.</span>
 </a>
+<a class="choice" href="{{ url_for('nle_home') }}">
+  <span class="choice-title">Practice NLE</span>
+  <span class="choice-body">Real questions from past National Latin Exams: a whole exam, or a mash-up of a few.</span>
+</a>
 
 {# Games: the teacher's own games, hosted elsewhere and listed in games.yaml.
    They open in a new tab so the app is still there when the game ends. #}
@@ -141,6 +145,9 @@
 
 <a class="bigbtn secondary" href="{{ url_for('teacher_reader') }}">Reader</a>
 <p class="small muted" style="margin-top:-4px">Class stories with tappable words and questions. Publish, preview, project.</p>
+
+<a class="bigbtn secondary" href="{{ url_for('teacher_nle') }}">Practice NLE</a>
+<p class="small muted" style="margin-top:-4px">Past National Latin Exams: check the answer key, see who has sat one.</p>
 
 <a class="bigbtn secondary" href="{{ url_for('teacher_badges') }}">Grammar badges</a>
 <p class="small muted" style="margin-top:-4px">The badge map students practice grammar on: what each badge covers.</p>

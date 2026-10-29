@@ -693,9 +693,13 @@ def events_for_student(conn, student_id):
     return [dict(r) for r in rows]
 
 
-def approved_items(conn, node_id=None):
+def approved_items(conn, node_id=None, include_exam_only=False):
     """The approved question payloads — what the grammar practice app serves.
     Nothing unreviewed or rejected ever reaches a student.
+
+    A past-NLE question that needs its reading passage or its picture is
+    `exam_only` (nle.py): it lives in the bank like any other, but is shown
+    only inside a practice NLE, so it is left out unless asked for.
 
     A question can name another it `replaces` (a typed labelling question
     rewritten as tap-to-place, say). The old one stays approved and keeps its
@@ -710,7 +714,8 @@ def approved_items(conn, node_id=None):
             if old:
                 replaced.add(old)
     return [p for p in payloads
-            if p.get("id") not in replaced and (not node_id or p.get("node") == node_id)]
+            if p.get("id") not in replaced and (not node_id or p.get("node") == node_id)
+            and (include_exam_only or not p.get("exam_only"))]
 
 
 def approved_node_counts(conn):
@@ -851,10 +856,14 @@ def get_quiz(conn, quiz_id):
     return d
 
 
-def list_quizzes(conn):
+def list_quizzes(conn, include_nle=False):
+    """The teacher's quizzes, newest first. A practice NLE a student starts is
+    stored as a quiz of its own (context "nle") and is left out unless asked for."""
     out = []
     for r in conn.execute("SELECT * FROM quizzes ORDER BY created_at DESC").fetchall():
         d = dict(r)
+        if d.get("context") == "nle" and not include_nle:
+            continue
         d["item_ids"] = json.loads(d["item_ids"])
         d["attempts"] = conn.execute(
             "SELECT COUNT(*) AS n FROM quiz_attempts WHERE quiz_id=? AND submitted_at IS NOT NULL",
@@ -892,6 +901,57 @@ def get_or_start_attempt(conn, quiz_id, student_id):
     d["answers"] = json.loads(d["answers_json"] or "{}")
     d["results"] = json.loads(d["results_json"]) if d.get("results_json") else None
     return d
+
+
+def find_attempt(conn, quiz_id, student_id):
+    """This student's attempt at this quiz, or None. Never starts one: a
+    practice NLE belongs to the student who started it, and its link opened by
+    anyone else finds nothing."""
+    r = conn.execute("SELECT * FROM quiz_attempts WHERE quiz_id=? AND student_id=?",
+                     (quiz_id, normalize_student(student_id))).fetchone()
+    if r is None:
+        return None
+    d = dict(r)
+    d["answers"] = json.loads(d["answers_json"] or "{}")
+    d["results"] = json.loads(d["results_json"]) if d.get("results_json") else None
+    return d
+
+
+def student_sittings(conn, student_id, context="nle"):
+    """One student's practice NLEs (quizzes of that context), newest first,
+    each with its attempt."""
+    rows = conn.execute(
+        """SELECT q.quiz_id, q.title, q.item_ids, q.created_at, a.attempt_id,
+                  a.started_at, a.submitted_at, a.answers_json, a.results_json
+             FROM quizzes q JOIN quiz_attempts a ON a.quiz_id = q.quiz_id
+            WHERE q.context=? AND a.student_id=?
+            ORDER BY a.started_at DESC""",
+        (context, normalize_student(student_id))).fetchall()
+    out = []
+    for r in rows:
+        d = dict(r)
+        d["item_ids"] = json.loads(d["item_ids"])
+        d["answers"] = json.loads(d["answers_json"] or "{}")
+        d["results"] = json.loads(d["results_json"]) if d.get("results_json") else None
+        out.append(d)
+    return out
+
+
+def context_sittings(conn, context="nle"):
+    """Every submitted sitting of that context, newest first -- the teacher's
+    view of practice NLEs."""
+    rows = conn.execute(
+        """SELECT q.quiz_id, q.title, q.item_ids, a.student_id, a.submitted_at, a.results_json
+             FROM quizzes q JOIN quiz_attempts a ON a.quiz_id = q.quiz_id
+            WHERE q.context=? AND a.submitted_at IS NOT NULL
+            ORDER BY a.submitted_at DESC""", (context,)).fetchall()
+    out = []
+    for r in rows:
+        d = dict(r)
+        d["item_ids"] = json.loads(d["item_ids"])
+        d["results"] = json.loads(d["results_json"]) if d.get("results_json") else {}
+        out.append(d)
+    return out
 
 
 def save_attempt_answer(conn, attempt_id, item_id, response):

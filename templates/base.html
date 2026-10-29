@@ -31,6 +31,8 @@
        class="{{ 'on' if path.startswith('/practice') or path.startswith('/badges') }}">Grammar</a>
     <a href="{{ url_for('reader_index') }}"
        class="{{ 'on' if path.startswith('/read') }}">Reading</a>
+    <a href="{{ url_for('nle_home') }}"
+       class="{{ 'on' if path.startswith('/nle') }}">NLE</a>
     <a href="{{ url_for('homework_page') }}"
        class="{{ 'on' if path.startswith('/homework') }}">Homework</a>
     <a href="{{ url_for('drill_progress') }}"

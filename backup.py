@@ -106,6 +106,11 @@ def purge_students(conn):
         n = conn.execute("SELECT COUNT(*) AS n FROM %s" % table).fetchone()["n"]
         conn.execute("DELETE FROM %s" % table)
         removed[table] = n
+    # A practice NLE is a quiz a student made (context "nle"). With its attempt
+    # gone it is an empty shell, so it goes too; the teacher's quizzes stay.
+    n = conn.execute("SELECT COUNT(*) AS n FROM quizzes WHERE context='nle'").fetchone()["n"]
+    conn.execute("DELETE FROM quizzes WHERE context='nle'")
+    removed["practice_nles"] = n
     conn.commit()
     conn.reclaim_space(STUDENT_TABLES)
     return removed

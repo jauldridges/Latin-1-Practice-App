@@ -1,0 +1,497 @@
+# 2016 National Latin Exam — Latin I. Transcribed from the exam PDF; answers worked out
+# by hand (no answer key supplied). `node` is the course topic each question tests.
+exam:
+  id: 2016-latin1
+  year: 2016
+  kind: latin1
+  title: Latin I
+  source_note: ACL/NJCL National Latin Exam 2016, Latin I. Used with permission for non-commercial classroom practice.
+passages:
+- id: games
+  title: THE GAMES WE PLAY
+  subtitle: King Janus welcomes the god Saturn into Italy.
+  note: ''
+  source: Adapted from Macrobius, Saturnalia I.7.22
+  questions:
+  - 31
+  - 40
+  lines:
+  - n: 1
+    latin: Saturnus, quem Iuppiter vīcerat, dē caelō ad terram fūgit
+    gloss: quem = whom; vīcerat = had overthrown
+    underline:
+    - quem
+    - vīcerat
+  - n: 2
+    latin: et in Italiam nāvigāvit. Fugitīvus ad rēgem Iānum, quī tum
+    gloss: Fugitīvus = As a fugitive
+    underline:
+    - Fugitīvus
+  - n: 3
+    latin: terram regēbat, magna beneficia ferēbat. Populī antīquī Italiae
+    gloss: ferēbat = he was bringing
+    underline:
+    - ferēbat
+  - n: 4
+    latin: erant ferī et sine cultū lēgibusque vīvēbant. Populī domōs nōn
+    gloss: ferī = wild; cultū = culture; domōs = houses
+    underline:
+    - ferī
+    - cultū
+    - domōs
+  - n: 5
+    latin: habēbant sed in cavernīs aut in arboribus habitābant. Nucēs
+    gloss: Nucēs = nuts
+    underline:
+    - Nucēs
+  - n: 6
+    latin: et frūctūs et crūdam carnem edēbant. Saturnus igitur lēgēs dedit
+    gloss: frūctūs = fruits; crūdam carnem = raw meat
+    underline:
+    - frūctūs
+    - crūdam carnem
+  - n: 7
+    latin: et populōs docuit domōs aedificāre et agrōs colere et cibum
+    gloss: aedificāre = to build; colere = to cultivate
+    underline:
+    - aedificāre
+    - colere
+  - n: 8
+    latin: coquere. Prō hīs beneficiīs, Iānus Saturnō grātiās agēbat.
+    gloss: hīs = these
+    underline:
+    - hīs
+  - n: 9
+    latin: Postquam Saturnus ab Italiā nāvigāvit, Iānus populōs celebrāre
+  - n: 10
+    latin: hunc deum voluit. Ergō, ubi nummōs faciēbat, ex ūnā parte
+    gloss: hunc = this; nummōs = coins; ex ūnā parte = on one side
+    underline:
+    - hunc
+    - nummōs
+    - ex ūnā parte
+  - n: 11
+    latin: imāginem capitis Iānī, ex alterā parte imāginem nāvis exprimēbat.
+    gloss: exprimēbat = he was representing
+    underline:
+    - exprimēbat
+  - n: 12
+    latin: Ubi puerī Rōmānī lūdēbant, nummōs in sublīme iactābant et
+    gloss: in sublīme = into the air; iactābant = they tossed
+    underline:
+    - in sublīme
+    - iactābant
+  - n: 13
+    latin: “Capita!” aut “Nāvia!” exclāmābant.
+    gloss: Nāvia = Nāvēs
+    underline:
+    - Nāvia
+items:
+- n: 1
+  stem: Magnōs canēs nōn vīdimus.
+  options:
+    a: You have not seen
+    b: I have not seen
+    c: They have not seen
+    d: We have not seen
+  answer: d
+  node: MS-104
+  underline:
+  - nōn vīdimus
+- n: 2
+  stem: Puerī saxum ē viā removēre nōn possunt.
+  options:
+    a: to remove
+    b: they remove
+    c: will remove
+    d: are removing
+  answer: a
+  node: MS-113
+  underline:
+  - removēre
+- n: 3
+  stem: Audīvistīne nōs in tabernā?
+  options:
+    a: you
+    b: us
+    c: him
+    d: them
+  answer: b
+  node: MS-115
+  underline:
+  - nōs
+- n: 4
+  stem: Quot columnās in pictūrā vidēs?
+  options:
+    a: duās
+    b: trēs
+    c: quattuor
+    d: quīnque
+  answer: b
+  node: VOCAB
+  image: nle/2016-latin1-p1-1.png
+- n: 5
+  stem: Titus librum amīcō meō dēmōnstrat.
+  options:
+    a: by my friend
+    b: for my friends
+    c: to my friend
+    d: of my friends
+  answer: c
+  node: MS-057
+  underline:
+  - amīcō meō
+- n: 6
+  stem: Audiēbāmus neque senātōrem neque imperātōrem.
+  options:
+    a: both…and
+    b: either…or
+    c: one…another
+    d: neither…nor
+  answer: d
+  node: MS-051
+  underline:
+  - neque
+- n: 7
+  stem: Tē in aeternum amābunt!
+  options:
+    a: They are loving
+    b: They were loving
+    c: They will love
+    d: They have loved
+  answer: c
+  node: MS-098
+  underline:
+  - amābunt
+- n: 8
+  stem: Quid pater tua dē cēnā rogābat?
+  options:
+    a: When
+    b: What
+    c: Where
+    d: Who
+  answer: b
+  node: MS-130
+  underline:
+  - Quid
+- n: 9
+  stem: Mārcus frātrī salūtem dīcit.
+  options:
+    a: greets
+    b: helps
+    c: allows
+    d: asks
+  answer: a
+  node: VOCAB
+  underline:
+  - salūtem dīcit
+- n: 10
+  stem: Numquam vīllam tuam vīdī.
+  options:
+    a: Never
+    b: Often
+    c: Sometimes
+    d: Always
+  answer: a
+  node: VOCAB
+  underline:
+  - Numquam
+- n: 11
+  stem: Agricola porcōs ad urbem plaustrō portāvit.
+  options:
+    a: of a wagon
+    b: wagon
+    c: to a wagon
+    d: by wagon
+  answer: d
+  node: MS-089
+  underline:
+  - plaustrō
+- n: 12
+  stem: Virī et puerī erant laetī.
+  options:
+    a: are
+    b: were
+    c: will be
+    d: to be
+  answer: b
+  node: MS-097
+  underline:
+  - erant
+- n: 13
+  stem: Mitte, _____, ad mē multās epistulās!
+  options:
+    a: discipulus
+    b: discipulī
+    c: discipule
+    d: discipulō
+  answer: c
+  node: MS-049
+- n: 14
+  stem: Mīlitēs altās arborēs in silvā petunt. What word does altās describe?
+  options:
+    a: Mīlitēs
+    b: arborēs
+    c: silvā
+    d: petunt
+  answer: b
+  node: MS-071
+- n: 15
+  stem: Nōlī currere per ātrium!
+  options:
+    a: Why run
+    b: Don’t run
+    c: I wasn’t running
+    d: No one ran
+  answer: b
+  node: MS-078
+  underline:
+  - Nōlī currere
+- n: 16
+  stem: Quam pulcher est tuus equus!
+  options:
+    a: Who
+    b: How
+    c: When
+    d: Why
+  answer: b
+  node: VOCAB
+  underline:
+  - Quam
+- n: 17
+  stem: The pirates often sailed between these two islands.
+  options:
+    a: inter
+    b: prope
+    c: in
+    d: trāns
+  answer: a
+  node: MS-084
+  underline:
+  - between
+- n: 18
+  stem: Cīvēs magnā cum īrā clāmābant. The phrase magnā cum īrā shows _____ the citizens were shouting.
+  options:
+    a: when
+    b: with whom
+    c: how
+    d: at what
+  answer: c
+  node: MS-091
+- n: 19
+  stem: Urbs mea DCCXLIV annōs habet!
+  options:
+    a: '354'
+    b: '494'
+    c: '744'
+    d: '1264'
+  answer: c
+  node: RW-063
+- n: 20
+  stem: What article of clothing is the boy in the picture wearing?
+  options:
+    a: tunica
+    b: toga
+    c: stola
+    d: palla
+  answer: a
+  node: RW-054
+  image: nle/2016-latin1-p1-2.png
+- n: 21
+  stem: What Roman hero bravely defended the bridge across the Tiber against Lars Porsenna and the attacking Etruscans?
+  options:
+    a: Horatius Cocles
+    b: Coriolanus
+    c: Mucius Scaevola
+    d: Cincinnatus
+  answer: a
+  node: RW-011
+- n: 22
+  stem: Into what creature did Minerva transform Arachne?
+  options:
+    a: a deer
+    b: a cow
+    c: a bird
+    d: a spider
+  answer: d
+  node: RW-064
+- n: 23
+  stem: What should students do when their teacher says, “Aperīte nunc librōs vestrōs”?
+  options:
+    a: put away their book bags
+    b: get out paper
+    c: sharpen their pencils
+    d: open their books
+  answer: d
+  node: MS-077
+- n: 24
+  stem: Pompeii is on the map in the area labeled
+  options:
+    a: '1'
+    b: '2'
+    c: '3'
+    d: '4'
+  answer: c
+  node: RW-002
+  image: nle/2016-latin1-p1-3.png
+- n: 25
+  stem: What Latin phrase is the equivalent of, “I do something for you; you do something for me”?
+  options:
+    a: in vino veritas
+    b: ad astra per aspera
+    c: carpe diem
+    d: quid pro quo
+  answer: d
+  node: MW-043
+- n: 26
+  stem: What group of distinguished citizens met in the Curia and advised the consuls during the Roman Republic?
+  options:
+    a: reges
+    b: plebes
+    c: senatores
+    d: clientes
+  answer: c
+  node: RW-016
+- n: 27
+  stem: What Roman goddess was the twin of Apollo?
+  options:
+    a: Diana
+    b: Vesta
+    c: Juno
+    d: Minerva
+  answer: a
+  node: RW-064
+- n: 28
+  stem: What part of your body do you use to carry out the action of the verbs spectāre, vidēre, and cōnspicere?
+  options:
+    a: pedes
+    b: oculi
+    c: aures
+    d: manus
+  answer: b
+  node: VOCAB
+- n: 29
+  stem: What open area in ancient Rome was used for gathering the army and for voting by citizens?
+  options:
+    a: Via Appia
+    b: Circus Maximus
+    c: Campus Martius
+    d: Colosseum
+  answer: c
+  node: RW-001
+- n: 30
+  stem: The words debit, indebted, and debt derive from the Latin word meaning
+  options:
+    a: allow
+    b: owe
+    c: work
+    d: plan THE GAMES WE PLAY King Janus welcomes the god Saturn into Italy.
+  answer: b
+  node: MW-009
+  underline:
+  - debit
+  - indebted
+  - debt
+- n: 31
+  stem: According to lines 1-2, how did Saturn reach Italy?
+  options:
+    a: he walked
+    b: he swam
+    c: he fell
+    d: he sailed
+  answer: d
+  node: CR-009
+  passage: games
+- n: 32
+  stem: According to line 3, what was Saturn bringing into Italy?
+  options:
+    a: fierce war
+    b: deadly plague
+    c: many animals
+    d: great benefits
+  answer: d
+  node: CR-009
+  passage: games
+- n: 33
+  stem: According to lines 3-4 (Populī…vīvēbant), the ancient peoples of Italy were
+  options:
+    a: uncivilized
+    b: warlike
+    c: afraid
+    d: superstitious
+  answer: a
+  node: CR-009
+  passage: games
+- n: 34
+  stem: According to lines 4-5, where were the people living?
+  options:
+    a: houses
+    b: caves
+    c: fortresses
+    d: ships
+  answer: b
+  node: CR-009
+  passage: games
+- n: 35
+  stem: According to lines 6-8 (Saturnus…coquere), how did Saturn help the people of Italy?
+  options:
+    a: He defeated their enemies.
+    b: He showed them how to fight.
+    c: He taught them skills.
+    d: He revealed their glorious future.
+  answer: c
+  node: CR-009
+  passage: games
+- n: 36
+  stem: What is the meaning of the Latin idiom grātiās agēbat (line 8)?
+  options:
+    a: was living
+    b: was thanking
+    c: was pleading
+    d: was riding
+  answer: b
+  node: VOCAB
+  passage: games
+- n: 37
+  stem: In lines 9-10, what is the best translation in the context of this passage for Iānus populōs celebrāre hunc
+    deum voluit?
+  options:
+    a: Janus wanted to honor the people and this god.
+    b: The people wanted Janus to honor this god.
+    c: This god wanted Janus to honor the people.
+    d: Janus wanted the people to honor this god.
+  answer: d
+  node: CR-009
+  passage: games
+- n: 38
+  stem: What is the best translation for capitis Iānī (line 11)?
+  options:
+    a: by Janus’ head
+    b: of Janus’ head
+    c: on Janus’ head
+    d: from Janus’ head
+  answer: b
+  node: MS-052
+  needs:
+  - MS-064
+  passage: games
+- n: 39
+  stem: According to lines 12-13, why were the Roman children tossing coins into the air?
+  options:
+    a: they were playing a game
+    b: they were practicing their aim
+    c: they were giving to the poor
+    d: they were learning about the past
+  answer: a
+  node: CR-009
+  passage: games
+- n: 40
+  stem: According to this story, why did the Romans put a ship on the back of their coins?
+  options:
+    a: to honor a naval victory
+    b: to commemorate how Saturn arrived in Italy
+    c: to remind the people that Rome controls the seas
+    d: to illustrate the power of Janus
+  answer: b
+  node: CR-009
+  passage: games

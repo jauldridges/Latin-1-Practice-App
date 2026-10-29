@@ -1,0 +1,513 @@
+# 2024 National Latin Exam — Beginning Latin. Transcribed from the exam PDF; answers worked out
+# by hand (no answer key supplied). `node` is the course topic each question tests.
+exam:
+  id: 2024-beginning
+  year: 2024
+  kind: beginning
+  title: Beginning Latin
+  source_note: ACL/NJCL National Latin Exam 2024, Beginning Latin. Used with permission for non-commercial classroom
+    practice.
+passages:
+- id: numa
+  title: A BATTLE OF WITS
+  subtitle: Numa employs three magic words against Jupiter’s powers.
+  note: ''
+  source: Adapted from Plutarch, Numa 15, and Ovid, Fasti 3
+  questions:
+  - 31
+  - 40
+  lines:
+  - n: 1
+    latin: Numa, secundus rēx Rōmānōrum, religiōnem populō Rōmānō dabat. Rēx
+  - n: 2
+    latin: tamen volēbat capere duōs satyrōs, Pīcum et Faunum, quī verba magica contrā
+    gloss: satyrōs = satyrs (woodland creatures)
+    underline:
+    - satyrōs
+  - n: 3
+    latin: Iovem dīcere sciēbant. Numa satyrōs dēcēpit et cēpit. Duo satyrī rēgī dīxērunt
+    gloss: Iovem = Jupiter; dēcēpit = deceived
+    underline:
+    - Iovem
+    - dēcēpit
+  - n: 4
+    latin: tria verba magica quae fulmina deī repellere poterant.
+    gloss: fulmina = thunderbolts
+    underline:
+    - fulmina
+  - n: 5
+    latin: Iuppiter, quod Numa nunc erat superbus, erat īrātus et ad terram dē caelō
+    gloss: superbus = arrogant
+    underline:
+    - superbus
+  - n: 6
+    latin: dēscendit. Iuppiter Numae clāmāvit, “Potesne repellere fulmina mea ab urbe
+  - n: 7
+    latin: tuā? Dēmōnstrā mihi potentiam tuam!”
+    gloss: potentiam = power
+    underline:
+    - potentiam
+  - n: 8
+    latin: Numa rogāvit, “Ita vērō, omnipotēns, sed quōmodo?”
+  - n: 9
+    latin: “Capitibus!” Iuppiter statim nūntiāvit.
+    gloss: Capitibus = With heads
+    underline:
+    - Capitibus
+  - n: 10
+    latin: “Capitibus bulbōrum?” prīmum Numa callidē rogāvit.
+    gloss: bulbōrum = of onions; callidē = cleverly
+    underline:
+    - bulbōrum
+    - callidē
+  - n: 11
+    latin: “Virōrum!” Iuppiter respondit.
+  - n: 12
+    latin: “Capillīs virōrum?” tum Numa sine morā prōposuit.
+    gloss: Capillīs = With hair; morā = delay
+    underline:
+    - Capillīs
+    - morā
+  - n: 13
+    latin: Iuppiter inquit, “Minimē! Vītās poscō!”
+    gloss: poscō = I demand
+    underline:
+    - poscō
+  - n: 14
+    latin: “Vītās piscium? Piscēs ē marī igitur tibi dabimus,” tandem Numa prōmīsit.
+  - n: 15
+    latin: Postquam Iuppiter tria verba magica, “bulbōs” et “capillōs” et “piscēs,” audīvit,
+  - n: 16
+    latin: fulmina torquēre nōn poterat. Etiam hodiē Rōmānī fulmina magicīs verbīs,
+    gloss: torquēre = to throw
+    underline:
+    - torquēre
+  - n: 17
+    latin: “bulbīs” et “capillīs” et “piscibus,” repellunt.
+items:
+- n: 1
+  stem: Pīrātae cum captīvīs Rōmānīs ad īnsulās nāvigant.
+  options:
+    a: through
+    b: out of
+    c: behind
+    d: toward
+  answer: d
+  node: MS-084
+  underline:
+  - ad
+- n: 2
+  stem: Quam difficile erat labōrāre per noctem!
+  options:
+    a: How
+    b: When
+    c: That
+    d: Why
+  answer: a
+  node: VOCAB
+  underline:
+  - Quam
+- n: 3
+  stem: Ego et tū in vīllā Mārcī bene _____.
+  options:
+    a: cēnāvimus
+    b: cēnāvī
+    c: cēnāvistī
+    d: cēnāvērunt
+  answer: a
+  node: MS-037
+  underline:
+  - Ego et tū
+- n: 4
+  stem: Nūntius senātōrī clārō epistulam trādidit.
+  options:
+    a: with the famous senator
+    b: to the famous senator
+    c: of the famous senator
+    d: by the famous senator
+  answer: b
+  node: MS-057
+  needs:
+  - MS-064
+  underline:
+  - senātōrī clārō
+- n: 5
+  stem: Prō templō Iūnōnis Monētae, mīlitēs pecūniam gladiīs custōdiēbant.
+  options:
+    a: a sword
+    b: for a sword
+    c: with swords
+    d: of swords
+  answer: c
+  node: MS-089
+  underline:
+  - gladiīs
+- n: 6
+  stem: Deī Troiānōs patriam novam quaerere iubent.
+  options:
+    a: to seek
+    b: he is seeking
+    c: seek
+    d: they seek
+  answer: a
+  node: MS-076
+  underline:
+  - quaerere
+- n: 7
+  stem: Quōmodo artifex ad urbem Londinium nāvigāvit?
+  options:
+    a: Who
+    b: Where
+    c: Why
+    d: How
+  answer: d
+  node: VOCAB
+  underline:
+  - Quōmodo
+- n: 8
+  stem: Neque gladiātōrēs neque animālia in arēnā vīdimus.
+  options:
+    a: not only…but also
+    b: both…and
+    c: either…or
+    d: neither…nor
+  answer: d
+  node: MS-051
+  underline:
+  - Neque
+  - neque
+- n: 9
+  stem: Vīsitantne līberī in Forō Rōmānō omnia monumenta?
+  options:
+    a: Are the children visiting
+    b: Were the children visiting
+    c: Can the children visit
+    d: Did the children visit
+  answer: a
+  node: MS-039
+  underline:
+  - Vīsitantne līberī
+- n: 10
+  stem: Audīte, discipulī, et dīligenter respondēte!
+  options:
+    a: students
+    b: for the students
+    c: of the students
+    d: by the students
+  answer: a
+  node: MS-049
+  underline:
+  - discipulī
+- n: 11
+  stem: Pater meus nōbīs fābulās saepe recitat.
+  options:
+    a: never recites
+    b: often recites
+    c: suddenly recites
+    d: always recites
+  answer: b
+  node: VOCAB
+  underline:
+  - saepe recitat
+- n: 12
+  stem: Patrōnus mercātōris est benignus.
+  options:
+    a: The patron is kind to the merchant.
+    b: The patron and merchant are kind.
+    c: He is the patron of kind merchants.
+    d: The patron of the merchant is kind.
+  answer: d
+  node: MS-052
+  needs:
+  - MS-064
+  underline:
+  - Patrōnus mercātōris est benignus
+- n: 13
+  stem: Cassandra omnēs _____ dē perīculīs novīs semper monuit.
+  options:
+    a: Troiānōs
+    b: Troiānī
+    c: Troiānum
+    d: Troiānus
+  answer: a
+  node: MS-015
+- n: 14
+  stem: Hercules in vālle Nemēā leōnem ferōcem necābit.
+  options:
+    a: will kill
+    b: is able to kill
+    c: was killing
+    d: has killed
+  answer: a
+  node: MS-098
+  underline:
+  - necābit
+- n: 15
+  stem: Duo fūrēs pecūniam avidē cēpērunt.
+  options:
+    a: eagerness
+    b: eager
+    c: to be eager
+    d: eagerly
+  answer: d
+  node: MS-132
+  underline:
+  - avidē
+- n: 16
+  stem: Septem avēs per fenestram in vīllam volant. Est magnus clāmor. Trēs avēs ē vīllā ēvolant. Quot avēs in vīllā
+    remanent?
+  options:
+    a: trēs
+    b: quattuor
+    c: quīnque
+    d: decem
+  answer: b
+  node: VOCAB
+- n: 17
+  stem: Magistra inquit, “Nōlī in scholā currere!”
+  options:
+    a: No one runs
+    b: Run quickly
+    c: Don’t run
+    d: Please run
+  answer: c
+  node: MS-078
+  underline:
+  - Nōlī
+  - currere
+- n: 18
+  stem: Argus nāvem Argonautārum cōnstruit.
+  options:
+    a: of the Argonauts
+    b: the Argonauts
+    c: with the Argonauts
+    d: to the Argonauts
+  answer: a
+  node: MS-052
+  underline:
+  - Argonautārum
+- n: 19
+  stem: Quid in silvīs quaerēbās?
+  options:
+    a: are you looking for
+    b: were you looking for
+    c: will you look for
+    d: have you looked for
+  answer: b
+  node: MS-096
+  underline:
+  - quaerēbās
+- n: 20
+  stem: Brevī tempore spectātōrēs amphitheātrum intrābunt.
+  options:
+    a: Sometimes
+    b: Never
+    c: Soon
+    d: Always
+  answer: c
+  node: MS-093
+  underline:
+  - Brevī tempore
+- n: 21
+  stem: Quis sum? Sum pulchra dea amōris. Fīlius meus est Cupīdō. Alius fīlius est Aenēās, dux Troiānōrum.
+  options:
+    a: Cerēs
+    b: Venus
+    c: Diāna
+    d: Minerva
+  answer: b
+  node: RW-064
+- n: 22
+  stem: On the map, identify the province which was a focus of Julius Caesar’s military campaign in his work Dē
+    Bellō Gallicō and whose capital, Lutētia, will host this year’s 2024 Summer Olympics.
+  options:
+    a: '1'
+    b: '2'
+    c: '3'
+    d: '4'
+  answer: c
+  node: RW-035
+  image: nle/2024-beginning-p1-1.png
+- n: 23
+  stem: What fearsome Greek warrior was killed by Paris' arrow in his heel despite being made nearly invulnerable
+    as a child by his mother?
+  options:
+    a: Agamemnon
+    b: Menelaus
+    c: Achilles
+    d: Odysseus
+  answer: c
+  node: RW-008
+- n: 24
+  stem: My teacher asked about the per capita income of the citizens of Sicily. What type of income is this?
+  options:
+    a: for each person
+    b: for each day
+    c: for each farm
+    d: for each province
+  answer: a
+  node: MW-043
+- n: 25
+  stem: What is the meaning of the Latin word from which the English words tractor, distract, train, and extraction
+    are derived?
+  options:
+    a: run
+    b: save
+    c: touch
+    d: drag
+  answer: d
+  node: MW-009
+  underline:
+  - tractor
+  - distract
+  - train
+  - extraction
+- n: 26
+  stem: Ubi sunt? Adulēscentēs ex apodytēriō discēdunt et in aquā tepidāriī sedent.
+  options:
+    a: in Cūriā
+    b: in thermīs
+    c: in tabernīs
+    d: in Circō Maximō
+  answer: b
+  node: RW-060
+- n: 27
+  stem: Which room of the Roman domus was considered the personal office of the paterfamiliās?
+  options:
+    a: peristȳlium
+    b: culīna
+    c: tablīnum
+    d: trīclīnium
+  answer: c
+  node: RW-048
+- n: 28
+  stem: Who is best known for leaving his farm, accepting the position of dictator, and then, after the crisis was
+    resolved, promptly giving back his power to the Roman government and returning to his farm?
+  options:
+    a: Horatius Cocles
+    b: Hannibal
+    c: Cincinnatus
+    d: Mucius Scaevola
+  answer: c
+  node: RW-025
+- n: 29
+  stem: 'Flavius’ friend tells the teacher: “Hodiē Flāvius abest quod aeger est. In cubiculō dormit.” What information
+    does the friend share?'
+  options:
+    a: Flavius is sick at home.
+    b: Flavius is reading.
+    c: Flavius will arrive at school shortly.
+    d: Today is Flavius’ birthday.
+  answer: a
+  node: VOCAB
+- n: 30
+  stem: Which Roman monument (pictured to the right) had an iconic concrete dome and was dedicated as a temple to
+    all the gods?
+  options:
+    a: Circus Maximus
+    b: Rostra
+    c: Pantheon
+    d: Colosseum A BATTLE OF WITS Numa employs three magic words against Jupiter’s powers.
+  answer: c
+  node: RW-089
+  image: nle/2024-beginning-p2-1.png
+- n: 31
+  stem: According to line 1, what did Numa establish for the Roman people?
+  options:
+    a: a kingdom
+    b: religion
+    c: public games
+    d: citizenship
+  answer: b
+  node: CR-009
+  passage: numa
+- n: 32
+  stem: According to lines 2-3, why did Numa wish to capture Picus and Faunus?
+  options:
+    a: They had special knowledge.
+    b: They did not share their crops.
+    c: They had fought in battle against Jupiter.
+    d: Their kingdom rivaled Numa’s kingdom.
+  answer: a
+  node: CR-009
+  passage: numa
+- n: 33
+  stem: What could the satyrs’ three magic words accomplish (lines 3-4)?
+  options:
+    a: bring Numa immortality
+    b: secure Rome from foreign invaders
+    c: warn the citizens of a disaster
+    d: gain protection from Jupiter’s weapons
+  answer: d
+  node: CR-009
+  passage: numa
+- n: 34
+  stem: How does Jupiter feel when he learns of Numa’s actions (lines 5-6, Iuppiter…dēscendit)?
+  options:
+    a: pleased
+    b: confused
+    c: angry
+    d: amazed
+  answer: c
+  node: CR-009
+  passage: numa
+- n: 35
+  stem: Based on your knowledge of Latin roots, what does omnipotēns (line 8) mean?
+  options:
+    a: all-seeing
+    b: all-powerful
+    c: all-knowing
+    d: all-hearing
+  answer: b
+  node: MW-009
+  passage: numa
+- n: 36
+  stem: What is the second magic word used by Numa in response to Jupiter?
+  options:
+    a: Capitibus (line 10)
+    b: Virōrum (line 11)
+    c: Capillīs (line 12)
+    d: Minimē (line 13)
+  answer: c
+  node: CR-009
+  passage: numa
+- n: 37
+  stem: What adverb is the best synonym for the Latin phrase sine morā (line 12)?
+  options:
+    a: numquam
+    b: statim
+    c: ibi
+    d: semper
+  answer: b
+  node: VOCAB
+  passage: numa
+- n: 38
+  stem: According to lines 9-13, what sacrifice does Jupiter propose for Numa’s success?
+  options:
+    a: humans
+    b: onions
+    c: hair
+    d: fish
+  answer: a
+  node: CR-009
+  passage: numa
+- n: 39
+  stem: When did Jupiter realize that he had been tricked (lines 15-16)?
+  options:
+    a: when Numa caught a fish
+    b: when Numa agreed with Jupiter
+    c: when Numa spoke the magic words
+    d: when Numa addressed Jupiter reverently
+  answer: c
+  node: CR-009
+  passage: numa
+- n: 40
+  stem: What resulted from the conversation between Numa and Jupiter (lines 16-17)?
+  options:
+    a: A new temple was dedicated to Jupiter.
+    b: Enemies never conquered Rome during the monarchy.
+    c: Satyrs can live only in forests.
+    d: The people of Rome continue to use this charm to repel thunderbolts.
+  answer: d
+  node: CR-009
+  passage: numa

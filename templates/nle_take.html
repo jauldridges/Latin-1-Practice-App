@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ student }}{% endblock %}
+{% block content %}
+<div class="nle-head">
+  <div><strong>{{ q.title }}</strong></div>
+  <div class="small muted">Question {{ pos }} of {{ total }} · {{ answered }} answered</div>
+  <div class="lprog" aria-hidden="true"><span style="width: {{ (100 * answered / total) | round(1) }}%"></span></div>
+</div>
+
+{% if passage %}{% include "_nle_passage.html" %}{% endif %}
+
+<div class="meta-row">
+  <span class="badge tier">{{ item.nle.n if item.nle else pos }}.</span>
+  {% if item.nle %}<span class="small muted">{{ item.nle.label }}</span>{% endif %}
+  {% if not covered %}<span class="pill notyet" title="We haven't covered this in class yet">Not covered yet</span>{% endif %}
+</div>
+<div class="stem">{{ stem_html(item) }}</div>
+{% if item.image %}<img class="nle-img" src="{{ url_for('static', filename=item.image) }}" alt="The picture for this question">{% endif %}
+
+<form method="post" action="{{ url_for('nle_save', sid=sid) }}" id="qf">
+  <input type="hidden" name="item_id" value="{{ item.id }}">
+  <input type="hidden" name="pos" value="{{ pos }}">
+  {% for disp, k, v in shown_options(item) %}
+    <label class="opt" style="cursor:pointer">
+      <input type="radio" name="picked" value="{{ k }}" style="margin-top:4px"
+             {% if saved == k %}checked{% endif %}>
+      <span class="k">{{ disp | upper }})</span> <span>{{ v }}</span>
+    </label>
+  {% endfor %}
+
+  <div style="display:flex;gap:8px;margin-top:14px">
+    {% if pos > 1 %}<button class="bigbtn secondary" name="goto" value="back" style="margin:0">← Back</button>{% endif %}
+    <button class="bigbtn" name="goto" value="next" style="margin:0">
+      {% if pos == total %}Finish →{% else %}Next →{% endif %}</button>
+  </div>
+
+  <details class="nle-grid-box">
+    <summary class="small">Jump to a question</summary>
+    <div class="nle-grid">
+      {% for c in grid %}
+      <button class="nle-cell {{ 'done' if c.done }} {{ 'here' if c.n == pos }}" name="goto" value="{{ c.n }}"
+              aria-label="Question {{ c.n }}{{ ', answered' if c.done }}">{{ c.n }}</button>
+      {% endfor %}
+    </div>
+  </details>
+  <button class="bigbtn secondary" name="goto" value="finish" style="margin-top:8px">I'm done — see my score</button>
+</form>
+<p class="small muted" style="text-align:center">Your answers save as you go. No results until you finish.</p>
+{% if passage and hi %}
+<script>
+  // Bring the lines this question asks about into view inside the passage box.
+  (function () {
+    var box = document.querySelector('.nle-passage'), first = box && box.querySelector('li.hi');
+    if (first) box.scrollTop = first.offsetTop - box.offsetTop - 40;
+  })();
+</script>
+{% endif %}
+{% endblock %}

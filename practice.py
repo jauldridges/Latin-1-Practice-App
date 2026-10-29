@@ -97,6 +97,8 @@ def select_question(items, events, allowed_nodes=None, node_id=None, now=None):
         pool = [i for i in pool if i.get("node") == node_id]
     elif allowed_nodes is not None:
         pool = [i for i in pool if i.get("node") in allowed_nodes]
+    if allowed_nodes is not None:
+        pool = [i for i in pool if needs_met(i, allowed_nodes)]
     if not pool:
         return None
     pool.sort(key=lambda it: str(it.get("id")))
@@ -108,14 +110,22 @@ def select_question(items, events, allowed_nodes=None, node_id=None, now=None):
     return next(it for it in pool if it.get("id") == pick)
 
 
-def topic_done_today(items, events, node_id, now=None):
+def needs_met(item, taught):
+    """Everything else a question leans on (`needs`) has been taught too. Only
+    past-NLE questions say: a dative question written with a third-declension
+    noun waits for the third declension."""
+    return all(n in taught for n in item.get("needs") or [])
+
+
+def topic_done_today(items, events, node_id, now=None, taught=None):
     """True when every question in one topic has been answered and none comes
     back before tomorrow. Then the topic is finished for the day: serving its
     questions again would only loop, and a two-question topic looped fifty
     times is how a student once filled the weekly grammar goal. A question
     graded Again comes back within minutes, so it keeps the topic open."""
     now = now or time.time()
-    pool = [i for i in items if i.get("node") == node_id]
+    pool = [i for i in items if i.get("node") == node_id
+            and (taught is None or needs_met(i, taught))]
     if not pool:
         return False
     lt = time.localtime(now)
@@ -130,8 +140,8 @@ def due_count(items, events, now=None):
 
 
 def practiceable(items, allowed_nodes):
-    """Questions whose node has been taught. Used for the empty-state message."""
-    return [i for i in items if i.get("node") in allowed_nodes]
+    """Questions whose node (and anything they need) has been taught."""
+    return [i for i in items if i.get("node") in allowed_nodes and needs_met(i, allowed_nodes)]
 
 
 # --------------------------------------------------------------------------
@@ -145,7 +155,7 @@ def practiceable(items, allowed_nodes):
 DISPLAY_LETTERS = "abcdefghijklmnopqrstuvwxyz"
 
 
-def display_options(options, viewer_seed):
+def display_options(options, viewer_seed, keep_order=False):
     """The options in a per-student order, relabelled a/b/c/... down the page.
 
     Every choice item in the bank was written with its correct answer as option
@@ -174,6 +184,10 @@ def display_options(options, viewer_seed):
     opts = options or {}
     if not isinstance(opts, dict):
         return []
+    if keep_order:
+        # A past-NLE question, as printed: its answer is wherever the exam put
+        # it, and some options are map numbers or numerals in order.
+        return [(DISPLAY_LETTERS[i], k, opts[k]) for i, k in enumerate(sorted(opts))]
     seed = "" if viewer_seed is None else str(viewer_seed)
 
     def rank(key):

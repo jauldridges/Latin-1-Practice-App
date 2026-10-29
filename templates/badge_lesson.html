@@ -34,6 +34,8 @@
     <button type="button" class="minibtn" id="showall">Show every step</button>
   </div>
 </div>
+{% elif back %}
+<a class="nle-back" href="{{ back }}">← Back to your practice NLE</a>
 {% else %}
 <p class="small"><a href="{{ url_for('badge_map_page') }}#b-{{ b.id }}">← Back to the map</a></p>
 {% endif %}
@@ -93,6 +95,12 @@
     {% if preview %}
       <p>From here, a student goes straight on to the badge check: six questions, five right to earn it.</p>
       <a class="bigbtn secondary" href="{{ url_for('teacher_lessons') }}#l-{{ b.id }}">Back to the lessons</a>
+    {% elif back %}
+      <p><strong>That's the lesson.</strong> Head back to your practice NLE and look at the
+        question again — or earn this badge now while it's fresh.</p>
+      <a class="bigbtn" href="{{ back }}">Back to your practice NLE</a>
+      <form method="post" action="{{ url_for('badge_start', bid=b.id) }}">
+        <button class="bigbtn secondary" type="submit">{{ 'Check it again' if bst and bst.earned else 'Earn this badge now' }}</button></form>
     {% elif bst and bst.earned %}
       <p><strong>You've earned this badge.</strong> {% if bst.due %}It's fading — a three-question refresh brings it back.{% else %}Checking it again now and then keeps it strong.{% endif %}</p>
       <form method="post" action="{{ url_for('badge_start', bid=b.id) }}">

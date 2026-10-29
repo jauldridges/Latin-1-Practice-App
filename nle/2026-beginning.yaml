@@ -1,0 +1,476 @@
+# 2026 National Latin Exam — Beginning Latin. Transcribed from the exam PDF; answers worked out
+# by hand (no answer key supplied). `node` is the course topic each question tests.
+exam:
+  id: 2026-beginning
+  year: 2026
+  kind: beginning
+  title: Beginning Latin
+  source_note: ACL/NJCL National Latin Exam 2026, Beginning Latin. Used with permission for non-commercial classroom
+    practice.
+passages:
+- id: astraea
+  title: A TALE AMONG THE STARS
+  subtitle: ''
+  note: ''
+  source: ''
+  questions:
+  - 31
+  - 40
+  lines:
+  - n: 1
+    latin: Ōlim erat dea iūstitiae, nōmine Astraea. Astraea erat fīlia Iovis et in terrā cum
+    gloss: iūstitiae = of justice; Iovis = of Jupiter
+  - n: 2
+    latin: hominibus habitābat. Astraea erat bona et iūsta. Itaque hominēs deam amābant,
+    gloss: iūsta = just
+  - n: 3
+    latin: et dea hominēs amābat. Pulchra erat dea et semper in manibus lībram tenēbat.
+    gloss: lībram = a set of scales
+  - n: 4
+    latin: 'Lībra erat īnstrūmentum quod duās partēs habet: altera prō bonō, altera prō malō.'
+    gloss: altera…altera = one…the other
+  - n: 5
+    latin: Astraea hominibus bonīs dōna semper dabat, nihil hominibus malīs.
+  - n: 6
+    latin: Sed post multōs annōs, hominēs mōrēs malōs habēbant. Saepe erant īrātī et
+    gloss: mōrēs = habits
+  - n: 7
+    latin: bella semper faciēbant. Nōn iam lēgēs et iūra observābant. Iūstitiam nōn amābant.
+    gloss: Nōn iam = no longer; iūra = rights
+  - n: 8
+    latin: “Cūr hominēs mōrēs malōs nunc habent?” Astraea rogāvit. “Cūr dē iūstitiā nōn
+  - n: 9
+    latin: iam cōgitant?”
+  - n: 10
+    latin: Dea trīstis diū lacrimābat. Tandem dīxit, “Nōn possum hīc manēre. Hominēs
+    gloss: Tandem = At last; hīc = here
+  - n: 11
+    latin: nōn iam mōrēs bonōs habent.” Tum dea sine lacrimīs et cūrā in caelum celeriter
+  - n: 12
+    latin: ascendit. Ibi inter stellās stetit. Nunc hominēs eam “Virginem” vocant, quod dea
+    gloss: Virginem = Virgo
+  - n: 13
+    latin: virgō erat.
+    gloss: virgō = maiden
+  - n: 14
+    latin: Dea nōn sōla ascendit, quod etiam īnstrūmentum sēcum portāvit.
+    gloss: sēcum = with her
+  - n: 15
+    latin: Nunc in caelō fulgent. “Virgō” appāret inter stellās ubi diēs non iam calidī sunt et
+    gloss: fulgent = they shine
+  - n: 16
+    latin: folia dē arboribus cadunt. Nunc, ubi hominēs Astraeam et īnstrūmentum eius in
+    gloss: folia = leaves
+  - n: 17
+    latin: caelō vident, dē iūstitiā cōgitant.
+items:
+- n: 1
+  stem: Amīca meae mātris est fortis.
+  options:
+    a: of my mother
+    b: my mother
+    c: by my mother
+    d: to my mother
+  answer: a
+  node: MS-052
+  needs:
+  - MS-064
+  underline:
+  - meae mātris
+- n: 2
+  stem: Puella frātribus gladium ostendēbat.
+  options:
+    a: was showing
+    b: is showing
+    c: to show
+    d: has shown
+  answer: a
+  node: MS-096
+  underline:
+  - ostendēbat
+- n: 3
+  stem: “Quam pulchrī sunt flōrēs!” exclāmāvit puer.
+  options:
+    a: Whom
+    b: Which
+    c: How
+    d: Look
+  answer: c
+  node: VOCAB
+  underline:
+  - Quam
+- n: 4
+  stem: Nox sine lūnā et stellīs est perīculōsa.
+  options:
+    a: with moon and stars
+    b: without moon and stars
+    c: about moon and stars
+    d: before moon and stars
+  answer: b
+  node: MS-083
+  underline:
+  - sine lūnā et stellīs
+- n: 5
+  stem: In agrō neque hominēs neque animālia videō.
+  options:
+    a: both people and animals
+    b: with people and animals
+    c: either people or animals
+    d: neither people nor animals
+  answer: d
+  node: MS-051
+  underline:
+  - neque hominēs neque animālia
+- n: 6
+  stem: Iūlia et Pūblia recitātiōnem callidam poētae audīvērunt.
+  options:
+    a: Julia and Publia cleverly listened to the poet’s recitations.
+    b: Clever Julia and Publia listened to the poet’s recitation.
+    c: Julia and Publia listened to the clever poet’s recitations.
+    d: Julia and Publia listened to the poet’s clever recitation.
+  answer: d
+  node: MS-071
+  underline:
+  - Iūlia et Pūblia recitātiōnem callidam poētae audīvērunt
+- n: 7
+  stem: Pater īnfantī trīstī dīxit, “_____, fīlia!”
+  options:
+    a: Ambulāte
+    b: Nōlī lacrimāre
+    c: Nōn rīdētis
+    d: Surgere
+  answer: b
+  node: MS-078
+- n: 8
+  stem: Avēs inter arborēs cantābant.
+  options:
+    a: behind the trees
+    b: above the trees
+    c: among the trees
+    d: beneath the trees
+  answer: c
+  node: MS-084
+  underline:
+  - inter arborēs
+- n: 9
+  stem: Prīmum māter surrēxit. Tum māter ad hortum ambulāvit.
+  options:
+    a: However
+    b: Suddenly
+    c: Immediately
+    d: Then
+  answer: d
+  node: VOCAB
+  underline:
+  - Tum
+- n: 10
+  stem: Audīvistīne amīcōs meōs?
+  options:
+    a: Surely you heard
+    b: Did you hear
+    c: Why have you heard
+    d: How did you hear
+  answer: b
+  node: MS-104
+  underline:
+  - Audīvistīne
+- n: 11
+  stem: Nōs ad forum cucurrimus.
+  options:
+    a: I ran
+    b: They ran
+    c: We ran
+    d: You ran
+  answer: c
+  node: MS-104
+  underline:
+  - Nōs
+  - cucurrimus
+- n: 12
+  stem: “Ego pecūniam invēnī, pater!” puer cum laetitiā respondit. Which of the following expresses the same idea
+    as cum laetitiā?
+  options:
+    a: laetē
+    b: laetae
+    c: laetōs
+    d: laetās
+  answer: a
+  node: MS-132
+- n: 13
+  stem: Decem canēs in viā erant. Subitō fēlēs appāruērunt. Trēs canēs statim fēlēs agitāvērunt et ē viā discessērunt.
+    Quot canēs nunc sunt in viā?
+  options:
+    a: trēs
+    b: quīnque
+    c: septem
+    d: novem
+  answer: c
+  node: VOCAB
+- n: 14
+  stem: Quā parte corporis tuī spectāculum vidēs?
+  options:
+    a: nāsō
+    b: ōre
+    c: pedibus
+    d: oculīs
+  answer: d
+  node: VOCAB
+- n: 15
+  stem: “Dēmōnstrā _____ dentēs tuōs,” inquit medicus.
+  options:
+    a: ego
+    b: meī
+    c: mihi
+    d: mē
+  answer: c
+  node: MS-057
+  needs:
+  - MS-115
+- n: 16
+  stem: To what question would the response, “Quod togam emere cupiō,” make sense?
+  options:
+    a: Cūr pecūniam habēs?
+    b: Quōmodo pecūniam invēnistī?
+    c: Ubi est pecūnia tua?
+    d: Quandō pecūniam meam āmīsistī?
+  answer: a
+  node: VOCAB
+- n: 17
+  stem: Who would most likely exclaim “Euge!”?
+  options:
+    a: puella īrāta
+    b: puer laetus
+    c: pater perterritus
+    d: māter misera
+  answer: b
+  node: VOCAB
+- n: 18
+  stem: Liberī stilīs scrībere discunt.
+  options:
+    a: with pens
+    b: before pens
+    c: the pens
+    d: of the pens
+  answer: a
+  node: MS-089
+  underline:
+  - stilīs
+- n: 19
+  stem: Simone Biles has earned a total of XLI medals from the Olympics and World Championships, making her the
+    most decorated gymnast in history. How many medals has she earned?
+  options:
+    a: '19'
+    b: '41'
+    c: '55'
+    d: '66'
+  answer: b
+  node: RW-063
+- n: 20
+  stem: What does it mean when students ask a teacher if they can go outside and play and the teacher responds with
+    “vōbīs licet”?
+  options:
+    a: The teacher is too busy to go outside.
+    b: The students are allowed to go outside.
+    c: The class must wait until tomorrow.
+    d: It is too cold to go outside.
+  answer: b
+  node: VOCAB
+- n: 21
+  stem: Ubi cīvēs Rōmānī bīgās et spīnam et mētās et equōs vidēre poterant?
+  options:
+    a: in theātrīs
+    b: in Basilicā Iūliā
+    c: in thermīs
+    d: in Circō Maximō
+  answer: d
+  node: RW-091
+- n: 22
+  stem: Which part of a Roman senator’s house, where cēnae took place, is seen in this picture?
+  options:
+    a: impluvium
+    b: āla
+    c: lātrīna
+    d: trīclīnium
+  answer: d
+  node: RW-048
+  image: nle/2026-beginning-p1-1.png
+- n: 23
+  stem: The protection of wild animals and hunters and the story of Orion were associated with which Roman deity?
+  options:
+    a: Neptune
+    b: Diana
+    c: Mars
+    d: Vesta
+  answer: b
+  node: RW-064
+- n: 24
+  stem: Who was the last king of Rome, expelled from the city because of his arrogance and tyranny?
+  options:
+    a: Numa Pompilius
+    b: Ancus Marcius
+    c: Servius Tullius
+    d: Tarquinius Superbus
+  answer: d
+  node: RW-011
+- n: 25
+  stem: What Latin phrase might a student, thinking of Caesar’s accomplishments, use to show how easily a task was
+    accomplished?
+  options:
+    a: vēnī, vīdī, vīcī
+    b: sine quā nōn
+    c: per annum
+    d: pāx vōbīscum
+  answer: a
+  node: MW-043
+- n: 26
+  stem: The kidnapping of what beautiful woman, reported to have had a face that launched a thousand ships, was
+    the cause of the Trojan War?
+  options:
+    a: Andromeda
+    b: Creusa
+    c: Echo
+    d: Helen
+  answer: d
+  node: RW-008
+- n: 27
+  stem: From what category of Latin words are the English words manipulate, captain, and digital all derived?
+  options:
+    a: body parts
+    b: wild animals
+    c: weather
+    d: colors
+  answer: a
+  node: MW-009
+  underline:
+  - manipulate
+  - captain
+  - digital
+- n: 28
+  stem: Which of the following events occurred last?
+  options:
+    a: Hannibal crossed the Alps.
+    b: Numa Pompilius established state religion.
+    c: Augustus became emperor of Rome.
+    d: Julius Caesar was assassinated.
+  answer: c
+  node: RW-039
+- n: 29
+  stem: On the map to the right, what number marks the city of Brundisium, a port city often used by ancient Romans
+    when traveling to Greece?
+  options:
+    a: '1'
+    b: '2'
+    c: '3'
+    d: '4'
+  answer: c
+  node: RW-002
+  image: nle/2026-beginning-p2-1.png
+- n: 30
+  stem: Where did ancient Romans visit the Cūria, the Via Sacra, and many temples?
+  options:
+    a: on the Tiber Island
+    b: on the Campus Martius
+    c: in the Flavian Amphitheater
+    d: in the Roman Forum A TALE AMONG THE STARS
+  answer: d
+  node: RW-086
+- n: 31
+  stem: According to line 1, who was the father of Astraea?
+  options:
+    a: The master of the seas.
+    b: The ruler of the Underworld.
+    c: The king of the gods.
+    d: The god of sun and music.
+  answer: c
+  node: CR-009
+  passage: astraea
+- n: 32
+  stem: What quality made people adore Astraea, according to lines 1-2?
+  options:
+    a: her concern for harvests
+    b: her sense of fairness
+    c: her fondness of good jokes
+    d: her care for all living things
+  answer: b
+  node: CR-009
+  passage: astraea
+- n: 33
+  stem: Which of the following is NOT true, according to lines 3-5 (Pulchra…malīs)?
+  options:
+    a: Astraea was a beautiful goddess.
+    b: Astraea used her hands to carry her instrument.
+    c: Astraea knew the difference between good and bad people.
+    d: Astraea treated good and bad people the same.
+  answer: d
+  node: CR-009
+  passage: astraea
+- n: 34
+  stem: In lines 6-7, how did people change over the years?
+  options:
+    a: They obeyed more rules and regulations.
+    b: They tried to hide their habits.
+    c: They started to fight each other.
+    d: They neglected to worship the gods.
+  answer: c
+  node: CR-009
+  passage: astraea
+- n: 35
+  stem: What did Astraea want to know, according to lines 7-8?
+  options:
+    a: how many people stopped worshipping the gods
+    b: why people stopped caring about fairness
+    c: how the punishment of people would be carried out
+    d: who made war against her favorite people
+  answer: b
+  node: CR-009
+  passage: astraea
+- n: 36
+  stem: In lines 10-12, what did Astraea decide to do?
+  options:
+    a: teach humans new behavior
+    b: leave the earth
+    c: punish humans
+    d: institute harsher laws
+  answer: b
+  node: CR-009
+  passage: astraea
+- n: 37
+  stem: Why did Astraea make a change, according to lines 10-12?
+  options:
+    a: The other gods started to mock her.
+    b: Her instrument was stolen.
+    c: People started to behave badly.
+    d: Wars and conflicts destroyed her home.
+  answer: c
+  node: CR-009
+  passage: astraea
+- n: 38
+  stem: Quōmodo Astraea in caelum ascendit (line 11)?
+  options:
+    a: cum celeritāte
+    b: cum laude
+    c: cum trīstitiā
+    d: cum timōre
+  answer: a
+  node: CR-013
+  passage: astraea
+- n: 39
+  stem: According to line 14, what did Astraea carry with her?
+  options:
+    a: a set of scales
+    b: a lyre
+    c: nothing
+    d: the sky
+  answer: a
+  node: CR-009
+  passage: astraea
+- n: 40
+  stem: When did the ancient Romans think that Astraea would be visible to people on earth (lines 15-16)?
+  options:
+    a: in the fall
+    b: in the winter
+    c: in the spring
+    d: in the summer
+  answer: a
+  node: CR-009
+  passage: astraea

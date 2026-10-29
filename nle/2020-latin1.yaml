@@ -1,0 +1,495 @@
+# 2020 National Latin Exam — Latin I. Transcribed from the exam PDF; answers worked out
+# by hand (no answer key supplied). `node` is the course topic each question tests.
+exam:
+  id: 2020-latin1
+  year: 2020
+  kind: latin1
+  title: Latin I
+  source_note: ACL/NJCL National Latin Exam 2020, Latin I. Used with permission for non-commercial classroom practice.
+passages:
+- id: phaethon
+  title: AN UNFORTUNATE REQUEST
+  subtitle: Phaethon asks Phoebus Apollo for a favor.
+  note: ''
+  source: Inspired by Ovid, Metamorphoses I and II
+  questions:
+  - 31
+  - 40
+  lines:
+  - n: 1
+    latin: Phaethon, fīlius Phoebī Apollinis, superbus erat quod pater
+  - n: 2
+    latin: deus sōlis erat.
+  - n: 3
+    latin: Ōlim, amīcus Phaethontis, “Pater tuus,” inquit, “NŌN est deus!”
+    gloss: Phaethontis = of Phaethon; inquit = says
+    underline:
+    - Phaethontis
+    - inquit
+  - n: 4
+    latin: Phaethon, commōtus īrā, deum vīsitāvit. Equōs et currum sōlis
+    gloss: commōtus = moved; currum = chariot
+    underline:
+    - commōtus
+    - currum
+  - n: 5
+    latin: agere voluit. Patrem igitur rogābat, “Possumne currum
+    gloss: agere = to drive; igitur = therefore
+    underline:
+    - agere
+    - igitur
+  - n: 6
+    latin: sōlis hodiē agere?” Pater nōn laetus erat et prīmum negāvit.
+    gloss: negāvit = said no
+    underline:
+    - negāvit
+  - n: 7
+    latin: Phaethon tandem Phoebō persuāsit et pater cōnsēnsit.
+    gloss: Phoebō persuāsit = persuaded Phoebus
+    underline:
+    - Phoebō persuāsit
+  - n: 8
+    latin: “Perīculōsum est,” inquit, “agere currum sōlis! Cavē!
+  - n: 9
+    latin: Age currum magnā cum cūrā!”
+  - n: 10
+    latin: Phaethon currum per caelum agēbat. Equī sēnsērunt puerum
+  - n: 11
+    latin: incertum et celeriter currēbant. Phaethon currum agere bene
+  - n: 12
+    latin: nōn potuit. Multae terrae frīgidae fīēbant quod equī ad caelum
+    gloss: fīēbant = became
+    underline:
+    - fīēbant
+  - n: 13
+    latin: altum volābant. Tum equī prope terram volābant. Calor sōlis
+    gloss: volābant = were flying; Calor = The heat
+    underline:
+    - volābant
+    - Calor
+  - n: 14
+    latin: multās urbēs et silvās īnflāmmāvit. Flūmina erant sicca.
+    gloss: sicca = dry
+    underline:
+    - sicca
+  - n: 15
+    latin: Hominēs erant perterritī et trīstēs.
+    gloss: trīstēs = sad
+    underline:
+    - trīstēs
+  - n: 16
+    latin: Iuppiter perīculum vīdit et fulminibus currum dēlēvit.
+    gloss: fulminibus = by lightning bolts; dēlēvit = destroyed
+    underline:
+    - fulminibus
+    - dēlēvit
+  - n: 17
+    latin: Necesse est igitur mandāta parentum semper audīre!
+items:
+- n: 1
+  stem: Ubi est amīcus meus?
+  options:
+    a: Who
+    b: Where
+    c: How
+    d: Why
+  answer: b
+  node: VOCAB
+  underline:
+  - Ubi
+- n: 2
+  stem: Ad vīllam saepe ambulābāmus.
+  options:
+    a: I was walking
+    b: You were walking
+    c: We were walking
+    d: They were walking
+  answer: c
+  node: MS-095
+  underline:
+  - ambulābāmus
+- n: 3
+  stem: Puellae in agrīs sunt sed puerī in silvīs sunt.
+  options:
+    a: but
+    b: when
+    c: and
+    d: or
+  answer: a
+  node: MS-051
+  underline:
+  - sed
+- n: 4
+  stem: Nōlīte intrāre in vīllam nostram!
+  options:
+    a: 'on'
+    b: near
+    c: out of
+    d: into
+  answer: d
+  node: MS-085
+  underline:
+  - in
+- n: 5
+  stem: Ego multās grātiās tibi agō. What am I doing?
+  options:
+    a: insulting you
+    b: giving an order
+    c: expressing anger
+    d: saying thank you
+  answer: d
+  node: VOCAB
+- n: 6
+  stem: Vōs omnēs in agrīs labōrāvistis.
+  options:
+    a: have worked
+    b: were working
+    c: are working
+    d: will work
+  answer: a
+  node: MS-104
+  underline:
+  - labōrāvistis
+- n: 7
+  stem: Fēminae multōs librōs lēgērunt. How many books were read?
+  options:
+    a: some
+    b: all
+    c: few
+    d: many
+  answer: d
+  node: VOCAB
+- n: 8
+  stem: Mīlitēs inter duōs equōs stābant.
+  options:
+    a: around
+    b: between
+    c: into
+    d: by
+  answer: b
+  node: MS-084
+  underline:
+  - inter
+- n: 9
+  stem: Discipulī librum magistrae in vīllā vīdērunt.
+  options:
+    a: by the teacher
+    b: from the teacher
+    c: the teacher's
+    d: with the teacher
+  answer: c
+  node: MS-052
+  underline:
+  - magistrae
+- n: 10
+  stem: Omnēs Rōmānī lūdōs spectāre poterant.
+  options:
+    a: to be able
+    b: are able
+    c: will be able
+    d: were able
+  answer: d
+  node: MS-112
+  underline:
+  - poterant
+- n: 11
+  stem: Quīntus nōbīs cibum dedit.
+  options:
+    a: by us
+    b: to us
+    c: with us
+    d: from us
+  answer: b
+  node: MS-057
+  needs:
+  - MS-115
+  underline:
+  - nōbīs
+- n: 12
+  stem: Pīrātae ad īnsulam nāvibus nāvigābant.
+  options:
+    a: by ships
+    b: near ships
+    c: about ships
+    d: of ships
+  answer: a
+  node: MS-089
+  underline:
+  - nāvibus
+- n: 13
+  stem: Tē crās vīsitābimus.
+  options:
+    a: We have visited
+    b: We will visit
+    c: We visit
+    d: We were visiting
+  answer: b
+  node: MS-098
+  underline:
+  - vīsitābimus
+- n: 14
+  stem: Trēs canēs et quattuor fēlēs sunt _____ animālia.
+  options:
+    a: III
+    b: IV
+    c: VII
+    d: IX
+  answer: c
+  node: RW-063
+- n: 15
+  stem: Valerius stellās vidēre nōn potest.
+  options:
+    a: to see
+    b: sees
+    c: saw
+    d: will see
+  answer: a
+  node: MS-113
+  underline:
+  - vidēre
+- n: 16
+  stem: Vōs estis cīvēs Rōmānī!
+  options:
+    a: We are
+    b: He is
+    c: They are
+    d: You are
+  answer: d
+  node: MS-040
+  underline:
+  - Vōs estis
+- n: 17
+  stem: Aurēlia Caeciliam laudāvit quod librum bene lēgit.
+  options:
+    a: the book
+    b: by the book
+    c: of the book
+    d: to the book
+  answer: a
+  node: MS-015
+  underline:
+  - librum
+- n: 18
+  stem: Quam laeta sum ubi tū ades!
+  options:
+    a: How
+    b: When
+    c: Who
+    d: If
+  answer: a
+  node: VOCAB
+  underline:
+  - Quam
+- n: 19
+  stem: Ubi in pictūrā est Gallia?
+  options:
+    a: '1'
+    b: '2'
+    c: '3'
+    d: '4'
+  answer: b
+  node: RW-004
+  image: nle/2020-latin1-p1-1.png
+- n: 20
+  stem: Most Romans in the city of Rome did not live in vīllīs, but
+  options:
+    a: in thermīs
+    b: in īnsulīs
+    c: in templīs
+    d: in tabernīs
+  answer: b
+  node: RW-049
+- n: 21
+  stem: A Roman would typically watch a chariot race at the
+  options:
+    a: Curia
+    b: Colosseum
+    c: Circus Maximus
+    d: Pantheon
+  answer: c
+  node: RW-091
+- n: 22
+  stem: Quis sum? Sum rēx deōrum. Teneō fulmina et sceptrum. Regō omnēs et omnia.
+  options:
+    a: Iuppiter
+    b: Mars
+    c: Vulcānus
+    d: Mercurius
+  answer: a
+  node: RW-065
+- n: 23
+  stem: Clāmāre, dīcere and cantāre are all verbs requiring the use of which body part?
+  options:
+    a: oculus
+    b: ōs
+    c: pēs
+    d: manus
+  answer: b
+  node: VOCAB
+- n: 24
+  stem: Which city was conquered using a giant wooden horse as a trick?
+  options:
+    a: Sparta
+    b: Athens
+    c: Troy
+    d: Alexandria
+  answer: c
+  node: RW-008
+- n: 25
+  stem: Innovation, novelty, and renovate all derive from the Latin word meaning
+  options:
+    a: make
+    b: new
+    c: nine
+    d: know
+  answer: b
+  node: MW-009
+  underline:
+  - Innovation
+  - novelty
+  - renovate
+- n: 26
+  stem: A wolf, a shepherd, a river, and a priestess are all featured in a story about
+  options:
+    a: Castor and Pollux
+    b: Numa Pompilius
+    c: Romulus and Remus
+    d: Servius Tullius
+  answer: c
+  node: RW-007
+- n: 27
+  stem: What town, located at the mouth of the Tiber and founded by Ancus Marcius, was the port of Rome?
+  options:
+    a: Alba Longa
+    b: Lavinium
+    c: Brundisium
+    d: Ostia
+  answer: d
+  node: RW-002
+- n: 28
+  stem: To which question would “Iūlia” be a correct response?
+  options:
+    a: Quid agis?
+    b: Quāle est caelum?
+    c: Quid est nōmen tibi?
+    d: Ubi est lātrīna?
+  answer: c
+  node: VOCAB
+- n: 29
+  stem: In which entry room of a house did a Roman citizen typically receive clients and guests?
+  options:
+    a: cubiculum
+    b: culīna
+    c: triclīnium
+    d: ātrium
+  answer: d
+  node: RW-048
+- n: 30
+  stem: If Jupiter wanted to send a message, he would usually call upon
+  options:
+    a: Mercury
+    b: Venus
+    c: Mars
+    d: Juno AN UNFORTUNATE REQUEST Phaethon asks Phoebus Apollo for a favor.
+  answer: a
+  node: RW-064
+- n: 31
+  stem: Why was Phaethon proud in lines 1-2?
+  options:
+    a: Phaethon was smart.
+    b: Phaethon drove well.
+    c: Phaethon's father was a god.
+    d: Phaethon was the sun god.
+  answer: c
+  node: CR-009
+  passage: phaethon
+- n: 32
+  stem: According to line 3, what did Phaethon's friend do?
+  options:
+    a: He called Phaethon names.
+    b: He denied that Phaethon's father was a god.
+    c: He insulted Phaethon's mother.
+    d: He refused to talk to Phaethon.
+  answer: b
+  node: CR-009
+  passage: phaethon
+- n: 33
+  stem: In line 4, Phaethon felt
+  options:
+    a: angry
+    b: sad
+    c: frightened
+    d: confused
+  answer: a
+  node: CR-009
+  passage: phaethon
+- n: 34
+  stem: In lines 6-7 (Pater…cōnsēnsit), what was Phoebus Apollo's first response to Phaethon's request?
+  options:
+    a: He was eager to grant Phaethon's request.
+    b: He was not happy and said no.
+    c: He was alarmed but agreed.
+    d: He wanted more time to think.
+  answer: b
+  node: CR-009
+  passage: phaethon
+- n: 35
+  stem: In line 9, what was Phoebus’ warning?
+  options:
+    a: Watch out for the moon!
+    b: Feed and water the horses!
+    c: Don't look down!
+    d: Drive the chariot carefully!
+  answer: d
+  node: MS-091
+  passage: phaethon
+- n: 36
+  stem: In lines 10-11 (Equī…currēbant), how did the horses react?
+  options:
+    a: They were scared of Phaethon.
+    b: They refused to leave their stall.
+    c: They went carefully.
+    d: They ran fast.
+  answer: d
+  node: CR-009
+  passage: phaethon
+- n: 37
+  stem: In lines 12-13 (equī…volābant), the horses first flew to
+  options:
+    a: the Underworld
+    b: the mountains
+    c: the upper sky
+    d: to the desert
+  answer: c
+  node: CR-009
+  passage: phaethon
+- n: 38
+  stem: In lines 13-14 (Calor…sicca), what happened next?
+  options:
+    a: Cities burned and rivers dried up.
+    b: It rained and there was a flood.
+    c: Phaethon jumped off the chariot.
+    d: Everyone congratulated Phaethon.
+  answer: a
+  node: CR-009
+  passage: phaethon
+- n: 39
+  stem: In lines 12-15, why were the people sad?
+  options:
+    a: They missed the horses.
+    b: The delayed dawn upset everyone's schedule.
+    c: The natural climate was disrupted.
+    d: They thought Phaethon was angry with them.
+  answer: c
+  node: CR-009
+  passage: phaethon
+- n: 40
+  stem: What advice is given in line 17?
+  options:
+    a: Never anger a god!
+    b: Always listen to your parents!
+    c: Don't drive close to a river!
+    d: Horses can't be trusted!
+  answer: b
+  node: CR-009
+  passage: phaethon

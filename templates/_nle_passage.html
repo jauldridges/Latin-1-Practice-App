@@ -1,0 +1,18 @@
+{# A past-NLE reading passage: numbered lines, the exam's glosses beside them
+   (under them on a phone), the glossed words underlined as on the paper.
+   `hi` = (first, last) line to highlight, optional. #}
+<div class="nle-passage">
+  <div class="nle-ptitle">{{ passage.title }}</div>
+  {% if passage.subtitle %}<div class="small muted nle-psub">{{ passage.subtitle }}</div>{% endif %}
+  {% if passage.note %}<div class="small muted nle-psub">{{ passage.note }}</div>{% endif %}
+  <ol class="nle-lines">
+    {% for l in passage.lines %}
+    <li class="{{ 'hi' if hi and hi[0] <= l.n <= hi[1] }}">
+      <span class="ln">{{ l.n }}</span>
+      <span class="la">{{ l.html }}</span>
+      {% if l.gloss %}<span class="gl">{{ l.gloss }}</span>{% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+  {% if passage.source %}<div class="small muted nle-psub">{{ passage.source }}</div>{% endif %}
+</div>

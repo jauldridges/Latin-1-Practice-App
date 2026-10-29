@@ -180,6 +180,10 @@ class _App(unittest.TestCase):
         items = dataio.load_bank()
         flags, _ = checks.run_all(items, set(SPEC), dataio.allowed_latin(dataio.load_exemplars()))
         store.import_items(self.db, items, flags, "t")
+        # The past-NLE questions arrive pre-approved (nle.py). Set aside here,
+        # so this badge is the only one with questions.
+        self.db.execute("UPDATE items SET review_status='rejected' WHERE item_id LIKE 'NLE-%'")
+        self.db.commit()
         self.ids = [i["id"] for i in items if i["node"] in BY_ID[self.BADGE]["nodes"]]
         for iid in self.ids:
             store.set_review(self.db, iid, "approved")

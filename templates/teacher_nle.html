@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block subtitle %}teacher · practice NLE{% endblock %}
+{% block content %}
+<p class="small"><a href="{{ url_for('teacher_home') }}">← Dashboard</a></p>
+<h1>Practice NLE</h1>
+<p>{{ n_items }} questions from {{ exams | length }} past National Latin Exams, already approved.
+  The grammar ones also turn up in badge checks once their topic is taught, marked
+  “From the 20XX National Latin Exam”. Students sit a whole exam or a mash-up on
+  <strong>Practice NLE</strong>; a question that needs its reading passage or picture
+  appears only there.</p>
+<p class="small muted">No answer keys came with the exams, so the answers were worked out by hand.
+  Open an exam to check them. To fix or remove a question, use its <strong>Edit</strong> or
+  <strong>Reject</strong> in the Review tool — the app keeps your change.</p>
+
+<h2>The exams</h2>
+<table class="progress">
+  <tr><th>Exam</th><th>Questions</th><th>In badge checks</th></tr>
+  {% for e in exams %}
+  <tr><td><a href="{{ url_for('teacher_nle_exam', exam_id=e.id) }}">{{ e.name }}</a></td>
+      <td>{{ e.live }}{% if e.live != e.n %} of {{ e.n }}{% endif %}</td>
+      <td>{{ e.badge }}</td></tr>
+  {% endfor %}
+</table>
+
+<h2>Recent practice NLEs</h2>
+{% if sittings %}
+<table class="progress">
+  <tr><th>Student</th><th>What</th><th>Score</th><th>When</th></tr>
+  {% for s in sittings %}
+  <tr><td><a href="{{ url_for('teacher_student', student_id=s.student_id) }}">{{ s.student_id }}</a></td>
+      <td>{{ s.title }}</td><td>{{ s.right }} of {{ s.total }}</td><td class="small">{{ s.when }}</td></tr>
+  {% endfor %}
+</table>
+{% else %}
+<p class="muted">None finished yet.</p>
+{% endif %}
+{% endblock %}

@@ -14,9 +14,11 @@
 <div class="meta-row">
   <span class="badge tier">{{ label }}</span>
   {% if context != 'practice' %}<span class="badge err">{{ context }}</span>{% endif %}
+  {% if item.nle %}<span class="badge nletag">From the {{ item.nle.label }}</span>{% endif %}
 </div>
 
-<div class="stem">{{ item.stem }}</div>
+<div class="stem">{{ stem_html(item) }}</div>
+{% if item.image %}<img class="nle-img" src="{{ url_for('static', filename=item.image) }}" alt="The picture for this question">{% endif %}
 
 {% include "_hint.html" %}
 

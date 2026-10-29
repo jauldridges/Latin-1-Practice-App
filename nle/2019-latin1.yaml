@@ -1,0 +1,452 @@
+# 2019 National Latin Exam — Latin I. Transcribed from the exam PDF; answers worked out
+# by hand (no answer key supplied). `node` is the course topic each question tests.
+exam:
+  id: 2019-latin1
+  year: 2019
+  kind: latin1
+  title: Latin I
+  source_note: ACL/NJCL National Latin Exam 2019, Latin I. Used with permission for non-commercial classroom practice.
+passages:
+- id: plague
+  title: THE ROMANS FIND A WAY TO RID THEMSELVES OF A PLAGUE
+  subtitle: ''
+  note: ''
+  source: ''
+  questions:
+  - 30
+  - 40
+  lines:
+  - n: 1
+    latin: Trēs annōs fuit pestilentia in urbe Rōmā. Itaque sacerdōtēs Rōmānī
+    gloss: pestilentia = plague; sacerdōtēs = priests
+  - n: 2
+    latin: lēgātōs ad Graeciam mīsērunt. Lēgātī auxilium ab Aesculapiō, deō
+    gloss: lēgātōs = ambassadors
+  - n: 3
+    latin: sānātiōnis, petēbant. Virī Rōmānī ad templum deī vēnērunt. Subitō
+    gloss: sānātiōnis = of healing
+  - n: 4
+    latin: Rōmānī serpentem vīdērunt. Serpēns templum relinquēbat et ad mare
+  - n: 5
+    latin: lentē sē movēbat. Serpēns in nāvem Rōmānam ascendit. Prīmō nautae
+    gloss: sē movēbat = moved; Prīmō = At first
+  - n: 6
+    latin: ā nāve fūgērunt quod erant perterritī. Mox rediērunt quod sēnsērunt
+    gloss: sēnsērunt = realized
+  - n: 7
+    latin: serpentem esse deum. Serpēns in mediā nāve sē cēlābat. Nautae cibum
+    gloss: sē cēlābat = hid
+  - n: 8
+    latin: et aquam serpentī dedērunt. Tandem post sex diēs nautae ad urbem
+  - n: 9
+    latin: Rōmam advēnērunt. Serpēns dē nāve dēscendit et ad īnsulam in flūmine
+  - n: 10
+    latin: Tiberī natābat. Propter adventum serpentis, Rōmānī erant laetī quod
+    gloss: Propter adventum = Because of the arrival
+  - n: 11
+    latin: pestilentia nōn iam in urbe erat.
+items:
+- n: 1
+  stem: _____ in agrīs lūdēbant.
+  options:
+    a: Puerī
+    b: Puerōrum
+    c: Puerōs
+    d: Puerīs
+  answer: a
+  node: MS-014
+- n: 2
+  stem: Cūr in ātriō soleae tuae sunt?
+  options:
+    a: Where
+    b: How many
+    c: When
+    d: Why
+  answer: d
+  node: VOCAB
+  underline:
+  - Cūr
+- n: 3
+  stem: Nōs bene Latīnē scrībere possumus!
+  options:
+    a: are writing
+    b: wrote
+    c: to write
+    d: will write
+  answer: c
+  node: MS-113
+  underline:
+  - scrībere
+- n: 4
+  stem: Senātōrēs cīvibus Rōmānīs legēs bonās dabant.
+  options:
+    a: from the Roman citizens
+    b: to the Roman citizens
+    c: of the Roman citizen
+    d: the Roman citizen
+  answer: b
+  node: MS-057
+  needs:
+  - MS-065
+  underline:
+  - cīvibus Rōmānīs
+- n: 5
+  stem: Vōs urbem Rōmam mox _____.
+  options:
+    a: vīsitābit
+    b: vīsitābitis
+    c: vīsitābimus
+    d: vīsitābunt
+  answer: b
+  node: MS-098
+- n: 6
+  stem: Et Graecī et Rōmānī deum Apollinem laudābant.
+  options:
+    a: Both…and
+    b: Neither…nor
+    c: Either…or
+    d: Some…others
+  answer: a
+  node: MS-051
+  underline:
+  - Et
+  - et
+- n: 7
+  stem: Lupus prope Cūriam est! Where is the wolf?
+  options:
+    a: in the Curia
+    b: behind the Curia
+    c: near the Curia
+    d: under the Curia
+  answer: c
+  node: MS-084
+- n: 8
+  stem: Ubi heri erās?
+  options:
+    a: are you
+    b: will you be
+    c: have you been
+    d: were you
+  answer: d
+  node: MS-097
+  underline:
+  - erās
+- n: 9
+  stem: Quam pulchra est villa Metellī!
+  options:
+    a: Who
+    b: Whom
+    c: Than
+    d: How
+  answer: d
+  node: VOCAB
+  underline:
+  - Quam
+- n: 10
+  stem: Nōlī timēre, parve puer!
+  options:
+    a: I am not afraid
+    b: Don’t be afraid
+    c: We were not afraid
+    d: You are not afraid
+  answer: b
+  node: MS-078
+  underline:
+  - Nōlī timēre
+- n: 11
+  stem: Rēgīna nova bene regnat.
+  options:
+    a: rules
+    b: was ruling
+    c: will rule
+    d: ruled
+  answer: a
+  node: MS-039
+  underline:
+  - regnat
+- n: 12
+  stem: Curre, _____, celeriter!
+  options:
+    a: Aulus
+    b: Aulō
+    c: Aulum
+    d: Aule
+  answer: d
+  node: MS-049
+- n: 13
+  stem: Agricola quīnque equōs et quattuor bovēs habet. Quot animālia habet agricola?
+  options:
+    a: IX
+    b: VI
+    c: VIII
+    d: XI
+  answer: a
+  node: RW-063
+- n: 14
+  stem: Prīmā lūce puellae in silvam ambulābant.
+  options:
+    a: At sunset
+    b: At noon
+    c: At dawn
+    d: At night
+  answer: c
+  node: MS-092
+  underline:
+  - Prīmā lūce
+- n: 15
+  stem: Pater fīliās fīliōsque diū spectat.
+  options:
+    a: his daughters and sons
+    b: his daughters or sons
+    c: his daughter and son
+    d: his daughter or son
+  answer: a
+  node: MS-051
+  underline:
+  - fīliās fīliōsque
+- n: 16
+  stem: Discipulī dēfessī ad vīllam lentē vēnērunt.
+  options:
+    a: slow
+    b: slowly
+    c: slowness
+    d: slow down
+  answer: b
+  node: MS-132
+  underline:
+  - lentē
+- n: 17
+  stem: In urbe Rōmā antīquā erant septem _____.
+  options:
+    a: mōns
+    b: montis
+    c: montēs
+    d: montibus
+  answer: c
+  node: MS-065
+- n: 18
+  stem: Senex līberīs _____ nārrābat.
+  options:
+    a: fābulam
+    b: fābulā
+    c: fābulīs
+    d: fābulārum
+  answer: a
+  node: MS-015
+- n: 19
+  stem: Amīcōs nostrōs crās vidēre poterimus.
+  options:
+    a: we are able
+    b: we were able
+    c: we will be able
+    d: we have been able
+  answer: c
+  node: MS-112
+  underline:
+  - poterimus
+- n: 20
+  stem: Puer in cubiculō in capite stat. What is the boy doing?
+  options:
+    a: cleaning his room
+    b: resting on a couch
+    c: standing on his head
+    d: looking around at statues
+  answer: c
+  node: MS-086
+- n: 21
+  stem: At the beginning of each class, what is a Latin teacher most likely to say to the entire class?
+  options:
+    a: Currite!
+    b: Salvēte!
+    c: Monēte!
+    d: Valēte!
+  answer: b
+  node: VOCAB
+- n: 22
+  stem: Ancient Romans of all social classes often visited thermae. What were thermae?
+  options:
+    a: public baths
+    b: libraries
+    c: racetracks
+    d: voting locations
+  answer: a
+  node: RW-060
+- n: 23
+  stem: What famous Roman hero held off the Etruscan army while his fellow soldiers tore down the only bridge leading
+    to Rome?
+  options:
+    a: Horatius Cocles
+    b: Mucius Scaevola
+    c: Manlius
+    d: Cincinnatus
+  answer: a
+  node: RW-011
+- n: 24
+  stem: What important city is marked by the star on the map?
+  options:
+    a: Rome
+    b: Athens
+    c: Troy
+    d: Carthage
+  answer: c
+  node: RW-008
+  image: nle/2019-latin1-p1-1.png
+- n: 25
+  stem: Who released all evils into the world by opening a box she was told never to open?
+  options:
+    a: Ceres
+    b: Pandora
+    c: Arachne
+    d: Diana
+  answer: b
+  node: RW-064
+- n: 26
+  stem: The students and the teacher developed a tacit understanding of proper classroom behavior. Based on your
+    knowledge of Latin, what does the word tacit mean?
+  options:
+    a: written
+    b: unchanging
+    c: formal
+    d: unspoken
+  answer: d
+  node: MW-009
+  underline:
+  - tacit
+- n: 27
+  stem: Septimius lived in the same house with his mother Aurelia, his father Lucius, his paternal grandfather Gaius,
+    and his sister Horatia. Which of these people would have typically been the paterfamiliās of their family?
+  options:
+    a: Aurelia
+    b: Lucius
+    c: Gaius
+    d: Lucia
+  answer: c
+  node: RW-047
+- n: 28
+  stem: Sum deus bellī et pater Rōmulī Remīque. Quis sum?
+  options:
+    a: Iuppiter
+    b: Mars
+    c: Plūtō
+    d: Vulcānus
+  answer: b
+  node: RW-064
+- n: 29
+  stem: Where would you most likely find the Latin expression Tempus fugit?
+  options:
+    a: in the front of a book
+    b: over a school’s doorway
+    c: at the bottom of a letter
+    d: on the face of a clock
+  answer: d
+  node: MW-043
+- n: 30
+  stem: According to line 1, for how long did the plague last in Rome?
+  options:
+    a: one year
+    b: two years
+    c: three years
+    d: four years
+  answer: c
+  node: CR-009
+  passage: plague
+- n: 31
+  stem: The best translation of fuit (line 1) is
+  options:
+    a: there was
+    b: there will be
+    c: there used to be
+    d: there is
+  answer: a
+  node: MS-111
+  passage: plague
+- n: 32
+  stem: From lines 1-2 we learn that
+  options:
+    a: priests were sent to Rome
+    b: ambassadors were sent to Greece
+    c: Greeks were miserable
+    d: the plague had spread to Greece
+  answer: b
+  node: CR-009
+  passage: plague
+- n: 33
+  stem: According to lines 2-3, Aesculapius was a
+  options:
+    a: teacher
+    b: general
+    c: politician
+    d: god
+  answer: d
+  node: CR-009
+  passage: plague
+- n: 34
+  stem: According to lines 3-4, the visitors
+  options:
+    a: were slowly attacked by a resident
+    b: suddenly saw a snake
+    c: quickly ran back to the ship
+    d: immediately pulled out their weapons
+  answer: b
+  node: CR-009
+  passage: plague
+- n: 35
+  stem: The best translation of templum relinquēbat (line 4) is
+  options:
+    a: the temple remained
+    b: destroyed the temple
+    c: the temple shook
+    d: left the temple
+  answer: d
+  node: MS-029
+  passage: plague
+- n: 36
+  stem: According to lines 5-6, the sailors
+  options:
+    a: sailed to Rome
+    b: hid in a temple
+    c: searched for the snake
+    d: fled from the boat
+  answer: d
+  node: CR-009
+  passage: plague
+- n: 37
+  stem: According to lines 6-7, why did the Romans return?
+  options:
+    a: They had killed the snake
+    b: They saw a larger snake
+    c: They thought the snake was a god
+    d: The priest ordered them to return
+  answer: c
+  node: CR-009
+  passage: plague
+- n: 38
+  stem: According to lines 7-8, the Romans
+  options:
+    a: killed the snake
+    b: fed the snake
+    c: ate the snake
+    d: imprisoned the snake
+  answer: b
+  node: CR-009
+  passage: plague
+- n: 39
+  stem: From lines 8-9 we learn that the journey to Rome lasted
+  options:
+    a: a month
+    b: a week
+    c: six days
+    d: three years
+  answer: c
+  node: CR-009
+  passage: plague
+- n: 40
+  stem: In honor of the snake there still exists today on the island in the Tiber River a
+  options:
+    a: hospital
+    b: prison
+    c: library
+    d: fort
+  answer: a
+  node: RW-001
+  passage: plague
