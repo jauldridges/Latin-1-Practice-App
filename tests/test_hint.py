@@ -14,6 +14,7 @@ import unittest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import dataio  # noqa: E402
+import nle  # noqa: E402
 import store  # noqa: E402
 
 
@@ -99,10 +100,11 @@ class TestHintGate(unittest.TestCase):
         self.assertIn("Introduced Week of", r.data.decode())
 
     def test_unapproved_teaching_never_reaches_the_hint(self):
-        # Nothing is approved in a fresh database, so no explain text may
+        # Nothing of the bank is approved in a fresh database (only the
+        # past-NLE questions arrive approved, nle.py), so no explain text may
         # appear anywhere on a practice question.
         self.client.get("/practice")
-        approved = store.approved_items(self.conn)
+        approved = [a for a in store.approved_items(self.conn) if not nle.is_nle(a)]
         self.assertEqual(approved, [])          # nothing approved to serve yet
         teaching = dataio.load_teaching()
         sample = list(teaching.values())[0]

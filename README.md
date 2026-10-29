@@ -87,7 +87,7 @@ start clean.
 | `badges.py`, `badges.yaml` | Grammar badges: the map, checks, fading, and the homework rule. |
 | `analysis.py` | Data for analysis: the zip of spreadsheets split around an exam. |
 | `nle.py`, `nle/`, `static/nle/` | Past National Latin Exams: 15 exams, pre-approved, in badge checks and Practice NLE. |
-| `tests/` | 750 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 749 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -1268,7 +1268,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-750 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+749 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

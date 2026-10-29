@@ -235,6 +235,7 @@ class TestRoutes(unittest.TestCase):
         self.assertEqual(len(store.all_events(self.conn)), 6)   # nothing deleted
 
     def test_the_right_year_runs_it_and_hands_back_the_backup(self):
+        bank = store.counts(self.conn)["total"]          # 2 here, plus the past-NLE questions
         year = str(time.localtime().tm_year)
         r = self.client.post("/teacher/data/end-of-year", data={"confirm": year})
         self.assertEqual(r.status_code, 200)
@@ -243,7 +244,7 @@ class TestRoutes(unittest.TestCase):
         # The response IS the backup — there is no way to purge without it.
         self.assertEqual(json.loads(r.data)["counts"]["events"], 6)
         self.assertEqual(store.all_events(self.conn), [])
-        self.assertEqual(store.counts(self.conn)["total"], 2)   # bank survives
+        self.assertEqual(store.counts(self.conn)["total"], bank)   # bank survives
 
     def test_backup_routes_are_behind_the_teacher_password(self):
         os.environ["LATIN_TEACHER_PASSWORD"] = "hunter2"
