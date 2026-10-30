@@ -13,6 +13,56 @@
 lessons:
 
   # ---------------------------------------------------------------- 1
+  how-to-study:
+    steps:
+      - say: |
+          Your brain forgets on a schedule. Learn a new word today and most of it is
+          gone within a few days, unless you **bring it back**. Every time you pull a
+          word out of your memory just as it's starting to fade, it lasts **longer**
+          the next time.
+
+          That's **spaced practice**, and it's how this app works. It brings each card
+          back just before you'd forget it, and your grade tells it when: **Again**
+          means "I didn't know it," so it comes back soon; **Good** and **Easy** send it
+          further away.
+      - example:
+          intro: "Watch one word, *aqua*, become solid. Each time, the student knew it and pressed Good:"
+          words:
+            - {w: "Day 1", tag: "Good", note: "back in 3 days"}
+            - {w: "Day 4", tag: "Good", note: "back in 11 days"}
+            - {w: "Day 15", tag: "Good", note: "back in 35 days: solid"}
+            - {w: "Day 50", tag: "Good", note: "back in about 3 months"}
+          english: "Three short looks in two weeks, and *aqua* is solid. Each gap is longer than the last."
+          after: "A miss resets it: press Again and the word comes back in five minutes, while there's still time to learn it."
+      - say: |
+          This only works if your grades are **honest**. Press Easy on a word you
+          missed and the app believes you: it sends the word away until after you've
+          forgotten it. A wrong answer is **Again**, every time. That's not a bad
+          grade; it's the app doing its job.
+
+          The rest is in the **Lēgēs Magistrī**, the Magister's laws for this app. You
+          can read them all on the Lēgēs page, under your home screen.
+      - table:
+          caption: "The Lēgēs Magistrī, in short"
+          head: ["Do", "Don't"]
+          rows:
+            - ["A little on several days", "Leave it all for Friday night"]
+            - ["Grade yourself honestly", "Press Good or Easy on a miss"]
+            - ["Read the answer, then grade", "Rush, or guess at speed"]
+            - ["Open the Hint when you're stuck", "Look answers up during a check"]
+            - ["Fresh cards each day", "Loop the same few questions"]
+            - ["Keep your ID and PIN to yourself", "Practice for someone else"]
+      - check:
+          ask: "You typed the wrong meaning for *aqua*. Which grade should you press?"
+          options:
+            a: "Again"
+            b: "Good"
+            c: "Easy"
+          answer: a
+          why: "A miss is always Again. Then *aqua* comes back in a few minutes, while there's still time to learn it."
+      - remember: "A little, often, and honest: spaced practice plus honest grades is how Latin sticks."
+
+  # ---------------------------------------------------------------- 2
   origins:
     steps:
       - say: |

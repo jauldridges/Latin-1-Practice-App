@@ -23,10 +23,12 @@ dashboard for who's practicing and what they don't know.
 - Python 3.9-compatible, no build step, mobile-first server-rendered HTML.
   It has to work on a school Chromebook at home when I'm not there.
 - Run the full test suite before you tell me something's done. It should be
-  ~768 passing (about 14 skip unless a local Postgres is running).
+  ~780 passing (about 14 skip unless a local Postgres is running).
 - Never say "mastery" to a student. The words are solid / shaky / not yet.
 - American spelling: "practice" for noun and verb, never the British -ise form (a test enforces it).
 - School time zone is Eastern (Massachusetts); `schooltime.py` sets it.
+- Dates are written "Friday October 30" everywhere a person reads one
+  (`dates.py`); spreadsheets and backups keep 2026-10-30.
 
 **How I work.** Make things simple for me — I'd rather not go back to the
 terminal. When you give me an update and say what's next, also tell me the step
@@ -87,6 +89,11 @@ miss (the lesson leads back). Answers were worked out by hand -- I check them at
 Teacher dashboard -> Practice NLE. A new exam is a new file in `nle/` in the
 same shape (see README, "Practice NLE"); every question needs a `node`. Every
 badge check asks at least one NLE question when the badge has one.
+
+**How to study** is badge/Lesson 1 (study-skills nodes SK-001/SK-002, questions
+in `latin1-items-unit00-study.yaml`): spaced practice and the laws, then a check.
+**Student mode**: Teacher dashboard -> Try it as a student uses demo ID 0000000,
+kept out of all class data.
 
 **Lēgēs Magistrī** (`/leges`): the app's numbered laws -- how-to first, then
 don'ts -- are Magister lines (categories leges-how / leges-dont in

@@ -86,8 +86,9 @@ start clean.
 | `lessons.py`, `badge_lessons.yaml` | The lesson at the start of each badge (teacher-approved). |
 | `badges.py`, `badges.yaml` | Grammar badges: the map, checks, fading, and the homework rule. |
 | `analysis.py` | Data for analysis: the zip of spreadsheets split around an exam. |
+| `dates.py` | How every date a person reads is written: "Friday October 30". |
 | `nle.py`, `nle/`, `static/nle/` | Past National Latin Exams: 15 exams, pre-approved, in badge checks and Practice NLE. |
-| `tests/` | 768 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 780 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -539,6 +540,40 @@ still at `/practice?topics=1` ("Extra practice by topic").
 
 The grouping is a DRAFT for the teacher (Oct 2026): every Unit 0-2 grammar
 topic is in exactly one badge (tested). `tests/test_badges.py`.
+
+**How to study** is badge and Lesson 1, and not grammar: its topics are two
+study-skills spec nodes, SK-001 (how memory works: spaced practice, forgetting,
+honest grades) and SK-002 (the Lēgēs Magistrī). The lesson explains spaced
+practice with a worked example taken from the real scheduler (Day 1 → 3 days →
+11 days → solid by Day 15; a test replays it through `fsrs.py`), sums up the
+laws in a Do / Don't table, and ends with a quick check; the badge check then
+asks 6 of its 17 questions (`latin1-items-unit00-study.yaml`), five right to
+earn it. Once badges are on it is homework like any badge, so every student
+earns it first.
+
+The lesson review screen (Badge lessons → a lesson) lists a badge's questions
+still waiting for approval — in the review queue or in a bank file not yet
+imported — under its approved ones, with **Approve these N questions**; a
+flagged or rejected question is left to the Review tool.
+
+## Dates
+
+Every date a person reads is written “Friday October 30” — weekday, month, day,
+with the year only where it's needed (`dates.py`; homework weeks are “Saturday
+October 24 – Friday October 30”, vocabulary weeks “Week of Monday September
+14”). Spreadsheet and backup files keep `2026-10-30` for the programs that read
+them. `tests/test_dates.py`.
+
+## Student mode
+
+**Try it as a student** (Teacher dashboard, and the home screen's teacher
+buttons) signs the teacher's browser in as the demo student `0000000`: seven
+digits, so it can never be a real student's ID, and never on the class list.
+Every page then looks exactly as it does to a student, under a bar that says
+so, with **Start over** (deletes everything the demo student did) and **Back to
+teacher view**. The demo student is left out of every whole-class read — the
+dashboard, homework grid, misses, quiz and practice-NLE lists, and Data for
+analysis. `tests/test_student_mode.py`.
 
 ## Practice NLE
 
@@ -1283,7 +1318,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-768 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+780 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

@@ -30,6 +30,7 @@ import backup
 import badges
 import checks
 import dataio
+import dates
 import drill
 import fsrs
 import identity
@@ -310,14 +311,61 @@ def signin():
 
 @app.route("/signout", methods=["GET", "POST"])
 def signout():
+    if session.pop(STUDENT_MODE, None):
+        session.pop(auth.STUDENT_KEY, None)
+        return redirect(url_for("teacher_home"))
     session.pop(auth.STUDENT_KEY, None)
     return redirect(url_for("signin"))
 
 
+# --------------------------------------------------------------------------
+# Student mode: the teacher tries the app as a student
+#
+# The teacher's browser is signed in as the demo student (store.DEMO_STUDENT),
+# a seven-digit ID no real student can have, never on the class list and left
+# out of every class figure, list and export. While it's on, every page looks
+# exactly as it does to a student; a bar at the top says so and leads back.
+# --------------------------------------------------------------------------
+
+STUDENT_MODE = "student_mode"
+
+
+def student_mode():
+    return bool(session.get(STUDENT_MODE)) and auth.is_teacher() \
+        and session.get(auth.STUDENT_KEY) == store.DEMO_STUDENT
+
+
+def teacher_view():
+    """The teacher, seeing teacher things -- not while trying student mode."""
+    return auth.is_teacher() and not student_mode()
+
+
+@app.route("/teacher/student-mode", methods=["POST"])
+def student_mode_on():
+    session[auth.STUDENT_KEY] = store.DEMO_STUDENT
+    session[STUDENT_MODE] = True
+    return redirect(url_for("index"))
+
+
+@app.route("/teacher/student-mode/off", methods=["POST"])
+def student_mode_off():
+    session.pop(STUDENT_MODE, None)
+    if session.get(auth.STUDENT_KEY) == store.DEMO_STUDENT:
+        session.pop(auth.STUDENT_KEY, None)
+    return redirect(url_for("teacher_home"))
+
+
+@app.route("/teacher/student-mode/reset", methods=["POST"])
+def student_mode_reset():
+    """Start over as a brand-new student: the demo's practice is deleted."""
+    store.clear_demo(get_db())
+    return redirect(url_for("index"))
+
+
 @app.context_processor
 def _auth_flags():
-    return {"is_teacher": auth.is_teacher(), "teacher_gate": auth.teacher_gate_on(),
-            "signed_in_student": current_student(),
+    return {"is_teacher": teacher_view(), "teacher_gate": auth.teacher_gate_on(),
+            "signed_in_student": current_student(), "student_mode": student_mode(),
             "day_letters": goals.DAY_LETTERS}
 
 
@@ -343,8 +391,8 @@ def weeklabel(week):
     if w in drill.WEEK_LABELS:
         return drill.WEEK_LABELS[w]
     try:
-        d = time.strptime(w, "%Y-%m-%d")
-        return "Week of " + time.strftime("%b ", d) + str(d.tm_mday)
+        time.strptime(w, "%Y-%m-%d")
+        return "Week of " + dates.day(w)
     except ValueError:
         return w
 
@@ -389,11 +437,14 @@ def holds(days):
 
 @app.template_filter("shortday")
 def shortday(ts):
-    """"Mon 5 Oct" -- the day a late week was finished."""
-    if not ts:
-        return ""
-    lt = time.localtime(ts)
-    return "%s %d %s" % (time.strftime("%a", lt), lt.tm_mday, time.strftime("%b", lt))
+    """"Monday October 5" -- the day a late week was finished."""
+    return dates.day(ts) if ts else ""
+
+
+@app.template_filter("longday")
+def longday(day):
+    """A "YYYY-MM-DD" date or a timestamp as "Friday October 30" (dates.py)."""
+    return dates.day(day)
 
 
 @app.template_filter("when")
@@ -414,8 +465,8 @@ def when(ts):
     if day == today:
         return "today, " + time.strftime("%-I:%M%p", time.localtime(ts)).lower()
     if delta < 7 * 86400:
-        return time.strftime("%a", time.localtime(ts))
-    return time.strftime("%b %-d", time.localtime(ts))
+        return dates.weekday(ts)
+    return dates.day(ts)
 
 
 # ==========================================================================
@@ -526,7 +577,7 @@ def index():
     db = get_db()
     ctx = {"counts": store.counts(db)}
     student = current_student()
-    if student and not auth.is_teacher():
+    if student and not teacher_view():
         events = store.events_for_student(db, student)
         rule = badge_rule(db)
         ctx["goal"] = goals.weekly_progress(events, weekly_targets(db), badge_rule=rule)
@@ -1081,7 +1132,7 @@ def published_readings(db):
 
 def _reading_or_404(db, slug):
     r = _READINGS.get(slug)
-    if r is None or (slug not in published_readings(db) and not auth.is_teacher()):
+    if r is None or (slug not in published_readings(db) and not teacher_view()):
         abort(404)
     return r
 
@@ -1096,7 +1147,7 @@ def _question_item(q):
 def reader_index():
     db = get_db()
     pub = published_readings(db)
-    shown = [r for slug, r in _READINGS.items() if slug in pub or auth.is_teacher()]
+    shown = [r for slug, r in _READINGS.items() if slug in pub or teacher_view()]
     return render_template("reader_index.html", readings=shown, published=pub)
 
 
@@ -1296,7 +1347,7 @@ def leges_page():
                   if l["category"] in magister.LEGES and l["state"] != "approved")
     return render_template("leges.html", how=[l for l in laws if l["category"] == "leges-how"],
                            dont=[l for l in laws if l["category"] == "leges-dont"],
-                           waiting=waiting if auth.is_teacher() else 0,
+                           waiting=waiting if teacher_view() else 0,
                            student=current_student())
 
 
@@ -1691,10 +1742,10 @@ def _taught_now():
 
 def _short_date(day):
     try:
-        t = time.strptime(str(day), "%Y-%m-%d")
+        time.strptime(str(day), "%Y-%m-%d")
     except ValueError:
         return ""
-    return "%s %d" % (time.strftime("%b", t), t.tm_mday)
+    return dates.day(day)
 
 
 def badge_map(db, student, now=None):
@@ -1834,10 +1885,10 @@ def badge_lesson(bid):
     if b is None:
         abort(404)
     student = current_student()
-    teacher_view = auth.is_teacher()
-    if teacher_view and not student and bid in _LESSONS:
+    teacher_view_ = teacher_view()
+    if teacher_view_ and not student and bid in _LESSONS:
         return redirect(url_for("teacher_lesson_review", bid=bid))
-    lesson = lesson_for(db, bid) or (_LESSONS.get(bid) if teacher_view else None)
+    lesson = lesson_for(db, bid) or (_LESSONS.get(bid) if teacher_view_ else None)
     if lesson is None:
         return redirect(url_for("badge_map_page") + "#b-" + bid)
     events = store.events_for_student(db, student) if student else []
@@ -1851,7 +1902,7 @@ def badge_lesson(bid):
     return render_template("badge_lesson.html", b=b, steps=_lesson_steps(lesson),
                            number=_LESSON_NO[bid], total=len(_BADGES), family=family,
                            bst=badges.status(events, bid) if student else None,
-                           student=student, preview=teacher_view and not student,
+                           student=student, preview=teacher_view_ and not student,
                            approved=approved, back=back)
 
 
@@ -1869,6 +1920,8 @@ def teacher_lessons():
             store.approve_teaching(db, lessons.key(bid), lessons.fingerprint(_LESSONS[bid]))
         elif bid in _LESSONS and action == "withdraw":
             store.unapprove_teaching(db, lessons.key(bid))
+        elif bid in _BADGE_BY_ID and action == "approve_questions":
+            _approve_waiting_questions(db, _BADGE_BY_ID[bid])
         then = request.form.get("then")
         if then == "next":
             nxt = _next_lesson_to_review(db, bid)
@@ -1891,6 +1944,47 @@ def teacher_lessons():
     return render_template("teacher_lessons.html", rows=rows, done=request.args.get("done"),
                            n_approved=sum(1 for r in rows if r["state"] == "approved"),
                            first=_next_lesson_to_review(db, None))
+
+
+_BANK_BY_NODE = None
+
+
+def _waiting_questions(db, badge):
+    """A badge's questions not yet approved, for its lesson's review screen:
+    those waiting in the review queue (unreviewed, unflagged) and those in a
+    bank file that hasn't been imported yet. A flagged or rejected question is
+    left to the Review tool."""
+    global _BANK_BY_NODE
+    if _BANK_BY_NODE is None:
+        _BANK_BY_NODE = {}
+        for it in dataio.load_bank():
+            _BANK_BY_NODE.setdefault(it.get("node"), []).append(it)
+    nodes = list(badge["nodes"])
+    known = {r["item_id"]: r for r in db.execute(
+        "SELECT item_id, review_status, flagged FROM items WHERE node_id IN (%s)"
+        % ",".join("?" * len(nodes)), nodes).fetchall()} if nodes else {}
+    out = []
+    for n in nodes:
+        for it in _BANK_BY_NODE.get(n, []):
+            row = known.get(it["id"])
+            if row is None or (row["review_status"] == "unreviewed" and not row["flagged"]):
+                out.append(it)
+    return out
+
+
+def _approve_waiting_questions(db, badge):
+    """Approve a badge's waiting questions from its lesson's review screen,
+    importing any not yet in the bank (the mechanical checks run as on a
+    normal import; one that gets flagged is left for the Review tool)."""
+    waiting = _waiting_questions(db, badge)
+    new = [it for it in waiting if store.get_item(db, it["id"]) is None]
+    if new:
+        flags, _ = checks.run_all(new, _VALID_NODES, _ALLOWED_LATIN)
+        store.import_items(db, new, flags, "lesson review: %s" % badge["id"])
+    for it in waiting:
+        row = store.get_item(db, it["id"])
+        if row and row["review_status"] == "unreviewed" and not row["flagged"]:
+            store.set_review(db, it["id"], "approved", reason="Approved from the lesson review screen")
 
 
 def _lesson_order():
@@ -1948,6 +2042,9 @@ def teacher_lesson_review(bid):
                   "answer": _answer_text(it)}
                  for it in sorted(approved_items, key=lambda x: (x["node"], str(x["id"])))
                  if it.get("node") in nodes]
+    waiting = [{"id": it["id"], "node": it["node"], "stem": practice.question_text(it),
+                "options": list((it.get("options") or {}).values()) if it.get("format") == "choice" else [],
+                "answer": _answer_text(it)} for it in _waiting_questions(db, b)]
     family = {r["id"]: r["label"] for r in _BADGE_ROWS}.get(b["row"], "")
     return render_template("badge_lesson.html", b=b, steps=_lesson_steps(lesson),
                            number=_LESSON_NO[bid], total=len(_BADGES), family=family,
@@ -1958,7 +2055,7 @@ def teacher_lesson_review(bid):
                            next_id=order[i + 1] if i + 1 < len(order) else None,
                            n_approved=sum(1 for k in order
                                           if approvals.get(lessons.key(k)) == lessons.fingerprint(_LESSONS[k])),
-                           checks=checks_, questions=questions,
+                           checks=checks_, questions=questions, waiting=waiting,
                            node_label=_NODE_LABEL)
 
 
@@ -2827,7 +2924,7 @@ def teacher_nle():
     for s in store.context_sittings(db)[:60]:
         right, total = _nle_score(s["results"])
         sittings.append(dict(s, right=right, total=total,
-                             when=time.strftime("%a %b %-d, %-I:%M %p", time.localtime(s["submitted_at"]))))
+                             when=dates.day_time(s["submitted_at"])))
     return render_template("teacher_nle.html", exams=exams, sittings=sittings,
                            n_items=sum(e["n"] for e in exams))
 

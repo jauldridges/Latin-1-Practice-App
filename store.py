@@ -229,6 +229,13 @@ CREATE TABLE IF NOT EXISTS student_pins (
 """
 
 
+# The teacher's own practice account, for student mode (server.py: the teacher
+# tries the app exactly as a student sees it). Seven digits, so it can never be
+# a real student's six-digit ID, and digits only, so the name purge leaves it
+# alone. Never on the class list, and left out of every whole-class read below.
+DEMO_STUDENT = "0000000"
+
+
 def normalize_student(student_id):
     """The student key used in the data: an ID number, never a name.
 
@@ -943,8 +950,8 @@ def context_sittings(conn, context="nle"):
     rows = conn.execute(
         """SELECT q.quiz_id, q.title, q.item_ids, a.student_id, a.submitted_at, a.results_json
              FROM quizzes q JOIN quiz_attempts a ON a.quiz_id = q.quiz_id
-            WHERE q.context=? AND a.submitted_at IS NOT NULL
-            ORDER BY a.submitted_at DESC""", (context,)).fetchall()
+            WHERE q.context=? AND a.submitted_at IS NOT NULL AND a.student_id != ?
+            ORDER BY a.submitted_at DESC""", (context, DEMO_STUDENT)).fetchall()
     out = []
     for r in rows:
         d = dict(r)
@@ -988,7 +995,8 @@ def get_attempt(conn, attempt_id):
 def quiz_attempts(conn, quiz_id):
     out = []
     for r in conn.execute(
-            "SELECT * FROM quiz_attempts WHERE quiz_id=? ORDER BY student_id", (quiz_id,)).fetchall():
+            "SELECT * FROM quiz_attempts WHERE quiz_id=? AND student_id != ? ORDER BY student_id",
+            (quiz_id, DEMO_STUDENT)).fetchall():
         d = dict(r)
         d["answers"] = json.loads(d["answers_json"] or "{}")
         d["results"] = json.loads(d["results_json"]) if d.get("results_json") else None
@@ -1098,7 +1106,8 @@ def students_with_pins(conn):
 
 
 def all_students(conn):
-    rows = conn.execute("SELECT DISTINCT student_id FROM events ORDER BY student_id").fetchall()
+    rows = conn.execute("SELECT DISTINCT student_id FROM events WHERE student_id != ? ORDER BY student_id",
+                        (DEMO_STUDENT,)).fetchall()
     return [r["student_id"] for r in rows]
 
 
@@ -1115,7 +1124,7 @@ def all_events(conn, since=None, until=None, section=None):
     same instant.
     """
     q = "SELECT * FROM events"
-    where, args = [], []
+    where, args = ["student_id != ?"], [DEMO_STUDENT]       # the teacher's student mode
     if since is not None:
         where.append("timestamp >= ?"); args.append(since)
     if until is not None:
@@ -1131,7 +1140,7 @@ def all_events(conn, since=None, until=None, section=None):
 
 def all_miss_reasons(conn, since=None, section=None):
     q = "SELECT * FROM miss_reasons"
-    where, args = [], []
+    where, args = ["student_id != ?"], [DEMO_STUDENT]
     if since is not None:
         where.append("timestamp >= ?"); args.append(since)
     if section:
@@ -1141,6 +1150,17 @@ def all_miss_reasons(conn, since=None, section=None):
         q += " WHERE " + " AND ".join(where)
     q += " ORDER BY timestamp DESC"
     return [dict(r) for r in conn.execute(q, args).fetchall()]
+
+
+def clear_demo(conn):
+    """Start the teacher's student mode over: everything the demo student did."""
+    nle_quizzes = [r["quiz_id"] for r in conn.execute(
+        "SELECT quiz_id FROM quiz_attempts WHERE student_id=?", (DEMO_STUDENT,)).fetchall()]
+    for table in ("events", "miss_reasons", "quiz_attempts", "student_pins"):
+        conn.execute("DELETE FROM %s WHERE student_id=?" % table, (DEMO_STUDENT,))
+    for qid in nle_quizzes:
+        conn.execute("DELETE FROM quizzes WHERE quiz_id=? AND context='nle'", (qid,))
+    conn.commit()
 
 
 def add_students_bulk(conn, lines, section=None):

@@ -2556,3 +2556,42 @@ nodes:
     when_wrong: >
       The second verb stays in the infinitive (-re). Choose nōlī or
       nōlīte by how many people are being told.
+
+  # ---------------------------------------------------------------------
+  # Study skills — the "How to study" badge (added October 2026)
+  # ---------------------------------------------------------------------
+
+  SK-001:
+    status: draft
+    label: How memory works — spaced practice, forgetting, and honest self-grading
+    explain: >
+      You forget on a schedule, and every time you pull something back out of
+      memory just as it's fading, it lasts longer. That's why the app brings a
+      card back after a gap instead of right away, and why your grade matters:
+      Again means "I didn't know it", so it comes back soon; Good and Easy
+      push it further away.
+    examples:
+      - "Missed it → press Again → it comes back in a few minutes."
+      - "Knew it → press Good → it comes back in a few days, then later and later."
+      - "Ten minutes on five days beats fifty minutes on Thursday night."
+    when_wrong: >
+      The app can only space a card well if your grade is honest. A wrong
+      answer is Again, every time — pressing Easy on a miss sends the card
+      away until after you've forgotten it.
+
+  SK-002:
+    status: draft
+    label: The Lēgēs Magistrī — how to use the app for homework and studying, and what not to do
+    explain: >
+      The Lēgēs Magistrī are the app's rules, listed on the Lēgēs page under
+      your home screen. Do a little on several days, finish the week's
+      homework by Friday night, grade yourself honestly, and use the Hint when
+      you're stuck. Don't rush, don't guess at speed, don't loop the same
+      questions, and never share your PIN.
+    examples:
+      - "Homework week: Saturday to Friday, shown on the Homework tab."
+      - "Stuck? Open the Hint — it can take you back to the lesson."
+      - "Each card counts once a day, so looping the same few adds nothing."
+    when_wrong: >
+      Open the Lēgēs Magistrī page and find the law this question is about —
+      each one is a sentence or two.

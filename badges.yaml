@@ -16,9 +16,13 @@
 # the badge's family (Nouns, Verbs ...), shown with its description.
 #
 # DRAFT for the teacher (October 2026): edit freely -- regroup topics, rename,
-# reorder. Every Unit 0-2 grammar topic (MS-) is in exactly one badge.
+# reorder. Every Unit 0-2 grammar topic (MS-) is in exactly one badge. The
+# How to study badge is not grammar: its topics are the two SK study-skills
+# nodes, and it comes first, so it is Lesson 1.
 
 rows:
+  - id: study
+    label: "How to study"
   - id: background
     label: "Background"
   - id: how
@@ -31,6 +35,13 @@ rows:
     label: "Adjectives"
 
 badges:
+  # --- How to study (first: every student earns it before anything else) --
+  - id: how-to-study
+    row: study
+    title: "How to study"
+    about: "This badge covers how your memory works and how this app uses it: why a little practice on several days beats cramming, why the app brings a word back just as you start to forget it, why honest grades matter, and the Lēgēs Magistrī, the rules for doing your homework and studying here."
+    nodes: [SK-001, SK-002]
+
   # --- Background ----------------------------------------------------------
   - id: origins
     row: background

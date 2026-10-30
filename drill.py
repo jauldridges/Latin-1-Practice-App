@@ -11,6 +11,8 @@ a word's events gives its stability, its due time and its state.
 """
 
 import time
+
+import dates
 from collections import namedtuple
 
 import fsrs
@@ -21,14 +23,7 @@ DAY = 86400.0
 WEEK_ORDER = ["week_of_aug_24", "week_of_aug_31", "week_of_sep_8",
               "week_of_sep_14", "week_of_sep_21", "week_of_sep_28"]
 
-WEEK_LABELS = {
-    "week_of_aug_24": "Week of Aug 24",
-    "week_of_aug_31": "Week of Aug 31",
-    "week_of_sep_8": "Week of Sep 7",
-    "week_of_sep_14": "Week of Sep 14",
-    "week_of_sep_21": "Week of Sep 21",
-    "week_of_sep_28": "Week of Sep 28",
-}
+
 
 # Monday of each core-list week, for resolving "the current week".
 _WEEK_MONDAY = {
@@ -36,6 +31,9 @@ _WEEK_MONDAY = {
     "week_of_sep_8": "2026-09-07", "week_of_sep_14": "2026-09-14",
     "week_of_sep_21": "2026-09-21", "week_of_sep_28": "2026-09-28",
 }
+
+# How each week is written for students: "Week of Monday September 14".
+WEEK_LABELS = {k: "Week of " + dates.day(v) for k, v in _WEEK_MONDAY.items()}
 
 Card = namedtuple("Card", ["latin", "ask", "prompt", "instruction", "week"])
 
@@ -198,7 +196,7 @@ def progress_table(words, events, now=None):
             latin=w["latin"], en=", ".join(w["en"][:3]), week=w["week"],
             state=fsrs.state(card), strength=fsrs.strength(card, now),
             attempts=len(wev), rights=rights,
-            last_seen=(time.strftime("%b %d", time.localtime(last_seen)) if last_seen else "—"),
+            last_seen=(dates.day(last_seen) if last_seen else "—"),
         ))
     order = {wk: i for i, wk in enumerate(WEEK_ORDER)}
     rows.sort(key=lambda r: (order.get(r.week, 99), r.latin))

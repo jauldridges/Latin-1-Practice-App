@@ -138,6 +138,10 @@
 <a class="bigbtn" href="{{ url_for('teacher_home') }}">Teacher dashboard</a>
 <p class="small muted" style="margin-top:-4px">Who practiced, what they know, the class list.</p>
 
+<form method="post" action="{{ url_for('student_mode_on') }}">
+  <button class="bigbtn secondary" type="submit">Try it as a student</button></form>
+<p class="small muted" style="margin-top:-4px">See and use the app exactly as a student does. Your practice there is kept out of class data.</p>
+
 <a class="bigbtn secondary" href="{{ url_for('teacher_deadlines') }}">Goals &amp; deadlines</a>
 <p class="small muted" style="margin-top:-4px">The weekly homework goal, homework weeks, and the quizzes and tests students see coming.</p>
 

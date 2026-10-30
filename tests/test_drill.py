@@ -160,7 +160,7 @@ class TestProgressByWeek(unittest.TestCase):
         self.assertEqual(groups[0]["counts"]["not yet"], 2)
 
     def test_groups_carry_a_human_label(self):
-        self.assertEqual(drill.by_week(self.rows())[0]["label"], "Week of Aug 24")
+        self.assertEqual(drill.by_week(self.rows())[0]["label"], "Week of Monday August 24")
 
     def test_an_unknown_week_still_gets_a_group(self):
         # A word must never vanish from a student's progress because its week

@@ -14,11 +14,26 @@
     {% if not (signed_in_student and not is_teacher) %}
     <span class="sub">{% block subtitle %}{% endblock %}</span>
     {% endif %}
-    {% if signed_in_student and not is_teacher %}
+    {% if student_mode %}
+      <span class="who"><span class="sid">student mode</span>
+        · <a href="{{ url_for('signout') }}">teacher view</a></span>
+    {% elif signed_in_student and not is_teacher %}
       <span class="who"><span class="sid">{{ signed_in_student }}</span>
         · <a href="{{ url_for('signout') }}">sign out</a></span>
     {% endif %}
   </header>
+  {# The teacher trying the app as a student (server.py, student mode). #}
+  {% if student_mode %}
+  <div class="studentmode">
+    <span><strong>Student mode.</strong> This is exactly what a student sees. Your practice here
+      is left out of every class figure.</span>
+    <form method="post" action="{{ url_for('student_mode_reset') }}"
+          onsubmit="return confirm('Start over as a brand-new student? Everything you did in student mode is deleted.')">
+      <button class="minibtn" type="submit">Start over</button></form>
+    <form method="post" action="{{ url_for('student_mode_off') }}">
+      <button class="minibtn" type="submit">Back to teacher view</button></form>
+  </div>
+  {% endif %}
   {# Students get the same three places on every screen. Before this the only
      way between the drill and grammar practice was the "Latin I" wordmark, and
      the progress page was a small link under one screen. #}

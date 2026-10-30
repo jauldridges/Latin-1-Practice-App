@@ -45,7 +45,7 @@ class TestTheLessons(unittest.TestCase):
     def test_lessons_are_numbered_in_teaching_order(self):
         n = lessons.numbered(BADGES, SPEC, badges.first_taught)
         self.assertEqual(sorted(n.values()), list(range(1, len(BADGES) + 1)))
-        self.assertEqual((n["origins"], n["sounds"]), (1, 2))
+        self.assertEqual((n["how-to-study"], n["origins"], n["sounds"]), (1, 2, 3))
         self.assertLess(n["subjects-objects"], n["first-declension"])
         self.assertLess(n["genitive"], n["dative"])
 
@@ -54,6 +54,42 @@ class TestTheLessons(unittest.TestCase):
         probs = " ".join(lessons.problems(bad))
         self.assertIn("worked example", probs)
         self.assertIn("answer is not one of its options", probs)
+
+
+class TestHowToStudy(unittest.TestCase):
+    """The first badge: how memory works and the Lēgēs Magistrī, then a check."""
+
+    def test_the_badge_and_its_lesson(self):
+        b = next(b for b in BADGES if b["id"] == "how-to-study")
+        self.assertEqual(b["nodes"], ["SK-001", "SK-002"])
+        self.assertTrue(all(n in SPEC for n in b["nodes"]))
+        steps = LESSONS["how-to-study"]["steps"]
+        text = str(steps).lower()
+        self.assertIn("spaced practice", text)
+        self.assertIn("lēgēs magistrī", text)
+        self.assertEqual(lessons.kind(steps[-2]), "check")
+
+    def test_the_worked_example_is_the_real_schedule(self):
+        import fsrs
+        ex = LESSONS["how-to-study"]["steps"][1]["example"]["words"]
+        t, card = 1.7e9, None
+        for w, nxt in zip(ex, ex[1:]):
+            card = fsrs.review(card, fsrs.GOOD, t)
+            gap = round((card.due - t) / 86400)
+            self.assertIn("back in %d days" % gap, w["note"])
+            self.assertEqual(int(nxt["w"].split()[1]) - int(w["w"].split()[1]), gap)
+            t = card.due
+        self.assertEqual(fsrs.state(card), "solid")              # after Day 15
+
+    def test_its_check_questions(self):
+        bank = [i for i in dataio.load_bank() if i["node"] in ("SK-001", "SK-002")]
+        self.assertGreaterEqual(len([i for i in bank if i["node"] == "SK-001"]), 6)
+        self.assertGreaterEqual(len([i for i in bank if i["node"] == "SK-002"]), 6)
+        flags, _ = checks.run_all(bank, set(SPEC), dataio.allowed_latin(dataio.load_exemplars()))
+        self.assertEqual({k: v for k, v in flags.items() if v}, {})
+        text = " ".join(str(i) for i in bank).lower()
+        self.assertNotIn("mastery", text)
+        self.assertNotIn("lēx ", text)                              # law numbers move; never quoted
 
 
 class TestTheScreens(unittest.TestCase):
@@ -142,6 +178,23 @@ class TestTheScreens(unittest.TestCase):
         first = self.server._lesson_order()[0]
         self.assertIn('href="/teacher/lessons/%s">Start reviewing' % first, page)
         self.assertIn('href="/teacher/lessons/%s"><strong>' % self.BADGE, page)
+
+    def test_waiting_questions_are_approved_from_the_review_screen(self):
+        bid = "how-to-study"
+        page = self.review(bid).data.decode()
+        self.assertIn("17 more questions waiting for your approval", page)
+        self.assertIn("Approve these 17 questions", page)
+        self.assertNotIn("how-to-study", [b["id"] for b in badges.available(
+            BADGES, SPEC, store.approved_items(self.db), time.strftime("%Y-%m-%d"))])
+        r = self.t.post("/teacher/lessons", data={"action": "approve_questions", "id": bid, "then": "stay"})
+        self.assertTrue(r.headers["Location"].endswith("/teacher/lessons/" + bid))
+        page = self.review(bid).data.decode()
+        self.assertNotIn("waiting for your approval", page)
+        self.assertIn("The badge check asks from these 17 approved questions", page)
+        self.assertIn("how-to-study", [b["id"] for b in badges.available(
+            BADGES, SPEC, store.approved_items(self.db), time.strftime("%Y-%m-%d"))])
+        self.assertIn("/login", self.c.post("/teacher/lessons", data={
+            "action": "approve_questions", "id": bid}).headers["Location"])
 
     def test_a_student_cannot_review(self):
         self.assertIn("/login", self.c.get("/teacher/lessons/%s" % self.BADGE).headers["Location"])

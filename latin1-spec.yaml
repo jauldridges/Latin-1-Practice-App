@@ -48,6 +48,13 @@ strands:
     name: Connected Reading
     pacing: cohort-floor-individual-ceiling
     description: Strategies and stamina for reading sustained Latin prose.
+  SK:
+    name: Study Skills
+    pacing: first-week
+    description: >
+      How to study with the practice app: how memory works, and the
+      Lēgēs Magistrī (the app's rules). Added October 2026 for the
+      "How to study" badge, which every student earns first.
 
 # Item types referenced by the `assess` field:
 #   recall     - retrieve a fact or form from memory
@@ -3429,6 +3436,27 @@ nodes:
     day: 2026-10-21
     vehicle: vocab
     prereqs: [MW-089]
+    assess: [recall, apply]
+
+  # ----------------------------------------------------------
+  # SK — Study skills (added October 2026: the "How to study" badge)
+  # ----------------------------------------------------------
+  - id: SK-001
+    label: How memory works — spaced practice, forgetting, and honest self-grading
+    unit: 0
+    week: 2026-08-17
+    day: 2026-08-21
+    vehicle: lesson
+    prereqs: []
+    assess: [recall, apply]
+
+  - id: SK-002
+    label: The Lēgēs Magistrī — how to use the app for homework and studying, and what not to do
+    unit: 0
+    week: 2026-08-17
+    day: 2026-08-21
+    vehicle: lesson
+    prereqs: [SK-001]
     assess: [recall, apply]
 
 # ============================================================

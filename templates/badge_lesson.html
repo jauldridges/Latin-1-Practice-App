@@ -142,6 +142,23 @@
     <li class="muted">None approved yet.</li>
     {% endfor %}
   </ol>
+
+  {% if waiting %}
+  <h3>{{ waiting | length }} more question{{ '' if waiting | length == 1 else 's' }} waiting for your approval</h3>
+  <p class="small muted">Students are never asked these until you approve them.</p>
+  <form method="post" action="{{ url_for('teacher_lessons') }}">
+    <input type="hidden" name="id" value="{{ b.id }}">
+    <input type="hidden" name="then" value="stay">
+    <button class="minibtn approve-next" name="action" value="approve_questions" type="submit">✓ Approve these {{ waiting | length }} question{{ '' if waiting | length == 1 else 's' }}</button>
+  </form>
+  <ol class="cfu-qs waiting">
+    {% for q in waiting %}
+    <li><span class="small muted">{{ q.node }}</span> {{ q.stem }}
+      {% if q.options %}<div class="small muted">{{ q.options | join(' / ') }}</div>{% endif %}
+      <div class="small"><strong>Answer:</strong> {{ q.answer }}</div></li>
+    {% endfor %}
+  </ol>
+  {% endif %}
 </section>
 {% endif %}
 

@@ -58,7 +58,7 @@ class TestTheWeek(unittest.TestCase):
                          "Sat 07 Nov 00:00")
 
     def test_labels(self):
-        self.assertEqual(goals.week_label("2026-09-30"), "Sat 26 Sep – Fri 2 Oct")
+        self.assertEqual(goals.week_label("2026-09-30"), "Saturday September 26 – Friday October 2")
 
 
 class TestWeeklyProgress(unittest.TestCase):
@@ -226,7 +226,7 @@ class TestWhenLabel(unittest.TestCase):
         self.assertEqual(goals.when_label("2026-09-30", WED), "today")
         self.assertEqual(goals.when_label("2026-10-01", WED), "tomorrow")
         self.assertEqual(goals.when_label("2026-10-02", WED), "in 2 days")
-        self.assertEqual(goals.when_label("2026-10-30", WED), "Fri 30 Oct")
+        self.assertEqual(goals.when_label("2026-10-30", WED), "Friday October 30")
         self.assertEqual(goals.when_label("2026-09-01", WED), "finished")
 
 
@@ -409,7 +409,7 @@ class TestHomeworkScreens(_App):
         body = self.teacher.get("/teacher/homework").data.decode()
         self.assertIn("403217", body)
         csv_text = self.teacher.get("/teacher/homework.csv").data.decode()
-        self.assertTrue(csv_text.startswith("student_id,block,Sat "))
+        self.assertTrue(csv_text.startswith("student_id,block,Saturday "))
         self.assertIn("403217,Block 3,on time", csv_text)
 
     def test_did_it_means_the_weekly_goal(self):
@@ -427,7 +427,7 @@ class TestHomeworkScreens(_App):
         self.assertEqual(store.get_setting(self.db, "homework"),
                          {"from": "2026-09-12", "off": ["2026-09-19"]})
         page = self.teacher.get("/teacher/deadlines").data.decode()
-        self.assertIn("Sat 12 Sep – Fri 18 Sep", page)
+        self.assertIn("Saturday September 12 – Friday September 18", page)
 
     def test_the_home_screen_says_what_is_owed(self):
         self.teacher.post("/teacher/deadlines", data={

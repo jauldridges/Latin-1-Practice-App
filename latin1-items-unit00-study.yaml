@@ -1,0 +1,352 @@
+# Latin I — Study skills questions: the "How to study" badge (October 2026)
+#
+# The check after the badge's lesson (badge_lessons.yaml, how-to-study): does
+# the student know how spaced practice works and what the Lēgēs Magistrī ask?
+# SK-001 is how memory works and why honest grades matter; SK-002 is the laws.
+#
+# Written to match how the app actually behaves (fsrs.py, goals.py, rush.py,
+# teacher.py): Again comes back in five minutes, a first Good in about three
+# days, a card counts once a day toward homework, the week runs Saturday to
+# Friday, a badge is five right out of six. If any of that changes, these
+# answers change with it.
+#
+# The questions never quote a law by its number: the numbers move as laws are
+# approved and withdrawn.
+#
+# As in every bank file, the right answer is written as option a; the app
+# shuffles the options for each student.
+
+items:
+
+# ==========================================================================
+# SK-001 — How memory works
+# ==========================================================================
+
+  - id: SK001-APPLY-01
+    node: SK-001
+    assess: apply
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "You typed the wrong meaning for a vocabulary word. Which grade should you press?"
+    options:
+      a: "Again"
+      b: "Hard"
+      c: "Good"
+      d: "Easy"
+    answer: a
+    touches: []
+    what_went_wrong:
+      - text: "I thought a better grade would help my homework"
+        node: SK-001
+    note: "A miss is always Again: then the card comes back in five minutes."
+    teaching: ""
+
+  - id: SK001-RECOG-01
+    node: SK-001
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Why does the app bring a word back after a few days instead of straight away?"
+    options:
+      a: "Remembering a word just as it starts to fade makes it last longer"
+      b: "To make your homework take longer"
+      c: "Because it forgot you had already answered it"
+      d: "So you can memorize the order of the cards"
+    answer: a
+    touches: []
+    what_went_wrong: []
+    note: "The idea of spaced practice, in one line."
+    teaching: ""
+
+  - id: SK001-APPLY-02
+    node: SK-001
+    assess: apply
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "What happens if you press Easy on a word you actually missed?"
+    options:
+      a: "The app sends it away until after you've forgotten it"
+      b: "You get extra homework credit"
+      c: "Nothing — grades don't change anything"
+      d: "The word disappears for good"
+    answer: a
+    touches: []
+    what_went_wrong: []
+    note: "fsrs.py: Easy schedules the card far out."
+    teaching: ""
+
+  - id: SK001-APPLY-03
+    node: SK-001
+    assess: apply
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Which week of studying will make new words stick best?"
+    options:
+      a: "Ten minutes on each of five different days"
+      b: "Fifty minutes on Thursday night"
+      c: "Two hours on Sunday, then nothing until next week"
+      d: "The same twenty cards over and over in one sitting"
+    answer: a
+    touches: []
+    what_went_wrong: []
+    note: "Spacing beats cramming."
+    teaching: ""
+
+  - id: SK001-RECOG-02
+    node: SK-001
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "You miss a new word and press Again. When will you see it next?"
+    options:
+      a: "In a few minutes, in the same sitting"
+      b: "Next week"
+      c: "Next month"
+      d: "Never — it's taken out of your cards"
+    answer: a
+    touches: []
+    what_went_wrong: []
+    note: "fsrs.RELEARN_SECONDS: five minutes."
+    teaching: ""
+
+  - id: SK001-RECOG-03
+    node: SK-001
+    assess: recognize
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "On your Progress page, a word marked “solid” is one you…"
+    options:
+      a: "are very likely to remember even three weeks from now"
+      b: "have answered right once"
+      c: "have seen more times than any other word"
+      d: "typed faster than everyone else"
+    answer: a
+    touches: []
+    what_went_wrong: []
+    note: "fsrs.SOLID_DAYS = 21: stability of three weeks."
+    teaching: ""
+
+  - id: SK001-RECOG-04
+    node: SK-001
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "What does the “due today” number on your home screen count?"
+    options:
+      a: "Cards that are about to slip out of your memory"
+      b: "Cards you have never seen"
+      c: "Your grade in class"
+      d: "Every card you got wrong this year"
+    answer: a
+    touches: []
+    what_went_wrong: []
+    note: "Due cards exclude new ones (practice.due_count)."
+    teaching: ""
+
+  - id: SK001-APPLY-04
+    node: SK-001
+    assess: apply
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "You get a word right on Monday and press Good. Why doesn't the app show it to you again on Tuesday?"
+    options:
+      a: "You still know it — the best time to see it again is just before you'd forget it"
+      b: "It has been deleted from your cards"
+      c: "Words only come back on Fridays"
+      d: "Pressing Good means you never have to see it again"
+    answer: a
+    touches: []
+    what_went_wrong: []
+    note: "A first Good comes back in about three days."
+    teaching: ""
+
+# ==========================================================================
+# SK-002 — The Lēgēs Magistrī
+# ==========================================================================
+
+  - id: SK002-RECOG-01
+    node: SK-002
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "When is each week's homework due?"
+    options:
+      a: "Friday night — the homework week runs Saturday to Friday"
+      b: "Monday morning"
+      c: "Sunday night"
+      d: "Whenever you like, as long as it's this month"
+    answer: a
+    touches: []
+    what_went_wrong: []
+    note: "goals.py: the homework week is Saturday to Friday."
+    teaching: ""
+
+  - id: SK002-APPLY-01
+    node: SK-002
+    assess: apply
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "You're stuck on a grammar question. What do the Lēgēs Magistrī [the Magister's laws] say to do?"
+    options:
+      a: "Open the Hint"
+      b: "Ask a friend for the answer"
+      c: "Guess quickly and move on"
+      d: "Look the answer up online"
+    answer: a
+    touches: []
+    what_went_wrong: []
+    note: ""
+    teaching: ""
+
+  - id: SK002-APPLY-02
+    node: SK-002
+    assess: apply
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Which of these breaks the Lēgēs Magistrī [the Magister's laws]?"
+    options:
+      a: "Going round the same three questions again and again to fill your homework"
+      b: "Practicing for ten minutes a day"
+      c: "Opening the Hint on a hard question"
+      d: "Pressing Again on a word you missed"
+    answer: a
+    touches: []
+    what_went_wrong: []
+    note: "Looping (teacher.loops): each card counts once a day."
+    teaching: ""
+
+  - id: SK002-APPLY-03
+    node: SK-002
+    assess: apply
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Why shouldn't you tap a grade the instant the right answer appears?"
+    options:
+      a: "You haven't read the answer yet — and rushed cards are flagged for your teacher"
+      b: "The app will crash"
+      c: "It deletes the card"
+      d: "Fast answers are always marked wrong"
+    answer: a
+    touches: []
+    what_went_wrong: []
+    note: "rush.py: looked away = grading within 1.5 s of a missed answer appearing."
+    teaching: ""
+
+  - id: SK002-APPLY-04
+    node: SK-002
+    assess: apply
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "A friend asks for your PIN so they can do your homework for you. What do you do?"
+    options:
+      a: "Say no — your ID and PIN are yours alone"
+      b: "Give it to them just this once"
+      c: "Give them your ID but not your PIN"
+      d: "Swap: you do their homework and they do yours"
+    answer: a
+    touches: []
+    what_went_wrong: []
+    note: ""
+    teaching: ""
+
+  - id: SK002-RECOG-02
+    node: SK-002
+    assess: recognize
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "You missed last week's homework. What happens when you practice extra this week?"
+    options:
+      a: "Once this week's work is done, extra practice finishes last week — it shows as done late"
+      b: "Nothing — a missed week can never be finished"
+      c: "Everything you do counts twice"
+      d: "Last week is finished first, before this week counts"
+    answer: a
+    touches: []
+    what_went_wrong: []
+    note: "goals.homework_history: this week first, then the oldest week owed."
+    teaching: ""
+
+  - id: SK002-RECOG-03
+    node: SK-002
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "You answer the same vocabulary card three times today. How many times does it count toward this week's homework?"
+    options:
+      a: "Once"
+      b: "Twice"
+      c: "Three times"
+      d: "Not at all"
+    answer: a
+    touches: []
+    what_went_wrong: []
+    note: "teacher.homework_cards: once a day per card."
+    teaching: ""
+
+  - id: SK002-RECOG-04
+    node: SK-002
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "How do you earn a badge?"
+    options:
+      a: "Read its lesson, then get at least five of the six questions in its check right"
+      b: "Answer fifty vocabulary cards"
+      c: "Open every Hint on the map"
+      d: "Wait until your teacher gives it to you"
+    answer: a
+    touches: []
+    what_went_wrong: []
+    note: "badges.EARN_N = 6, pass 5 of 6."
+    teaching: ""
+
+  - id: SK002-APPLY-05
+    node: SK-002
+    assess: apply
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "You're in the middle of a badge check and aren't sure of an answer. What's allowed?"
+    options:
+      a: "Open the Hint"
+      b: "Search for the answer online"
+      c: "Ask the person next to you"
+      d: "Copy a friend's answers"
+    answer: a
+    touches: []
+    what_went_wrong: []
+    note: ""
+    teaching: ""

@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block subtitle %}dashboard{% endblock %}
 {% block content %}
+<form method="post" action="{{ url_for('student_mode_on') }}" class="studentmode-start">
+  <button class="minibtn" type="submit">👤 Try it as a student</button>
+  <span class="small muted">See and use the app exactly as a student does.</span></form>
 {% if purge %}
 <div class="flags">
   <p class="small"><strong>Name data was removed from this database on startup.</strong></p>
@@ -60,7 +63,7 @@
       {% endif %}
       {% if r.loops %}{% set lp = r.loops[0] %}
       <a class="rushflag loopflag" href="{{ url_for('teacher_student', student_id=r.student_id, days=w.days) }}#looping"
-         title="{{ lp.repeats }} repeats of {{ topic_label(lp.topic) }} on {{ lp.day }}">⟳ looped {{ 'vocab' if lp.topic == 'vocab' else lp.topic }} ×{{ lp.repeats }}{% if r.loops | length > 1 %} ({{ r.loops | length }} days){% endif %}</a>
+         title="{{ lp.repeats }} repeats of {{ topic_label(lp.topic) }} on {{ lp.day | longday }}">⟳ looped {{ 'vocab' if lp.topic == 'vocab' else lp.topic }} ×{{ lp.repeats }}{% if r.loops | length > 1 %} ({{ r.loops | length }} days){% endif %}</a>
       {% endif %}
       {% if r.section %}<span class="small muted"> {{ r.section }}</span>{% endif %}
     </td>

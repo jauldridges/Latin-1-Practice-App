@@ -22,7 +22,7 @@ and the quizzes and tests coming up. The week-by-week record for the gradebook i
 
 <h2>Grammar badges</h2>
 {% if saved == 'badges' %}<div class="flags"><span class="lvl heuristic">saved</span>
-  {% if badges_from %}Students see the badge map now; homework counts badges from {{ badges_from }}.{% else %}Badges are off.{% endif %}</div>{% endif %}
+  {% if badges_from %}Students see the badge map now; homework counts badges from the week of {{ badges_from | longday }}.{% else %}Badges are off.{% endif %}</div>{% endif %}
 <form method="post" class="card">
   <input type="hidden" name="form" value="badges">
   <p class="small muted" style="margin-top:0">When badges are on, the Grammar tab is the
@@ -35,7 +35,7 @@ and the quizzes and tests coming up. The week-by-week record for the gradebook i
     <span>Off — grammar homework is still {{ targets.grammar }} cards</span></label>
   {% if badges_from and badges_from not in badge_weeks | map(attribute='key') | list %}
   <label class="opt"><input type="radio" name="badges_from" value="{{ badges_from }}" checked>
-    <span>On since the week of {{ badges_from }}</span></label>
+    <span>On since the week of {{ badges_from | longday }}</span></label>
   {% endif %}
   {% for w in badge_weeks %}
   <label class="opt"><input type="radio" name="badges_from" value="{{ w.key }}" {{ 'checked' if badges_from == w.key }}>
@@ -96,7 +96,7 @@ and the quizzes and tests coming up. The week-by-week record for the gradebook i
   {% for a in assessments %}
   <li><a href="{{ url_for('teacher_deadline_edit', id=a.id) }}" {% if a.past %}style="opacity:.55"{% endif %}>
     <span><strong>{{ a.title }}</strong><br>
-      <span class="small muted">{{ kinds.get(a.kind, a.kind) }} · {{ a.due_date }} · {{ a.when }} · {{ a.weeks | length }} week{{ 's' if a.weeks | length != 1 }}</span></span>
+      <span class="small muted">{{ kinds.get(a.kind, a.kind) }} · {{ a.due_date | longday }} · {{ a.when }} · {{ a.weeks | length }} week{{ 's' if a.weeks | length != 1 }}</span></span>
     <span class="small muted">edit</span></a></li>
   {% endfor %}
 </ul>

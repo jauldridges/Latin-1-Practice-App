@@ -30,15 +30,15 @@ class TestWeekLabel(unittest.TestCase):
         sys.modules.pop("server", None)
 
     def test_a_drill_week_slug(self):
-        self.assertEqual(self.server.weeklabel("week_of_sep_14"), "Week of Sep 14")
+        self.assertEqual(self.server.weeklabel("week_of_sep_14"), "Week of Monday September 14")
 
     def test_a_spec_week_date(self):
         # The two halves of the app store the same idea differently; a student
         # should not be able to tell.
-        self.assertEqual(self.server.weeklabel("2026-09-14"), "Week of Sep 14")
+        self.assertEqual(self.server.weeklabel("2026-09-14"), "Week of Monday September 14")
 
     def test_no_leading_zero_on_the_day(self):
-        self.assertEqual(self.server.weeklabel("2026-10-05"), "Week of Oct 5")
+        self.assertEqual(self.server.weeklabel("2026-10-05"), "Week of Monday October 5")
 
     def test_nothing_in_nothing_out(self):
         self.assertEqual(self.server.weeklabel(None), "")

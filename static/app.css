@@ -868,3 +868,11 @@ ol.leges.dont .lex-n { color: var(--wrong); }
 .mg-bubble a.mg-more { display: inline-block; margin-top: 4px; font-size: 14px; }
 .pill.lexpill { background: #eef5f0; color: var(--accent); }
 .notice { background: #fdf4dc; border: 1px solid #ecd9a3; border-radius: 8px; padding: 8px 12px; }
+
+/* ---- Student mode (the teacher trying the app as a student) ------------ */
+.studentmode { display: flex; flex-wrap: wrap; align-items: center;
+  gap: 8px; padding: 8px 16px; background: #2f3b4c; color: #fff; font-size: 14px; }
+.studentmode span { flex: 1 1 260px; }
+.studentmode form { margin: 0; }
+.studentmode .minibtn { background: #fff; color: #2f3b4c; border-color: #fff; }
+.studentmode-start { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0 0 12px; }

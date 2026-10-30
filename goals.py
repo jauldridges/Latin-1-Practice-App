@@ -50,6 +50,8 @@ time" is the number a few days of real study can move.
 
 import time
 
+import dates
+
 import badges
 import drill
 import stats
@@ -104,11 +106,9 @@ def key_start(key):
 
 
 def week_label(key):
-    """"Sat 26 Sep – Fri 2 Oct"."""
+    """"Saturday September 26 – Friday October 2" (dates.py)."""
     start = key_start(key)
-    a, b = time.localtime(start), time.localtime(week_end(start) - 12 * 3600)
-    return "Sat %d %s – Fri %d %s" % (a.tm_mday, time.strftime("%b", a),
-                                     b.tm_mday, time.strftime("%b", b))
+    return dates.span(start, week_end(start) - 12 * 3600)
 
 
 def _local_date(ts):
@@ -418,5 +418,4 @@ def when_label(date_str, now=None):
         return "in %d days" % d
     if d < 0:
         return "finished"
-    t = time.strptime(str(date_str), "%Y-%m-%d")
-    return "%s %d %s" % (time.strftime("%a", t), t.tm_mday, time.strftime("%b", t))
+    return dates.day(date_str)
