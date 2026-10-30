@@ -95,6 +95,10 @@ in `latin1-items-unit00-study.yaml`): spaced practice and the laws, then a check
 **Student mode**: Teacher dashboard -> Try it as a student uses demo ID 0000000,
 kept out of all class data.
 
+**Vocabulary** now runs through Week 10 (week of Monday October 26, 16 words).
+The weeks between September 28 and October 26 have no drill words yet: send
+those class packets' vocabulary pages to add them.
+
 **Lēgēs Magistrī** (`/leges`): the app's numbered laws -- how-to first, then
 don'ts -- are Magister lines (categories leges-how / leges-dont in
 `magister.yaml`), approved at Teacher dashboard -> The Magister. He quotes them

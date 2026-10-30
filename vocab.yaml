@@ -19,7 +19,7 @@
 # ============================================================
 
 meta:
-  scope: Units 0 and 1 (80 core words)
+  scope: Units 0 and 1 (80 core words), then each week's new words from its class packet (Week 10, October 26 on)
   glosses_source: seeded for this build, teacher-editable (not from canonical files)
 
 words:
@@ -115,3 +115,24 @@ words:
   - {latin: "semper",  en: ["always"], week: "week_of_sep_28"}
   - {latin: "-que",    en: ["and"], week: "week_of_sep_28"}
   - {latin: "aut",     en: ["or"], week: "week_of_sep_28"}
+
+  # --- week of Oct 26 — Week 10 class packet: Vocabulary Parts A, B and C ---
+  # The dative week: verbs that take an Indirect Object, the seven verbs that
+  # take the dative, adjectives used with the dative, and two words for Rome's
+  # orders. Glosses follow the Week 10 story packet's.
+  - {latin: "mōnstrō",   en: ["I show", "show", "I point out", "point out"], week: "week_of_oct_26"}
+  - {latin: "nūntiō",    en: ["I announce", "announce", "I report", "report"], week: "week_of_oct_26"}
+  - {latin: "cārus",     en: ["dear", "beloved", "precious"], week: "week_of_oct_26"}
+  - {latin: "grātus",    en: ["grateful", "pleasing", "thankful", "welcome"], week: "week_of_oct_26"}
+  - {latin: "inimīcus",  en: ["unfriendly", "hostile", "enemy"], week: "week_of_oct_26"}
+  - {latin: "patrōnus",  en: ["patron", "protector"], week: "week_of_oct_26"}
+  - {latin: "cōnsilium", en: ["plan", "advice", "counsel"], week: "week_of_oct_26"}
+  - {latin: "crēdō",     en: ["I believe", "believe", "I trust", "trust"], week: "week_of_oct_26"}
+  - {latin: "faveō",     en: ["I favor", "favor", "I support", "support"], week: "week_of_oct_26"}
+  - {latin: "imperō",    en: ["I order", "order", "I command", "command", "I give orders", "give orders"], week: "week_of_oct_26"}
+  - {latin: "noceō",     en: ["I harm", "harm", "I hurt", "hurt"], week: "week_of_oct_26"}
+  - {latin: "pāreō",     en: ["I obey", "obey"], week: "week_of_oct_26"}
+  - {latin: "persuādeō", en: ["I persuade", "persuade", "I convince", "convince"], week: "week_of_oct_26"}
+  - {latin: "placeō",    en: ["I please", "please", "I am pleasing", "am pleasing"], week: "week_of_oct_26"}
+  - {latin: "patricius", en: ["patrician", "a patrician"], week: "week_of_oct_26"}
+  - {latin: "tribūnus",  en: ["tribune", "a tribune"], week: "week_of_oct_26"}

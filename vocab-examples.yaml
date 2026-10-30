@@ -16,10 +16,11 @@
 #                           English, which only says what the prompt says.
 #   after answering:        the sentence and its English, every time.
 #
-# Every sentence uses only the 80 drill words and only grammar taught by the
-# end of September: nominative, accusative and vocative, the present, sum,
-# adjective agreement, imperatives and dēbeō + infinitive. No genitive,
-# dative, ablative or prepositions yet.
+# Every sentence uses only the drill words and only grammar taught by its
+# week. Through September: nominative, accusative and vocative, the present,
+# sum, adjective agreement, imperatives and dēbeō + infinitive. The Week 10
+# words (October 26) add the dative, taught that week. No ablative or
+# prepositions yet.
 #
 # Students see nothing here until the teacher approves it at
 # Teacher dashboard -> Vocabulary hints. Editing there saves and approves.
@@ -117,3 +118,21 @@ examples:
   - {word: "semper",     latin: "Amīcus bonus *semper* amīcus est.", en: "A good friend is always a friend."}
   - {word: "-que",       latin: "Puer puella*que* aquam portant.", en: "The boy and the girl carry water."}
   - {word: "aut",        latin: "Puer *aut* puella portam servat.", en: "The boy or the girl guards the gate."}
+
+  # --- week of Oct 26 (Week 10): the dative is taught now, so these use it ---
+  - {word: "mōnstrō",   latin: "Puella nautae viam *mōnstrat*.", en: "The girl shows the road to the sailor."}
+  - {word: "nūntiō",    latin: "Servus dominō bellum *nūntiat*.", en: "The slave announces the war to the master."}
+  - {word: "cārus",     latin: "Dōnum puellae *cārum* est.", en: "The gift is dear to the girl."}
+  - {word: "grātus",    latin: "Servī dominō bonō *grātī* sunt.", en: "The slaves are grateful to the good master."}
+  - {word: "inimīcus",  latin: "Dominus malus servīs *inimīcus* est.", en: "The wicked master is hostile to the slaves."}
+  - {word: "patrōnus",  latin: "*Patrōnus* bonus amīcīs semper favet.", en: "A good patron always supports his friends."}
+  - {word: "cōnsilium", latin: "Dominus servīs *cōnsilium* bonum nūntiat.", en: "The master announces a good plan to the slaves."}
+  - {word: "crēdō",     latin: "Puerī amīcō bonō *crēdunt*.", en: "The boys trust their good friend."}
+  - {word: "faveō",     latin: "Agricolae rēgīnae *favent*.", en: "The farmers support the queen."}
+  - {word: "imperō",    latin: "Rēgīna servīs *imperat*.", en: "The queen gives orders to the slaves."}
+  - {word: "noceō",     latin: "Bellum agrīs *nocet*.", en: "War harms the fields."}
+  - {word: "pāreō",     latin: "Servī dominō *pārent*.", en: "The slaves obey the master."}
+  - {word: "persuādeō", latin: "Nauta amīcīs *persuādet*.", en: "The sailor persuades his friends."}
+  - {word: "placeō",    latin: "Dōnum puellae *placet*.", en: "The gift pleases the girl."}
+  - {word: "patricius", latin: "*Patricius* multōs agrōs habet.", en: "The patrician has many fields."}
+  - {word: "tribūnus",  latin: "*Tribūnus* agricolīs favet.", en: "The tribune supports the farmers."}

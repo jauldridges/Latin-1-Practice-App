@@ -77,7 +77,7 @@ start clean.
 | `stats.py` | Session and all-time progress figures, derived from the event history. |
 | `server.py` | Flask app — both apps, both route groups. |
 | `run.py` | Launcher. |
-| `vocab.yaml` | The drill's 80 words **with glosses** (see the caveat below). |
+| `vocab.yaml` | The drill's words **with glosses**: the 80 Unit 0–1 core words, then each week's new words (see the caveat below). |
 | `teaching.yaml` | Teaching text for all 120 Unit 0–1 nodes. **Drafted, awaiting approval.** |
 | `templates/`, `static/` | Mobile-first UI. |
 | `make_slips.py` | Printable slips to hand out, and the paper ID-to-name record. |
@@ -248,8 +248,13 @@ considered third question from padding.
 
 ## Vocabulary drill
 
-- 80 core words, both directions, **typed** (no multiple choice), checked by the
-  shared module. Macrons never required.
+- The 80 Unit 0–1 core words, then each week's new words from its class packet
+  (Week 10, the week of Monday October 26: the 16 words of Vocabulary Parts A–C,
+  the dative week), both directions, **typed** (no multiple choice), checked by
+  the shared module. Macrons never required. A new week needs its words in
+  `vocab.yaml`, its Monday in `drill.py` (`WEEK_ORDER`, `_WEEK_MONDAY`), its
+  forms in `dataio.py`'s lists, and a hint sentence each in `vocab-examples.yaml`
+  (tests check all four).
 - **Leitner boxes**, nothing fancier: right moves a word up a box and pushes it
   out; wrong drops it to box 1; close leaves it. Intervals 0 / 1 / 3 / 7 / 21
   days.

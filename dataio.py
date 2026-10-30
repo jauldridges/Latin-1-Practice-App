@@ -125,15 +125,21 @@ def content_vocab_words(exemplars):
 _FIRST_DECL = ["aqua", "terra", "via", "porta", "insula", "silva", "puella",
                "femina", "nauta", "agricola", "patria", "fama", "vita", "luna",
                "stella", "regina", "provincia", "poeta"]
-_SECOND_US = ["dominus", "servus", "amicus"]
+_SECOND_US = ["dominus", "servus", "amicus",
+              "patronus", "tribunus"]                         # Week 10
+
 _SECOND_ER = {"puer": "puer", "ager": "agr", "vir": "vir"}   # nom -> stem
-_SECOND_NEUTER = ["bellum", "oppidum", "donum", "verbum"]
+_SECOND_NEUTER = ["bellum", "oppidum", "donum", "verbum",
+                  "consilium"]                                # Week 10
 _FIRST_CONJ = ["amo", "laudo", "porto", "voco", "specto", "narro", "paro",
-               "servo", "supero", "pugno"]
-_SECOND_CONJ = ["video", "habeo", "teneo", "moneo", "debeo"]
+               "servo", "supero", "pugno",
+               "monstro", "nuntio", "impero"]                 # Week 10
+_SECOND_CONJ = ["video", "habeo", "teneo", "moneo", "debeo",
+                "faveo", "noceo", "pareo", "persuadeo", "placeo"]   # Week 10
 _SUM = ["sum", "es", "est", "sumus", "estis", "sunt"]
 _ADJ_US = ["magnus", "parvus", "bonus", "malus", "multus", "longus", "altus",
-           "novus", "clarus", "meus", "tuus"]
+           "novus", "clarus", "meus", "tuus",
+           "carus", "gratus", "inimicus", "patricius"]        # Week 10
 _ADJ_ER = {"pulcher": "pulchr", "miser": "miser", "liber": "liber",
            "noster": "nostr", "vester": "vestr"}
 _PARTICLES = ["et", "non", "sed", "quod", "ubi", "nunc", "saepe", "semper",
