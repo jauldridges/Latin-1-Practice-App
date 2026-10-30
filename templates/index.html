@@ -2,7 +2,7 @@
 {% block content %}
 {% if signed_in_student and not is_teacher %}
   <h1>Salvē!</h1>
-  {% with say=magister_line.text if magister_line else none %}{% include "_magister.html" %}{% endwith %}
+  {% with say=magister_line.text if magister_line else none, lex=magister_line.lex if magister_line else none %}{% include "_magister.html" %}{% endwith %}
 
   {# This week's homework: two numbers the teacher sets, counted Saturday to
      Friday because the quiz is on Friday. The dots are the point as much as
@@ -126,7 +126,8 @@
 {% if signed_in_student and not is_teacher %}
   <p style="text-align:center;margin-top:18px">
     <a href="{{ url_for('homework_page') }}">My homework, week by week</a> ·
-    <a href="{{ url_for('drill_progress') }}">My progress</a></p>
+    <a href="{{ url_for('drill_progress') }}">My progress</a> ·
+    <a href="{{ url_for('leges_page') }}">Lēgēs Magistrī</a></p>
 {% endif %}
 
 {# Teacher tools are hidden, not merely protected, once a password is set:

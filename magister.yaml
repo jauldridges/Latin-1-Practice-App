@@ -5,11 +5,70 @@
 # or added to. Editing saves and approves.
 #
 #   id        never changes, so an approval follows the line
-#   category  rules | study | science | latin | slowdown
+#   category  leges-how | leges-dont | rules | study | science | latin | slowdown
+#
+# The Lēgēs Magistrī (the Magister's laws) are numbered in order, I, II, III
+# ...: first every approved leges-how line (how to use the app), then every
+# approved leges-dont line (what not to do). They are listed together on the
+# Lēgēs page, and when the Magister says one on the home screen it comes as
+# "Lēx IX — ...". A law that isn't approved takes no number.
 #   text      what he says (keep it to a sentence or two)
 #   note      for the teacher only, never shown to students
 
 lines:
+
+  # --- Lēgēs Magistrī: how to use the app (numbered first) ----------------
+  - id: lex-how-01
+    category: leges-how
+    text: "Practice a little on several days every week. Ten minutes a day beats an hour on Thursday night — that's how memory works."
+  - id: lex-how-02
+    category: leges-how
+    text: "Your homework week runs Saturday to Friday. The Homework tab shows exactly what this week asks for and how far you've got. Finish by Friday night and it's on time."
+  - id: lex-how-03
+    category: leges-how
+    text: "Vocabulary: type what the word means, read the answer, then grade yourself — Again, Hard, Good or Easy. Your grade decides when the word comes back."
+  - id: lex-how-04
+    category: leges-how
+    text: "Grammar is a map of badges. Read the lesson, then take the check: six questions, five right earns the badge. When a badge fades, a three-question refresh brings it back."
+    note: "Approve once grammar badges are switched on."
+  - id: lex-how-05
+    category: leges-how
+    text: "Clear what's due. The “due today” numbers on your home screen are the cards about to slip away — they're the best ones to practice."
+  - id: lex-how-06
+    category: leges-how
+    text: "Stuck? Open the Hint. It explains the idea without giving away the answer, and it can take you back to the lesson."
+  - id: lex-how-07
+    category: leges-how
+    text: "Read the stories on the Reading tab. Tap any word you don't know to see what it means."
+  - id: lex-how-08
+    category: leges-how
+    text: "Getting ready for the National Latin Exam? Open the NLE tab: a whole past exam or a mash-up. Every miss comes with a hint and a lesson."
+  - id: lex-how-09
+    category: leges-how
+    text: "Missed a week? Finish this week's work first. After that, extra practice finishes the oldest week you still owe — it shows as done late."
+
+  # --- Lēgēs Magistrī: what not to do (numbered after the how-to laws) ------
+  - id: lex-dont-01
+    category: leges-dont
+    text: "Don't grade yourself up. Missed it? Press Again. Good or Easy on a miss only means the word comes back after you've forgotten it."
+  - id: lex-dont-02
+    category: leges-dont
+    text: "Don't rush. Read the right answer before you grade it. Cards tapped through too fast are flagged for your teacher."
+  - id: lex-dont-03
+    category: leges-dont
+    text: "Don't guess at speed. A wrong answer given faster than you could read the question is a guess, not a try — and it's flagged too."
+  - id: lex-dont-04
+    category: leges-dont
+    text: "Don't loop one topic to fill your homework. Each card counts once a day, so going round the same few questions adds nothing — and your teacher can see it."
+  - id: lex-dont-05
+    category: leges-dont
+    text: "Don't leave it all for Friday night. Cramming fills the week; spacing makes it stick."
+  - id: lex-dont-06
+    category: leges-dont
+    text: "Don't look answers up during a badge check or a practice NLE. Use the Hint — the check is there to show what you know."
+  - id: lex-dont-07
+    category: leges-dont
+    text: "Don't share your PIN, and never practice for someone else. Your ID and PIN are yours alone."
 
   # --- Expectations: how the app works and what's expected -----------------
   - id: rules-01

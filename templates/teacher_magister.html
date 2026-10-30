@@ -4,8 +4,12 @@
 <p class="small"><a href="{{ url_for('teacher_home') }}">← Dashboard</a></p>
 <h1>The Magister</h1>
 {% with say="Salvē! Approve the lines you like, change the ones you don't, and write your own. I only ever say what you've approved." %}{% include "_magister.html" %}{% endwith %}
+<p class="small muted">The first two groups are the <a href="{{ url_for('leges_page') }}"><strong>Lēgēs
+  Magistrī</strong></a>, the app's laws, listed together on one page for students and numbered in order:
+  the how-to laws first, then the what-not-to-do laws. A law takes its number once you approve it.</p>
 <p class="small muted">Each time a student opens the app, the Magister says one approved line from
-  the first four groups — every student goes through all of them before any repeats. The
+  the first six groups — every student goes through all of them before any repeats. When it's a law,
+  he says its number: “Lēx IX — …”. The
   <strong>slow-down messages</strong> appear only after a student rushes three cards in a row.
   <strong>Edit</strong> saves and approves. Lines marked <em>for you</em> carry a note only you see.</p>
 
@@ -30,6 +34,7 @@
           {% if l.state == 'approved' %}<span class="pill solid">approved</span>
           {% elif l.state == 'edited' %}<span class="pill shaky">changed since approval</span>
           {% else %}<span class="pill notyet">not yet approved</span>{% endif %}
+          {% if l.numeral %}<span class="pill lexpill">Lēx {{ l.numeral }}</span>{% endif %}
           {% if l.custom %}<span class="small muted">your line</span>{% elif l.edited %}<span class="small muted">edited</span>{% endif %}
         </div>
         <div class="mg-text">{{ l.text }}</div>

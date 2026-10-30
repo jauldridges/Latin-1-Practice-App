@@ -87,7 +87,7 @@ start clean.
 | `badges.py`, `badges.yaml` | Grammar badges: the map, checks, fading, and the homework rule. |
 | `analysis.py` | Data for analysis: the zip of spreadsheets split around an exam. |
 | `nle.py`, `nle/`, `static/nle/` | Past National Latin Exams: 15 exams, pre-approved, in badge checks and Practice NLE. |
-| `tests/` | 749 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 768 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -561,7 +561,8 @@ the exam underlines are underlined (`underline`).
   reject one in the Review tool and it stays rejected; edit one and the edit
   survives the next deploy.
 - **In badge checks and topic practice**, a grammar question joins its badge's
-  pool once its topic and everything in `needs` has been taught, labelled
+  pool once its topic and everything in `needs` has been taught, and every
+  badge check (earn or refresh) asks at least one when the badge has any, labelled
   “From the 2019 National Latin Exam”, options in the printed A–D order. A
   question that needs its reading passage or picture (`exam_only`) appears only
   in Practice NLE.
@@ -643,6 +644,20 @@ never written. Notes marked "for you" are teacher-only — rules-07/rules-08 and
 slowdown-02/slowdown-06 are pairs that say opposite things about whether
 rushed cards count, so approve the one that matches the switch.
 `tests/test_magister.py`.
+
+### Lēgēs Magistrī
+
+The app's laws, as two more groups of Magister lines: `leges-how` (how to use
+the app for homework and studying) and `leges-dont` (what not to do). The
+approved ones are numbered I, II, III … — every how-to law first, then every
+don't — and listed together at `/leges` (the "Lēgēs Magistrī" link under the
+home screen; the teacher can open it too, with a count of laws still waiting).
+They join the home-screen rotation, and when the Magister says one it comes
+with its number, "Lēx IX — …", and a link to it on the page. A law takes its
+number when approved, so withdrawing one renumbers the rest. Sixteen are
+drafted in `magister.yaml` (lex-how-04, on badges, waits for badges to be
+switched on). They overlap the older Expectations lines on purpose: approve
+the laws and withdraw whichever Expectations lines now say the same thing.
 
 ## Label the words (tap-to-place)
 
@@ -1268,7 +1283,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-749 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+768 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

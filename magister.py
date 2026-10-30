@@ -22,13 +22,16 @@ PATH = os.path.join(ROOT, "magister.yaml")
 PREFIX = "magister:"
 
 CATEGORIES = [
+    ("leges-how", "Lēgēs Magistrī: how to use the app"),
+    ("leges-dont", "Lēgēs Magistrī: what not to do"),
     ("rules", "Expectations"),
     ("study", "How to study"),
     ("science", "The science of memory"),
     ("latin", "Why Latin"),
     ("slowdown", "Slow-down messages"),
 ]
-HOME = ("rules", "study", "science", "latin")       # what the home screen rotates through
+LEGES = ("leges-how", "leges-dont")                 # numbered in this order: how-to first
+HOME = LEGES + ("rules", "study", "science", "latin")   # what the home screen rotates through
 
 DEFAULT_SLOWDOWN = "Festīnā lentē — make haste slowly! Read each answer before you grade it."
 
@@ -64,6 +67,27 @@ def problems(line):
     if line.get("category") not in dict(CATEGORIES):
         out.append("pick a kind of line")
     return out
+
+
+_NUMERALS = [(1000, "M"), (900, "CM"), (500, "D"), (400, "CD"), (100, "C"), (90, "XC"),
+             (50, "L"), (40, "XL"), (10, "X"), (9, "IX"), (5, "V"), (4, "IV"), (1, "I")]
+
+
+def roman(n):
+    out = ""
+    for value, numeral in _NUMERALS:
+        while n >= value:
+            out += numeral
+            n -= value
+    return out
+
+
+def number_leges(lines):
+    """The laws among these lines, numbered I, II, III ...: every how-to law,
+    then every what-not-to-do law, each kind in its own order. Pass only the
+    approved lines: a law waiting for approval takes no number."""
+    laws = [l for c in LEGES for l in lines if l.get("category") == c]
+    return [dict(l, n=i, numeral=roman(i)) for i, l in enumerate(laws, 1)]
 
 
 def rotate(lines, student, n):

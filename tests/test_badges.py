@@ -164,6 +164,29 @@ class TestPicking(unittest.TestCase):
         self.assertEqual({it["id"] for it in again} & {it["id"] for it in first}, set())
 
 
+class TestTheNLEQuestion(unittest.TestCase):
+    """Every badge check asks at least one past-NLE question when it has one."""
+    ITEMS = ([{"id": "MS1-%d" % i, "node": "MS-001"} for i in range(5)]
+             + [{"id": "MS2-%d" % i, "node": "MS-002"} for i in range(5)]
+             + [{"id": "NLE-2019-latin1-0%d" % i, "node": "MS-002"} for i in (1, 2)])
+
+    def test_one_is_always_asked(self):
+        for n in (6, 3, 1):
+            got = [it["id"] for it in badges.pick(self.ITEMS, [], n)]
+            self.assertEqual(len(got), n)
+            self.assertEqual(sum(i.startswith("NLE-") for i in got), 1, got)
+        self.assertEqual(len({it["node"] for it in badges.pick(self.ITEMS, [], 6)}), 2)   # still spread
+
+    def test_the_least_recently_met_one(self):
+        events = [{"item_id": "NLE-2019-latin1-01", "timestamp": 100.0}]
+        got = [it["id"] for it in badges.pick(self.ITEMS, events, 6)]
+        self.assertIn("NLE-2019-latin1-02", got)
+
+    def test_none_without_any(self):
+        got = [it["id"] for it in badges.pick(self.ITEMS[:10], [], 6)]
+        self.assertFalse(any(i.startswith("NLE-") for i in got))
+
+
 class _App(unittest.TestCase):
     BADGE = "talking-to"
 

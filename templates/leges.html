@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ student or 'lēgēs magistrī' }}{% endblock %}
+{% block content %}
+<h1>Lēgēs Magistrī</h1>
+<p class="muted">The Magister's laws: how to use this app for homework and studying, and what
+  not to do.</p>
+
+{% if waiting %}
+<p class="small notice">{{ waiting }} law{{ 's' if waiting != 1 }} still waiting for your approval at
+  <a href="{{ url_for('teacher_magister') }}">Teacher dashboard → The Magister</a>. Students see only
+  the approved ones, numbered as they stand.</p>
+{% endif %}
+
+{% if how or dont %}
+  {% if how %}
+  <h2>Quōmodo — how to use the app</h2>
+  <ol class="leges">
+    {% for l in how %}
+    <li id="lex-{{ l.n }}"><span class="lex-n">{{ l.numeral }}</span><span class="lex-t">{{ l.text }}</span></li>
+    {% endfor %}
+  </ol>
+  {% endif %}
+  {% if dont %}
+  <h2>Nōlīte — what not to do</h2>
+  <ol class="leges dont">
+    {% for l in dont %}
+    <li id="lex-{{ l.n }}"><span class="lex-n">{{ l.numeral }}</span><span class="lex-t">{{ l.text }}</span></li>
+    {% endfor %}
+  </ol>
+  {% endif %}
+{% else %}
+  <p>The Magister hasn't posted his laws yet. Check back soon.</p>
+{% endif %}
+
+<p class="small" style="margin-top:20px"><a href="{{ url_for('index') }}">← Home</a></p>
+{% endblock %}

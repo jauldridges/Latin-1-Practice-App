@@ -36,6 +36,8 @@ import yaml
 
 import fsrs
 
+NLE_PREFIX = "NLE-"          # a past National Latin Exam question (nle.PREFIX)
+
 ROOT = os.path.dirname(os.path.abspath(__file__))
 PATH = os.path.join(ROOT, "badges.yaml")
 
@@ -227,7 +229,13 @@ def needed(mode, n):
 def pick(items, events, n):
     """n questions spread across the badge's topics: one per topic in turn,
     and within a topic the one this student met least recently (never first),
-    so a retake asks different questions where the badge has them."""
+    so a retake asks different questions where the badge has them.
+
+    Every check includes at least one past-NLE question when the badge has
+    one (the teacher's rule, October 2026), so students meet the exam's kind
+    of question from their first check: the least recently met one takes the
+    place of the last question picked on its own topic (or the last question
+    picked, if its topic got none)."""
     last = {}
     for e in events:
         last[e.get("item_id")] = max(last.get(e.get("item_id"), 0), e["timestamp"])
@@ -245,6 +253,11 @@ def pick(items, events, n):
         for q in queues:
             if q and len(out) < n:
                 out.append(q.pop(0))
+    exam = [it for it in items if str(it.get("id") or "").startswith(NLE_PREFIX)]
+    if out and exam and not any(str(it.get("id") or "").startswith(NLE_PREFIX) for it in out):
+        best = min(exam, key=lambda it: (last.get(it.get("id"), 0), str(it.get("id"))))
+        same = [i for i, it in enumerate(out) if it.get("node") == best.get("node")]
+        out[same[-1] if same else len(out) - 1] = best
     return out
 
 

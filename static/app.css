@@ -855,3 +855,16 @@ a.nle-back { position: sticky; top: 100px; z-index: 3; display: block; margin: 0
 @media (max-width: 480px) {
   nav.tabs a { flex: 1 1 auto; font-size: 13px; padding: 11px 2px; }
 }
+
+/* ---- Lēgēs Magistrī (magister.py) ------------------------------------- */
+ol.leges { list-style: none; margin: 6px 0 18px; padding: 0; }
+ol.leges li { display: grid; grid-template-columns: 3.4em 1fr; gap: 10px; align-items: baseline;
+  padding: 10px 12px; margin-bottom: 8px; background: var(--card); border: 1px solid var(--line);
+  border-radius: 10px; scroll-margin-top: 110px; }
+ol.leges li:target { border-color: var(--accent); box-shadow: 0 0 0 2px #cfe3d6; }
+ol.leges .lex-n { font-family: Georgia, "Times New Roman", serif; font-weight: 700; font-size: 18px;
+  color: var(--accent); text-align: right; letter-spacing: .03em; }
+ol.leges.dont .lex-n { color: var(--wrong); }
+.mg-bubble a.mg-more { display: inline-block; margin-top: 4px; font-size: 14px; }
+.pill.lexpill { background: #eef5f0; color: var(--accent); }
+.notice { background: #fdf4dc; border: 1px solid #ecd9a3; border-radius: 8px; padding: 8px 12px; }

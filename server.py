@@ -141,7 +141,7 @@ STUDENT_PREFIXES = ("/drill", "/practice", "/q/", "/due/", "/homework", "/nle")
 AUDIO_PREFIX = "/audio/"
 # A signed-in student or the teacher: recordings, and Reader passages, which
 # the teacher opens to preview and to project in class.
-SHARED_PREFIXES = (AUDIO_PREFIX, "/read", "/badges")
+SHARED_PREFIXES = (AUDIO_PREFIX, "/read", "/badges", "/leges")
 
 
 def _here():
@@ -541,7 +541,13 @@ def index():
         ctx["due"] = due_today(db, student, events)
         # A different approved line each time the home screen opens.
         session["mg"] = session.get("mg", -1) + 1
-        ctx["magister_line"] = magister_says(db, student, magister.HOME, session["mg"])
+        line = magister_says(db, student, magister.HOME, session["mg"])
+        if line and line["category"] in magister.LEGES:
+            # A law comes with its number: "Lēx IX — ...", and the way to all of them.
+            lex = next((l for l in leges(db) if l["id"] == line["id"]), None)
+            if lex:
+                line = dict(line, text="Lēx %s — %s" % (lex["numeral"], line["text"]), lex=lex["n"])
+        ctx["magister_line"] = line
         ctx["games"] = _GAMES
     return render_template("index.html", **ctx)
 
@@ -1275,6 +1281,25 @@ def magister_says(db, student, categories, n):
     return magister.rotate(ok, student, n)
 
 
+def leges(db):
+    """The Lēgēs Magistrī: every approved law, numbered I, II, III ..."""
+    return magister.number_leges([l for l in magister_lines(db) if l["state"] == "approved"])
+
+
+@app.route("/leges")
+def leges_page():
+    """The Magister's laws, all on one page: how to use the app, then what not
+    to do. Only the ones the teacher has approved, numbered as they stand."""
+    db = get_db()
+    laws = leges(db)
+    waiting = sum(1 for l in magister_lines(db)
+                  if l["category"] in magister.LEGES and l["state"] != "approved")
+    return render_template("leges.html", how=[l for l in laws if l["category"] == "leges-how"],
+                           dont=[l for l in laws if l["category"] == "leges-dont"],
+                           waiting=waiting if auth.is_teacher() else 0,
+                           student=current_student())
+
+
 def slowdown_nudge(db, student, events):
     """What the Magister says after three rushed cards in a row, or None."""
     if not rush.rushing_now(events, now=time.time()):
@@ -1286,7 +1311,11 @@ def slowdown_nudge(db, student, events):
 
 @app.route("/teacher/magister")
 def teacher_magister():
-    lines = magister_lines(get_db())
+    db = get_db()
+    lines = magister_lines(db)
+    numbers = {l["id"]: l["numeral"] for l in leges(db)}
+    for l in lines:
+        l["numeral"] = numbers.get(l["id"])
     groups = [{"category": c, "label": label, "lines": [l for l in lines if l["category"] == c]}
               for c, label in magister.CATEGORIES]
     return render_template("teacher_magister.html", groups=groups,

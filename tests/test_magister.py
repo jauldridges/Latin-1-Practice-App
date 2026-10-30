@@ -1,5 +1,6 @@
 """The Magister: what he says, and that he says only what the teacher approved."""
 
+import html
 import os
 import sys
 import tempfile
@@ -127,3 +128,52 @@ class TestScreens(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestTheLaws(TestScreens):
+    """The Lēgēs Magistrī: numbered how-to first, then what not to do."""
+
+    def test_numerals(self):
+        self.assertEqual([magister.roman(n) for n in (1, 4, 9, 14, 16, 40)],
+                         ["I", "IV", "IX", "XIV", "XVI", "XL"])
+
+    def test_how_to_comes_first_and_only_approved_laws_take_a_number(self):
+        laws = [l for l in LINES if l["category"] in magister.LEGES]
+        self.assertGreaterEqual(len([l for l in laws if l["category"] == "leges-how"]), 5)
+        self.assertGreaterEqual(len([l for l in laws if l["category"] == "leges-dont"]), 5)
+        dont_first = [l for l in laws if l["category"] == "leges-dont"] + \
+                     [l for l in laws if l["category"] == "leges-how"]
+        numbered = magister.number_leges(dont_first)
+        self.assertEqual(numbered[0]["category"], "leges-how")
+        self.assertEqual([l["n"] for l in numbered], list(range(1, len(laws) + 1)))
+        self.assertTrue(all(l["text"].startswith("Don't") for l in laws if l["category"] == "leges-dont"))
+
+    def test_the_page_lists_only_approved_laws(self):
+        page = self.student.get("/leges").data.decode()
+        self.assertIn("hasn't posted his laws yet", page)
+        self.save(action="approve", id="lex-how-01")
+        self.save(action="approve", id="lex-dont-01")
+        page = html.unescape(self.student.get("/leges").data.decode())
+        self.assertIn('id="lex-1"', page)
+        self.assertIn('id="lex-2"', page)                       # the don't-law takes II
+        self.assertIn("Don't grade yourself up", page)
+        self.assertNotIn("Don't rush", page)                    # not approved
+        self.assertIn("still waiting for your approval", self.teacher.get("/leges").data.decode())
+        self.assertNotIn("still waiting", page)
+
+    def test_he_quotes_a_law_by_number(self):
+        self.save(action="approve", id="lex-how-01")
+        self.save(action="approve", id="lex-dont-02")
+        bodies = [html.unescape(self.student.get("/").data.decode()) for _ in range(2)]
+        both = " ".join(bodies)
+        self.assertIn("Lēx I — Practice a little", both)
+        self.assertIn("Lēx II — Don't rush", both)
+        self.assertIn('href="/leges#lex-2"', both)
+
+    def test_the_way_in(self):
+        self.assertIn('href="/leges"', self.student.get("/").data.decode())
+        page = self.teacher.get("/teacher/magister").data.decode()
+        self.assertIn("Lēgēs Magistrī: how to use the app", page)
+        self.save(action="approve", id="lex-how-01")
+        self.assertIn("Lēx I</span>", self.teacher.get("/teacher/magister").data.decode())
+        self.assertEqual(self.server.app.test_client().get("/leges").status_code, 302)   # nobody signed in

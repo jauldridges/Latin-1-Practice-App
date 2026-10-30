@@ -1,11 +1,13 @@
 {#- The Magister and his speech bubble. Expects `say` (the words) and
-    optionally `small` (the in-practice size, for the slow-down message). -#}
+    optionally `small` (the in-practice size, for the slow-down message) and
+    `lex` (the number of the law he is quoting, which links to it). -#}
 {% if say %}
 <aside class="magister {{ 'small' if small }}" aria-label="The Magister says">
   {# Drawn by a student; cleaned up for the app, his pencil lines kept. The student's
      signature was left off: this app carries no student's name. #}
   <div class="mg-face"><img src="{{ url_for('static', filename='magister.png') }}" alt="" width="192" height="355"></div>
   <div class="mg-bubble"><div class="mg-name">Magister</div><p>{{ say }}</p>
+    {% if lex %}<a class="mg-more" href="{{ url_for('leges_page') }}#lex-{{ lex }}">All the Lēgēs Magistrī →</a>{% endif %}
     {% if not small %}<button type="button" class="mg-close" aria-label="Close"
       onclick="this.closest('.magister').hidden = true">✕</button>{% endif %}</div>
 </aside>
