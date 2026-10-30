@@ -124,15 +124,19 @@ def content_vocab_words(exemplars):
 
 _FIRST_DECL = ["aqua", "terra", "via", "porta", "insula", "silva", "puella",
                "femina", "nauta", "agricola", "patria", "fama", "vita", "luna",
-               "stella", "regina", "provincia", "poeta"]
+               "stella", "regina", "provincia", "poeta",
+               "filia", "domina", "pecunia", "dea", "forma", "copia"]   # Week 9
 _SECOND_US = ["dominus", "servus", "amicus",
+              "filius", "equus", "oculus", "populus", "deus",  # Week 9
               "patronus", "tribunus"]                         # Week 10
 
 _SECOND_ER = {"puer": "puer", "ager": "agr", "vir": "vir"}   # nom -> stem
 _SECOND_NEUTER = ["bellum", "oppidum", "donum", "verbum",
+                  "auxilium",                                 # Week 9
                   "consilium"]                                # Week 10
 _FIRST_CONJ = ["amo", "laudo", "porto", "voco", "specto", "narro", "paro",
                "servo", "supero", "pugno",
+               "iuvo",                                        # Week 9
                "monstro", "nuntio", "impero"]                 # Week 10
 _SECOND_CONJ = ["video", "habeo", "teneo", "moneo", "debeo",
                 "faveo", "noceo", "pareo", "persuadeo", "placeo"]   # Week 10
@@ -143,7 +147,11 @@ _ADJ_US = ["magnus", "parvus", "bonus", "malus", "multus", "longus", "altus",
 _ADJ_ER = {"pulcher": "pulchr", "miser": "miser", "liber": "liber",
            "noster": "nostr", "vester": "vestr"}
 _PARTICLES = ["et", "non", "sed", "quod", "ubi", "nunc", "saepe", "semper",
-              "que", "aut"]
+              "que", "aut",
+              "ve",                                           # Week 8
+              "nihil", "satis",                               # Week 9
+              "liberi", "liberos", "liberorum", "liberis",    # Week 9: līberī, plural only
+              "do", "das", "dat", "damus", "datis", "dant", "dare", "da", "date"]   # Week 9: dō
 
 
 def generate_legal_forms():

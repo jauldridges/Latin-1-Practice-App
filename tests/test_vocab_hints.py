@@ -33,7 +33,8 @@ class TestTheSentences(unittest.TestCase):
                 continue                       # an English sentence using a phrase
             for tok in re.findall(r"[A-Za-zāēīōūĀĒĪŌŪ]+", vocabhints.plain(e)):
                 t = clean(tok)
-                if t not in allowed and not (t.endswith("que") and t[:-3] in allowed):
+                if t not in allowed and not (t.endswith("que") and t[:-3] in allowed) \
+                        and not (t.endswith("ve") and t[:-2] in allowed):
                     unknown.add(tok)
         self.assertEqual(unknown, set())
 

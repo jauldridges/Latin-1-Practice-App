@@ -116,6 +116,29 @@ words:
   - {latin: "-que",    en: ["and"], week: "week_of_sep_28"}
   - {latin: "aut",     en: ["or"], week: "week_of_sep_28"}
 
+  # --- week of Oct 12 — Week 8 class packet (its word table is filled in in
+  # class; the one new word it names is the conjunction -ve) ---
+  - {latin: "-ve",       en: ["or"], week: "week_of_oct_12"}
+
+  # --- week of Oct 19 — Week 9 class packet: Vocabulary Parts A and B ---
+  - {latin: "fīlius",    en: ["son"], week: "week_of_oct_19"}
+  - {latin: "fīlia",     en: ["daughter"], week: "week_of_oct_19"}
+  - {latin: "līberī",    en: ["children"], week: "week_of_oct_19"}
+  - {latin: "domina",    en: ["mistress", "lady", "mistress of the house"], week: "week_of_oct_19"}
+  - {latin: "equus",     en: ["horse"], week: "week_of_oct_19"}
+  - {latin: "oculus",    en: ["eye"], week: "week_of_oct_19"}
+  - {latin: "pecūnia",   en: ["money"], week: "week_of_oct_19"}
+  - {latin: "populus",   en: ["people", "a people", "nation"], week: "week_of_oct_19"}
+  - {latin: "deus",      en: ["god"], week: "week_of_oct_19"}
+  - {latin: "dea",       en: ["goddess"], week: "week_of_oct_19"}
+  - {latin: "fōrma",     en: ["shape", "form", "beauty", "appearance"], week: "week_of_oct_19"}
+  - {latin: "cōpia",     en: ["supply", "plenty", "abundance"], week: "week_of_oct_19"}
+  - {latin: "nihil",     en: ["nothing"], week: "week_of_oct_19"}
+  - {latin: "satis",     en: ["enough", "sufficiently"], week: "week_of_oct_19"}
+  - {latin: "auxilium",  en: ["help", "aid", "assistance"], week: "week_of_oct_19"}
+  - {latin: "dō",        en: ["I give", "give"], week: "week_of_oct_19"}
+  - {latin: "iuvō",      en: ["I help", "help", "I assist", "assist"], week: "week_of_oct_19"}
+
   # --- week of Oct 26 — Week 10 class packet: Vocabulary Parts A, B and C ---
   # The dative week: verbs that take an Indirect Object, the seven verbs that
   # take the dative, adjectives used with the dative, and two words for Rome's

@@ -18,9 +18,9 @@
 #
 # Every sentence uses only the drill words and only grammar taught by its
 # week. Through September: nominative, accusative and vocative, the present,
-# sum, adjective agreement, imperatives and dēbeō + infinitive. The Week 10
-# words (October 26) add the dative, taught that week. No ablative or
-# prepositions yet.
+# sum, adjective agreement, imperatives and dēbeō + infinitive. Week 9
+# (October 19) adds the genitive; Week 10 (October 26) adds the dative, taught
+# that week. No ablative or prepositions yet.
 #
 # Students see nothing here until the teacher approves it at
 # Teacher dashboard -> Vocabulary hints. Editing there saves and approves.
@@ -118,6 +118,28 @@ examples:
   - {word: "semper",     latin: "Amīcus bonus *semper* amīcus est.", en: "A good friend is always a friend."}
   - {word: "-que",       latin: "Puer puella*que* aquam portant.", en: "The boy and the girl carry water."}
   - {word: "aut",        latin: "Puer *aut* puella portam servat.", en: "The boy or the girl guards the gate."}
+
+  # --- week of Oct 12 (Week 8) ---
+  - {word: "-ve",       latin: "Nauta puellam agricolam*ve* vocat.", en: "The sailor calls the girl or the farmer."}
+
+  # --- week of Oct 19 (Week 9): the genitive is taught now; no dative yet ---
+  - {word: "fīlius",    latin: "*Fīlius* agricolae equum parat.", en: "The farmer's son prepares the horse."}
+  - {word: "fīlia",     latin: "*Fīlia* rēgīnae pulchra est.", en: "The queen's daughter is beautiful."}
+  - {word: "līberī",    latin: "*Līberī* poētam laudant.", en: "The children praise the poet."}
+  - {word: "domina",    latin: "*Domina* servōs vocat.", en: "The mistress calls the slaves."}
+  - {word: "equus",     latin: "Puer *equum* dominī spectat.", en: "The boy looks at the master's horse."}
+  - {word: "oculus",    latin: "Puella *oculōs* pulchrōs habet.", en: "The girl has beautiful eyes."}
+  - {word: "pecūnia",   latin: "Agricola multam *pecūniam* nōn habet.", en: "The farmer does not have much money."}
+  - {word: "populus",   latin: "*Populus* rēgīnam laudat.", en: "The people praise the queen."}
+  - {word: "deus",      latin: "Poēta *deum* laudat.", en: "The poet praises the god."}
+  - {word: "dea",       latin: "Poētae *deam* pulchram laudant.", en: "The poets praise the beautiful goddess."}
+  - {word: "fōrma",     latin: "Rēgīna *fōrmam* pulchram habet.", en: "The queen has a beautiful appearance."}
+  - {word: "cōpia",     latin: "Agricola magnam *cōpiam* aquae habet.", en: "The farmer has a large supply of water."}
+  - {word: "nihil",     latin: "Servus malus *nihil* portat.", en: "The bad slave carries nothing."}
+  - {word: "satis",     latin: "Agricola *satis* aquae habet.", en: "The farmer has enough water."}
+  - {word: "auxilium",  latin: "Agricola *auxilium* nōn habet.", en: "The farmer has no help."}
+  - {word: "dō",        latin: "Rēgīna multa dōna *dat*.", en: "The queen gives many gifts."}
+  - {word: "iuvō",      latin: "Amīcus bonus puellam *iuvat*.", en: "A good friend helps the girl."}
 
   # --- week of Oct 26 (Week 10): the dative is taught now, so these use it ---
   - {word: "mōnstrō",   latin: "Puella nautae viam *mōnstrat*.", en: "The girl shows the road to the sailor."}

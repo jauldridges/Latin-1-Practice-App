@@ -248,9 +248,11 @@ considered third question from padding.
 
 ## Vocabulary drill
 
-- The 80 Unit 0–1 core words, then each week's new words from its class packet
-  (Week 10, the week of Monday October 26: the 16 words of Vocabulary Parts A–C,
-  the dative week), both directions, **typed** (no multiple choice), checked by
+- The 80 Unit 0–1 core words, then each week's new words from its class packet:
+  Week 8 (week of Monday October 12: -ve, the one new word it names; its word
+  table is filled in in class), Week 9 (October 19: the 16 words of Vocabulary
+  Parts A–B, deus and dea as two), and Week 10 (October 26: the 16 words of
+  Parts A–C, the dative week) — 114 words, both directions, **typed** (no multiple choice), checked by
   the shared module. Macrons never required. A new week needs its words in
   `vocab.yaml`, its Monday in `drill.py` (`WEEK_ORDER`, `_WEEK_MONDAY`), its
   forms in `dataio.py`'s lists, and a hint sentence each in `vocab-examples.yaml`
