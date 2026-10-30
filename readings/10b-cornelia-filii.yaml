@@ -1,0 +1,282 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 10 story packet, Day 2 (Tuesday October 27), page 3.
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too), with the case added to the note.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them.
+#   core:   the packet's Core sentences (number in a red box): 2, 5, 6, 8, 10.
+#
+# The dative with crēdō, faveō, imperō, noceō, pāreō, persuādeō and placeō is
+# glossed "dative with …", as the class packet teaches it: the verb's only
+# object, translated as a plain English object.
+#
+# Questions, in story order: p1-p5 are the class packet's Stretch questions
+# (Week 10 class packet, page 8), written answers with a model; q1-q4 are the
+# app's own quick checks.
+
+slug: cornelia-filii
+title: "Fābula dē Cornēliā et Fīliīs"
+source: "Latin I — Week 10 story packet, Day 2 (Tuesday October 27)"
+paragraphs: [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10], [11, 12, 13]]
+
+sentences:
+  - n: 1
+    text: "Tiberius et Gāius sunt puerī parvī, et Cornēlia fīliōs sōla cūrat."
+    new:
+      sōla: "alone, by herself"
+      cūrat: "takes care of"
+    words:
+      Tiberius: "Tiberius · Subject, nominative"
+      et: "and"
+      Gāius: "Gaius · Subject, nominative"
+      sunt: "are — from sum"
+      puerī: "boys · Predicate Nominative"
+      parvī: "small, young — it describes puerī"
+      Cornēlia: "Cornelia · Subject, nominative"
+      fīliōs: "her sons · Direct Object, accusative"
+
+  - n: 2
+    core: true
+    text: "Puerī mātrī semper pārent."
+    new:
+      mātrī: "their mother · dative with pārent"
+    words:
+      Puerī: "the boys · Subject, nominative"
+      semper: "always"
+      pārent: "obey — from pāreō, which takes the dative"
+
+  - n: 3
+    text: "Cornēlia fīliīs magistrōs Graecōs parat."
+    new:
+      magistrōs Graecōs: "Greek teachers · Direct Object, accusative"
+    words:
+      Cornēlia: "Cornelia · Subject, nominative"
+      fīliīs: "for her sons · Indirect Object, dative"
+      parat: "gets, provides — from parō"
+
+  - n: 4
+    text: "Magistrī puerīs fābulās et verba poētārum nārrant."
+    new:
+      fābulās: "stories · Direct Object, accusative"
+    words:
+      Magistrī: "the teachers · Subject, nominative"
+      puerīs: "to the boys · Indirect Object, dative"
+      et: "and"
+      verba: "words · Direct Object, accusative"
+      poētārum: "of the poets · genitive plural"
+      nārrant: "tell — from nārrō"
+
+  - n: 5
+    core: true
+    text: "Fābulae puerīs placent, et puerī magistrīs crēdunt."
+    new:
+      crēdunt: "believe, trust"
+    words:
+      Fābulae: "the stories · Subject, nominative"
+      puerīs: "the boys · dative with placent"
+      placent: "please — from placeō, which takes the dative"
+      et: "and"
+      puerī: "the boys · Subject, nominative"
+      magistrīs: "their teachers · dative with crēdunt"
+
+  - n: 6
+    core: true
+    text: "Sed Cornēlia puerīs nōn semper favet: ubi puerī nōn labōrant, Cornēlia fīliīs imperat: “Labōrāte, fīliī!”"
+    new:
+      labōrant: "work"
+      Labōrāte: "work! (a command to more than one person)"
+    words:
+      Sed: "but"
+      Cornēlia: "Cornelia · Subject, nominative"
+      puerīs: "the boys · dative with favet"
+      nōn: "not"
+      semper: "always"
+      favet: "favors, supports — from faveō, which takes the dative"
+      ubi: "when"
+      puerī: "the boys · Subject, nominative"
+      fīliīs: "her sons · dative with imperat"
+      imperat: "gives orders to, commands — from imperō, which takes the dative"
+      fīliī: "sons · Vocative"
+
+  - n: 7
+    text: "Ōlim Gāius amīcō nocet, et amīcus lacrimat."
+    new:
+      lacrimat: "cries"
+    words:
+      Ōlim: "once, one day"
+      Gāius: "Gaius · Subject, nominative"
+      amīcō: "a friend · dative with nocet"
+      nocet: "harms — from noceō, which takes the dative"
+      et: "and"
+      amīcus: "the friend · Subject, nominative"
+
+  - n: 8
+    core: true
+    text: "Cornēlia Gāiō nōn crēdit: “Cūr amīcō nocēs?”"
+    new:
+      crēdit: "believes, trusts"
+      Cūr: "why"
+      nocēs: "do you harm"
+    words:
+      Cornēlia: "Cornelia · Subject, nominative"
+      Gāiō: "Gaius · dative with crēdit"
+      nōn: "not"
+      amīcō: "your friend · dative with nocēs"
+
+  - n: 9
+    text: "Gāius mātrī respondet: “Amīcus meus mihi nocet!”"
+    new:
+      respondet: "answers"
+      mihi: "me · dative with nocet"
+    words:
+      Gāius: "Gaius · Subject, nominative"
+      mātrī: "to his mother · dative"
+      Amīcus: "friend · Subject, nominative"
+      meus: "my — it describes Amīcus"
+      nocet: "harms — from noceō, which takes the dative"
+
+  - n: 10
+    core: true
+    text: "Sed Cornēlia fīliō persuādet: “Rōmānī bonī amīcīs semper favent.”"
+    words:
+      Sed: "but"
+      Cornēlia: "Cornelia · Subject, nominative"
+      fīliō: "her son · dative with persuādet"
+      persuādet: "persuades — from persuādeō, which takes the dative"
+      Rōmānī: "Romans · Subject, nominative"
+      bonī: "good — it describes Rōmānī"
+      amīcīs: "their friends · dative with favent"
+      semper: "always"
+      favent: "support, favor — from faveō, which takes the dative"
+
+  - n: 11
+    text: "Posteā fīliī patriae et populō Rōmānō favent."
+    new:
+      Posteā: "later"
+    words:
+      fīliī: "the sons · Subject, nominative"
+      patriae: "their country · dative with favent"
+      et: "and"
+      populō: "the people · dative with favent"
+      Rōmānō: "Roman — it describes populō"
+      favent: "support — from faveō, which takes the dative"
+
+  - n: 12
+    text: "Cornēlia laeta est: fīliī sunt ōrnāmenta sua."
+    new:
+      laeta: "happy"
+      ōrnāmenta sua: "her jewels · Predicate Nominative"
+    words:
+      Cornēlia: "Cornelia · Subject, nominative"
+      est: "is — from sum"
+      fīliī: "her sons · Subject, nominative"
+      sunt: "are — from sum"
+
+  - n: 13
+    text: "Rōmānī hoc “pietātem” vocant: bonus Rōmānus mātrī, amīcīs, et patriae fīdus est."
+    new:
+      hoc: "this · Direct Object, accusative"
+      pietātem: "pietās, duty to family, friends, and country · renames hoc"
+      fīdus: "loyal (takes the dative)"
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+      vocant: "call — from vocō"
+      bonus: "good — it describes Rōmānus"
+      Rōmānus: "a Roman · Subject, nominative"
+      mātrī: "to his mother · dative with fīdus"
+      amīcīs: "to his friends · dative with fīdus"
+      et: "and"
+      patriae: "to his country · dative with fīdus"
+      est: "is — from sum"
+
+questions:
+  - id: q1
+    ask: "Sentence 1: Who takes care of Tiberius and Gaius?"
+    look: [1]
+    hint: {1: "Cornēlia fīliōs sōla cūrat"}
+    options:
+      a: "Cornelia, by herself"
+      b: "Their father"
+      c: "Greek teachers"
+      d: "Freed slaves"
+    answer: a
+
+  - id: p1
+    ask: "Sentence 1 says Cornēlia raises the boys alone. What does sentence 2 add about how Roman sons treat their mothers?"
+    look: [1, 2]
+    hint: {2: "Puerī mātrī semper pārent"}
+    model: >-
+      Puerī mātrī semper pārent: the boys always obey their mother. Roman sons
+      were expected to obey and respect their mothers.
+
+  - id: p2
+    ask: "Who teaches the boys, and what do they teach (sentences 3–5)? Why might a Roman mother hire Greek teachers?"
+    look: [3, 4, 5]
+    hint: {3: "magistrōs Graecōs", 4: "fābulās et verba poētārum nārrant"}
+    model: >-
+      Greek teachers, whom Cornēlia gets for her sons, teach them stories and
+      the words of the poets; the boys like the stories and trust their
+      teachers. Romans admired Greek learning, literature and public speaking,
+      so a rich mother hired Greek teachers to give her sons the best
+      education.
+
+  - id: p3
+    ask: "Cornēlia does not always favor the boys. What does sentence 6 show about Roman parenting?"
+    look: [6]
+    hint: {6: "Cornēlia fīliīs imperat Labōrāte fīliī"}
+    model: >-
+      When the boys don't work, she gives them orders: "Labōrāte, fīliī!",
+      "Work, sons!" Roman parents were strict: they expected hard work, and
+      they did not just give their children what they wanted.
+
+  - id: p4
+    ask: "Why doesn't Cornēlia believe Gaius (sentences 7–8)? Translate Cūr amīcō nocēs?"
+    look: [7, 8]
+    hint: {7: "Gāius amīcō nocet et amīcus lacrimat", 8: "Cūr amīcō nocēs"}
+    model: >-
+      Gaius has harmed his friend, and the friend is crying, so she does not
+      take Gaius's side. Cūr amīcō nocēs? means "Why are you harming your
+      friend?"
+
+  - id: q2
+    ask: "Sentence 9: What does Gaius say to his mother?"
+    look: [9]
+    hint: {9: "Amīcus meus mihi nocet"}
+    options:
+      a: "“My friend is harming me!”"
+      b: "“I am harming my friend!”"
+      c: "“My friend believes me!”"
+      d: "“I obey my mother!”"
+    answer: a
+
+  - id: p5
+    ask: "How does Cornēlia persuade Gaius? How does sentence 13 define pietās?"
+    look: [10, 13]
+    hint: {10: "Rōmānī bonī amīcīs semper favent", 13: "bonus Rōmānus mātrī amīcīs et patriae fīdus est"}
+    model: >-
+      She reminds him what good Romans do: "Rōmānī bonī amīcīs semper favent,"
+      good Romans always support their friends. Sentence 13 says pietās is a
+      good Roman being loyal to his mother, his friends, and his country.
+
+  - id: q3
+    ask: "Sentence 11: Whom do the sons support later in life?"
+    look: [11]
+    hint: {11: "fīliī patriae et populō Rōmānō favent"}
+    options:
+      a: "their country and the Roman people"
+      b: "the king of Egypt"
+      c: "their Greek teachers"
+      d: "the senators"
+    answer: a
+
+  - id: q4
+    ask: "Sentence 12: Why is Cornelia happy?"
+    look: [12]
+    hint: {12: "fīliī sunt ōrnāmenta sua"}
+    options:
+      a: "Her sons are her jewels."
+      b: "She has many jewels."
+      c: "Her sons are kings."
+      d: "Her friends are loyal to her."
+    answer: a

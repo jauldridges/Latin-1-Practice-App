@@ -88,7 +88,7 @@ start clean.
 | `analysis.py` | Data for analysis: the zip of spreadsheets split around an exam. |
 | `dates.py` | How every date a person reads is written: "Friday October 30". |
 | `nle.py`, `nle/`, `static/nle/` | Past National Latin Exams: 15 exams, pre-approved, in badge checks and Practice NLE. |
-| `tests/` | 780 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 781 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -762,6 +762,11 @@ list in teaching order; the URL comes from the `slug` inside, not the file name.
 Week 9: three stories from the story packet (the first gods; Jupiter's
 children; Ceres and Proserpina). That packet had no question pages, so their
 questions are the app's own until the teacher sends the packet's.
+Week 10: four stories (Cornelia; Cornelia and her sons; the patricians and the
+plebeians; the Gracchi). Each has the class packet's five Stretch questions
+(`p1`–`p5`, written answers with a model) among the app's own quick checks
+(`q…`), and its Core sentences (`core: true`) show their number in a red box,
+as in the packet: translate every Core sentence in the class packet.
 Every word on screen is a button: tap it and its gloss pops up right beside it
 (below the word, or above it near the bottom of the screen), with an arrow
 pointing at the word; tapping anywhere else or Escape closes it. A bar at the
@@ -1318,7 +1323,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-780 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+781 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

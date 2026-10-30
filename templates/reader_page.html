@@ -16,6 +16,8 @@
 </div>
 <p class="small muted">Tap any word to see what it means.
   <span class="rw-key new">Underlined</span> words are new in this story.
+  {% if r.sentences | selectattr('core') | list %}<span class="core-key">7</span> A red box marks a
+  <strong>Core sentence</strong>: translate every Core sentence in your class packet.{% endif %}
   {% if r.questions %}Answer the questions as you read — they go in story order. Check each one as you go;
   if you miss one, <strong>See hint</strong> lights up the Latin that answers it.{% endif %}</p>
 
@@ -35,7 +37,7 @@
   {% for para in r.paragraphs %}
   {% set qs = para_questions[loop.index0] %}
   <div class="rp-row {{ 'no-q' if not qs }}">
-    <p class="rp-text">{% for n in para %}{% set s = r.by_n[n] %}<span class="rs" id="s{{ n }}"><sup>{{ n }}</sup>&nbsp;{% for p in s.pieces %}{% if p.kind == 'word' %}<button type="button" id="w{{ n }}-{{ loop.index0 }}" class="rw {{ 'new' if p.new }}" data-gloss="{{ p.gloss }}" data-note="{{ p.note }}">{{ p.text }}</button>{% else %}{{ p.text }}{% endif %}{% endfor %}</span> {% endfor %}</p>
+    <p class="rp-text">{% for n in para %}{% set s = r.by_n[n] %}<span class="rs {{ 'core' if s.core }}" id="s{{ n }}"><sup class="{{ 'core' if s.core }}"{% if s.core %} title="Core sentence: translate it in your class packet"{% endif %}>{{ n }}</sup>&nbsp;{% for p in s.pieces %}{% if p.kind == 'word' %}<button type="button" id="w{{ n }}-{{ loop.index0 }}" class="rw {{ 'new' if p.new }}" data-gloss="{{ p.gloss }}" data-note="{{ p.note }}">{{ p.text }}</button>{% else %}{{ p.text }}{% endif %}{% endfor %}</span> {% endfor %}</p>
     {% if qs %}
     <div class="rp-qs" data-para="{{ loop.index0 }}">
       <div class="rq-group small muted">Sentences {{ para[0] }}–{{ para[-1] }}</div>

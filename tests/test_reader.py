@@ -29,10 +29,25 @@ class TestThePassages(unittest.TestCase):
         self.assertEqual(CIN["title"], "Fābula dē Cincinnātō")
         self.assertEqual(len(CIN["questions"]), 17)
 
+    def test_the_week_10_stories_and_their_core_sentences(self):
+        core = {slug: [x["n"] for x in ALL[slug]["sentences"] if x.get("core")]
+                for slug in ("cornelia", "cornelia-filii", "patricii-plebeii", "gracchi")}
+        self.assertEqual(core, {"cornelia": [7, 9, 10, 13, 16], "cornelia-filii": [2, 5, 6, 8, 10],
+                                "patricii-plebeii": [4, 5, 10, 13, 15], "gracchi": [5, 6, 8, 12, 13]})
+        self.assertEqual([len(ALL[s]["sentences"]) for s in core], [20, 13, 17, 18])
+        # the class packet's Stretch questions are there, as written answers
+        for slug in core:
+            packet = [q for q in ALL[slug]["questions"] if q["id"].startswith("p")]
+            self.assertEqual(len(packet), 5, slug)
+            self.assertTrue(all(readings.is_open(q) for q in packet), slug)
+        p = [x for x in ALL["gracchi"]["by_n"][17]["pieces"] if x["kind"] == "word"]
+        self.assertIn(("ĀFRICĀNĪ F", True), [(x["text"], x["new"]) for x in p])
+
     def test_the_week_9_stories_list_in_teaching_order(self):
         self.assertEqual(list(ALL), ["cincinnatus", "dei-primi", "liberi-iovis",
-                                     "ceres-proserpina"])
-        self.assertEqual([len(ALL[s]["sentences"]) for s in list(ALL)[1:]], [20, 18, 18])
+                                     "ceres-proserpina", "cornelia", "cornelia-filii",
+                                     "patricii-plebeii", "gracchi"])
+        self.assertEqual([len(ALL[s]["sentences"]) for s in list(ALL)[1:4]], [20, 18, 18])
         # the packet's underlined words are underlined on screen
         p = [x for x in ALL["ceres-proserpina"]["by_n"][13]["pieces"] if x["kind"] == "word"]
         self.assertEqual([(x["text"], x["new"]) for x in p],

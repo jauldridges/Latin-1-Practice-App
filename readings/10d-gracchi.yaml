@@ -1,0 +1,332 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 10 story packet, Day 4 (Thursday October 29), pages 6–7.
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too), with the case added to the note.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them.
+#   core:   the packet's Core sentences (number in a red box): 5, 6, 8, 12, 13.
+#
+# Questions, in story order: p1-p5 are the class packet's Stretch questions
+# (Week 10 class packet, pages 14–15), written answers with a model; q1-q5 are
+# the app's own quick checks.
+
+slug: gracchi
+title: "Fābula dē Gracchīs"
+source: "Latin I — Week 10 story packet, Day 4 (Thursday October 29)"
+paragraphs: [[1, 2, 3, 4], [5, 6, 7, 8, 9], [10, 11, 12, 13, 14], [15, 16, 17, 18]]
+
+sentences:
+  - n: 1
+    text: "Tiberius et Gāius Gracchus sunt fīliī Cornēliae."
+    words:
+      Tiberius: "Tiberius · Subject, nominative"
+      et: "and"
+      Gāius: "Gaius · Subject, nominative"
+      Gracchus: "Gracchus, their family name"
+      sunt: "are — from sum"
+      fīliī: "sons · Predicate Nominative"
+      Cornēliae: "of Cornelia · genitive"
+
+  - n: 2
+    text: "Multī agricolae Rōmānī in bellīs longīs pugnant."
+    new:
+      in bellīs longīs: "in long wars"
+    words:
+      Multī: "many — it describes agricolae"
+      agricolae: "farmers · Subject, nominative"
+      Rōmānī: "Roman — it describes agricolae"
+      pugnant: "fight — from pugnō"
+
+  - n: 3
+    text: "Dum agricolae pugnant, virī dīvitēs agrōs eōrum emunt."
+    new:
+      Dum: "while"
+      dīvitēs: "rich — it describes virī"
+      eōrum: "their"
+      emunt: "buy"
+    words:
+      agricolae: "the farmers · Subject, nominative"
+      pugnant: "fight — from pugnō"
+      virī: "men · Subject, nominative"
+      agrōs: "fields, land · Direct Object, accusative"
+
+  - n: 4
+    text: "Nunc virī dīvitēs magnōs agrōs et multōs servōs habent, sed agricolae nihil agrī habent."
+    words:
+      Nunc: "now"
+      virī: "men · Subject, nominative"
+      dīvitēs: "rich — it describes virī"
+      magnōs: "large — it describes agrōs"
+      agrōs: "fields, farms · Direct Object, accusative"
+      et: "and"
+      multōs: "many — it describes servōs"
+      servōs: "slaves · Direct Object, accusative"
+      habent: "have — from habeō"
+      sed: "but"
+      agricolae: "the farmers · Subject, nominative"
+      nihil: "nothing · Direct Object"
+      agrī: "of land · genitive (nihil agrī: no land)"
+
+  - n: 5
+    core: true
+    text: "Tiberius est tribūnus. Agricolīs miserīs favet."
+    words:
+      Tiberius: "Tiberius · Subject, nominative"
+      est: "is — from sum"
+      tribūnus: "a tribune · Predicate Nominative"
+      Agricolīs: "the farmers · dative with favet"
+      miserīs: "poor, unhappy — it describes Agricolīs"
+      favet: "supports, favors — from faveō, which takes the dative"
+
+  - n: 6
+    core: true
+    text: "Tiberius populō Rōmānō cōnsilium nūntiat: “Agrōs pūblicōs agricolīs dare dēbēmus!”"
+    new:
+      pūblicōs: "public, owned by the state — it describes Agrōs"
+      dare: "to give"
+      dēbēmus: "we ought"
+    words:
+      Tiberius: "Tiberius · Subject, nominative"
+      populō: "to the people · Indirect Object, dative"
+      Rōmānō: "Roman — it describes populō"
+      cōnsilium: "plan · Direct Object, accusative"
+      nūntiat: "announces — from nūntiō"
+      Agrōs: "the fields, the land · Direct Object, accusative"
+      agricolīs: "to the farmers · Indirect Object, dative"
+
+  - n: 7
+    text: "Cōnsilium Tiberiī populō placet, sed senātōribus nōn placet!"
+    new:
+      senātōribus: "to the senators · dative with placet"
+    words:
+      Cōnsilium: "the plan · Subject, nominative"
+      Tiberiī: "of Tiberius · genitive"
+      populō: "the people · dative with placet"
+      placet: "pleases — from placeō, which takes the dative"
+      sed: "but"
+      nōn: "not"
+
+  - n: 8
+    core: true
+    text: "Multī senātōrēs agrōs pūblicōs tenent. Itaque Tiberiō nōn crēdunt, et Tiberiō inimīcī sunt."
+    new:
+      senātōrēs: "senators · Subject, nominative"
+      Itaque: "and so"
+    words:
+      Multī: "many — it describes senātōrēs"
+      agrōs: "fields, land · Direct Object, accusative"
+      pūblicōs: "public — it describes agrōs"
+      tenent: "hold — from teneō"
+      Tiberiō: "Tiberius · dative with crēdunt / inimīcī"
+      nōn: "not"
+      crēdunt: "believe, trust — from crēdō, which takes the dative"
+      et: "and"
+      inimīcī: "hostile, unfriendly (takes the dative)"
+      sunt: "are — from sum"
+
+  - n: 9
+    text: "Senātōrēs clāmant: “Tiberius rēgnum cupit!”"
+    new:
+      clāmant: "shout"
+      rēgnum: "kingship, the power of a king · Direct Object, accusative"
+      cupit: "wants"
+    words:
+      Senātōrēs: "the senators · Subject, nominative"
+      Tiberius: "Tiberius · Subject, nominative"
+
+  - n: 10
+    text: "Senātōrēs Tiberium et amīcōs eius in Capitōliō oppugnant et necant."
+    new:
+      eius: "his"
+      in Capitōliō: "on the Capitoline Hill"
+      oppugnant: "attack"
+      necant: "kill"
+    words:
+      Senātōrēs: "the senators · Subject, nominative"
+      Tiberium: "Tiberius · Direct Object, accusative"
+      et: "and"
+      amīcōs: "friends · Direct Object, accusative"
+
+  - n: 11
+    text: "Decem annōs posteā, Gāius quoque est tribūnus."
+    new:
+      Decem annōs posteā: "ten years later"
+      quoque: "also"
+    words:
+      Gāius: "Gaius · Subject, nominative"
+      est: "is — from sum"
+      tribūnus: "a tribune · Predicate Nominative"
+
+  - n: 12
+    core: true
+    text: "Gāius populō frūmentum parvō pretiō dat."
+    new:
+      frūmentum: "grain · Direct Object, accusative"
+      parvō pretiō: "at a low price"
+    words:
+      Gāius: "Gaius · Subject, nominative"
+      populō: "to the people · Indirect Object, dative"
+      dat: "gives — from dō"
+
+  - n: 13
+    core: true
+    text: "Populus Gāiō favet, sed senātōrēs Gāiō quoque inimīcī sunt."
+    words:
+      Populus: "the people · Subject, nominative"
+      Gāiō: "Gaius · dative with favet / inimīcī"
+      favet: "supports, favors — from faveō, which takes the dative"
+      sed: "but"
+      senātōrēs: "the senators · Subject, nominative"
+      quoque: "also"
+      inimīcī: "hostile, unfriendly (takes the dative)"
+      sunt: "are — from sum"
+
+  - n: 14
+    text: "Mox Gāius quoque mortuus est."
+    new:
+      Mox: "soon"
+      mortuus est: "dies"
+    words:
+      Gāius: "Gaius · Subject, nominative"
+      quoque: "also"
+
+  - n: 15
+    text: "Cornēlia fīliōs suōs āmittit, sed nōn lacrimat."
+    new:
+      suōs: "her own"
+      āmittit: "loses"
+      lacrimat: "cries"
+    words:
+      Cornēlia: "Cornelia · Subject, nominative"
+      fīliōs: "sons · Direct Object, accusative"
+      sed: "but"
+      nōn: "not"
+
+  - n: 16
+    text: "Posteā populus Rōmānus statuam Cornēliae pōnit."
+    new:
+      statuam: "statue · Direct Object, accusative"
+      pōnit: "sets up"
+    words:
+      Posteā: "later"
+      populus: "the people · Subject, nominative"
+      Rōmānus: "Roman — it describes populus"
+      Cornēliae: "for Cornelia · dative"
+
+  - n: 17
+    text: "In statuā sunt haec verba: CORNĒLIA ĀFRICĀNĪ F. GRACCHŌRUM."
+    new:
+      In statuā: "on the statue"
+      haec verba: "these words · Subject, nominative"
+      ĀFRICĀNĪ F: "daughter (F. = fīlia) of Africanus, Scipio's title"
+      GRACCHŌRUM: "(mother) of the Gracchi · genitive"
+    words:
+      sunt: "are — from sum"
+      CORNĒLIA: "Cornelia"
+
+  - n: 18
+    text: "Post Gracchōs, Rōmānī saepe inter sē pugnant, et post centum annōs rēs pūblica nōn iam est."
+    new:
+      Post Gracchōs: "after the Gracchi"
+      inter sē: "with each other"
+      post centum annōs: "after a hundred years"
+      rēs pūblica: "the Republic · Subject, nominative"
+      nōn iam: "no longer"
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+      saepe: "often"
+      pugnant: "fight — from pugnō"
+      et: "and"
+      est: "exists, is — from sum"
+
+questions:
+  - id: q1
+    ask: "Sentence 1: Who are Tiberius and Gaius Gracchus?"
+    look: [1]
+    hint: {1: "sunt fīliī Cornēliae"}
+    options:
+      a: "Cornelia's sons"
+      b: "two senators"
+      c: "Scipio's soldiers"
+      d: "rich men who buy land"
+    answer: a
+
+  - id: p1
+    ask: "Use sentences 2–4 to explain why the farmers need help."
+    look: [2, 3, 4]
+    hint: {3: "Dum agricolae pugnant virī dīvitēs agrōs eōrum emunt", 4: "agricolae nihil agrī habent"}
+    model: >-
+      Many Roman farmers fight in long wars. While they are away fighting, rich
+      men buy their land. Now the rich have big farms and many slaves, and the
+      farmers have no land at all (nihil agrī).
+
+  - id: q2
+    ask: "Sentence 5: What is Tiberius, and whom does he support?"
+    look: [5]
+    hint: {5: "Tiberius est tribūnus Agricolīs miserīs favet"}
+    options:
+      a: "He is a tribune, and he supports the poor farmers."
+      b: "He is a senator, and he supports the rich men."
+      c: "He is a king, and he supports the soldiers."
+      d: "He is a farmer, and he supports his brother."
+    answer: a
+
+  - id: p2
+    ask: "What is Tiberius's plan? Who would lose land if it passed (sentences 6–8)?"
+    look: [6, 7, 8]
+    hint: {6: "Agrōs pūblicōs agricolīs dare dēbēmus", 8: "Multī senātōrēs agrōs pūblicōs tenent"}
+    model: >-
+      His plan is to give the public land to the farmers. The senators would
+      lose land, because many senators hold the public land.
+
+  - id: p3
+    ask: "What do the senators shout in sentence 9? Why was that the worst accusation in Rome?"
+    look: [9]
+    hint: {9: "Tiberius rēgnum cupit"}
+    model: >-
+      "Tiberius rēgnum cupit!", "Tiberius wants to be king!" The Romans had
+      driven out their kings and hated the very idea of a king, so calling a
+      Roman a would-be king was the worst thing you could say about him.
+
+  - id: q3
+    ask: "Sentence 10: What do the senators do to Tiberius?"
+    look: [10]
+    hint: {10: "Tiberium et amīcōs eius in Capitōliō oppugnant et necant"}
+    options:
+      a: "They attack and kill him and his friends on the Capitoline Hill."
+      b: "They send him out of Rome."
+      c: "They make him a senator."
+      d: "They give him public land."
+    answer: a
+
+  - id: p4
+    ask: "How does Gaius help the people? Why would cheap grain make the people support him (sentence 13)?"
+    look: [12, 13]
+    hint: {12: "Gāius populō frūmentum parvō pretiō dat", 13: "Populus Gāiō favet"}
+    model: >-
+      He gives the people grain at a low price. Poor Romans needed grain to
+      live, so cheap grain helped them every day, and so the people support
+      him: Populus Gāiō favet.
+
+  - id: q4
+    ask: "Sentences 15–16: How does Cornelia face the loss of her sons, and how does Rome honor her?"
+    look: [15, 16]
+    hint: {15: "sed nōn lacrimat", 16: "populus Rōmānus statuam Cornēliae pōnit"}
+    options:
+      a: "She does not cry, and the Roman people set up a statue of her."
+      b: "She cries, and the senators apologize."
+      c: "She leaves Rome, and the people forget her."
+      d: "She marries the king of Egypt, and Rome is angry."
+    answer: a
+
+  - id: p5
+    ask: "What changes in Rome after the Gracchi (sentence 18)? Were the Gracchi heroes of the people or would-be kings? Give evidence for both sides."
+    look: [18]
+    hint: {18: "Rōmānī saepe inter sē pugnant et post centum annōs rēs pūblica nōn iam est"}
+    model: >-
+      After the Gracchi, Romans often fight each other, and within a hundred
+      years the Republic no longer exists. Heroes: they helped poor farmers with
+      land and cheap grain, and the people supported them. Would-be kings: the
+      senators said they wanted a king's power, and the struggle they started
+      ended with Romans fighting Romans.

@@ -12,7 +12,8 @@ gloss maps keyed by the word as it appears in that sentence:
           they should already know still helps, and costs them a moment.
 
 A gloss is "meaning · note", the note being the grammar label the packet
-uses ("Direct Object, accusative"). A key may be several words ("in perīculō")
+uses ("Direct Object, accusative"). A sentence the packet marks as Core (its
+number in a red box: translate it in the class packet) says `core: true`. A key may be several words ("in perīculō")
 and is matched as a unit, longest first.
 
 Questions are in English (CR-009), each naming the sentences that answer it:

@@ -1,0 +1,406 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 10 story packet, Day 1 (Monday October 26), pages 1–2.
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too). "gloss · note" -- the note is the
+#           packet's grammar label, with the case added as in Fābula dē
+#           Cincinnātō.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them.
+#   core:   the packet's Core sentences (number in a red box): 7, 9, 10, 13, 16.
+#
+# Questions, in story order: p1-p5 are the class packet's Stretch questions
+# (Week 10 class packet, page 4), written answers with a model; q1-q7 are the
+# app's own quick checks.
+
+slug: cornelia
+title: "Fābula dē Cornēliā"
+source: "Latin I — Week 10 story packet, Day 1 (Monday October 26)"
+paragraphs: [[1, 2, 3, 4], [5, 6, 7, 8, 9], [10, 11, 12, 13], [14, 15, 16, 17, 18, 19, 20]]
+
+sentences:
+  - n: 1
+    text: "Pūblius Cornēlius Scīpiō est vir clārus et Rōmānus."
+    new:
+      Pūblius Cornēlius Scīpiō: "Publius Cornelius Scipio: first name, clan name, family name · Subject, nominative"
+      Rōmānus: "Roman"
+    words:
+      est: "is — from sum"
+      vir: "man · Predicate Nominative"
+      clārus: "famous — it describes vir"
+      et: "and"
+
+  - n: 2
+    text: "Scīpiō Hannibalem superat et Rōmam servat."
+    new:
+      Hannibalem: "Hannibal, the general of Carthage · Direct Object, accusative"
+      Rōmam: "Rome · Direct Object, accusative"
+    words:
+      Scīpiō: "Scipio · Subject, nominative"
+      superat: "defeats, overcomes — from superō"
+      et: "and"
+      servat: "saves — from servō"
+
+  - n: 3
+    text: "Fīlia Scīpiōnis est Cornēlia."
+    new:
+      Scīpiōnis: "of Scipio · genitive"
+    words:
+      Fīlia: "daughter · Subject, nominative"
+      est: "is — from sum"
+      Cornēlia: "Cornelia · Predicate Nominative"
+
+  - n: 4
+    text: "Fīliae Rōmānae nōmen gentis habent: fīlia Cornēliī est Cornēlia."
+    new:
+      nōmen gentis: "the name of the clan · Direct Object, accusative"
+    words:
+      Fīliae: "daughters · Subject, nominative plural"
+      Rōmānae: "Roman — it describes Fīliae"
+      habent: "have — from habeō"
+      fīlia: "daughter · Subject, nominative"
+      Cornēliī: "of Cornelius · genitive"
+      est: "is — from sum"
+      Cornēlia: "Cornelia · Predicate Nominative"
+
+  - n: 5
+    text: "Marītus Cornēliae est Tiberius Gracchus, vir clārus, et Cornēlia et marītus multōs līberōs habent."
+    new:
+      Marītus: "husband · Subject, nominative"
+      Tiberius Gracchus: "Tiberius Gracchus, a consul · Predicate Nominative"
+    words:
+      Cornēliae: "of Cornelia · genitive"
+      est: "is — from sum"
+      vir: "a man · renames Tiberius Gracchus"
+      clārus: "famous — it describes vir"
+      et: "and; et … et = both … and"
+      Cornēlia: "Cornelia · Subject, nominative"
+      marītus: "husband · Subject, nominative"
+      multōs: "many — it describes līberōs"
+      līberōs: "children · Direct Object, accusative"
+      habent: "have — from habeō"
+
+  - n: 6
+    text: "Sed marītus mortuus est. Nunc Cornēlia est domina familiae, et tōta familia Cornēliam spectat."
+    new:
+      mortuus est: "dies"
+      familiae: "of the household · genitive"
+      tōta: "whole — it describes familia"
+    words:
+      Sed: "but"
+      marītus: "husband · Subject, nominative"
+      Nunc: "now"
+      Cornēlia: "Cornelia · Subject, nominative"
+      est: "is — from sum"
+      domina: "mistress, head (of a household) · Predicate Nominative"
+      et: "and"
+      familia: "household · Subject, nominative"
+      Cornēliam: "Cornelia · Direct Object, accusative"
+      spectat: "looks at, looks to — from spectō"
+
+  - n: 7
+    core: true
+    text: "Līberī sunt parvī. Cornēlia līberīs cōnsilium bonum semper dat."
+    words:
+      Līberī: "children · Subject, nominative"
+      sunt: "are — from sum"
+      parvī: "small, young — it describes Līberī"
+      Cornēlia: "Cornelia · Subject, nominative"
+      līberīs: "to the children · Indirect Object, dative"
+      cōnsilium: "advice · Direct Object, accusative"
+      bonum: "good — it describes cōnsilium"
+      semper: "always"
+      dat: "gives — from dō"
+
+  - n: 8
+    text: "Cornēlia est domina bona: multōs servōs līberat. Nunc līberī sunt, et Cornēlia est patrōna lībertōrum."
+    new:
+      līberat: "frees"
+      patrōna: "patron (a woman) · Predicate Nominative"
+      lībertōrum: "of the freed slaves · genitive"
+    words:
+      Cornēlia: "Cornelia · Subject, nominative"
+      est: "is — from sum"
+      domina: "mistress (of the household) · Predicate Nominative"
+      bona: "good — it describes domina"
+      multōs: "many — it describes servōs"
+      servōs: "slaves · Direct Object, accusative"
+      Nunc: "now"
+      līberī: "free — here it describes the freed slaves, not children"
+      sunt: "they are — from sum"
+      et: "and"
+
+  - n: 9
+    core: true
+    text: "Cornēlia lībertīs pecūniam et auxilium dat, et lībertī patrōnae grātī sunt."
+    new:
+      lībertīs: "the freed slaves · Indirect Object, dative"
+    words:
+      Cornēlia: "Cornelia · Subject, nominative"
+      pecūniam: "money · Direct Object, accusative"
+      et: "and"
+      auxilium: "help · Direct Object, accusative"
+      dat: "gives — from dō"
+      lībertī: "the freed slaves · Subject, nominative"
+      patrōnae: "to their patron · dative (with grātī)"
+      grātī: "grateful — it describes lībertī"
+      sunt: "are — from sum"
+
+  - n: 10
+    core: true
+    text: "Mox rēx Aegyptī Cornēliam amat. Cornēliae amōrem nūntiat et multa dōna mōnstrat."
+    new:
+      Mox: "soon"
+      rēx Aegyptī: "the king of Egypt · Subject, nominative"
+      amōrem: "his love · Direct Object, accusative"
+    words:
+      Cornēliam: "Cornelia · Direct Object, accusative"
+      amat: "loves — from amō"
+      Cornēliae: "to Cornelia · Indirect Object, dative"
+      nūntiat: "announces, declares — from nūntiō"
+      et: "and"
+      multa: "many — it describes dōna"
+      dōna: "gifts · Direct Object, accusative"
+      mōnstrat: "shows — from mōnstrō"
+
+  - n: 11
+    text: "“Sī uxor mea es, rēgīna Aegyptī es! Multam pecūniam et multās gemmās habēs!”"
+    new:
+      Sī: "if"
+      uxor: "wife · Predicate Nominative"
+      es: "you are"
+      gemmās: "jewels · Direct Object, accusative"
+      habēs: "you have"
+    words:
+      mea: "my — it describes uxor"
+      rēgīna: "queen · Predicate Nominative"
+      Aegyptī: "of Egypt · genitive"
+      Multam: "much — it describes pecūniam"
+      pecūniam: "money · Direct Object, accusative"
+      et: "and"
+      multās: "many — it describes gemmās"
+
+  - n: 12
+    text: "Sed Cornēlia est Rōmāna, et Rōmānī rēgēs nōn amant."
+    new:
+      rēgēs: "kings · Direct Object, accusative"
+    words:
+      Sed: "but"
+      Cornēlia: "Cornelia · Subject, nominative"
+      est: "is — from sum"
+      Rōmāna: "Roman — it describes Cornēlia"
+      et: "and"
+      Rōmānī: "the Romans · Subject, nominative"
+      nōn: "not"
+      amant: "love — from amō"
+
+  - n: 13
+    core: true
+    text: "Cornēlia rēgem nōn amat: Cornēliae līberī cārī sunt, nōn dōna rēgis."
+    new:
+      rēgem: "the king · Direct Object, accusative"
+      rēgis: "of the king · genitive"
+    words:
+      Cornēlia: "Cornelia · Subject, nominative"
+      nōn: "not"
+      amat: "loves — from amō"
+      Cornēliae: "to Cornelia · dative (dear to her)"
+      līberī: "children · Subject, nominative"
+      cārī: "dear — it describes līberī"
+      sunt: "are — from sum"
+      dōna: "gifts · Subject, nominative (understood: are dear)"
+
+  - n: 14
+    text: "Ōlim fēmina Campāna Cornēliam vīsitat. Fēmina Cornēliae gemmās et ōrnāmenta sua mōnstrat."
+    new:
+      Ōlim: "once, one day"
+      fēmina Campāna: "a woman from Campania · Subject, nominative"
+      vīsitat: "visits"
+      ōrnāmenta sua: "her jewelry · Direct Object, accusative"
+    words:
+      Cornēliam: "Cornelia · Direct Object, accusative"
+      Fēmina: "the woman · Subject, nominative"
+      Cornēliae: "to Cornelia · Indirect Object, dative"
+      gemmās: "jewels · Direct Object, accusative"
+      et: "and"
+      mōnstrat: "shows — from mōnstrō"
+
+  - n: 15
+    text: "Fēmina superba Cornēliam rogat: “Ubi sunt ōrnāmenta tua, Cornēlia?”"
+    new:
+      superba: "proud, showy — it describes Fēmina"
+      rogat: "asks"
+    words:
+      Fēmina: "the woman · Subject, nominative"
+      Cornēliam: "Cornelia · Direct Object, accusative"
+      Ubi: "where?"
+      sunt: "are — from sum"
+      ōrnāmenta: "jewels, jewelry · Subject, nominative"
+      tua: "your — it describes ōrnāmenta"
+      Cornēlia: "Cornelia · Vocative"
+
+  - n: 16
+    core: true
+    text: "Cornēlia fīliōs, Tiberium et Gāium, vocat et fēminae fīliōs mōnstrat."
+    new:
+      Tiberium et Gāium: "Tiberius and Gaius · renames fīliōs"
+    words:
+      Cornēlia: "Cornelia · Subject, nominative"
+      fīliōs: "sons · Direct Object, accusative"
+      vocat: "calls — from vocō"
+      et: "and"
+      fēminae: "to the woman · Indirect Object, dative"
+      mōnstrat: "shows — from mōnstrō"
+
+  - n: 17
+    text: "“Haec sunt ōrnāmenta mea!”"
+    new:
+      Haec: "these · Subject, nominative"
+    words:
+      sunt: "are — from sum"
+      ōrnāmenta: "jewels · Predicate Nominative"
+      mea: "my — it describes ōrnāmenta"
+
+  - n: 18
+    text: "Fēmina Campāna nihil respondet."
+    new:
+      respondet: "answers, says"
+    words:
+      Fēmina Campāna: "the woman from Campania · Subject, nominative"
+      nihil: "nothing · Direct Object"
+
+  - n: 19
+    text: "Posteā fīliī Cornēliae clārī sunt, et Rōmānī Cornēliam “mātrem Gracchōrum” vocant."
+    new:
+      Posteā: "later"
+      mātrem: "mother · renames Cornēliam"
+    words:
+      fīliī: "sons · Subject, nominative"
+      Cornēliae: "of Cornelia · genitive"
+      clārī: "famous — it describes fīliī"
+      sunt: "are — from sum"
+      et: "and"
+      Rōmānī: "the Romans · Subject, nominative"
+      Cornēliam: "Cornelia · Direct Object, accusative"
+      Gracchōrum: "of the Gracchi (her sons) · genitive"
+      vocant: "call — from vocō"
+
+  - n: 20
+    text: "Rōmānī hanc fābulam saepe nārrant, quod mātrēs Rōmānae patriae fīliōs bonōs, nōn gemmās, dare dēbent."
+    new:
+      hanc fābulam: "this story · Direct Object, accusative"
+      quod: "because"
+      mātrēs: "mothers · Subject, nominative"
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+      saepe: "often"
+      nārrant: "tell — from nārrō"
+      Rōmānae: "Roman — it describes mātrēs"
+      patriae: "to their country · Indirect Object, dative"
+      fīliōs: "sons · Direct Object, accusative"
+      bonōs: "good — it describes fīliōs"
+      nōn: "not"
+      gemmās: "jewels · Direct Object, accusative"
+      dare: "to give — infinitive of dō"
+      dēbent: "ought, should — from dēbeō"
+
+questions:
+  - id: q1
+    ask: "Sentences 1–2: Who was Scipio, and what did he do?"
+    look: [1, 2]
+    hint: {2: "Scīpiō Hannibalem superat et Rōmam servat"}
+    options:
+      a: "A famous Roman who defeated Hannibal and saved Rome"
+      b: "The general of Carthage who attacked Rome"
+      c: "Cornelia's husband, a consul"
+      d: "The king of Egypt"
+    answer: a
+
+  - id: q2
+    ask: "Sentences 3–4: Why is Scipio's daughter called Cornēlia?"
+    look: [3, 4]
+    hint: {4: "Fīliae Rōmānae nōmen gentis habent"}
+    model: >-
+      Roman daughters took the name of their clan (nōmen gentis). Scipio's clan
+      name is Cornēlius, so his daughter is Cornēlia.
+
+  - id: q3
+    ask: "Sentences 5–6: What happens to Cornelia's husband, and what does Cornelia become?"
+    look: [5, 6]
+    hint: {6: "marītus mortuus est Nunc Cornēlia est domina familiae"}
+    options:
+      a: "He dies, and she becomes the head of the household."
+      b: "He becomes consul, and she becomes a priestess."
+      c: "He leaves Rome, and she becomes a queen."
+      d: "He frees the slaves, and she becomes their patron."
+    answer: a
+
+  - id: p1
+    ask: "In sentence 6, the whole household looks to Cornēlia. What does sentence 7 show about how she leads?"
+    look: [6, 7]
+    hint: {7: "Cornēlia līberīs cōnsilium bonum semper dat"}
+    model: >-
+      She leads by guiding her children: Cornēlia līberīs cōnsilium bonum semper
+      dat, she always gives the children good advice. She looks after and
+      teaches the family that looks to her.
+
+  - id: p2
+    ask: "Use sentences 8–9 to explain clientēla. Who gives what? Who owes what?"
+    look: [8, 9]
+    hint: {8: "Cornēlia est patrōna lībertōrum", 9: "lībertīs pecūniam et auxilium dat et lībertī patrōnae grātī sunt"}
+    model: >-
+      Cornēlia frees her slaves and becomes their patrōna. As their patron she
+      gives them money and help (pecūniam et auxilium). In return the freed
+      slaves, her clients, owe her gratitude and loyalty: lībertī patrōnae grātī
+      sunt.
+
+  - id: p3
+    ask: "Cornēliae is in sentence 5 and sentence 10. Which is genitive and which is dative?"
+    look: [5, 10]
+    hint: {5: "Marītus Cornēliae", 10: "Cornēliae amōrem nūntiat"}
+    model: >-
+      Sentence 5, Marītus Cornēliae, is genitive: "the husband of Cornelia."
+      Sentence 10, Cornēliae amōrem nūntiat, is dative: the king announces his
+      love to Cornelia, so she is the Indirect Object of nūntiat.
+
+  - id: p4
+    ask: "What does the king offer in sentence 11? Give two reasons Cornēlia says no (sentences 12–13)."
+    look: [11, 12, 13]
+    hint: {11: "rēgīna Aegyptī es Multam pecūniam et multās gemmās habēs", 12: "Rōmānī rēgēs nōn amant", 13: "Cornēliae līberī cārī sunt nōn dōna rēgis"}
+    model: >-
+      He offers to make her queen of Egypt, with much money and many jewels.
+      She says no because she is Roman, and Romans do not love kings; and
+      because her children are dear to her, not the king's gifts.
+
+  - id: q4
+    ask: "Sentences 14–15: What does the woman from Campania show Cornelia, and what does she ask her?"
+    look: [14, 15]
+    hint: {14: "Fēmina Cornēliae gemmās et ōrnāmenta sua mōnstrat", 15: "Ubi sunt ōrnāmenta tua"}
+    options:
+      a: "She shows off her jewels and asks where Cornelia's jewelry is."
+      b: "She shows her children and asks about Cornelia's sons."
+      c: "She shows a letter from the king and asks Cornelia to marry him."
+      d: "She shows her house and asks Cornelia to stay."
+    answer: a
+
+  - id: q5
+    ask: "Sentences 16–17: What are Cornelia's “jewels”?"
+    look: [16, 17]
+    hint: {16: "fēminae fīliōs mōnstrat", 17: "Haec sunt ōrnāmenta mea"}
+    options:
+      a: "her sons, Tiberius and Gaius"
+      b: "the king's gifts"
+      c: "her father's gold"
+      d: "the freed slaves"
+    answer: a
+
+  - id: p5
+    ask: "The king and the woman both offer wealth. How does Cornēlia answer both? How does Rome judge her (sentence 19)? Why did Romans tell this story (sentence 20)?"
+    look: [16, 17, 19, 20]
+    hint: {17: "Haec sunt ōrnāmenta mea", 19: "Rōmānī Cornēliam mātrem Gracchōrum vocant", 20: "mātrēs Rōmānae patriae fīliōs bonōs nōn gemmās dare dēbent"}
+    model: >-
+      Both times she chooses her children over riches: she will not have the
+      king, and she shows the woman her sons, "These are my jewels!" Rome
+      honors her: her sons become famous, and the Romans call her "mother of
+      the Gracchi." Romans told the story because Roman mothers ought to give
+      their country good sons, not jewels.

@@ -1,0 +1,336 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 10 story packet, Day 3 (Wednesday October 28), pages 4–5.
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too), with the case added to the note.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them.
+#   core:   the packet's Core sentences (number in a red box): 4, 5, 10, 13, 15.
+#
+# Questions, in story order: p1-p5 are the class packet's Stretch questions
+# (Week 10 class packet, pages 11–12), written answers with a model; q1-q5 are
+# the app's own quick checks.
+
+slug: patricii-plebeii
+title: "Fābula dē Patriciīs et Plēbēiīs"
+source: "Latin I — Week 10 story packet, Day 3 (Wednesday October 28)"
+paragraphs: [[1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11, 12], [13, 14, 15, 16, 17]]
+
+sentences:
+  - n: 1
+    text: "Ōlim in Rōmā sunt duo ōrdinēs: patriciī et plēbēiī."
+    new:
+      Ōlim: "long ago"
+      in Rōmā: "in Rome"
+      duo ōrdinēs: "two classes · Subject, nominative"
+      plēbēiī: "plebeians, the common people · renames ōrdinēs"
+    words:
+      sunt: "there are — from sum"
+      patriciī: "patricians, the old noble families · renames ōrdinēs"
+      et: "and"
+
+  - n: 2
+    text: "Patriciī sunt paucī, sed multum pecūniae et multōs agrōs habent."
+    new:
+      paucī: "few"
+    words:
+      Patriciī: "the patricians · Subject, nominative"
+      sunt: "are — from sum"
+      sed: "but"
+      multum: "a lot · Direct Object, accusative"
+      pecūniae: "of money · genitive (multum pecūniae: a lot of money)"
+      et: "and"
+      multōs: "many — it describes agrōs"
+      agrōs: "fields, land · Direct Object, accusative"
+      habent: "have — from habeō"
+
+  - n: 3
+    text: "Plēbēiī sunt multī. Agrōs arant, et in bellīs Rōmae pugnant."
+    new:
+      arant: "plow"
+      in bellīs: "in the wars"
+      Rōmae: "of Rome · genitive"
+    words:
+      Plēbēiī: "the plebeians · Subject, nominative"
+      sunt: "are — from sum"
+      multī: "many"
+      Agrōs: "the fields · Direct Object, accusative"
+      et: "and"
+      pugnant: "fight — from pugnō"
+
+  - n: 4
+    core: true
+    text: "Sed patriciī plēbēiīs nōn favent. Patriciī plēbēiīs imperant, et plēbēiī patriciīs pārēre dēbent."
+    words:
+      Sed: "but"
+      patriciī: "the patricians · Subject, nominative"
+      plēbēiīs: "the plebeians · dative with favent / imperant"
+      nōn: "not"
+      favent: "support, favor — from faveō, which takes the dative"
+      Patriciī: "the patricians · Subject, nominative"
+      imperant: "give orders to — from imperō, which takes the dative"
+      et: "and"
+      plēbēiī: "the plebeians · Subject, nominative"
+      patriciīs: "the patricians · dative with pārēre"
+      pārēre: "to obey — infinitive of pāreō, which takes the dative"
+      dēbent: "must, ought — from dēbeō"
+
+  - n: 5
+    core: true
+    text: "Multī plēbēiī patriciīs pecūniam dēbent, et patriciī plēbēiīs saepe nocent."
+    new:
+      dēbent: "owe"
+    words:
+      Multī: "many — it describes plēbēiī"
+      plēbēiī: "plebeians · Subject, nominative"
+      patriciīs: "to the patricians · Indirect Object, dative"
+      pecūniam: "money · Direct Object, accusative"
+      et: "and"
+      patriciī: "the patricians · Subject, nominative"
+      plēbēiīs: "the plebeians · dative with nocent"
+      saepe: "often"
+      nocent: "harm — from noceō, which takes the dative"
+
+  - n: 6
+    text: "Plēbēiī sunt miserī. Itaque Rōmam relinquunt et in Monte Sacrō manent."
+    new:
+      Itaque: "and so"
+      Rōmam: "Rome · Direct Object, accusative"
+      relinquunt: "leave"
+      in Monte Sacrō: "on the Sacred Mount, a hill outside Rome"
+      manent: "stay"
+    words:
+      Plēbēiī: "the plebeians · Subject, nominative"
+      sunt: "are — from sum"
+      miserī: "unhappy, wretched — it describes Plēbēiī"
+      et: "and"
+
+  - n: 7
+    text: "Nunc Rōma nūllōs agricolās et nūllōs mīlitēs habet!"
+    new:
+      nūllōs: "no"
+      mīlitēs: "soldiers · Direct Object, accusative"
+    words:
+      Nunc: "now"
+      Rōma: "Rome · Subject, nominative"
+      agricolās: "farmers · Direct Object, accusative"
+      et: "and"
+      habet: "has — from habeō"
+
+  - n: 8
+    text: "Patriciī timent. Menēnium Agrippam, virum clārum, ad plēbēiōs mittunt."
+    new:
+      Menēnium Agrippam: "Menenius Agrippa · Direct Object, accusative"
+      ad plēbēiōs: "to the plebeians"
+      mittunt: "send"
+    words:
+      Patriciī: "the patricians · Subject, nominative"
+      timent: "are afraid — from timeō"
+      virum: "a man · renames Menēnium Agrippam"
+      clārum: "famous — it describes virum"
+
+  - n: 9
+    text: "Menēnius plēbēiīs fābulam nārrat:"
+    words:
+      Menēnius: "Menenius · Subject, nominative"
+      plēbēiīs: "to the plebeians · Indirect Object, dative"
+      fābulam: "a story · Direct Object, accusative"
+      nārrat: "tells — from nārrō"
+
+  - n: 10
+    core: true
+    text: "“Membra corporis ventrī nōn favent. ‘Venter nihil labōrat!’ clāmant."
+    new:
+      Membra corporis: "the parts of the body · Subject, nominative"
+      ventrī: "the stomach · dative with favent"
+      Venter: "the stomach · Subject, nominative"
+      labōrat: "works"
+      clāmant: "shout"
+    words:
+      nōn: "not"
+      favent: "support — from faveō, which takes the dative"
+      nihil: "nothing; nihil labōrat = does no work"
+
+  - n: 11
+    text: "Itaque membra ventrī cibum nōn dant. Sed nunc tōtum corpus aegrum est!"
+    new:
+      cibum: "food · Direct Object, accusative"
+      tōtum corpus: "the whole body · Subject, nominative"
+      aegrum: "sick"
+    words:
+      Itaque: "and so"
+      membra: "the parts of the body · Subject, nominative"
+      ventrī: "to the stomach · Indirect Object, dative"
+      nōn: "not"
+      dant: "give — from dō"
+      Sed: "but"
+      nunc: "now"
+      est: "is — from sum"
+
+  - n: 12
+    text: "Patriciī sunt venter; vōs, plēbēiī, estis membra!”"
+    new:
+      vōs: "you (more than one) · Subject, nominative"
+      estis: "are"
+    words:
+      Patriciī: "the patricians · Subject, nominative"
+      sunt: "are — from sum"
+      venter: "the stomach · Predicate Nominative"
+      plēbēiī: "plebeians · Vocative"
+      membra: "the parts of the body · Predicate Nominative"
+
+  - n: 13
+    core: true
+    text: "Plēbēiī Menēniō crēdunt, et fābula plēbēiīs placet. Sīc Menēnius plēbēiīs persuādet."
+    new:
+      crēdunt: "believe, trust"
+      Sīc: "in this way"
+    words:
+      Plēbēiī: "the plebeians · Subject, nominative"
+      Menēniō: "Menenius · dative with crēdunt"
+      et: "and"
+      fābula: "the story · Subject, nominative"
+      plēbēiīs: "the plebeians · dative with placet / persuādet"
+      placet: "pleases — from placeō, which takes the dative"
+      Menēnius: "Menenius · Subject, nominative"
+      persuādet: "persuades — from persuādeō, which takes the dative"
+
+  - n: 14
+    text: "Sed plēbēiī tribūnōs postulant."
+    new:
+      postulant: "demand"
+    words:
+      Sed: "but"
+      plēbēiī: "the plebeians · Subject, nominative"
+      tribūnōs: "tribunes, officials who protect the plebeians · Direct Object, accusative"
+
+  - n: 15
+    core: true
+    text: "Tribūnī plēbēiōs servant: sī patricius plēbēiō nocet, tribūnus “Vetō!” clāmat."
+    new:
+      sī: "if"
+      Vetō: "I forbid"
+    words:
+      Tribūnī: "the tribunes · Subject, nominative"
+      plēbēiōs: "the plebeians · Direct Object, accusative"
+      servant: "protect, save — from servō"
+      patricius: "a patrician · Subject, nominative"
+      plēbēiō: "a plebeian · dative with nocet"
+      nocet: "harms — from noceō, which takes the dative"
+      tribūnus: "the tribune · Subject, nominative"
+      clāmat: "shouts — from clāmō"
+
+  - n: 16
+    text: "Posteā Rōmānī lēgēs in duodecim tabulīs scrībunt, et omnēs lēgēs vident."
+    new:
+      Posteā: "later"
+      lēgēs: "laws · Direct Object, accusative"
+      in duodecim tabulīs: "on twelve tablets"
+      scrībunt: "write"
+      omnēs: "everyone · Subject, nominative"
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+      et: "and"
+      vident: "see — from videō"
+
+  - n: 17
+    text: "Rōmānī hanc fābulam saepe nārrant: sine concordiā, Rōma magna nōn est."
+    new:
+      hanc fābulam: "this story · Direct Object, accusative"
+      sine concordiā: "without harmony, without unity"
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+      saepe: "often"
+      nārrant: "tell — from nārrō"
+      Rōma: "Rome · Subject, nominative"
+      magna: "great — it describes Rōma"
+      nōn: "not"
+      est: "is — from sum"
+
+questions:
+  - id: q1
+    ask: "Sentences 1–2: What are the two orders in Rome, and how are the patricians different?"
+    look: [1, 2]
+    hint: {2: "Patriciī sunt paucī sed multum pecūniae et multōs agrōs habent"}
+    options:
+      a: "Patricians and plebeians; the patricians are few but have a lot of money and land."
+      b: "Patricians and plebeians; the patricians are many and poor."
+      c: "Senators and slaves; the senators are farmers."
+      d: "Kings and soldiers; the kings fight in the wars."
+    answer: a
+
+  - id: p1
+    ask: "Who gives orders to whom in sentence 4? What does that tell you about who holds power?"
+    look: [4]
+    hint: {4: "Patriciī plēbēiīs imperant"}
+    model: >-
+      The patricians give orders to the plebeians (Patriciī plēbēiīs imperant),
+      and the plebeians must obey the patricians. The patricians hold the power.
+
+  - id: p2
+    ask: "Use sentences 4–5: why are the plebeians miserī?"
+    look: [4, 5]
+    hint: {4: "patriciī plēbēiīs nōn favent", 5: "Multī plēbēiī patriciīs pecūniam dēbent et patriciī plēbēiīs saepe nocent"}
+    model: >-
+      The patricians don't support them and give them orders; many plebeians
+      owe the patricians money, and the patricians often harm them.
+
+  - id: q2
+    ask: "Sentences 6–7: What do the plebeians do, and why is that a problem for Rome?"
+    look: [6, 7]
+    hint: {6: "Rōmam relinquunt et in Monte Sacrō manent", 7: "Rōma nūllōs agricolās et nūllōs mīlitēs habet"}
+    options:
+      a: "They leave Rome for the Sacred Mount, so Rome has no farmers and no soldiers."
+      b: "They attack the patricians, so Rome is at war."
+      c: "They stop paying their debts, so Rome has no money."
+      d: "They choose a king, so Rome is no longer free."
+    answer: a
+
+  - id: q3
+    ask: "Sentences 8–9: What do the frightened patricians do?"
+    look: [8, 9]
+    hint: {8: "Menēnium Agrippam virum clārum ad plēbēiōs mittunt"}
+    options:
+      a: "They send Menenius Agrippa, a famous man, to the plebeians, and he tells them a story."
+      b: "They send soldiers to bring the plebeians back."
+      c: "They write the laws on twelve tablets."
+      d: "They give the plebeians their land."
+    answer: a
+
+  - id: p3
+    ask: "In Menenius's story, what do the parts of the body refuse to do, and what happens (sentences 10–11)?"
+    look: [10, 11]
+    hint: {11: "membra ventrī cibum nōn dant Sed nunc tōtum corpus aegrum est"}
+    model: >-
+      The parts of the body complain that the stomach does no work, so they
+      refuse to give the stomach food. Then the whole body is sick.
+
+  - id: p4
+    ask: "In sentence 12, who is the stomach and who are the parts of the body? Who benefits if the plebeians believe this story?"
+    look: [12]
+    hint: {12: "Patriciī sunt venter vōs plēbēiī estis membra"}
+    model: >-
+      The patricians are the stomach, and the plebeians are the parts of the
+      body. The patricians benefit: if the plebeians believe the story, they
+      come back to farm and fight for Rome, and the patricians keep their place.
+
+  - id: p5
+    ask: "What does a tribune do (sentences 14–15)? How does sentence 17 explain why Romans told this story?"
+    look: [14, 15, 17]
+    hint: {15: "sī patricius plēbēiō nocet tribūnus Vetō clāmat", 17: "sine concordiā Rōma magna nōn est"}
+    model: >-
+      A tribune protects the plebeians: if a patrician harms a plebeian, the
+      tribune shouts "Vetō!", "I forbid!" Sentence 17 says that without
+      harmony (sine concordiā) Rome is not great, so Romans told the story to
+      praise unity between the orders.
+
+  - id: q4
+    ask: "Sentence 16: What do the Romans do with the laws later?"
+    look: [16]
+    hint: {16: "lēgēs in duodecim tabulīs scrībunt et omnēs lēgēs vident"}
+    options:
+      a: "They write them on twelve tablets, so everyone can see them."
+      b: "They give them to the king."
+      c: "They hide them in a temple."
+      d: "They send them to the Sacred Mount."
+    answer: a
