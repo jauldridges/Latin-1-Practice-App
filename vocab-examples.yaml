@@ -87,6 +87,7 @@ examples:
   - {word: "moneō",      latin: "Poēta virōs *monet*: bellum malum est.", en: "The poet warns the men: war is evil."}
 
   # --- week of Sep 21 ---
+  - {word: "possum",     latin: "Puella aquam portāre *potest*.", en: "The girl is able to carry the water."}
   - {word: "poēta",      latin: "*Poēta* clārus bellum nārrat.", en: "The famous poet tells about the war."}
   - {word: "rēgīna",     latin: "*Rēgīna* est fēmina clāra.", en: "The queen is a famous woman."}
   - {word: "prōvincia",  latin: "*Prōvincia* nostra magna est.", en: "Our province is large."}

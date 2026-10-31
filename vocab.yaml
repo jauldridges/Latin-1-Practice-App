@@ -98,6 +98,7 @@ words:
   - {latin: "clārus",    en: ["clear", "famous", "bright"], week: "week_of_sep_21"}
   - {latin: "sum",       en: ["I am", "am", "to be"], week: "week_of_sep_21"}
   - {latin: "dēbeō",     en: ["I ought", "ought", "I must", "must", "I owe", "owe", "I should", "should"], week: "week_of_sep_21"}
+  - {latin: "possum",    en: ["I am able", "am able", "I can", "can", "to be able"], week: "week_of_sep_21"}   # added October 31: the Week 6 review asks for it
 
   # --- week of Sep 28 — remaining adjectives, possessives, adverbs, conjunctions ---
   - {latin: "pulcher", en: ["beautiful", "handsome", "pretty"], week: "week_of_sep_28"}

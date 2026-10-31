@@ -140,7 +140,8 @@ _FIRST_CONJ = ["amo", "laudo", "porto", "voco", "specto", "narro", "paro",
                "monstro", "nuntio", "impero"]                 # Week 10
 _SECOND_CONJ = ["video", "habeo", "teneo", "moneo", "debeo",
                 "faveo", "noceo", "pareo", "persuadeo", "placeo"]   # Week 10
-_SUM = ["sum", "es", "est", "sumus", "estis", "sunt"]
+_SUM = ["sum", "es", "est", "sumus", "estis", "sunt",
+        "possum", "potes", "potest", "possumus", "potestis", "possunt", "posse"]
 _ADJ_US = ["magnus", "parvus", "bonus", "malus", "multus", "longus", "altus",
            "novus", "clarus", "meus", "tuus",
            "carus", "gratus", "inimicus", "patricius"]        # Week 10

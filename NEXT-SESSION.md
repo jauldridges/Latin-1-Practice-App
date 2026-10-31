@@ -95,10 +95,10 @@ in `latin1-items-unit00-study.yaml`): spaced practice and the laws, then a check
 **Student mode**: Teacher dashboard -> Try it as a student uses demo ID 0000000,
 kept out of all class data.
 
-**Vocabulary** now runs through Week 10 (114 words): Weeks 8, 9 and 10 came
+**Vocabulary** now runs through Week 10 (115 words): Weeks 8, 9 and 10 came
 from their class packets. Week 7 (week of October 5) has none -- no packet
 yet -- and Week 8's packet names only -ve (its word table is filled in in
-class). possum appears in Week 6 but is not a drill word.
+class). possum was added to the week of September 21, with sum.
 
 **Lēgēs Magistrī** (`/leges`): the app's numbered laws -- how-to first, then
 don'ts -- are Magister lines (categories leges-how / leges-dont in

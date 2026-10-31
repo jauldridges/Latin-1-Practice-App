@@ -252,7 +252,8 @@ considered third question from padding.
   Week 8 (week of Monday October 12: -ve, the one new word it names; its word
   table is filled in in class), Week 9 (October 19: the 16 words of Vocabulary
   Parts A–B, deus and dea as two), and Week 10 (October 26: the 16 words of
-  Parts A–C, the dative week) — 114 words, both directions, **typed** (no multiple choice), checked by
+  Parts A–C, the dative week), plus possum (with sum, the week of September
+  21) — 115 words, both directions, **typed** (no multiple choice), checked by
   the shared module. Macrons never required. A new week needs its words in
   `vocab.yaml`, its Monday in `drill.py` (`WEEK_ORDER`, `_WEEK_MONDAY`), its
   forms in `dataio.py`'s lists, and a hint sentence each in `vocab-examples.yaml`
