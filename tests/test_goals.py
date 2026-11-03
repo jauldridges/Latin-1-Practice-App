@@ -389,6 +389,18 @@ class TestTeacherScreens(_App):
         self.assertIsNone(store.get_assessment(self.db, aid))
 
 
+class TestTheEntryOnTheAnswerScreen(_App):
+    def test_both_directions_show_the_whole_entry(self):
+        body = self.student.post("/drill/answer", data={
+            "week": "all", "direction": "en_la", "latin": "amō", "ask": "en_la",
+            "response": "zzz", "latency_ms": "1000"}).data.decode()
+        self.assertIn("amō, amāre", body)
+        body = self.student.post("/drill/answer", data={
+            "week": "all", "direction": "la_en", "latin": "fortis", "ask": "la_en",
+            "response": "brave", "latency_ms": "1000"}).data.decode()
+        self.assertIn("fortis, forte", body)
+
+
 class TestHomeworkScreens(_App):
     def practice(self, n_vocab, n_gram, ts=None):
         ts = ts or time.time()

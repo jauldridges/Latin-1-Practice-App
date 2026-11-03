@@ -1090,7 +1090,8 @@ def drill_answer():
                         SUGGEST[result], word_card)
     return render_template("drill_feedback.html", student=student, week=week,
                            direction=direction, word=word, ask=ask, response=response,
-                           result=result, model=accepted[0], grades=grades,
+                           result=result, grades=grades, entry=drill.entry(word),
+                           model=drill.entry(word) if ask == "en_la" else accepted[0],
                            introduced=weeklabel(word.get("week")),
                            **_drill_stats(events + [pending]))
 

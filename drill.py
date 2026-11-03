@@ -159,10 +159,19 @@ def next_card(words, events, week="current", direction="both", now=None):
     return card_for(w, ask)
 
 
+def entry(word):
+    """The word as the dictionary prints it -- "rēx, rēgis, m.", "amō, amāre",
+    "bonus, bona, bonum" -- or the bare headword for a word with no forms to
+    learn (et, nōn, the phrases)."""
+    return word.get("entry") or word["latin"]
+
+
 def card_for(word, ask):
-    """Build the display card for a word in a given direction."""
+    """Build the display card for a word in a given direction. A Latin prompt
+    is the whole dictionary entry: the genitive and gender of a noun, the
+    infinitive of a verb, every gender of an adjective."""
     if ask == "la_en":
-        prompt, instruction = word["latin"], "Type the English."
+        prompt, instruction = entry(word), "Type the English."
     else:
         prompt, instruction = word["en"][0], "Type the Latin (macrons not needed)."
     return Card(latin=word["latin"], ask=ask, prompt=prompt,

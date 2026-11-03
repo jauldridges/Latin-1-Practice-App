@@ -15,7 +15,7 @@
     <div style="font-size:20px" class="{{ 'latin' if ask == 'en_la' else '' }}">{{ model }}</div>
   {% endif %}
   <div class="small muted" style="margin-top:10px">
-    {{ word.latin }} — {{ word.en | join(', ') }}
+    <span class="latin">{{ entry }}</span> — {{ word.en | join(', ') }}
     {% with latin=word.latin %}{% include "_say.html" %}{% endwith %}
   </div>
   {% if introduced %}<div class="introduced">Introduced {{ introduced }}.</div>{% endif %}

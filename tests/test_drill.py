@@ -179,3 +179,53 @@ class TestProgressByWeek(unittest.TestCase):
 
     def test_the_summary_carries_it(self):
         self.assertIn("by_week", drill.progress_summary(self.rows()))
+
+
+class TestDictionaryEntries(unittest.TestCase):
+    """Every Latin prompt shows the forms the class has learned: a noun's
+    nominative, genitive and gender; a verb's first person singular and
+    infinitive; an adjective's nominative in every gender."""
+
+    def setUp(self):
+        import dataio
+        self.words = dataio.load_drill_words()
+        self.lists = dataio
+
+    def test_every_noun_verb_and_adjective_has_its_entry(self):
+        from answercheck import clean
+        d = self.lists
+        nouns = set(d._FIRST_DECL) | set(d._SECOND_US) | set(d._SECOND_ER) \
+            | set(d._SECOND_NEUTER) | {"rex", "dux", "miles", "homo", "pater", "mater",
+                                       "lex", "iuvenis", "senex", "nomen", "corpus",
+                                       "tempus", "caput", "liberi"}
+        verbs = set(d._FIRST_CONJ) | set(d._SECOND_CONJ) | {"sum", "possum", "do", "credo"}
+        adjs = set(d._ADJ_US) | set(d._ADJ_ER) | {"omnis", "fortis", "nobilis"}
+        seen = set()
+        for w in self.words:
+            k, e = clean(w["latin"]), w.get("entry", "")
+            parts = [p.strip() for p in e.split(",")]
+            if k in adjs:
+                seen.add(k)
+                self.assertTrue(len(parts) == 3 or (len(parts) == 2 and parts[1].endswith("e")), e)
+                self.assertEqual(clean(parts[0]), k)
+            elif k in nouns:
+                seen.add(k)
+                self.assertEqual(len(parts), 3, e)
+                self.assertIn(parts[2], ("m.", "f.", "n.", "m. pl."), e)
+                self.assertEqual(clean(parts[0]), k)
+            elif k in verbs:
+                seen.add(k)
+                self.assertEqual(len(parts), 2, e)
+                self.assertTrue(clean(parts[1]).endswith(("re", "se")), e)
+                self.assertEqual(clean(parts[0]), k)
+            else:
+                self.assertNotIn("entry", w, w["latin"])   # et, non, the phrases
+        self.assertGreater(len(seen), 100)
+
+    def test_the_latin_prompt_is_the_entry_and_the_english_one_is_not(self):
+        rex = drill.find_word(self.words, "rex")
+        self.assertEqual(drill.card_for(rex, "la_en").prompt, "rēx, rēgis, m.")
+        self.assertEqual(drill.card_for(rex, "en_la").prompt, "king")
+        self.assertEqual(drill.accepted_for(rex, "en_la"), ["rēx"])    # still type just rēx
+        et = drill.find_word(self.words, "et")
+        self.assertEqual(drill.card_for(et, "la_en").prompt, "et")

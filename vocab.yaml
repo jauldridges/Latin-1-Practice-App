@@ -12,6 +12,13 @@
 #   latin  the headword (macrons kept for display; never required in an answer)
 #   en     accepted English answers (first is the one shown as the model)
 #   week   the core-list week the word belongs to
+#   entry  the dictionary entry, as the class packets print it, shown on every
+#          Latin prompt and answer screen: a noun's nominative, genitive and
+#          gender ("rēx, rēgis, m."); a verb's first person singular and
+#          infinitive ("amō, amāre"); an adjective's nominative in every gender
+#          ("bonus, bona, bonum"; third declension "fortis, forte"). Words with
+#          no forms to learn (et, nōn, the phrases) have none. A student types
+#          only the headword on an English -> Latin card.
 #
 # Answers are checked by the shared module: case, macrons, punctuation,
 # a leading "the"/"a", and spacing are all forgiven; near-misses come back
@@ -37,77 +44,77 @@ words:
   - {latin: "exemplī grātiā",   en: ["for example", "for the sake of example"], week: "week_of_aug_24"}
 
   # --- week of Aug 31 — first declension nouns ---
-  - {latin: "aqua",     en: ["water"], week: "week_of_aug_31"}
-  - {latin: "terra",    en: ["land", "earth", "ground"], week: "week_of_aug_31"}
-  - {latin: "via",      en: ["road", "way", "street"], week: "week_of_aug_31"}
-  - {latin: "porta",    en: ["gate", "door"], week: "week_of_aug_31"}
-  - {latin: "īnsula",   en: ["island"], week: "week_of_aug_31"}
-  - {latin: "silva",    en: ["forest", "woods", "wood"], week: "week_of_aug_31"}
-  - {latin: "puella",   en: ["girl"], week: "week_of_aug_31"}
-  - {latin: "fēmina",   en: ["woman"], week: "week_of_aug_31"}
-  - {latin: "nauta",    en: ["sailor"], week: "week_of_aug_31"}
-  - {latin: "agricola", en: ["farmer"], week: "week_of_aug_31"}
-  - {latin: "patria",   en: ["homeland", "fatherland", "native land", "country"], week: "week_of_aug_31"}
-  - {latin: "fāma",     en: ["fame", "reputation", "rumor", "report"], week: "week_of_aug_31"}
-  - {latin: "vīta",     en: ["life"], week: "week_of_aug_31"}
-  - {latin: "lūna",     en: ["moon"], week: "week_of_aug_31"}
-  - {latin: "stēlla",   en: ["star"], week: "week_of_aug_31"}
+  - {latin: "aqua",     en: ["water"], week: "week_of_aug_31", entry: "aqua, aquae, f."}
+  - {latin: "terra",    en: ["land", "earth", "ground"], week: "week_of_aug_31", entry: "terra, terrae, f."}
+  - {latin: "via",      en: ["road", "way", "street"], week: "week_of_aug_31", entry: "via, viae, f."}
+  - {latin: "porta",    en: ["gate", "door"], week: "week_of_aug_31", entry: "porta, portae, f."}
+  - {latin: "īnsula",   en: ["island"], week: "week_of_aug_31", entry: "īnsula, īnsulae, f."}
+  - {latin: "silva",    en: ["forest", "woods", "wood"], week: "week_of_aug_31", entry: "silva, silvae, f."}
+  - {latin: "puella",   en: ["girl"], week: "week_of_aug_31", entry: "puella, puellae, f."}
+  - {latin: "fēmina",   en: ["woman"], week: "week_of_aug_31", entry: "fēmina, fēminae, f."}
+  - {latin: "nauta",    en: ["sailor"], week: "week_of_aug_31", entry: "nauta, nautae, m."}
+  - {latin: "agricola", en: ["farmer"], week: "week_of_aug_31", entry: "agricola, agricolae, m."}
+  - {latin: "patria",   en: ["homeland", "fatherland", "native land", "country"], week: "week_of_aug_31", entry: "patria, patriae, f."}
+  - {latin: "fāma",     en: ["fame", "reputation", "rumor", "report"], week: "week_of_aug_31", entry: "fāma, fāmae, f."}
+  - {latin: "vīta",     en: ["life"], week: "week_of_aug_31", entry: "vīta, vītae, f."}
+  - {latin: "lūna",     en: ["moon"], week: "week_of_aug_31", entry: "lūna, lūnae, f."}
+  - {latin: "stēlla",   en: ["star"], week: "week_of_aug_31", entry: "stēlla, stēllae, f."}
 
   # --- week of Sep 8 — first conjugation verbs + particles ---
-  - {latin: "amō",    en: ["I love", "love"], week: "week_of_sep_8"}
-  - {latin: "laudō",  en: ["I praise", "praise"], week: "week_of_sep_8"}
-  - {latin: "portō",  en: ["I carry", "carry"], week: "week_of_sep_8"}
-  - {latin: "vocō",   en: ["I call", "call"], week: "week_of_sep_8"}
-  - {latin: "spectō", en: ["I look at", "look at", "I watch", "watch"], week: "week_of_sep_8"}
-  - {latin: "nārrō",  en: ["I tell", "tell", "I narrate", "narrate"], week: "week_of_sep_8"}
-  - {latin: "parō",   en: ["I prepare", "prepare", "I get ready"], week: "week_of_sep_8"}
-  - {latin: "servō",  en: ["I save", "save", "I guard", "guard", "I keep"], week: "week_of_sep_8"}
-  - {latin: "superō", en: ["I overcome", "overcome", "I conquer", "conquer", "I surpass"], week: "week_of_sep_8"}
-  - {latin: "pugnō",  en: ["I fight", "fight"], week: "week_of_sep_8"}
+  - {latin: "amō",    en: ["I love", "love"], week: "week_of_sep_8", entry: "amō, amāre"}
+  - {latin: "laudō",  en: ["I praise", "praise"], week: "week_of_sep_8", entry: "laudō, laudāre"}
+  - {latin: "portō",  en: ["I carry", "carry"], week: "week_of_sep_8", entry: "portō, portāre"}
+  - {latin: "vocō",   en: ["I call", "call"], week: "week_of_sep_8", entry: "vocō, vocāre"}
+  - {latin: "spectō", en: ["I look at", "look at", "I watch", "watch"], week: "week_of_sep_8", entry: "spectō, spectāre"}
+  - {latin: "nārrō",  en: ["I tell", "tell", "I narrate", "narrate"], week: "week_of_sep_8", entry: "nārrō, nārrāre"}
+  - {latin: "parō",   en: ["I prepare", "prepare", "I get ready"], week: "week_of_sep_8", entry: "parō, parāre"}
+  - {latin: "servō",  en: ["I save", "save", "I guard", "guard", "I keep"], week: "week_of_sep_8", entry: "servō, servāre"}
+  - {latin: "superō", en: ["I overcome", "overcome", "I conquer", "conquer", "I surpass"], week: "week_of_sep_8", entry: "superō, superāre"}
+  - {latin: "pugnō",  en: ["I fight", "fight"], week: "week_of_sep_8", entry: "pugnō, pugnāre"}
   - {latin: "et",     en: ["and"], week: "week_of_sep_8"}
   - {latin: "nōn",    en: ["not"], week: "week_of_sep_8"}
 
   # --- week of Sep 14 — second declension m/n + second conjugation verbs ---
-  - {latin: "dominus", en: ["master", "lord"], week: "week_of_sep_14"}
-  - {latin: "servus",  en: ["slave"], week: "week_of_sep_14"}
-  - {latin: "amīcus",  en: ["friend"], week: "week_of_sep_14"}
-  - {latin: "puer",    en: ["boy"], week: "week_of_sep_14"}
-  - {latin: "vir",     en: ["man"], week: "week_of_sep_14"}
-  - {latin: "ager",    en: ["field"], week: "week_of_sep_14"}
-  - {latin: "bellum",  en: ["war"], week: "week_of_sep_14"}
-  - {latin: "oppidum", en: ["town"], week: "week_of_sep_14"}
-  - {latin: "dōnum",   en: ["gift", "present"], week: "week_of_sep_14"}
-  - {latin: "verbum",  en: ["word"], week: "week_of_sep_14"}
-  - {latin: "videō",   en: ["I see", "see"], week: "week_of_sep_14"}
-  - {latin: "habeō",   en: ["I have", "have", "I hold"], week: "week_of_sep_14"}
-  - {latin: "teneō",   en: ["I hold", "hold", "I keep"], week: "week_of_sep_14"}
-  - {latin: "moneō",   en: ["I warn", "warn", "I advise", "advise"], week: "week_of_sep_14"}
+  - {latin: "dominus", en: ["master", "lord"], week: "week_of_sep_14", entry: "dominus, dominī, m."}
+  - {latin: "servus",  en: ["slave"], week: "week_of_sep_14", entry: "servus, servī, m."}
+  - {latin: "amīcus",  en: ["friend"], week: "week_of_sep_14", entry: "amīcus, amīcī, m."}
+  - {latin: "puer",    en: ["boy"], week: "week_of_sep_14", entry: "puer, puerī, m."}
+  - {latin: "vir",     en: ["man"], week: "week_of_sep_14", entry: "vir, virī, m."}
+  - {latin: "ager",    en: ["field"], week: "week_of_sep_14", entry: "ager, agrī, m."}
+  - {latin: "bellum",  en: ["war"], week: "week_of_sep_14", entry: "bellum, bellī, n."}
+  - {latin: "oppidum", en: ["town"], week: "week_of_sep_14", entry: "oppidum, oppidī, n."}
+  - {latin: "dōnum",   en: ["gift", "present"], week: "week_of_sep_14", entry: "dōnum, dōnī, n."}
+  - {latin: "verbum",  en: ["word"], week: "week_of_sep_14", entry: "verbum, verbī, n."}
+  - {latin: "videō",   en: ["I see", "see"], week: "week_of_sep_14", entry: "videō, vidēre"}
+  - {latin: "habeō",   en: ["I have", "have", "I hold"], week: "week_of_sep_14", entry: "habeō, habēre"}
+  - {latin: "teneō",   en: ["I hold", "hold", "I keep"], week: "week_of_sep_14", entry: "teneō, tenēre"}
+  - {latin: "moneō",   en: ["I warn", "warn", "I advise", "advise"], week: "week_of_sep_14", entry: "moneō, monēre"}
 
   # --- week of Sep 21 — adjectives, sum, dēbeō ---
-  - {latin: "poēta",     en: ["poet"], week: "week_of_sep_21"}
-  - {latin: "rēgīna",    en: ["queen"], week: "week_of_sep_21"}
-  - {latin: "prōvincia", en: ["province"], week: "week_of_sep_21"}
-  - {latin: "magnus",    en: ["big", "great", "large"], week: "week_of_sep_21"}
-  - {latin: "parvus",    en: ["small", "little"], week: "week_of_sep_21"}
-  - {latin: "bonus",     en: ["good"], week: "week_of_sep_21"}
-  - {latin: "malus",     en: ["bad", "evil", "wicked"], week: "week_of_sep_21"}
-  - {latin: "multus",    en: ["much", "many"], week: "week_of_sep_21"}
-  - {latin: "longus",    en: ["long"], week: "week_of_sep_21"}
-  - {latin: "altus",     en: ["high", "deep", "tall"], week: "week_of_sep_21"}
-  - {latin: "novus",     en: ["new"], week: "week_of_sep_21"}
-  - {latin: "clārus",    en: ["clear", "famous", "bright"], week: "week_of_sep_21"}
-  - {latin: "sum",       en: ["I am", "am", "to be"], week: "week_of_sep_21"}
-  - {latin: "dēbeō",     en: ["I ought", "ought", "I must", "must", "I owe", "owe", "I should", "should"], week: "week_of_sep_21"}
-  - {latin: "possum",    en: ["I am able", "am able", "I can", "can", "to be able"], week: "week_of_sep_21"}   # added October 31: the Week 6 review asks for it
+  - {latin: "poēta",     en: ["poet"], week: "week_of_sep_21", entry: "poēta, poētae, m."}
+  - {latin: "rēgīna",    en: ["queen"], week: "week_of_sep_21", entry: "rēgīna, rēgīnae, f."}
+  - {latin: "prōvincia", en: ["province"], week: "week_of_sep_21", entry: "prōvincia, prōvinciae, f."}
+  - {latin: "magnus",    en: ["big", "great", "large"], week: "week_of_sep_21", entry: "magnus, magna, magnum"}
+  - {latin: "parvus",    en: ["small", "little"], week: "week_of_sep_21", entry: "parvus, parva, parvum"}
+  - {latin: "bonus",     en: ["good"], week: "week_of_sep_21", entry: "bonus, bona, bonum"}
+  - {latin: "malus",     en: ["bad", "evil", "wicked"], week: "week_of_sep_21", entry: "malus, mala, malum"}
+  - {latin: "multus",    en: ["much", "many"], week: "week_of_sep_21", entry: "multus, multa, multum"}
+  - {latin: "longus",    en: ["long"], week: "week_of_sep_21", entry: "longus, longa, longum"}
+  - {latin: "altus",     en: ["high", "deep", "tall"], week: "week_of_sep_21", entry: "altus, alta, altum"}
+  - {latin: "novus",     en: ["new"], week: "week_of_sep_21", entry: "novus, nova, novum"}
+  - {latin: "clārus",    en: ["clear", "famous", "bright"], week: "week_of_sep_21", entry: "clārus, clāra, clārum"}
+  - {latin: "sum",       en: ["I am", "am", "to be"], week: "week_of_sep_21", entry: "sum, esse"}
+  - {latin: "dēbeō",     en: ["I ought", "ought", "I must", "must", "I owe", "owe", "I should", "should"], week: "week_of_sep_21", entry: "dēbeō, dēbēre"}
+  - {latin: "possum",    en: ["I am able", "am able", "I can", "can", "to be able"], week: "week_of_sep_21", entry: "possum, posse"}   # added October 31: the Week 6 review asks for it
 
   # --- week of Sep 28 — remaining adjectives, possessives, adverbs, conjunctions ---
-  - {latin: "pulcher", en: ["beautiful", "handsome", "pretty"], week: "week_of_sep_28"}
-  - {latin: "miser",   en: ["wretched", "miserable", "unhappy", "poor"], week: "week_of_sep_28"}
-  - {latin: "līber",   en: ["free"], week: "week_of_sep_28"}
-  - {latin: "noster",  en: ["our", "ours"], week: "week_of_sep_28"}
-  - {latin: "vester",  en: ["your", "yours"], week: "week_of_sep_28"}
-  - {latin: "meus",    en: ["my", "mine"], week: "week_of_sep_28"}
-  - {latin: "tuus",    en: ["your", "yours"], week: "week_of_sep_28"}
+  - {latin: "pulcher", en: ["beautiful", "handsome", "pretty"], week: "week_of_sep_28", entry: "pulcher, pulchra, pulchrum"}
+  - {latin: "miser",   en: ["wretched", "miserable", "unhappy", "poor"], week: "week_of_sep_28", entry: "miser, misera, miserum"}
+  - {latin: "līber",   en: ["free"], week: "week_of_sep_28", entry: "līber, lībera, līberum"}
+  - {latin: "noster",  en: ["our", "ours"], week: "week_of_sep_28", entry: "noster, nostra, nostrum"}
+  - {latin: "vester",  en: ["your", "yours"], week: "week_of_sep_28", entry: "vester, vestra, vestrum"}
+  - {latin: "meus",    en: ["my", "mine"], week: "week_of_sep_28", entry: "meus, mea, meum"}
+  - {latin: "tuus",    en: ["your", "yours"], week: "week_of_sep_28", entry: "tuus, tua, tuum"}
   - {latin: "sed",     en: ["but"], week: "week_of_sep_28"}
   - {latin: "quod",    en: ["because"], week: "week_of_sep_28"}
   - {latin: "ubi",     en: ["where", "when"], week: "week_of_sep_28"}
@@ -122,44 +129,44 @@ words:
   - {latin: "-ve",       en: ["or"], week: "week_of_oct_12"}
 
   # --- week of Oct 19 — Week 9 class packet: Vocabulary Parts A and B ---
-  - {latin: "fīlius",    en: ["son"], week: "week_of_oct_19"}
-  - {latin: "fīlia",     en: ["daughter"], week: "week_of_oct_19"}
-  - {latin: "līberī",    en: ["children"], week: "week_of_oct_19"}
-  - {latin: "domina",    en: ["mistress", "lady", "mistress of the house"], week: "week_of_oct_19"}
-  - {latin: "equus",     en: ["horse"], week: "week_of_oct_19"}
-  - {latin: "oculus",    en: ["eye"], week: "week_of_oct_19"}
-  - {latin: "pecūnia",   en: ["money"], week: "week_of_oct_19"}
-  - {latin: "populus",   en: ["people", "a people", "nation"], week: "week_of_oct_19"}
-  - {latin: "deus",      en: ["god"], week: "week_of_oct_19"}
-  - {latin: "dea",       en: ["goddess"], week: "week_of_oct_19"}
-  - {latin: "fōrma",     en: ["shape", "form", "beauty", "appearance"], week: "week_of_oct_19"}
-  - {latin: "cōpia",     en: ["supply", "plenty", "abundance"], week: "week_of_oct_19"}
+  - {latin: "fīlius",    en: ["son"], week: "week_of_oct_19", entry: "fīlius, fīliī, m."}
+  - {latin: "fīlia",     en: ["daughter"], week: "week_of_oct_19", entry: "fīlia, fīliae, f."}
+  - {latin: "līberī",    en: ["children"], week: "week_of_oct_19", entry: "līberī, līberōrum, m. pl."}
+  - {latin: "domina",    en: ["mistress", "lady", "mistress of the house"], week: "week_of_oct_19", entry: "domina, dominae, f."}
+  - {latin: "equus",     en: ["horse"], week: "week_of_oct_19", entry: "equus, equī, m."}
+  - {latin: "oculus",    en: ["eye"], week: "week_of_oct_19", entry: "oculus, oculī, m."}
+  - {latin: "pecūnia",   en: ["money"], week: "week_of_oct_19", entry: "pecūnia, pecūniae, f."}
+  - {latin: "populus",   en: ["people", "a people", "nation"], week: "week_of_oct_19", entry: "populus, populī, m."}
+  - {latin: "deus",      en: ["god"], week: "week_of_oct_19", entry: "deus, deī, m."}
+  - {latin: "dea",       en: ["goddess"], week: "week_of_oct_19", entry: "dea, deae, f."}
+  - {latin: "fōrma",     en: ["shape", "form", "beauty", "appearance"], week: "week_of_oct_19", entry: "fōrma, fōrmae, f."}
+  - {latin: "cōpia",     en: ["supply", "plenty", "abundance"], week: "week_of_oct_19", entry: "cōpia, cōpiae, f."}
   - {latin: "nihil",     en: ["nothing"], week: "week_of_oct_19"}
   - {latin: "satis",     en: ["enough", "sufficiently"], week: "week_of_oct_19"}
-  - {latin: "auxilium",  en: ["help", "aid", "assistance"], week: "week_of_oct_19"}
-  - {latin: "dō",        en: ["I give", "give"], week: "week_of_oct_19"}
-  - {latin: "iuvō",      en: ["I help", "help", "I assist", "assist"], week: "week_of_oct_19"}
+  - {latin: "auxilium",  en: ["help", "aid", "assistance"], week: "week_of_oct_19", entry: "auxilium, auxiliī, n."}
+  - {latin: "dō",        en: ["I give", "give"], week: "week_of_oct_19", entry: "dō, dare"}
+  - {latin: "iuvō",      en: ["I help", "help", "I assist", "assist"], week: "week_of_oct_19", entry: "iuvō, iuvāre"}
 
   # --- week of Oct 26 — Week 10 class packet: Vocabulary Parts A, B and C ---
   # The dative week: verbs that take an Indirect Object, the seven verbs that
   # take the dative, adjectives used with the dative, and two words for Rome's
   # orders. Glosses follow the Week 10 story packet's.
-  - {latin: "mōnstrō",   en: ["I show", "show", "I point out", "point out"], week: "week_of_oct_26"}
-  - {latin: "nūntiō",    en: ["I announce", "announce", "I report", "report"], week: "week_of_oct_26"}
-  - {latin: "cārus",     en: ["dear", "beloved", "precious"], week: "week_of_oct_26"}
-  - {latin: "grātus",    en: ["grateful", "pleasing", "thankful", "welcome"], week: "week_of_oct_26"}
-  - {latin: "inimīcus",  en: ["unfriendly", "hostile", "enemy"], week: "week_of_oct_26"}
-  - {latin: "patrōnus",  en: ["patron", "protector"], week: "week_of_oct_26"}
-  - {latin: "cōnsilium", en: ["plan", "advice", "counsel"], week: "week_of_oct_26"}
-  - {latin: "crēdō",     en: ["I believe", "believe", "I trust", "trust"], week: "week_of_oct_26"}
-  - {latin: "faveō",     en: ["I favor", "favor", "I support", "support"], week: "week_of_oct_26"}
-  - {latin: "imperō",    en: ["I order", "order", "I command", "command", "I give orders", "give orders"], week: "week_of_oct_26"}
-  - {latin: "noceō",     en: ["I harm", "harm", "I hurt", "hurt"], week: "week_of_oct_26"}
-  - {latin: "pāreō",     en: ["I obey", "obey"], week: "week_of_oct_26"}
-  - {latin: "persuādeō", en: ["I persuade", "persuade", "I convince", "convince"], week: "week_of_oct_26"}
-  - {latin: "placeō",    en: ["I please", "please", "I am pleasing", "am pleasing"], week: "week_of_oct_26"}
-  - {latin: "patricius", en: ["patrician", "a patrician"], week: "week_of_oct_26"}
-  - {latin: "tribūnus",  en: ["tribune", "a tribune"], week: "week_of_oct_26"}
+  - {latin: "mōnstrō",   en: ["I show", "show", "I point out", "point out"], week: "week_of_oct_26", entry: "mōnstrō, mōnstrāre"}
+  - {latin: "nūntiō",    en: ["I announce", "announce", "I report", "report"], week: "week_of_oct_26", entry: "nūntiō, nūntiāre"}
+  - {latin: "cārus",     en: ["dear", "beloved", "precious"], week: "week_of_oct_26", entry: "cārus, cāra, cārum"}
+  - {latin: "grātus",    en: ["grateful", "pleasing", "thankful", "welcome"], week: "week_of_oct_26", entry: "grātus, grāta, grātum"}
+  - {latin: "inimīcus",  en: ["unfriendly", "hostile", "enemy"], week: "week_of_oct_26", entry: "inimīcus, inimīca, inimīcum"}
+  - {latin: "patrōnus",  en: ["patron", "protector"], week: "week_of_oct_26", entry: "patrōnus, patrōnī, m."}
+  - {latin: "cōnsilium", en: ["plan", "advice", "counsel"], week: "week_of_oct_26", entry: "cōnsilium, cōnsiliī, n."}
+  - {latin: "crēdō",     en: ["I believe", "believe", "I trust", "trust"], week: "week_of_oct_26", entry: "crēdō, crēdere"}
+  - {latin: "faveō",     en: ["I favor", "favor", "I support", "support"], week: "week_of_oct_26", entry: "faveō, favēre"}
+  - {latin: "imperō",    en: ["I order", "order", "I command", "command", "I give orders", "give orders"], week: "week_of_oct_26", entry: "imperō, imperāre"}
+  - {latin: "noceō",     en: ["I harm", "harm", "I hurt", "hurt"], week: "week_of_oct_26", entry: "noceō, nocēre"}
+  - {latin: "pāreō",     en: ["I obey", "obey"], week: "week_of_oct_26", entry: "pāreō, pārēre"}
+  - {latin: "persuādeō", en: ["I persuade", "persuade", "I convince", "convince"], week: "week_of_oct_26", entry: "persuādeō, persuādēre"}
+  - {latin: "placeō",    en: ["I please", "please", "I am pleasing", "am pleasing"], week: "week_of_oct_26", entry: "placeō, placēre"}
+  - {latin: "patricius", en: ["patrician", "a patrician"], week: "week_of_oct_26", entry: "patricius, patricia, patricium"}
+  - {latin: "tribūnus",  en: ["tribune", "a tribune"], week: "week_of_oct_26", entry: "tribūnus, tribūnī, m."}
 
   # --- week of Nov 2 — Week 11 class packet: Vocabulary Parts A and B ---
   # The third declension: masculine and feminine nouns (Part A), neuter nouns
@@ -167,19 +174,19 @@ words:
   # novus, already on the list from the week of September 21, so it is not
   # repeated here. The packet leaves the meanings blank for students to fill
   # in; these glosses were written for the app.
-  - {latin: "rēx",       en: ["king"], week: "week_of_nov_2"}
-  - {latin: "dux",       en: ["leader", "general", "commander"], week: "week_of_nov_2"}
-  - {latin: "mīles",     en: ["soldier"], week: "week_of_nov_2"}
-  - {latin: "homō",      en: ["person", "man", "human being", "human"], week: "week_of_nov_2"}
-  - {latin: "pater",     en: ["father"], week: "week_of_nov_2"}
-  - {latin: "māter",     en: ["mother"], week: "week_of_nov_2"}
-  - {latin: "lēx",       en: ["law"], week: "week_of_nov_2"}
-  - {latin: "iuvenis",   en: ["young man", "youth", "young person"], week: "week_of_nov_2"}
-  - {latin: "senex",     en: ["old man", "old person"], week: "week_of_nov_2"}
-  - {latin: "nōmen",     en: ["name"], week: "week_of_nov_2"}
-  - {latin: "corpus",    en: ["body"], week: "week_of_nov_2"}
-  - {latin: "tempus",    en: ["time"], week: "week_of_nov_2"}
-  - {latin: "caput",     en: ["head"], week: "week_of_nov_2"}
-  - {latin: "omnis",     en: ["all", "every", "each", "whole"], week: "week_of_nov_2"}
-  - {latin: "fortis",    en: ["brave", "strong"], week: "week_of_nov_2"}
-  - {latin: "nōbilis",   en: ["noble", "famous", "well-known"], week: "week_of_nov_2"}
+  - {latin: "rēx",       en: ["king"], week: "week_of_nov_2", entry: "rēx, rēgis, m."}
+  - {latin: "dux",       en: ["leader", "general", "commander"], week: "week_of_nov_2", entry: "dux, ducis, m."}
+  - {latin: "mīles",     en: ["soldier"], week: "week_of_nov_2", entry: "mīles, mīlitis, m."}
+  - {latin: "homō",      en: ["person", "man", "human being", "human"], week: "week_of_nov_2", entry: "homō, hominis, m."}
+  - {latin: "pater",     en: ["father"], week: "week_of_nov_2", entry: "pater, patris, m."}
+  - {latin: "māter",     en: ["mother"], week: "week_of_nov_2", entry: "māter, mātris, f."}
+  - {latin: "lēx",       en: ["law"], week: "week_of_nov_2", entry: "lēx, lēgis, f."}
+  - {latin: "iuvenis",   en: ["young man", "youth", "young person"], week: "week_of_nov_2", entry: "iuvenis, iuvenis, m."}
+  - {latin: "senex",     en: ["old man", "old person"], week: "week_of_nov_2", entry: "senex, senis, m."}
+  - {latin: "nōmen",     en: ["name"], week: "week_of_nov_2", entry: "nōmen, nōminis, n."}
+  - {latin: "corpus",    en: ["body"], week: "week_of_nov_2", entry: "corpus, corporis, n."}
+  - {latin: "tempus",    en: ["time"], week: "week_of_nov_2", entry: "tempus, temporis, n."}
+  - {latin: "caput",     en: ["head"], week: "week_of_nov_2", entry: "caput, capitis, n."}
+  - {latin: "omnis",     en: ["all", "every", "each", "whole"], week: "week_of_nov_2", entry: "omnis, omne"}
+  - {latin: "fortis",    en: ["brave", "strong"], week: "week_of_nov_2", entry: "fortis, forte"}
+  - {latin: "nōbilis",   en: ["noble", "famous", "well-known"], week: "week_of_nov_2", entry: "nōbilis, nōbile"}
