@@ -20,7 +20,8 @@
 # week. Through September: nominative, accusative and vocative, the present,
 # sum, adjective agreement, imperatives and dēbeō + infinitive. Week 9
 # (October 19) adds the genitive; Week 10 (October 26) adds the dative, taught
-# that week. No ablative or prepositions yet.
+# that week; Week 11 (November 2) adds the third declension. No ablative or
+# prepositions yet.
 #
 # Students see nothing here until the teacher approves it at
 # Teacher dashboard -> Vocabulary hints. Editing there saves and approves.
@@ -159,3 +160,21 @@ examples:
   - {word: "placeō",    latin: "Dōnum puellae *placet*.", en: "The gift pleases the girl."}
   - {word: "patricius", latin: "*Patricius* multōs agrōs habet.", en: "The patrician has many fields."}
   - {word: "tribūnus",  latin: "*Tribūnus* agricolīs favet.", en: "The tribune supports the farmers."}
+
+  # --- week of Nov 2 (Week 11): the third declension ---
+  - {word: "rēx",       latin: "*Rēx* populō imperat.", en: "The king gives orders to the people."}
+  - {word: "dux",       latin: "Mīles *ducī* pāret.", en: "The soldier obeys the general."}
+  - {word: "mīles",     latin: "Dux *mīlitī* pecūniam dat.", en: "The general gives money to the soldier."}
+  - {word: "homō",      latin: "Fēmina *hominem* bonum laudat.", en: "The woman praises the good man."}
+  - {word: "pater",     latin: "*Pater* fīliō cōnsilium dat.", en: "The father gives advice to his son."}
+  - {word: "māter",     latin: "Fīlia *mātrī* semper pāret.", en: "The daughter always obeys her mother."}
+  - {word: "lēx",       latin: "Populus *lēgī* pāret.", en: "The people obey the law."}
+  - {word: "iuvenis",   latin: "*Iuvenis* equum magnum habet.", en: "The young man has a big horse."}
+  - {word: "senex",     latin: "Puella *senī* auxilium dat.", en: "The girl gives help to the old man."}
+  - {word: "nōmen",     latin: "*Nōmen* rēgis clārum est.", en: "The king's name is famous."}
+  - {word: "corpus",    latin: "*Corpus* mīlitis magnum est.", en: "The soldier's body is big."}
+  - {word: "tempus",    latin: "*Tempus* bellī longum est.", en: "The time of war is long."}
+  - {word: "caput",     latin: "Puella *caput* equī spectat.", en: "The girl looks at the horse's head."}
+  - {word: "omnis",     latin: "*Omnis* mīles ducī pāret.", en: "Every soldier obeys the general."}
+  - {word: "fortis",    latin: "Rēx mīlitem *fortem* laudat.", en: "The king praises the brave soldier."}
+  - {word: "nōbilis",   latin: "Patricius *nōbilis* est.", en: "The patrician is noble."}

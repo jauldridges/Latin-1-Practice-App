@@ -3122,7 +3122,15 @@ def teacher_deadline_edit():
     topics = _week_topics(set((current or {}).get("weeks") or []), approved_counts)
     words = [w for w in _DRILL_WORDS
              if goals.word_week_date(w) in set((current or {}).get("weeks") or [])]
+    # How many words each week brings, so a week whose list isn't in the app
+    # yet says so on its checkbox: students only get a vocabulary button for
+    # words the app has.
+    week_words = {wk: 0 for wk in all_weeks}
+    for w in _DRILL_WORDS:
+        if goals.word_week_date(w) in week_words:
+            week_words[goals.word_week_date(w)] += 1
     return render_template("teacher_deadline_edit.html", a=current, all_weeks=all_weeks,
+                           week_words=week_words, today=time.strftime("%Y-%m-%d"),
                            topics=topics, n_words=len(words), kinds=ASSESSMENT_KINDS,
                            error=error, saved=request.args.get("saved"))
 

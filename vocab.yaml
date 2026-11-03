@@ -19,7 +19,7 @@
 # ============================================================
 
 meta:
-  scope: Units 0 and 1 (80 core words), then each week's new words from its class packet (Week 10, October 26 on)
+  scope: Units 0 and 1 (80 core words), then each week's new words from its class packet (Week 8, October 12 on)
   glosses_source: seeded for this build, teacher-editable (not from canonical files)
 
 words:
@@ -160,3 +160,26 @@ words:
   - {latin: "placeō",    en: ["I please", "please", "I am pleasing", "am pleasing"], week: "week_of_oct_26"}
   - {latin: "patricius", en: ["patrician", "a patrician"], week: "week_of_oct_26"}
   - {latin: "tribūnus",  en: ["tribune", "a tribune"], week: "week_of_oct_26"}
+
+  # --- week of Nov 2 — Week 11 class packet: Vocabulary Parts A and B ---
+  # The third declension: masculine and feminine nouns (Part A), neuter nouns
+  # and third-declension adjectives (Part B). The packet's 17 words include
+  # novus, already on the list from the week of September 21, so it is not
+  # repeated here. The packet leaves the meanings blank for students to fill
+  # in; these glosses were written for the app.
+  - {latin: "rēx",       en: ["king"], week: "week_of_nov_2"}
+  - {latin: "dux",       en: ["leader", "general", "commander"], week: "week_of_nov_2"}
+  - {latin: "mīles",     en: ["soldier"], week: "week_of_nov_2"}
+  - {latin: "homō",      en: ["person", "man", "human being", "human"], week: "week_of_nov_2"}
+  - {latin: "pater",     en: ["father"], week: "week_of_nov_2"}
+  - {latin: "māter",     en: ["mother"], week: "week_of_nov_2"}
+  - {latin: "lēx",       en: ["law"], week: "week_of_nov_2"}
+  - {latin: "iuvenis",   en: ["young man", "youth", "young person"], week: "week_of_nov_2"}
+  - {latin: "senex",     en: ["old man", "old person"], week: "week_of_nov_2"}
+  - {latin: "nōmen",     en: ["name"], week: "week_of_nov_2"}
+  - {latin: "corpus",    en: ["body"], week: "week_of_nov_2"}
+  - {latin: "tempus",    en: ["time"], week: "week_of_nov_2"}
+  - {latin: "caput",     en: ["head"], week: "week_of_nov_2"}
+  - {latin: "omnis",     en: ["all", "every", "each", "whole"], week: "week_of_nov_2"}
+  - {latin: "fortis",    en: ["brave", "strong"], week: "week_of_nov_2"}
+  - {latin: "nōbilis",   en: ["noble", "famous", "well-known"], week: "week_of_nov_2"}

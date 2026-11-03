@@ -88,7 +88,7 @@ start clean.
 | `analysis.py` | Data for analysis: the zip of spreadsheets split around an exam. |
 | `dates.py` | How every date a person reads is written: "Friday October 30". |
 | `nle.py`, `nle/`, `static/nle/` | Past National Latin Exams: 15 exams, pre-approved, in badge checks and Practice NLE. |
-| `tests/` | 781 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 782 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -252,8 +252,9 @@ considered third question from padding.
   Week 8 (week of Monday October 12: -ve, the one new word it names; its word
   table is filled in in class), Week 9 (October 19: the 16 words of Vocabulary
   Parts A–B, deus and dea as two), and Week 10 (October 26: the 16 words of
-  Parts A–C, the dative week), plus possum (with sum, the week of September
-  21) — 115 words, both directions, **typed** (no multiple choice), checked by
+  Parts A–C, the dative week), Week 11 (November 2: 16 third-declension
+  words from Parts A–B; the packet's 17th, novus, was already on the list),
+  plus possum (with sum, the week of September 21) — 131 words, both directions, **typed** (no multiple choice), checked by
   the shared module. Macrons never required. A new week needs its words in
   `vocab.yaml`, its Monday in `drill.py` (`WEEK_ORDER`, `_WEEK_MONDAY`), its
   forms in `dataio.py`'s lists, and a hint sentence each in `vocab-examples.yaml`
@@ -1331,7 +1332,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-781 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+782 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

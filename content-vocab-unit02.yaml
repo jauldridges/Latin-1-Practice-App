@@ -29,6 +29,8 @@ third_declension_mf:
   - frater/fratr       # brother
   - homo/homin         # human being, man
   - virtus/virtut       # courage, virtue
+  - iuvenis/iuven      # young man (Week 11 packet)
+  - senex/sen          # old man (Week 11 packet)
 
 third_declension_neuter:
   - corpus/corpor       # body
@@ -36,6 +38,14 @@ third_declension_neuter:
   - tempus/tempor       # time
   - flumen/flumin       # river
   - opus/oper         # work
+  - caput/capit       # head (Week 11 packet)
+
+# Third declension adjectives (Week 11 packet): masculine and feminine share
+# -is, the neuter is -e, and the other cases take third declension endings.
+third_declension_adjectives:
+  - omnis/omn         # all, every
+  - fortis/fort       # brave, strong
+  - nobilis/nobil     # noble, famous
 
 i_stems:
   - civis/civ        # citizen

@@ -369,6 +369,20 @@ class TestTeacherScreens(_App):
             self.assertIn("not saved", body)
         self.assertEqual(store.list_assessments(self.db), [])
 
+    def test_a_week_with_no_word_list_says_so(self):
+        # A week whose words aren't in the app gives students grammar only, so
+        # the setup screen says which weeks have words and warns when none do.
+        aid = self.add_quiz(["2026-10-05"])           # Week 7: no list yet
+        body = self.teacher.get("/teacher/deadlines/edit?id=%s" % aid).data.decode()
+        self.assertIn("No vocabulary yet", body)
+        self.assertIn("no words in the app", body)
+        self.assertIn("16 words", body)               # the week of October 26
+        self.assertNotIn("Practice these words", self.student.get("/due/%s" % aid).data.decode())
+        aid = self.add_quiz(["2026-10-26"])
+        body = self.teacher.get("/teacher/deadlines/edit?id=%s" % aid).data.decode()
+        self.assertNotIn("No vocabulary yet", body)
+        self.assertIn("Practice these words", self.student.get("/due/%s" % aid).data.decode())
+
     def test_delete(self):
         aid = self.add_quiz(["2026-09-07"])
         self.teacher.post("/teacher/deadlines/edit", data={"id": aid, "action": "delete"})

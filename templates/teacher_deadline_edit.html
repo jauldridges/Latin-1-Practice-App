@@ -29,9 +29,16 @@
   <div class="weekpick">
     {% for wk in all_weeks %}
       <label><input type="checkbox" name="week" value="{{ wk }}"
-        {{ 'checked' if a and wk in a.weeks }}> {{ wk | weeklabel }}</label>
+        {{ 'checked' if a and wk in a.weeks }}> {{ wk | weeklabel }}
+        <span class="small muted weekwords">{% if week_words[wk] %}{{ week_words[wk] }} word{{ 's' if week_words[wk] != 1 }}{% elif wk <= today %}no words in the app{% endif %}</span></label>
     {% endfor %}
   </div>
+
+  {% if a and a.weeks and not n_words %}
+  <div class="card warn-card"><strong>No vocabulary yet.</strong> None of the ticked weeks has
+    a word list in the app, so students will see grammar practice only. Send the week's word
+    list to add it, and the vocabulary button appears on its own.</div>
+  {% endif %}
 
   {% if topics %}
   <h2>Topics it covers</h2>

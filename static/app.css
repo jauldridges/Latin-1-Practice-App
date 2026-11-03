@@ -342,6 +342,8 @@ a.duecard .due-go { grid-area: go; font-size: 14px; color: var(--accent); }
 .weekpick { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 6px; }
 .weekpick label { background: var(--card); border: 1px solid var(--line); border-radius: 8px;
   padding: 8px 10px; font-size: 15px; }
+.weekpick .weekwords { display: block; margin-left: 24px; font-size: 12px; }
+.warn-card { border-color: #e6cf94; background: #fbf1d6; }
 
 /* ---- Homework: this week, week by week, all time ------------------------- */
 .goal-head { flex-wrap: wrap; row-gap: 8px; }
