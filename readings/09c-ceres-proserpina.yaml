@@ -1,6 +1,6 @@
 # A Reader passage. See readings.py for the format and README "Reader".
 #
-# Source: Latin I — Week 9 story packet, Day 4 (Thursday 22 Oct), pages 5–6.
+# Source: Latin I — Week 9 story packet, Day 4 (Thursday October 22), pages 5–6.
 #   new:    words underlined in the packet, glossed as the packet glosses them
 #           (underlined on screen too), with the case added to the note.
 #   words:  every other word, so a student can tap anything. These glosses
@@ -11,7 +11,7 @@
 
 slug: ceres-proserpina
 title: "Fābula dē Cerere et Prōserpinā"
-source: "Latin I — Week 9 story packet, Day 4 (Thu 22 Oct)"
+source: "Latin I — Week 9 story packet, Day 4 (Thursday October 22)"
 paragraphs: [[1, 2, 3, 4, 5], [6, 7, 8, 9], [10, 11, 12, 13], [14, 15, 16, 17, 18]]
 
 sentences:

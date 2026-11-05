@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Waiting for you — Latin I{% endblock %}
+{% block subtitle %}waiting for you{% endblock %}
+{% block content %}
+{% macro approve(kind, id, label="Approve") %}
+  <form method="post" action="{{ url_for('teacher_approve') }}" class="queue-approve">
+    <input type="hidden" name="kind" value="{{ kind }}"><input type="hidden" name="id" value="{{ id }}">
+    <button class="minibtn" type="submit">{{ label }}</button>
+  </form>
+{% endmacro %}
+
+<p class="small"><a href="{{ url_for('teacher_home') }}">← Dashboard</a></p>
+<h1>Waiting for you</h1>
+
+{% if done %}<div class="flags"><span class="lvl heuristic">done</span> Approved {{ done }}. Students can see it now.</div>{% endif %}
+
+{% if n_flagged %}<div class="flags"><span class="lvl heuristic">also</span>
+  {{ n_flagged }} question{{ 's' if n_flagged != 1 }} the automatic checks flagged
+  need{{ 's' if n_flagged == 1 }} a closer look in <a href="{{ url_for('review_flagged') }}">the Review tool</a>.
+  They aren't on this page.</div>{% endif %}
+
+{% if not sections %}
+<div class="card"><p><strong>Nothing is waiting.</strong> Everything in the app has been approved.</p></div>
+{% else %}
+<p class="small muted">Everything added to the app that students can't see until you approve it.
+  Read it here and approve it here. Each item can still be changed or withdrawn later on its own page.</p>
+
+<ul class="queue-jump">
+  {% for sec in sections %}
+  <li><a href="#{{ sec.key }}">{{ sec.title }}</a> <span class="queue-n">{{ sec['items'] | length }}</span></li>
+  {% endfor %}
+</ul>
+
+{% if total %}
+<form method="post" action="{{ url_for('teacher_approve') }}"
+      onsubmit="return confirm('Approve all {{ total }} things on this page? Stories are not published by this button.')">
+  <input type="hidden" name="scope" value="everything">
+  <button class="bigbtn" type="submit">Approve everything on this page ({{ total }})</button>
+</form>
+<p class="small muted" style="margin-top:-4px">Stories are the exception: they wait until you publish each one.</p>
+{% endif %}
+
+{% for sec in sections %}
+<section class="queue-sec" id="{{ sec.key }}">
+<details {{ 'open' if sec['items'] | length <= 60 }}>
+  <summary><h2>{{ sec.title }} <span class="queue-n">{{ sec['items'] | length }}</span></h2></summary>
+  <p class="small muted">{{ sec.blurb }} <a href="{{ sec.page }}">Its own page</a></p>
+
+  {% if not sec.publish and sec['items'] | length > 1 %}
+  <form method="post" action="{{ url_for('teacher_approve') }}"
+        onsubmit="return confirm('Approve all {{ sec['items'] | length }}?')">
+    <input type="hidden" name="scope" value="all"><input type="hidden" name="kind" value="{{ sec.key }}">
+    <button class="bigbtn secondary" type="submit">Approve all {{ sec['items'] | length }} in this group</button>
+  </form>
+  {% endif %}
+
+  {% if sec.key == 'questions' %}
+    {% for g in sec.groups %}
+    <h3 class="queue-topic">{{ g.label }} <span class="small muted">{{ g.node }}{% if g.week %} · {{ g.week | weeklabel }}{% endif %}</span></h3>
+    {% for q in g['items'] %}
+    <div class="queue-item">
+      <div class="queue-body">
+        <div>{{ q.stem }}</div>
+        {% if q.options %}<ul class="queue-options">{% for o in q.options %}<li>{{ o }}</li>{% endfor %}</ul>{% endif %}
+        <div class="small"><span class="muted">Answer:</span> <strong>{{ q.answer }}</strong></div>
+      </div>
+      {{ approve('questions', q.id) }}
+    </div>
+    {% endfor %}
+    {% endfor %}
+
+  {% else %}
+    {% for it in sec['items'] %}
+    <div class="queue-item">
+      <div class="queue-body">
+        {% if it.changed %}<span class="pill shaky">reworded since you approved it</span>{% endif %}
+        {% if sec.key in ('laws', 'magister') %}
+          {% if it.category %}<div class="small muted">{{ it.category }}</div>{% endif %}
+          <div>{{ it.text }}</div>
+        {% elif sec.key == 'lessons' %}
+          <div><strong>Lesson {{ it.n }}: {{ it.title }}</strong> <span class="small muted">{{ it.steps }} steps</span></div>
+          <a class="small" href="{{ it.read }}">Read it as a student sees it →</a>
+        {% elif sec.key == 'teaching' %}
+          <div><strong>{{ it.label }}</strong> <span class="small muted">{{ it.id }}</span></div>
+          <div class="small">{{ it.explain }}</div>
+          {% if it.examples %}<ul class="queue-options small">{% for e in it.examples %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+          <div class="small"><span class="muted">After a miss:</span> {{ it.when_wrong }}</div>
+          <a class="small" href="{{ it.edit }}">Reword it</a>
+        {% elif sec.key == 'hints' %}
+          <div class="small muted"><span class="latin">{{ it.entry }}</span> — {{ it.gloss }}</div>
+          <div class="latin-sentence">{% for t, m in it.segments %}{% if m %}<strong>{{ t }}</strong>{% else %}{{ t }}{% endif %}{% endfor %}</div>
+          {% if it.en %}<div class="small muted">{{ it.en }}</div>{% endif %}
+        {% elif sec.key == 'stories' %}
+          <div><strong>{{ it.title }}</strong></div>
+          <div class="small muted">{{ it.source }} · {{ it.n }} sentences · {{ it.n_q }} questions</div>
+          <a class="small" href="{{ it.preview }}">Preview it →</a>
+        {% endif %}
+      </div>
+      {{ approve(sec.key, it.id, 'Publish' if sec.publish else 'Approve') }}
+    </div>
+    {% endfor %}
+  {% endif %}
+</details>
+</section>
+{% endfor %}
+{% endif %}
+{% endblock %}

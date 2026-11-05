@@ -241,7 +241,7 @@ sentences:
 # that answers it (hint: sentence number -> words, punctuation ignored). A wrong
 # answer offers "See hint", which highlights those words in the story.
 #
-# p1-p9 are the Week 8 packet's "Practice B: Questions" (Day 2, Thursday 15 Oct),
+# p1-p9 are the Week 8 packet's "Practice B: Questions" (Day 2, Thursday October 15),
 # in the packet's own wording. q2, q4-q10 are the app's own warm-ups, kept
 # next to the packet questions they lead into. (The app's first versions of
 # packet 1 and 2, q1 and q3, were replaced by the packet's.)

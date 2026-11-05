@@ -883,3 +883,27 @@ article.reader sup.core, .core-key { display: inline-block; background: var(--wr
   font-size: 11px; font-weight: 700; line-height: 1; padding: 3px 4px; border-radius: 2px; vertical-align: super;
   text-indent: 0; min-width: 1.5em; text-align: center; }
 .core-key { vertical-align: baseline; }
+
+/* ---- Waiting for you: the teacher's approval queue ------------------------ */
+.queue-jump { list-style: none; padding: 0; margin: 8px 0 14px; display: flex; flex-wrap: wrap; gap: 6px; }
+.queue-jump li a { display: inline-block; }
+.queue-jump li { background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 5px 10px; font-size: 14px; }
+.queue-n { display: inline-block; min-width: 1.6em; text-align: center; font-size: 12px; font-weight: 700;
+  background: #fbf1d6; color: var(--flag); border-radius: 999px; padding: 1px 7px; vertical-align: 2px; }
+.queue-sec details > summary { cursor: pointer; list-style: none; }
+.queue-sec details > summary::-webkit-details-marker { display: none; }
+.queue-sec details > summary h2 { display: inline; }
+.queue-sec details > summary h2::before { content: "▸ "; color: var(--muted); }
+.queue-sec details[open] > summary h2::before { content: "▾ "; }
+.queue-sec { margin: 22px 0; }
+.queue-topic { font-size: 16px; margin: 18px 0 6px; }
+.queue-item { display: flex; gap: 10px; align-items: flex-start; background: var(--card);
+  border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 8px 0; }
+.queue-body { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.queue-body > * + * { margin-top: 4px; }
+.queue-options { margin: 4px 0; padding-left: 20px; }
+.queue-approve { flex: none; }
+.waiting-card { display: block; background: #fbf1d6; border: 1px solid #e7d59a; border-radius: 12px;
+  padding: 12px 14px; margin: 10px 0 16px; color: inherit; text-decoration: none; }
+.waiting-card strong { font-size: 18px; }
+nav.tabs.teacher a { font-size: 14px; }

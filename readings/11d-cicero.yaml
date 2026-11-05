@@ -1,0 +1,312 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 11 story packet, Day 4 (Thursday November 5).
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too), with the case added to the note.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them.
+#   core:   the packet's Core sentences (number in a red box): 3, 6, 10, 12, 13.
+#
+# Sentence 9: the packet underlines the whole quotation, "Quō usque tandem
+# abūtēre, Catilīna, patientiā nostrā?" A tap target can't run across commas,
+# so it is two underlined pieces, with Catilīna glossed between them.
+#
+# Questions, in story order: p1-p5 are the class packet's Stretch questions
+# (Week 11 class packet, Day 4 Practice), written answers with a model; q1-q3
+# are the app's own quick checks.
+
+slug: cicero
+title: "Fābula dē Cicerōne"
+source: "Latin I — Week 11 story packet, Day 4 (Thursday November 5)"
+paragraphs: [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10, 11], [12, 13, 14, 15, 16]]
+
+sentences:
+  - n: 1
+    text: "Mārcus Tullius Cicerō est homō novus, sīcut Marius."
+    new:
+      Mārcus Tullius Cicerō: "Marcus Tullius Cicero · Subject, nominative"
+      sīcut: "just like"
+    words:
+      est: "is — from sum"
+      homō novus: "a new man, the first in his family to become consul · Predicate Nominative"
+      Marius: "Marius"
+
+  - n: 2
+    text: "Cicerō nōn est mīles, sed verba Cicerōnis sunt arma eius."
+    new:
+      arma eius: "his weapons · Predicate Nominative"
+    words:
+      Cicerō: "Cicero · Subject, nominative"
+      nōn: "not"
+      est: "is — from sum"
+      mīles: "a soldier · Predicate Nominative"
+      sed: "but"
+      verba: "the words · Subject, nominative plural"
+      Cicerōnis: "of Cicero · genitive"
+      sunt: "are — from sum"
+
+  - n: 3
+    core: true
+    text: "Cicerō est ōrātor fortis, et omnis Rōmānus verba Cicerōnis laudat."
+    new:
+      ōrātor: "speaker · Predicate Nominative"
+    words:
+      Cicerō: "Cicero · Subject, nominative"
+      est: "is — from sum"
+      fortis: "brave, strong — it describes ōrātor"
+      et: "and"
+      omnis: "every — it describes Rōmānus"
+      Rōmānus: "Roman · Subject, nominative"
+      verba: "the words · Direct Object, accusative plural"
+      Cicerōnis: "of Cicero · genitive"
+      laudat: "praises — from laudō"
+
+  - n: 4
+    text: "Populus Cicerōnī favet, et Cicerō est cōnsul."
+    new:
+      cōnsul: "consul · Predicate Nominative"
+    words:
+      Populus: "the people · Subject, nominative"
+      Cicerōnī: "Cicero · dative with favet"
+      favet: "favors, supports — from faveō, which takes the dative"
+      et: "and"
+      Cicerō: "Cicero · Subject, nominative"
+      est: "is — from sum"
+
+  - n: 5
+    text: "Lūcius Sergius Catilīna est vir nōbilis, sed malus."
+    new:
+      Lūcius Sergius Catilīna: "Lucius Sergius Catiline · Subject, nominative"
+    words:
+      est: "is — from sum"
+      vir: "a man · Predicate Nominative"
+      nōbilis: "noble — it describes vir"
+      sed: "but"
+      malus: "bad, wicked — it describes vir"
+
+  - n: 6
+    core: true
+    text: "Catilīna lēgibus nōn pāret, et mīlitēs fortēs parat."
+    new:
+      lēgibus: "the laws · dative with pāret"
+      parat: "gets ready"
+    words:
+      Catilīna: "Catiline · Subject, nominative"
+      nōn: "not"
+      pāret: "obeys — from pāreō, which takes the dative"
+      et: "and"
+      mīlitēs: "soldiers · Direct Object, accusative plural"
+      fortēs: "brave, strong — it describes mīlitēs"
+
+  - n: 7
+    text: "Catilīna cōnsilium malum habet: cōnsulēs necāre et Rōmam incendere cupit."
+    new:
+      cōnsulēs: "the consuls · Direct Object, accusative plural"
+      necāre: "to kill"
+      incendere: "to burn"
+      cupit: "wants"
+    words:
+      Catilīna: "Catiline · Subject, nominative"
+      cōnsilium: "a plan · Direct Object, accusative"
+      malum: "evil — it describes cōnsilium"
+      habet: "has — from habeō"
+      et: "and"
+      Rōmam: "Rome · Direct Object, accusative"
+
+  - n: 8
+    text: "Cicerō cōnsilium Catilīnae audit. Cicerō mīlitēs nōn vocat; senātum vocat."
+    new:
+      audit: "hears about"
+      senātum: "the Senate · Direct Object, accusative"
+    words:
+      Cicerō: "Cicero · Subject, nominative"
+      cōnsilium: "the plan · Direct Object, accusative"
+      Catilīnae: "of Catiline · genitive"
+      mīlitēs: "soldiers · Direct Object, accusative plural"
+      nōn: "not"
+      vocat: "calls — from vocō"
+
+  - n: 9
+    text: "In senātū Cicerō Catilīnae clāmat: “Quō usque tandem abūtēre, Catilīna, patientiā nostrā?”"
+    new:
+      In senātū: "in the Senate"
+      Quō usque tandem abūtēre: "“How long, at last, will you abuse"
+      patientiā nostrā: "our patience?” — the whole line: “How long, Catiline, will you abuse our patience?”"
+    words:
+      Cicerō: "Cicero · Subject, nominative"
+      Catilīnae: "at Catiline · dative"
+      clāmat: "shouts — from clāmō"
+      Catilīna: "Catiline · Vocative"
+
+  - n: 10
+    core: true
+    text: "Omnēs senātōrēs Catilīnam spectant, sed nūllus senātor nōbilī malō favet."
+    new:
+      senātōrēs: "the senators · Subject, nominative plural"
+      nūllus: "no"
+    words:
+      Omnēs: "all — it describes senātōrēs"
+      Catilīnam: "Catiline · Direct Object, accusative"
+      spectant: "look at — from spectō"
+      sed: "but"
+      senātor: "senator · Subject, nominative"
+      nōbilī: "the noble · dative with favet"
+      malō: "evil — it describes nōbilī"
+      favet: "supports — from faveō, which takes the dative"
+
+  - n: 11
+    text: "Catilīna Rōmam relinquit et ad mīlitēs suōs fugit."
+    new:
+      relinquit: "leaves"
+      ad mīlitēs suōs: "to his soldiers"
+      fugit: "runs away"
+    words:
+      Catilīna: "Catiline · Subject, nominative"
+      Rōmam: "Rome · Direct Object, accusative"
+      et: "and"
+
+  - n: 12
+    core: true
+    text: "Verba fortia Cicerōnis senātōribus omnibus placent."
+    new:
+      senātōribus: "the senators · dative with placent"
+    words:
+      Verba: "the words · Subject, nominative plural"
+      fortia: "brave, strong — it describes Verba"
+      Cicerōnis: "of Cicero · genitive"
+      omnibus: "all — it describes senātōribus"
+      placent: "please — from placeō, which takes the dative"
+
+  - n: 13
+    core: true
+    text: "Senātus Cicerōnī nōmen nōbile dat: “Pater Patriae.”"
+    new:
+      Senātus: "the Senate · Subject, nominative"
+      Pater Patriae: "Father of the Fatherland"
+    words:
+      Cicerōnī: "to Cicero · Indirect Object, dative"
+      nōmen: "a name · Direct Object, accusative"
+      nōbile: "noble — it describes nōmen"
+      dat: "gives — from dō"
+
+  - n: 14
+    text: "Sed Cicerō amīcōs Catilīnae sine iūdiciō necat."
+    new:
+      sine iūdiciō: "without a trial"
+      necat: "puts to death"
+    words:
+      Sed: "but"
+      Cicerō: "Cicero · Subject, nominative"
+      amīcōs: "the friends · Direct Object, accusative plural"
+      Catilīnae: "of Catiline · genitive"
+
+  - n: 15
+    text: "Posteā multī Rōmānī Cicerōnī inimīcī sunt, et Cicerō Rōmam relinquere dēbet."
+    new:
+      Posteā: "later"
+      relinquere: "to leave"
+    words:
+      multī: "many — it describes Rōmānī"
+      Rōmānī: "Romans · Subject, nominative plural"
+      Cicerōnī: "to Cicero · dative with inimīcī"
+      inimīcī: "unfriendly, enemies (takes the dative)"
+      sunt: "are — from sum"
+      et: "and"
+      Cicerō: "Cicero · Subject, nominative"
+      Rōmam: "Rome · Direct Object, accusative"
+      dēbet: "must — from dēbeō"
+
+  - n: 16
+    text: "Cicerō saepe dīcit: “Cēdant arma togae.” Rōmānī hanc fābulam nārrant: verba, nōn arma, rem pūblicam servāre dēbent."
+    new:
+      dīcit: "says"
+      Cēdant arma togae: "“let weapons give way to the toga”"
+      hanc fābulam: "this story · Direct Object, accusative"
+      rem pūblicam: "the Republic · Direct Object, accusative"
+      servāre: "to save"
+    words:
+      Cicerō: "Cicero · Subject, nominative"
+      saepe: "often"
+      Rōmānī: "the Romans · Subject, nominative"
+      nārrant: "tell — from nārrō"
+      verba: "words · Subject, nominative plural"
+      nōn: "not"
+      arma: "weapons · Subject, nominative plural"
+      dēbent: "must — from dēbeō"
+
+questions:
+  - id: p1
+    ask: "Cicero is a homō novus like Marius (sentence 1). How is Cicero’s strength different from Marius’s (sentence 2)?"
+    look: [1, 2]
+    hint: {2: "verba Cicerōnis sunt arma eius"}
+    model: >-
+      Marius's strength was his soldiers. Cicero is not a soldier: his words
+      are his weapons.
+
+  - id: q1
+    ask: "Sentence 4: What does Cicero become?"
+    look: [4]
+    hint: {4: "Cicerō est cōnsul"}
+    options:
+      a: "consul"
+      b: "dictator"
+      c: "a soldier"
+      d: "king"
+    answer: a
+
+  - id: p2
+    ask: "Catiline is a noble. What is his plan (sentences 6–7)?"
+    look: [6, 7]
+    hint: {6: "mīlitēs fortēs parat", 7: "cōnsulēs necāre et Rōmam incendere cupit"}
+    model: >-
+      He does not obey the laws and gets brave soldiers ready. He wants to
+      kill the consuls and burn Rome.
+
+  - id: p3
+    ask: "Cicero calls the Senate, not soldiers (sentence 8). How do the senators treat Catiline after the speech?"
+    look: [8, 9, 10]
+    hint: {10: "Omnēs senātōrēs Catilīnam spectant sed nūllus senātor nōbilī malō favet"}
+    model: >-
+      They all look at him, but not one senator supports him, even though he
+      is a noble.
+
+  - id: q2
+    ask: "Sentence 11: What does Catiline do?"
+    look: [11]
+    hint: {11: "Catilīna Rōmam relinquit et ad mīlitēs suōs fugit"}
+    options:
+      a: "He leaves Rome and runs to his soldiers."
+      b: "He burns Rome."
+      c: "He becomes consul."
+      d: "He obeys the laws."
+    answer: a
+
+  - id: p4
+    ask: "How did Cicero save Rome without an army (sentences 9–12)?"
+    look: [9, 10, 11, 12]
+    hint: {9: "Quō usque tandem abūtēre Catilīna patientiā nostrā", 12: "Verba fortia Cicerōnis senātōribus omnibus placent"}
+    model: >-
+      With a speech. He called the Senate and spoke against Catiline to his
+      face; no senator would support Catiline, so he left Rome. Cicero's
+      strong words won over all the senators.
+
+  - id: q3
+    ask: "Sentence 13: What name does the Senate give Cicero?"
+    look: [13]
+    hint: {13: "Pater Patriae"}
+    options:
+      a: "Father of the Fatherland"
+      b: "the Great"
+      c: "Lucky"
+      d: "a new man"
+    answer: a
+
+  - id: p5
+    ask: "Cicero put citizens to death without a trial (sentence 14). Did he save the law or break it? Use sentences 15–16."
+    look: [14, 15, 16]
+    hint: {14: "sine iūdiciō necat", 15: "Cicerō Rōmam relinquere dēbet"}
+    model: >-
+      Both answers can be argued. He saved the Republic with words, not
+      weapons (sentence 16), but he broke the law by killing citizens without
+      a trial, and later many Romans turned against him and he had to leave
+      Rome (sentence 15).

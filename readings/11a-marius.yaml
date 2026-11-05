@@ -1,0 +1,303 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 11 story packet, Day 1 (Monday November 2).
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too), with the case added to the note.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them.
+#   core:   the packet's Core sentences (number in a red box): 4, 5, 8, 10, 12.
+#
+# Questions, in story order: p1-p5 are the class packet's Stretch questions
+# (Week 11 class packet, Day 1 Practice), written answers with a model; q1-q4
+# are the app's own quick checks.
+
+slug: marius
+title: "Fābula dē Mariō"
+source: "Latin I — Week 11 story packet, Day 1 (Monday November 2)"
+paragraphs: [[1, 2, 3], [4, 5, 6], [7, 8, 9, 10], [11, 12, 13, 14]]
+
+sentences:
+  - n: 1
+    text: "Gāius Marius est homō novus. Pater Mariī est agricola, nōn senātor."
+    new:
+      homō novus: "a new man: the first in his family to become consul · Predicate Nominative"
+      senātor: "senator, a member of the Senate · Predicate Nominative"
+    words:
+      Gāius Marius: "Gaius Marius · Subject, nominative"
+      est: "is — from sum"
+      Pater: "the father · Subject, nominative"
+      Mariī: "of Marius · genitive"
+      agricola: "a farmer · Predicate Nominative"
+      nōn: "not"
+
+  - n: 2
+    text: "Nōbilēs Rōmānī hominēs novōs nōn amant, sed populus Rōmānus Mariō favet."
+    new:
+      Nōbilēs: "the nobles, Rome's old families · Subject, nominative plural"
+      hominēs novōs: "new men · Direct Object, accusative plural"
+    words:
+      Rōmānī: "Roman — it describes Nōbilēs"
+      nōn: "not"
+      amant: "love, like — from amō"
+      sed: "but"
+      populus: "the people · Subject, nominative"
+      Rōmānus: "Roman — it describes populus"
+      Mariō: "Marius · dative with favet"
+      favet: "favors, supports — from faveō, which takes the dative"
+
+  - n: 3
+    text: "In Āfricā est rēx malus, Iugurtha."
+    new:
+      In Āfricā: "in Africa"
+      Iugurtha: "Jugurtha, a king in North Africa · renames rēx"
+    words:
+      est: "there is — from sum"
+      rēx: "a king · Subject, nominative"
+      malus: "bad, wicked — it describes rēx"
+
+  - n: 4
+    core: true
+    text: "Rēx Rōmānīs nocet, et rēx senātōribus pecūniam dat."
+    new:
+      Rōmānīs: "the Romans · dative with nocet"
+      senātōribus: "the senators · Indirect Object, dative"
+    words:
+      Rēx: "the king · Subject, nominative"
+      nocet: "harms — from noceō, which takes the dative"
+      et: "and"
+      pecūniam: "money · Direct Object, accusative"
+      dat: "gives — from dō"
+
+  - n: 5
+    core: true
+    text: "Senātōrēs pecūniam rēgis amant; itaque rēgem nōn superant."
+    new:
+      Senātōrēs: "the senators · Subject, nominative plural"
+      itaque: "and so"
+    words:
+      pecūniam: "the money · Direct Object, accusative"
+      rēgis: "of the king · genitive"
+      amant: "love — from amō"
+      rēgem: "the king · Direct Object, accusative"
+      nōn: "not"
+      superant: "defeat, overcome — from superō"
+
+  - n: 6
+    text: "Populus Rōmānus īrātus est. Populus Mariō crēdit, et Marius est cōnsul."
+    new:
+      īrātus: "angry"
+      cōnsul: "consul, one of Rome's two top officials, elected for one year · Predicate Nominative"
+    words:
+      Populus: "the people · Subject, nominative"
+      Rōmānus: "Roman — it describes Populus"
+      est: "is — from sum"
+      Mariō: "Marius · dative with crēdit"
+      crēdit: "believes, trusts — from crēdō, which takes the dative"
+      et: "and"
+      Marius: "Marius · Subject, nominative"
+
+  - n: 7
+    text: "Sed Rōma paucōs mīlitēs habet: mīles Rōmānus agrum habēre dēbet."
+    new:
+      paucōs: "few"
+      mīlitēs: "soldiers · Direct Object, accusative plural"
+      habēre: "to have"
+    words:
+      Sed: "but"
+      Rōma: "Rome · Subject, nominative"
+      habet: "has — from habeō"
+      mīles: "a soldier · Subject, nominative"
+      Rōmānus: "Roman — it describes mīles"
+      agrum: "a field, land · Direct Object, accusative"
+      dēbet: "must, ought — from dēbeō"
+
+  - n: 8
+    core: true
+    text: "Multī agricolae nūllōs agrōs habent. Itaque Marius hominī miserō arma et pecūniam dat."
+    new:
+      nūllōs: "no"
+      arma: "weapons · Direct Object, accusative plural"
+    words:
+      Multī: "many — it describes agricolae"
+      agricolae: "farmers · Subject, nominative plural"
+      agrōs: "fields, land · Direct Object, accusative plural"
+      habent: "have — from habeō"
+      Itaque: "and so"
+      Marius: "Marius · Subject, nominative"
+      hominī: "to the man · Indirect Object, dative"
+      miserō: "poor, wretched — it describes hominī"
+      et: "and"
+      pecūniam: "money · Direct Object, accusative"
+      dat: "gives — from dō"
+
+  - n: 9
+    text: "Nunc homō miser est mīles Rōmānus."
+    words:
+      Nunc: "now"
+      homō: "the man · Subject, nominative"
+      miser: "poor — it describes homō"
+      est: "is — from sum"
+      mīles: "a soldier · Predicate Nominative"
+      Rōmānus: "Roman — it describes mīles"
+
+  - n: 10
+    core: true
+    text: "Mīles ducī suō semper pāret, et dux mīlitī pecūniam dat."
+    new:
+      suō: "his own"
+    words:
+      Mīles: "the soldier · Subject, nominative"
+      ducī: "his general · dative with pāret"
+      semper: "always"
+      pāret: "obeys — from pāreō, which takes the dative"
+      et: "and"
+      dux: "the general · Subject, nominative"
+      mīlitī: "to the soldier · Indirect Object, dative"
+      pecūniam: "money · Direct Object, accusative"
+      dat: "gives — from dō"
+
+  - n: 11
+    text: "Marius Iugurtham superat, et populus ducem laudat."
+    new:
+      Iugurtham: "Jugurtha · Direct Object, accusative"
+    words:
+      Marius: "Marius · Subject, nominative"
+      superat: "defeats — from superō"
+      et: "and"
+      populus: "the people · Subject, nominative"
+      ducem: "the general · Direct Object, accusative"
+      laudat: "praises — from laudō"
+
+  - n: 12
+    core: true
+    text: "Posteā mīles agrum postulat. Marius mīlitī agrum dat, et mīles ducī grātus est."
+    new:
+      Posteā: "later"
+      postulat: "demands"
+    words:
+      mīles: "the soldier · Subject, nominative"
+      agrum: "a field, land · Direct Object, accusative"
+      Marius: "Marius · Subject, nominative"
+      mīlitī: "to the soldier · Indirect Object, dative"
+      dat: "gives — from dō"
+      et: "and"
+      ducī: "to his general · dative with grātus"
+      grātus: "grateful (takes the dative)"
+      est: "is — from sum"
+
+  - n: 13
+    text: "Nunc mīles nōn senātum, sed ducem amat."
+    new:
+      senātum: "the Senate · Direct Object, accusative"
+    words:
+      Nunc: "now"
+      mīles: "the soldier · Subject, nominative"
+      nōn: "not"
+      sed: "but"
+      ducem: "his general · Direct Object, accusative"
+      amat: "loves — from amō"
+
+  - n: 14
+    text: "Rōmānī hanc fābulam nārrant: ubi mīles ducī magis quam lēgī pāret, rēs pūblica in perīculō est."
+    new:
+      hanc fābulam: "this story · Direct Object, accusative"
+      ubi: "when"
+      magis quam: "more than"
+      rēs pūblica: "the Republic · Subject, nominative"
+      in perīculō: "in danger"
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+      nārrant: "tell — from nārrō"
+      mīles: "a soldier · Subject, nominative"
+      ducī: "his general · dative with pāret"
+      lēgī: "the law · dative with pāret"
+      pāret: "obeys — from pāreō, which takes the dative"
+      est: "is — from sum"
+
+questions:
+  - id: q1
+    ask: "Sentence 1: What is Marius's father?"
+    look: [1]
+    hint: {1: "Pater Mariī est agricola"}
+    options:
+      a: "a farmer"
+      b: "a senator"
+      c: "a consul"
+      d: "a king"
+    answer: a
+
+  - id: q2
+    ask: "Sentence 3: Who is Jugurtha?"
+    look: [3]
+    hint: {3: "In Āfricā est rēx malus Iugurtha"}
+    options:
+      a: "a bad king in Africa"
+      b: "a Roman senator"
+      c: "a soldier in Marius's army"
+      d: "a new man from Rome"
+    answer: a
+
+  - id: p1
+    ask: "Why would a king give money to Roman senators? What does that say about the Senate?"
+    look: [4, 5]
+    hint: {4: "rēx senātōribus pecūniam dat", 5: "Senātōrēs pecūniam rēgis amant itaque rēgem nōn superant"}
+    model: >-
+      To bribe them. The senators love the king's money, so they do not fight
+      him, even though he harms Romans. The Senate cared more about money
+      than about Rome.
+
+  - id: p2
+    ask: "Sentence 6 says the people are angry. Who are they angry at, and why?"
+    look: [5, 6]
+    hint: {6: "Populus Rōmānus īrātus est"}
+    model: >-
+      At the Senate: the senators took Jugurtha's money and did not defeat
+      him, though he was harming Romans. So the people trusted Marius instead
+      and made him consul.
+
+  - id: q3
+    ask: "Sentence 6: What does Marius become?"
+    look: [6]
+    hint: {6: "Marius est cōnsul"}
+    options:
+      a: "consul"
+      b: "king"
+      c: "a farmer"
+      d: "a senator"
+    answer: a
+
+  - id: p3
+    ask: "A Roman soldier used to need land (sentence 7). Who does Marius let into the army now?"
+    look: [7, 8]
+    hint: {7: "mīles Rōmānus agrum habēre dēbet", 8: "Marius hominī miserō arma et pecūniam dat"}
+    model: >-
+      Poor men with no land. Many farmers have no fields, so Marius gives a
+      poor man weapons and money, and now he is a Roman soldier.
+
+  - id: p4
+    ask: "Who pays the soldier now: Rome or his general? Why does that matter?"
+    look: [10]
+    hint: {10: "dux mīlitī pecūniam dat"}
+    model: >-
+      His general pays him. So the soldier always obeys his own general, not
+      Rome or the Senate: an army now belongs to the man who pays it.
+
+  - id: q4
+    ask: "Sentence 11: What happens to Jugurtha?"
+    look: [11]
+    hint: {11: "Marius Iugurtham superat"}
+    options:
+      a: "Marius defeats him."
+      b: "He pays Marius money."
+      c: "He becomes consul."
+      d: "He runs away to Rome."
+    answer: a
+
+  - id: p5
+    ask: "Who does the soldier love now (sentence 13)? Use sentence 14: why did Romans tell this story?"
+    look: [13, 14]
+    hint: {13: "mīles nōn senātum sed ducem amat", 14: "ubi mīles ducī magis quam lēgī pāret rēs pūblica in perīculō est"}
+    model: >-
+      He loves his general, not the Senate. Romans told the story as a
+      warning: when a soldier obeys his general more than the law, the
+      Republic is in danger.

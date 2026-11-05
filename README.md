@@ -88,7 +88,7 @@ start clean.
 | `analysis.py` | Data for analysis: the zip of spreadsheets split around an exam. |
 | `dates.py` | How every date a person reads is written: "Friday October 30". |
 | `nle.py`, `nle/`, `static/nle/` | Past National Latin Exams: 15 exams, pre-approved, in badge checks and Practice NLE. |
-| `tests/` | 785 tests. `python3 -m unittest discover -s tests`. |
+| `tests/` | 795 tests. `python3 -m unittest discover -s tests`. |
 | `latin1-*.yaml` | The source files — spec, exemplars, and the question banks (never modified by the apps). |
 | `QUERIES.md` | How to see student work — verified SQL, no dashboard needed. |
 
@@ -587,6 +587,27 @@ so, with **Start over** (deletes everything the demo student did) and **Back to
 teacher view**. The demo student is left out of every whole-class read — the
 dashboard, homework grid, misses, quiz and practice-NLE lists, and Data for
 analysis. `tests/test_student_mode.py`.
+
+## Waiting for you (the approval queue)
+
+**Waiting for you** (`/teacher/approve`; a yellow card at the top of the
+dashboard says how many, and it is a tab on every teacher page) gathers
+everything students can't see until the teacher approves it, from every page
+that approves something: the Lēgēs Magistrī and the Magister's other lines,
+badge lessons, grammar questions (unreviewed and unflagged, or in a bank file
+and never imported: approving imports it, running the mechanical checks
+first), teaching text, and vocabulary hint sentences. Each item is shown in
+full with its own **Approve**; each group has **Approve all**; the top has
+**Approve everything on this page**. A line reworded since it was approved
+comes back marked. Questions the checks flagged are counted and sent to the
+Review tool rather than listed. Reader stories are listed with **Publish**, one
+at a time: no group or page-wide button publishes a story, because a story goes
+live when it is taught. Every item keeps its own page for editing and
+withdrawing. `tests/test_approve.py`.
+
+The teacher's tabs (Students · Waiting for you · Goals · Reader · Badges · All
+tools) sit under the top bar on every teacher page; **All tools** is the full
+list on the home page.
 
 ## Practice NLE
 
@@ -1336,7 +1357,7 @@ All five build steps, verified in order:
 18. Keyboard-only practice (Enter submits, Enter advances) and an always-visible
     progress strip on the drill and practice screens — both driven in a browser.
 
-785 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
+795 tests pass (14 skip without a Postgres to talk to) (`python3 -m unittest discover -s tests`).
 
 ## What is approximate, and how it can be fooled
 

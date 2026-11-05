@@ -17,6 +17,12 @@
     not merely unlinked.</p>
 </div>
 {% endif %}
+{% if waiting %}
+<a class="waiting-card" href="{{ url_for('teacher_approve') }}">
+  <strong>{{ waiting }} thing{{ 's' if waiting != 1 }} waiting for you →</strong><br>
+  <span class="small">New questions, lessons, hints and lines students can't see until you approve them.
+    Read and approve them all on one page.</span></a>
+{% endif %}
 <h1>Who practiced</h1>
 <p class="small muted">Students are ID numbers here — this app holds no names.
   Match them against your paper list.</p>

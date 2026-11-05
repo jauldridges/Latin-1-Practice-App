@@ -43,10 +43,27 @@ class TestThePassages(unittest.TestCase):
         p = [x for x in ALL["gracchi"]["by_n"][17]["pieces"] if x["kind"] == "word"]
         self.assertIn(("ĀFRICĀNĪ F", True), [(x["text"], x["new"]) for x in p])
 
+    def test_the_week_11_stories_and_their_core_sentences(self):
+        slugs = ("marius", "sulla", "pompeius", "cicero")
+        core = {slug: [x["n"] for x in ALL[slug]["sentences"] if x.get("core")] for slug in slugs}
+        self.assertEqual(core, {"marius": [4, 5, 8, 10, 12], "sulla": [4, 7, 10, 11, 13],
+                                "pompeius": [3, 5, 8, 11, 13], "cicero": [3, 6, 10, 12, 13]})
+        self.assertEqual([len(ALL[s]["sentences"]) for s in slugs], [14, 15, 14, 16])
+        for slug in slugs:
+            self.assertEqual(readings.problems(ALL[slug]), [], slug)
+            packet = [q for q in ALL[slug]["questions"] if q["id"].startswith("p")]
+            self.assertEqual(len(packet), 5, slug)
+            self.assertTrue(all(readings.is_open(q) for q in packet), slug)
+        # a long underlined quotation is one tap
+        p = [x for x in ALL["pompeius"]["by_n"][10]["pieces"] if x["kind"] == "word"]
+        self.assertIn(("Plūrēs hominēs sōlem orientem quam occidentem adōrant", True),
+                      [(x["text"], x["new"]) for x in p])
+
     def test_the_week_9_stories_list_in_teaching_order(self):
         self.assertEqual(list(ALL), ["cincinnatus", "dei-primi", "liberi-iovis",
                                      "ceres-proserpina", "cornelia", "cornelia-filii",
-                                     "patricii-plebeii", "gracchi"])
+                                     "patricii-plebeii", "gracchi",
+                                     "marius", "sulla", "pompeius", "cicero"])
         self.assertEqual([len(ALL[s]["sentences"]) for s in list(ALL)[1:4]], [20, 18, 18])
         # the packet's underlined words are underlined on screen
         p = [x for x in ALL["ceres-proserpina"]["by_n"][13]["pieces"] if x["kind"] == "word"]

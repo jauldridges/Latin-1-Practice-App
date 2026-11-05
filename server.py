@@ -14,6 +14,7 @@ The drill routes are added in build step 4; this file grows, it does not fork.
 import csv
 import datetime
 import io
+import json
 import os
 import time
 import uuid
@@ -2060,6 +2061,226 @@ def teacher_lesson_review(bid):
                            node_label=_NODE_LABEL)
 
 
+# ==========================================================================
+# Waiting for you -- everything the teacher has yet to read and approve, on
+# one page. Each kind keeps its own page (the Magister, lessons, teaching
+# text, vocabulary hints, the Review tool, the Reader); this gathers what is
+# waiting on all of them so nothing new reaches students unread and nothing
+# sits forgotten on a page the teacher never opens.
+# ==========================================================================
+
+_QUEUE_BANK = None
+
+
+def _queue_bank():
+    """The question bank files, read once: {item id: item}."""
+    global _QUEUE_BANK
+    if _QUEUE_BANK is None:
+        _QUEUE_BANK = {it["id"]: it for it in dataio.load_bank()}
+    return _QUEUE_BANK
+
+
+def _queue_question(it):
+    return {"id": it["id"], "node": it.get("node"), "stem": practice.question_text(it),
+            "options": list((it.get("options") or {}).values()) if it.get("format") == "choice" else [],
+            "answer": _answer_text(it)}
+
+
+def _waiting_bank_questions(db):
+    """Questions not yet approved and not set aside: in a bank file but never
+    imported, or imported and still unreviewed. A flagged question needs the
+    Review tool's closer look, so it is counted, not listed."""
+    rows = {r["item_id"]: r for r in db.execute(
+        "SELECT item_id, review_status, flagged, payload FROM items").fetchall()}
+    out = []
+    for iid, it in _queue_bank().items():
+        r = rows.get(iid)
+        if r is None:
+            out.append(it)
+    for iid, r in rows.items():
+        if r["review_status"] == "unreviewed" and not r["flagged"]:
+            out.append(dict(json.loads(r["payload"]), id=iid))
+    order = {nid: i for i, nid in enumerate(_SPEC)}
+    out.sort(key=lambda it: (order.get(it.get("node"), 9999), str(it["id"])))
+    n_flagged = sum(1 for r in rows.values() if r["review_status"] == "unreviewed" and r["flagged"])
+    return out, n_flagged
+
+
+def approval_queue(db):
+    """[{key, title, blurb, items, ...}] -- only kinds with something waiting."""
+    approvals = store.teaching_approvals(db)
+    lines = [l for l in magister_lines(db) if l["state"] != "approved"]
+    out = []
+
+    laws = [l for l in lines if l["category"] in magister.LEGES]
+    if laws:
+        out.append({"key": "laws", "title": "Lēgēs Magistrī, the laws",
+                    "blurb": "The rules on the Leges page and in the Magister's speech bubble.",
+                    "page": url_for("teacher_magister"),
+                    "items": [{"id": l["id"], "changed": l["state"] == "edited",
+                               "text": l["text"]} for l in laws]})
+
+    les = []
+    for b in sorted(_BADGES, key=lambda x: _LESSON_NO[x["id"]]):
+        l = _LESSONS.get(b["id"])
+        if l is None or lessons.problems(l):
+            continue
+        got = approvals.get(lessons.key(b["id"]))
+        if got != lessons.fingerprint(l):
+            les.append({"id": b["id"], "changed": bool(got), "n": _LESSON_NO[b["id"]],
+                        "title": b["title"], "steps": len(l["steps"]),
+                        "read": url_for("teacher_lesson_review", bid=b["id"])})
+    if les:
+        out.append({"key": "lessons", "title": "Badge lessons",
+                    "blurb": "Each opens the way a student sees it. Read it there, or approve it here.",
+                    "page": url_for("teacher_lessons"), "items": les})
+
+    qs, _ = _waiting_bank_questions(db)
+    if qs:
+        groups = []
+        for it in qs:
+            if not groups or groups[-1]["node"] != it.get("node"):
+                node = _SPEC.get(it.get("node")) or {}
+                groups.append({"node": it.get("node"), "label": _NODE_LABEL.get(it.get("node"), ""),
+                               "week": str(node.get("week") or ""), "items": []})
+            groups[-1]["items"].append(_queue_question(it))
+        out.append({"key": "questions", "title": "Grammar questions",
+                    "blurb": "Approved questions go into practice and badge checks once their topic is taught.",
+                    "page": url_for("review_queue"), "groups": groups,
+                    "items": [q for g in groups for q in g["items"]]})
+
+    teach = []
+    overrides = store.teaching_overrides(db)
+    spec_order = {n: i for i, n in enumerate(_SPEC)}
+    for nid in sorted(_TEACHING, key=lambda n: (spec_order.get(n, 9999), n)):
+        entry = overrides.get(nid) or _TEACHING[nid]
+        got = approvals.get(nid)
+        if got != dataio.teaching_fingerprint(entry):
+            teach.append({"id": nid, "changed": bool(got), "label": entry.get("label") or _NODE_LABEL.get(nid, ""),
+                          "explain": entry.get("explain", ""), "examples": entry.get("examples") or [],
+                          "when_wrong": entry.get("when_wrong", ""),
+                          "edit": url_for("teaching_edit", node_id=nid, back=url_for("teacher_approve") + "#teaching")})
+    if teach:
+        out.append({"key": "teaching", "title": "Teaching text",
+                    "blurb": "What a student reads after a miss: the explanation, examples, and the after-a-miss line.",
+                    "page": url_for("teaching_index"), "items": teach})
+
+    hints = []
+    for w in _DRILL_WORDS:
+        entry = vocab_hint_entry(db, w["latin"])
+        state = vocab_hint_state(db, w["latin"], entry, approvals)
+        if state in ("draft", "edited"):
+            hints.append({"id": w["latin"], "changed": state == "edited", "entry": drill.entry(w),
+                          "gloss": ", ".join(w.get("en") or []), "segments": vocabhints.segments(entry),
+                          "en": entry.get("en") or ""})
+    if hints:
+        out.append({"key": "hints", "title": "Vocabulary hint sentences",
+                    "blurb": "The example sentence a student can open on a vocabulary card.",
+                    "page": url_for("teacher_vocab_hints"), "items": hints})
+
+    others = [l for l in lines if l["category"] not in magister.LEGES]
+    if others:
+        labels = dict(magister.CATEGORIES)
+        out.append({"key": "magister", "title": "The Magister's other lines",
+                    "blurb": "What the cartoon teacher says on students' home screens.",
+                    "page": url_for("teacher_magister"),
+                    "items": [{"id": l["id"], "changed": l["state"] == "edited", "text": l["text"],
+                               "category": labels.get(l["category"], l["category"])} for l in others]})
+
+    pub = published_readings(db)
+    stories = [{"id": slug, "title": r["title"], "source": r.get("source", ""),
+                "n": len(r["sentences"]), "n_q": len(r.get("questions") or []),
+                "preview": url_for("reader_page", slug=slug)}
+               for slug, r in _READINGS.items() if slug not in pub and not readings.problems(r)]
+    if stories:
+        out.append({"key": "stories", "title": "Reader stories not published yet",
+                    "blurb": "A story reaches students when you publish it, so these are published one at a "
+                             "time, when you teach them. Approve everything leaves them alone.",
+                    "page": url_for("teacher_reader"), "items": stories, "publish": True})
+    return out
+
+
+def approval_count(db):
+    """How many things are waiting, stories left out (they wait on purpose)."""
+    return sum(len(sec["items"]) for sec in approval_queue(db) if not sec.get("publish"))
+
+
+def _approve_one(db, kind, iid):
+    """Approve one waiting thing, as its own page would."""
+    if kind in ("laws", "magister"):
+        line = {l["id"]: l for l in magister_lines(db)}.get(iid)
+        if line:
+            store.approve_teaching(db, magister.key(iid), magister.fingerprint(line))
+    elif kind == "lessons":
+        l = _LESSONS.get(iid)
+        if l and not lessons.problems(l):
+            store.approve_teaching(db, lessons.key(iid), lessons.fingerprint(l))
+    elif kind == "questions":
+        _approve_questions(db, [iid])
+    elif kind == "teaching":
+        entry = teaching_entry(db, iid)
+        if entry:
+            store.approve_teaching(db, iid, dataio.teaching_fingerprint(entry))
+    elif kind == "hints":
+        entry = vocab_hint_entry(db, iid)
+        if entry and drill.find_word(_DRILL_WORDS, iid):
+            store.approve_teaching(db, vocabhints.approval_key(iid), vocabhints.fingerprint(entry))
+    elif kind == "stories":
+        if iid in _READINGS:
+            pub = published_readings(db)
+            pub.add(iid)
+            store.set_setting(db, "readings_published", sorted(pub))
+
+
+def _approve_questions(db, ids):
+    """Import any that are only in a bank file (the mechanical checks run as on
+    a normal import), then approve each that is unreviewed and unflagged. One
+    the checks flag is left for the Review tool."""
+    bank = _queue_bank()
+    new = [bank[i] for i in ids if i in bank and store.get_item(db, i) is None]
+    if new:
+        flags, _ = checks.run_all(new, _VALID_NODES, _ALLOWED_LATIN)
+        store.import_items(db, new, flags, "approval queue")
+    for i in ids:
+        row = store.get_item(db, i)
+        if row and row["review_status"] == "unreviewed" and not row["flagged"]:
+            store.set_review(db, i, "approved", reason="Approved from Waiting for you")
+
+
+@app.route("/teacher/approve", methods=["GET", "POST"])
+def teacher_approve():
+    """Everything waiting for the teacher, approvable in place."""
+    db = get_db()
+    if request.method == "POST":
+        kind, iid = request.form.get("kind", ""), request.form.get("id", "")
+        scope = request.form.get("scope", "one")
+        sections = {sec["key"]: sec for sec in approval_queue(db)}
+        if scope == "everything":
+            todo = [k for k, sec in sections.items() if not sec.get("publish")]
+        elif scope == "all":
+            # Stories go live one at a time, when they are taught.
+            todo = [kind] if kind in sections and not sections[kind].get("publish") else []
+        else:
+            todo = []
+            _approve_one(db, kind, iid)
+        done = 0
+        for k in todo:
+            ids = [it["id"] for it in sections[k]["items"]]
+            if k == "questions":
+                _approve_questions(db, ids)
+            else:
+                for i in ids:
+                    _approve_one(db, k, i)
+            done += len(ids)
+        anchor = "#" + kind if kind and scope != "everything" else ""
+        return redirect(url_for("teacher_approve", done=done or None) + anchor)
+    sections = approval_queue(db)
+    return render_template("teacher_approve.html", sections=sections,
+                           n_flagged=_waiting_bank_questions(db)[1],
+                           total=sum(len(s["items"]) for s in sections if not s.get("publish")),
+                           done=request.args.get("done"))
+
+
 @app.route("/teacher/badges")
 def teacher_badges():
     """What each badge covers: its topics, when it appears, its approved
@@ -3245,6 +3466,7 @@ def teacher_home():
     table["n_flagged"] = sum(1 for r in table["rows"] if r["flags"])
     table["n_looping"] = sum(1 for r in table["rows"] if r["loops"])
     return render_template("teacher_home.html", w=w, table=table, badge_now=badge_now,
+                           waiting=approval_count(db),
                            rush_reasons=rush.REASONS, topic_label=_topic_label, loop_min=teacher.LOOP_MIN,
                            targets=weekly_targets(db),
                            purge=PURGE_REPORT,

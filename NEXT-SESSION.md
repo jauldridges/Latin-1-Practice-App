@@ -23,7 +23,7 @@ dashboard for who's practicing and what they don't know.
 - Python 3.9-compatible, no build step, mobile-first server-rendered HTML.
   It has to work on a school Chromebook at home when I'm not there.
 - Run the full test suite before you tell me something's done. It should be
-  ~785 passing (about 14 skip unless a local Postgres is running).
+  ~795 passing (about 14 skip unless a local Postgres is running).
 - Never say "mastery" to a student. The words are solid / shaky / not yet.
 - American spelling: "practice" for noun and verb, never the British -ise form (a test enforces it).
 - School time zone is Eastern (Massachusetts); `schooltime.py` sets it.
@@ -94,6 +94,11 @@ badge check asks at least one NLE question when the badge has one.
 in `latin1-items-unit00-study.yaml`): spaced practice and the laws, then a check.
 **Student mode**: Teacher dashboard -> Try it as a student uses demo ID 0000000,
 kept out of all class data.
+
+**Waiting for you** (`/teacher/approve`) is the one place to approve
+everything new: laws, lessons, questions, teaching text, hint sentences,
+Magister lines, and (one at a time) Reader stories. Teacher pages have tabs.
+The Reader now has Week 11's four stories (Marius, Sulla, Pompey, Cicero).
 
 **Vocabulary** now runs through Week 11 (131 words): Weeks 8, 9, 10 and 11
 came from their class packets. Week 7 (week of October 5) has none -- no packet

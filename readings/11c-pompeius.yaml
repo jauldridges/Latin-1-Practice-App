@@ -1,0 +1,264 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 11 story packet, Day 3 (Wednesday November 4).
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too), with the case added to the note.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them.
+#   core:   the packet's Core sentences (number in a red box): 3, 5, 8, 11, 13.
+#
+# One word, one gloss per sentence: where the same form does two jobs in one
+# numbered sentence (Sullae in 4, senex in 5), the note names both.
+#
+# Questions, in story order: p1-p5 are the class packet's Stretch questions
+# (Week 11 class packet, Day 3 Practice), written answers with a model; q1-q3
+# are the app's own quick checks.
+
+slug: pompeius
+title: "Fābula dē Pompeiō"
+source: "Latin I — Week 11 story packet, Day 3 (Wednesday November 4)"
+paragraphs: [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14]]
+
+sentences:
+  - n: 1
+    text: "Gnaeus Pompeius est iuvenis Rōmānus, et pater Pompeiī est dux clārus."
+    new:
+      Gnaeus Pompeius: "Gnaeus Pompey · Subject, nominative"
+    words:
+      est: "is — from sum"
+      iuvenis: "a young man · Predicate Nominative"
+      Rōmānus: "Roman — it describes iuvenis"
+      et: "and"
+      pater: "the father · Subject, nominative"
+      Pompeiī: "of Pompey · genitive"
+      dux: "a general · Predicate Nominative"
+      clārus: "famous — it describes dux"
+
+  - n: 2
+    text: "Pompeius nōn est senātor, sed exercitum suum habet."
+    new:
+      senātor: "senator · Predicate Nominative"
+      exercitum suum: "his own army · Direct Object, accusative"
+    words:
+      Pompeius: "Pompey · Subject, nominative"
+      nōn: "not"
+      est: "is — from sum"
+      sed: "but"
+      habet: "has — from habeō"
+
+  - n: 3
+    core: true
+    text: "Mīlitēs Rōmānī ducī novō pārent."
+    words:
+      Mīlitēs: "the soldiers · Subject, nominative plural"
+      Rōmānī: "Roman — it describes Mīlitēs"
+      ducī: "the general · dative with pārent"
+      novō: "new — it describes ducī"
+      pārent: "obey — from pāreō, which takes the dative"
+
+  - n: 4
+    text: "Pompeius Sullae favet, et mīlitēs Pompeiī inimīcōs Sullae superant."
+    new:
+      inimīcōs: "the enemies · Direct Object, accusative plural"
+    words:
+      Pompeius: "Pompey · Subject, nominative"
+      Sullae: "Sulla · first dative with favet, then genitive: Sulla's enemies"
+      favet: "favors, supports — from faveō, which takes the dative"
+      et: "and"
+      mīlitēs: "the soldiers · Subject, nominative plural"
+      Pompeiī: "of Pompey · genitive"
+      superant: "defeat — from superō"
+
+  - n: 5
+    core: true
+    text: "Sulla est senex clārus. Senex iuvenem laudat et iuvenī nōmen novum dat: “Magnus.”"
+    new:
+      Magnus: "the Great"
+    words:
+      Sulla: "Sulla · Subject, nominative"
+      est: "is — from sum"
+      senex: "an old man · Predicate Nominative, then Subject of the next sentence"
+      clārus: "famous — it describes senex"
+      iuvenem: "the young man · Direct Object, accusative"
+      laudat: "praises — from laudō"
+      et: "and"
+      iuvenī: "to the young man · Indirect Object, dative"
+      nōmen: "a name · Direct Object, accusative"
+      novum: "new — it describes nōmen"
+      dat: "gives — from dō"
+
+  - n: 6
+    text: "Nunc iuvenis est “Pompeius Magnus.”"
+    words:
+      Nunc: "now"
+      iuvenis: "the young man · Subject, nominative"
+      est: "is — from sum"
+      Pompeius Magnus: "Pompey the Great · Predicate Nominative"
+
+  - n: 7
+    text: "Iuvenis superbus triumphum postulat."
+    new:
+      superbus: "proud — it describes Iuvenis"
+      triumphum: "a triumph, a victory parade · Direct Object, accusative"
+      postulat: "demands"
+    words:
+      Iuvenis: "the young man · Subject, nominative"
+
+  - n: 8
+    core: true
+    text: "Sed lēx Rōmāna iuvenī triumphum nōn dat."
+    words:
+      Sed: "but"
+      lēx: "the law · Subject, nominative"
+      Rōmāna: "Roman — it describes lēx"
+      iuvenī: "to the young man · Indirect Object, dative"
+      triumphum: "a triumph · Direct Object, accusative"
+      nōn: "not"
+      dat: "gives — from dō"
+
+  - n: 9
+    text: "Sulla iuvenī respondet: “Triumphum nōn habēs!”"
+    new:
+      respondet: "answers"
+      habēs: "you have"
+    words:
+      Sulla: "Sulla · Subject, nominative"
+      iuvenī: "the young man · dative"
+      Triumphum: "a triumph · Direct Object, accusative"
+      nōn: "not"
+
+  - n: 10
+    text: "Pompeius senī respondet: “Plūrēs hominēs sōlem orientem quam occidentem adōrant!”"
+    new:
+      Plūrēs hominēs sōlem orientem quam occidentem adōrant: "more people worship the rising sun than the setting sun"
+    words:
+      Pompeius: "Pompey · Subject, nominative"
+      senī: "the old man · dative"
+      respondet: "answers"
+
+  - n: 11
+    core: true
+    text: "Senex verba iuvenis superbī audit."
+    new:
+      audit: "hears"
+    words:
+      Senex: "the old man · Subject, nominative"
+      verba: "the words · Direct Object, accusative plural"
+      iuvenis: "of the young man · genitive"
+      superbī: "proud — it describes iuvenis"
+
+  - n: 12
+    text: "Sulla rīdet et clāmat: “Triumphet!”"
+    new:
+      rīdet: "laughs"
+      clāmat: "shouts"
+      Triumphet: "let him have his triumph"
+    words:
+      Sulla: "Sulla · Subject, nominative"
+      et: "and"
+
+  - n: 13
+    core: true
+    text: "Iuvenis superbus triumphum habet, et populus Rōmānus ducem novum amat."
+    words:
+      Iuvenis: "the young man · Subject, nominative"
+      superbus: "proud — it describes Iuvenis"
+      triumphum: "a triumph · Direct Object, accusative"
+      habet: "has — from habeō"
+      et: "and"
+      populus: "the people · Subject, nominative"
+      Rōmānus: "Roman — it describes populus"
+      ducem: "the general · Direct Object, accusative"
+      novum: "new — it describes ducem"
+      amat: "loves — from amō"
+
+  - n: 14
+    text: "Rōmānī hanc fābulam nārrant: sī dux mīlitēs et populum habet, lēx parva est."
+    new:
+      hanc fābulam: "this story · Direct Object, accusative"
+      sī: "if"
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+      nārrant: "tell — from nārrō"
+      dux: "a general · Subject, nominative"
+      mīlitēs: "soldiers · Direct Object, accusative plural"
+      et: "and"
+      populum: "the people · Direct Object, accusative"
+      habet: "has — from habeō"
+      lēx: "the law · Subject, nominative"
+      parva: "small — it describes lēx"
+      est: "is — from sum"
+
+questions:
+  - id: q1
+    ask: "Sentence 1: Who is Pompey's father?"
+    look: [1]
+    hint: {1: "pater Pompeiī est dux clārus"}
+    options:
+      a: "a famous general"
+      b: "a poor farmer"
+      c: "Sulla"
+      d: "a senator from Africa"
+    answer: a
+
+  - id: p1
+    ask: "Pompey is not a senator and holds no office (sentence 2). Whose soldiers are these, and who pays them?"
+    look: [2, 3]
+    hint: {2: "exercitum suum habet", 3: "Mīlitēs Rōmānī ducī novō pārent"}
+    model: >-
+      They are Pompey's own army, not Rome's. They obey their new general,
+      and Pompey pays them, the way Marius paid his soldiers.
+
+  - id: q2
+    ask: "Sentence 4: Whom does Pompey support?"
+    look: [4]
+    hint: {4: "Pompeius Sullae favet"}
+    options:
+      a: "Sulla"
+      b: "Marius"
+      c: "Sulla's enemies"
+      d: "the Senate"
+    answer: a
+
+  - id: p2
+    ask: "What new name does Sulla give Pompey? What does it mean?"
+    look: [5, 6]
+    hint: {5: "iuvenī nōmen novum dat Magnus", 6: "Pompeius Magnus"}
+    model: >-
+      Magnus: “the Great.” Now he is Pompeius Magnus, Pompey the Great.
+
+  - id: p3
+    ask: "What does Pompey demand (sentence 7), and why does the law say no?"
+    look: [7, 8]
+    hint: {7: "triumphum postulat", 8: "lēx Rōmāna iuvenī triumphum nōn dat"}
+    model: >-
+      A triumph, a victory parade through Rome. The law gave a triumph only to
+      an elected official, and Pompey is a young man who holds no office.
+
+  - id: p4
+    ask: "Who is the rising sun in Pompey’s answer (sentence 10)? Who is the setting sun?"
+    look: [10]
+    hint: {10: "sōlem orientem quam occidentem"}
+    model: >-
+      Pompey is the rising sun: young, with his power growing. Sulla is the
+      setting sun: old, with his power ending. More people follow the one who
+      is rising.
+
+  - id: q3
+    ask: "Sentence 12: What does Sulla do after Pompey's answer?"
+    look: [11, 12]
+    hint: {12: "Sulla rīdet et clāmat Triumphet"}
+    options:
+      a: "He laughs and lets him have his triumph."
+      b: "He gets angry and sends him away."
+      c: "He gives him money."
+      d: "He makes him a senator."
+    answer: a
+
+  - id: p5
+    ask: "The law said no, but Pompey got his triumph. What does sentence 14 say this story teaches? Do you agree?"
+    look: [13, 14]
+    hint: {14: "sī dux mīlitēs et populum habet lēx parva est"}
+    model: >-
+      If a general has the soldiers and the people behind him, the law counts
+      for little. Whether you agree is up to you; a good answer uses the story.

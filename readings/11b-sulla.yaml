@@ -1,0 +1,298 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 11 story packet, Day 2 (Tuesday November 3).
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too), with the case added to the note.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them.
+#   core:   the packet's Core sentences (number in a red box): 4, 7, 10, 11, 13.
+#
+# One word, one gloss per sentence: where the same form does two jobs in one
+# numbered sentence (bellum in 3), the note names both.
+#
+# Questions, in story order: p1-p5 are the class packet's Stretch questions
+# (Week 11 class packet, Day 2 Practice), written answers with a model; q1-q4
+# are the app's own quick checks.
+
+slug: sulla
+title: "Fābula dē Sullā"
+source: "Latin I — Week 11 story packet, Day 2 (Tuesday November 3)"
+paragraphs: [[1, 2, 3], [4, 5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15]]
+
+sentences:
+  - n: 1
+    text: "Lūcius Cornēlius Sulla est patricius et dux clārus."
+    new:
+      Lūcius Cornēlius Sulla: "Lucius Cornelius Sulla · Subject, nominative"
+    words:
+      est: "is — from sum"
+      patricius: "a patrician · Predicate Nominative"
+      et: "and"
+      dux: "a general · Predicate Nominative"
+      clārus: "famous — it describes dux"
+
+  - n: 2
+    text: "Marius est homō novus, sed Sulla est vir nōbilis. Marius Sullae inimīcus est."
+    new:
+      nōbilis: "noble — it describes vir"
+    words:
+      Marius: "Marius · Subject, nominative"
+      est: "is — from sum"
+      homō novus: "a new man, the first in his family to become consul · Predicate Nominative"
+      sed: "but"
+      Sulla: "Sulla · Subject, nominative"
+      vir: "a man · Predicate Nominative"
+      Sullae: "to Sulla · dative with inimīcus"
+      inimīcus: "unfriendly, an enemy (takes the dative)"
+
+  - n: 3
+    text: "Senātus Sullae bellum in Asiā dat. Bellum est magnum, et in Asiā est multum pecūniae."
+    new:
+      Senātus: "the Senate · Subject, nominative"
+      in Asiā: "in Asia, the rich East"
+    words:
+      Sullae: "to Sulla · Indirect Object, dative"
+      bellum: "a war · Direct Object in the first sentence, Subject in the second"
+      dat: "gives — from dō"
+      est: "is — from sum"
+      magnum: "big, great — it describes Bellum"
+      et: "and"
+      multum: "much · Subject, nominative"
+      pecūniae: "of money · genitive"
+
+  - n: 4
+    core: true
+    text: "Sed Marius nōmen clārum cupit, et populus Mariō bellum dat."
+    new:
+      cupit: "wants"
+    words:
+      Sed: "but"
+      Marius: "Marius · Subject, nominative"
+      nōmen: "a name, fame · Direct Object, accusative"
+      clārum: "famous — it describes nōmen"
+      et: "and"
+      populus: "the people · Subject, nominative"
+      Mariō: "to Marius · Indirect Object, dative"
+      bellum: "the war · Direct Object, accusative"
+      dat: "gives — from dō"
+
+  - n: 5
+    text: "Sulla īrātus est. Mīlitēs Sullae ducī suō, nōn senātuī, pārent."
+    new:
+      īrātus: "angry"
+      suō: "their own"
+      senātuī: "the Senate · dative with pārent"
+    words:
+      Sulla: "Sulla · Subject, nominative"
+      est: "is — from sum"
+      Mīlitēs: "the soldiers · Subject, nominative plural"
+      Sullae: "Sulla · dative with pārent: Sulla, their own general"
+      ducī: "general · dative, the same person as Sullae"
+      nōn: "not"
+      pārent: "obey — from pāreō, which takes the dative"
+
+  - n: 6
+    text: "Itaque Sulla mīlitēs Rōmam dūcit."
+    new:
+      Itaque: "and so"
+      Rōmam: "to Rome"
+      dūcit: "leads"
+    words:
+      Sulla: "Sulla · Subject, nominative"
+      mīlitēs: "his soldiers · Direct Object, accusative plural"
+
+  - n: 7
+    core: true
+    text: "Ante tempus Sullae, nūllus dux mīlitēs Rōmam dūcit."
+    new:
+      Ante: "before"
+      nūllus: "no"
+    words:
+      tempus: "the time · accusative, after ante"
+      Sullae: "of Sulla · genitive"
+      dux: "general · Subject, nominative"
+      mīlitēs: "soldiers · Direct Object, accusative plural"
+      Rōmam: "to Rome"
+      dūcit: "leads"
+
+  - n: 8
+    text: "Marius ex urbe fugit."
+    new:
+      ex urbe: "out of the city"
+      fugit: "runs away"
+    words:
+      Marius: "Marius · Subject, nominative"
+
+  - n: 9
+    text: "Posteā Sulla est dictātor: tōtum imperium habet."
+    new:
+      Posteā: "later"
+      dictātor: "dictator, a leader with all the power for a time · Predicate Nominative"
+      tōtum imperium: "all the power · Direct Object, accusative"
+    words:
+      Sulla: "Sulla · Subject, nominative"
+      est: "is — from sum"
+      habet: "has — from habeō"
+
+  - n: 10
+    core: true
+    text: "Sulla nōmina inimīcōrum in tabulīs scrībit."
+    new:
+      inimīcōrum: "of his enemies · genitive plural"
+      in tabulīs: "on tablets, on public lists"
+      scrībit: "writes"
+    words:
+      Sulla: "Sulla · Subject, nominative"
+      nōmina: "the names · Direct Object, accusative plural"
+
+  - n: 11
+    core: true
+    text: "Sī nōmen hominis in tabulā est, caput hominis pretium habet."
+    new:
+      Sī: "if"
+      in tabulā: "on a list"
+      pretium: "a price · Direct Object, accusative"
+    words:
+      nōmen: "the name · Subject, nominative"
+      hominis: "of a man · genitive"
+      est: "is — from sum"
+      caput: "the head · Subject, nominative"
+      habet: "has — from habeō"
+
+  - n: 12
+    text: "Tempus est terribile: nūllus Rōmānus tūtus est."
+    new:
+      terribile: "terrible"
+      tūtus: "safe"
+    words:
+      Tempus: "the time · Subject, nominative"
+      est: "is — from sum"
+      nūllus: "no — it describes Rōmānus"
+      Rōmānus: "Roman · Subject, nominative"
+
+  - n: 13
+    core: true
+    text: "Tum Sulla sibi nōmen novum dat: “Fēlīx.”"
+    new:
+      Tum: "then"
+      sibi: "to himself · dative"
+      novum: "new"
+      Fēlīx: "Lucky"
+    words:
+      Sulla: "Sulla · Subject, nominative"
+      nōmen: "a name · Direct Object, accusative"
+      dat: "gives — from dō"
+
+  - n: 14
+    text: "Mox Sulla imperium relinquit et in vīllā suā manet."
+    new:
+      Mox: "soon"
+      imperium: "power · Direct Object, accusative"
+      relinquit: "gives up"
+      in vīllā suā: "at his country house"
+      manet: "stays"
+    words:
+      Sulla: "Sulla · Subject, nominative"
+      et: "and"
+
+  - n: 15
+    text: "Rōmānī hanc fābulam nārrant: ubi dux mīlitēs Rōmam dūcit, lēgēs nihil valent."
+    new:
+      hanc fābulam: "this story · Direct Object, accusative"
+      ubi: "when"
+      lēgēs: "the laws · Subject, nominative plural"
+      nihil valent: "are worth nothing"
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+      nārrant: "tell — from nārrō"
+      dux: "a general · Subject, nominative"
+      mīlitēs: "soldiers · Direct Object, accusative plural"
+      Rōmam: "to Rome"
+      dūcit: "leads"
+
+questions:
+  - id: q1
+    ask: "Sentence 1: What kind of Roman is Sulla?"
+    look: [1]
+    hint: {1: "est patricius et dux clārus"}
+    options:
+      a: "a patrician and a famous general"
+      b: "a new man and a farmer"
+      c: "a poor soldier"
+      d: "a king in Asia"
+    answer: a
+
+  - id: p1
+    ask: "The Senate gave the war to Sulla (sentence 3). Who takes it away? Why does Marius want it?"
+    look: [3, 4]
+    hint: {3: "Senātus Sullae bellum in Asiā dat", 4: "Marius nōmen clārum cupit et populus Mariō bellum dat"}
+    model: >-
+      The people take the war from Sulla and give it to Marius. Marius wants
+      a famous name, and a big war in rich Asia means glory and money.
+
+  - id: p2
+    ask: "Why is sentence 7 so shocking? Use what you know about Marius’s soldiers."
+    look: [5, 6, 7]
+    hint: {5: "Mīlitēs Sullae ducī suō nōn senātuī pārent", 7: "nūllus dux mīlitēs Rōmam dūcit"}
+    model: >-
+      No general had ever led soldiers against Rome itself. Since Marius,
+      soldiers are paid by their general and obey him, not the Senate, so
+      Sulla's army follows him even into Rome.
+
+  - id: q2
+    ask: "Sentence 8: What does Marius do?"
+    look: [8]
+    hint: {8: "Marius ex urbe fugit"}
+    options:
+      a: "He runs away out of the city."
+      b: "He fights Sulla in the city."
+      c: "He becomes dictator."
+      d: "He gives Sulla the war."
+    answer: a
+
+  - id: q3
+    ask: "Sentence 9: What does Sulla become?"
+    look: [9]
+    hint: {9: "Sulla est dictātor"}
+    options:
+      a: "dictator, with all the power"
+      b: "consul for one year"
+      c: "a senator"
+      d: "a farmer in Asia"
+    answer: a
+
+  - id: p3
+    ask: "What does Sulla write on the tablets? Why would a list of names terrify Rome?"
+    look: [10]
+    hint: {10: "nōmina inimīcōrum in tabulīs scrībit"}
+    model: >-
+      The names of his enemies. Anyone could be on the list, and a name on it
+      meant death, so every Roman was afraid.
+
+  - id: p4
+    ask: "What happens to a man whose name is on the list (sentences 11–12)?"
+    look: [11, 12]
+    hint: {11: "caput hominis pretium habet", 12: "nūllus Rōmānus tūtus est"}
+    model: >-
+      There is a price on his head: anyone who kills him gets paid. No Roman
+      is safe.
+
+  - id: q4
+    ask: "Sentence 13: What new name does Sulla give himself?"
+    look: [13]
+    hint: {13: "sibi nōmen novum dat Fēlīx"}
+    options:
+      a: "“Fēlīx,” Lucky"
+      b: "“Magnus,” the Great"
+      c: "“Pater Patriae,” Father of the Fatherland"
+      d: "“Dictātor,” Dictator"
+    answer: a
+
+  - id: p5
+    ask: "Sulla calls himself “Lucky,” then gives up his power (sentence 14). Why did Romans tell this story (sentence 15)?"
+    look: [13, 14, 15]
+    hint: {14: "Sulla imperium relinquit", 15: "ubi dux mīlitēs Rōmam dūcit lēgēs nihil valent"}
+    model: >-
+      As a warning: when a general leads his soldiers into Rome, the laws are
+      worth nothing. Sulla gave power back, but he had shown every general
+      after him how to take it.

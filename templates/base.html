@@ -54,6 +54,24 @@
        class="{{ 'on' if path.startswith('/drill/progress') }}">Progress</a>
   </nav>
   {% endif %}
+  {# The teacher's own tabs: the pages used every week, one tap apart.
+     "All tools" is the full list on the home page. #}
+  {% if is_teacher and not student_mode %}
+  {% set path = request.path %}
+  <nav class="tabs teacher">
+    <a href="{{ url_for('teacher_home') }}"
+       class="{{ 'on' if path == '/teacher' or path.startswith('/teacher/student/') or path.startswith('/teacher/homework') }}">Students</a>
+    <a href="{{ url_for('teacher_approve') }}"
+       class="{{ 'on' if path.startswith('/teacher/approve') }}">Waiting for you</a>
+    <a href="{{ url_for('teacher_deadlines') }}"
+       class="{{ 'on' if path.startswith('/teacher/deadlines') }}">Goals</a>
+    <a href="{{ url_for('teacher_reader') }}"
+       class="{{ 'on' if path.startswith('/teacher/reader') }}">Reader</a>
+    <a href="{{ url_for('teacher_badges') }}"
+       class="{{ 'on' if path.startswith('/teacher/badges') or path.startswith('/teacher/lessons') }}">Badges</a>
+    <a href="{{ url_for('index') }}" class="{{ 'on' if path == '/' }}">All tools</a>
+  </nav>
+  {% endif %}
   <div class="wrap {% block wrapclass %}{% endblock %}">
     {% block content %}{% endblock %}
   </div>
