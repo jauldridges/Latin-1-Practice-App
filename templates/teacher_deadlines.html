@@ -2,9 +2,33 @@
 {% block subtitle %}goals &amp; deadlines{% endblock %}
 {% block content %}
 <h1>Goals &amp; deadlines</h1>
-<p class="small muted">What students see on their home screen: this week's homework,
-and the quizzes and tests coming up. The week-by-week record for the gradebook is on the
-<a href="{{ url_for('teacher_homework') }}">homework page</a>.</p>
+<p class="small muted">How students' progress is framed on their home screen, and the quizzes
+and tests they see coming up.{% if grading != 'standards' %} The week-by-week homework record for
+the gradebook is on the <a href="{{ url_for('teacher_homework') }}">homework page</a>.{% endif %}</p>
+
+<h2>Grading</h2>
+{% if saved == 'grading' %}<div class="flags"><span class="lvl heuristic">saved</span>
+  {% if grading == 'standards' %}Standards-based: students' home screens now show Your Latin so far, and the Homework tab is gone.{% else %}Weekly homework: students see this week's homework again.{% endif %}</div>{% endif %}
+<form method="post" class="card">
+  <input type="hidden" name="form" value="grading">
+  <label class="radio-row"><input type="radio" name="mode" value="homework" {{ 'checked' if grading == 'homework' }}>
+    <span><strong>Weekly homework</strong> — a set number of cards each week, due Friday, with a
+      week-by-week record for the gradebook.</span></label>
+  <label class="radio-row"><input type="radio" name="mode" value="standards" {{ 'checked' if grading == 'standards' }}>
+    <span><strong>Standards-based</strong> — no homework. Each student's home screen shows
+      <em>Your Latin so far</em>: every word and grammar topic taught to date, and how much is
+      solid, shaky or not yet. The Homework tab goes away, and the Magister's lines about homework
+      give way to their standards-based versions (approve them on
+      <a href="{{ url_for('teacher_approve') }}">Waiting for you</a>).</span></label>
+  <p class="small muted">Nothing is deleted either way. Try it first with <strong>Try it as a
+    student</strong> on the dashboard, after switching.</p>
+  <button class="bigbtn" type="submit">Save</button>
+</form>
+
+{% if grading == 'standards' %}
+<p class="small muted">With standards-based grading on, the weekly goal and homework weeks below
+  aren't shown to students. They're kept in case you switch back.</p>
+{% endif %}
 
 <h2>Weekly homework goal</h2>
 {% if saved == 'goal' %}<div class="flags"><span class="lvl heuristic">saved</span> Students see the new goal straight away.</div>{% endif %}

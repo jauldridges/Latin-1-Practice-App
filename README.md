@@ -588,6 +588,20 @@ teacher view**. The demo student is left out of every whole-class read — the
 dashboard, homework grid, misses, quiz and practice-NLE lists, and Data for
 analysis. `tests/test_student_mode.py`.
 
+## Grading: weekly homework or standards-based
+
+**Goals & deadlines → Grading** switches the whole app between two framings;
+nothing is deleted either way. **Weekly homework** is the quota described
+below (cards per Saturday-to-Friday week, due Friday). **Standards-based**
+drops homework: the student home screen shows **Your Latin so far**
+(`sofar.py`): words and grammar topics taught to date, each solid / shaky /
+not yet, how many practiced, badges earned and fading, and this week's new
+material started. The Homework tab and link disappear (an old `/homework`
+bookmark goes to Progress). Magister lines can carry `mode: homework` or
+`mode: standards`; each homework line has a standards twin (`-sbg`) right after
+it, so the laws keep their numbers under either mode. Teacher pages label a
+line's mode. `tests/test_standards.py`.
+
 ## Waiting for you (the approval queue)
 
 **Waiting for you** (`/teacher/approve`; a yellow card at the top of the

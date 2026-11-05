@@ -65,6 +65,57 @@
   </section>
   {% endif %}
 
+  {# Standards-based grading: no homework, so no quota and no due date. The
+     card answers "how much of what we've met in class do I know?" with the
+     same solid / shaky / not yet as everywhere else (sofar.py). #}
+  {% if sofar %}{% set w = sofar.words %}{% set g = sofar.grammar %}
+  <section class="goalcard sofar">
+    <h2>Your Latin so far</h2>
+    <p class="small muted" style="margin-top:-4px">Everything we've met in class so far, and how much of it
+      would stick. <strong>Solid</strong> means you'd still remember it three weeks from now.</p>
+    {% for label, t, href in [('Words', w, url_for('drill_home')), ('Grammar topics', g, url_for('practice_home'))] %}
+    {% if t.total %}
+    <a class="sofar-row" href="{{ href }}">
+      <div class="goal-label"><span>{{ label }}</span>
+        <span class="goal-num"><strong>{{ t['solid'] }}</strong> of {{ t.total }} solid</span></div>
+      <div class="stack" aria-hidden="true">
+        <span class="s-solid" style="width:{{ 100 * t['solid'] / t.total }}%"></span><span class="s-shaky" style="width:{{ 100 * t['shaky'] / t.total }}%"></span>
+      </div>
+      <div class="ready-pills">
+        <span class="pill solid">{{ t['solid'] }} solid</span>
+        <span class="pill shaky">{{ t['shaky'] }} shaky</span>
+        <span class="pill notyet">{{ t['not yet'] }} not yet</span>
+      </div>
+      <div class="small muted">Practiced {{ t.practiced }} of {{ t.total }}</div>
+    </a>
+    {% endif %}
+    {% endfor %}
+    {% if sofar.badges and sofar.badges.open %}{% set b = sofar.badges %}
+    <a class="sofar-row" href="{{ url_for('badge_map_page') }}">
+      <div class="goal-label"><span>Grammar badges</span>
+        <span class="goal-num"><strong>{{ b.earned }}</strong> of {{ b.open }} earned</span></div>
+      {% if b.fading %}<div class="small">Fading — refresh with three questions:
+        {% for bid in b.fading[:3] %}{{ badge_titles[bid] }}{{ ', ' if not loop.last }}{% endfor %}{% if b.fading | length > 3 %} and {{ b.fading | length - 3 }} more{% endif %}</div>{% endif %}
+    </a>
+    {% endif %}
+    {% set wk = sofar.week %}
+    {% if wk.words or wk.topics %}
+    <div class="sofar-week">
+      <div class="small muted">New this week · {{ wk.label }}</div>
+      {% if wk.words %}<div>{{ wk.words_started }} of {{ wk.words }} new words started</div>{% endif %}
+      {% if wk.topics %}<div>{{ wk.topics_started }} of {{ wk.topics }} new grammar topics started</div>{% endif %}
+    </div>
+    {% endif %}
+    {% if spacing == 'idle' %}
+      <div class="spacing-flag">It's been <strong>{{ idle_days }} days</strong> since you practiced.
+        Ten minutes today does more than an hour the night before a quiz.</div>
+    {% elif spacing == 'never' %}
+      <div class="spacing-flag">You haven't practiced yet. Start with a few minutes today —
+        a little on several days sticks far better than one long go.</div>
+    {% endif %}
+  </section>
+  {% endif %}
+
   {% if upcoming %}
   <h2>Coming up</h2>
   {% for a in upcoming %}
@@ -125,7 +176,7 @@
 
 {% if signed_in_student and not is_teacher %}
   <p style="text-align:center;margin-top:18px">
-    <a href="{{ url_for('homework_page') }}">My homework, week by week</a> ·
+    {% if not standards_mode %}<a href="{{ url_for('homework_page') }}">My homework, week by week</a> ·{% endif %}
     <a href="{{ url_for('drill_progress') }}">My progress</a> ·
     <a href="{{ url_for('leges_page') }}">Lēgēs Magistrī</a></p>
 {% endif %}

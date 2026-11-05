@@ -35,6 +35,7 @@
           {% elif l.state == 'edited' %}<span class="pill shaky">changed since approval</span>
           {% else %}<span class="pill notyet">not yet approved</span>{% endif %}
           {% if l.numeral %}<span class="pill lexpill">Lēx {{ l.numeral }}</span>{% endif %}
+          {% if l.mode %}<span class="pill notyet">{{ modes[l.mode] }}</span>{% endif %}
           {% if l.custom %}<span class="small muted">your line</span>{% elif l.edited %}<span class="small muted">edited</span>{% endif %}
         </div>
         <div class="mg-text">{{ l.text }}</div>

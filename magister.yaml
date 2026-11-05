@@ -12,6 +12,11 @@
 # approved leges-dont line (what not to do). They are listed together on the
 # Lēgēs page, and when the Magister says one on the home screen it comes as
 # "Lēx IX — ...". A law that isn't approved takes no number.
+#   mode      optional: homework | standards. A line with a mode is shown only
+#             under that grading mode (Goals & deadlines -> Grading); a line
+#             without one is shown under both. Each homework line has a
+#             standards twin right after it ("-sbg"), so the laws number the
+#             same way under either mode.
 #   text      what he says (keep it to a sentence or two)
 #   note      for the teacher only, never shown to students
 
@@ -23,7 +28,12 @@ lines:
     text: "Practice a little on several days every week. Ten minutes a day beats an hour on Thursday night — that's how memory works."
   - id: lex-how-02
     category: leges-how
+    mode: homework
     text: "Your homework week runs Saturday to Friday. The Homework tab shows exactly what this week asks for and how far you've got. Finish by Friday night and it's on time."
+  - id: lex-how-02-sbg
+    category: leges-how
+    mode: standards
+    text: "There's no homework to hand in. Your home screen shows Your Latin so far: every word and grammar topic we've met in class, and how solid each one is. Your job is to make it all solid."
   - id: lex-how-03
     category: leges-how
     text: "Vocabulary: type what the word means, read the answer, then grade yourself — Again, Hard, Good or Easy. Your grade decides when the word comes back."
@@ -45,7 +55,12 @@ lines:
     text: "Getting ready for the National Latin Exam? Open the NLE tab: a whole past exam or a mash-up. Every miss comes with a hint and a lesson."
   - id: lex-how-09
     category: leges-how
+    mode: homework
     text: "Missed a week? Finish this week's work first. After that, extra practice finishes the oldest week you still owe — it shows as done late."
+  - id: lex-how-09-sbg
+    category: leges-how
+    mode: standards
+    text: "Fell behind? Nothing is lost. Start with what's due today, then this week's new words and topics. Every card you bring back counts."
 
   # --- Lēgēs Magistrī: what not to do (numbered after the how-to laws) ------
   - id: lex-dont-01
@@ -59,10 +74,20 @@ lines:
     text: "Don't guess at speed. A wrong answer given faster than you could read the question is a guess, not a try — and it's flagged too."
   - id: lex-dont-04
     category: leges-dont
+    mode: homework
     text: "Don't loop one topic to fill your homework. Each card counts once a day, so going round the same few questions adds nothing — and your teacher can see it."
+  - id: lex-dont-04-sbg
+    category: leges-dont
+    mode: standards
+    text: "Don't loop one topic. Each card counts once a day, so going round the same few questions adds nothing to your progress — and your teacher can see it."
   - id: lex-dont-05
     category: leges-dont
+    mode: homework
     text: "Don't leave it all for Friday night. Cramming fills the week; spacing makes it stick."
+  - id: lex-dont-05-sbg
+    category: leges-dont
+    mode: standards
+    text: "Don't leave it all for the night before a quiz. Cramming fills one night; spacing makes it stick."
   - id: lex-dont-06
     category: leges-dont
     text: "Don't look answers up during a badge check or a practice NLE. Use the Hint — the check is there to show what you know."
@@ -73,7 +98,12 @@ lines:
   # --- Expectations: how the app works and what's expected -----------------
   - id: rules-01
     category: rules
+    mode: homework
     text: "Salvē! Your homework is 50 vocabulary cards and 50 grammar cards a week, Saturday to Friday. Finish by Friday night and it's on time."
+  - id: rules-01-sbg
+    category: rules
+    mode: standards
+    text: "Salvē! There's no homework to hand in: your grade comes from what you can show on quizzes. A little practice here on most days is how you get ready."
   - id: rules-02
     category: rules
     text: "A few minutes on several days beats one long session on Thursday night. Spread your 100 cards across the week."
@@ -105,14 +135,24 @@ lines:
     text: "Your strength bars grow each time you remember something on a later day. Cramming makes them grow a little. Spacing makes them grow a lot."
   - id: rules-11
     category: rules
+    mode: homework
     text: "Missed a week? You can still finish it late. Once this week's cards are done, extra cards finish the oldest unfinished week."
+  - id: rules-11-sbg
+    category: rules
+    mode: standards
+    text: "Missed a few days? Nothing is lost. Clear your due cards first — they're the ones about to slip away."
   - id: rules-12
     category: rules
     text: "Stuck on a grammar question? Open the Hint before you answer. It's there to help, not to trick you."
   - id: rules-14
     category: rules
+    mode: homework
     text: "Your grammar homework is badges: earn the new ones, and refresh any that are fading. A refresh is only three questions."
     note: "Approve once grammar badges are switched on."
+  - id: rules-14-sbg
+    category: rules
+    mode: standards
+    text: "Grammar badges show what you've learned. Earn the new ones and refresh any that are fading. A refresh is only three questions."
   - id: rules-13
     category: rules
     text: "Each card counts once a day toward your 50 + 50. Seeing a card again is good practice, but fresh cards are what fill your week."

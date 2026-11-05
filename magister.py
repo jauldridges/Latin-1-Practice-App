@@ -49,8 +49,20 @@ def load(path=PATH):
     with open(path, encoding="utf-8") as f:
         doc = yaml.safe_load(f) or {}
     return [{"id": str(l["id"]), "category": l.get("category", "rules"),
-             "text": str(l.get("text") or "").strip(), "note": l.get("note") or ""}
+             "text": str(l.get("text") or "").strip(), "note": l.get("note") or "",
+             "mode": l.get("mode") or ""}
             for l in doc.get("lines") or []]
+
+
+MODES = {"homework": "Only while grading is weekly homework",
+         "standards": "Only while grading is standards-based"}
+
+
+def for_mode(lines, mode):
+    """The lines a student may see under this grading mode: every line
+    without a mode, and those written for this one. A line about Friday's
+    homework has nothing to say once there is no homework."""
+    return [l for l in lines if not l.get("mode") or l.get("mode") == mode]
 
 
 def fingerprint(line):

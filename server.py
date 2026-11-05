@@ -43,6 +43,7 @@ import goals
 import magister
 import nle
 import schooltime  # noqa: F401  -- the school's clock, set before anything reads it
+import sofar
 import stats
 import store
 import teacher
@@ -368,7 +369,8 @@ def student_mode_reset():
 def _auth_flags():
     return {"is_teacher": teacher_view(), "teacher_gate": auth.teacher_gate_on(),
             "signed_in_student": current_student(), "student_mode": student_mode(),
-            "day_letters": goals.DAY_LETTERS}
+            "day_letters": goals.DAY_LETTERS,
+            "standards_mode": grading_mode(get_db()) == "standards"}
 
 
 _prepare_storage()
@@ -496,6 +498,18 @@ def _rushed_rule():
     return None
 
 
+GRADING_MODES = ("homework", "standards")
+
+
+def grading_mode(db):
+    """"homework" (a weekly quota, due Friday) or "standards" (standards-based
+    grading: no homework, the home screen shows progress on everything taught
+    so far). The teacher's switch on Goals & deadlines; nothing is deleted
+    either way, so it can be flipped back."""
+    m = (store.get_setting(db, "grading") or {}).get("mode")
+    return m if m in GRADING_MODES else "homework"
+
+
 def homework_setting(db):
     """{"from": first homework week's Saturday, "off": [no-homework weeks]}."""
     s = store.get_setting(db, "homework") or {}
@@ -581,13 +595,20 @@ def index():
     student = current_student()
     if student and not teacher_view():
         events = store.events_for_student(db, student)
-        rule = badge_rule(db)
-        ctx["goal"] = goals.weekly_progress(events, weekly_targets(db), badge_rule=rule)
         ctx["badge_titles"] = {b["id"]: b["title"] for b in _BADGES}
-        history = homework_history(db, events, rule=rule)
-        # Weeks still owed, oldest first: extra cards finish these (late).
-        ctx["owed"] = [r for r in history if r["status"] == "not done"]
-        ctx["week_off"] = goals.week_key(time.time()) in homework_setting(db)["off"]
+        if grading_mode(db) == "standards":
+            # No homework: progress on everything taught so far instead.
+            approved = store.approved_items(db)
+            universe = {it["node"] for it in approved if it["node"] in _taught_now()}
+            ctx["sofar"] = sofar.summary(_DRILL_WORDS, events, _SPEC, universe, _BADGES,
+                                         approved, badges_on=bool(badges_from(db)))
+        else:
+            rule = badge_rule(db)
+            ctx["goal"] = goals.weekly_progress(events, weekly_targets(db), badge_rule=rule)
+            history = homework_history(db, events, rule=rule)
+            # Weeks still owed, oldest first: extra cards finish these (late).
+            ctx["owed"] = [r for r in history if r["status"] == "not done"]
+            ctx["week_off"] = goals.week_key(time.time()) in homework_setting(db)["off"]
         ctx["spacing"] = goals.spacing_flag(events)
         ctx["idle_days"] = goals.days_since_practice(events)
         ctx["upcoming"] = upcoming_assessments(db)
@@ -1319,6 +1340,7 @@ def magister_lines(db):
     lines = []
     for l in _MAGISTER:
         lines.append(dict(overrides.get(magister.key(l["id"])) or l, id=l["id"], note=l["note"],
+                          mode=l.get("mode", ""),
                           edited=magister.key(l["id"]) in overrides, custom=False))
     for k, v in sorted(overrides.items()):
         if k.startswith(magister.PREFIX + "custom-"):
@@ -1333,13 +1355,15 @@ def magister_lines(db):
 
 def magister_says(db, student, categories, n):
     """An approved line from these categories for this student, or None."""
-    ok = [l for l in magister_lines(db) if l["state"] == "approved" and l["category"] in categories]
+    ok = [l for l in magister.for_mode(magister_lines(db), grading_mode(db))
+          if l["state"] == "approved" and l["category"] in categories]
     return magister.rotate(ok, student, n)
 
 
 def leges(db):
     """The Lēgēs Magistrī: every approved law, numbered I, II, III ..."""
-    return magister.number_leges([l for l in magister_lines(db) if l["state"] == "approved"])
+    return magister.number_leges([l for l in magister.for_mode(magister_lines(db), grading_mode(db))
+                                  if l["state"] == "approved"])
 
 
 @app.route("/leges")
@@ -1374,7 +1398,7 @@ def teacher_magister():
         l["numeral"] = numbers.get(l["id"])
     groups = [{"category": c, "label": label, "lines": [l for l in lines if l["category"] == c]}
               for c, label in magister.CATEGORIES]
-    return render_template("teacher_magister.html", groups=groups,
+    return render_template("teacher_magister.html", groups=groups, modes=magister.MODES,
                            n_approved=sum(1 for l in lines if l["state"] == "approved"),
                            total=len(lines), categories=magister.CATEGORIES,
                            error=request.args.get("error"), error_id=request.args.get("id"))
@@ -2132,7 +2156,7 @@ def approval_queue(db):
                     "blurb": "The rules on the Leges page and in the Magister's speech bubble.",
                     "page": url_for("teacher_magister"),
                     "items": [{"id": l["id"], "changed": l["state"] == "edited", "text": l["text"],
-                               "category_key": l["category"],
+                               "category_key": l["category"], "mode_note": magister.MODES.get(l.get("mode"), ""),
                                "anchor": _queue_anchor("laws", l["id"])} for l in laws]})
 
     les = []
@@ -2203,7 +2227,7 @@ def approval_queue(db):
                     "page": url_for("teacher_magister"),
                     "items": [{"id": l["id"], "changed": l["state"] == "edited", "text": l["text"],
                                "category": labels.get(l["category"], l["category"]),
-                               "category_key": l["category"],
+                               "category_key": l["category"], "mode_note": magister.MODES.get(l.get("mode"), ""),
                                "anchor": _queue_anchor("magister", l["id"])} for l in others]})
 
     pub = published_readings(db)
@@ -3315,6 +3339,8 @@ def drill_progress():
 def homework_page():
     """Every homework week so far, newest first, and the all-time totals."""
     db = get_db()
+    if grading_mode(db) == "standards":
+        return redirect(url_for("drill_progress"))
     events = store.events_for_student(db, current_student())
     rule = badge_rule(db)
     history = homework_history(db, events, rule=rule)
@@ -3359,7 +3385,12 @@ def _week_topics(weeks, approved_counts):
 def teacher_deadlines():
     db = get_db()
     saved = None
-    if request.method == "POST" and request.form.get("form") == "rushed":
+    if request.method == "POST" and request.form.get("form") == "grading":
+        mode = request.form.get("mode")
+        if mode in GRADING_MODES:
+            store.set_setting(db, "grading", {"mode": mode})
+            saved = "grading"
+    elif request.method == "POST" and request.form.get("form") == "rushed":
         store.set_setting(db, "count_rushed", request.form.get("count_rushed") == "yes")
         saved = "rushed"
     elif request.method == "POST" and request.form.get("form") == "badges":
@@ -3409,7 +3440,8 @@ def teacher_deadlines():
                            badges_from=badges_from(db), badge_weeks=badge_weeks,
                            homework=hs, hw_weeks=hw_weeks,
                            this_week=goals.week_key(time.time()),
-                           assessments=rows, saved=saved, kinds=dict(ASSESSMENT_KINDS))
+                           assessments=rows, saved=saved, kinds=dict(ASSESSMENT_KINDS),
+                           grading=grading_mode(db))
 
 
 @app.route("/teacher/deadlines/edit", methods=["GET", "POST"])

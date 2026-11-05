@@ -109,6 +109,7 @@
         {% if it.changed %}<span class="pill shaky">reworded since you approved it</span>{% endif %}
         {% if sec.key in ('laws', 'magister') %}
           {% if it.category %}<div class="small muted">{{ it.category }}</div>{% endif %}
+          {% if it.mode_note %}<div class="small"><span class="pill notyet">{{ it.mode_note }}</span></div>{% endif %}
           <div>{{ it.text }}</div>
           {{ edit_open(sec.key, it) }}
             <textarea name="text" rows="4">{{ it.text }}</textarea>
