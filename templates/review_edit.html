@@ -14,6 +14,6 @@
   <input type="hidden" name="node_id" value="{{ node_id }}">
   <textarea class="code" name="payload">{{ payload_text }}</textarea>
   <button class="bigbtn" type="submit">Save &amp; approve</button>
-  <a class="bigbtn secondary" href="{{ url_for('review_node', node_id=node_id) if queue=='node' else url_for('review_flagged') }}">Cancel</a>
+  <a class="bigbtn secondary" href="{{ url_for('review_node', node_id=node_id) if queue=='node' else (url_for('teacher_approve') ~ '#questions' if queue=='approve' else url_for('review_flagged')) }}">Cancel</a>
 </form>
 {% endblock %}

@@ -13,6 +13,7 @@ The drill routes are added in build step 4; this file grows, it does not fork.
 
 import csv
 import datetime
+import hashlib
 import io
 import json
 import os
@@ -868,6 +869,8 @@ def review_action():
 
 
 def _back_to_queue(queue, node_id, skipped=None):
+    if queue == "approve":
+        return redirect(url_for("teacher_approve", edited=1) + "#questions")
     if queue == "all":
         return redirect(url_for("review_all", node=node_id, after=skipped))
     if queue == "flagged":
@@ -2080,10 +2083,21 @@ def _queue_bank():
     return _QUEUE_BANK
 
 
+def _queue_anchor(kind, iid):
+    """A page anchor for one waiting item, safe whatever its id holds."""
+    return "i-" + hashlib.sha1(("%s:%s" % (kind, iid)).encode("utf-8")).hexdigest()[:10]
+
+
 def _queue_question(it):
+    choice = it.get("format") == "choice" and isinstance(it.get("options"), dict)
     return {"id": it["id"], "node": it.get("node"), "stem": practice.question_text(it),
             "options": list((it.get("options") or {}).values()) if it.get("format") == "choice" else [],
-            "answer": _answer_text(it)}
+            "answer": _answer_text(it), "anchor": _queue_anchor("questions", it["id"]),
+            # a multiple-choice question is edited right on the page; any
+            # other shape opens the full question editor
+            "inline": choice, "raw_stem": str(it.get("stem") or ""),
+            "option_map": dict(it.get("options") or {}) if choice else {},
+            "answer_key": it.get("answer") if choice else None}
 
 
 def _waiting_bank_questions(db):
@@ -2117,8 +2131,9 @@ def approval_queue(db):
         out.append({"key": "laws", "title": "Lēgēs Magistrī, the laws",
                     "blurb": "The rules on the Leges page and in the Magister's speech bubble.",
                     "page": url_for("teacher_magister"),
-                    "items": [{"id": l["id"], "changed": l["state"] == "edited",
-                               "text": l["text"]} for l in laws]})
+                    "items": [{"id": l["id"], "changed": l["state"] == "edited", "text": l["text"],
+                               "category_key": l["category"],
+                               "anchor": _queue_anchor("laws", l["id"])} for l in laws]})
 
     les = []
     for b in sorted(_BADGES, key=lambda x: _LESSON_NO[x["id"]]):
@@ -2129,7 +2144,8 @@ def approval_queue(db):
         if got != lessons.fingerprint(l):
             les.append({"id": b["id"], "changed": bool(got), "n": _LESSON_NO[b["id"]],
                         "title": b["title"], "steps": len(l["steps"]),
-                        "read": url_for("teacher_lesson_review", bid=b["id"])})
+                        "read": url_for("teacher_lesson_review", bid=b["id"]),
+                        "anchor": _queue_anchor("lessons", b["id"])})
     if les:
         out.append({"key": "lessons", "title": "Badge lessons",
                     "blurb": "Each opens the way a student sees it. Read it there, or approve it here.",
@@ -2159,7 +2175,7 @@ def approval_queue(db):
             teach.append({"id": nid, "changed": bool(got), "label": entry.get("label") or _NODE_LABEL.get(nid, ""),
                           "explain": entry.get("explain", ""), "examples": entry.get("examples") or [],
                           "when_wrong": entry.get("when_wrong", ""),
-                          "edit": url_for("teaching_edit", node_id=nid, back=url_for("teacher_approve") + "#teaching")})
+                          "anchor": _queue_anchor("teaching", nid)})
     if teach:
         out.append({"key": "teaching", "title": "Teaching text",
                     "blurb": "What a student reads after a miss: the explanation, examples, and the after-a-miss line.",
@@ -2172,7 +2188,8 @@ def approval_queue(db):
         if state in ("draft", "edited"):
             hints.append({"id": w["latin"], "changed": state == "edited", "entry": drill.entry(w),
                           "gloss": ", ".join(w.get("en") or []), "segments": vocabhints.segments(entry),
-                          "en": entry.get("en") or ""})
+                          "en": entry.get("en") or "", "raw_latin": entry.get("latin") or "",
+                          "anchor": _queue_anchor("hints", w["latin"])})
     if hints:
         out.append({"key": "hints", "title": "Vocabulary hint sentences",
                     "blurb": "The example sentence a student can open on a vocabulary card.",
@@ -2185,12 +2202,14 @@ def approval_queue(db):
                     "blurb": "What the cartoon teacher says on students' home screens.",
                     "page": url_for("teacher_magister"),
                     "items": [{"id": l["id"], "changed": l["state"] == "edited", "text": l["text"],
-                               "category": labels.get(l["category"], l["category"])} for l in others]})
+                               "category": labels.get(l["category"], l["category"]),
+                               "category_key": l["category"],
+                               "anchor": _queue_anchor("magister", l["id"])} for l in others]})
 
     pub = published_readings(db)
     stories = [{"id": slug, "title": r["title"], "source": r.get("source", ""),
                 "n": len(r["sentences"]), "n_q": len(r.get("questions") or []),
-                "preview": url_for("reader_page", slug=slug)}
+                "preview": url_for("reader_page", slug=slug), "anchor": _queue_anchor("stories", slug)}
                for slug, r in _READINGS.items() if slug not in pub and not readings.problems(r)]
     if stories:
         out.append({"key": "stories", "title": "Reader stories not published yet",
@@ -2247,10 +2266,103 @@ def _approve_questions(db, ids):
             store.set_review(db, i, "approved", reason="Approved from Waiting for you")
 
 
+def _edit_and_approve(db, kind, iid, form):
+    """Save the teacher's rewording of one waiting thing and approve it, with
+    the same checks its own page runs. Returns a problem in plain words, or
+    None. Reading it here and fixing it here is the point of the page."""
+    if kind in ("laws", "magister"):
+        line = {l["id"]: l for l in magister_lines(db)}.get(iid)
+        if line is None:
+            return "That line is gone."
+        entry = {"category": line["category"], "text": (form.get("text") or "").strip()}
+        bad = magister.problems(entry)
+        if bad:
+            return bad[0]
+        store.set_teaching_override(db, magister.key(iid), entry)
+        store.approve_teaching(db, magister.key(iid), magister.fingerprint(entry))
+    elif kind == "hints":
+        word = drill.find_word(_DRILL_WORDS, iid)
+        if word is None:
+            return "That word is gone."
+        entry = {"word": word["latin"], "latin": (form.get("latin") or "").strip(),
+                 "en": (form.get("en") or "").strip()}
+        bad = vocabhints.problems(entry)
+        if bad:
+            return bad[0]
+        akey = vocabhints.approval_key(iid)
+        store.set_teaching_override(db, akey, entry)
+        store.approve_teaching(db, akey, vocabhints.fingerprint(entry))
+    elif kind == "teaching":
+        entry = teaching_entry(db, iid)
+        if not entry:
+            return "That topic is gone."
+        edited = dict(entry)
+        edited["explain"] = (form.get("explain") or "").strip()
+        edited["examples"] = [ln.strip() for ln in (form.get("examples") or "").splitlines() if ln.strip()]
+        edited["when_wrong"] = (form.get("when_wrong") or "").strip()
+        if not edited["explain"]:
+            return "The explanation is what a student reads after a miss. It cannot be empty."
+        if not edited["examples"]:
+            return "Keep at least one worked example."
+        if not edited["when_wrong"]:
+            return "The after-a-miss line cannot be empty."
+        if len(edited["explain"].split()) > 120:
+            return ("The explanation is %d words. Keep it under 120 so it fits a phone."
+                    % len(edited["explain"].split()))
+        store.set_teaching_override(db, iid, edited)
+        store.approve_teaching(db, iid, dataio.teaching_fingerprint(edited))
+    elif kind == "questions":
+        row = store.get_item(db, iid)
+        payload = dict(row["payload"]) if row else dict(_queue_bank().get(iid) or {})
+        if not payload or payload.get("format") != "choice":
+            return "Open the full editor for this kind of question."
+        stem = (form.get("stem") or "").strip()
+        options = {k: (form.get("option_" + k) or "").strip() for k in (payload.get("options") or {})}
+        answer = form.get("answer") or ""
+        if not stem:
+            return "The question can't be empty."
+        if any(not v for v in options.values()):
+            return "Every choice needs some words."
+        if len(set(options.values())) != len(options):
+            return "Two choices say the same thing."
+        if answer not in options:
+            return "Pick the right answer."
+        payload.update(stem=stem, options=options, answer=answer)
+        if row is None:
+            flags, _ = checks.run_all([payload], _VALID_NODES, _ALLOWED_LATIN)
+            store.import_items(db, [payload], flags, "approval queue")
+        store.set_review(db, iid, "approved", new_payload=payload, edited=True,
+                         reason="Edited and approved from Waiting for you")
+    else:
+        return "This can't be edited here."
+    return None
+
+
+@app.route("/teacher/approve/question/<item_id>")
+def teacher_approve_full_edit(item_id):
+    """The full question editor for a question on Waiting for you, bringing
+    in a question that is still only in a bank file first."""
+    db = get_db()
+    if store.get_item(db, item_id) is None:
+        it = _queue_bank().get(item_id)
+        if it is None:
+            abort(404)
+        flags, _ = checks.run_all([it], _VALID_NODES, _ALLOWED_LATIN)
+        store.import_items(db, [it], flags, "approval queue")
+    return redirect(url_for("review_edit", item_id=item_id, queue="approve"))
+
+
 @app.route("/teacher/approve", methods=["GET", "POST"])
 def teacher_approve():
-    """Everything waiting for the teacher, approvable in place."""
+    """Everything waiting for the teacher, approvable -- and editable -- in place."""
     db = get_db()
+    if request.method == "POST" and request.form.get("action") == "edit":
+        kind, iid = request.form.get("kind", ""), request.form.get("id", "")
+        problem = _edit_and_approve(db, kind, iid, request.form)
+        anchor = "#" + _queue_anchor(kind, iid)
+        if problem:
+            return redirect(url_for("teacher_approve", error=problem, kind=kind, id=iid) + anchor)
+        return redirect(url_for("teacher_approve", edited=1) + "#" + kind)
     if request.method == "POST":
         kind, iid = request.form.get("kind", ""), request.form.get("id", "")
         scope = request.form.get("scope", "one")
@@ -2277,6 +2389,9 @@ def teacher_approve():
     sections = approval_queue(db)
     return render_template("teacher_approve.html", sections=sections,
                            n_flagged=_waiting_bank_questions(db)[1],
+                           error=request.args.get("error"), edited=request.args.get("edited"),
+                           error_anchor=_queue_anchor(request.args.get("kind", ""), request.args.get("id", ""))
+                           if request.args.get("error") else None,
                            total=sum(len(s["items"]) for s in sections if not s.get("publish")),
                            done=request.args.get("done"))
 

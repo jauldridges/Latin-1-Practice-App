@@ -599,7 +599,12 @@ and never imported: approving imports it, running the mechanical checks
 first), teaching text, and vocabulary hint sentences. Each item is shown in
 full with its own **Approve**; each group has **Approve all**; the top has
 **Approve everything on this page**. A line reworded since it was approved
-comes back marked. Questions the checks flagged are counted and sent to the
+comes back marked. **Edit** opens the wording in place (laws and other
+Magister lines, teaching text, hint sentences, and multiple-choice questions:
+the question, the choices, and which is right), and **Save & approve** saves
+it with the same checks its own page runs; any other kind of question opens
+the full question editor, which returns here. Lessons and stories are not
+editable in the app. Questions the checks flagged are counted and sent to the
 Review tool rather than listed. Reader stories are listed with **Publish**, one
 at a time: no group or page-wide button publishes a story, because a story goes
 live when it is taught. Every item keeps its own page for editing and

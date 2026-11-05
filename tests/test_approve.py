@@ -131,6 +131,82 @@ class TestWaitingForYou(unittest.TestCase):
         self.assertIn("A new wording.", body)
         self.assertIn("reworded since you approved it", body)
 
+    # --- editing in place ------------------------------------------------
+
+    def edit(self, **data):
+        return self.teacher.post("/teacher/approve", data=dict(data, action="edit"))
+
+    def test_every_editable_kind_has_an_edit_button(self):
+        body = self.page()
+        self.assertIn('<summary class="minibtn">Edit</summary>', body)
+        self.assertIn('name="explain"', body)              # teaching text
+        self.assertIn('name="option_a"', body)             # a multiple-choice question
+        self.assertIn("full editor", body)
+        self.assertIn("Lessons can't be edited in the app yet", body)
+
+    def test_editing_a_law_saves_it_and_approves_it(self):
+        law = next(l for l in magister.load() if l["category"] in magister.LEGES)
+        r = self.edit(kind="laws", id=law["id"], text="Practice a little every day.")
+        self.assertIn("edited=1", r.headers["Location"])
+        line = {l["id"]: l for l in self.server.magister_lines(self.db)}[law["id"]]
+        self.assertEqual((line["text"], line["state"]), ("Practice a little every day.", "approved"))
+
+    def test_a_bad_edit_is_refused_and_says_why(self):
+        law = next(l for l in magister.load() if l["category"] in magister.LEGES)
+        r = self.edit(kind="laws", id=law["id"], text="   ")
+        self.assertIn("error=", r.headers["Location"])
+        self.assertNotIn(magister.key(law["id"]), self.approvals())
+        body = html.unescape(self.teacher.get(r.headers["Location"]).data.decode())
+        self.assertIn("not saved", body)
+        self.assertIn("say something", body)
+        self.assertIn("<details class=\"queue-edit\" open>", body)    # the drawer is still open
+
+    def test_editing_a_hint_sentence(self):
+        self.edit(kind="hints", id="rēx", latin="*Rēx* mīlitī pecūniam dat.",
+                  en="The king gives money to the soldier.")
+        self.assertEqual(self.server.vocab_hint_state(self.db, "rēx"), "approved")
+        self.assertEqual(self.server.vocab_hint_entry(self.db, "rēx")["latin"], "*Rēx* mīlitī pecūniam dat.")
+        r = self.edit(kind="hints", id="dux", latin="Mīles ducī pāret.", en="x")     # word not marked
+        self.assertIn("error=", r.headers["Location"])
+
+    def test_editing_teaching_text(self):
+        nid = sorted(self.server._TEACHING)[0]
+        self.edit(kind="teaching", id=nid, explain="Short and clear.", examples="one\ntwo",
+                  when_wrong="Look again.")
+        self.assertEqual(self.server.teaching_state(self.db, nid), "approved")
+        self.assertEqual(self.server.teaching_entry(self.db, nid)["examples"], ["one", "two"])
+        r = self.edit(kind="teaching", id=nid, explain="", examples="one", when_wrong="x")
+        self.assertIn("error=", r.headers["Location"])
+
+    def test_editing_a_multiple_choice_question_still_in_its_bank_file(self):
+        it = next(i for i in dataio.load_bank() if i.get("format") == "choice"
+                  and len(i.get("options") or {}) == 4)
+        self.assertIsNone(store.get_item(self.db, it["id"]))
+        keys = sorted(it["options"])
+        data = {"option_" + k: "Choice %s" % k for k in keys}
+        self.edit(kind="questions", id=it["id"], stem="A new question?", answer=keys[1], **data)
+        row = store.get_item(self.db, it["id"])
+        self.assertEqual(row["review_status"], "approved")
+        self.assertEqual(row["payload"]["stem"], "A new question?")
+        self.assertEqual(row["payload"]["answer"], keys[1])
+        # two choices the same is refused
+        data["option_" + keys[0]] = data["option_" + keys[1]]
+        r = self.edit(kind="questions", id=it["id"], stem="Q?", answer=keys[0], **data)
+        self.assertIn("error=", r.headers["Location"])
+
+    def test_any_other_question_opens_the_full_editor_and_comes_back(self):
+        it = next(i for i in dataio.load_bank() if i.get("format") != "choice")
+        r = self.teacher.get("/teacher/approve/question/" + it["id"])
+        self.assertIn("/review/edit/", r.headers["Location"])
+        self.assertIn("queue=approve", r.headers["Location"])
+        self.assertIsNotNone(store.get_item(self.db, it["id"]))          # brought in first
+        import yaml
+        payload = dict(it, stem="Edited in the full editor.")
+        r = self.teacher.post("/review/edit/" + it["id"], data={
+            "payload": yaml.safe_dump(payload, allow_unicode=True), "queue": "approve"})
+        self.assertIn("/teacher/approve", r.headers["Location"])
+        self.assertEqual(store.get_item(self.db, it["id"])["review_status"], "approved")
+
 
 if __name__ == "__main__":
     unittest.main()
