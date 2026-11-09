@@ -106,8 +106,8 @@ everything new: laws, lessons, questions, teaching text, hint sentences,
 Magister lines, and (one at a time) Reader stories. Teacher pages have tabs.
 The Reader now has Week 11's four stories (Marius, Sulla, Pompey, Cicero).
 
-**Vocabulary** now runs through Week 11 (131 words): Weeks 8, 9, 10 and 11
-came from their class packets. Week 7 (week of October 5) has none -- no packet
+**Vocabulary** now runs through Week 12 (145 words): Weeks 8 to 12 came
+from their class packets. Week 7 (week of October 5) has none -- no packet
 yet -- and Week 8's packet names only -ve (its word table is filled in in
 class). possum was added to the week of September 21, with sum.
 The quiz setup screen (Goals & deadlines) shows each week's word count and

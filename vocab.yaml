@@ -190,3 +190,22 @@ words:
   - {latin: "omnis",     en: ["all", "every", "each", "whole"], week: "week_of_nov_2", entry: "omnis, omne"}
   - {latin: "fortis",    en: ["brave", "strong"], week: "week_of_nov_2", entry: "fortis, forte"}
   - {latin: "nōbilis",   en: ["noble", "famous", "well-known"], week: "week_of_nov_2", entry: "nōbilis, nōbile"}
+
+  # --- week of Nov 9 — Week 12 class packet: Vocabulary Part A ---
+  # The third and fourth conjugations (and ferō). The packet leaves the
+  # meanings blank for students to fill in; these glosses were written for
+  # the app.
+  - {latin: "dīcō", en: ["I say", "say", "I tell", "tell", "I speak", "speak"], week: "week_of_nov_9", entry: "dīcō, dīcere"}
+  - {latin: "dūcō", en: ["I lead", "lead", "I guide", "guide", "I take", "take"], week: "week_of_nov_9", entry: "dūcō, dūcere"}
+  - {latin: "faciō", en: ["I make", "make", "I do", "do"], week: "week_of_nov_9", entry: "faciō, facere"}
+  - {latin: "ferō", en: ["I carry", "carry", "I bring", "bring", "I bear", "bear"], week: "week_of_nov_9", entry: "ferō, ferre"}
+  - {latin: "mittō", en: ["I send", "send", "I let go", "let go"], week: "week_of_nov_9", entry: "mittō, mittere"}
+  - {latin: "scrībō", en: ["I write", "write"], week: "week_of_nov_9", entry: "scrībō, scrībere"}
+  - {latin: "agō", en: ["I do", "do", "I drive", "drive", "I act", "act"], week: "week_of_nov_9", entry: "agō, agere"}
+  - {latin: "vincō", en: ["I conquer", "conquer", "I defeat", "defeat", "I win", "win"], week: "week_of_nov_9", entry: "vincō, vincere"}
+  - {latin: "relinquō", en: ["I leave", "leave", "I leave behind", "leave behind", "I abandon", "abandon"], week: "week_of_nov_9", entry: "relinquō, relinquere"}
+  - {latin: "audiō", en: ["I hear", "hear", "I listen", "listen", "I listen to", "listen to"], week: "week_of_nov_9", entry: "audiō, audīre"}
+  - {latin: "veniō", en: ["I come", "come"], week: "week_of_nov_9", entry: "veniō, venīre"}
+  - {latin: "inveniō", en: ["I find", "find", "I come upon", "come upon", "I discover", "discover"], week: "week_of_nov_9", entry: "inveniō, invenīre"}
+  - {latin: "sciō", en: ["I know", "know"], week: "week_of_nov_9", entry: "sciō, scīre"}
+  - {latin: "sentiō", en: ["I feel", "feel", "I sense", "sense", "I perceive", "perceive"], week: "week_of_nov_9", entry: "sentiō, sentīre"}

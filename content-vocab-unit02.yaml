@@ -62,6 +62,10 @@ third_conjugation:
   - rego         # rule
   - dico         # say
   - pono         # put, place
+  - ago          # do, drive (Week 12 packet)
+  - vinco        # conquer, win (Week 12 packet)
+  - relinquo     # leave behind (Week 12 packet)
+  - fero         # carry, bring (Week 12 packet; irregular: fers, fert, ferre)
 
 third_io:
   - capio        # take, capture
@@ -74,6 +78,8 @@ fourth_conjugation:
   - venio        # come
   - scio         # know
   - munio        # fortify
+  - invenio      # find (Week 12 packet)
+  - sentio       # feel, sense (Week 12 packet)
 
 dative_verbs:
   - credo        # trust, believe
@@ -86,6 +92,7 @@ irregular_imperatives:
   - duc
   - fac
   - fer
+  - ferte        # the one irregular plural
 
 negative_command:
   - noli

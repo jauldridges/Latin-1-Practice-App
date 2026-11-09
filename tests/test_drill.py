@@ -198,7 +198,9 @@ class TestDictionaryEntries(unittest.TestCase):
             | set(d._SECOND_NEUTER) | {"rex", "dux", "miles", "homo", "pater", "mater",
                                        "lex", "iuvenis", "senex", "nomen", "corpus",
                                        "tempus", "caput", "liberi"}
-        verbs = set(d._FIRST_CONJ) | set(d._SECOND_CONJ) | {"sum", "possum", "do", "credo"}
+        verbs = set(d._FIRST_CONJ) | set(d._SECOND_CONJ) | {"sum", "possum", "do", "credo"} \
+            | {"dico", "duco", "facio", "fero", "mitto", "scribo", "ago", "vinco", "relinquo",
+               "audio", "venio", "invenio", "scio", "sentio"}                     # Week 12
         adjs = set(d._ADJ_US) | set(d._ADJ_ER) | {"omnis", "fortis", "nobilis"}
         seen = set()
         for w in self.words:

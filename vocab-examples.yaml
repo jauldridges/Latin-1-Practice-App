@@ -20,7 +20,8 @@
 # week. Through September: nominative, accusative and vocative, the present,
 # sum, adjective agreement, imperatives and dēbeō + infinitive. Week 9
 # (October 19) adds the genitive; Week 10 (October 26) adds the dative, taught
-# that week; Week 11 (November 2) adds the third declension. No ablative or
+# that week; Week 11 (November 2) adds the third declension; Week 12
+# (November 9) the third and fourth conjugations. No ablative or
 # prepositions yet.
 #
 # Students see nothing here until the teacher approves it at
@@ -178,3 +179,19 @@ examples:
   - {word: "omnis",     latin: "*Omnis* mīles ducī pāret.", en: "Every soldier obeys the general."}
   - {word: "fortis",    latin: "Rēx mīlitem *fortem* laudat.", en: "The king praises the brave soldier."}
   - {word: "nōbilis",   latin: "Patricius *nōbilis* est.", en: "The patrician is noble."}
+
+  # --- week of Nov 9 (Week 12): third and fourth conjugation verbs ---
+  - {word: "dīcō", latin: "Māter fīliae fābulam *dīcit*.", en: "The mother tells her daughter a story."}
+  - {word: "dūcō", latin: "Dux mīlitēs *dūcit*.", en: "The general leads the soldiers."}
+  - {word: "faciō", latin: "Puella dōnum *facit*.", en: "The girl makes a gift."}
+  - {word: "ferō", latin: "Servus aquam *fert*.", en: "The slave carries water."}
+  - {word: "mittō", latin: "Rēx mīlitēs *mittit*.", en: "The king sends the soldiers."}
+  - {word: "scrībō", latin: "Poēta verba *scrībit*.", en: "The poet writes words."}
+  - {word: "agō", latin: "Agricola equōs *agit*.", en: "The farmer drives the horses."}
+  - {word: "vincō", latin: "Mīlitēs fortēs *vincunt*.", en: "The brave soldiers win."}
+  - {word: "relinquō", latin: "Nauta patriam *relinquit*.", en: "The sailor leaves his homeland."}
+  - {word: "audiō", latin: "Fīlia verba mātris *audit*.", en: "The daughter hears her mother's words."}
+  - {word: "veniō", latin: "Amīcus meus *venit*.", en: "My friend is coming."}
+  - {word: "inveniō", latin: "Puella pecūniam *invenit*.", en: "The girl finds money."}
+  - {word: "sciō", latin: "Nauta viam *scit*.", en: "The sailor knows the way."}
+  - {word: "sentiō", latin: "Mīles nihil *sentit*.", en: "The soldier feels nothing."}

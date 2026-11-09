@@ -23,7 +23,7 @@ DAY = 86400.0
 WEEK_ORDER = ["week_of_aug_24", "week_of_aug_31", "week_of_sep_8",
               "week_of_sep_14", "week_of_sep_21", "week_of_sep_28",
               "week_of_oct_12", "week_of_oct_19", "week_of_oct_26",
-              "week_of_nov_2"]
+              "week_of_nov_2", "week_of_nov_9"]
 
 
 
@@ -34,6 +34,7 @@ _WEEK_MONDAY = {
     "week_of_sep_21": "2026-09-21", "week_of_sep_28": "2026-09-28",
     "week_of_oct_12": "2026-10-12", "week_of_oct_19": "2026-10-19",
     "week_of_oct_26": "2026-10-26", "week_of_nov_2": "2026-11-02",
+    "week_of_nov_9": "2026-11-09",
 }
 
 # How each week is written for students: "Week of Monday September 14".
