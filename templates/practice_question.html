@@ -9,7 +9,7 @@
 
 {% include "_statsbar.html" %}
 {% if extra %}<p class="small muted extra-note">You've already had this one today, so this is extra
-  practice — it won't add to this week's cards.</p>{% endif %}
+  practice{% if not standards_mode %} — it won't add to this week's cards{% endif %}.</p>{% endif %}
 
 <div class="meta-row">
   <span class="badge tier">{{ label }}</span>
@@ -17,6 +17,8 @@
   {% if item.nle %}<span class="badge nletag">From the {{ item.nle.label }}</span>{% endif %}
 </div>
 
+{# Why this question, now: the spacing system explaining itself. #}
+{% set why = why_question(item, bb) %}{% if why %}<p class="why-now">{{ why }}</p>{% endif %}
 <div class="stem">{{ stem_html(item) }}</div>
 {% if item.image %}<img class="nle-img" src="{{ url_for('static', filename=item.image) }}" alt="The picture for this question">{% endif %}
 

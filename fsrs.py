@@ -255,3 +255,63 @@ def pick(cards, keys, now=None, avoid=None):
     if new:
         return new[0]
     return min(keys, key=recall)
+
+
+def _ago(seconds):
+    """"5 minutes ago", "3 hours ago", "yesterday", "11 days ago", "about 2 months ago"."""
+    if seconds < 3600:
+        m = max(1, int(round(seconds / 60.0)))
+        return "%d minute%s ago" % (m, "" if m == 1 else "s")
+    if seconds < DAY:
+        h = max(1, int(round(seconds / 3600.0)))
+        return "%d hour%s ago" % (h, "" if h == 1 else "s")
+    d = int(seconds // DAY)
+    if d <= 1:
+        return "yesterday"
+    if d < 60:
+        return "%d days ago" % d
+    return "about %d months ago" % int(round(d / 30.0))
+
+
+def why_now(card, now=None, thing="word"):
+    """One sentence, shown above a prompt: why the schedule chose this card
+    now. It follows pick()'s own order -- new, due (a recent miss, or a
+    review as it fades), then extra practice -- so what a student reads is
+    what actually happened, and the idea of spacing is in front of them on
+    every card rather than in a lecture they skipped."""
+    now = now or time.time()
+    if card is None or card.last is None:
+        return "New %s: this is your first time seeing it." % thing
+    since = now - card.last
+    if card.due <= now:
+        if since < DAY and card.last_grade == AGAIN:
+            return ("You missed this %s. Missed cards come back within minutes "
+                    "until they stick." % _ago(since))
+        if since < DAY:
+            return ("You found this hard %s, so it's back soon to help it stick." % _ago(since))
+        gap = card.due - card.last
+        if now - card.due > max(2 * DAY, 0.5 * gap):
+            return ("Last seen %s, and it was due a while ago, so it may be slipping. "
+                    "Bringing it back now saves it." % _ago(since))
+        return ("Last seen %s, just as it was starting to fade. That's the best moment "
+                "to bring it back." % _ago(since))
+    if since < DAY and card.last_grade == AGAIN:
+        return "You missed this %s, so it's back for another try." % _ago(since)
+    return ("Nothing is due right now, so this is extra practice. Its next real review "
+            "is %s." % _in(card.due - now))
+
+
+def _in(seconds):
+    """"in 5 minutes", "in 3 hours", "tomorrow", "in 11 days", "in about 2 months"."""
+    if seconds < 3600:
+        m = max(1, int(round(seconds / 60.0)))
+        return "in %d minute%s" % (m, "" if m == 1 else "s")
+    if seconds < DAY:
+        h = max(1, int(round(seconds / 3600.0)))
+        return "in %d hour%s" % (h, "" if h == 1 else "s")
+    d = int(round(seconds / DAY))
+    if d <= 1:
+        return "tomorrow"
+    if d < 60:
+        return "in %d days" % d
+    return "in about %d months" % int(round(d / 30.0))

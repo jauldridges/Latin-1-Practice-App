@@ -2495,6 +2495,34 @@ def badge_banner(node):
 app.jinja_env.globals["badge_banner"] = badge_banner
 
 
+@app.template_global()
+def why_word(latin):
+    """The grey line above a vocabulary card: why the schedule chose it now."""
+    if not current_student():
+        return ""
+    events = store.events_for_student(get_db(), current_student())
+    return fsrs.why_now(drill.card_state(drill._events_for_key(events, drill._key(latin))),
+                        thing="word")
+
+
+@app.template_global()
+def why_question(item, bb=None):
+    """The grey line above a grammar question. In a badge check the questions
+    are a fixed set, not the schedule's pick, so the line says what the check
+    is for instead."""
+    if bb:
+        if bb["mode"] == "refresh":
+            return ("A refresh: a badge fades the way a word does, and %d quick questions "
+                    "bring it back." % bb["n"])
+        return ("A badge check: %d questions from across this topic. Get %d right to earn it."
+                % (bb["n"], badges.needed("earn", bb["n"])))
+    if not current_student():
+        return ""
+    events = [e for e in store.events_for_student(get_db(), current_student())
+              if e.get("item_id") == item.get("id")]
+    return fsrs.why_now(fsrs.replay(events), thing="question")
+
+
 def _badge_next(db, student, bid):
     """The next question of the check under way, or -- all answered -- its
     result, recorded once as the badge's event."""

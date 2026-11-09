@@ -588,6 +588,17 @@ teacher view**. The demo student is left out of every whole-class read — the
 dashboard, homework grid, misses, quiz and practice-NLE lists, and Data for
 analysis. `tests/test_student_mode.py`.
 
+## Why this card, now
+
+Above every vocabulary card and grammar question, one grey line says why the
+schedule chose it (`fsrs.why_now`), following `fsrs.pick`'s own order: a new
+card ("New word: this is your first time seeing it."), a recent miss ("You
+missed this 6 minutes ago. Missed cards come back within minutes until they
+stick."), a review as it fades ("Last seen 4 days ago, just as it was starting
+to fade…"), one long overdue, or extra practice when nothing is due (with when
+its real review is). In a badge check the line says what the check is for
+instead, since those questions are a fixed set. `tests/test_why_now.py`.
+
 ## Grading: weekly homework or standards-based
 
 **Goals & deadlines → Grading** switches the whole app between two framings;
