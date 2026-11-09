@@ -1,0 +1,292 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 12 story packet, Day 2 (Tuesday November 10).
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too), with the case added to the note.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them.
+#   core:   the packet's Core sentences (number in a red box): 4, 6, 8, 10, 13.
+#
+# Sentence 8: the packet underlines "Et tū" and "Brūte" separately, with the
+# comma between them, which is how they are tapped here too.
+#
+# Questions, in story order: p1-p5 are the class packet's Stretch questions
+# (Week 12 class packet, Day 2 Practice), written answers with a model; q1-q3
+# are the app's own quick checks.
+
+slug: idus-martiae
+title: "Fābula dē Īdibus Mārtiīs"
+source: "Latin I — Week 12 story packet, Day 2 (Tuesday November 10)"
+paragraphs: [[1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11], [12, 13, 14, 15]]
+
+sentences:
+  - n: 1
+    text: "Īdibus Mārtiīs Caesar ad senātum venit."
+    new:
+      Īdibus Mārtiīs: "on the Ides of March"
+      ad senātum: "to the Senate"
+    words:
+      Caesar: "Caesar · Subject, nominative"
+      venit: "comes — from veniō"
+
+  - n: 2
+    text: "Caesar haruspicem videt et rīdet: “Īdūs Mārtiae adsunt, et ego vīvō!”"
+    new:
+      haruspicem: "the soothsayer · Direct Object, accusative"
+      rīdet: "laughs"
+      adsunt: "are here"
+      ego vīvō: "I am alive"
+    words:
+      Caesar: "Caesar · Subject, nominative"
+      videt: "sees — from videō"
+      et: "and"
+      Īdūs Mārtiae: "the Ides of March · Subject, nominative"
+
+  - n: 3
+    text: "Haruspex respondet: “Adsunt, Caesar, sed diēs nōndum fīnīta est.”"
+    new:
+      respondet: "answers"
+      diēs nōndum fīnīta est: "the day is not over yet"
+    words:
+      Haruspex: "the soothsayer · Subject, nominative"
+      Adsunt: "they are here"
+      Caesar: "Caesar · Vocative"
+      sed: "but"
+
+  - n: 4
+    core: true
+    text: "In senātū multī senātōrēs Caesarem exspectant. Brūtus et Cassius coniūrātōs dūcunt."
+    new:
+      In senātū: "in the Senate"
+      senātōrēs: "senators · Subject, nominative plural"
+      exspectant: "wait for"
+      Brūtus et Cassius: "Brutus and Cassius · Subject, nominative"
+      coniūrātōs: "the conspirators · Direct Object, accusative plural"
+    words:
+      multī: "many — it describes senātōrēs"
+      Caesarem: "Caesar · Direct Object, accusative"
+      dūcunt: "lead — from dūcō"
+
+  - n: 5
+    text: "Brūtus est amīcus Caesaris, sed Brūtus rem pūblicam magis quam amīcum amat."
+    new:
+      rem pūblicam: "the Republic · Direct Object, accusative"
+      magis quam: "more than"
+    words:
+      Brūtus: "Brutus · Subject, nominative"
+      est: "is — from sum"
+      amīcus: "a friend · Predicate Nominative"
+      Caesaris: "of Caesar · genitive"
+      sed: "but"
+      amīcum: "his friend · Direct Object, accusative"
+      amat: "loves — from amō"
+
+  - n: 6
+    core: true
+    text: "Coniūrātī Caesarī libellum dant et multa verba dīcunt."
+    new:
+      Coniūrātī: "the conspirators · Subject, nominative plural"
+      libellum: "a petition, a written request · Direct Object, accusative"
+    words:
+      Caesarī: "to Caesar · Indirect Object, dative"
+      dant: "give — from dō"
+      et: "and"
+      multa: "many — it describes verba"
+      verba: "words · Direct Object, accusative plural"
+      dīcunt: "say — from dīcō"
+
+  - n: 7
+    text: "Subitō coniūrātī gladiōs ostendunt et Caesarem oppugnant."
+    new:
+      Subitō: "suddenly"
+      gladiōs: "swords · Direct Object, accusative plural"
+      ostendunt: "show"
+      oppugnant: "attack"
+    words:
+      coniūrātī: "the conspirators · Subject, nominative plural"
+      et: "and"
+      Caesarem: "Caesar · Direct Object, accusative"
+
+  - n: 8
+    core: true
+    text: "Caesar Brūtum videt et dīcit: “Et tū, Brūte?”"
+    new:
+      Et tū: "you too"
+      Brūte: "Brutus · Vocative"
+    words:
+      Caesar: "Caesar · Subject, nominative"
+      Brūtum: "Brutus · Direct Object, accusative"
+      videt: "sees — from videō"
+      et: "and"
+      dīcit: "says — from dīcō"
+
+  - n: 9
+    text: "Caesar togam ad caput trahit et cadit."
+    new:
+      togam: "his toga · Direct Object, accusative"
+      ad caput: "over his head"
+      trahit: "pulls"
+      cadit: "falls"
+    words:
+      Caesar: "Caesar · Subject, nominative"
+      et: "and"
+
+  - n: 10
+    core: true
+    text: "Coniūrātī senātum relinquunt et populō clāmant: “Lībertās! Tyrannum vincimus!”"
+    new:
+      Lībertās: "liberty, freedom"
+      Tyrannum: "the tyrant, a ruler with no limits · Direct Object, accusative"
+    words:
+      Coniūrātī: "the conspirators · Subject, nominative plural"
+      senātum: "the Senate · Direct Object, accusative"
+      relinquunt: "leave — from relinquō"
+      et: "and"
+      populō: "to the people · dative"
+      clāmant: "shout — from clāmō"
+      vincimus: "we defeat, we have beaten — from vincō"
+
+  - n: 11
+    text: "Sed populus coniūrātīs nōn favet."
+    new:
+      coniūrātīs: "the conspirators · dative with favet"
+    words:
+      Sed: "but"
+      populus: "the people · Subject, nominative"
+      nōn: "not"
+      favet: "supports, favors — from faveō, which takes the dative"
+
+  - n: 12
+    text: "Mārcus Antōnius, amīcus Caesaris, populō corpus Caesaris mōnstrat et dīcit: “Caesar vōbīs agrōs et pecūniam relinquit!”"
+    new:
+      Mārcus Antōnius: "Mark Antony · Subject, nominative"
+      vōbīs: "to you (more than one) · dative"
+    words:
+      amīcus: "a friend · renames Mārcus Antōnius"
+      Caesaris: "of Caesar · genitive"
+      populō: "to the people · Indirect Object, dative"
+      corpus: "the body · Direct Object, accusative"
+      mōnstrat: "shows — from mōnstrō"
+      et: "and"
+      dīcit: "says — from dīcō"
+      Caesar: "Caesar · Subject, nominative"
+      agrōs: "fields, land · Direct Object, accusative plural"
+      pecūniam: "money · Direct Object, accusative"
+      relinquit: "leaves — from relinquō"
+
+  - n: 13
+    core: true
+    text: "Populus īrātus coniūrātōs ex urbe agit."
+    new:
+      īrātus: "angry — it describes Populus"
+      ex urbe: "out of the city"
+    words:
+      Populus: "the people · Subject, nominative"
+      coniūrātōs: "the conspirators · Direct Object, accusative plural"
+      agit: "drives — from agō"
+
+  - n: 14
+    text: "Brūtus et Cassius exercitum parant, et Rōmānī iterum inter sē pugnant."
+    new:
+      exercitum: "an army · Direct Object, accusative"
+      iterum: "again"
+      inter sē: "among themselves"
+    words:
+      Brūtus: "Brutus · Subject, nominative"
+      et: "and"
+      Cassius: "Cassius · Subject, nominative"
+      parant: "get ready — from parō"
+      Rōmānī: "the Romans · Subject, nominative"
+      pugnant: "fight — from pugnō"
+
+  - n: 15
+    text: "Rōmānī hanc fābulam nārrant: Caesarem necāre facile est, sed rem pūblicam servāre nōn est facile."
+    new:
+      hanc fābulam: "this story · Direct Object, accusative"
+      necāre: "to kill"
+      facile: "easy"
+      servāre: "to save"
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+      nārrant: "tell — from nārrō"
+      Caesarem: "Caesar · Direct Object, accusative"
+      est: "is — from sum"
+      sed: "but"
+      rem pūblicam: "the Republic · Direct Object, accusative"
+      nōn: "not"
+
+questions:
+  - id: q1
+    ask: "Sentence 3: What does the soothsayer answer?"
+    look: [2, 3]
+    hint: {3: "diēs nōndum fīnīta est"}
+    options:
+      a: "The day is not over yet."
+      b: "Caesar is safe now."
+      c: "The Ides of March are not here."
+      d: "The Senate is waiting for him."
+    answer: a
+
+  - id: p1
+    ask: "Brutus is Caesar’s friend (sentence 5). Why does he join the plot?"
+    look: [5]
+    hint: {5: "Brūtus rem pūblicam magis quam amīcum amat"}
+    model: >-
+      Brutus loves the Republic more than his friend. He thinks Caesar's
+      power is destroying the Republic, so he chooses Rome over friendship.
+
+  - id: p2
+    ask: "Why do the conspirators hand Caesar a petition before they attack (sentences 6–7)?"
+    look: [6, 7]
+    hint: {6: "Caesarī libellum dant et multa verba dīcunt", 7: "Subitō coniūrātī gladiōs ostendunt"}
+    model: >-
+      To get close to him and distract him. While he reads and listens to
+      their many words, they can surround him; then suddenly they show their
+      swords.
+
+  - id: p3
+    ask: "What does “Et tū, Brūte?” show about how Caesar felt?"
+    look: [8]
+    hint: {8: "Et tū Brūte"}
+    model: >-
+      “You too, Brutus?” He is shocked and hurt: his own friend is among the
+      killers. It shows he felt betrayed.
+
+  - id: q2
+    ask: "Sentence 9: What does Caesar do?"
+    look: [9]
+    hint: {9: "Caesar togam ad caput trahit et cadit"}
+    options:
+      a: "He pulls his toga over his head and falls."
+      b: "He runs out of the Senate."
+      c: "He calls his soldiers."
+      d: "He reads the petition."
+    answer: a
+
+  - id: p4
+    ask: "What do the conspirators think they have done? How do the people react (sentence 11)?"
+    look: [10, 11]
+    hint: {10: "Lībertās Tyrannum vincimus", 11: "populus coniūrātīs nōn favet"}
+    model: >-
+      They think they have defeated a tyrant and won back liberty. But the
+      people don't support them.
+
+  - id: q3
+    ask: "Sentence 13: What do the angry people do?"
+    look: [13]
+    hint: {13: "Populus īrātus coniūrātōs ex urbe agit"}
+    options:
+      a: "They drive the conspirators out of the city."
+      b: "They thank the conspirators."
+      c: "They make Brutus dictator."
+      d: "They stay home."
+    answer: a
+
+  - id: p5
+    ask: "How does Antony turn the people (sentence 12)? What does sentence 15 say this story teaches?"
+    look: [12, 15]
+    hint: {12: "populō corpus Caesaris mōnstrat", 15: "Caesarem necāre facile est sed rem pūblicam servāre nōn est facile"}
+    model: >-
+      He shows the people Caesar's body and tells them Caesar left them land
+      and money, so they turn against the killers. The lesson: killing Caesar
+      is easy, but saving the Republic is not.

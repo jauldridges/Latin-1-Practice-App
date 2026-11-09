@@ -104,7 +104,8 @@ uploaded by the teacher; fed by honest practice each day, runs away after
 **Waiting for you** (`/teacher/approve`) is the one place to approve
 everything new: laws, lessons, questions, teaching text, hint sentences,
 Magister lines, and (one at a time) Reader stories. Teacher pages have tabs.
-The Reader now has Week 11's four stories (Marius, Sulla, Pompey, Cicero).
+The Reader now has Week 11's four stories (Marius, Sulla, Pompey, Cicero)
+and Week 12's three (Caesar, the Ides of March, Octavian).
 
 **Vocabulary** now runs through Week 12 (145 words): Weeks 8 to 12 came
 from their class packets. Week 7 (week of October 5) has none -- no packet

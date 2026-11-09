@@ -932,3 +932,7 @@ nav.tabs.teacher a { font-size: 14px; }
 /* ---- Why this card, now (fsrs.why_now) ------------------------------------- */
 .why-now { color: var(--muted); font-size: 13px; line-height: 1.35; text-align: center;
   margin: 6px 8px 2px; }
+/* Punctuation touching a word rides inside its button (readings.groups), so
+   the two never part at a line end. Inline-block keeps the underline off it. */
+button.rw { text-align: left; }
+button.rw .rp { display: inline-block; text-decoration: none; }

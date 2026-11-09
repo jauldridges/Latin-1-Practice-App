@@ -1,0 +1,324 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 12 story packet, Day 3 (Thursday November 12).
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too), with the case added to the note.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them.
+#   core:   the packet's Core sentences (number in a red box): 2, 5, 6, 8, 12.
+#
+# Sentence 2: the packet underlines "in Apollōniā, trāns mare," as one span. A
+# tap target can't run across a comma, so it is two underlined pieces.
+#
+# Questions, in story order: p1-p5 are the class packet's Stretch questions
+# (Week 12 class packet, Day 3 Practice), written answers with a model; q1-q3
+# are the app's own quick checks.
+
+slug: octavius
+title: "Fābula dē Octāviō"
+source: "Latin I — Week 12 story packet, Day 3 (Thursday November 12)"
+paragraphs: [[1, 2, 3], [4, 5, 6, 7, 8], [9, 10, 11], [12, 13, 14, 15, 16]]
+
+sentences:
+  - n: 1
+    text: "Gāius Octāvius est iuvenis, et Caesar est avunculus eius."
+    new:
+      Gāius Octāvius: "Gaius Octavius · Subject, nominative"
+      avunculus eius: "his great-uncle · Predicate Nominative"
+    words:
+      est: "is — from sum"
+      iuvenis: "a young man · Predicate Nominative"
+      et: "and"
+      Caesar: "Caesar · Subject, nominative"
+
+  - n: 2
+    core: true
+    text: "Octāvius in Apollōniā, trāns mare, est, ubi nūntium malum audit: coniūrātī Caesarem necant!"
+    new:
+      in Apollōniā: "in Apollonia, a city"
+      trāns mare: "across the sea"
+      ubi: "where"
+      nūntium: "news · Direct Object, accusative"
+      coniūrātī: "conspirators · Subject, nominative plural"
+      necant: "kill"
+    words:
+      Octāvius: "Octavius · Subject, nominative"
+      est: "is — from sum"
+      malum: "bad — it describes nūntium"
+      audit: "hears — from audiō"
+      Caesarem: "Caesar · Direct Object, accusative"
+
+  - n: 3
+    text: "In testāmentō Caesar Octāvium fīlium suum facit, et nunc nōmen eius est “Caesar.”"
+    new:
+      In testāmentō: "in his will"
+      suum: "his own — it describes fīlium"
+      eius: "his"
+    words:
+      Caesar: "Caesar · Subject, then the name itself"
+      Octāvium: "Octavius · Direct Object, accusative"
+      fīlium: "his son · Direct Object, accusative (says what he makes him)"
+      facit: "makes — from faciō"
+      et: "and"
+      nunc: "now"
+      nōmen: "the name · Subject, nominative"
+      est: "is — from sum"
+
+  - n: 4
+    text: "Māter Octāviō scrībit: “Nōlī Rōmam venīre! Perīculum magnum est!”"
+    new:
+      Rōmam: "to Rome"
+      Perīculum: "danger · Subject, nominative"
+    words:
+      Māter: "his mother · Subject, nominative"
+      Octāviō: "to Octavius · dative"
+      scrībit: "writes — from scrībō"
+      Nōlī: "don't! (to one person) — with an infinitive"
+      venīre: "to come — from veniō"
+      magnum: "great — it describes Perīculum"
+      est: "is — from sum"
+
+  - n: 5
+    core: true
+    text: "Sed Octāvius mātrī nōn pāret: “Rōmam veniō, quod nōmen Caesaris habeō.”"
+    new:
+      quod: "because"
+    words:
+      Sed: "but"
+      Octāvius: "Octavius · Subject, nominative"
+      mātrī: "his mother · dative with pāret"
+      nōn: "not"
+      pāret: "obeys — from pāreō, which takes the dative"
+      Rōmam: "to Rome"
+      veniō: "I come — from veniō"
+      nōmen: "the name · Direct Object, accusative"
+      Caesaris: "of Caesar · genitive"
+      habeō: "I have — from habeō"
+
+  - n: 6
+    core: true
+    text: "Mīlitēs Caesaris nōmen Caesaris audiunt et ad iuvenem veniunt."
+    new:
+      ad iuvenem: "to the young man"
+    words:
+      Mīlitēs: "the soldiers · Subject, nominative plural"
+      Caesaris: "of Caesar · genitive"
+      nōmen: "the name · Direct Object, accusative"
+      audiunt: "hear — from audiō"
+      et: "and"
+      veniunt: "come — from veniō"
+
+  - n: 7
+    text: "Antōnius rīdet: “Puer est! Nihil scit, et omnia nōminī dēbet!”"
+    new:
+      Antōnius: "Antony, Caesar's friend · Subject, nominative"
+      rīdet: "laughs"
+      nōminī: "to a name · dative"
+    words:
+      Puer: "a boy · Predicate Nominative"
+      est: "he is — from sum"
+      Nihil: "nothing"
+      scit: "he knows — from sciō"
+      et: "and"
+      omnia: "everything · Direct Object, accusative plural"
+      dēbet: "he owes — from dēbeō"
+
+  - n: 8
+    core: true
+    text: "Sed Octāvius multa scit: coniūrātōs invenit et vincit."
+    words:
+      Sed: "but"
+      Octāvius: "Octavius · Subject, nominative"
+      multa: "many things · Direct Object, accusative plural"
+      scit: "knows — from sciō"
+      coniūrātōs: "the conspirators · Direct Object, accusative plural"
+      invenit: "finds — from inveniō"
+      et: "and"
+      vincit: "defeats — from vincō"
+
+  - n: 9
+    text: "Posteā Octāvius et Antōnius inter sē pugnant. Antōnius in Aegyptō cum Cleopātrā, rēgīnā Aegyptī, manet."
+    new:
+      Posteā: "later"
+      inter sē: "each other"
+      in Aegyptō: "in Egypt"
+      cum Cleopātrā: "with Cleopatra"
+      Aegyptī: "of Egypt · genitive"
+      manet: "stays"
+    words:
+      Octāvius: "Octavius · Subject, nominative"
+      et: "and"
+      Antōnius: "Antony · Subject, nominative"
+      pugnant: "fight — from pugnō"
+      rēgīnā: "the queen · renames Cleopātrā"
+
+  - n: 10
+    text: "Octāvius Rōmānīs dīcit: “Antōnius nōn iam Rōmānus est! Rēgīnae Aegyptī pāret!”"
+    new:
+      nōn iam: "no longer"
+    words:
+      Octāvius: "Octavius · Subject, nominative"
+      Rōmānīs: "to the Romans · dative"
+      dīcit: "says — from dīcō"
+      Antōnius: "Antony · Subject, nominative"
+      Rōmānus: "a Roman · Predicate Nominative"
+      est: "is — from sum"
+      Rēgīnae: "the queen · dative with pāret"
+      Aegyptī: "of Egypt · genitive"
+      pāret: "he obeys — from pāreō, which takes the dative"
+
+  - n: 11
+    text: "Rōmānī Octāviō crēdunt, et Octāvius Antōnium et Cleopātram vincit."
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+      Octāviō: "Octavius · dative with crēdunt"
+      crēdunt: "believe, trust — from crēdō, which takes the dative"
+      et: "and"
+      Octāvius: "Octavius · Subject, nominative"
+      Antōnium: "Antony · Direct Object, accusative"
+      Cleopātram: "Cleopatra · Direct Object, accusative"
+      vincit: "defeats — from vincō"
+
+  - n: 12
+    core: true
+    text: "Nunc Octāvius tōtum imperium habet, et Rōmānī pācem sentiunt post multōs annōs bellī."
+    new:
+      tōtum imperium: "all the power · Direct Object, accusative"
+      pācem: "peace · Direct Object, accusative"
+      post multōs annōs: "after many years"
+    words:
+      Nunc: "now"
+      Octāvius: "Octavius · Subject, nominative"
+      habet: "has — from habeō"
+      et: "and"
+      Rōmānī: "the Romans · Subject, nominative"
+      sentiunt: "feel — from sentiō"
+      bellī: "of war · genitive"
+
+  - n: 13
+    text: "Senātus Octāviō nōmen novum dat: “Augustus.”"
+    new:
+      Senātus: "the Senate · Subject, nominative"
+      Augustus: "Augustus, “the honored one”"
+    words:
+      Octāviō: "to Octavius · Indirect Object, dative"
+      nōmen: "a name · Direct Object, accusative"
+      novum: "new — it describes nōmen"
+      dat: "gives — from dō"
+
+  - n: 14
+    text: "Augustus dīcit: “Rem pūblicam Rōmānīs reddō!”"
+    new:
+      Rem pūblicam: "the Republic · Direct Object, accusative"
+      reddō: "I give back"
+    words:
+      Augustus: "Augustus · Subject, nominative"
+      dīcit: "says — from dīcō"
+      Rōmānīs: "to the Romans · Indirect Object, dative"
+
+  - n: 15
+    text: "Augustus nōn est rēx, sed omnēs Augustō pārent."
+    words:
+      Augustus: "Augustus · Subject, nominative"
+      nōn: "not"
+      est: "is — from sum"
+      rēx: "a king · Predicate Nominative"
+      sed: "but"
+      omnēs: "everyone · Subject, nominative plural"
+      Augustō: "Augustus · dative with pārent"
+      pārent: "obey — from pāreō, which takes the dative"
+
+  - n: 16
+    text: "Rōmānī hanc fābulam saepe nārrant: Augustus Rōmānīs pācem dat, sed rēs pūblica lībera nōn iam est."
+    new:
+      hanc fābulam: "this story · Direct Object, accusative"
+      rēs pūblica: "the Republic · Subject, nominative"
+      lībera: "free — it describes rēs pūblica"
+      nōn iam: "no longer"
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+      saepe: "often"
+      nārrant: "tell — from nārrō"
+      Augustus: "Augustus · Subject, nominative"
+      Rōmānīs: "to the Romans · Indirect Object, dative"
+      pācem: "peace · Direct Object, accusative"
+      dat: "gives — from dō"
+      sed: "but"
+      est: "is — from sum"
+
+questions:
+  - id: q1
+    ask: "Sentence 1: Who is Caesar to Octavius?"
+    look: [1]
+    hint: {1: "Caesar est avunculus eius"}
+    options:
+      a: "his great-uncle"
+      b: "his father"
+      c: "his teacher"
+      d: "his enemy"
+    answer: a
+
+  - id: p1
+    ask: "Where is Octavius when he hears the news? What does Caesar’s will do (sentence 3)?"
+    look: [2, 3]
+    hint: {2: "in Apollōniā trāns mare", 3: "Caesar Octāvium fīlium suum facit"}
+    model: >-
+      He is in Apollonia, across the sea. In his will Caesar makes Octavius
+      his own son, so now his name is “Caesar.”
+
+  - id: p2
+    ask: "His mother warns him (sentence 4). Why does he go anyway?"
+    look: [4, 5]
+    hint: {5: "Rōmam veniō quod nōmen Caesaris habeō"}
+    model: >-
+      Because he has Caesar's name: “I'm coming to Rome, because I have the
+      name of Caesar.” He thinks the name gives him the right, and the duty,
+      to go.
+
+  - id: p3
+    ask: "Why would Caesar’s soldiers follow an 18-year-old? Think back to Marius’s soldiers."
+    look: [6]
+    hint: {6: "Mīlitēs Caesaris nōmen Caesaris audiunt et ad iuvenem veniunt"}
+    model: >-
+      They hear Caesar's name. Since Marius, soldiers have been loyal to
+      their general, not to Rome; Caesar's soldiers follow Caesar's heir, who
+      can also pay them.
+
+  - id: p4
+    ask: "Antony calls him a boy who knows nothing (sentence 7). How does sentence 8 prove Antony wrong?"
+    look: [7, 8]
+    hint: {7: "Puer est Nihil scit", 8: "Octāvius multa scit coniūrātōs invenit et vincit"}
+    model: >-
+      Octavius knows a lot: he finds the conspirators and defeats them. The
+      “boy” wins.
+
+  - id: q2
+    ask: "Sentence 10: What does Octavius tell the Romans about Antony?"
+    look: [9, 10]
+    hint: {10: "Antōnius nōn iam Rōmānus est Rēgīnae Aegyptī pāret"}
+    options:
+      a: "He is no longer a Roman; he obeys the queen of Egypt."
+      b: "He is the best Roman of all."
+      c: "He has gone back to Rome."
+      d: "He is Caesar's son."
+    answer: a
+
+  - id: q3
+    ask: "Sentence 13: What name does the Senate give Octavius?"
+    look: [13]
+    hint: {13: "Augustus"}
+    options:
+      a: "Augustus, “the honored one”"
+      b: "Caesar"
+      c: "Magnus, “the Great”"
+      d: "Pater Patriae"
+    answer: a
+
+  - id: p5
+    ask: "Augustus says he gives the Republic back (sentence 14), but everyone obeys him (sentence 15). Is the Republic free? Use sentence 16."
+    look: [14, 15, 16]
+    hint: {14: "Rem pūblicam Rōmānīs reddō", 15: "omnēs Augustō pārent", 16: "rēs pūblica lībera nōn iam est"}
+    model: >-
+      No. He calls himself not a king and says he gives the Republic back,
+      but everyone obeys him. He brings peace, but the Republic is no longer
+      free.

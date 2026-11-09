@@ -1,0 +1,301 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 12 story packet, Day 1 (Monday November 9).
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too), with the case added to the note.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them.
+#   core:   the packet's Core sentences (number in a red box): 5, 8, 10, 12, 14.
+#
+# Questions, in story order: p1-p5 are the class packet's Stretch questions
+# (Week 12 class packet, Day 1 Practice), written answers with a model; q1-q3
+# are the app's own quick checks.
+
+slug: caesar
+title: "Fābula dē Caesare"
+source: "Latin I — Week 12 story packet, Day 1 (Monday November 9)"
+paragraphs: [[1, 2, 3], [4, 5, 6], [7, 8, 9, 10, 11], [12, 13, 14, 15]]
+
+sentences:
+  - n: 1
+    text: "Gāius Iūlius Caesar est dux fortis et nōbilis."
+    new:
+      Gāius Iūlius Caesar: "Gaius Julius Caesar · Subject, nominative"
+    words:
+      est: "is — from sum"
+      dux: "a general · Predicate Nominative"
+      fortis: "brave — it describes dux"
+      et: "and"
+      nōbilis: "noble — it describes dux"
+
+  - n: 2
+    text: "Caesar mīlitēs trāns Rubicōnem dūcit et Pompeium superat."
+    new:
+      trāns Rubicōnem: "across the Rubicon River"
+      Pompeium: "Pompey · Direct Object, accusative"
+    words:
+      Caesar: "Caesar · Subject, nominative"
+      mīlitēs: "his soldiers · Direct Object, accusative plural"
+      dūcit: "leads — from dūcō"
+      et: "and"
+      superat: "defeats — from superō"
+
+  - n: 3
+    text: "Nunc Caesar est dictātor: tōtum imperium habet, et multī senātōrēs Caesarī inimīcī sunt."
+    new:
+      dictātor: "dictator, a leader with all the power · Predicate Nominative"
+      tōtum imperium: "all the power · Direct Object, accusative"
+      senātōrēs: "senators · Subject, nominative plural"
+    words:
+      Nunc: "now"
+      Caesar: "Caesar · Subject, nominative"
+      est: "is — from sum"
+      habet: "has — from habeō"
+      et: "and"
+      multī: "many — it describes senātōrēs"
+      Caesarī: "to Caesar · dative with inimīcī"
+      inimīcī: "unfriendly, enemies (takes the dative)"
+      sunt: "are — from sum"
+
+  - n: 4
+    text: "Haruspex Caesarem monet: “Cavē Īdūs Mārtiās, Caesar!”"
+    new:
+      Haruspex: "soothsayer, a priest who reads signs from the gods · Subject, nominative"
+      Cavē Īdūs Mārtiās: "beware the Ides of March (March 15)"
+    words:
+      Caesarem: "Caesar · Direct Object, accusative"
+      monet: "warns — from moneō"
+      Caesar: "Caesar · Vocative"
+
+  - n: 5
+    core: true
+    text: "Caesar rīdet: “Dīc mihi, haruspex: cūr Īdūs Mārtiās timēre dēbeō?”"
+    new:
+      rīdet: "laughs"
+      mihi: "me · dative"
+      cūr: "why"
+      timēre: "to fear"
+    words:
+      Caesar: "Caesar · Subject, nominative"
+      Dīc: "tell! — the short command of dīcō"
+      haruspex: "soothsayer · Vocative"
+      Īdūs Mārtiās: "the Ides of March · Direct Object, accusative"
+      dēbeō: "must, ought — from dēbeō"
+
+  - n: 6
+    text: "Haruspex nihil respondet."
+    new:
+      respondet: "answers"
+    words:
+      Haruspex: "the soothsayer · Subject, nominative"
+      nihil: "nothing"
+
+  - n: 7
+    text: "Nocte ante Īdūs, Calpurnia, uxor Caesaris, somnium malum videt."
+    new:
+      Nocte ante Īdūs: "on the night before the Ides"
+      uxor: "wife · renames Calpurnia"
+      somnium: "dream · Direct Object, accusative"
+    words:
+      Calpurnia: "Calpurnia · Subject, nominative"
+      Caesaris: "of Caesar · genitive"
+      malum: "bad — it describes somnium"
+      videt: "sees — from videō"
+
+  - n: 8
+    core: true
+    text: "Calpurnia Caesarī clāmat: “Nōlī ad senātum venīre, Caesar! Fac quod dīcō!”"
+    new:
+      ad senātum: "to the Senate"
+      quod: "what"
+    words:
+      Calpurnia: "Calpurnia · Subject, nominative"
+      Caesarī: "to Caesar · dative"
+      clāmat: "shouts — from clāmō"
+      Nōlī: "don't! (to one person) — with an infinitive"
+      venīre: "to come — from veniō"
+      Caesar: "Caesar · Vocative"
+      Fac: "do! — the short command of faciō"
+      dīcō: "I say — from dīcō"
+
+  - n: 9
+    text: "Sed Caesar uxōrī nōn crēdit."
+    new:
+      uxōrī: "his wife · dative with crēdit"
+    words:
+      Sed: "but"
+      Caesar: "Caesar · Subject, nominative"
+      nōn: "not"
+      crēdit: "believes, trusts — from crēdō, which takes the dative"
+
+  - n: 10
+    core: true
+    text: "Amīcī Caesaris quoque timent: “Nōlīte Caesarem relinquere! Dūc mīlitēs tuōs ad senātum!”"
+    new:
+      quoque: "also, too"
+      timent: "are afraid"
+      tuōs: "your — it describes mīlitēs"
+      ad senātum: "to the Senate"
+    words:
+      Amīcī: "the friends · Subject, nominative plural"
+      Caesaris: "of Caesar · genitive"
+      Nōlīte: "don't! (to more than one) — with an infinitive"
+      Caesarem: "Caesar · Direct Object, accusative"
+      relinquere: "to leave behind — from relinquō"
+      Dūc: "lead! — the short command of dūcō"
+      mīlitēs: "soldiers · Direct Object, accusative plural"
+
+  - n: 11
+    text: "Caesar amīcīs respondet: “Mīlitēs nōn dūcō. Rōmānī mē amant.”"
+    new:
+      mē: "me · Direct Object, accusative"
+    words:
+      Caesar: "Caesar · Subject, nominative"
+      amīcīs: "his friends · dative"
+      respondet: "answers"
+      Mīlitēs: "soldiers · Direct Object, accusative plural"
+      nōn: "not"
+      dūcō: "I lead — from dūcō"
+      Rōmānī: "the Romans · Subject, nominative"
+      amant: "love — from amō"
+
+  - n: 12
+    core: true
+    text: "In viā Artemidōrus Caesarī epistulam dat: “Fer hanc epistulam tēcum et lege! Coniūrātī tē necāre cupiunt!”"
+    new:
+      In viā: "in the street"
+      Artemidōrus: "Artemidorus, a Greek teacher · Subject, nominative"
+      epistulam: "letter · Direct Object, accusative"
+      hanc: "this — it describes epistulam"
+      tēcum: "with you"
+      lege: "read!"
+      Coniūrātī: "conspirators · Subject, nominative plural"
+      tē: "you · Direct Object, accusative"
+      necāre: "to kill"
+      cupiunt: "want"
+    words:
+      Caesarī: "to Caesar · Indirect Object, dative"
+      dat: "gives — from dō"
+      Fer: "carry! — the short command of ferō"
+      et: "and"
+
+  - n: 13
+    text: "Caesar epistulam tenet, sed nōn legit."
+    new:
+      legit: "reads"
+    words:
+      Caesar: "Caesar · Subject, nominative"
+      epistulam: "the letter · Direct Object, accusative"
+      tenet: "holds — from teneō"
+      sed: "but"
+      nōn: "not"
+
+  - n: 14
+    core: true
+    text: "In senātū Caesar senātōribus imperat: “Dīcite mihi verba vestra!”"
+    new:
+      In senātū: "in the Senate"
+      senātōribus: "the senators · dative with imperat"
+      vestra: "your (more than one) — it describes verba"
+    words:
+      Caesar: "Caesar · Subject, nominative"
+      imperat: "gives orders to — from imperō, which takes the dative"
+      Dīcite: "tell! (to more than one) — from dīcō"
+      mihi: "me · dative"
+      verba: "words · Direct Object, accusative plural"
+
+  - n: 15
+    text: "Rōmānī hanc fābulam saepe nārrant: deī et amīcī Caesarem monent, sed superbus Caesar nēminī pāret."
+    new:
+      hanc fābulam: "this story · Direct Object, accusative"
+      deī: "the gods · Subject, nominative plural"
+      superbus: "proud — it describes Caesar"
+      nēminī: "no one · dative with pāret"
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+      saepe: "often"
+      nārrant: "tell — from nārrō"
+      et: "and"
+      amīcī: "friends · Subject, nominative plural"
+      Caesarem: "Caesar · Direct Object, accusative"
+      monent: "warn — from moneō"
+      sed: "but"
+      Caesar: "Caesar · Subject, nominative"
+      pāret: "obeys — from pāreō, which takes the dative"
+
+questions:
+  - id: q1
+    ask: "Sentence 2: What does Caesar do?"
+    look: [2]
+    hint: {2: "Caesar mīlitēs trāns Rubicōnem dūcit et Pompeium superat"}
+    options:
+      a: "He leads his soldiers across the Rubicon and defeats Pompey."
+      b: "He leaves his soldiers and runs away from Pompey."
+      c: "He sends Pompey a letter."
+      d: "He obeys the Senate."
+    answer: a
+
+  - id: p1
+    ask: "Caesar laughs at the warning (sentences 4–5). What does his question show about him?"
+    look: [4, 5]
+    hint: {4: "Cavē Īdūs Mārtiās", 5: "cūr Īdūs Mārtiās timēre dēbeō"}
+    model: >-
+      He asks why he should fear the Ides of March: he thinks nothing can hurt
+      him. It shows he is proud and overconfident, and doesn't take the
+      warning seriously.
+
+  - id: p2
+    ask: "What does Calpurnia see (sentence 7)? What two commands does she give?"
+    look: [7, 8]
+    hint: {7: "somnium malum videt", 8: "Nōlī ad senātum venīre Caesar Fac quod dīcō"}
+    model: >-
+      She sees a bad dream. Her commands: “Nōlī ad senātum venīre!”, Don't
+      come to the Senate!, and “Fac quod dīcō!”, Do what I say!
+
+  - id: q2
+    ask: "Sentence 9: How does Caesar treat his wife's warning?"
+    look: [9]
+    hint: {9: "Caesar uxōrī nōn crēdit"}
+    options:
+      a: "He doesn't believe her."
+      b: "He obeys her and stays home."
+      c: "He tells the Senate about it."
+      d: "He asks the soothsayer about it."
+    answer: a
+
+  - id: p3
+    ask: "What do Caesar’s friends want him to bring? What does his answer in sentence 11 show?"
+    look: [10, 11]
+    hint: {10: "Dūc mīlitēs tuōs ad senātum", 11: "Mīlitēs nōn dūcō Rōmānī mē amant"}
+    model: >-
+      They want him to bring his soldiers to the Senate. He refuses: “I don't
+      lead soldiers. The Romans love me.” He trusts that he is loved and
+      thinks he needs no protection.
+
+  - id: p4
+    ask: "What warning is in the letter? Why does it matter that Caesar doesn’t read it (sentence 13)?"
+    look: [12, 13]
+    hint: {12: "Coniūrātī tē necāre cupiunt", 13: "Caesar epistulam tenet sed nōn legit"}
+    model: >-
+      The letter warns that conspirators want to kill him. He holds the
+      warning in his hand but doesn't read it, so he walks into the Senate
+      without knowing; he could have been saved.
+
+  - id: q3
+    ask: "Sentence 14: What does Caesar order the senators to do?"
+    look: [14]
+    hint: {14: "Dīcite mihi verba vestra"}
+    options:
+      a: "Tell him what they have to say."
+      b: "Leave the Senate."
+      c: "Bring their soldiers."
+      d: "Read a letter."
+    answer: a
+
+  - id: p5
+    ask: "Caesar gives orders even to the senators. What does sentence 15 say this story teaches?"
+    look: [14, 15]
+    hint: {15: "deī et amīcī Caesarem monent sed superbus Caesar nēminī pāret"}
+    model: >-
+      The gods and his friends warn Caesar, but the proud Caesar obeys no one.
+      Pride that won't listen to any warning leads to a fall.

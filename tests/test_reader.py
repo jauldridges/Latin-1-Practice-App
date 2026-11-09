@@ -59,11 +59,26 @@ class TestThePassages(unittest.TestCase):
         self.assertIn(("Plūrēs hominēs sōlem orientem quam occidentem adōrant", True),
                       [(x["text"], x["new"]) for x in p])
 
+    def test_the_week_12_stories_and_their_core_sentences(self):
+        slugs = ("caesar", "idus-martiae", "octavius")
+        core = {slug: [x["n"] for x in ALL[slug]["sentences"] if x.get("core")] for slug in slugs}
+        self.assertEqual(core, {"caesar": [5, 8, 10, 12, 14], "idus-martiae": [4, 6, 8, 10, 13],
+                                "octavius": [2, 5, 6, 8, 12]})
+        self.assertEqual([len(ALL[s]["sentences"]) for s in slugs], [15, 15, 16])
+        for slug in slugs:
+            self.assertEqual(readings.problems(ALL[slug]), [], slug)
+            packet = [q for q in ALL[slug]["questions"] if q["id"].startswith("p")]
+            self.assertEqual(len(packet), 5, slug)
+            self.assertTrue(all(readings.is_open(q) for q in packet), slug)
+        p = [x for x in ALL["idus-martiae"]["by_n"][8]["pieces"] if x["kind"] == "word"]
+        self.assertIn(("Et tū", True), [(x["text"], x["new"]) for x in p])
+
     def test_the_week_9_stories_list_in_teaching_order(self):
         self.assertEqual(list(ALL), ["cincinnatus", "dei-primi", "liberi-iovis",
                                      "ceres-proserpina", "cornelia", "cornelia-filii",
                                      "patricii-plebeii", "gracchi",
-                                     "marius", "sulla", "pompeius", "cicero"])
+                                     "marius", "sulla", "pompeius", "cicero",
+                                     "caesar", "idus-martiae", "octavius"])
         self.assertEqual([len(ALL[s]["sentences"]) for s in list(ALL)[1:4]], [20, 18, 18])
         # the packet's underlined words are underlined on screen
         p = [x for x in ALL["ceres-proserpina"]["by_n"][13]["pieces"] if x["kind"] == "word"]

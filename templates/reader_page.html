@@ -37,7 +37,7 @@
   {% for para in r.paragraphs %}
   {% set qs = para_questions[loop.index0] %}
   <div class="rp-row {{ 'no-q' if not qs }}">
-    <p class="rp-text">{% for n in para %}{% set s = r.by_n[n] %}<span class="rs {{ 'core' if s.core }}" id="s{{ n }}"><sup class="{{ 'core' if s.core }}"{% if s.core %} title="Core sentence: translate it in your class packet"{% endif %}>{{ n }}</sup>&nbsp;{% for p in s.pieces %}{% if p.kind == 'word' %}<button type="button" id="w{{ n }}-{{ loop.index0 }}" class="rw {{ 'new' if p.new }}" data-gloss="{{ p.gloss }}" data-note="{{ p.note }}">{{ p.text }}</button>{% else %}{{ p.text }}{% endif %}{% endfor %}</span> {% endfor %}</p>
+    <p class="rp-text">{% for n in para %}{% set s = r.by_n[n] %}<span class="rs {{ 'core' if s.core }}" id="s{{ n }}"><sup class="{{ 'core' if s.core }}"{% if s.core %} title="Core sentence: translate it in your class packet"{% endif %}>{{ n }}</sup>&nbsp;{% for run in s.groups %}{% for i, p in run['items'] %}{% if p.kind == 'word' %}<button type="button" id="w{{ n }}-{{ i }}" class="rw {{ 'new' if p.new }}" data-gloss="{{ p.gloss }}" data-note="{{ p.note }}">{% if p.pre %}<span class="rp">{{ p.pre }}</span>{% endif %}{{ p.text }}{% if p.post %}<span class="rp">{{ p.post }}</span>{% endif %}</button>{% else %}{{ p.text }}{% endif %}{% endfor %}{% endfor %}</span> {% endfor %}</p>
     {% if qs %}
     <div class="rp-qs" data-para="{{ loop.index0 }}">
       <div class="rq-group small muted">Sentences {{ para[0] }}–{{ para[-1] }}</div>

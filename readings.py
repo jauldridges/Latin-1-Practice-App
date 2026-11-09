@@ -106,6 +106,43 @@ def pieces(sentence):
     return out
 
 
+def groups(pcs):
+    """The pieces as the page lays them out: punctuation touching a word
+    (“Īdūs ... vīvō!”) rides inside that word's button as `pre` / `post`, so
+    a browser can never leave an opening quote at the end of one line and its
+    word at the start of the next. Runs are split only where the text has a
+    space. Returns [{"space": bool, "items": [(index, piece)]}]; a word's
+    index is unchanged, so its id on the page (word_id) is too."""
+    out, run = [], []
+
+    def close():
+        if not run:
+            return
+        words = [k for k, (_, p) in enumerate(run) if p["kind"] == "word"]
+        if not words:
+            out.append({"space": False, "items": list(run)})
+        else:
+            first, last = words[0], words[-1]
+            items = []
+            for k, (i, p) in enumerate(run):
+                if p["kind"] == "word":
+                    p = dict(p, pre="".join(q["text"] for _, q in run[:first]) if k == first else "",
+                             post="".join(q["text"] for _, q in run[last + 1:]) if k == last else "")
+                    items.append((i, p))
+                elif first < k < last:
+                    items.append((i, p))
+            out.append({"space": False, "items": items})
+        del run[:]
+    for i, p in enumerate(pcs):
+        if p["kind"] == "space":
+            close()
+            out.append({"space": True, "items": [(i, p)]})
+        else:
+            run.append((i, p))
+    close()
+    return out
+
+
 def load_one(path):
     with open(path, encoding="utf-8") as f:
         r = yaml.safe_load(f) or {}
@@ -113,6 +150,7 @@ def load_one(path):
     r["by_n"] = {s["n"]: s for s in r.get("sentences") or []}
     for s in r.get("sentences") or []:
         s["pieces"] = pieces(s)
+        s["groups"] = groups(s["pieces"])
     for q in r.get("questions") or []:
         q["item_id"] = item_id(r["slug"], q["id"])
     return r
