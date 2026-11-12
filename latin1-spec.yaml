@@ -2052,6 +2052,8 @@ nodes:
     assess: [explain]
 
 # --- Fall of the Republic ---
+# RW-034 to RW-037 (Caesar) were taught in Week 12 with its story packet, so
+# they are dated to the week of November 9, 2026, not their planned January.
   - id: RW-032
     label: The Gracchi and land reform
     unit: 4
@@ -2073,8 +2075,8 @@ nodes:
   - id: RW-034
     label: The First Triumvirate — Caesar, Pompey, Crassus
     unit: 4
-    week: 2027-01-25
-    day: 2027-01-25
+    week: 2026-11-09
+    day: 2026-11-09
     vehicle: reading
     prereqs: [RW-033]
     assess: [recall]
@@ -2082,8 +2084,8 @@ nodes:
   - id: RW-035
     label: Caesar in Gaul
     unit: 4
-    week: 2027-01-25
-    day: 2027-01-26
+    week: 2026-11-09
+    day: 2026-11-09
     vehicle: reading
     prereqs: [RW-034]
     assess: [recall]
@@ -2091,8 +2093,8 @@ nodes:
   - id: RW-036
     label: Crossing the Rubicon and the civil war
     unit: 4
-    week: 2027-01-25
-    day: 2027-01-26
+    week: 2026-11-09
+    day: 2026-11-09
     vehicle: reading
     prereqs: [RW-035]
     assess: [recall, explain]
@@ -2100,8 +2102,8 @@ nodes:
   - id: RW-037
     label: The Ides of March, 44 BCE
     unit: 4
-    week: 2027-01-25
-    day: 2027-01-27
+    week: 2026-11-09
+    day: 2026-11-10
     vehicle: reading
     prereqs: [RW-036]
     assess: [recall]

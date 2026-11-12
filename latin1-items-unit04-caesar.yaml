@@ -1,0 +1,332 @@
+# Latin I — Caesar and the end of the Republic (written November 2026)
+#
+# Taught in Week 12 alongside the story packet (Fābula dē Caesare, dē Īdibus
+# Mārtiīs, dē Octāviō), so these four nodes were moved from their planned
+# January dates to the week of November 9 (latin1-spec.yaml):
+#   RW-034 The First Triumvirate (and the populares / optimates)
+#   RW-035 Caesar in Gaul
+#   RW-036 Crossing the Rubicon and the civil war
+#   RW-037 The Ides of March, 44 BCE
+#
+# Roman-world facts are asked in English. As in every bank file, recall is a
+# write-in box and recognize is multiple choice; the right answer is written
+# as option a, and the app shuffles the options for each student.
+
+items:
+
+# ---------- RW-034 — populares, optimates, and the First Triumvirate ----------
+
+  - id: RW034-RECOG-01
+    node: RW-034
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Caesar was one of the populares. How did the populares win power?"
+    options:
+      a: "By appealing to the people in the assemblies, with laws like land and cheap grain for the poor"
+      b: "By defending the power of the Senate and the old noble families"
+      c: "By serving as priests who read the will of the gods"
+      d: "By refusing to hold any elected office"
+    answer: a
+    touches: [RW-032]
+    what_went_wrong:
+      - text: "I mixed up the populares and the optimates"
+        node: RW-034
+    teaching: ""
+
+  - id: RW034-RECOG-02
+    node: RW-034
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "The politicians who defended the Senate and the old noble families against the populares were called the…"
+    options:
+      a: "optimates"
+      b: "populares"
+      c: "plebeians"
+      d: "tribunes"
+    answer: a
+    touches: [RW-022]
+    what_went_wrong:
+      - text: "I mixed up the populares and the optimates"
+        node: RW-034
+      - text: "I thought of patricians and plebeians instead"
+        node: RW-022
+    teaching: ""
+
+  - id: RW034-RECALL-01
+    node: RW-034
+    assess: recall
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "In 60 BCE Caesar made a private deal with two other powerful men to share power: the First Triumvirate. Name the other two."
+    order_matters: false
+    boxes:
+      - label: "One"
+        answer: ["pompey", "pompeius", "gnaeus pompeius", "pompey the great"]
+      - label: "The other"
+        answer: ["crassus", "marcus crassus", "marcus licinius crassus"]
+    touches: []
+    what_went_wrong:
+      - text: "I named someone from a different time, like Marius or Sulla"
+        node: RW-033
+      - text: "I didn't know who was in the triumvirate"
+        node: RW-034
+    teaching: ""
+
+# ---------- RW-035 — Caesar in Gaul ----------
+
+  - id: RW035-RECOG-01
+    node: RW-035
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Before the civil war, Caesar spent about eight years (58–50 BCE) conquering which land?"
+    options:
+      a: "Gaul (modern France and Belgium)"
+      b: "Egypt"
+      c: "Greece"
+      d: "Carthage"
+    answer: a
+    touches: []
+    what_went_wrong:
+      - text: "I mixed up Caesar's conquest with another war"
+        node: RW-035
+    teaching: ""
+
+  - id: RW035-RECOG-02
+    node: RW-035
+    assess: recognize
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Why did the war in Gaul make Caesar dangerous to the Senate?"
+    options:
+      a: "His soldiers were loyal to him, not to the Senate, and the war made him rich and famous"
+      b: "He lost the war and owed the Senate money"
+      c: "He made himself king of Gaul and never came back"
+      d: "The Gauls elected him consul"
+    answer: a
+    touches: [RW-033]
+    what_went_wrong:
+      - text: "I forgot that soldiers followed their general after Marius"
+        node: RW-033
+      - text: "I didn't know what came of the war in Gaul"
+        node: RW-035
+    teaching: ""
+
+# ---------- RW-036 — the Rubicon and the civil war ----------
+
+  - id: RW036-RECALL-01
+    node: RW-036
+    assess: recall
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "In 49 BCE Caesar led his army across a small river from his province into Italy, starting a civil war. Name the river."
+    order_matters: true
+    boxes:
+      - label: "River"
+        answer: ["rubicon", "the rubicon", "rubicon river", "the rubicon river", "rubico"]
+    touches: []
+    what_went_wrong:
+      - text: "I named Rome's own river, the Tiber"
+        node: RW-001
+      - text: "I didn't remember the river"
+        node: RW-036
+    teaching: ""
+
+  - id: RW036-RECOG-01
+    node: RW-036
+    assess: recognize
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Why was crossing the Rubicon such a big step?"
+    options:
+      a: "A general was not allowed to bring his army out of his province into Italy, so crossing meant war on Rome"
+      b: "The river was sacred to Jupiter, and no one could cross it"
+      c: "It was the border of Egypt"
+      d: "Caesar had promised Pompey he would never cross a river"
+    answer: a
+    touches: [RW-021]
+    what_went_wrong:
+      - text: "I didn't know the rule about armies and Italy"
+        node: RW-036
+    teaching: ""
+
+  - id: RW036-RECOG-02
+    node: RW-036
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "As he crossed the Rubicon, Caesar is supposed to have said: “Ālea (a die, one of a pair of dice) iacta est.” What does the whole saying mean?"
+    options:
+      a: "“The die is cast”: there is no going back"
+      b: "“You too, Brutus?”"
+      c: "“Let weapons give way to the toga”"
+      d: "“Seize the day”"
+    answer: a
+    touches: []
+    what_went_wrong:
+      - text: "I mixed it up with another famous Latin saying"
+        node: RW-036
+    teaching: ""
+
+  - id: RW036-RECOG-03
+    node: RW-036
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "In the civil war that followed, whom did Caesar fight and defeat?"
+    options:
+      a: "Pompey, fighting for the Senate"
+      b: "Crassus"
+      c: "Hannibal"
+      d: "Cleopatra"
+    answer: a
+    touches: [RW-034]
+    what_went_wrong:
+      - text: "I forgot that Caesar and Pompey went from partners to enemies"
+        node: RW-034
+    teaching: ""
+
+  - id: RW036-RECALL-02
+    node: RW-036
+    assess: recall
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "A dictator was meant to hold power for six months. After winning the civil war, Caesar was named dictator for how long?"
+    order_matters: true
+    boxes:
+      - label: "Dictator for…"
+        answer: ["life", "for life", "his whole life", "ever", "forever"]
+    touches: [RW-021]
+    what_went_wrong:
+      - text: "I gave the normal six-month limit"
+        node: RW-021
+      - text: "I didn't know what Caesar was given"
+        node: RW-036
+    teaching: ""
+
+# ---------- RW-037 — the Ides of March ----------
+
+  - id: RW037-RECALL-01
+    node: RW-037
+    assess: recall
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "When was Caesar killed? Give the day (its Roman name or the date) and the year."
+    order_matters: true
+    boxes:
+      - label: "Day"
+        answer: ["the ides of march", "ides of march", "march 15", "march 15th", "15 march",
+                 "the 15th of march", "idus martiae"]
+      - label: "Year"
+        answer: ["44 bce", "44 bc", "44", "44 b.c.", "44 b.c.e."]
+    touches: []
+    what_went_wrong:
+      - text: "I had the day wrong"
+        node: RW-037
+      - text: "I had the year wrong"
+        node: RW-037
+    teaching: ""
+
+  - id: RW037-RECOG-01
+    node: RW-037
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Who was Calpurnia?"
+    options:
+      a: "Caesar's wife, who had a bad dream and begged him not to go to the Senate"
+      b: "A Vestal Virgin who guarded the sacred fire"
+      c: "Brutus's mother"
+      d: "The queen of Egypt"
+    answer: a
+    touches: []
+    what_went_wrong:
+      - text: "I mixed her up with another woman in the story"
+        node: RW-037
+    teaching: ""
+
+  - id: RW037-RECOG-02
+    node: RW-037
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Who warned Caesar, “Beware the Ides of March”?"
+    options:
+      a: "A haruspex (soothsayer), a priest who read signs from the gods"
+      b: "Brutus"
+      c: "Pompey"
+      d: "Mark Antony"
+    answer: a
+    touches: [RW-068]
+    what_went_wrong:
+      - text: "I thought it was Calpurnia: she warned him too, but with a dream"
+        node: RW-037
+    teaching: ""
+
+  - id: RW037-RECOG-03
+    node: RW-037
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Which two senators led the plot to kill Caesar?"
+    options:
+      a: "Brutus and Cassius"
+      b: "Antony and Octavian"
+      c: "Pompey and Crassus"
+      d: "Marius and Sulla"
+    answer: a
+    touches: [RW-034]
+    what_went_wrong:
+      - text: "I named Caesar's friends instead of the conspirators"
+        node: RW-037
+    teaching: ""
+
+  - id: RW037-RECOG-04
+    node: RW-037
+    assess: recognize
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Why did the conspirators kill Caesar?"
+    options:
+      a: "They believed he was making himself a king and ending the Republic"
+      b: "He had lost the war in Gaul"
+      c: "He had refused to be dictator"
+      d: "He wanted to give power back to the Senate"
+    answer: a
+    touches: [RW-036]
+    what_went_wrong:
+      - text: "I didn't connect dictator for life with the plot"
+        node: RW-036
+    teaching: ""

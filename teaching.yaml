@@ -2595,3 +2595,72 @@ nodes:
     when_wrong: >
       Open the Lēgēs Magistrī page and find the law this question is about —
       each one is a sentence or two.
+
+  # --- Caesar (Week 12, taught with the story packet) ---
+  RW-034:
+    status: draft
+    label: The First Triumvirate — Caesar, Pompey, Crassus
+    explain: >
+      Late Republic politicians split two ways. The populares, like Caesar,
+      won power through the people's assemblies with laws such as land and
+      cheap grain for the poor. The optimates defended the Senate and the old
+      noble families. In 60 BCE Caesar made a private deal with Pompey, the
+      great general, and Crassus, the richest man in Rome, to share power:
+      the First Triumvirate. It was not an office, just an agreement.
+    examples:
+      - "Populares: power through the people. Optimates: power through the Senate."
+      - "The triumvirate: Caesar, Pompey and Crassus, 60 BCE."
+    when_wrong: >
+      Tie the names to the word: populus, the people, gives populares.
+      Optimus, the best, gives optimates: the "best men," the nobles.
+
+  RW-035:
+    status: draft
+    label: Caesar in Gaul
+    explain: >
+      From 58 to 50 BCE Caesar conquered Gaul, roughly modern France and
+      Belgium, and wrote his own account of it. The war made him rich and
+      famous, and it gave him an army of veterans who were loyal to him
+      personally, the way Marius's soldiers were loyal to Marius. That
+      loyalty is what made him dangerous to the Senate.
+    examples:
+      - "Gaul: modern France and Belgium, 58–50 BCE."
+      - "Loyal soldiers + fame + money = a general the Senate feared."
+    when_wrong: >
+      If you named Egypt or Greece, you're thinking of later in the story.
+      Caesar's big conquest was Gaul, just north of Italy.
+
+  RW-036:
+    status: draft
+    label: Crossing the Rubicon and the civil war
+    explain: >
+      A general had to leave his army behind when he entered Italy. In 49
+      BCE Caesar led his army across the Rubicon, the small river at his
+      province's border, which meant war on Rome itself. He is said to have
+      declared, "Ālea iacta est," the die is cast. In the civil war he
+      defeated Pompey and the Senate's side, and in 44 BCE he was named
+      dictator for life, though a dictator was meant to serve six months.
+    examples:
+      - "49 BCE: across the Rubicon. “Ālea iacta est.”"
+      - "Civil war: Caesar against Pompey and the Senate. Caesar wins."
+      - "Dictator for life, not for six months."
+    when_wrong: >
+      Remember the order: partners in the triumvirate, then enemies. Crossing
+      the Rubicon is what turned Caesar and Pompey into opponents in a war.
+
+  RW-037:
+    status: draft
+    label: The Ides of March, 44 BCE
+    explain: >
+      On the Ides of March, March 15, 44 BCE, senators led by Brutus and
+      Cassius stabbed Caesar to death in a meeting of the Senate. They
+      believed he was making himself a king and ending the Republic. He had
+      been warned: a haruspex told him to beware the Ides of March, and his
+      wife Calpurnia dreamed of his death and begged him not to go.
+    examples:
+      - "The Ides of March = March 15. The year: 44 BCE."
+      - "The plotters: Brutus and Cassius. The warnings: the haruspex and Calpurnia."
+    when_wrong: >
+      Brutus was Caesar's friend, which is why “Et tū, Brūte?” stings. If you
+      named Antony or Octavian, those were Caesar's side: they hunted the
+      plotters down.
