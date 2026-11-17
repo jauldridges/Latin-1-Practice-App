@@ -1,0 +1,199 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 13 story packet, Day 1 (Monday November 16).
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too), with the case added to the note.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them. This is the
+#           ablative week, so each preposition says which case it takes.
+#   core:   the packet's Core sentences (number in a red box): 2, 3, 6.
+#
+# Questions, in story order: p1-p3 are the class packet's Stretch questions
+# (Week 13 class packet, Day 1 Practice), written answers with a model; q1-q3
+# are the app's own quick checks.
+
+slug: antonius-octavius
+title: "Fābula dē Antōniō et Octāviō"
+source: "Latin I — Week 13 story packet, Day 1 (Monday November 16)"
+paragraphs: [[1, 2, 3, 4], [5, 6, 7], [8, 9]]
+
+sentences:
+  - n: 1
+    text: "Post mortem Caesaris, Mārcus Antōnius in urbe Rōmā tōtum imperium habēre cupit."
+    new:
+      Post mortem: "after the death"
+      Mārcus Antōnius: "Mark Antony · Subject, nominative"
+      urbe Rōmā: "the city of Rome · ablative"
+      tōtum imperium: "all the power · Direct Object, accusative"
+      cupit: "wants"
+    words:
+      Caesaris: "of Caesar · genitive"
+      in: "in — with the ablative"
+      habēre: "to have — from habeō"
+
+  - n: 2
+    core: true
+    text: "Sed Octāvius ex Graeciā cum paucīs amīcīs venit."
+    new:
+      paucīs: "a few — it describes amīcīs"
+    words:
+      Sed: "but"
+      Octāvius: "Octavius · Subject, nominative"
+      ex: "out of, from — with the ablative"
+      Graeciā: "Greece · ablative"
+      cum: "with — with the ablative"
+      amīcīs: "friends · ablative"
+      venit: "comes — from veniō"
+
+  - n: 3
+    core: true
+    text: "Mīlitēs Caesaris ab Antōniō discēdunt et cum Octāviō manent."
+    new:
+      discēdunt: "go away"
+      manent: "stay"
+    words:
+      Mīlitēs: "the soldiers · Subject, nominative plural"
+      Caesaris: "of Caesar · genitive"
+      ab: "from, away from — with the ablative"
+      Antōniō: "Antony · ablative"
+      et: "and"
+      cum: "with — with the ablative"
+      Octāviō: "Octavius · ablative"
+
+  - n: 4
+    text: "Antōnius rīdet: “Sine mē puer nihil est!”"
+    new:
+      rīdet: "laughs"
+      mē: "me · ablative"
+    words:
+      Antōnius: "Antony · Subject, nominative"
+      Sine: "without — with the ablative"
+      puer: "the boy · Subject, nominative"
+      nihil: "nothing · Predicate Nominative"
+      est: "is — from sum"
+
+  - n: 5
+    text: "Duo ducēs prō rē pūblicā pugnāre dīcunt, sed prō sē pugnant."
+    new:
+      Duo: "two — it describes ducēs"
+      rē pūblicā: "the Republic · ablative"
+      sē: "themselves · ablative"
+    words:
+      ducēs: "generals · Subject, nominative plural"
+      prō: "for, on behalf of — with the ablative"
+      pugnāre: "to fight — from pugnō"
+      dīcunt: "say — from dīcō"
+      sed: "but"
+      pugnant: "they fight — from pugnō"
+
+  - n: 6
+    core: true
+    text: "Tandem Antōnius et Octāvius dē pāce in īnsulā parvā dīcunt."
+    new:
+      Tandem: "finally"
+      pāce: "peace · ablative"
+    words:
+      Antōnius: "Antony · Subject, nominative"
+      et: "and"
+      Octāvius: "Octavius · Subject, nominative"
+      dē: "about — with the ablative"
+      in: "on — with the ablative"
+      īnsulā: "an island · ablative"
+      parvā: "small — it describes īnsulā"
+      dīcunt: "talk, speak — from dīcō"
+
+  - n: 7
+    text: "Nunc amīcī sunt: cum Lepidō, tertiō duce, imperium dīvidunt."
+    new:
+      Lepidō: "Lepidus · ablative"
+      tertiō: "third — it describes duce"
+      dīvidunt: "divide"
+    words:
+      Nunc: "now"
+      amīcī: "friends · Predicate Nominative"
+      sunt: "they are — from sum"
+      cum: "with — with the ablative"
+      duce: "leader · ablative, renames Lepidō"
+      imperium: "the power · Direct Object, accusative"
+
+  - n: 8
+    text: "In Graeciā Brūtum et Cassium vincunt."
+    new:
+      Brūtum et Cassium: "Brutus and Cassius · Direct Object, accusative"
+    words:
+      In: "in — with the ablative"
+      Graeciā: "Greece · ablative"
+      vincunt: "they defeat — from vincō"
+
+  - n: 9
+    text: "Rōmānī hanc fābulam nārrant: sub duōbus ducibus rēs pūblica nōn lībera est."
+    new:
+      hanc fābulam: "this story · Direct Object, accusative"
+      duōbus: "two — it describes ducibus"
+      rēs pūblica: "the Republic · Subject, nominative"
+      lībera: "free"
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+      nārrant: "tell — from nārrō"
+      sub: "under — with the ablative"
+      ducibus: "generals · ablative plural"
+      nōn: "not"
+      est: "is — from sum"
+
+questions:
+  - id: p1
+    ask: "Antony wants all the power (sentence 1). Who comes to challenge him, and from where?"
+    look: [1, 2]
+    hint: {2: "Octāvius ex Graeciā cum paucīs amīcīs venit"}
+    model: >-
+      Octavius, Caesar's heir. He comes out of Greece with only a few friends.
+
+  - id: p2
+    ask: "Why do Caesar’s soldiers leave Antony for Octavius? Think back to Marius’s soldiers."
+    look: [3]
+    hint: {3: "Mīlitēs Caesaris ab Antōniō discēdunt et cum Octāviō manent"}
+    model: >-
+      Since Marius, soldiers have been loyal to their general, not to Rome.
+      Octavius has Caesar's name and is his son by his will, so Caesar's
+      soldiers follow Caesar's heir.
+
+  - id: q1
+    ask: "Sentence 4: What does Antony say about Octavius?"
+    look: [4]
+    hint: {4: "Sine mē puer nihil est"}
+    options:
+      a: "“Without me the boy is nothing!”"
+      b: "“The boy is my friend!”"
+      c: "“The boy has many soldiers!”"
+      d: "“The boy is Caesar's son!”"
+    answer: a
+
+  - id: q2
+    ask: "Sentence 7: Who is the third leader the two share the power with?"
+    look: [6, 7]
+    hint: {7: "cum Lepidō tertiō duce imperium dīvidunt"}
+    options:
+      a: "Lepidus"
+      b: "Brutus"
+      c: "Cassius"
+      d: "Agrippa"
+    answer: a
+
+  - id: q3
+    ask: "Sentence 8: Whom do they defeat in Greece?"
+    look: [8]
+    hint: {8: "In Graeciā Brūtum et Cassium vincunt"}
+    options:
+      a: "Brutus and Cassius"
+      b: "Cleopatra"
+      c: "Lepidus"
+      d: "the Senate"
+    answer: a
+
+  - id: p3
+    ask: "The two say they fight for the Republic (sentence 5). What does sentence 9 say really happens to the Republic?"
+    look: [5, 9]
+    hint: {5: "prō rē pūblicā pugnāre dīcunt sed prō sē pugnant", 9: "sub duōbus ducibus rēs pūblica nōn lībera est"}
+    model: >-
+      They say they fight for the Republic, but they really fight for
+      themselves. Under two generals the Republic is not free.

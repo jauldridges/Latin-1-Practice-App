@@ -73,12 +73,27 @@ class TestThePassages(unittest.TestCase):
         p = [x for x in ALL["idus-martiae"]["by_n"][8]["pieces"] if x["kind"] == "word"]
         self.assertIn(("Et tū", True), [(x["text"], x["new"]) for x in p])
 
+    def test_the_week_13_stories_and_their_core_sentences(self):
+        slugs = ("antonius-octavius", "antonius-cleopatra", "actium", "alexandria")
+        core = {slug: [x["n"] for x in ALL[slug]["sentences"] if x.get("core")] for slug in slugs}
+        self.assertEqual(core, {"antonius-octavius": [2, 3, 6], "antonius-cleopatra": [1, 3, 7],
+                                "actium": [1, 4, 7], "alexandria": [3, 5, 9, 12, 13]})
+        self.assertEqual([len(ALL[s]["sentences"]) for s in slugs], [9, 9, 8, 20])
+        stretch = {"antonius-octavius": 3, "antonius-cleopatra": 3, "actium": 3, "alexandria": 5}
+        for slug in slugs:
+            self.assertEqual(readings.problems(ALL[slug]), [], slug)
+            packet = [q for q in ALL[slug]["questions"] if q["id"].startswith("p")]
+            self.assertEqual(len(packet), stretch[slug], slug)
+            self.assertTrue(all(readings.is_open(q) for q in packet), slug)
+
     def test_the_week_9_stories_list_in_teaching_order(self):
         self.assertEqual(list(ALL), ["cincinnatus", "dei-primi", "liberi-iovis",
                                      "ceres-proserpina", "cornelia", "cornelia-filii",
                                      "patricii-plebeii", "gracchi",
                                      "marius", "sulla", "pompeius", "cicero",
-                                     "caesar", "idus-martiae", "octavius"])
+                                     "caesar", "idus-martiae", "octavius",
+                                     "antonius-octavius", "antonius-cleopatra", "actium",
+                                     "alexandria"])
         self.assertEqual([len(ALL[s]["sentences"]) for s in list(ALL)[1:4]], [20, 18, 18])
         # the packet's underlined words are underlined on screen
         p = [x for x in ALL["ceres-proserpina"]["by_n"][13]["pieces"] if x["kind"] == "word"]

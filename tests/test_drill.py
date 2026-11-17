@@ -220,6 +220,8 @@ class TestDictionaryEntries(unittest.TestCase):
                 self.assertEqual(len(parts), 2, e)
                 self.assertTrue(clean(parts[1]).endswith(("re", "se")), e)
                 self.assertEqual(clean(parts[0]), k)
+            elif w.get("week") == "week_of_nov_16":                 # prepositions
+                self.assertRegex(e, r"\(\+ (abl|acc)\.\)$", e)
             else:
                 self.assertNotIn("entry", w, w["latin"])   # et, non, the phrases
         self.assertGreater(len(seen), 100)

@@ -255,7 +255,8 @@ considered third question from padding.
   Parts A–C, the dative week), Week 11 (November 2: 16 third-declension
   words from Parts A–B; the packet's 17th, novus, was already on the list),
   Week 12 (November 9: 14 third- and fourth-conjugation verbs, and ferō),
-  plus possum (with sum, the week of September 21) — 145 words, both directions, **typed** (no multiple choice), checked by
+  Week 13 (November 16: 19 prepositions, "in" twice, once for each case),
+  plus possum (with sum, the week of September 21) — 164 words, both directions, **typed** (no multiple choice), checked by
   the shared module. Macrons never required. Every Latin prompt and answer
   screen shows the word's dictionary entry (`entry` in `vocab.yaml`): a noun's
   nominative, genitive and gender, a verb's first person singular and

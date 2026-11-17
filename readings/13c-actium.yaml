@@ -1,0 +1,179 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 13 story packet, Day 3 (Wednesday November 18).
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too), with the case added to the note.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them. An ablative
+#           with no preposition is marked "a tool", as the class packet
+#           teaches it (ablative of means).
+#   core:   the packet's Core sentences (number in a red box): 1, 4, 7.
+#
+# Questions, in story order: p1-p3 are the class packet's Stretch questions
+# (Week 13 class packet, Day 3 Practice), written answers with a model; q1-q2
+# are the app's own quick checks.
+
+slug: actium
+title: "Fābula dē Actiō"
+source: "Latin I — Week 13 story packet, Day 3 (Wednesday November 18)"
+paragraphs: [[1, 2, 3], [4, 5, 6], [7, 8]]
+
+sentences:
+  - n: 1
+    core: true
+    text: "Octāvius nōn sōlum gladiīs sed etiam verbīs pugnat."
+    new:
+      nōn sōlum: "not only"
+      gladiīs: "swords · ablative (a tool: with swords)"
+      sed etiam: "but also"
+    words:
+      Octāvius: "Octavius · Subject, nominative"
+      verbīs: "words · ablative (a tool: with words)"
+      pugnat: "fights — from pugnō"
+
+  - n: 2
+    text: "Poētae et amīcī Octāviī fābulīs malīs Antōnium et Cleopātram oppugnant."
+    new:
+      oppugnant: "attack"
+    words:
+      Poētae: "poets · Subject, nominative plural"
+      et: "and"
+      amīcī: "friends · Subject, nominative plural"
+      Octāviī: "of Octavius · genitive"
+      fābulīs: "stories · ablative (a tool: with stories)"
+      malīs: "nasty, bad — it describes fābulīs"
+      Antōnium: "Antony · Direct Object, accusative"
+      Cleopātram: "Cleopatra · Direct Object, accusative"
+
+  - n: 3
+    text: "Tandem duae classēs prope Actium pugnant."
+    new:
+      classēs: "fleets · Subject, nominative plural"
+      Actium: "Actium, in western Greece · accusative"
+    words:
+      Tandem: "finally"
+      duae: "two — it describes classēs"
+      prope: "near — with the accusative"
+      pugnant: "fight — from pugnō"
+
+  - n: 4
+    core: true
+    text: "Agrippa, amīcus Octāviī, nāvibus parvīs et celeribus nāvēs magnās Antōniī superat."
+    new:
+      Agrippa: "Agrippa, Octavius's admiral · Subject, nominative"
+      nāvibus: "ships · ablative (a tool: with ships)"
+      celeribus: "fast — it describes nāvibus"
+      nāvēs: "ships · Direct Object, accusative plural"
+    words:
+      amīcus: "a friend · renames Agrippa"
+      Octāviī: "of Octavius · genitive"
+      parvīs: "small — it describes nāvibus"
+      et: "and"
+      magnās: "big — it describes nāvēs"
+      Antōniī: "of Antony · genitive"
+      superat: "defeats — from superō"
+
+  - n: 5
+    text: "Cleopātra perīculum sentit et cum nāvibus suīs fugit."
+    new:
+      perīculum: "danger · Direct Object, accusative"
+      suīs: "her own — it describes nāvibus"
+      fugit: "flees"
+    words:
+      Cleopātra: "Cleopatra · Subject, nominative"
+      sentit: "senses, feels — from sentiō"
+      et: "and"
+      cum: "with, together with — with the ablative"
+      nāvibus: "ships · ablative"
+
+  - n: 6
+    text: "Antōnius rēgīnam videt et post eam nāvigat; mīlitēs suōs relinquit."
+    new:
+      eam: "her · accusative"
+      nāvigat: "sails"
+      suōs: "his own — it describes mīlitēs"
+    words:
+      Antōnius: "Antony · Subject, nominative"
+      rēgīnam: "the queen · Direct Object, accusative"
+      videt: "sees — from videō"
+      et: "and"
+      post: "after, behind — with the accusative"
+      mīlitēs: "soldiers · Direct Object, accusative plural"
+      relinquit: "leaves behind — from relinquō"
+
+  - n: 7
+    core: true
+    text: "Sīc Octāvius cōnsiliō bonō et nāvibus Agrippae vincit."
+    new:
+      Sīc: "in this way"
+    words:
+      Octāvius: "Octavius · Subject, nominative"
+      cōnsiliō: "plan · ablative (a tool: by a plan)"
+      bonō: "good — it describes cōnsiliō"
+      et: "and"
+      nāvibus: "ships · ablative (a tool: with ships)"
+      Agrippae: "of Agrippa · genitive"
+      vincit: "wins — from vincō"
+
+  - n: 8
+    text: "Rōmānī hanc fābulam nārrant: Octāvius patriam armīs et verbīs servat."
+    new:
+      hanc fābulam: "this story · Direct Object, accusative"
+      armīs: "weapons · ablative (a tool: with weapons)"
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+      nārrant: "tell — from nārrō"
+      Octāvius: "Octavius · Subject, nominative"
+      patriam: "his country · Direct Object, accusative"
+      et: "and"
+      verbīs: "words · ablative (a tool: with words)"
+      servat: "saves — from servō"
+
+questions:
+  - id: p1
+    ask: "Octavius fights with two kinds of weapons. What are they? How do his poets use words (sentence 2)?"
+    look: [1, 2]
+    hint: {1: "nōn sōlum gladiīs sed etiam verbīs pugnat", 2: "fābulīs malīs Antōnium et Cleopātram oppugnant"}
+    model: >-
+      Swords and words. His poets and friends attack Antony and Cleopatra with
+      nasty stories, turning Romans against them before the battle.
+
+  - id: q1
+    ask: "Sentence 3: Where do the two fleets fight?"
+    look: [3]
+    hint: {3: "prope Actium pugnant"}
+    options:
+      a: "near Actium, in western Greece"
+      b: "in Egypt"
+      c: "on the Tiber"
+      d: "near Rome"
+    answer: a
+
+  - id: p2
+    ask: "How do Agrippa’s ships beat Antony’s? Compare sentence 4 with sentence 5: why is there cum in one and not the other?"
+    look: [4, 5]
+    hint: {4: "nāvibus parvīs et celeribus nāvēs magnās Antōniī superat", 5: "cum nāvibus suīs fugit"}
+    model: >-
+      Agrippa's small, fast ships beat Antony's big ones. In sentence 4 the
+      ships are the tool Agrippa wins with, so the ablative has no
+      preposition. In sentence 5 Cleopatra flees together with her ships, so
+      it takes cum.
+
+  - id: q2
+    ask: "Sentence 5: What does Cleopatra do when she senses danger?"
+    look: [5]
+    hint: {5: "Cleopātra perīculum sentit et cum nāvibus suīs fugit"}
+    options:
+      a: "She flees with her ships."
+      b: "She attacks Agrippa."
+      c: "She sails to Rome."
+      d: "She waits for Antony."
+    answer: a
+
+  - id: p3
+    ask: "What does Antony do in sentence 6? What does sentence 8 say this story teaches?"
+    look: [6, 8]
+    hint: {6: "post eam nāvigat mīlitēs suōs relinquit", 8: "Octāvius patriam armīs et verbīs servat"}
+    model: >-
+      He sees the queen and sails after her, leaving his own soldiers behind.
+      The story says Octavius saves his country with weapons and with words.

@@ -21,7 +21,8 @@
 # sum, adjective agreement, imperatives and dēbeō + infinitive. Week 9
 # (October 19) adds the genitive; Week 10 (October 26) adds the dative, taught
 # that week; Week 11 (November 2) adds the third declension; Week 12
-# (November 9) the third and fourth conjugations. No ablative or
+# (November 9) the third and fourth conjugations; Week 13 (November 16) the
+# ablative, with prepositions. No ablative or
 # prepositions yet.
 #
 # Students see nothing here until the teacher approves it at
@@ -195,3 +196,24 @@ examples:
   - {word: "inveniō", latin: "Puella pecūniam *invenit*.", en: "The girl finds money."}
   - {word: "sciō", latin: "Nauta viam *scit*.", en: "The sailor knows the way."}
   - {word: "sentiō", latin: "Mīles nihil *sentit*.", en: "The soldier feels nothing."}
+
+  # --- week of Nov 16 (Week 13): prepositions with the ablative and the accusative ---
+  - {word: "cum", latin: "Puer *cum* patre venit.", en: "The boy comes with his father."}
+  - {word: "sine", latin: "Nauta *sine* pecūniā venit.", en: "The sailor comes without money."}
+  - {word: "ab", latin: "Servus *ab* oppidō venit.", en: "The slave comes from the town."}
+  - {word: "ex", latin: "Agricola *ex* agrō venit.", en: "The farmer comes out of the field."}
+  - {word: "dē", latin: "Poēta *dē* bellō nārrat.", en: "The poet tells about the war."}
+  - {word: "in (+ abl.)", latin: "Puerī *in* viā sunt.", en: "The boys are in the street."}
+  - {word: "sub", latin: "Pecūnia *sub* terrā est.", en: "The money is under the ground."}
+  - {word: "prō", latin: "Mīlitēs *prō* patriā pugnant.", en: "The soldiers fight for their homeland."}
+  - {word: "ad", latin: "Puer *ad* oppidum venit.", en: "The boy comes to the town."}
+  - {word: "in (+ acc.)", latin: "Agricola *in* silvam venit.", en: "The farmer comes into the forest."}
+  - {word: "per", latin: "Mīlitēs *per* agrōs veniunt.", en: "The soldiers come through the fields."}
+  - {word: "trāns", latin: "Dux mīlitēs *trāns* aquam dūcit.", en: "The general leads the soldiers across the water."}
+  - {word: "ante", latin: "Servus *ante* portam est.", en: "The slave is in front of the gate."}
+  - {word: "post", latin: "Mīlitēs *post* bellum pecūniam habent.", en: "After the war the soldiers have money."}
+  - {word: "contrā", latin: "Mīlitēs *contrā* rēgem pugnant.", en: "The soldiers fight against the king."}
+  - {word: "inter", latin: "Puella *inter* amīcōs est.", en: "The girl is among friends."}
+  - {word: "circum", latin: "Mīlitēs *circum* oppidum sunt.", en: "The soldiers are around the town."}
+  - {word: "prope", latin: "Puer *prope* portam est.", en: "The boy is near the gate."}
+  - {word: "super", latin: "Lūna *super* silvam est.", en: "The moon is above the forest."}

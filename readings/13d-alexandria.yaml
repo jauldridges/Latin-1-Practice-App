@@ -1,0 +1,379 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 13 story packet, Day 4 (Thursday November 19).
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too), with the case added to the note.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them. Each
+#           preposition says which case it takes, and an ablative with no
+#           preposition is marked "a tool" (ablative of means).
+#   core:   the packet's Core sentences (number in a red box): 3, 5, 9, 12, 13.
+#
+# Questions, in story order: p1-p5 are the class packet's Stretch questions
+# (Week 13 class packet, Day 4 Practice), written answers with a model; q1-q3
+# are the app's own quick checks.
+
+slug: alexandria
+title: "Fābula dē Alexandrīā"
+source: "Latin I — Week 13 story packet, Day 4 (Thursday November 19)"
+paragraphs: [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10, 11, 12], [13, 14, 15, 16], [17, 18, 19, 20]]
+
+sentences:
+  - n: 1
+    text: "Post pugnam Actiacam, Antōnius et Cleopātra in Aegyptum fugiunt."
+    new:
+      Post pugnam Actiacam: "after the battle of Actium"
+      Aegyptum: "Egypt · accusative"
+      fugiunt: "flee"
+    words:
+      Antōnius: "Antony · Subject, nominative"
+      et: "and"
+      Cleopātra: "Cleopatra · Subject, nominative"
+      in: "into, to — with the accusative"
+
+  - n: 2
+    text: "Annō post, Octāvius cum magnō exercitū ad urbem Alexandrīam venit."
+    new:
+      Annō post: "a year later"
+      exercitū: "army · ablative"
+      urbem Alexandrīam: "the city of Alexandria · accusative"
+    words:
+      Octāvius: "Octavius · Subject, nominative"
+      cum: "with — with the ablative"
+      magnō: "big — it describes exercitū"
+      ad: "to — with the accusative"
+      venit: "comes — from veniō"
+
+  - n: 3
+    core: true
+    text: "Mīlitēs Antōniī ducem suum relinquunt et ad Octāvium trānseunt."
+    new:
+      suum: "their own — it describes ducem"
+      trānseunt: "go over"
+    words:
+      Mīlitēs: "the soldiers · Subject, nominative plural"
+      Antōniī: "of Antony · genitive"
+      ducem: "general · Direct Object, accusative"
+      relinquunt: "leave behind — from relinquō"
+      et: "and"
+      ad: "to — with the accusative"
+      Octāvium: "Octavius · accusative"
+
+  - n: 4
+    text: "Antōnius sōlus in urbe manet. Nūntius falsus ad eum venit: “Cleopātra mortua est!”"
+    new:
+      sōlus: "alone"
+      urbe: "the city · ablative"
+      manet: "stays"
+      Nūntius falsus: "a false message · Subject, nominative"
+      eum: "him · accusative"
+      mortua est: "is dead"
+    words:
+      Antōnius: "Antony · Subject, nominative"
+      in: "in — with the ablative"
+      ad: "to — with the accusative"
+      venit: "comes — from veniō"
+      Cleopātra: "Cleopatra · Subject, nominative"
+
+  - n: 5
+    core: true
+    text: "Antōnius sine rēgīnā vīvere nōn cupit. Itaque sē gladiō suō necat."
+    new:
+      vīvere: "to live"
+      cupit: "wants"
+      Itaque: "and so"
+      sē: "himself · accusative"
+      gladiō: "sword · ablative (a tool: with a sword)"
+      suō: "his own — it describes gladiō"
+      necat: "kills"
+    words:
+      Antōnius: "Antony · Subject, nominative"
+      sine: "without — with the ablative"
+      rēgīnā: "the queen · ablative"
+      nōn: "not"
+
+  - n: 6
+    text: "Sed Cleopātra nōn mortua est! Rēgīna in sepulcrō suō cum duābus ancillīs manet."
+    new:
+      sepulcrō: "tomb · ablative"
+      duābus ancillīs: "two maids · ablative"
+    words:
+      Sed: "but"
+      Cleopātra: "Cleopatra · Subject, nominative"
+      nōn: "not"
+      mortua est: "is dead"
+      Rēgīna: "the queen · Subject, nominative"
+      in: "in — with the ablative"
+      suō: "her own — it describes sepulcrō"
+      cum: "with — with the ablative"
+      manet: "stays"
+
+  - n: 7
+    text: "Servī corpus Antōniī ad rēgīnam portant, et Antōnius in bracchiīs Cleopātrae moritur."
+    new:
+      bracchiīs: "arms · ablative"
+      moritur: "dies"
+    words:
+      Servī: "slaves · Subject, nominative plural"
+      corpus: "the body · Direct Object, accusative"
+      Antōniī: "of Antony · genitive"
+      ad: "to — with the accusative"
+      rēgīnam: "the queen · accusative"
+      portant: "carry — from portō"
+      et: "and"
+      Antōnius: "Antony · Subject, nominative"
+      in: "in — with the ablative"
+      Cleopātrae: "of Cleopatra · genitive"
+
+  - n: 8
+    text: "Octāvius in urbem venit. Rēgīnam vīvam capere cupit."
+    new:
+      vīvam: "alive"
+      capere: "to capture"
+      cupit: "wants"
+    words:
+      Octāvius: "Octavius · Subject, nominative"
+      in: "into — with the accusative"
+      urbem: "the city · accusative"
+      venit: "comes — from veniō"
+      Rēgīnam: "the queen · Direct Object, accusative"
+
+  - n: 9
+    core: true
+    text: "Cūr? Octāvius Cleopātram in triumphō per viās Rōmae dūcere cupit."
+    new:
+      Cūr: "why"
+      triumphō: "a triumph, a victory parade · ablative"
+      viās: "the streets · accusative"
+    words:
+      Octāvius: "Octavius · Subject, nominative"
+      Cleopātram: "Cleopatra · Direct Object, accusative"
+      in: "in — with the ablative"
+      per: "through — with the accusative"
+      Rōmae: "of Rome · genitive"
+      dūcere: "to lead — from dūcō"
+      cupit: "wants"
+
+  - n: 10
+    text: "Cleopātra cōnsilium Octāviī sentit: “In triumphō Octāviī nōn ambulō!”"
+    new:
+      ambulō: "I walk"
+    words:
+      Cleopātra: "Cleopatra · Subject, nominative"
+      cōnsilium: "the plan · Direct Object, accusative"
+      Octāviī: "of Octavius · genitive"
+      sentit: "senses, sees through — from sentiō"
+      In: "in — with the ablative"
+      triumphō: "the triumph · ablative"
+      nōn: "not"
+
+  - n: 11
+    text: "Servus fīdus rēgīnae serpentem in calathō cum fīcīs portat."
+    new:
+      fīdus: "loyal"
+      serpentem: "a snake · Direct Object, accusative"
+      calathō: "a basket · ablative"
+      fīcīs: "figs · ablative"
+    words:
+      Servus: "a slave · Subject, nominative"
+      rēgīnae: "to the queen · dative"
+      in: "in — with the ablative"
+      cum: "with — with the ablative"
+      portat: "carries — from portō"
+
+  - n: 12
+    core: true
+    text: "Cleopātra serpente sē necat."
+    new:
+      serpente: "a snake · ablative (a tool: with a snake)"
+      sē: "herself · accusative"
+      necat: "kills"
+    words:
+      Cleopātra: "Cleopatra · Subject, nominative"
+
+  - n: 13
+    core: true
+    text: "Mīlitēs Octāviī in sepulcrum veniunt et rēgīnam mortuam inveniunt."
+    new:
+      sepulcrum: "the tomb · accusative"
+      mortuam: "dead — it describes rēgīnam"
+    words:
+      Mīlitēs: "the soldiers · Subject, nominative plural"
+      Octāviī: "of Octavius · genitive"
+      in: "into — with the accusative"
+      veniunt: "come — from veniō"
+      et: "and"
+      rēgīnam: "the queen · Direct Object, accusative"
+      inveniunt: "find — from inveniō"
+
+  - n: 14
+    text: "Octāvius Cleopātram cum Antōniō in sepulcrō pōnit."
+    new:
+      pōnit: "places, buries"
+    words:
+      Octāvius: "Octavius · Subject, nominative"
+      Cleopātram: "Cleopatra · Direct Object, accusative"
+      cum: "with — with the ablative"
+      Antōniō: "Antony · ablative"
+      in: "in — with the ablative"
+      sepulcrō: "the tomb · ablative"
+
+  - n: 15
+    text: "Nunc Aegyptus est prōvincia Rōmāna."
+    new:
+      Aegyptus: "Egypt · Subject, nominative"
+    words:
+      Nunc: "now"
+      est: "is — from sum"
+      prōvincia: "a province · Predicate Nominative"
+      Rōmāna: "Roman — it describes prōvincia"
+
+  - n: 16
+    text: "Octāvius in urbem Rōmam redit et magnum triumphum agit."
+    new:
+      urbem Rōmam: "the city of Rome · accusative"
+      redit: "returns"
+      triumphum agit: "celebrates a triumph"
+    words:
+      Octāvius: "Octavius · Subject, nominative"
+      in: "into, to — with the accusative"
+      et: "and"
+      magnum: "great — it describes triumphum"
+
+  - n: 17
+    text: "In triumphō Rōmānī statuam Cleopātrae cum serpente per viās portant."
+    new:
+      statuam: "a statue · Direct Object, accusative"
+    words:
+      In: "in — with the ablative"
+      triumphō: "the triumph · ablative"
+      Rōmānī: "the Romans · Subject, nominative"
+      Cleopātrae: "of Cleopatra · genitive"
+      cum: "with — with the ablative"
+      serpente: "a snake · ablative"
+      per: "through — with the accusative"
+      viās: "the streets · accusative"
+      portant: "carry — from portō"
+
+  - n: 18
+    text: "Poētae Octāviī dē Actiō multa carmina scrībunt: Rōma bona est, Aegyptus mala."
+    new:
+      Actiō: "Actium · ablative"
+      carmina: "poems · Direct Object, accusative plural"
+      Aegyptus: "Egypt · Subject, nominative"
+    words:
+      Poētae: "the poets · Subject, nominative plural"
+      Octāviī: "of Octavius · genitive"
+      dē: "about — with the ablative"
+      multa: "many — it describes carmina"
+      scrībunt: "write — from scrībō"
+      Rōma: "Rome · Subject, nominative"
+      bona: "good · Predicate Adjective"
+      est: "is — from sum"
+      mala: "bad (est is understood) · Predicate Adjective"
+
+  - n: 19
+    text: "Rōmānī hanc fābulam saepe nārrant: Octāvius patriam ab rēgīnā Aegyptī servat."
+    new:
+      hanc fābulam: "this story · Direct Object, accusative"
+      Aegyptī: "of Egypt · genitive"
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+      saepe: "often"
+      nārrant: "tell — from nārrō"
+      Octāvius: "Octavius · Subject, nominative"
+      patriam: "his country · Direct Object, accusative"
+      ab: "from — with the ablative"
+      rēgīnā: "the queen · ablative"
+      servat: "saves — from servō"
+
+  - n: 20
+    text: "Sed hanc fābulam scrībunt amīcī Octāviī. Quis fābulam Cleopātrae nārrat?"
+    new:
+      Quis: "who"
+    words:
+      Sed: "but"
+      hanc fābulam: "this story · Direct Object, accusative"
+      scrībunt: "write — from scrībō"
+      amīcī: "the friends · Subject, nominative plural"
+      Octāviī: "of Octavius · genitive"
+      fābulam: "the story · Direct Object, accusative"
+      Cleopātrae: "of Cleopatra · genitive"
+      nārrat: "tells — from nārrō"
+
+questions:
+  - id: q1
+    ask: "Sentence 2: Where does Octavius come with a big army?"
+    look: [2]
+    hint: {2: "ad urbem Alexandrīam venit"}
+    options:
+      a: "to the city of Alexandria"
+      b: "to Rome"
+      c: "to Actium"
+      d: "to Greece"
+    answer: a
+
+  - id: p1
+    ask: "What happens to Antony’s army (sentence 3)? What false message comes to him (sentence 4)?"
+    look: [3, 4]
+    hint: {3: "Mīlitēs Antōniī ducem suum relinquunt et ad Octāvium trānseunt", 4: "Cleopātra mortua est"}
+    model: >-
+      His soldiers leave their own general and go over to Octavius. A false
+      message comes: “Cleopatra is dead!”
+
+  - id: p2
+    ask: "gladiō has no preposition. What job is it doing?"
+    look: [5]
+    hint: {5: "sē gladiō suō necat"}
+    model: >-
+      It's the tool he uses: he kills himself with his own sword. An ablative
+      with no preposition that answers “with what?” is the ablative of means.
+
+  - id: q2
+    ask: "Sentence 7: Where does Antony die?"
+    look: [6, 7]
+    hint: {7: "Antōnius in bracchiīs Cleopātrae moritur"}
+    options:
+      a: "in Cleopatra's arms"
+      b: "on his ship"
+      c: "in the Senate"
+      d: "in Rome"
+    answer: a
+
+  - id: p3
+    ask: "Why does Octavius want Cleopatra alive? Use sentences 8–9."
+    look: [8, 9]
+    hint: {8: "Rēgīnam vīvam capere cupit", 9: "Octāvius Cleopātram in triumphō per viās Rōmae dūcere cupit"}
+    model: >-
+      He wants to capture her alive so he can lead her through the streets of
+      Rome in his triumph, showing off the defeated queen.
+
+  - id: p4
+    ask: "How does Cleopatra keep Octavius from leading her in his triumph (sentences 10–12)?"
+    look: [10, 11, 12]
+    hint: {11: "serpentem in calathō cum fīcīs portat", 12: "Cleopātra serpente sē necat"}
+    model: >-
+      She sees through his plan. A loyal slave brings her a snake hidden in a
+      basket of figs, and she kills herself with the snake, so she never
+      walks in his triumph.
+
+  - id: q3
+    ask: "Sentence 15: What does Egypt become?"
+    look: [15]
+    hint: {15: "Nunc Aegyptus est prōvincia Rōmāna"}
+    options:
+      a: "a Roman province"
+      b: "a free kingdom"
+      c: "Octavius's home"
+      d: "Antony's province"
+    answer: a
+
+  - id: p5
+    ask: "Sentences 17–19 show how Rome remembered Cleopatra. Sentence 20 asks who tells her story. Why does that question matter?"
+    look: [17, 18, 19, 20]
+    hint: {20: "hanc fābulam scrībunt amīcī Octāviī Quis fābulam Cleopātrae nārrat"}
+    model: >-
+      The story we have was written by Octavius's friends and poets, the
+      winners, so it makes Rome good and Egypt bad. Cleopatra's side never
+      got to tell it. When only one side tells a story, we should ask what
+      the other side would say.

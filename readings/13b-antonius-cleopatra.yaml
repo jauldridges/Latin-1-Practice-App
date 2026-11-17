@@ -1,0 +1,197 @@
+# A Reader passage. See readings.py for the format and README "Reader".
+#
+# Source: Latin I — Week 13 story packet, Day 2 (Tuesday November 17).
+#   new:    words underlined in the packet, glossed as the packet glosses them
+#           (underlined on screen too), with the case added to the note.
+#   words:  every other word, so a student can tap anything. These glosses
+#           were added for the app; the packet doesn't have them. Each
+#           preposition says which case it takes.
+#   core:   the packet's Core sentences (number in a red box): 1, 3, 7.
+#
+# Sentence 3 has "in" twice, once with each case (in Aegyptum / in Aegyptō);
+# one word gets one gloss per sentence, so its note gives both.
+#
+# Questions, in story order: p1-p3 are the class packet's Stretch questions
+# (Week 13 class packet, Day 2 Practice), written answers with a model; q1-q2
+# are the app's own quick checks.
+
+slug: antonius-cleopatra
+title: "Fābula dē Antōniō et Cleopātrā"
+source: "Latin I — Week 13 story packet, Day 2 (Tuesday November 17)"
+paragraphs: [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+sentences:
+  - n: 1
+    core: true
+    text: "Post victōriam Antōnius trāns mare in Asiam nāvigat."
+    new:
+      victōriam: "victory · accusative, after post"
+      mare: "the sea · accusative, after trāns"
+      Asiam: "Asia, the Roman East · accusative"
+      nāvigat: "sails"
+    words:
+      Post: "after — with the accusative"
+      Antōnius: "Antony · Subject, nominative"
+      trāns: "across — with the accusative"
+      in: "into, to — with the accusative"
+
+  - n: 2
+    text: "Cleopātra ad Antōnium in nāve aureā venit."
+    new:
+      nāve aureā: "a golden ship · ablative"
+    words:
+      Cleopātra: "Cleopatra · Subject, nominative"
+      ad: "to — with the accusative"
+      Antōnium: "Antony · accusative"
+      in: "in, on — with the ablative"
+      venit: "comes — from veniō"
+
+  - n: 3
+    core: true
+    text: "Antōnius cum rēgīnā in Aegyptum nāvigat et in Aegyptō multōs annōs manet."
+    new:
+      Aegyptum: "Egypt · accusative"
+      Aegyptō: "Egypt · ablative"
+      multōs annōs: "for many years"
+      manet: "stays"
+    words:
+      Antōnius: "Antony · Subject, nominative"
+      cum: "with — with the ablative"
+      rēgīnā: "the queen · ablative"
+      in: "into (with the accusative: in Aegyptum); in (with the ablative: in Aegyptō)"
+      nāvigat: "sails"
+      et: "and"
+
+  - n: 4
+    text: "Sed Octāvia, soror Octāviī, est uxor Antōniī; in urbe Rōmā marītum exspectat."
+    new:
+      Octāvia: "Octavia · Subject, nominative"
+      soror: "sister · renames Octāvia"
+      uxor: "wife · Predicate Nominative"
+      urbe Rōmā: "the city of Rome · ablative"
+      marītum: "husband · Direct Object, accusative"
+      exspectat: "waits for"
+    words:
+      Sed: "but"
+      Octāviī: "of Octavius · genitive"
+      est: "is — from sum"
+      Antōniī: "of Antony · genitive"
+      in: "in — with the ablative"
+
+  - n: 5
+    text: "Antōnius Cleopātrae et fīliīs eius terrās Rōmānās dat."
+    new:
+      eius: "her"
+      terrās: "lands · Direct Object, accusative plural"
+    words:
+      Antōnius: "Antony · Subject, nominative"
+      Cleopātrae: "to Cleopatra · Indirect Object, dative"
+      et: "and"
+      fīliīs: "to the children · Indirect Object, dative"
+      Rōmānās: "Roman — it describes terrās"
+      dat: "gives — from dō"
+
+  - n: 6
+    text: "Octāvius per urbem in senātum venit et inter senātōrēs testāmentum Antōniī legit."
+    new:
+      urbem: "the city · accusative"
+      senātum: "the Senate · accusative"
+      senātōrēs: "the senators · accusative"
+      testāmentum: "will · Direct Object, accusative"
+      legit: "reads"
+    words:
+      Octāvius: "Octavius · Subject, nominative"
+      per: "through — with the accusative"
+      in: "into — with the accusative"
+      venit: "comes — from veniō"
+      et: "and"
+      inter: "among — with the accusative"
+      Antōniī: "of Antony · genitive"
+
+  - n: 7
+    core: true
+    text: "“Antōnius contrā Rōmam pugnat! Ante oculōs vestrōs rēgīnae pāret!”"
+    new:
+      vestrōs: "your (more than one) — it describes oculōs"
+    words:
+      Antōnius: "Antony · Subject, nominative"
+      contrā: "against — with the accusative"
+      Rōmam: "Rome · accusative"
+      pugnat: "fights — from pugnō"
+      Ante: "before, in front of — with the accusative"
+      oculōs: "eyes · accusative"
+      rēgīnae: "the queen · dative with pāret"
+      pāret: "he obeys — from pāreō, which takes the dative"
+
+  - n: 8
+    text: "Senātus bellum contrā Cleopātram nūntiat."
+    new:
+      Senātus: "the Senate · Subject, nominative"
+    words:
+      bellum: "war · Direct Object, accusative"
+      contrā: "against — with the accusative"
+      Cleopātram: "Cleopatra · accusative"
+      nūntiat: "announces, declares — from nūntiō"
+
+  - n: 9
+    text: "Rōmānī hanc fābulam nārrant: bonus Rōmānus patriae, nōn rēgīnae, pāret."
+    new:
+      hanc fābulam: "this story · Direct Object, accusative"
+    words:
+      Rōmānī: "the Romans · Subject, nominative"
+      nārrant: "tell — from nārrō"
+      bonus: "good — it describes Rōmānus"
+      Rōmānus: "a Roman · Subject, nominative"
+      patriae: "his country · dative with pāret"
+      nōn: "not"
+      rēgīnae: "a queen · dative with pāret"
+      pāret: "obeys — from pāreō, which takes the dative"
+
+questions:
+  - id: p1
+    ask: "Where does Antony go after Philippi? How does Cleopatra meet him (sentence 2)?"
+    look: [1, 2]
+    hint: {1: "trāns mare in Asiam nāvigat", 2: "Cleopātra ad Antōnium in nāve aureā venit"}
+    model: >-
+      After the victory at Philippi he sails across the sea to Asia, the Roman
+      East. Cleopatra comes to him in a golden ship.
+
+  - id: p2
+    ask: "Sentence 3 has in Aegyptum and in Aegyptō. Why the two different endings?"
+    look: [3]
+    hint: {3: "in Aegyptum nāvigat et in Aegyptō multōs annōs manet"}
+    model: >-
+      In with the accusative (Aegyptum) shows motion: he sails into Egypt.
+      In with the ablative (Aegyptō) shows a place: he stays in Egypt.
+
+  - id: q1
+    ask: "Sentence 4: Who is Octavia?"
+    look: [4]
+    hint: {4: "Octāvia soror Octāviī est uxor Antōniī"}
+    options:
+      a: "Octavius's sister, and Antony's wife"
+      b: "Cleopatra's daughter"
+      c: "Antony's sister"
+      d: "Octavius's mother"
+    answer: a
+
+  - id: q2
+    ask: "Sentence 5: What does Antony give Cleopatra and her children?"
+    look: [5]
+    hint: {5: "terrās Rōmānās dat"}
+    options:
+      a: "Roman lands"
+      b: "a golden ship"
+      c: "his will"
+      d: "an army"
+    answer: a
+
+  - id: p3
+    ask: "What does Octavius read in the Senate (sentence 6)? Why does the Senate declare war on Cleopatra, not Antony (sentences 7–9)?"
+    look: [6, 7, 8, 9]
+    hint: {6: "testāmentum Antōniī legit", 8: "Senātus bellum contrā Cleopātram nūntiat"}
+    model: >-
+      He reads Antony's will. He says Antony obeys a foreign queen and fights
+      against Rome. Declaring war on Cleopatra makes it a war against Egypt,
+      not another civil war of Roman against Roman, and the story says a good
+      Roman obeys his country, not a queen.

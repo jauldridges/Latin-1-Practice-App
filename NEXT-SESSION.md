@@ -105,9 +105,10 @@ uploaded by the teacher; fed by honest practice each day, runs away after
 everything new: laws, lessons, questions, teaching text, hint sentences,
 Magister lines, and (one at a time) Reader stories. Teacher pages have tabs.
 The Reader now has Week 11's four stories (Marius, Sulla, Pompey, Cicero)
-and Week 12's three (Caesar, the Ides of March, Octavian).
+Week 12's three (Caesar, the Ides of March, Octavian) and Week 13's four
+(Antony and Octavian, Antony and Cleopatra, Actium, Alexandria).
 
-**Vocabulary** now runs through Week 12 (145 words): Weeks 8 to 12 came
+**Vocabulary** now runs through Week 13 (164 words): Weeks 8 to 13 came
 from their class packets. Week 7 (week of October 5) has none -- no packet
 yet -- and Week 8's packet names only -ve (its word table is filled in in
 class). possum was added to the week of September 21, with sum.

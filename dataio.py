@@ -152,7 +152,11 @@ _PARTICLES = ["et", "non", "sed", "quod", "ubi", "nunc", "saepe", "semper",
               "ve",                                           # Week 8
               "nihil", "satis",                               # Week 9
               "liberi", "liberos", "liberorum", "liberis",    # Week 9: līberī, plural only
-              "do", "das", "dat", "damus", "datis", "dant", "dare", "da", "date"]   # Week 9: dō
+              "do", "das", "dat", "damus", "datis", "dant", "dare", "da", "date",   # Week 9: dō
+              # Week 13: prepositions, with the ablative and the accusative
+              "cum", "sine", "a", "ab", "e", "ex", "de", "in", "sub", "pro",
+              "ad", "per", "trans", "ante", "post", "contra", "inter", "circum",
+              "prope", "super"]
 
 
 def generate_legal_forms():

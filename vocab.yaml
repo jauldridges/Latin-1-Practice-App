@@ -19,6 +19,8 @@
 #          ("bonus, bona, bonum"; third declension "fortis, forte"). Words with
 #          no forms to learn (et, nōn, the phrases) have none. A student types
 #          only the headword on an English -> Latin card.
+#   answer optional: what may be typed on an English -> Latin card when it
+#          isn't the headword (the two "in"s, ē/ex).
 #
 # Answers are checked by the shared module: case, macrons, punctuation,
 # a leading "the"/"a", and spacing are all forgiven; near-misses come back
@@ -209,3 +211,29 @@ words:
   - {latin: "inveniō", en: ["I find", "find", "I come upon", "come upon", "I discover", "discover"], week: "week_of_nov_9", entry: "inveniō, invenīre"}
   - {latin: "sciō", en: ["I know", "know"], week: "week_of_nov_9", entry: "sciō, scīre"}
   - {latin: "sentiō", en: ["I feel", "feel", "I sense", "sense", "I perceive", "perceive"], week: "week_of_nov_9", entry: "sentiō, sentīre"}
+
+  # --- week of Nov 16 — Week 13 class packet: Vocabulary Parts A and B ---
+  # Prepositions: eight that take the ablative (Part A) and eleven that take
+  # the accusative (Part B). "in" is two cards, one for each case, both
+  # answered "in" (answer:). ā/ab is answered "ab": the answer checker drops
+  # a lone "a" the way it drops an article. The packet leaves meanings blank;
+  # these glosses were written for the app.
+  - {latin: "cum", en: ["with"], week: "week_of_nov_16", entry: "cum (+ abl.)"}
+  - {latin: "sine", en: ["without"], week: "week_of_nov_16", entry: "sine (+ abl.)"}
+  - {latin: "ab", en: ["from", "away from", "by"], week: "week_of_nov_16", entry: "ā, ab (+ abl.)", answer: ["ab"]}
+  - {latin: "ex", en: ["out of", "from", "out from"], week: "week_of_nov_16", entry: "ē, ex (+ abl.)", answer: ["ex", "e"]}
+  - {latin: "dē", en: ["down from", "about", "concerning", "from"], week: "week_of_nov_16", entry: "dē (+ abl.)"}
+  - {latin: "in (+ abl.)", en: ["in", "on"], week: "week_of_nov_16", entry: "in (+ abl.)", answer: ["in"]}
+  - {latin: "sub", en: ["under", "beneath", "below"], week: "week_of_nov_16", entry: "sub (+ abl.)"}
+  - {latin: "prō", en: ["for", "in front of", "on behalf of", "in return for"], week: "week_of_nov_16", entry: "prō (+ abl.)"}
+  - {latin: "ad", en: ["to", "toward", "towards", "at"], week: "week_of_nov_16", entry: "ad (+ acc.)"}
+  - {latin: "in (+ acc.)", en: ["into", "onto", "against"], week: "week_of_nov_16", entry: "in (+ acc.)", answer: ["in"]}
+  - {latin: "per", en: ["through", "across"], week: "week_of_nov_16", entry: "per (+ acc.)"}
+  - {latin: "trāns", en: ["across", "over"], week: "week_of_nov_16", entry: "trāns (+ acc.)"}
+  - {latin: "ante", en: ["before", "in front of"], week: "week_of_nov_16", entry: "ante (+ acc.)"}
+  - {latin: "post", en: ["after", "behind"], week: "week_of_nov_16", entry: "post (+ acc.)"}
+  - {latin: "contrā", en: ["against", "opposite"], week: "week_of_nov_16", entry: "contrā (+ acc.)"}
+  - {latin: "inter", en: ["between", "among"], week: "week_of_nov_16", entry: "inter (+ acc.)"}
+  - {latin: "circum", en: ["around"], week: "week_of_nov_16", entry: "circum (+ acc.)"}
+  - {latin: "prope", en: ["near"], week: "week_of_nov_16", entry: "prope (+ acc.)"}
+  - {latin: "super", en: ["over", "above", "on top of"], week: "week_of_nov_16", entry: "super (+ acc.)"}
