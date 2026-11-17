@@ -513,15 +513,17 @@ class TestPracticingForAQuiz(_App):
         self.assertTrue(seen <= set(topics), seen)
 
     def test_it_still_never_serves_ahead_of_the_lesson(self):
-        # A topic not taught yet, asked for by name, must not bypass that. Found
-        # from today's date, so the test doesn't expire when the lesson arrives.
-        today = time.strftime("%Y-%m-%d")
-        spec = dataio.load_spec()
-        future = sorted(n for n in {i["node"] for i in self.items if i.get("format") == "choice"}
-                        if str(spec.get(n, {}).get("week") or "") > today)
-        self.assertTrue(future, "no question in the bank is ahead of today")
-        body = self.student.get("/practice/session?node=%s," % future[0]).data.decode()
-        self.assertNotIn('name="item_id"', body)
+        # A topic not taught yet, asked for by name, must not bypass that. The
+        # bank eventually catches up with the calendar, so the test makes its
+        # own future topic: one with approved questions, re-dated to 2099 in
+        # the spec the server reads.
+        node = sorted({i["node"] for i in self.items if i.get("format") == "choice"
+                       and i.get("options")})[0]
+        body = self.student.get("/practice/session?node=%s," % node).data.decode()
+        self.assertIn('name="item_id"', body)                 # taught: served
+        self.server._SPEC[node] = dict(self.server._SPEC[node], week="2099-01-05", day="2099-01-05")
+        body = self.student.get("/practice/session?node=%s," % node).data.decode()
+        self.assertNotIn('name="item_id"', body)              # not yet taught: never
 
     def test_word_practice_stays_inside_the_quiz_weeks(self):
         import drill
