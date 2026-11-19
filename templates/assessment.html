@@ -41,7 +41,21 @@
   {% endif %}
 </div>
 
-{% if not t.total and not w.total %}
+{# The Reader stories from the quiz's weeks: the Latin on a quiz looks like
+   these, and rereading them is practice too. #}
+{% if stories %}
+<h2>Stories from these weeks</h2>
+<p class="small muted" style="margin-top:-4px">The Latin on the quiz will look like these. Read them again,
+  tap any word you're unsure of, and check the questions.</p>
+{% for s in stories %}
+  <a class="choice" href="{{ url_for('reader_page', slug=s.slug) }}">
+    <span class="choice-title latin">{{ s.title }}</span>
+    <span class="choice-body">{% if s.n_q %}{{ s.right }} of {{ s.n_q }} questions right{% else %}Read it{% endif %}</span>
+  </a>
+{% endfor %}
+{% endif %}
+
+{% if not t.total and not w.total and not stories %}
 <div class="card"><p>Nothing to practice for this one yet — check back once it's been taught.</p></div>
 {% endif %}
 

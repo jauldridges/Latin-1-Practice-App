@@ -3532,6 +3532,29 @@ def teacher_deadline_edit():
                            error=error, saved=request.args.get("saved"))
 
 
+def assessment_stories(db, student, weeks):
+    """The published Reader stories taught in these weeks (each story's
+    `week`), for a quiz page, with how many of its questions this student has
+    right on their latest try. (The teacher sees the page through student
+    mode, so exactly as a student does.)"""
+    pub = published_readings(db)
+    weeks = {str(w) for w in weeks or []}
+    stories = [r for slug, r in _READINGS.items()
+               if str(r.get("week") or "") in weeks and slug in pub]
+    if not stories:
+        return []
+    latest = {}
+    for e in store.events_for_student(db, student) if student else []:
+        if e.get("context") == readings.CONTEXT:
+            latest[e["item_id"]] = e                      # oldest first: the last one wins
+    out = []
+    for r in stories:
+        ids = [q["item_id"] for q in r.get("questions") or []]
+        out.append({"slug": r["slug"], "title": r["title"], "n_q": len(ids),
+                    "right": sum(1 for i in ids if (latest.get(i) or {}).get("result") == "right")})
+    return out
+
+
 @app.route("/due/<aid>")
 def assessment_page(aid):
     """What a quiz or test covers, and where this student stands on it."""
@@ -3553,7 +3576,8 @@ def assessment_page(aid):
                            kind=dict(ASSESSMENT_KINDS).get(a["kind"], "Quiz"),
                            topics_param=",".join(nodes) + ",",
                            weeks_param=",".join(word_weeks) + ",",
-                           word_weeks=word_weeks, week_labels=drill.WEEK_LABELS)
+                           word_weeks=word_weeks, week_labels=drill.WEEK_LABELS,
+                           stories=assessment_stories(db, student, a.get("weeks")))
 
 
 # Negative values are homework weeks (Saturday to Friday), the same weeks the

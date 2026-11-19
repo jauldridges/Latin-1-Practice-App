@@ -83,6 +83,11 @@ strands:
 #   4 of last 5 correct, across 2+ sessions, 1+ proctored,
 #   1+ attempt 7 days after first exposure. Decays after 45 days idle.
 
+# Re-dated to when they were taught (November 2026): the third and fourth
+# conjugations, imperatives and nōlī (MS-072-078, MS-158) to Week 12, the
+# week of November 9; the ablative and prepositions (MS-079-085, MS-088-090)
+# to Week 13, the week of November 16. A quiz on a week includes the topics
+# dated to it, so the dates follow the class packets.
 nodes:
 
 # ============================================================
@@ -739,8 +744,8 @@ nodes:
   - id: MS-072
     label: Present active indicative — third conjugation
     unit: 2
-    week: 2026-11-16
-    day: 2026-11-16
+    week: 2026-11-09
+    day: 2026-11-10
     vehicle: lesson
     prereqs: [MS-035]
     assess: [produce, parse, translate]
@@ -748,8 +753,8 @@ nodes:
   - id: MS-073
     label: Present active indicative — third conjugation -io verbs
     unit: 2
-    week: 2026-11-16
-    day: 2026-11-16
+    week: 2026-11-09
+    day: 2026-11-12
     vehicle: lesson
     prereqs: [MS-072]
     assess: [produce, parse]
@@ -757,8 +762,8 @@ nodes:
   - id: MS-074
     label: Present active indicative — fourth conjugation
     unit: 2
-    week: 2026-11-16
-    day: 2026-11-17
+    week: 2026-11-09
+    day: 2026-11-12
     vehicle: lesson
     prereqs: [MS-072]
     assess: [produce, parse, translate]
@@ -766,8 +771,8 @@ nodes:
   - id: MS-075
     label: Identifying conjugation from the infinitive — all four
     unit: 2
-    week: 2026-11-16
-    day: 2026-11-18
+    week: 2026-11-09
+    day: 2026-11-10
     vehicle: lesson
     prereqs: [MS-036, MS-074, MS-076]
     assess: [recognize, explain]
@@ -784,8 +789,8 @@ nodes:
   - id: MS-077
     label: Imperative — third and fourth conjugation, and the irregulars dic, duc, fac, fer
     unit: 2
-    week: 2026-11-16
-    day: 2026-11-18
+    week: 2026-11-09
+    day: 2026-11-09
     vehicle: lesson
     prereqs: [MS-050, MS-072]
     assess: [produce, recall]
@@ -793,8 +798,8 @@ nodes:
   - id: MS-078
     label: Negative commands with noli / nolite plus infinitive
     unit: 2
-    week: 2026-11-16
-    day: 2026-11-18
+    week: 2026-11-09
+    day: 2026-11-09
     vehicle: lesson
     prereqs: [MS-077, MS-158]
     assess: [produce, translate]
@@ -806,8 +811,8 @@ nodes:
   - id: MS-079
     label: Ablative case — the concept of a catch-all adverbial case
     unit: 3
-    week: 2026-11-30
-    day: 2026-11-30
+    week: 2026-11-16
+    day: 2026-11-16
     vehicle: lesson
     prereqs: [MS-013]
     assess: [explain]
@@ -815,8 +820,8 @@ nodes:
   - id: MS-080
     label: First declension — ablative singular and plural
     unit: 3
-    week: 2026-11-30
-    day: 2026-11-30
+    week: 2026-11-16
+    day: 2026-11-16
     vehicle: lesson
     prereqs: [MS-079, MS-018]
     assess: [produce, parse]
@@ -824,8 +829,8 @@ nodes:
   - id: MS-081
     label: Second declension — ablative singular and plural
     unit: 3
-    week: 2026-11-30
-    day: 2026-11-30
+    week: 2026-11-16
+    day: 2026-11-16
     vehicle: lesson
     prereqs: [MS-079, MS-023]
     assess: [produce, parse]
@@ -833,8 +838,8 @@ nodes:
   - id: MS-082
     label: Third declension — ablative singular and plural
     unit: 3
-    week: 2026-11-30
-    day: 2026-12-01
+    week: 2026-11-16
+    day: 2026-11-16
     vehicle: lesson
     prereqs: [MS-079, MS-064]
     assess: [produce, parse]
@@ -842,8 +847,8 @@ nodes:
   - id: MS-083
     label: Prepositions taking the ablative — in, sub, cum, sine, de, ex, ab, pro
     unit: 3
-    week: 2026-11-30
-    day: 2026-12-02
+    week: 2026-11-16
+    day: 2026-11-16
     vehicle: lesson
     prereqs: [MS-079]
     assess: [recall, apply]
@@ -851,8 +856,8 @@ nodes:
   - id: MS-084
     label: Prepositions taking the accusative — ad, in, per, trans, prope, post, inter
     unit: 3
-    week: 2026-11-30
-    day: 2026-12-02
+    week: 2026-11-16
+    day: 2026-11-17
     vehicle: lesson
     prereqs: [MS-015]
     assess: [recall, apply]
@@ -860,8 +865,8 @@ nodes:
   - id: MS-085
     label: in with ablative versus in with accusative
     unit: 3
-    week: 2026-11-30
-    day: 2026-12-03
+    week: 2026-11-16
+    day: 2026-11-17
     vehicle: lesson
     prereqs: [MS-083, MS-084]
     assess: [explain, translate]
@@ -887,8 +892,8 @@ nodes:
   - id: MS-088
     label: Ablative of accompaniment with cum
     unit: 3
-    week: 2026-12-07
-    day: 2026-12-07
+    week: 2026-11-16
+    day: 2026-11-18
     vehicle: lesson
     prereqs: [MS-083]
     assess: [recognize, translate]
@@ -896,8 +901,8 @@ nodes:
   - id: MS-089
     label: Ablative of means or instrument — no preposition
     unit: 3
-    week: 2026-12-07
-    day: 2026-12-08
+    week: 2026-11-16
+    day: 2026-11-18
     vehicle: lesson
     prereqs: [MS-079]
     assess: [recognize, explain, translate]
@@ -905,8 +910,8 @@ nodes:
   - id: MS-090
     label: Distinguishing means from accompaniment
     unit: 3
-    week: 2026-12-07
-    day: 2026-12-08
+    week: 2026-11-16
+    day: 2026-11-18
     vehicle: lesson
     prereqs: [MS-089, MS-088]
     assess: [explain, apply]
@@ -1538,8 +1543,8 @@ nodes:
   - id: MS-158
     label: Infinitive forms of the third and fourth conjugations
     unit: 2
-    week: 2026-11-16
-    day: 2026-11-17
+    week: 2026-11-09
+    day: 2026-11-10
     vehicle: lesson
     prereqs: [MS-076, MS-074]
     assess: [recognize, produce]

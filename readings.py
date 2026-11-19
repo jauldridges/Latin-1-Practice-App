@@ -24,6 +24,9 @@ events with context "reading": they show up in the teacher's results for the
 passage (written answers word for word), and they are not homework cards --
 reading is not on the 50 + 50 (teacher.NOT_HOMEWORK).
 
+`week` is the Monday of the week a passage was taught: a quiz on that week
+(Goals & deadlines) lists it under "Stories from these weeks".
+
 A passage reaches students only once the teacher publishes it (Teacher
 dashboard -> Reader), and the teacher can always open it to preview or project.
 """

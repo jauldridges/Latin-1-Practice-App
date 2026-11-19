@@ -1,0 +1,607 @@
+# Latin I — the ablative and prepositions (written November 2026)
+#
+# Taught in Week 13 (week of November 16): the ablative forms, prepositions
+# with the ablative and with the accusative, in with either case, and the
+# ablative of means set against cum (accompaniment). Those nodes were moved
+# from their planned late-November and December dates to that week
+# (latin1-spec.yaml), so a quiz on the week includes them.
+#
+# Three questions a node. As in every bank file, recall is a write-in box,
+# the right answer is option a (the app shuffles the options per student),
+# and Latin a student hasn't met is glossed in [brackets].
+
+items:
+
+# ---------- MS-080 — first declension ablative ----------
+
+  - id: MS080-PRODUCE-01
+    node: MS-080
+    assess: produce
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Write the ablative singular and the ablative plural of puella, puellae (girl)."
+    boxes:
+      - label: ablative singular
+        answer: ["puella", "puellā"]
+      - label: ablative plural
+        answer: ["puellis", "puellīs"]
+    touches: [MS-018]
+    what_went_wrong:
+      - text: "I wrote the accusative (puellam)"
+        node: MS-080
+      - text: "I mixed up the plural with another case"
+        node: MS-080
+    note: >
+      Ablative singular -ā (long, unlike the nominative's short -a); ablative
+      plural -īs, the same as the dative plural.
+    teaching: ''
+
+  - id: MS080-PARSE-01
+    node: MS-080
+    assess: parse
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "In sine pecūniā [without money], what case and number is pecūniā?"
+    options:
+      a: "Ablative singular"
+      b: "Nominative singular"
+      c: "Accusative singular"
+      d: "Genitive singular"
+    answer: a
+    touches: [MS-083]
+    what_went_wrong:
+      - text: "I read -ā as the nominative -a"
+        node: MS-080
+      - text: "I forgot that sine takes the ablative"
+        node: MS-083
+    teaching: ''
+
+  - id: MS080-PRODUCE-02
+    node: MS-080
+    assess: produce
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Write in Latin: “with the queen” (queen = rēgīna, rēgīnae)."
+    boxes:
+      - label: with the queen
+        answer: ["cum regina", "cum rēgīnā"]
+    touches: [MS-083]
+    what_went_wrong:
+      - text: "I used the accusative after cum"
+        node: MS-083
+      - text: "I didn't know the ablative of rēgīna"
+        node: MS-080
+    teaching: ''
+
+# ---------- MS-081 — second declension ablative ----------
+
+  - id: MS081-PRODUCE-01
+    node: MS-081
+    assess: produce
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Write the ablative singular and the ablative plural of amīcus, amīcī (friend)."
+    boxes:
+      - label: ablative singular
+        answer: ["amico", "amīcō"]
+      - label: ablative plural
+        answer: ["amicis", "amīcīs"]
+    touches: [MS-023]
+    what_went_wrong:
+      - text: "I wrote the accusative (amīcum)"
+        node: MS-081
+      - text: "I mixed up the plural with another case"
+        node: MS-081
+    note: >
+      Second declension ablative: -ō singular, -īs plural, the same endings
+      as the dative.
+    teaching: ''
+
+  - id: MS081-PRODUCE-02
+    node: MS-081
+    assess: produce
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Write the ablative singular and the ablative plural of bellum, bellī (war)."
+    boxes:
+      - label: ablative singular
+        answer: ["bello", "bellō"]
+      - label: ablative plural
+        answer: ["bellis", "bellīs"]
+    touches: [MS-023]
+    what_went_wrong:
+      - text: "I used a neuter nominative ending (-a)"
+        node: MS-081
+      - text: "I didn't know the ablative endings"
+        node: MS-081
+    teaching: ''
+
+  - id: MS081-PARSE-01
+    node: MS-081
+    assess: parse
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "agrīs can be dative plural or ablative plural. In ex agrīs, which is it?"
+    options:
+      a: "Ablative plural, because it follows ex, which takes the ablative"
+      b: "Dative plural, because it means “to the fields”"
+      c: "Nominative plural, because it ends in -īs"
+      d: "Genitive plural, because it means “of the fields”"
+    answer: a
+    touches: [MS-083]
+    what_went_wrong:
+      - text: "I forgot to look at the preposition"
+        node: MS-083
+      - text: "I forgot the dative and ablative plural look the same"
+        node: MS-081
+    teaching: ''
+
+# ---------- MS-082 — third declension ablative ----------
+
+  - id: MS082-PRODUCE-01
+    node: MS-082
+    assess: produce
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Write the ablative singular and the ablative plural of rēx, rēgis (king)."
+    boxes:
+      - label: ablative singular
+        answer: ["rege", "rēge"]
+      - label: ablative plural
+        answer: ["regibus", "rēgibus"]
+    touches: [MS-064]
+    what_went_wrong:
+      - text: "I put the ending on the nominative, not the stem rēg-"
+        node: MS-062
+      - text: "I didn't know the third declension ablative endings"
+        node: MS-082
+    note: >
+      Stem from the genitive (rēg-), then -e singular and -ibus plural.
+    teaching: ''
+
+  - id: MS082-PRODUCE-02
+    node: MS-082
+    assess: produce
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Write in Latin: “with the soldier” (soldier = mīles, mīlitis)."
+    boxes:
+      - label: with the soldier
+        answer: ["cum milite", "cum mīlite"]
+    touches: [MS-083]
+    what_went_wrong:
+      - text: "I used the nominative mīles after cum"
+        node: MS-082
+      - text: "I didn't find the stem mīlit-"
+        node: MS-062
+    teaching: ''
+
+  - id: MS082-PARSE-01
+    node: MS-082
+    assess: parse
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "In cum mīlitibus, what form is mīlitibus?"
+    options:
+      a: "Ablative plural: -ibus can be dative or ablative, and cum takes the ablative"
+      b: "Dative plural, because -ibus is always dative"
+      c: "Nominative plural"
+      d: "Accusative singular"
+    answer: a
+    touches: [MS-083]
+    what_went_wrong:
+      - text: "I thought -ibus could only be dative"
+        node: MS-082
+    teaching: ''
+
+# ---------- MS-083 — prepositions with the ablative ----------
+
+  - id: MS083-RECALL-01
+    node: MS-083
+    assess: recall
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Write three of the eight prepositions that take the ablative."
+    order_matters: false
+    boxes:
+      - label: One
+        answer: ["cum", "sine", "ab", "e", "ex", "de", "dē", "in", "sub", "pro", "prō"]
+      - label: Another
+        answer: ["cum", "sine", "ab", "e", "ex", "de", "dē", "in", "sub", "pro", "prō"]
+      - label: A third
+        answer: ["cum", "sine", "ab", "e", "ex", "de", "dē", "in", "sub", "pro", "prō"]
+    touches: [MS-084]
+    what_went_wrong:
+      - text: "I wrote a preposition that takes the accusative"
+        node: MS-084
+      - text: "I couldn't remember three"
+        node: MS-083
+    note: >
+      cum, sine, ā/ab, ē/ex, dē, in, sub, prō. (ā alone isn't accepted: the
+      answer checker drops a lone "a" the way it drops an article.)
+    teaching: ''
+
+  - id: MS083-APPLY-01
+    node: MS-083
+    assess: apply
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Which phrase means “without a friend”?"
+    options:
+      a: "sine amīcō"
+      b: "sine amīcum"
+      c: "sine amīcī"
+      d: "sine amīcus"
+    answer: a
+    touches: [MS-081]
+    what_went_wrong:
+      - text: "I used the accusative after sine"
+        node: MS-083
+      - text: "I didn't know the ablative of amīcus"
+        node: MS-081
+    teaching: ''
+
+  - id: MS083-APPLY-02
+    node: MS-083
+    assess: apply
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Write in Latin: “about the war” (war = bellum, bellī)."
+    boxes:
+      - label: about the war
+        answer: ["de bello", "dē bellō"]
+    touches: [MS-081]
+    what_went_wrong:
+      - text: "I chose the wrong preposition"
+        node: MS-083
+      - text: "I used the wrong case after dē"
+        node: MS-081
+    teaching: ''
+
+# ---------- MS-084 — prepositions with the accusative ----------
+
+  - id: MS084-RECALL-01
+    node: MS-084
+    assess: recall
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Write three of the eleven prepositions that take the accusative."
+    order_matters: false
+    boxes:
+      - label: One
+        answer: ["ad", "in", "per", "trans", "trāns", "ante", "post", "contra", "contrā", "inter", "circum", "prope", "super"]
+      - label: Another
+        answer: ["ad", "in", "per", "trans", "trāns", "ante", "post", "contra", "contrā", "inter", "circum", "prope", "super"]
+      - label: A third
+        answer: ["ad", "in", "per", "trans", "trāns", "ante", "post", "contra", "contrā", "inter", "circum", "prope", "super"]
+    touches: [MS-083]
+    what_went_wrong:
+      - text: "I wrote a preposition that takes the ablative"
+        node: MS-083
+      - text: "I couldn't remember three"
+        node: MS-084
+    teaching: ''
+
+  - id: MS084-APPLY-01
+    node: MS-084
+    assess: apply
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Which phrase means “to the town”?"
+    options:
+      a: "ad oppidum"
+      b: "ad oppidō"
+      c: "ab oppidō"
+      d: "ad oppidī"
+    answer: a
+    touches: [MS-083]
+    what_went_wrong:
+      - text: "I used the ablative after ad"
+        node: MS-084
+      - text: "I mixed up ad (to) and ab (from)"
+        node: MS-083
+    teaching: ''
+
+  - id: MS084-APPLY-02
+    node: MS-084
+    assess: apply
+    tier: 2
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Write in Latin: “through the fields” (field = ager, agrī)."
+    boxes:
+      - label: through the fields
+        answer: ["per agros", "per agrōs"]
+    touches: [MS-023]
+    what_went_wrong:
+      - text: "I used the ablative after per"
+        node: MS-084
+      - text: "I didn't know the accusative plural of ager"
+        node: MS-023
+    teaching: ''
+
+# ---------- MS-085 — in with the ablative or the accusative ----------
+
+  - id: MS085-TRANSLATE-01
+    node: MS-085
+    assess: translate
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Translate both phrases: in silvam and in silvā."
+    boxes:
+      - label: in silvam
+        answer: ["into the forest", "into the woods", "into the wood", "into a forest", "to the forest", "onto the forest"]
+      - label: in silvā
+        answer: ["in the forest", "in the woods", "in the wood", "in a forest", "on the forest"]
+    touches: [MS-083, MS-084]
+    what_went_wrong:
+      - text: "I translated both as “in”"
+        node: MS-085
+      - text: "I didn't notice the different endings"
+        node: MS-085
+    teaching: ''
+
+  - id: MS085-EXPLAIN-01
+    node: MS-085
+    assess: explain
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Antōnius [Antony] in Aegyptum [Egypt] nāvigat [sails] et in Aegyptō [Egypt] manet [stays]. Why are there two different endings?"
+    options:
+      a: "Because Aegyptum (accusative) shows motion into Egypt, and Aegyptō (ablative) shows where he stays"
+      b: "Because Aegyptum is the subject of the sentence"
+      c: "Because either ending is fine; they mean the same thing"
+      d: "Because Aegyptō is plural"
+    answer: a
+    touches: [MS-083, MS-084]
+    what_went_wrong:
+      - text: "I thought the two endings meant the same"
+        node: MS-085
+    teaching: ''
+
+  - id: MS085-TRANSLATE-02
+    node: MS-085
+    assess: translate
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Which sentence means “The boys come into the field”?"
+    options:
+      a: "Puerī in agrum veniunt."
+      b: "Puerī in agrō veniunt."
+      c: "Puerī ex agrō veniunt."
+      d: "Puerī ad agrīs veniunt."
+    answer: a
+    touches: [MS-084]
+    what_went_wrong:
+      - text: "I used the ablative for motion into"
+        node: MS-085
+      - text: "I mixed up into and out of"
+        node: MS-083
+    teaching: ''
+
+# ---------- MS-088 — ablative of accompaniment with cum ----------
+
+  - id: MS088-RECOG-01
+    node: MS-088
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Octāvius [Octavius] cum amīcīs venit. What does cum amīcīs tell you?"
+    options:
+      a: "Who comes with him: accompaniment"
+      b: "The tool he uses: means"
+      c: "Where he comes from"
+      d: "Whom he comes to"
+    answer: a
+    touches: [MS-089]
+    what_went_wrong:
+      - text: "I thought it was the ablative of means"
+        node: MS-090
+    teaching: ''
+
+  - id: MS088-TRANSLATE-01
+    node: MS-088
+    assess: translate
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Translate cum mātre (māter, mātris = mother)."
+    boxes:
+      - label: cum mātre
+        answer: ["with the mother", "with her mother", "with his mother", "with mother", "with a mother", "with my mother"]
+    touches: [MS-082]
+    what_went_wrong:
+      - text: "I didn't know what cum means"
+        node: MS-083
+      - text: "I didn't recognize mātre as the ablative of māter"
+        node: MS-082
+    teaching: ''
+
+  - id: MS088-TRANSLATE-02
+    node: MS-088
+    assess: translate
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Which phrase means “with friends” (together with them)?"
+    options:
+      a: "cum amīcīs"
+      b: "amīcīs, with no preposition"
+      c: "sine amīcīs"
+      d: "cum amīcōs"
+    answer: a
+    touches: [MS-089]
+    what_went_wrong:
+      - text: "I left out cum: people you are with take cum"
+        node: MS-090
+      - text: "I used the accusative after cum"
+        node: MS-083
+    teaching: ''
+
+# ---------- MS-089 — ablative of means ----------
+
+  - id: MS089-RECOG-01
+    node: MS-089
+    assess: recognize
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Mīles gladiō [sword] pugnat. What job is gladiō doing?"
+    options:
+      a: "Ablative of means: the tool he fights with"
+      b: "Ablative of accompaniment: whom he fights with"
+      c: "Dative: to the sword"
+      d: "Direct object"
+    answer: a
+    touches: [MS-088]
+    what_went_wrong:
+      - text: "I thought a thing could be accompaniment"
+        node: MS-090
+      - text: "I read -ō as the dative"
+        node: MS-081
+    teaching: ''
+
+  - id: MS089-TRANSLATE-01
+    node: MS-089
+    assess: translate
+    tier: 1
+    format: boxes
+    paper_ok: true
+    macron_matters: false
+    stem: "Octāvius [Octavius] verbīs pugnat. Translate verbīs."
+    boxes:
+      - label: verbīs
+        answer: ["with words", "by words", "using words", "with his words", "by means of words", "by his words"]
+    touches: [MS-081]
+    what_went_wrong:
+      - text: "I translated it as “to words”"
+        node: MS-089
+      - text: "I didn't know verbum"
+        node: MS-081
+    teaching: ''
+
+  - id: MS089-EXPLAIN-01
+    node: MS-089
+    assess: explain
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Agrippa nāvibus [ships] superat. Why is there no preposition before nāvibus?"
+    options:
+      a: "Because the ships are the tool he wins with, and the ablative of means takes no preposition"
+      b: "Because nāvibus is dative, so it needs no preposition"
+      c: "Because the writer forgot the cum"
+      d: "Because nāvibus is the subject of the sentence"
+    answer: a
+    touches: [MS-088]
+    what_went_wrong:
+      - text: "I expected cum before every “with”"
+        node: MS-090
+    teaching: ''
+
+# ---------- MS-090 — means versus accompaniment ----------
+
+  - id: MS090-APPLY-01
+    node: MS-090
+    assess: apply
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Which sentence has an ablative of means (a tool)? (gladiō [sword])"
+    options:
+      a: "Rēx gladiō pugnat."
+      b: "Rēx cum mīlitibus pugnat."
+      c: "Rēx in oppidō pugnat."
+      d: "Rēx ex oppidō venit."
+    answer: a
+    touches: [MS-089, MS-088]
+    what_went_wrong:
+      - text: "I picked the one with cum"
+        node: MS-088
+      - text: "I picked a place phrase"
+        node: MS-083
+    teaching: ''
+
+  - id: MS090-APPLY-02
+    node: MS-090
+    assess: apply
+    tier: 1
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "Which sentence has an ablative of accompaniment (someone you are with)?"
+    options:
+      a: "Puer cum patre venit."
+      b: "Puer verbīs pugnat."
+      c: "Puer sine patre venit."
+      d: "Puer ad patrem venit."
+    answer: a
+    touches: [MS-089, MS-088]
+    what_went_wrong:
+      - text: "I picked sine: that means without"
+        node: MS-083
+      - text: "I picked the tool"
+        node: MS-089
+    teaching: ''
+
+  - id: MS090-EXPLAIN-01
+    node: MS-090
+    assess: explain
+    tier: 2
+    format: choice
+    paper_ok: true
+    macron_matters: false
+    stem: "How do you tell an ablative of means from an ablative of accompaniment?"
+    options:
+      a: "Accompaniment uses cum, because it is someone you are with; means has no preposition, because it is a tool you use"
+      b: "Means always uses cum, so look for cum"
+      c: "Accompaniment never has a preposition"
+      d: "They are the same, so either answer is right"
+    answer: a
+    touches: [MS-088, MS-089]
+    what_went_wrong:
+      - text: "I mixed up which one takes cum"
+        node: MS-090
+    teaching: ''

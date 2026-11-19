@@ -2664,3 +2664,137 @@ nodes:
       Brutus was Caesar's friend, which is why “Et tū, Brūte?” stings. If you
       named Antony or Octavian, those were Caesar's side: they hunted the
       plotters down.
+
+  # --- The ablative and prepositions (Week 13, week of November 16) ---
+  MS-080:
+    status: draft
+    label: First declension — ablative singular and plural
+    explain: >
+      The ablative is the fifth case. In the first declension it is -ā in the
+      singular, a long ā, so puellā looks like the nominative puella but
+      isn't, and -īs in the plural, the same as the dative plural. A
+      preposition in front of it is usually the giveaway.
+    examples:
+      - "puella → abl. sg. puellā, abl. pl. puellīs"
+      - "cum puellā: with the girl · sine pecūniā: without money"
+    when_wrong: >
+      If you wrote -am, that's the accusative. Look at the preposition: cum,
+      sine, ā/ab, ē/ex, dē, in, sub and prō take the ablative.
+
+  MS-081:
+    status: draft
+    label: Second declension — ablative singular and plural
+    explain: >
+      In the second declension the ablative is -ō in the singular and -īs in
+      the plural, for masculine and neuter nouns alike. Those are the same
+      endings as the dative, so decide by the job: after a preposition like
+      cum or ex, it's the ablative.
+    examples:
+      - "amīcus → amīcō, amīcīs · bellum → bellō, bellīs"
+      - "ex agrīs: out of the fields · dē bellō: about the war"
+    when_wrong: >
+      -ō and -īs can be dative or ablative. Look for a preposition first; if
+      there is one that takes the ablative, that settles it.
+
+  MS-082:
+    status: draft
+    label: Third declension — ablative singular and plural
+    explain: >
+      Find the stem from the genitive (rēx, rēgis → rēg-), then add -e for
+      the ablative singular and -ibus for the plural. -ibus is also the dative
+      plural, so let the preposition decide.
+    examples:
+      - "rēx, rēgis → rēge, rēgibus"
+      - "cum mīlite: with the soldier · ā rēge: from the king"
+    when_wrong: >
+      If you put the ending on the nominative (mīlese), go back to the
+      genitive for the stem: mīlitis → mīlit- → mīlite.
+
+  MS-083:
+    status: draft
+    label: Prepositions taking the ablative — in, sub, cum, sine, de, ex, ab, pro
+    explain: >
+      Eight prepositions take the ablative: cum (with), sine (without), ā/ab
+      (from, away from), ē/ex (out of), dē (down from, about), in (in, on),
+      sub (under) and prō (for, in front of). The noun after the preposition
+      goes in the ablative. Use ā and ē before consonants, ab and ex before
+      vowels.
+    examples:
+      - "cum amīcō: with a friend · sine pecūniā: without money"
+      - "ex oppidō: out of the town · dē bellō: about the war"
+    when_wrong: >
+      Most of these answer “where from?” or “in what place?”. If the phrase
+      means motion toward, you probably want ad or in with the accusative.
+
+  MS-084:
+    status: draft
+    label: Prepositions taking the accusative — ad, in, per, trans, prope, post, inter
+    explain: >
+      Eleven prepositions take the accusative: ad (to), in (into, onto), per
+      (through), trāns (across), ante (before), post (after), contrā
+      (against), inter (between, among), circum (around), prope (near) and
+      super (over). Many show motion toward or through something.
+    examples:
+      - "ad oppidum: to the town · per agrōs: through the fields"
+      - "trāns aquam: across the water · inter amīcōs: among friends"
+    when_wrong: >
+      If you used the ablative after ad or per, swap it for the accusative:
+      ad oppidum, not ad oppidō.
+
+  MS-085:
+    status: draft
+    label: in with ablative versus in with accusative
+    explain: >
+      in can take either case, and the case changes the meaning. With the
+      accusative it means motion into or onto: in silvam, into the forest.
+      With the ablative it means place where: in silvā, in the forest. Ask:
+      is someone going into it, or already there?
+    examples:
+      - "in Aegyptum nāvigat: he sails into Egypt"
+      - "in Aegyptō manet: he stays in Egypt"
+    when_wrong: >
+      Don't translate both as “in”. Check the ending: an accusative (-am, -um,
+      -em) means into; an ablative (-ā, -ō, -e) means in.
+
+  MS-088:
+    status: draft
+    label: Ablative of accompaniment with cum
+    explain: >
+      When someone does something together with a person, Latin uses cum and
+      the ablative: Octāvius cum amīcīs venit, Octavius comes with his
+      friends. This is the ablative of accompaniment: who you are with.
+    examples:
+      - "cum mātre: with his mother · cum mīlitibus: with the soldiers"
+    when_wrong: >
+      Accompaniment always has cum. If there is no cum and the noun is a
+      tool, it's the ablative of means instead.
+
+  MS-089:
+    status: draft
+    label: Ablative of means or instrument — no preposition
+    explain: >
+      The ablative with no preposition can name the tool someone uses: the
+      ablative of means. Mīles gladiō pugnat, the soldier fights with a
+      sword. Translate it with “with” or “by,” but notice Latin uses no cum:
+      a tool is not a companion.
+    examples:
+      - "gladiō: with a sword · verbīs: with words"
+      - "Agrippa nāvibus superat: Agrippa wins with ships"
+    when_wrong: >
+      If you looked for a preposition, there isn't one. Ask “with what?”: if
+      the answer is a thing used as a tool, it's the ablative of means.
+
+  MS-090:
+    status: draft
+    label: Distinguishing means from accompaniment
+    explain: >
+      Both can be translated “with,” but Latin tells them apart. Accompaniment
+      is a person you are with, and it uses cum: cum amīcō. Means is a tool
+      you use, and it has no preposition: gladiō. So: cum, a companion; no
+      cum, a tool.
+    examples:
+      - "Cleopātra cum nāvibus fugit: she flees together with her ships"
+      - "Agrippa nāvibus superat: he wins using his ships as the tool"
+    when_wrong: >
+      Look for cum first. With cum it's accompaniment; without it, and with a
+      thing rather than a person, it's means.

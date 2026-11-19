@@ -1,5 +1,6 @@
 """The homework week, the spacing reminder, and quizzes and tests students prepare for."""
 
+import html
 import os
 import sys
 import tempfile
@@ -387,6 +388,36 @@ class TestTeacherScreens(_App):
         aid = self.add_quiz(["2026-09-07"])
         self.teacher.post("/teacher/deadlines/edit", data={"id": aid, "action": "delete"})
         self.assertIsNone(store.get_assessment(self.db, aid))
+
+
+class TestTheWeekOfNovember16(_App):
+    """Week 13: the ablative and prepositions were taught then, so a quiz on
+    that week includes them, and lists that week's Reader stories."""
+
+    def test_the_quiz_covers_the_ablative_not_last_weeks_verbs(self):
+        aid = self.add_quiz(["2026-11-16"])
+        page = html.unescape(self.student.get("/due/%s" % aid).data.decode())
+        self.assertIn("Prepositions taking the ablative", page)
+        self.assertIn("Ablative of means or instrument", page)
+        self.assertNotIn("Present active indicative — third conjugation", page)   # Week 12
+
+    def test_the_weeks_stories_are_on_the_quiz_page_once_published(self):
+        aid = self.add_quiz(["2026-11-16"])
+        page = html.unescape(self.student.get("/due/%s" % aid).data.decode())
+        self.assertNotIn("Fābula dē Actiō", page)                 # not published yet
+        self.teacher.post("/teacher/reader", data={"slug": "actium", "action": "publish"})
+        page = html.unescape(self.student.get("/due/%s" % aid).data.decode())
+        self.assertIn("Stories from these weeks", page)
+        self.assertIn("Fābula dē Actiō", page)
+        self.assertIn("0 of 5 questions right", page)
+        self.assertIn("/read/actium", page)
+        self.assertNotIn("Fābula dē Alexandrīā", page)            # still unpublished
+        self.assertNotIn("Fābula dē Caesare", page)               # a different week
+
+    def test_every_story_knows_its_week(self):
+        import readings
+        for slug, r in readings.load_all().items():
+            self.assertRegex(str(r.get("week")), r"^2026-\d\d-\d\d$", slug)
 
 
 class TestTheEntryOnTheAnswerScreen(_App):

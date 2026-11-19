@@ -108,6 +108,14 @@ The Reader now has Week 11's four stories (Marius, Sulla, Pompey, Cicero)
 Week 12's three (Caesar, the Ides of March, Octavian) and Week 13's four
 (Antony and Octavian, Antony and Cleopatra, Actium, Alexandria).
 
+**Topic dates follow the class packets**, not the original plan: a quiz on a
+week includes the topics dated to it. Week 12 (Nov 9) has the third/fourth
+conjugations and commands; Week 13 (Nov 16) the ablative and prepositions
+(27 questions in latin1-items-unit03-ablative.yaml); Caesar's RW topics are
+Week 12 too. Check each new packet against latin1-spec.yaml dates.
+Quiz pages also list the published Reader stories from their weeks (each
+story's `week:`).
+
 **Vocabulary** now runs through Week 13 (164 words): Weeks 8 to 13 came
 from their class packets. Week 7 (week of October 5) has none -- no packet
 yet -- and Week 8's packet names only -ve (its word table is filled in in
