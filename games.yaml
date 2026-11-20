@@ -11,3 +11,6 @@
 games:
   - title: "Condenda Roma: Help Romulus Build Rome"
     url: "https://jauldridges.github.io/build-rome-game/latin.html"
+  - title: "Rēgnum Iovis: Help Jupiter Rise"
+    url: "https://jauldridges.github.io/regnum_iovis_game/"
+    about: "Free Jupiter from Saturn's belly and win the war of the gods, with Latin along the way."
