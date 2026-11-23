@@ -101,6 +101,12 @@ Next planned: a practice creature (owl / goose / wolf, student-drawn art
 uploaded by the teacher; fed by honest practice each day, runs away after
 ~10 days and comes back), then a "Who's keeping up" teacher dashboard.
 
+**DI mode** (`di.py`, `di_run.py`, `di/first-declension.yaml`, the **Steps**
+tab) teaches the first declension in 13 lessons from my plan "DI Mode: First
+Declension Strand"; I switch it on at Teacher dashboard -> DI mode, which also
+shows who is where and reads out every lesson. Students see only Ready or
+Again. See README, "DI mode".
+
 **Waiting for you** (`/teacher/approve`) is the one place to approve
 everything new: laws, lessons, questions, teaching text, hint sentences,
 Magister lines, and (one at a time) Reader stories. Teacher pages have tabs.

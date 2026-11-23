@@ -48,6 +48,8 @@
        class="{{ 'on' if path.startswith('/read') }}">Reading</a>
     <a href="{{ url_for('nle_home') }}"
        class="{{ 'on' if path.startswith('/nle') }}">NLE</a>
+    {% if di_visible %}<a href="{{ url_for('di_home') }}"
+       class="{{ 'on' if path.startswith('/di') }}">Steps</a>{% endif %}
     {% if not standards_mode %}
     <a href="{{ url_for('homework_page') }}"
        class="{{ 'on' if path.startswith('/homework') }}">Homework</a>

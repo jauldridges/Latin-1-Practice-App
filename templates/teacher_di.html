@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}DI mode — Latin I{% endblock %}
+{% block subtitle %}DI mode{% endblock %}
+{% block content %}
+<h1>DI mode: first declension</h1>
+<p class="small muted">Thirteen lessons that teach each first-declension ending, correct every error the same way,
+  and open the next lesson after a passed check. Students see <strong>Ready</strong> or <strong>Again</strong>;
+  nothing is graded or counted toward homework.</p>
+
+<form method="post" class="card">
+  {% if on %}
+  <p><span class="pill solid">On</span> Students see the <strong>Steps</strong> tab.</p>
+  <input type="hidden" name="on" value="no"><button class="bigbtn secondary" type="submit">Turn DI mode off</button>
+  {% else %}
+  <p><span class="pill notyet">Off</span> Students don't see it yet. You can try it first: <strong>Try it as a
+    student</strong> on the dashboard, then the <strong>Steps</strong> tab.</p>
+  <input type="hidden" name="on" value="yes"><button class="bigbtn" type="submit">Turn DI mode on for students</button>
+  {% endif %}
+</form>
+
+{% if problems %}<div class="flags"><strong>Content problems</strong> (di/first-declension.yaml):
+  <ul class="small">{% for p in problems %}<li>{{ p }}</li>{% endfor %}</ul></div>{% endif %}
+
+<h2>By student</h2>
+{% set flagged = rep.students | selectattr('flag') | list %}
+{% if flagged %}<p class="small"><span class="rushflag">⚑ {{ flagged | length }}</span> student{{ 's' if flagged | length != 1 }}
+  failed a lesson check twice in a row. The lesson stays open for them; they may need you.</p>{% endif %}
+{% if not rep.students %}<p class="small muted">No students on the roster yet.</p>{% else %}
+<table class="progress">
+  <tr><th>Student</th><th>Lesson</th><th>Passed</th><th>Agains</th><th>This week</th></tr>
+  {% for r in rep.students %}
+  <tr>
+    <td><span class="sid">{{ r.student_id }}</span>
+      {% if r.flag %}<span class="rushflag" title="Two Agains in a row">⚑ L{{ r.flag | join(', L') }}</span>{% endif %}</td>
+    <td>{% if not r.started %}<span class="muted">not started</span>{% elif r.finished %}done{% else %}{{ r.current }}{% endif %}
+      {% if r.placed is not none and r.started %}<span class="small muted"> (placed {{ r.placed }})</span>{% endif %}</td>
+    <td>{{ r.passed }}</td>
+    <td>{{ r.agains }}</td>
+    <td>{{ r.minutes }} min</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<h2>By lesson</h2>
+<table class="progress">
+  <tr><th>Lesson</th><th>Median time</th><th>Ready first check</th><th>Most missed</th></tr>
+  {% for l in rep.lessons %}
+  <tr>
+    <td><a href="{{ url_for('teacher_di_lesson', n=l.n) }}">{{ l.n }}</a> <span class="small">{{ l.title }}</span>
+      {% if l.slow_sequence %}<div class="small" style="color:var(--flag)">Example sequence below 70% first try: too hard or too fast.</div>{% endif %}</td>
+    <td>{% if l.median_min is not none %}{{ l.median_min | round | int }} min{% else %}<span class="muted">—</span>{% endif %}</td>
+    <td>{% if l.ready_first is not none %}{{ (l.ready_first * 100) | round | int }}% <span class="small muted">of {{ l.n_checked }}</span>{% else %}<span class="muted">—</span>{% endif %}</td>
+    <td class="small">{% if l.worst %}<span class="latin">{{ l.worst.line.split(' ', 1)[1] if ' ' in l.worst.line else l.worst.line }}</span> ({{ (l.worst.rate * 100) | round | int }}%){% else %}<span class="muted">—</span>{% endif %}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h2>By item</h2>
+<p class="small muted">First-try correct across all students. Below 50%: rewrite the item or add steps before it.
+  Above 95% in Part B or C: it teaches nothing new. Only items with answers are listed.</p>
+{% if rep['items'] %}
+<table class="progress">
+  <tr><th>Item</th><th>First try</th><th></th></tr>
+  {% for it in rep['items'] %}
+  <tr>
+    <td class="small"><span class="muted">L{{ it.lesson if it.lesson is not none else 'P' }} · {{ it.part }}</span>
+      <span class="latin">{{ it.line }}</span></td>
+    <td>{{ (it.rate * 100) | round | int }}% <span class="small muted">of {{ it.n }}</span></td>
+    <td class="small">{{ it.advice }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}<p class="small muted">No answers yet.</p>{% endif %}
+
+<h2>Read a lesson</h2>
+<p class="small">{% for L in lessons %}<a href="{{ url_for('teacher_di_lesson', n=L.n) }}">Lesson {{ L.n }}</a>{{ ' · ' if not loop.last }}{% endfor %}</p>
+{% endblock %}

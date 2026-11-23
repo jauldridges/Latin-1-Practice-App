@@ -40,6 +40,7 @@ import lessons
 import practice
 import quiz as quizlib
 import goals
+import di_run
 import magister
 import nle
 import schooltime  # noqa: F401  -- the school's clock, set before anything reads it
@@ -141,7 +142,7 @@ def _close_db(exc):
 OPEN_PREFIXES = ("/static", "/login", "/logout", "/signin", "/signout",
                  "/favicon", "/healthz")
 TEACHER_PREFIXES = ("/review", "/teaching", "/teacher", "/quiz")
-STUDENT_PREFIXES = ("/drill", "/practice", "/q/", "/due/", "/homework", "/nle")
+STUDENT_PREFIXES = ("/drill", "/practice", "/q/", "/due/", "/homework", "/nle", "/di")
 AUDIO_PREFIX = "/audio/"
 # A signed-in student or the teacher: recordings, and Reader passages, which
 # the teacher opens to preview and to project in class.
@@ -3629,6 +3630,233 @@ def _grammar_universe(db):
 
 def _topic_label(topic):
     return "Vocabulary" if topic == "vocab" else "%s %s" % (topic, _NODE_LABEL.get(topic, ""))
+
+
+# ==========================================================================
+# DI mode -- the first-declension strand taught step by step (di.py reads the
+# Latin, di_run.py runs a lesson, di/first-declension.yaml holds the
+# lessons). It grades nothing and counts toward nothing: a student sees Ready
+# or Again at a lesson check, and the teacher sees who is where.
+# ==========================================================================
+
+@app.template_global()
+def di_md(text):
+    """**bold** and *Latin* in a DI rule line, made safe."""
+    return Markup(lessons.inline(text))
+
+
+def di_on(db):
+    return bool(store.get_setting(db, "di_on"))
+
+
+def di_visible():
+    """Students see DI mode once the teacher switches it on; the teacher in
+    student mode sees it either way, to try it first."""
+    return di_on(get_db()) or (student_mode() and current_student() == store.DEMO_STUDENT)
+
+
+@app.context_processor
+def _di_flags():
+    try:
+        return {"di_visible": bool(current_student()) and di_visible()}
+    except Exception:                                  # noqa: BLE001  (no database yet)
+        return {"di_visible": False}
+
+
+def _di_key(student):
+    return "di_run:%s" % student
+
+
+def _di_state(db, student):
+    return store.get_setting(db, _di_key(student))
+
+
+def _di_save(db, student, state):
+    if state is None:
+        db.execute("DELETE FROM settings WHERE key=?", (_di_key(student),))
+        db.commit()
+    else:
+        store.set_setting(db, _di_key(student), state)
+
+
+def _di_guard():
+    if not di_visible():
+        abort(404)
+
+
+@app.route("/di")
+def di_home():
+    _di_guard()
+    db = get_db()
+    student = current_student()
+    events = store.events_for_student(db, student)
+    pr = di_run.progress(events)
+    state = _di_state(db, student)
+    return render_template("di_home.html", pr=pr, state=state, student=student,
+                           title=di_run.load()["title"], off=not di_on(db))
+
+
+@app.route("/di/start", methods=["POST"])
+def di_start():
+    """Begin a lesson (or its check alone, or the placement test). A lesson
+    that is locked can't be started; one already under way is resumed."""
+    _di_guard()
+    db = get_db()
+    student = current_student()
+    events = store.events_for_student(db, student)
+    pr = di_run.progress(events)
+    mode = request.form.get("mode", "full")
+    if mode == "placement":
+        if pr["placed"] is not None:
+            return redirect(url_for("di_home"))
+        n = 0
+    else:
+        n = request.form.get("n", type=int)
+        if n is None or n < 0 or n > di_run.LAST or n > pr["unlocked"]:
+            return redirect(url_for("di_home"))
+        if mode not in ("full", "check"):
+            mode = "full"
+    state = _di_state(db, student)
+    if state and not state.get("done") and state["n"] == n and state["mode"] in (mode, "again"):
+        return redirect(url_for("di_lesson"))
+    runs = len([e for e in di_run.di_events(events) if e["item_id"] == "di:check:%d" % n]) + 1
+    state = di_run.new_state(n, mode, student, runs,
+                             missed=di_run.missed_refs(events), missed_words=di_run.missed_words(events))
+    _di_save(db, student, state)
+    return redirect(url_for("di_lesson"))
+
+
+@app.route("/di/skip-placement", methods=["POST"])
+def di_skip_placement():
+    """Start at Lesson 0 without the placement test."""
+    _di_guard()
+    db = get_db()
+    student = current_student()
+    if di_run.progress(store.events_for_student(db, student))["placed"] is None:
+        store.record_event(db, student, "di:placement", None, json.dumps({"skipped": True}), "L0",
+                           context=di_run.CONTEXT, version="v1")
+    return redirect(url_for("di_home"))
+
+
+@app.route("/di/lesson")
+def di_lesson():
+    _di_guard()
+    db = get_db()
+    student = current_student()
+    state = _di_state(db, student)
+    if not state:
+        return redirect(url_for("di_home"))
+    return _di_render(state)
+
+
+def _di_render(state, notice=None):
+    e, steps, k = di_run.current(state)
+    if e is None:
+        return render_template("di_result.html", state=state, done=state.get("done") or {},
+                               L=di_run.lesson(state["n"]))
+    st = steps[k]
+    n = state["n"]
+    L = di_run.lesson(n) if state["mode"] != "placement" else None
+    part = e["p"]
+    shown = sum(1 for x in state["seq"][:state["pos"]])
+    names = dict(di_run.PART_NAMES, **((L or {}).get("names") or {}))
+    return render_template("di_lesson.html", state=state, e=e, st=st, k=k, nsteps=len(steps),
+                           L=L, part=part, part_name=names.get(part, ""),
+                           done_frac=shown / float(max(1, len(state["seq"]))), notice=notice)
+
+
+@app.route("/di/answer", methods=["POST"])
+def di_answer():
+    _di_guard()
+    db = get_db()
+    student = current_student()
+    state = _di_state(db, student)
+    if not state:
+        return redirect(url_for("di_home"))
+    # A stale page (another tab, the back button) answers nothing.
+    if request.form.get("pos", type=int) != state["pos"] or request.form.get("step", type=int) != state["step"]:
+        return redirect(url_for("di_lesson"))
+    value = request.form.get("v", "")
+    latency = request.form.get("latency_ms", type=int)
+    state, out = di_run.answer(state, value, latency)
+    ev = out.get("event")
+    if ev:
+        store.record_event(db, student, "di:" + ev["ref"], None,
+                           json.dumps({"part": ev["part"], "fmt": ev["fmt"], "first": ev["first"],
+                                       "flag": ev["flag"], "corrected": bool(ev.get("corrected")),
+                                       "slow": bool(ev.get("slow")), "delayed": ev["flag"] == "delayed",
+                                       "answer": ev["answer"]}),
+                           "right" if ev["right"] else "wrong", latency_ms=ev["lat"],
+                           context=di_run.CONTEXT, version="v1")
+    done = state.get("done")
+    if done and not state.get("recorded"):
+        if done["kind"] == "placement":
+            store.record_event(db, student, "di:placement", None,
+                               json.dumps({"missed": state["missed"]}), "L%d" % done["lesson"],
+                               context=di_run.CONTEXT, version="v1")
+        else:
+            store.record_event(db, student, "di:check:%d" % state["n"], None,
+                               json.dumps({"set": done["set"], "score": done["score"], "of": done["of"],
+                                           "mode": state["mode"]}),
+                               "ready" if done["ready"] else "again", context=di_run.CONTEXT, version="v1")
+        state["recorded"] = True
+    _di_save(db, student, state)
+    if out["result"] == "close":
+        return _di_render(state, notice="Close: check your spelling and try again.")
+    return redirect(url_for("di_lesson"))
+
+
+@app.route("/di/next", methods=["POST"])
+def di_next():
+    """After a result: Again reruns the lesson's examples and look-alikes,
+    then the other check set; Ready (or the placement) goes back to the list."""
+    _di_guard()
+    db = get_db()
+    student = current_student()
+    state = _di_state(db, student)
+    done = (state or {}).get("done") or {}
+    if done.get("kind") == "check" and not done.get("ready"):
+        events = store.events_for_student(db, student)
+        other = "B" if done.get("set") == "A" else "A"
+        runs = len([e for e in di_run.di_events(events) if e["item_id"] == "di:check:%d" % state["n"]]) + 1
+        new = di_run.new_state(state["n"], "again", student, runs, check_set=other,
+                               missed=di_run.missed_refs(events))
+        _di_save(db, student, new)
+        return redirect(url_for("di_lesson"))
+    _di_save(db, student, None)
+    return redirect(url_for("di_home"))
+
+
+@app.route("/teacher/di", methods=["GET", "POST"])
+def teacher_di():
+    db = get_db()
+    if request.method == "POST":
+        store.set_setting(db, "di_on", request.form.get("on") == "yes")
+        return redirect(url_for("teacher_di"))
+    roster = [r["student_id"] for r in store.roster(db, active_only=True)]
+    rep = di_run.report(store.all_events(db), roster, week_start=goals.week_start(time.time()))
+    return render_template("teacher_di.html", on=di_on(db), rep=rep,
+                           lessons=di_run.load()["lessons"], problems=di_run.problems())
+
+
+@app.route("/teacher/di/lesson/<int:n>")
+def teacher_di_lesson(n):
+    """Every screen of a lesson, with its answer: the teacher's read-through."""
+    L = di_run.lesson(n)
+    if L is None:
+        abort(404)
+    parts = []
+    rnd = __import__("random").Random(0)
+    for name, entries in (("A", di_run.part_a(L, rnd)), ("B", di_run.part_b(L)), ("C", di_run.part_c(L)),
+                          ("D", []), ("E", di_run.part_e(L)), ("F · Set A", di_run.part_f(L, "A")),
+                          ("F · Set B", di_run.part_f(L, "B"))):
+        screens = []
+        for e in entries:
+            raw, _ = di_run.resolve(e["r"])
+            screens.append({"ref": e["r"], "raw": raw if isinstance(raw, str) else "", "steps": di_run.steps_for(e["r"]),
+                            "flag": e.get("f")})
+        parts.append({"name": name, "screens": screens, "review": L.get("D") if name == "D" else None})
+    return render_template("teacher_di_lesson.html", L=L, parts=parts, n=n, last=di_run.LAST)
 
 
 @app.route("/teacher")

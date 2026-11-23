@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Step by step — Latin I{% endblock %}
+{% block subtitle %}step by step{% endblock %}
+{% block content %}
+<h1>{{ title }}</h1>
+{% if off %}<div class="flags small">Only you can see this: DI mode is off for students. Turn it on at
+  Teacher dashboard → DI mode.</div>{% endif %}
+<p class="small muted">Thirteen short lessons, about 15 minutes each. Each one teaches one ending and checks it.
+  At the end of a lesson you'll see <strong>Ready</strong> (the next lesson opens) or <strong>Again</strong>
+  (the lesson runs once more with new sentences). Nothing here is graded.</p>
+
+{% if state and not state.done and state.mode != 'placement' %}
+<form method="post" action="{{ url_for('di_start') }}" class="card di-continue">
+  <input type="hidden" name="n" value="{{ state.n }}"><input type="hidden" name="mode" value="{{ state.mode if state.mode != 'again' else 'full' }}">
+  <p><strong>Lesson {{ state.n }} is under way.</strong></p>
+  <button class="bigbtn" type="submit">Continue</button>
+</form>
+{% elif state and state.mode == 'placement' and not state.done %}
+<form method="post" action="{{ url_for('di_start') }}" class="card di-continue">
+  <input type="hidden" name="mode" value="placement">
+  <p><strong>Your placement check is under way.</strong></p>
+  <button class="bigbtn" type="submit">Continue</button>
+</form>
+{% endif %}
+
+{% if pr.placed is none %}
+<div class="card">
+  <p><strong>First: a short placement check.</strong> 18 questions, about 5 minutes, no help. It finds the
+    first lesson you need, so you don't repeat what you already know.</p>
+  <form method="post" action="{{ url_for('di_start') }}"><input type="hidden" name="mode" value="placement">
+    <button class="bigbtn" type="submit">Start the placement check</button></form>
+  <form method="post" action="{{ url_for('di_skip_placement') }}">
+    <button class="bigbtn secondary" type="submit">Skip it: start at Lesson 0</button></form>
+</div>
+{% else %}
+{% if pr.finished %}<div class="card"><p><strong>You've finished the strand.</strong> Every first-declension ending, and the job each one does.</p></div>{% endif %}
+<ol class="di-lessons">
+  {% for l in pr.lessons %}
+  <li class="di-l di-{{ l.state }}">
+    <div class="di-l-title"><span class="di-n">{{ l.n }}</span>
+      <span><strong>{{ l.title }}</strong>{% if l.subtitle %}<span class="small muted"> · {{ l.subtitle }}</span>{% endif %}</span></div>
+    {% if l.state == 'ready' %}
+      <span class="pill solid">Ready</span>
+      <form method="post" action="{{ url_for('di_start') }}" class="di-l-go"><input type="hidden" name="n" value="{{ l.n }}">
+        <button class="minibtn" type="submit">Run it again</button></form>
+    {% elif l.state == 'current' %}
+      <form method="post" action="{{ url_for('di_start') }}" class="di-l-go"><input type="hidden" name="n" value="{{ l.n }}">
+        <button class="bigbtn" type="submit">{{ 'Continue' if state and state.n == l.n and not state.done else 'Start' }}</button></form>
+    {% elif l.state == 'open' %}
+      <span class="small muted">Your placement skipped this one.</span>
+      <form method="post" action="{{ url_for('di_start') }}" class="di-l-go"><input type="hidden" name="n" value="{{ l.n }}">
+        <input type="hidden" name="mode" value="check"><button class="minibtn" type="submit">Take its check</button></form>
+      <form method="post" action="{{ url_for('di_start') }}" class="di-l-go"><input type="hidden" name="n" value="{{ l.n }}">
+        <button class="minibtn" type="submit">Do the lesson</button></form>
+    {% else %}
+      <span class="small muted">Opens after Lesson {{ l.n - 1 }}</span>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ol>
+{% endif %}
+{% endblock %}

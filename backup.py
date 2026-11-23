@@ -111,6 +111,10 @@ def purge_students(conn):
     n = conn.execute("SELECT COUNT(*) AS n FROM quizzes WHERE context='nle'").fetchone()["n"]
     conn.execute("DELETE FROM quizzes WHERE context='nle'")
     removed["practice_nles"] = n
+    # A DI lesson under way is kept per student in settings ("di_run:<id>").
+    n = conn.execute("SELECT COUNT(*) AS n FROM settings WHERE key LIKE 'di_run:%'").fetchone()["n"]
+    conn.execute("DELETE FROM settings WHERE key LIKE 'di_run:%'")
+    removed["di_runs"] = n
     conn.commit()
     conn.reclaim_space(STUDENT_TABLES)
     return removed

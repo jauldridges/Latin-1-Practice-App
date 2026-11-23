@@ -192,6 +192,9 @@
 <a class="bigbtn" href="{{ url_for('teacher_approve') }}">Waiting for you</a>
 <p class="small muted" style="margin-top:-4px">Everything new that students can't see until you approve it, on one page.</p>
 
+<a class="bigbtn secondary" href="{{ url_for('teacher_di') }}">DI mode</a>
+<p class="small muted" style="margin-top:-4px">The first declension taught step by step: turn it on, see who's where, read every lesson.</p>
+
 <form method="post" action="{{ url_for('student_mode_on') }}">
   <button class="bigbtn secondary" type="submit">Try it as a student</button></form>
 <p class="small muted" style="margin-top:-4px">See and use the app exactly as a student does. Your practice there is kept out of class data.</p>

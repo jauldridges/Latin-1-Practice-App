@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}{% if L %}Lesson {{ state.n }}{% else %}Placement{% endif %} — Latin I{% endblock %}
+{% block subtitle %}step by step{% endblock %}
+{% block content %}
+{# One screen of a DI lesson (di_run.py). Every answer is a tap except a typed
+   check item; a wrong answer brings a plain model screen, never a red X. #}
+<div class="di-head">
+  <div class="small muted">{% if L %}Lesson {{ state.n }} · {% else %}Placement · {% endif %}{% if part != 'P' %}Part {{ part }} · {% endif %}{{ part_name }}</div>
+  <div class="di-progress" aria-hidden="true"><span style="width:{{ (done_frac * 100) | round | int }}%"></span></div>
+</div>
+{% if notice %}<div class="di-notice">{{ notice }}</div>{% endif %}
+
+<form method="post" action="{{ url_for('di_answer') }}" id="di-form" class="di-form" autocomplete="off">
+  <input type="hidden" name="pos" value="{{ state.pos }}">
+  <input type="hidden" name="step" value="{{ state.step }}">
+  <input type="hidden" name="latency_ms" id="latency_ms" value="">
+
+{% macro say(text, latin=true) %}{% if text %}<button type="button" class="di-say" data-say="{{ text }}"{% if latin %} data-latin{% endif %} aria-label="Listen">🔊</button>{% endif %}{% endmacro %}
+
+{% macro tokens(s, highlight=[]) %}
+  {% if s.layout %}
+    {% for kind, val in s.layout %}{% if kind == 'tap' %}{% set t = s.tokens[val] %}<button type="submit" name="v" value="{{ t.i }}" class="di-word di-chunk {{ 'di-right' if (t.i|string) in highlight }}">{{ t.w }}</button>{% else %} <span class="di-plain">{{ val }}</span> {% endif %}{% endfor %}
+  {% else %}
+    {%- for t in s.tokens %}<button type="submit" name="v" value="{{ t.i }}" class="di-word {{ 'di-chunk' if s.english }} {{ 'di-right' if (t.i|string) in highlight }}">{{ t.w }}</button>{% if not loop.last %} {% endif %}{% endfor %}<span class="di-end">{{ s.end }}</span>
+  {% endif %}
+{% endmacro %}
+
+{% if st.kind == 'model' %}
+  <div class="di-model">
+    {% if st.table %}
+    <table class="di-table">
+      <tr><th></th><th>One</th><th>More than one</th></tr>
+      {% for job, case, sg, pl in st.table %}
+      <tr><th>{{ job }}<div class="small muted">{{ case }}</div></th><td>{{ sg }}</td><td>{{ pl }}</td></tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+    {{ st.html | safe }}
+  </div>
+  {% if st.audio %}<button type="button" class="bigbtn secondary di-listen" data-say="{{ st.audio }}">🔊 Listen</button>{% endif %}
+  <button class="bigbtn" type="submit" name="v" value="next">Next</button>
+
+{% elif st.kind == 'note' %}
+  <div class="di-note">{{ st.html | safe }}</div>
+  <button class="bigbtn" type="submit" name="v" value="next">Next</button>
+
+{% elif st.kind == 'reading' %}
+  <h2 class="di-reading-title"><em class="la">{{ st.title }}</em></h2>
+  <ol class="di-reading">{% for l in st.lines %}<li>{{ l | safe }}</li>{% endfor %}</ol>
+  <button type="button" class="bigbtn secondary di-listen" data-say="{{ st.audio }}" data-latin>🔊 Listen</button>
+  <button class="bigbtn" type="submit" name="v" value="next">Next: one sentence at a time</button>
+
+{% elif st.kind == 'correction' %}
+  {% set c = st.step %}
+  <div class="di-correction">
+    {% if c.kind == 'tap' %}
+      <p class="di-show {{ 'la' if not c.english }} di-static">{% for t in c.tokens %}<span class="di-word-static {{ 'di-right' if (t.i|string) in c.answer }}">{{ t.w }}</span>{% if not loop.last %} {% endif %}{% endfor %}{{ c.end }}</p>
+      {% if 'none' in c.answer %}<p class="di-answer">No direct object</p>{% endif %}
+    {% elif c.kind == 'choice' %}
+      {% if c.show.echo %}<p class="di-show la">{{ c.show.echo }}</p>{% elif c.show.html %}<div class="di-show {{ 'la' if c.show.latin }}">{{ c.show.html | safe }}</div>{% endif %}
+      <p class="di-answer">{% for o in c.options if o.v in c.answer %}{{ o.label }}{% if o.sub %} <span class="small muted">{{ o.sub }}</span>{% endif %}{% endfor %}</p>
+    {% elif c.kind == 'type' %}
+      <div class="di-show la">{{ c.show.html | safe }}</div>
+    {% endif %}
+    <div class="di-rule">{{ di_md(c.rule) }}</div>
+    {{ say(c.audio) }}
+  </div>
+  <button class="bigbtn" type="submit" name="v" value="next">Next</button>
+
+{% elif st.kind == 'choice' %}
+  <p class="di-prompt">{{ st.prompt }}</p>
+  {% if st.show.echo %}
+    <button type="button" class="bigbtn secondary di-listen" data-say="{{ st.show.echo }}" data-latin data-echo>🔊 Listen</button>
+    <p class="di-fallback small muted" id="di-fallback" hidden>This device can't play the sound. Read it instead: <em class="la">{{ st.show.echo }}</em></p>
+  {% elif st.show.html %}
+    <div class="di-show {{ 'la' if st.show.latin }}">{{ st.show.html | safe }} {{ say(st.audio) }}</div>
+  {% endif %}
+  {% if st.gloss %}<p class="small muted di-gloss">{{ st.gloss }}</p>{% endif %}
+  <div class="di-options {{ 'di-two' if st.options | length == 2 }}" id="di-options">
+    {% for o in st.options %}
+    <button class="di-option" type="submit" name="v" value="{{ o.v }}"><span>{{ o.label }}</span>{% if o.sub %}<span class="di-case">{{ o.sub }}</span>{% endif %}</button>
+    {% endfor %}
+  </div>
+
+{% elif st.kind == 'tap' %}
+  <p class="di-prompt">{{ st.prompt }}</p>
+  <div class="di-show di-tapline {{ 'la' if not st.english }}">{{ tokens(st) }} {% if not st.english %}{{ say(st.audio) }}{% endif %}</div>
+  {% if st.gloss %}<p class="small muted di-gloss">{{ st.gloss }}</p>{% endif %}
+  {% if st.extra %}<div class="di-options">{% for x in st.extra %}<button class="di-option" type="submit" name="v" value="{{ x.v }}">{{ x.label }}</button>{% endfor %}</div>{% endif %}
+
+{% elif st.kind == 'type' %}
+  <p class="di-prompt">{{ st.prompt }}</p>
+  <div class="di-show la">{{ st.show.html | safe }} {{ say(st.audio) }}</div>
+  <input class="di-input" type="text" name="v" autocapitalize="off" spellcheck="false" autofocus
+         aria-label="Your answer" placeholder="{{ 'English' if st.mode == 'english' else 'ending' }}">
+  <button class="bigbtn" type="submit">Check</button>
+{% endif %}
+</form>
+<script src="{{ url_for('static', filename='di.js') }}"></script>
+{% endblock %}

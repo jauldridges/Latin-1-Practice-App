@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}DI Lesson {{ n }} — Latin I{% endblock %}
+{% block subtitle %}DI mode{% endblock %}
+{% block content %}
+<p class="small"><a href="{{ url_for('teacher_di') }}">← DI mode</a>
+  {% if n > 0 %} · <a href="{{ url_for('teacher_di_lesson', n=n - 1) }}">Lesson {{ n - 1 }}</a>{% endif %}
+  {% if n < last %} · <a href="{{ url_for('teacher_di_lesson', n=n + 1) }}">Lesson {{ n + 1 }}</a>{% endif %}</p>
+<h1>Lesson {{ n }}: {{ L.title }}</h1>
+<p class="small muted">Every screen in order, with its answer in bold. The translations and wrong choices are
+  made by di.py from the Latin; the item lines are in di/first-declension.yaml.</p>
+
+{% for part in parts %}
+<h2>Part {{ part.name }}</h2>
+{% if part.name == 'D' %}
+  <p class="small muted">{% if L.D == 'delayed' %}Every delayed-test item from Lessons 1–11.{% elif L.D %}{{ L.D }} items from
+    earlier lessons, each student's missed items and the last lesson's delayed test first.{% else %}None.{% endif %}</p>
+{% endif %}
+<ol class="di-read">
+  {% for s in part.screens %}
+  <li>
+    {% for st in s.steps %}
+      {% if st.kind == 'model' %}
+        <div class="di-model small">{% if st.table %}<em>(the ending table)</em>{% endif %}{{ st.html | safe }}</div>
+        {% if st.audio %}<div class="small muted">Audio: {{ st.audio }}</div>{% endif %}
+      {% elif st.kind == 'note' %}<div class="di-note small">{{ st.html | safe }}</div>
+      {% elif st.kind == 'reading' %}<div class="small"><strong>Reading: {{ st.title }}</strong></div>
+      {% elif st.kind == 'choice' %}
+        <div class="small"><span class="muted">{{ st.prompt }}</span>
+          {% if st.show.echo %}<em class="la">[audio] {{ st.show.echo }}</em>{% elif st.show.html %}<span class="{{ 'la' if st.show.latin }}">{{ st.show.html | striptags }}</span>{% endif %}
+          →
+          {% for o in st.options %}{% if o.v in st.answer %}<strong>{{ o.label }}</strong>{% else %}<span class="muted">{{ o.label }}</span>{% endif %}{{ ' · ' if not loop.last }}{% endfor %}</div>
+      {% elif st.kind == 'tap' %}
+        <div class="small"><span class="muted">{{ st.prompt }}</span>
+          {% for t in st.tokens %}{% if (t.i|string) in st.answer %}<strong>{{ t.w }}</strong>{% else %}{{ t.w }}{% endif %} {% endfor %}
+          {% if 'none' in st.answer %}→ <strong>No direct object</strong>{% endif %}</div>
+      {% elif st.kind == 'type' %}
+        <div class="small"><span class="muted">{{ st.prompt }}</span> {{ st.show.html | striptags }} → {{ di_md(st.rule) }}</div>
+      {% endif %}
+    {% endfor %}
+    {% if s.flag == 'delayed' %}<div class="small muted">(the lesson's delayed test)</div>{% endif %}
+  </li>
+  {% endfor %}
+</ol>
+{% endfor %}
+{% endblock %}

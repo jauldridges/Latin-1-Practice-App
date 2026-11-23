@@ -641,6 +641,57 @@ The teacher's tabs (Students · Waiting for you · Goals · Reader · Badges · 
 tools) sit under the top bar on every teacher page; **All tools** is the full
 list on the home page.
 
+## DI mode: the first declension, step by step
+
+A second mode that **teaches**, beside practice, which only reviews. It is the
+plan "DI Mode: First Declension Strand, Lessons 0–12": thirteen lessons of
+about 15 minutes, each teaching one ending (Lesson 0 is the three jobs in
+English; Lesson 12 is the whole table and a reading). Students reach it from
+the **Steps** tab once the teacher turns it on at **Teacher dashboard → DI
+mode**; the teacher can try it first in student mode while it is off.
+
+- **Files.** `di/first-declension.yaml` holds every lesson, its six parts
+  (A words, B1 the job in English in L6/L8/L10, B model → echo → test →
+  examples, C look-alikes, D review, E reading, F the check with Sets A and B)
+  and the 18-item placement test with its lesson for each missed item. Item
+  lines carry a format code (F1 meaning, F2 job buttons, F3 one / more than
+  one, F4 build, F5 -t / -nt, F6 sentence steps, F7 echo, F8 type, and the E
+  codes); the header comment in the YAML lists them. `di.py` reads the closed
+  Latin of the strand: each word's job by the writing rules (genitive -ae after
+  its noun with spectat/laudat/amat/vocat; dative -ae before the object with
+  nārrat/parat/portat/servat; -īs and -ā after a preposition), the English, the
+  three translations (right; subject and object swapped; one thing changed),
+  and the one-line rule for each correction. `di_run.py` builds and runs a
+  lesson; `di_run.problems()` checks every screen, and its list shows at the
+  top of the DI mode page if anything is wrong.
+- **Correction** is the same every time, with no red X and no "wrong": the
+  model (the answer, one rule line, audio), the same item again, back up two
+  items, and the missed item again 3–6 items later and in the next lesson's
+  Part D. A miss on the re-test gets the model only, so a lesson can't grow
+  without end. A right answer slower than 6 seconds on a one-tap item gets no
+  correction and comes back later in the lesson.
+- **The check** is Part F: 8 fresh items (16 in Lesson 12), 7 right first try
+  (14) is **Ready** and opens the next lesson; otherwise **Again**: Part B's
+  examples and Part C once more, then Set B. No score is shown. Two Agains in a
+  row on a lesson flag the student on the teacher page; the lesson stays open.
+- **Placement** is offered once, before Lesson 0 (or skipped); earlier lessons
+  stay open with "Take its check".
+- **Audio** is the browser's own speech (an Italian voice for Latin, which can't
+  tell -a from -ā); echo items are audio only with a text fallback when a
+  device has no voice.
+- **Records.** Every answer is an event with context `di` (left out of
+  homework, rushing and every class figure): lesson and part, item and format,
+  first try or not, time, whether a correction ran, the delayed-test flag;
+  each check is a `di:check:<n>` event (ready / again, Set A / B). The run in
+  progress is the setting `di_run:<student>`, removed by the end-of-year purge.
+- **Teacher page** (`/teacher/di`): the on/off switch; by student (lesson,
+  checks passed, Agains, flag, minutes this week); by lesson (median time,
+  Ready on the first check, most-missed item, and a warning when an example
+  sequence is below 70% first try); by item (first-try rate, flagged below 50%,
+  and above 95% in Parts B and C). **Read a lesson** shows every screen of a
+  lesson in order with its answer in bold, including the translations and
+  wrong choices `di.py` wrote. `tests/test_di.py`.
+
 ## Practice NLE
 
 Fifteen past National Latin Exams, transcribed from the PDFs into `nle/*.yaml`

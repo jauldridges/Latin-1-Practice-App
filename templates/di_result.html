@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Step by step — Latin I{% endblock %}
+{% block subtitle %}step by step{% endblock %}
+{% block content %}
+{# Two outcomes at a lesson check, and nothing else: no score, no grade. #}
+<form method="post" action="{{ url_for('di_next') }}" class="di-result">
+{% if done.kind == 'placement' %}
+  <h1>Start at Lesson {{ done.lesson }}</h1>
+  <p>{% if done.lesson == 12 %}You knew every ending. Lesson 12 puts the whole table together, with a reading.
+     {% elif done.lesson == 0 %}Lesson 0 starts with the jobs words do in a sentence, in English.
+     {% else %}The lessons before it are open too, if you want to check them.{% endif %}</p>
+  <button class="bigbtn" type="submit">Go to the lessons</button>
+{% elif done.ready %}
+  <h1 class="di-ready">Ready</h1>
+  <p>{% if state.n < 12 %}Lesson {{ state.n + 1 }} is open.{% else %}That's the whole first declension.{% endif %}</p>
+  <button class="bigbtn" type="submit">Back to the lessons</button>
+{% else %}
+  <h1 class="di-again">Again</h1>
+  <p>This lesson runs once more: the examples and the look-alikes, with a new check at the end.</p>
+  <button class="bigbtn" type="submit">Start again</button>
+{% endif %}
+</form>
+{% endblock %}

@@ -936,3 +936,54 @@ nav.tabs.teacher a { font-size: 14px; }
    the two never part at a line end. Inline-block keeps the underline off it. */
 button.rw { text-align: left; }
 button.rw .rp { display: inline-block; text-decoration: none; }
+
+/* ---- DI mode (di_lesson.html, di_home.html) -------------------------------- */
+.di-head { margin: 4px 0 12px; }
+.di-progress { height: 6px; background: #e6e2dc; border-radius: 999px; overflow: hidden; margin-top: 6px; }
+.di-progress span { display: block; height: 100%; background: var(--solid); }
+.di-prompt { font-weight: 700; font-size: 18px; margin: 14px 0 8px; }
+.di-show { font-size: 24px; line-height: 1.5; margin: 8px 0 14px; }
+.di-show.la, .di-show .la, .di-tapline.la { font-style: italic; }
+.di-show p { margin: 4px 0; }
+.di-cue { font-style: normal; font-size: 18px; }
+.di-stem { font-size: 26px; }
+.di-gloss { margin-top: -8px; }
+.di-options { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 10px 0; }
+.di-options.di-two { grid-template-columns: 1fr 1fr; }
+.di-option { font: inherit; font-size: 17px; padding: 14px 12px; border-radius: 12px; border: 1px solid var(--line);
+  background: var(--card); color: inherit; cursor: pointer; text-align: center; min-height: 54px; }
+.di-option:hover { border-color: var(--solid); }
+.di-case { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+.di-tapline { line-height: 2.3; }
+.di-word { font: inherit; font-size: 24px; padding: 2px 6px; margin: 0 1px; border: 0; border-bottom: 2px dashed #c9c2b8;
+  background: none; color: inherit; cursor: pointer; border-radius: 6px; }
+.di-word:hover { background: #f3efe8; }
+.di-chunk { font-style: normal; }
+.di-plain { font-size: 22px; }
+.di-right { background: #e3f1e8; border-bottom-color: var(--solid); }
+.di-word-static { padding: 2px 4px; border-radius: 6px; }
+.di-correction { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin: 10px 0 14px; }
+.di-answer { font-size: 22px; font-weight: 700; margin: 6px 0; }
+.di-rule { font-size: 17px; }
+.di-say { font: inherit; border: 0; background: none; cursor: pointer; font-size: 20px; vertical-align: middle; }
+.di-listen { margin-bottom: 10px; }
+.di-input { width: 100%; box-sizing: border-box; font: inherit; font-size: 20px; padding: 12px; border: 1px solid var(--line);
+  border-radius: 10px; margin: 6px 0 10px; }
+.di-model { font-size: 18px; line-height: 1.5; }
+.di-note { background: #fbf6ea; border-left: 4px solid #e7d59a; padding: 10px 14px; border-radius: 8px; font-size: 17px; }
+.di-notice { background: #fbf6ea; border-radius: 8px; padding: 8px 12px; margin: 8px 0; }
+.di-table { border-collapse: collapse; width: 100%; margin: 6px 0 12px; font-size: 17px; }
+.di-table th, .di-table td { border-bottom: 1px solid var(--line); padding: 8px 6px; text-align: left; vertical-align: top; }
+.di-table td { font-weight: 700; font-size: 20px; }
+.di-reading { font-size: 20px; line-height: 1.6; padding-left: 26px; }
+.di-result { text-align: center; padding: 30px 0; }
+.di-ready { color: var(--solid); font-size: 40px; }
+.di-again { color: var(--shaky); font-size: 40px; }
+.di-lessons { list-style: none; padding: 0; }
+.di-l { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin: 8px 0; }
+.di-l-title { display: flex; gap: 10px; align-items: baseline; margin-bottom: 6px; }
+.di-n { font-weight: 800; font-size: 20px; min-width: 1.6em; text-align: center; }
+.di-l-go { display: inline-block; margin: 4px 6px 0 0; }
+.di-locked { opacity: .55; }
+.di-current { border-color: var(--solid); border-width: 2px; }
+.di-read li { margin: 8px 0; }

@@ -1160,6 +1160,7 @@ def clear_demo(conn):
         conn.execute("DELETE FROM %s WHERE student_id=?" % table, (DEMO_STUDENT,))
     for qid in nle_quizzes:
         conn.execute("DELETE FROM quizzes WHERE quiz_id=? AND context='nle'", (qid,))
+    conn.execute("DELETE FROM settings WHERE key=?", ("di_run:" + DEMO_STUDENT,))   # a DI lesson under way
     conn.commit()
 
 

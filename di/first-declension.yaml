@@ -1,0 +1,777 @@
+# DI mode — the first-declension strand, Lessons 0–12.
+#
+# Transcribed from the teacher's DI plan ("DI Mode: First Declension Strand").
+# Where the plan lists items they are copied as written; where it describes a
+# set without listing it (some Part C rounds, Lesson 12's fast round) the
+# items here follow its writing rules (section 7). di.py works out every
+# answer, translation and distractor from the Latin, so an item is one line.
+#
+# Item lines (one per screen):
+#   F1 <latin>                 meaning: 1 of 3
+#   F2 <latin with **word**>   job of the bold word        [| buttons: subject dobj ...]
+#   F2F3 <latin **word**>      job, then one / more than one (F3F2: the other way)
+#   F2T <latin **word**>       job, then pick the translation
+#   F3 <latin or **word**>     One / More than one
+#   F4 <cue> | <stem-> | <ending>          build: tap the ending
+#   F5 <latin with verb stem__>            tap -t or -nt
+#   F6 <latin>                 sentence steps, then the translation
+#   F6N / F6V                  ...with One/More than one on the object / with -t/-nt on the verb
+#   F7 <latin form>            echo: hear it, tap the ending
+#   F8 <latin>                 type the English
+#   F8E <cue> | <stem___> | <ending>       type the ending
+#   E3 <subject> / <verb> [/ <object>]     English: tap verb, subject, direct object (or No direct object)
+#   E2 <English with **words**> | <job>    English: name the job of the bold words  [| buttons: ...]
+#   ET <English with [chunks]> | <answer chunk or none> | <prompt>   English: tap a chunk
+#   EV <English with a verb__> | <s or none>   English verb ending (Lesson 4 warm-up)
+#   Q  <question> | <right> | <wrong> | <wrong>   a reading question
+#   NOTE <text>                a note on screen after the item before it
+#   (a lesson's names: renames a part on screen, e.g. Lesson 0's Part B)
+#   ... | gloss: word = meaning   a word the lesson hasn't taught yet, glossed on screen
+#
+# Model screens: text uses **bold**, *Latin*, and a blank line between lines;
+# TABLE nom acc ... draws the ending table with those rows. audio is read
+# aloud: *Latin* in a Latin voice, the rest in English.
+
+strand: first-declension
+title: First declension, step by step
+
+placement:
+  - "E2 **The sailor** watches the girl. | subject"
+  - "E2 The sailor watches **the girl**. | dobj"
+  - "F2 **Puella** nautam vocat."
+  - "F2 Nauta **puellam** vocat."
+  - "F2 Nauta **puellās** vocat."
+  - "F3 puellās"
+  - "F5 Puellae aquam port__"
+  - "F6 Puellās nautae vocant."
+  - "F2 Fēmina fāmam **nautārum** laudat."
+  - "F2 Fēmina vītam **puellae** laudat."
+  - "F2 **Puellae** fābulam nārrant."
+  - "F2 Nauta **puellīs** fābulam nārrat."
+  - "F2 Nauta **puellae** fābulam nārrat."
+  - "F2 Nauta in **īnsulā** pugnat."
+  - "F2 Agricolae in **silvīs** pugnant."
+  - "F6 Fēmina agricolīs aquam portat."
+  - "F6 Puella cum fēminā aquam portat."
+  - "F6 Nautae fāmam patriae laudant."
+
+# Placement: each item's lesson (0-based, in the order above). A student
+# starts at the lowest lesson among the items they miss; all right goes to
+# Lesson 12. The plan's table stops at item 14; item 15 (cum fēminā, -ā) is
+# taken as Lesson 10 and item 16 (patriae, possession) as Lesson 7.
+placement_rule: [0, 0, 1, 2, 3, 3, 4, 4, 6, 7, 7, 8, 9, 10, 11, 11, 10, 7]
+
+lessons:
+
+# ==========================================================================
+- n: 0
+  title: Jobs in a sentence
+  subtitle: English only
+  names: {B: Three jobs}
+  A: []
+  B:
+    models:
+      - text: "The **verb** is the action word.\n\n*The girl **calls** the sailor.*"
+        plain: true
+      - text: "The **subject** is who or what does the verb.\n\nAsk: who calls? *The girl.*\n\n***The girl** calls the sailor.*"
+        plain: true
+      - text: "The **direct object** is who or what receives the verb.\n\nAsk: calls whom? *The sailor.*\n\n*The girl calls **the sailor**.*"
+        plain: true
+        audio: "Every word in a sentence has a job. The verb is the action. The subject does the verb. The direct object receives the verb. The girl calls the sailor. Verb: calls. Subject: the girl. Direct object: the sailor."
+    test: [E3 The girl / calls / the sailor]
+    examples:
+      - "E3 The girl / calls / the sailor"
+      - "E3 The sailor / calls / the girl"
+      - "NOTE Sentences 1 and 2 use the same words. In English, the order decides which word is the subject. Latin won't work that way."
+      - "E3 The farmer / loves / the land"
+      - "E3 The woman / carries / the water"
+      - "E3 The sailors / watch / the stars"
+      - "E3 The girl / calls"
+      - "NOTE Some sentences have no direct object. *The girl calls* has a subject and a verb, and nothing receives the call."
+      - "E3 The women / praise / the farmer"
+      - "E3 The farmer / praises / the women"
+      - "E3 The sailor / watches"
+      - "E3 The girls / love / the island"
+  C:
+    - "E2 **The farmer** watches the girl. | subject"
+    - "E2 The farmer watches **the girl**. | dobj"
+    - "E2 **She** calls him. | subject"
+    - "E2 She calls **him**. | dobj"
+    - "NOTE English changes some words when they become the direct object: *she → her, he → him, they → them.* Latin does this to every noun."
+    - "E2 **The sailors** praise the women. | subject"
+    - "E2 The sailors praise **the women**. | dobj"
+  D: 0
+  E:
+    - "E3 The woman / loves / the forest"
+    - "E3 The girls / carry / the water"
+    - "E3 The farmer / fights"
+    - "E3 The sailors / save / the homeland"
+  F:
+    A:
+      - "ET [The sailor] [praises] [the farmer]. | The sailor | Tap the subject."
+      - "ET [The woman] [watches] [the moon]. | the moon | Tap the direct object."
+      - "ET [The girls] [call] [the women]. | call | Tap the verb."
+      - "E2 **They** watch the stars. | subject | buttons: subject dobj"
+      - "E2 The farmer loves **her**. | dobj | buttons: subject dobj"
+      - "ET [The girl] [fights]. | none | Tap the direct object."
+      - "ET [The women] [carry] [the water]. | The women | Tap the subject."
+      - "ET [The sailor] [calls] [the girls]. | the girls | Tap the direct object."
+    B:
+      - "ET [The farmer] [praises] [the sailor]. | The farmer | Tap the subject."
+      - "ET [The girl] [watches] [the stars]. | the stars | Tap the direct object."
+      - "ET [The sailors] [call] [the farmers]. | call | Tap the verb."
+      - "E2 **He** watches the moon. | subject | buttons: subject dobj"
+      - "E2 The woman loves **them**. | dobj | buttons: subject dobj"
+      - "ET [The sailor] [fights]. | none | Tap the direct object."
+      - "ET [The girls] [carry] [the water]. | The girls | Tap the subject."
+      - "ET [The woman] [calls] [the farmer]. | the farmer | Tap the direct object."
+  delayed: E3 The sailor / calls / the girl
+
+# ==========================================================================
+- n: 1
+  title: "-a: the subject"
+  subtitle: nominative
+  new: a
+  A:
+    words: [puella, fēmina, nauta, agricola, aqua, vocat, spectat, portat, amat, laudat]
+    twice: true
+  B:
+    models:
+      - text: "In English, word order shows which word is the subject. In Latin, the ending does.\n\n**-a** marks the subject. The subject is in the **nominative** case.\n\n*Puella vocat.* The girl calls."
+        audio: "*Puella.* The ending is -a. -a marks the subject. The subject is in the nominative case. *Puella vocat.* The girl calls."
+    echo: [F7 puella, F7 fēmina, F7 nauta]
+    test: [F6 Puella vocat.]
+    examples:
+      - "F6 Fēmina spectat."
+      - "F6 Spectat fēmina."
+      - "F6 Nauta laudat."
+      - "NOTE *Nauta* and *agricola* name men. The ending is still -a. The ending shows the job in the sentence, not whether the person is a man or a woman."
+      - "F6 Laudat agricola."
+      - "F6 Agricola amat."
+      - "F6 Portat puella."
+      - "F6 Nauta vocat."
+      - "F6 Amat fēmina."
+  C:
+    - "F2 Vocat **puella**. | buttons: verb subject"
+    - "F2 **Nauta** spectat. | buttons: verb subject"
+    - "F2 Laudat **fēmina**. | buttons: verb subject"
+    - "F2 **Agricola** portat. | buttons: verb subject"
+    - "F2 Amat **nauta**. | buttons: verb subject"
+    - "F2 **Puella** laudat. | buttons: verb subject"
+  D: 4
+  E:
+    - "F6 Agricola spectat."
+    - "F6 Vocat nauta."
+    - "F6 Fēmina portat."
+    - "F6 Laudat puella."
+  F:
+    A: [F6 Nauta spectat., F6 Vocat fēmina., F1 agricola, F1 portat, "F2 Laudat **puella**.", F6 Puella amat., F1 aqua, F6 Spectat agricola.]
+    B: [F6 Fēmina vocat., F6 Laudat nauta., F1 fēmina, F1 spectat, "F2 **Agricola** amat.", F6 Portat puella., F1 nauta, F6 Amat agricola.]
+  delayed: F6 Laudat agricola.
+
+# ==========================================================================
+- n: 2
+  title: "-am: the direct object"
+  subtitle: accusative
+  new: am
+  A:
+    words: [terra, silva, porta, via, īnsula]
+    review: [puella, nauta, vocat, spectat]
+  B:
+    models:
+      - text: "**-am** marks the direct object. The direct object is in the **accusative** case.\n\n*Puella nautam vocat.* The girl calls the sailor."
+        audio: "*Nautam.* The ending is -am. -am marks the direct object. The direct object is in the accusative case. *Puella nautam vocat.* The girl calls the sailor."
+    echo: [F7 nautam, F7 puella, F7 terram, F7 fēmina]
+    test: [F6 Puella nautam vocat.]
+    examples:
+      - "F6 Puella nautam vocat."
+      - "F6 Puellam nauta vocat."
+      - "F6 Fēmina agricolam spectat."
+      - "F6 Fēminam agricola spectat."
+      - "F6 Agricola terram amat."
+      - "F6 Terram agricola amat."
+      - "NOTE Sentences 5 and 6 mean the same thing. Moving a Latin word doesn't change the subject or the direct object. The endings decide."
+      - "F6 Nautam puella laudat."
+      - "F6 Fēmina aquam portat."
+      - "F6 Īnsulam nauta amat."
+      - "F6 Silvam agricola spectat."
+      - "F6 Fēmina vocat."
+  C:
+    - "F2 **Puella** nautam spectat. | buttons: subject dobj"
+    - "F2 Nauta **puellam** spectat. | buttons: subject dobj"
+    - "F2 **Terra** agricolam vocat. | buttons: subject dobj"
+    - "F2 Agricola **terram** amat. | buttons: subject dobj"
+    - "F2 Fēmina **nautam** vocat. | buttons: subject dobj"
+    - "F2 **Agricola** silvam spectat. | buttons: subject dobj"
+    - "F2 Puella **silvam** amat. | buttons: subject dobj"
+    - "F2 **Via** fēminam vocat. | buttons: subject dobj"
+    - "F2 **Īnsula** nautam vocat. | buttons: subject dobj"
+    - "F2 Nauta **portam** spectat. | buttons: subject dobj"
+  D: 4
+  E:
+    - "F6 Viam puella spectat."
+    - "F6 Agricola nautam laudat."
+    - "F6 Agricolam nauta laudat."
+    - "F6 Portam fēmina spectat."
+  F:
+    A: [F6 Fēminam puella vocat., F6 Nauta silvam amat., "F2 Agricola **terram** spectat.", "F2 **Fēmina** aquam portat.", F6 Nautam agricola laudat., F1 īnsula, "F4 the girl, direct object | puell- | am", F6 Puella viam spectat.]
+    B: [F6 Agricolam fēmina vocat., F6 Puella īnsulam amat., "F2 Nauta **portam** spectat.", "F2 **Agricola** aquam portat.", F6 Puellam nauta laudat., F1 silva, "F4 the sailor, direct object | naut- | am", F6 Fēmina terram spectat.]
+  delayed: F6 Puellam nauta vocat.
+
+# ==========================================================================
+- n: 3
+  title: "-ās: the direct object, plural"
+  subtitle: accusative plural
+  new: ās
+  A:
+    words: [lūna, stēlla, et]
+    review: [silva, via, īnsula, porta]
+  B:
+    models:
+      - text: "**-ās** marks a plural direct object: more than one.\n\n*Nauta puellās vocat.* The sailor calls the girls."
+        audio: "*Puellās.* The ending is -ās. -ās marks a plural direct object. Accusative plural. *Nauta puellās vocat.* The sailor calls the girls."
+    echo: [F7 puellās, F7 puellam, F7 stēllās, F7 lūnam]
+    test: [F6 Nauta puellās vocat.]
+    examples:
+      - "F6N Nauta puellam vocat."
+      - "F6N Nauta puellās vocat."
+      - "F6N Fēmina stēllās spectat."
+      - "F6N Fēmina stēllam spectat."
+      - "F6N Agricola silvās spectat."
+      - "F6N Lūnam et stēllās nauta spectat."
+      - "F6N Īnsulās nauta amat."
+      - "F6N Fēminās agricola laudat."
+      - "F6N Puella portās spectat."
+      - "F6 Agricolam fēmina vocat."
+  C:
+    - "F3F2 Nauta **puellam** vocat."
+    - "F3F2 Nauta **puellās** vocat."
+    - "F3F2 Agricola **viās** spectat."
+    - "F3F2 Puella **viam** amat."
+    - "F3F2 Fēmina **stēllās** spectat."
+    - "F3F2 Nauta **lūnam** spectat."
+    - "F3F2 Agricola **īnsulās** amat."
+    - "F3F2 Fēmina **terram** amat."
+    - "F3F2 **Puella** stēllās spectat."
+    - "F3F2 **Agricola** viās amat."
+  D: 6
+  E:
+    - "F6 Agricola terrās amat."
+    - "F6 Viās puella spectat."
+    - "F6 Nauta lūnam et stēllās laudat."
+    - "F6 Fēminās et puellās nauta vocat."
+  F:
+    A: [F6 Puella nautās vocat., F6 Silvās fēmina amat., F3 viās, F3 īnsulam, "F2 Agricola **stēllās** spectat.", "F4 the women, direct object | fēmin- | ās", F6 Nautam puella laudat., F6 Agricola lūnam et stēllās spectat.]
+    B: [F6 Fēmina agricolās vocat., F6 Īnsulās puella amat., F3 portās, F3 silvam, "F2 Nauta **terrās** spectat.", "F4 the girls, direct object | puell- | ās", F6 Agricolam fēmina laudat., F6 Nauta stēllās et lūnam spectat.]
+  delayed: F6 Lūnam et stēllās nauta spectat.
+
+# ==========================================================================
+- n: 4
+  title: "-ae: the subject, plural, and verbs in -nt"
+  subtitle: nominative plural
+  new: ae
+  A:
+    words: [vocant, spectant, portant, amant, laudant]
+    review: [vocat, spectat, portat, amat, laudat, lūna, stēlla]
+    warmup:
+      - "EV The girl call__ | s"
+      - "EV The girls call__ | none"
+      - "EV The sailor watch__ | es"
+      - "EV The sailors watch__ | none"
+      - "NOTE In English the verb also changes when the subject is plural. Latin does the same with **-t** and **-nt**."
+  B:
+    models:
+      - text: "**-ae** marks a plural subject: more than one. Nominative plural.\n\nWhen the subject is plural, the verb ends in **-nt**. The verb agrees with its subject.\n\n*Puellae nautam vocant.* The girls call the sailor."
+        audio: "*Puellae.* The ending is -ae. -ae marks a plural subject. Nominative plural. Plural subject: the verb ends in -nt. *Puellae nautam vocant.* The girls call the sailor."
+    echo: [F7 puellae, F7 puellās, F7 nautae, F7 fēmina]
+    test: [F6 Puellae nautam vocant.]
+    examples:
+      - "F6V Puella nautam vocat."
+      - "F6V Puellae nautam vocant."
+      - "F6V Fēminae aquam portant."
+      - "F6V Agricolae terram amant."
+      - "F6V Nautae stēllās spectant."
+      - "F6V Puellae nautās vocant."
+      - "F6V Puellās nautae vocant."
+      - "F6V Fēminās puellae laudant."
+      - "F6V Nauta fēminās laudat."
+      - "F6 Silvās agricola spectat."
+  C:
+    - "F2 **Puellae** nautam vocant. | buttons: subject dobj"
+    - "F2 Nauta **puellās** vocat. | buttons: subject dobj"
+    - "F2 **Nautae** stēllās spectant. | buttons: subject dobj"
+    - "F2 Puella **nautās** vocat. | buttons: subject dobj"
+    - "F2 Agricola **fēminās** laudat. | buttons: subject dobj"
+    - "F2 **Agricolae** terram amant. | buttons: subject dobj"
+    - "F2 Nauta **stēllās** spectat. | buttons: subject dobj"
+    - "F2 **Fēminae** aquam portant. | buttons: subject dobj"
+    - "F3 fēmina"
+    - "F5 Fēmina aquam port__"
+    - "F3 fēminae"
+    - "F5 Fēminae aquam port__"
+    - "F3 nauta"
+    - "F5 Nauta stēllās spect__"
+    - "F3 nautae"
+    - "F5 Nautae stēllās spect__"
+  D: 6
+  E:
+    - "F6 Agricolae silvās spectant."
+    - "F6 Fēminam nautae laudant."
+    - "F6 Nautam fēminae laudant."
+    - "F6 Puellae lūnam et stēllās amant."
+  F:
+    A: [F6 Nautae puellam vocant., F6 Agricolās fēminae laudant., F5 Fēminae aquam port__, F5 Puella terram am__, "F2 **Agricolae** īnsulam amant.", "F2 Nautae **fēminās** spectant.", F6 Puellās agricola vocat., "F4 the sailors, subject | naut- | ae"]
+    B: [F6 Fēminae nautam vocant., F6 Puellās agricolae laudant., F5 Nautae stēllās spect__, F5 Agricola silvam am__, "F2 **Puellae** viam spectant.", "F2 Fēminae **agricolās** vocant.", F6 Nautās fēmina vocat., "F4 the farmers, subject | agricol- | ae"]
+  delayed: F6 Puellās nautae vocant.
+
+# ==========================================================================
+- n: 5
+  title: "Firm-up: the four endings"
+  subtitle: no new ending
+  names: {B: The table so far}
+  A:
+    words: [patria, fāma, vīta, nōn]
+    review_all: true
+  B:
+    models:
+      - text: "TABLE nom acc"
+        audio: "Four endings. Subject, nominative: -a, -ae. Direct object, accusative: -am, -ās."
+    echo: [F7 puellās, F7 fēminae, F7 nautam, F7 agricola, F7 terrās, F7 silvae, F7 īnsulam, F7 via]
+    test: []
+    examples:
+      - "F4 the girl, subject | puell- | a"
+      - "F4 the girls, direct object | puell- | ās"
+      - "F4 the sailor, direct object | naut- | am"
+      - "F4 the farmers, subject | agricol- | ae"
+      - "F4 the islands, direct object | īnsul- | ās"
+      - "F4 the woman, subject | fēmin- | a"
+      - "F4 the women, subject | fēmin- | ae"
+      - "F4 the land, direct object | terr- | am"
+  C:
+    - "F2 **Puellae** viam spectant. | buttons: subject dobj"
+    - "F2 Silvās **agricola** amat. | buttons: subject dobj"
+    - "F2 Nauta **fēminās** vocat. | buttons: subject dobj"
+    - "F2 **Fēminam** nautae laudant. | buttons: subject dobj"
+    - "F2 Stēllās **puellae** spectant. | buttons: subject dobj"
+    - "F2 **Patriam** nauta amat. | buttons: subject dobj"
+    - "F2 Agricolae **terram** amant. | buttons: subject dobj"
+    - "F2 **Fēmina** lūnam spectat. | buttons: subject dobj"
+    - "F2 Viam **nautae** amant. | buttons: subject dobj"
+    - "F2 Puella **īnsulās** spectat. | buttons: subject dobj"
+    - "F2 **Agricolās** fēmina vocat. | buttons: subject dobj"
+    - "F2 Fāmam **nauta** nōn amat. | buttons: subject dobj"
+  D: 8
+  E:
+    - "F6 Agricolae silvās spectant."
+    - "F6 Silvās agricolae spectant."
+    - "F6 Patriam nautae amant."
+    - "F6 Fāmam agricola nōn amat."
+    - "F6 Vītam fēminae laudant."
+    - "F6 Puella lūnam et stēllās amat."
+    - "F6 Fēminam nautae nōn laudant."
+    - "F6 Nautās fēmina nōn vocat."
+  F:
+    A: [F6 Fāmam nautae amant., F6 Agricola patriam laudat., F6 Puellās fēmina nōn vocat., F8 Nautae īnsulās spectant., "F4 the forests, direct object | silv- | ās", "F2 **Fēminae** vītam laudant.", "F8E the farmer, direct object | agricol___ | am", F6 Stēllās puella spectat.]
+    B: [F6 Vītam agricolae amant., F6 Nauta patriam laudat., F6 Fēminās puella nōn vocat., F8 Agricolae silvās spectant., "F4 the roads, direct object | vi- | ās", "F2 **Nautae** fāmam laudant.", "F8E the girl, direct object | puell___ | am", F6 Lūnam fēmina spectat.]
+  delayed: F6 Fēminam nautae nōn laudant.
+
+# ==========================================================================
+- n: 6
+  title: "-ārum: possession, plural"
+  subtitle: genitive plural
+  new: ārum
+  A:
+    review: [patria, fāma, vīta, silva, īnsula, via]
+  B1:
+    models:
+      - text: "**Possession** shows who or what something belongs to.\n\nEnglish shows it two ways: *the sailor's fame* · *the fame of the sailor*.\n\nThe owner is the word after **of**, or the word with **'s**."
+        plain: true
+    items:
+      - "ET [the girls'] [water] | the girls' | Tap the owner."
+      - "ET [the life] of [the farmers] | the farmers | Tap the owner."
+      - "ET [the woman's] [road] | the woman's | Tap the owner."
+      - "ET [the fame] of [the sailors] | the sailors | Tap the owner."
+      - "ET [the island's] [gate] | the island's | Tap the owner."
+      - "ET [The farmer] [praises] [the fame] of [the women]. | the women | Tap the owner."
+      - "E2 The sailors praise **the girl**. | dobj | buttons: subject dobj poss"
+      - "E2 The sailors praise the girl's **fame**. | dobj | buttons: subject dobj poss"
+      - "E2 The sailors praise the fame of **the girl**. | poss | buttons: subject dobj poss"
+  B:
+    models:
+      - text: "**-ārum** shows possession: “of the ___s.” It belongs to the noun next to it. Possession is the **genitive** case.\n\n*fāma nautārum* the fame of the sailors · the sailors' fame"
+        audio: "*Nautārum.* The ending is -ārum. -ārum shows possession: of the ___s. This is the genitive case. *Fāma nautārum.* The fame of the sailors."
+    echo: [F7 nautārum, F7 nautās, F7 silvārum, F7 silvae]
+    test: [F1 fāma nautārum]
+    examples:
+      - "F1 vīta agricolārum"
+      - "F1 aqua silvārum"
+      - "F1 patria puellārum"
+      - "F1 viae īnsulārum"
+      - "F1 terra fēminārum"
+      - "F6 Fēmina fāmam nautārum laudat."
+      - "F6 Fēmina nautās laudat."
+      - "F6 Agricolae aquam silvārum portant."
+      - "F6 Nauta vītam agricolārum laudat."
+      - "F6 Puellae viās īnsulārum spectant."
+      - "F6 Terram fēminārum agricolae amant."
+      - "F6 Nautae stēllās spectant."
+  C:
+    - "F2 Fēmina fāmam **nautārum** laudat. | buttons: dobj poss"
+    - "F2 Fēmina **nautās** laudat. | buttons: dobj poss"
+    - "F2 Agricola aquam **silvārum** portat. | buttons: dobj poss"
+    - "F2 Agricola **silvās** spectat. | buttons: dobj poss"
+    - "F2 Nauta **puellās** vocat. | buttons: dobj poss"
+    - "F2 Nauta viās **īnsulārum** amat. | buttons: dobj poss"
+    - "F2 Puella **fēminās** laudat. | buttons: dobj poss"
+    - "F2 Puella vītam **agricolārum** laudat. | buttons: dobj poss"
+  D: 8
+  E:
+    - "F6 Puella portam silvārum spectat."
+    - "F6 Nautae patriam agricolārum servant. | gloss: servant = save"
+    - "F6 Fāmam puellārum fēmina laudat."
+    - "F6 Agricola vītam nautārum nōn amat."
+  F:
+    A: [F6 Nauta fāmam fēminārum laudat., F6 Puellae aquam silvārum portant., "F2 Agricola vītam **nautārum** laudat.", "F2 Agricola **nautās** laudat.", F1 patria agricolārum, "F4 of the girls | puell- | ārum", F6 Viās īnsulārum nautae amant., F8 Fēmina terram puellārum spectat.]
+    B: [F6 Fēmina fāmam agricolārum laudat., F6 Nautae aquam īnsulārum portant., "F2 Puella vītam **fēminārum** laudat.", "F2 Puella **fēminās** laudat.", F1 terra nautārum, "F4 of the forests | silv- | ārum", F6 Viās silvārum agricolae amant., F8 Nauta terram fēminārum spectat.]
+  delayed: F6 Terram fēminārum agricolae amant.
+
+# ==========================================================================
+- n: 7
+  title: "-ae: possession, singular"
+  subtitle: genitive singular
+  new: ae
+  A:
+    review: [fāma, vīta, patria, porta, via]
+  B:
+    models:
+      - text: "**-ae** has a second job: possession for one, “of the ___.” Genitive singular.\n\nCheck the verb.\n\nVerb ends in **-nt**, no other subject → **-ae** is the subject.\n\nVerb ends in **-t** → **-ae** can't be the subject. It shows possession: “of the ___.”\n\n*Fēmina vītam puellae laudat.* The woman praises the life of the girl."
+        audio: "*Puellae.* You know -ae as a plural subject. -ae can also show possession for one: of the ___. Check the verb. *Laudat* ends in -t, so *puellae* can't be the subject. *Fēmina vītam puellae laudat.* The woman praises the life of the girl."
+    test: ["F2 Fēmina vītam **puellae** laudat."]
+    examples:
+      - "F2T **Puellae** aquam portant."
+      - "F2T Fēmina vītam **puellae** laudat."
+      - "F2T **Nautae** lūnam spectant."
+      - "F2T Agricola fāmam **nautae** laudat."
+      - "F2T Nauta viam **īnsulae** spectat."
+      - "F2T Silvam **patriae** agricola amat."
+      - "F2T **Fēminae** portam spectant."
+      - "F2T Fēminae fāmam **patriae** laudant."
+      - "NOTE Sentence 8 has two -ae words. *Fēminae* goes with *laudant*: the subject. *Patriae* sits right after *fāmam* and belongs to it: of the homeland."
+      - "F6 Puella fāmam nautārum laudat."
+  C:
+    - "F2F3 Fēmina vītam **puellae** laudat."
+    - "F2F3 Fēmina vītam **puellārum** laudat."
+    - "F2F3 Agricola fāmam **nautae** laudat."
+    - "F2F3 Agricola fāmam **nautārum** laudat."
+    - "F2F3 Nauta portam **silvae** spectat."
+    - "F2F3 Nauta portam **silvārum** spectat."
+  D: 8
+  E:
+    - "F6 Nauta portam silvae spectat."
+    - "F6 Agricolae vītam fēminae laudant."
+    - "F6 Puella stēllās patriae amat."
+    - "F6 Fāmam agricolae fēmina nōn laudat."
+  F:
+    A: ["F2 **Nautae** terram amant.", "F2 Puella fāmam **nautae** laudat.", F6 Agricola viam silvae spectat., F6 Fēminae vītam agricolae laudant., "F2 Nauta vītam **puellārum** laudat.", F3 puellārum, "F4 of the island | īnsul- | ae", F8 Nautae portam īnsulae spectant.]
+    B: ["F2 **Puellae** terram amant.", "F2 Nauta fāmam **fēminae** laudat.", F6 Fēmina viam īnsulae spectat., F6 Nautae vītam puellae laudant., "F2 Agricola vītam **fēminārum** laudat.", "F3 Nauta vītam **fēminae** laudat.", "F4 of the forest | silv- | ae", F8 Agricolae portam silvae spectant.]
+  delayed: F6 Fēminae fāmam patriae laudant.
+
+# ==========================================================================
+- n: 8
+  title: "-īs: to / for, plural"
+  subtitle: dative plural
+  new: īs
+  A:
+    words: [fābula, nārrat, nārrant, parat, parant]
+    review: [portat, aqua, via]
+  B1:
+    models:
+      - text: "Some verbs have a direct object and also someone who **gets** it.\n\n*The sailor tells a story **to the girls**.* The story is the direct object. The girls get it.\n\nEnglish can also drop the “to”: *The sailor tells **the girls** a story.* The girls still get the story. They are not the direct object."
+        plain: true
+    items:
+      - "ET [The woman] [carries] [water] for [the farmers]. | the farmers | Tap who gets it."
+      - "ET [The farmer] [prepares] [a road] for [the women]. | the women | Tap who gets it."
+      - "ET [The girl] [tells] [the sailors] [a story]. | the sailors | Tap who gets it."
+      - "ET [The sailor] [tells] [a story] to [the women]. | the women | Tap who gets it."
+      - "ET [The woman] [brings] [the farmers] [water]. | the farmers | Tap who gets it."
+      - "E2 The sailor calls **the girls**. | dobj | buttons: dobj tofor"
+      - "E2 The sailor tells **the girls** a story. | tofor | buttons: dobj tofor"
+      - "E2 The sailor tells the girls **a story**. | dobj | buttons: dobj tofor"
+  B:
+    models:
+      - text: "**-īs** means “to the ___s” or “for the ___s.” It names who gets the direct object. This is the **dative** case.\n\n*Nauta puellīs fābulam nārrat.* The sailor tells a story to the girls."
+        audio: "*Puellīs.* The ending is -īs. -īs means to the ___s or for the ___s. This is the dative case. *Nauta puellīs fābulam nārrat.* The sailor tells a story to the girls."
+    echo: [F7 puellīs, F7 puellās, F7 nautīs, F7 nautārum]
+    test: [F6 Nauta puellīs fābulam nārrat.]
+    examples:
+      - "F6 Nauta puellās vocat."
+      - "F6 Nauta puellīs fābulam nārrat."
+      - "F6 Fēmina agricolīs aquam portat."
+      - "F6 Agricola fēminīs viam parat."
+      - "F6 Puellae nautīs fābulās nārrant."
+      - "F6 Fābulam nautīs fēmina nārrat."
+      - "F6 Fēmina agricolās vocat."
+      - "F6 Nautae puellīs aquam portant."
+      - "F6 Agricolae vītam nautae laudant."
+  C:
+    - "F2 Nauta **puellās** vocat. | buttons: dobj poss tofor"
+    - "F2 Nauta vītam **puellārum** laudat. | buttons: dobj poss tofor"
+    - "F2 Nauta **puellīs** fābulam nārrat. | buttons: dobj poss tofor"
+    - "F2 Fēmina **nautīs** aquam portat. | buttons: dobj poss tofor"
+    - "F2 Fēmina **nautās** vocat. | buttons: dobj poss tofor"
+    - "F2 Agricola fāmam **fēminārum** laudat. | buttons: dobj poss tofor"
+    - "F2 Puella **agricolīs** viam parat. | buttons: dobj poss tofor"
+    - "F2 Agricola **fēminās** spectat. | buttons: dobj poss tofor"
+  D: 8
+  E:
+    - "F6 Puella fēminīs fābulam nārrat."
+    - "F6 Agricolae nautīs aquam parant."
+    - "F6 Fābulās puellīs nauta nārrat."
+    - "F6 Fēmina fābulās nautārum laudat."
+  F:
+    A: [F6 Nauta fēminīs fābulam nārrat., F6 Puellae agricolīs aquam portant., "F2 Fēmina **nautīs** viam parat.", "F2 Fēmina **nautās** vocat.", "F2 Fēmina fāmam **nautārum** laudat.", "F4 for the girls | puell- | īs", F6 Fābulam puellīs agricola nārrat., F8 Nautae fēminīs aquam parant.]
+    B: [F6 Agricola puellīs fābulam nārrat., F6 Fēminae nautīs aquam portant., "F2 Puella **agricolīs** viam parat.", "F2 Puella **agricolās** vocat.", "F2 Puella fāmam **agricolārum** laudat.", "F4 to the sailors | naut- | īs", F6 Fābulam fēminīs nauta nārrat., F8 Puellae agricolīs aquam parant.]
+  delayed: F6 Fābulam nautīs fēmina nārrat.
+
+# ==========================================================================
+- n: 9
+  title: "-ae: to / for, singular"
+  subtitle: dative singular
+  new: ae
+  A:
+    words: [servat, servant]
+    review: [nārrat, parat, portat, fābula]
+  B:
+    models:
+      - text: "**-ae** has a third job: “to the ___” or “for the ___” for one. Dative singular.\n\nThree jobs for -ae. Check in this order:\n\n1. Verb ends in **-nt**, no other subject → **subject**.\n\n2. Right after another noun → **possession**.\n\n3. Before the direct object, with a verb like tells, carries, prepares → **to / for**.\n\n*Nauta puellae fābulam nārrat.* The sailor tells a story to the girl."
+        audio: "*Puellae.* -ae has a third job: to or for one person. *Nārrat* ends in -t, so *puellae* isn't the subject. It doesn't come right after another noun. It comes before *fābulam*, the direct object. *Nauta puellae fābulam nārrat.* The sailor tells a story to the girl."
+    test: ["F2 Nauta **puellae** fābulam nārrat."]
+    examples:
+      - "F2T **Puellae** fābulam nārrant."
+      - "F2T Nauta **puellae** fābulam nārrat."
+      - "F2T Nauta fāmam **puellae** laudat."
+      - "F2T Agricola **fēminae** aquam portat."
+      - "F2T **Agricolae** aquam portant."
+      - "F2T Fēmina vītam **agricolae** laudat."
+      - "F2T Puella **agricolae** viam parat."
+      - "F2T Fēmina **nautae** īnsulam servat."
+      - "F6 Nauta puellīs fābulam nārrat."
+  C:
+    - "F2 **Nautae** stēllās spectant. | buttons: subject poss tofor"
+    - "F2 Fēmina **nautae** fābulam nārrat. | buttons: subject poss tofor"
+    - "F2 Fēmina vītam **nautae** laudat. | buttons: subject poss tofor"
+    - "F2 **Fēminae** aquam parant. | buttons: subject poss tofor"
+    - "F2 Puella **fēminae** aquam parat. | buttons: subject poss tofor"
+    - "F2 Puella portam **silvae** spectat. | buttons: subject poss tofor"
+    - "F2 Agricola **puellae** viam parat. | buttons: subject poss tofor"
+    - "F2 **Puellae** viam parant. | buttons: subject poss tofor"
+    - "F2 Nauta silvam **patriae** amat. | buttons: subject poss tofor"
+    - "F2 Nauta **fēminae** fābulam nārrat. | buttons: subject poss tofor"
+    - "F2 **Agricolae** terram servant. | buttons: subject poss tofor"
+    - "F2 Agricola fāmam **īnsulae** laudat. | buttons: subject poss tofor"
+  D: 8
+  E:
+    - "F6 Puella nautae fābulam nārrat."
+    - "F6 Agricolae fēminae viam parant."
+    - "F6 Fēmina fāmam nautae laudat."
+    - "F6 Fēmina nautīs fābulās nārrat."
+  F:
+    A: ["F2 Agricola **fēminae** fābulam nārrat.", "F2 Agricola vītam **fēminae** laudat.", "F2 **Fēminae** fābulam nārrant.", F6 Nauta puellae aquam portat., F6 Puellae agricolae viam parant., "F4 for the woman | fēmin- | ae", F6 Puella fāmam agricolae laudat., F8 Fēmina puellae fābulam nārrat.]
+    B: ["F2 Nauta **puellae** fābulam nārrat.", "F2 Nauta vītam **puellae** laudat.", "F2 **Puellae** fābulam nārrant.", F6 Agricola fēminae aquam portat., F6 Nautae puellae viam parant., "F4 to the sailor | naut- | ae", F6 Fēmina fāmam nautae laudat., F8 Puella fēminae fābulam nārrat.]
+  delayed: F6 Fēmina nautae īnsulam servat.
+
+# ==========================================================================
+- n: 10
+  title: "-ā: object of the preposition, singular"
+  subtitle: ablative
+  new: ā
+  A:
+    words: [in, cum, "ē, ex", "ā, ab", pugnat, pugnant]
+  B1:
+    models:
+      - text: "A **preposition** is a small word like *in, with, out of, away from*.\n\nThe noun after it is the **object of the preposition**.\n\n*in **the forest*** · *with **the woman*** · *out of **the forest***"
+        plain: true
+    items:
+      - "ET [The sailor] [fights] on [the island]. | the island | Tap the object of the preposition."
+      - "ET [The girl] [carries] [water] with [the woman]. | the woman | Tap the object of the preposition."
+      - "ET [The farmer] [carries] [water] out of [the forest]. | the forest | Tap the object of the preposition."
+      - "ET [The women] [watch] [the stars] in [the street]. | the street | Tap the object of the preposition."
+      - "ET [The girl] [calls] [the sailor] from [the gate]. | the gate | Tap the object of the preposition."
+      - "E2 **The forest** saves the farmer. | subject | buttons: subject dobj objprep"
+      - "E2 The farmer loves **the forest**. | dobj | buttons: subject dobj objprep"
+      - "E2 The farmer fights in **the forest**. | objprep | buttons: subject dobj objprep"
+  B:
+    models:
+      - text: "After **in, cum, ē, ex, ā, ab**, the object of the preposition ends in **-ā**. This is the **ablative** case.\n\nRead the noun with the preposition in front of it.\n\n*in silvā* in the forest · *cum fēminā* with the woman · *ē silvā* out of the forest\n\n**-ā** looks like **-a**. The word in front tells you which: a preposition means **-ā**."
+        audio: "*In silvā.* After *in*, *silva* is the object of the preposition. It ends in long -ā: ablative. *In silvā.* In the forest."
+    echo: [F7 silvā, F7 silva, F7 fēminā, F7 fēminam]
+    test: [F1 in silvā]
+    examples:
+      - "F1 in īnsulā"
+      - "F1 cum puellā"
+      - "F1 ē silvā"
+      - "F1 ā portā"
+      - "F1 in viā"
+      - "F6 Nauta in īnsulā pugnat."
+      - "F6 Puella cum fēminā aquam portat."
+      - "F6 Fēmina puellam vocat."
+      - "F6 Agricola ē silvā aquam portat."
+      - "F6 Fēminae in viā stēllās spectant."
+      - "F6 Puella ā portā nautam vocat."
+      - "F6 Silva agricolam nōn servat."
+  C:
+    - "F2 **Silva** agricolam servat. | buttons: subject objprep"
+    - "F2 Agricola in **silvā** pugnat. | buttons: subject objprep"
+    - "F2 **Fēmina** aquam portat. | buttons: subject objprep"
+    - "F2 Puella cum **fēminā** aquam portat. | buttons: subject objprep"
+    - "F2 **Puella** nautam vocat. | buttons: subject objprep"
+    - "F2 Nauta cum **puellā** pugnat. | buttons: subject objprep"
+    - "F2 **Īnsula** nautam servat. | buttons: subject objprep"
+    - "F2 Nauta in **īnsulā** pugnat. | buttons: subject objprep"
+  D: 8
+  E:
+    - "F6 Nautae in īnsulā patriam servant."
+    - "F6 Agricola cum puellā in silvā pugnat."
+    - "F6 Fēmina in viā puellae fābulam nārrat."
+    - "F6 Cum nautā agricola pugnat."
+  F:
+    A: [F1 cum nautā, F1 ē silvā, "F2 Puella in **īnsulā** pugnat.", "F2 **Puella** īnsulam amat.", F6 Agricola cum fēminā aquam portat., F6 Nautae in viā lūnam spectant., "F4 in the forest | in silv- | ā", F8 Puella ā portā agricolam vocat.]
+    B: [F1 cum fēminā, F1 ē viā, "F2 Nauta in **silvā** pugnat.", "F2 **Nauta** silvam amat.", F6 Fēmina cum puellā aquam portat., F6 Agricolae in īnsulā stēllās spectant., "F4 on the island | in īnsul- | ā", F8 Nauta ā portā fēminam vocat.]
+  delayed: F6 Puella ā portā nautam vocat.
+
+# ==========================================================================
+- n: 11
+  title: "-īs: object of the preposition, plural"
+  subtitle: ablative plural
+  new: īs
+  A:
+    review: [in, cum, "ē, ex", "ā, ab", nārrat, parat]
+  B:
+    models:
+      - text: "After a preposition, a plural object of the preposition ends in **-īs**. Ablative plural.\n\n*in silvīs* in the forests · *cum puellīs* with the girls\n\nYou already know **-īs** as “to / for.”\n\nPreposition in front → **object of the preposition** (ablative).\n\nNo preposition → **to / for** (dative)."
+        audio: "*In silvīs.* After a preposition, a plural object ends in -īs. Ablative plural. *In silvīs.* In the forests. No preposition in front: dative, to or for."
+    test: ["F2 Agricolae in **silvīs** pugnant."]
+    examples:
+      - "F2T Nauta **puellīs** fābulam nārrat."
+      - "F2T Nauta cum **puellīs** pugnat."
+      - "F2T Fēmina **agricolīs** aquam portat."
+      - "F2T Fēmina ē **silvīs** aquam portat."
+      - "F2T Nautae in **īnsulīs** lūnam spectant."
+      - "F2T Puellae **fēminīs** viam parant."
+      - "F2T Agricola in **silvā** pugnat."
+      - "F2T Puella cum **fēminīs** fābulās nārrat."
+  C:
+    - "F2 Fēmina **puellīs** aquam portat. | buttons: tofor objprep"
+    - "F2 Fēmina cum **puellīs** aquam portat. | buttons: tofor objprep"
+    - "F2 Agricola **nautīs** fābulam nārrat. | buttons: tofor objprep"
+    - "F2 Agricola cum **nautīs** pugnat. | buttons: tofor objprep"
+    - "F2 Nautae in **īnsulīs** pugnant. | buttons: tofor objprep"
+    - "F2 Nauta **fēminīs** viam parat. | buttons: tofor objprep"
+    - "F2 Puella ē **silvīs** aquam portat. | buttons: tofor objprep"
+    - "F2 Puella **agricolīs** fābulam nārrat. | buttons: tofor objprep"
+    - "F2 Nauta in **īnsulā** pugnat. | buttons: subject tofor objprep"
+    - "F2 Agricola cum **fēminā** aquam portat. | buttons: subject tofor objprep"
+  D: 8
+  E:
+    - "F6 Agricolae cum nautīs in silvīs pugnant."
+    - "F6 Fēmina puellīs ē silvā aquam portat."
+    - "F6 Nautae in viīs fēminīs fābulās nārrant."
+    - "F6 Fēminae ab īnsulīs aquam portant."
+  F:
+    A: ["F2 Fēmina **nautīs** fābulam nārrat.", "F2 Fēmina cum **nautīs** pugnat.", F1 in silvīs, F1 cum fēminīs, F6 Agricola ē silvīs aquam portat., F6 Puellae agricolīs viam parant., "F4 with the girls | cum puell- | īs", F8 Nautae in īnsulīs pugnant.]
+    B: ["F2 Nauta **fēminīs** fābulam nārrat.", "F2 Nauta cum **fēminīs** pugnat.", F1 in īnsulīs, F1 cum puellīs, F6 Fēmina ē silvīs aquam portat., F6 Nautae fēminīs viam parant., "F4 with the farmers | cum agricol- | īs", F8 Agricolae in silvīs pugnant.]
+  delayed: F6 Puella cum fēminīs fābulās nārrat.
+
+# ==========================================================================
+- n: 12
+  title: The whole table, and a reading
+  subtitle: everything
+  names: {B: The whole table}
+  A:
+    review_all: true
+  B:
+    models:
+      - text: "TABLE nom gen dat acc abl"
+        audio: "The whole table. Subject, nominative: -a, -ae. Possession, genitive: -ae, -ārum. To or for, dative: -ae, -īs. Direct object, accusative: -am, -ās. Object of the preposition, ablative: -ā, -īs."
+    test: []
+    examples:
+      - "F4 of the girls | puell- | ārum"
+      - "F4 with the woman | cum fēmin- | ā"
+      - "F4 the sailors, subject | naut- | ae"
+      - "F4 for the farmer | agricol- | ae"
+      - "F4 the islands, direct object | īnsul- | ās"
+      - "F4 in the forests | in silv- | īs"
+      - "F4 of the gate | port- | ae"
+      - "F4 the girl, direct object | puell- | am"
+      - "F4 to the women | fēmin- | īs"
+      - "F4 the farmer, subject | agricol- | a"
+  C:
+    - "F2 **Puella** nautam vocat."
+    - "F2 Puella **nautam** vocat."
+    - "F2 Nauta **puellam** spectat."
+    - "F2 Nauta **puellās** spectat."
+    - "F2 Agricola **fēminās** vocat."
+    - "F2 **Fēminae** agricolam vocant."
+    - "F2 Fēmina **nautās** laudat."
+    - "F2 Fēmina fāmam **nautārum** laudat."
+    - "F2 **Nautae** terram amant."
+    - "F2 Agricola fāmam **nautae** laudat."
+    - "F2 Agricola vītam **puellae** laudat."
+    - "F2 Agricola **puellae** aquam portat."
+    - "F2 Fēmina **agricolīs** fābulam nārrat."
+    - "F2 Fēmina cum **agricolīs** pugnat."
+    - "F2 **Silva** nautam servat."
+    - "F2 Nauta in **silvā** pugnat."
+  D: delayed
+  E:
+    reading:
+      title: Nauta et puellae
+      lines:
+        - Nauta in īnsulā lūnam et stēllās spectat.
+        - Puellae ē silvā aquam portant.
+        - Nauta puellās vocat et puellīs fābulam nārrat.
+        - Fābula fāmam nautārum laudat.
+        - Puellae fābulam nautae amant.
+        - Puellae cum nautā patriam servant.
+    questions:
+      - "Q Where is the sailor? | on the island | in the forest | in the street"
+      - "Q Where do the girls carry the water from? | out of the forest | out of the island | away from the gate"
+      - "Q Who hears the story? | the girls | the sailor | the farmers"
+      - "Q Whose fame does the story praise? | the sailors' | the girls' | the homeland's"
+      - "Q Who saves the homeland? | the girls, with the sailor | the sailor, alone | the farmers, with the girls"
+  F:
+    pass: 14
+    A:
+      - "F2 Fēmina vītam **puellārum** laudat."
+      - "F2 **Nautae** terram servant."
+      - "F2 Agricola **fēminae** fābulam nārrat."
+      - "F2 Agricola fāmam **fēminae** laudat."
+      - "F2 Puella in **silvā** pugnat."
+      - "F2 Puella **agricolīs** aquam portat."
+      - "F2 Puella cum **agricolīs** pugnat."
+      - "F2 Nauta **stēllās** spectat."
+      - "F6 Puellās nautae vocant."
+      - "F6 Fēmina puellae fābulam nārrat."
+      - "F6 Agricolae in īnsulīs patriam servant."
+      - "F6 Nauta fāmam agricolae laudat."
+      - "F4 of the islands | īnsul- | ārum"
+      - "F4 with the girl | cum puell- | ā"
+      - "F8 Fēminae nautīs aquam parant."
+      - "F8 Agricola cum puellīs in viā pugnat."
+    B:
+      - "F2 Puella vītam **fēminārum** laudat."
+      - "F2 **Agricolae** terram servant."
+      - "F2 Nauta **puellae** fābulam nārrat."
+      - "F2 Nauta fāmam **puellae** laudat."
+      - "F2 Fēmina in **īnsulā** pugnat."
+      - "F2 Fēmina **nautīs** aquam portat."
+      - "F2 Fēmina cum **nautīs** pugnat."
+      - "F2 Agricola **stēllās** spectat."
+      - "F6 Fēminās agricolae vocant."
+      - "F6 Puella fēminae fābulam nārrat."
+      - "F6 Nautae in silvīs patriam servant."
+      - "F6 Agricola fāmam nautae laudat."
+      - "F4 of the forests | silv- | ārum"
+      - "F4 with the woman | cum fēmin- | ā"
+      - "F8 Puellae agricolīs aquam parant."
+      - "F8 Nauta cum fēminīs in viā pugnat."
