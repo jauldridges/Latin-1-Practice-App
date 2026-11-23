@@ -236,6 +236,20 @@ class TestContent(unittest.TestCase):
             for s in ("A", "B"):
                 self.assertEqual((len(di_run.part_f(L, s)), di_run.pass_mark(L)), want, (L["n"], s))
 
+    def test_a_verb_stem_keeps_its_vowel(self):
+        # "port___" with -t / -nt would make "portt": the stem is porta-.
+        import re
+        seen = 0
+        for ref in di_run.all_refs():
+            for st in di_run.steps_for(ref):
+                if st.get("prompt") == "Which verb ending?":
+                    seen += 1
+                    stem = re.sub("<[^>]+>", "", st["show"]["html"]).split("___")[0].split()[-1]
+                    self.assertTrue(stem.endswith("a"), (ref, stem))
+                    for end in ("t", "nt"):
+                        self.assertEqual(di.word(stem + end)["kind"], "verb", (ref, stem + end))
+        self.assertGreater(seen, 15)
+
     def test_no_screen_says_mastery(self):
         for ref in di_run.all_refs():
             self.assertNotIn("master", json.dumps(di_run.steps_for(ref)).lower(), ref)

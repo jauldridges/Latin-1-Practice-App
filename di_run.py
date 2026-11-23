@@ -238,11 +238,14 @@ def _f5_step(latin, fmt="F5"):
     toks = di.tokens(latin)
     if "__" in latin:
         num = _subject_num_for_blank(latin)
-        shown = latin
+        # Every verb in the strand is first conjugation: keep its -a- (porta__,
+        # not port__), so -t and -nt each make a real verb.
+        shown = re.sub(r"(\S+?)__", lambda m: m.group(1) + ("" if m.group(1).endswith("a") else "a") + "__",
+                       latin)
     else:
         verb = next(t for t in toks if t["kind"] == "verb")
         num = verb["num"]
-        stem = verb["w"][:-2] if num == "sg" else verb["w"][:-3]
+        stem = verb["w"][:-1] if num == "sg" else verb["w"][:-2]       # portat, portant -> porta
         shown = latin.replace(verb["w"], stem + "__", 1)
     subj = next((t for t in di.parse(latin.replace("__", "at" if num == "sg" else "ant"))["tokens"]
                  if t.get("job") == "subject"), None)
