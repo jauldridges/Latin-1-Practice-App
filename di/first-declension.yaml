@@ -12,13 +12,13 @@
 #   F2F3 <latin **word**>      job, then one / more than one (F3F2: the other way)
 #   F2T <latin **word**>       job, then pick the translation
 #   F3 <latin or **word**>     One / More than one
-#   F4 <cue> | <stem-> | <ending>          build: tap the ending
+#   F4 <English, target **bold**> | <Latin with stem___> | <ending>   build: tap the ending
 #   F5 <latin with verb stem__>            tap -t or -nt
 #   F6 <latin>                 sentence steps, then the translation
 #   F6N / F6V                  ...with One/More than one on the object / with -t/-nt on the verb
 #   F7 <latin form>            echo: hear it, tap the ending
 #   F8 <latin>                 type the English
-#   F8E <cue> | <stem___> | <ending>       type the ending
+#   F8E <English, target **bold**> | <Latin with stem___> | <ending>  type the ending
 #   E3 <subject> / <verb> [/ <object>]     English: tap verb, subject, direct object (or No direct object)
 #   E2 <English with **words**> | <job>    English: name the job of the bold words  [| buttons: ...]
 #   ET <English with [chunks]> | <answer chunk or none> | <prompt>   English: tap a chunk
@@ -41,7 +41,7 @@ placement:
   - "F2 **Puella** nautam vocat."
   - "F2 Nauta **puellam** vocat."
   - "F2 Nauta **puellās** vocat."
-  - "F3 puellās"
+  - "F3 Nauta **puellās** vocat."
   - "F5 Puellae aquam port__"
   - "F6 Puellās nautae vocant."
   - "F2 Fēmina fāmam **nautārum** laudat."
@@ -67,6 +67,8 @@ lessons:
 - n: 0
   title: Jobs in a sentence
   subtitle: English only
+  today: "Every word in a sentence has a job. Today you find the jobs in English, so you know what the Latin endings have to show."
+  why: {B: "Three jobs, one at a time, in English: the Latin endings will show these same jobs."}
   names: {B: Three jobs}
   A: []
   B:
@@ -131,6 +133,7 @@ lessons:
 - n: 1
   title: "-a: the subject"
   subtitle: nominative
+  today: "In Latin, word order doesn't tell you who does what. The ending does. Today: -a marks the subject."
   new: a
   A:
     words: [puella, fēmina, nauta, agricola, aqua, vocat, spectat, portat, amat, laudat]
@@ -173,6 +176,7 @@ lessons:
 - n: 2
   title: "-am: the direct object"
   subtitle: accusative
+  today: "*Puella nautam vocat* and *Nautam puella vocat* mean the same thing. -am is why: it marks the direct object, wherever it sits."
   new: am
   A:
     words: [terra, silva, porta, via, īnsula]
@@ -214,14 +218,15 @@ lessons:
     - "F6 Agricolam nauta laudat."
     - "F6 Portam fēmina spectat."
   F:
-    A: [F6 Fēminam puella vocat., F6 Nauta silvam amat., "F2 Agricola **terram** spectat.", "F2 **Fēmina** aquam portat.", F6 Nautam agricola laudat., F1 īnsula, "F4 the girl, direct object | puell- | am", F6 Puella viam spectat.]
-    B: [F6 Agricolam fēmina vocat., F6 Puella īnsulam amat., "F2 Nauta **portam** spectat.", "F2 **Agricola** aquam portat.", F6 Puellam nauta laudat., F1 silva, "F4 the sailor, direct object | naut- | am", F6 Fēmina terram spectat.]
+    A: [F6 Fēminam puella vocat., F6 Nauta silvam amat., "F2 Agricola **terram** spectat.", "F2 **Fēmina** aquam portat.", F6 Nautam agricola laudat., F1 īnsula, "F4 The sailor calls **the girl**. | Nauta puell___ vocat. | am", F6 Puella viam spectat.]
+    B: [F6 Agricolam fēmina vocat., F6 Puella īnsulam amat., "F2 Nauta **portam** spectat.", "F2 **Agricola** aquam portat.", F6 Puellam nauta laudat., F1 silva, "F4 The woman praises **the sailor**. | Fēmina naut___ laudat. | am", F6 Fēmina terram spectat.]
   delayed: F6 Puellam nauta vocat.
 
 # ==========================================================================
 - n: 3
   title: "-ās: the direct object, plural"
   subtitle: accusative plural
+  today: "Today the direct object becomes more than one: -ās. One ending changes the English."
   new: ās
   A:
     words: [lūna, stēlla, et]
@@ -261,14 +266,15 @@ lessons:
     - "F6 Nauta lūnam et stēllās laudat."
     - "F6 Fēminās et puellās nauta vocat."
   F:
-    A: [F6 Puella nautās vocat., F6 Silvās fēmina amat., F3 viās, F3 īnsulam, "F2 Agricola **stēllās** spectat.", "F4 the women, direct object | fēmin- | ās", F6 Nautam puella laudat., F6 Agricola lūnam et stēllās spectat.]
-    B: [F6 Fēmina agricolās vocat., F6 Īnsulās puella amat., F3 portās, F3 silvam, "F2 Nauta **terrās** spectat.", "F4 the girls, direct object | puell- | ās", F6 Agricolam fēmina laudat., F6 Nauta stēllās et lūnam spectat.]
+    A: [F6 Puella nautās vocat., F6 Silvās fēmina amat., "F3 Fēmina **viās** amat.", "F3 Nauta **īnsulam** spectat.", "F2 Agricola **stēllās** spectat.", "F4 The farmer calls **the women**. | Agricola fēmin___ vocat. | ās", F6 Nautam puella laudat., F6 Agricola lūnam et stēllās spectat.]
+    B: [F6 Fēmina agricolās vocat., F6 Īnsulās puella amat., "F3 Puella **portās** spectat.", "F3 Agricola **silvam** amat.", "F2 Nauta **terrās** spectat.", "F4 The sailor watches **the girls**. | Nauta puell___ spectat. | ās", F6 Agricolam fēmina laudat., F6 Nauta stēllās et lūnam spectat.]
   delayed: F6 Lūnam et stēllās nauta spectat.
 
 # ==========================================================================
 - n: 4
   title: "-ae: the subject, plural, and verbs in -nt"
   subtitle: nominative plural
+  today: "-ae marks a subject that is more than one, and the verb changes to -nt to match. The verb is your check."
   new: ae
   A:
     words: [vocant, spectant, portant, amant, laudant]
@@ -320,14 +326,16 @@ lessons:
     - "F6 Nautam fēminae laudant."
     - "F6 Puellae lūnam et stēllās amant."
   F:
-    A: [F6 Nautae puellam vocant., F6 Agricolās fēminae laudant., F5 Fēminae aquam port__, F5 Puella terram am__, "F2 **Agricolae** īnsulam amant.", "F2 Nautae **fēminās** spectant.", F6 Puellās agricola vocat., "F4 the sailors, subject | naut- | ae"]
-    B: [F6 Fēminae nautam vocant., F6 Puellās agricolae laudant., F5 Nautae stēllās spect__, F5 Agricola silvam am__, "F2 **Puellae** viam spectant.", "F2 Fēminae **agricolās** vocant.", F6 Nautās fēmina vocat., "F4 the farmers, subject | agricol- | ae"]
+    A: [F6 Nautae puellam vocant., F6 Agricolās fēminae laudant., F5 Fēminae aquam port__, F5 Puella terram am__, "F2 **Agricolae** īnsulam amant.", "F2 Nautae **fēminās** spectant.", F6 Puellās agricola vocat., "F4 **The sailors** love the island. | Naut___ īnsulam amant. | ae"]
+    B: [F6 Fēminae nautam vocant., F6 Puellās agricolae laudant., F5 Nautae stēllās spect__, F5 Agricola silvam am__, "F2 **Puellae** viam spectant.", "F2 Fēminae **agricolās** vocant.", F6 Nautās fēmina vocat., "F4 **The farmers** carry the water. | Agricol___ aquam portant. | ae"]
   delayed: F6 Puellās nautae vocant.
 
 # ==========================================================================
 - n: 5
   title: "Firm-up: the four endings"
   subtitle: no new ending
+  today: "No new ending today. You put -a, -am, -ās and -ae together until you can tell them apart fast."
+  why: {B: "Everything so far in one table, so you can see how the endings fit together."}
   names: {B: The table so far}
   A:
     words: [patria, fāma, vīta, nōn]
@@ -339,14 +347,14 @@ lessons:
     echo: [F7 puellās, F7 fēminae, F7 nautam, F7 agricola, F7 terrās, F7 silvae, F7 īnsulam, F7 via]
     test: []
     examples:
-      - "F4 the girl, subject | puell- | a"
-      - "F4 the girls, direct object | puell- | ās"
-      - "F4 the sailor, direct object | naut- | am"
-      - "F4 the farmers, subject | agricol- | ae"
-      - "F4 the islands, direct object | īnsul- | ās"
-      - "F4 the woman, subject | fēmin- | a"
-      - "F4 the women, subject | fēmin- | ae"
-      - "F4 the land, direct object | terr- | am"
+      - "F4 **The girl** watches the stars. | Puell___ stēllās spectat. | a"
+      - "F4 The woman calls **the girls**. | Fēmina puell___ vocat. | ās"
+      - "F4 The farmers praise **the sailor**. | Agricolae naut___ laudant. | am"
+      - "F4 **The farmers** love the land. | Agricol___ terram amant. | ae"
+      - "F4 The sailor watches **the islands**. | Nauta īnsul___ spectat. | ās"
+      - "F4 **The woman** carries the water. | Fēmin___ aquam portat. | a"
+      - "F4 **The women** praise the homeland. | Fēmin___ patriam laudant. | ae"
+      - "F4 The farmer loves **the land**. | Agricola terr___ amat. | am"
   C:
     - "F2 **Puellae** viam spectant. | buttons: subject dobj"
     - "F2 Silvās **agricola** amat. | buttons: subject dobj"
@@ -371,14 +379,15 @@ lessons:
     - "F6 Fēminam nautae nōn laudant."
     - "F6 Nautās fēmina nōn vocat."
   F:
-    A: [F6 Fāmam nautae amant., F6 Agricola patriam laudat., F6 Puellās fēmina nōn vocat., F8 Nautae īnsulās spectant., "F4 the forests, direct object | silv- | ās", "F2 **Fēminae** vītam laudant.", "F8E the farmer, direct object | agricol___ | am", F6 Stēllās puella spectat.]
-    B: [F6 Vītam agricolae amant., F6 Nauta patriam laudat., F6 Fēminās puella nōn vocat., F8 Agricolae silvās spectant., "F4 the roads, direct object | vi- | ās", "F2 **Nautae** fāmam laudant.", "F8E the girl, direct object | puell___ | am", F6 Lūnam fēmina spectat.]
+    A: [F6 Fāmam nautae amant., F6 Agricola patriam laudat., F6 Puellās fēmina nōn vocat., F8 Nautae īnsulās spectant., "F4 The girls watch **the forests**. | Puellae silv___ spectant. | ās", "F2 **Fēminae** vītam laudant.", "F8E The women call **the farmer**. | Fēminae agricol___ vocant. | am", F6 Stēllās puella spectat.]
+    B: [F6 Vītam agricolae amant., F6 Nauta patriam laudat., F6 Fēminās puella nōn vocat., F8 Agricolae silvās spectant., "F4 The sailors love **the roads**. | Nautae vi___ amant. | ās", "F2 **Nautae** fāmam laudant.", "F8E The sailors praise **the girl**. | Nautae puell___ laudant. | am", F6 Lūnam fēmina spectat.]
   delayed: F6 Fēminam nautae nōn laudant.
 
 # ==========================================================================
 - n: 6
   title: "-ārum: possession, plural"
   subtitle: genitive plural
+  today: "A new job: possession, “of the ___s.” -ārum is long and easy to spot, so it comes first."
   new: ārum
   A:
     review: [patria, fāma, vīta, silva, īnsula, via]
@@ -431,14 +440,15 @@ lessons:
     - "F6 Fāmam puellārum fēmina laudat."
     - "F6 Agricola vītam nautārum nōn amat."
   F:
-    A: [F6 Nauta fāmam fēminārum laudat., F6 Puellae aquam silvārum portant., "F2 Agricola vītam **nautārum** laudat.", "F2 Agricola **nautās** laudat.", F1 patria agricolārum, "F4 of the girls | puell- | ārum", F6 Viās īnsulārum nautae amant., F8 Fēmina terram puellārum spectat.]
-    B: [F6 Fēmina fāmam agricolārum laudat., F6 Nautae aquam īnsulārum portant., "F2 Puella vītam **fēminārum** laudat.", "F2 Puella **fēminās** laudat.", F1 terra nautārum, "F4 of the forests | silv- | ārum", F6 Viās silvārum agricolae amant., F8 Nauta terram fēminārum spectat.]
+    A: [F6 Nauta fāmam fēminārum laudat., F6 Puellae aquam silvārum portant., "F2 Agricola vītam **nautārum** laudat.", "F2 Agricola **nautās** laudat.", F1 patria agricolārum, "F4 The woman praises the life **of the girls**. | Fēmina vītam puell___ laudat. | ārum", F6 Viās īnsulārum nautae amant., F8 Fēmina terram puellārum spectat.]
+    B: [F6 Fēmina fāmam agricolārum laudat., F6 Nautae aquam īnsulārum portant., "F2 Puella vītam **fēminārum** laudat.", "F2 Puella **fēminās** laudat.", F1 terra nautārum, "F4 The farmers carry the water **of the forests**. | Agricolae aquam silv___ portant. | ārum", F6 Viās silvārum agricolae amant., F8 Nauta terram fēminārum spectat.]
   delayed: F6 Terram fēminārum agricolae amant.
 
 # ==========================================================================
 - n: 7
   title: "-ae: possession, singular"
   subtitle: genitive singular
+  today: "-ae already marks a subject that is more than one. Today it gets a second job, possession, and the verb tells you which job it has."
   new: ae
   A:
     review: [fāma, vīta, patria, porta, via]
@@ -472,14 +482,15 @@ lessons:
     - "F6 Puella stēllās patriae amat."
     - "F6 Fāmam agricolae fēmina nōn laudat."
   F:
-    A: ["F2 **Nautae** terram amant.", "F2 Puella fāmam **nautae** laudat.", F6 Agricola viam silvae spectat., F6 Fēminae vītam agricolae laudant., "F2 Nauta vītam **puellārum** laudat.", F3 puellārum, "F4 of the island | īnsul- | ae", F8 Nautae portam īnsulae spectant.]
-    B: ["F2 **Puellae** terram amant.", "F2 Nauta fāmam **fēminae** laudat.", F6 Fēmina viam īnsulae spectat., F6 Nautae vītam puellae laudant., "F2 Agricola vītam **fēminārum** laudat.", "F3 Nauta vītam **fēminae** laudat.", "F4 of the forest | silv- | ae", F8 Agricolae portam silvae spectant.]
+    A: ["F2 **Nautae** terram amant.", "F2 Puella fāmam **nautae** laudat.", F6 Agricola viam silvae spectat., F6 Fēminae vītam agricolae laudant., "F2 Nauta vītam **puellārum** laudat.", "F3 Nauta fāmam **puellārum** laudat.", "F4 The sailor watches the road **of the island**. | Nauta viam īnsul___ spectat. | ae", F8 Nautae portam īnsulae spectant.]
+    B: ["F2 **Puellae** terram amant.", "F2 Nauta fāmam **fēminae** laudat.", F6 Fēmina viam īnsulae spectat., F6 Nautae vītam puellae laudant., "F2 Agricola vītam **fēminārum** laudat.", "F3 Nauta vītam **fēminae** laudat.", "F4 The farmer praises the water **of the forest**. | Agricola aquam silv___ laudat. | ae", F8 Agricolae portam silvae spectant.]
   delayed: F6 Fēminae fāmam patriae laudant.
 
 # ==========================================================================
 - n: 8
   title: "-īs: to / for, plural"
   subtitle: dative plural
+  today: "A new job: to / for, the one who gets something. -īs marks it for more than one."
   new: īs
   A:
     words: [fābula, nārrat, nārrant, parat, parant]
@@ -529,14 +540,15 @@ lessons:
     - "F6 Fābulās puellīs nauta nārrat."
     - "F6 Fēmina fābulās nautārum laudat."
   F:
-    A: [F6 Nauta fēminīs fābulam nārrat., F6 Puellae agricolīs aquam portant., "F2 Fēmina **nautīs** viam parat.", "F2 Fēmina **nautās** vocat.", "F2 Fēmina fāmam **nautārum** laudat.", "F4 for the girls | puell- | īs", F6 Fābulam puellīs agricola nārrat., F8 Nautae fēminīs aquam parant.]
-    B: [F6 Agricola puellīs fābulam nārrat., F6 Fēminae nautīs aquam portant., "F2 Puella **agricolīs** viam parat.", "F2 Puella **agricolās** vocat.", "F2 Puella fāmam **agricolārum** laudat.", "F4 to the sailors | naut- | īs", F6 Fābulam fēminīs nauta nārrat., F8 Puellae agricolīs aquam parant.]
+    A: [F6 Nauta fēminīs fābulam nārrat., F6 Puellae agricolīs aquam portant., "F2 Fēmina **nautīs** viam parat.", "F2 Fēmina **nautās** vocat.", "F2 Fēmina fāmam **nautārum** laudat.", "F4 The woman prepares water **for the girls**. | Fēmina puell___ aquam parat. | īs", F6 Fābulam puellīs agricola nārrat., F8 Nautae fēminīs aquam parant.]
+    B: [F6 Agricola puellīs fābulam nārrat., F6 Fēminae nautīs aquam portant., "F2 Puella **agricolīs** viam parat.", "F2 Puella **agricolās** vocat.", "F2 Puella fāmam **agricolārum** laudat.", "F4 The farmer tells a story **to the sailors**. | Agricola naut___ fābulam nārrat. | īs", F6 Fābulam fēminīs nauta nārrat., F8 Puellae agricolīs aquam parant.]
   delayed: F6 Fābulam nautīs fēmina nārrat.
 
 # ==========================================================================
 - n: 9
   title: "-ae: to / for, singular"
   subtitle: dative singular
+  today: "-ae gets a third job: to / for one person. Where it sits and the verb tell you which job it has."
   new: ae
   A:
     words: [servat, servant]
@@ -576,14 +588,15 @@ lessons:
     - "F6 Fēmina fāmam nautae laudat."
     - "F6 Fēmina nautīs fābulās nārrat."
   F:
-    A: ["F2 Agricola **fēminae** fābulam nārrat.", "F2 Agricola vītam **fēminae** laudat.", "F2 **Fēminae** fābulam nārrant.", F6 Nauta puellae aquam portat., F6 Puellae agricolae viam parant., "F4 for the woman | fēmin- | ae", F6 Puella fāmam agricolae laudat., F8 Fēmina puellae fābulam nārrat.]
-    B: ["F2 Nauta **puellae** fābulam nārrat.", "F2 Nauta vītam **puellae** laudat.", "F2 **Puellae** fābulam nārrant.", F6 Agricola fēminae aquam portat., F6 Nautae puellae viam parant., "F4 to the sailor | naut- | ae", F6 Fēmina fāmam nautae laudat., F8 Puella fēminae fābulam nārrat.]
+    A: ["F2 Agricola **fēminae** fābulam nārrat.", "F2 Agricola vītam **fēminae** laudat.", "F2 **Fēminae** fābulam nārrant.", F6 Nauta puellae aquam portat., F6 Puellae agricolae viam parant., "F4 The girl carries water **for the woman**. | Puella fēmin___ aquam portat. | ae", F6 Puella fāmam agricolae laudat., F8 Fēmina puellae fābulam nārrat.]
+    B: ["F2 Nauta **puellae** fābulam nārrat.", "F2 Nauta vītam **puellae** laudat.", "F2 **Puellae** fābulam nārrant.", F6 Agricola fēminae aquam portat., F6 Nautae puellae viam parant., "F4 The girl tells a story **to the sailor**. | Puella naut___ fābulam nārrat. | ae", F6 Fēmina fāmam nautae laudat., F8 Puella fēminae fābulam nārrat.]
   delayed: F6 Fēmina nautae īnsulam servat.
 
 # ==========================================================================
 - n: 10
   title: "-ā: object of the preposition, singular"
   subtitle: ablative
+  today: "After in, cum, ē / ex and ā / ab, one thing ends in -ā: a long ā, not the subject's -a."
   new: ā
   A:
     words: [in, cum, "ē, ex", "ā, ab", pugnat, pugnant]
@@ -635,14 +648,15 @@ lessons:
     - "F6 Fēmina in viā puellae fābulam nārrat."
     - "F6 Cum nautā agricola pugnat."
   F:
-    A: [F1 cum nautā, F1 ē silvā, "F2 Puella in **īnsulā** pugnat.", "F2 **Puella** īnsulam amat.", F6 Agricola cum fēminā aquam portat., F6 Nautae in viā lūnam spectant., "F4 in the forest | in silv- | ā", F8 Puella ā portā agricolam vocat.]
-    B: [F1 cum fēminā, F1 ē viā, "F2 Nauta in **silvā** pugnat.", "F2 **Nauta** silvam amat.", F6 Fēmina cum puellā aquam portat., F6 Agricolae in īnsulā stēllās spectant., "F4 on the island | in īnsul- | ā", F8 Nauta ā portā fēminam vocat.]
+    A: [F1 cum nautā, F1 ē silvā, "F2 Puella in **īnsulā** pugnat.", "F2 **Puella** īnsulam amat.", F6 Agricola cum fēminā aquam portat., F6 Nautae in viā lūnam spectant., "F4 The sailor fights **in the forest**. | Nauta in silv___ pugnat. | ā", F8 Puella ā portā agricolam vocat.]
+    B: [F1 cum fēminā, F1 ē viā, "F2 Nauta in **silvā** pugnat.", "F2 **Nauta** silvam amat.", F6 Fēmina cum puellā aquam portat., F6 Agricolae in īnsulā stēllās spectant., "F4 The farmers fight **on the island**. | Agricolae in īnsul___ pugnant. | ā", F8 Nauta ā portā fēminam vocat.]
   delayed: F6 Puella ā portā nautam vocat.
 
 # ==========================================================================
 - n: 11
   title: "-īs: object of the preposition, plural"
   subtitle: ablative plural
+  today: "After a preposition, more than one ends in -īs, the same ending as to / for. The preposition tells you which job it is."
   new: īs
   A:
     review: [in, cum, "ē, ex", "ā, ab", nārrat, parat]
@@ -678,33 +692,36 @@ lessons:
     - "F6 Nautae in viīs fēminīs fābulās nārrant."
     - "F6 Fēminae ab īnsulīs aquam portant."
   F:
-    A: ["F2 Fēmina **nautīs** fābulam nārrat.", "F2 Fēmina cum **nautīs** pugnat.", F1 in silvīs, F1 cum fēminīs, F6 Agricola ē silvīs aquam portat., F6 Puellae agricolīs viam parant., "F4 with the girls | cum puell- | īs", F8 Nautae in īnsulīs pugnant.]
-    B: ["F2 Nauta **fēminīs** fābulam nārrat.", "F2 Nauta cum **fēminīs** pugnat.", F1 in īnsulīs, F1 cum puellīs, F6 Fēmina ē silvīs aquam portat., F6 Nautae fēminīs viam parant., "F4 with the farmers | cum agricol- | īs", F8 Agricolae in silvīs pugnant.]
+    A: ["F2 Fēmina **nautīs** fābulam nārrat.", "F2 Fēmina cum **nautīs** pugnat.", F1 in silvīs, F1 cum fēminīs, F6 Agricola ē silvīs aquam portat., F6 Puellae agricolīs viam parant., "F4 The woman fights **with the girls**. | Fēmina cum puell___ pugnat. | īs", F8 Nautae in īnsulīs pugnant.]
+    B: ["F2 Nauta **fēminīs** fābulam nārrat.", "F2 Nauta cum **fēminīs** pugnat.", F1 in īnsulīs, F1 cum puellīs, F6 Fēmina ē silvīs aquam portat., F6 Nautae fēminīs viam parant., "F4 The sailor saves the homeland **with the farmers**. | Nauta cum agricol___ patriam servat. | īs", F8 Agricolae in silvīs pugnant.]
   delayed: F6 Puella cum fēminīs fābulās nārrat.
 
 # ==========================================================================
 - n: 12
   title: The whole table, and a reading
   subtitle: everything
+  today: "Every ending together, the way a story uses them. Then you read one."
+  why: {B: "The whole table at once, then you build each ending in a sentence.", D: "The hardest item from every lesson, one more time.", F: "16 new questions, no help. 14 right on the first try finishes the first declension."}
   names: {B: The whole table}
   A:
     review_all: true
+    review_max: 10
   B:
     models:
       - text: "TABLE nom gen dat acc abl"
         audio: "The whole table. Subject, nominative: -a, -ae. Possession, genitive: -ae, -ārum. To or for, dative: -ae, -īs. Direct object, accusative: -am, -ās. Object of the preposition, ablative: -ā, -īs."
     test: []
     examples:
-      - "F4 of the girls | puell- | ārum"
-      - "F4 with the woman | cum fēmin- | ā"
-      - "F4 the sailors, subject | naut- | ae"
-      - "F4 for the farmer | agricol- | ae"
-      - "F4 the islands, direct object | īnsul- | ās"
-      - "F4 in the forests | in silv- | īs"
-      - "F4 of the gate | port- | ae"
-      - "F4 the girl, direct object | puell- | am"
-      - "F4 to the women | fēmin- | īs"
-      - "F4 the farmer, subject | agricol- | a"
+      - "F4 The sailor praises the fame **of the girls**. | Nauta fāmam puell___ laudat. | ārum"
+      - "F4 The girl fights **with the woman**. | Puella cum fēmin___ pugnat. | ā"
+      - "F4 **The sailors** watch the moon. | Naut___ lūnam spectant. | ae"
+      - "F4 The girl prepares water **for the farmer**. | Puella agricol___ aquam parat. | ae"
+      - "F4 The sailors love **the islands**. | Nautae īnsul___ amant. | ās"
+      - "F4 The farmers fight **in the forests**. | Agricolae in silv___ pugnant. | īs"
+      - "F4 The farmer watches the road **of the gate**. | Agricola viam port___ spectat. | ae"
+      - "F4 The women call **the girl**. | Fēminae puell___ vocant. | am"
+      - "F4 The sailor tells a story **to the women**. | Nauta fēmin___ fābulam nārrat. | īs"
+      - "F4 **The farmer** saves the homeland. | Agricol___ patriam servat. | a"
   C:
     - "F2 **Puella** nautam vocat."
     - "F2 Puella **nautam** vocat."
@@ -754,8 +771,8 @@ lessons:
       - "F6 Fēmina puellae fābulam nārrat."
       - "F6 Agricolae in īnsulīs patriam servant."
       - "F6 Nauta fāmam agricolae laudat."
-      - "F4 of the islands | īnsul- | ārum"
-      - "F4 with the girl | cum puell- | ā"
+      - "F4 The sailors watch the roads **of the islands**. | Nautae viās īnsul___ spectant. | ārum"
+      - "F4 The farmer fights **with the girl**. | Agricola cum puell___ pugnat. | ā"
       - "F8 Fēminae nautīs aquam parant."
       - "F8 Agricola cum puellīs in viā pugnat."
     B:
@@ -771,7 +788,7 @@ lessons:
       - "F6 Puella fēminae fābulam nārrat."
       - "F6 Nautae in silvīs patriam servant."
       - "F6 Agricola fāmam nautae laudat."
-      - "F4 of the forests | silv- | ārum"
-      - "F4 with the woman | cum fēmin- | ā"
+      - "F4 The girl loves the water **of the forests**. | Puella aquam silv___ amat. | ārum"
+      - "F4 The sailor saves the homeland **with the woman**. | Nauta cum fēmin___ patriam servat. | ā"
       - "F8 Puellae agricolīs aquam parant."
       - "F8 Nauta cum fēminīs in viā pugnat."

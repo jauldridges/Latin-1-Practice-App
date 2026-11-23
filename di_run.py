@@ -257,10 +257,32 @@ def _f5_step(latin, fmt="F5"):
                    opts, "nt" if num == "pl" else "t", rule, fmt=fmt, onetap=True)
 
 
+def _context(body, more):
+    """F4 / F8E: (English sentence with the target in **bold**, Latin
+    sentence with the word's stem and ___, the ending)."""
+    return body.strip(), more[0].strip(), more[1].strip()
+
+
+def _filled_word(latin, ending):
+    word = next(w for w in latin.split() if "___" in w)
+    return word.replace("___", ending).strip(".,;")
+
+
+def _bold_text(en):
+    return en.split("**")[1] if "**" in en else en
+
+
+def _context_html(en, latin):
+    return ("<p class=\"di-cue\">%s</p><p class=\"di-stem\"><em class=\"la\">%s</em></p>"
+            % (_md_inline(en), _md_inline(latin)))
+
+
 def steps_for(ref, n=None):
     """The screens of one item (or note / model), in order."""
     raw, n = resolve(ref, n)
-    if isinstance(raw, dict):                           # a model screen or a reading
+    if isinstance(raw, dict):                           # a model screen, a reading, the intro
+        if raw.get("intro"):
+            return [{"kind": "intro", "fmt": "INTRO"}]
         if "lines" in raw:
             return [{"kind": "reading", "title": raw.get("title", ""),
                      "lines": [_md_inline("*%s*" % l) for l in raw["lines"]],
@@ -317,13 +339,12 @@ def steps_for(ref, n=None):
         return [_number_step(body, None, t)]
 
     if code == "F4":
-        cue, stem, ending = body, more[0], more[1]
-        form = stem.rstrip("-") + ending
-        rule = "“%s”: *%s*, with **-%s**." % (cue, form, ending)
+        en, latin, ending = _context(body, more)
+        form = _filled_word(latin, ending)
+        rule = "“%s”: *%s*, with **-%s**." % (_bold_text(en), form, ending)
         opts_ = [{"v": e, "label": "-" + e, "sub": ""} for e in di.ending_buttons(max(n, di.ENDING_FROM[ending]))]
-        return [_choice("Which ending?", {"html": "<p class=\"di-cue\">%s</p><p class=\"di-stem\"><em class=\"la\">%s</em></p>"
-                                          % (_md_inline(cue), _md_inline(stem.rstrip("-") + "___")), "latin": True},
-                        opts_, ending, rule, audio=form, fmt="F4")]
+        return [_choice("Which ending does the Latin need?", {"html": _context_html(en, latin), "latin": True},
+                        opts_, ending, rule, audio=latin.replace("___", ending), fmt="F4")]
 
     if code == "F5":
         return [_f5_step(body)]
@@ -371,13 +392,12 @@ def steps_for(ref, n=None):
                  "rule": "**%s**" % di.translate(latin), "audio": latin, "fmt": "F8"}]
 
     if code == "F8E":
-        cue, stem, ending = body, more[0], more[1]
-        form = stem.replace("_", "") + ending
-        return [{"kind": "type", "mode": "ending", "prompt": "Type the ending. Macrons aren't needed.",
-                 "show": {"html": "<p class=\"di-cue\">%s</p><p class=\"di-stem\"><em class=\"la\">%s</em></p>"
-                          % (_md_inline(cue), _md_inline(stem)), "latin": True},
-                 "answer": ending, "rule": "“%s”: *%s*, with **-%s**." % (cue, form, ending),
-                 "audio": form, "fmt": "F8"}]
+        en, latin, ending = _context(body, more)
+        form = _filled_word(latin, ending)
+        return [{"kind": "type", "mode": "ending", "prompt": "Type the ending the Latin needs. Macrons aren't needed.",
+                 "show": {"html": _context_html(en, latin), "latin": True},
+                 "answer": ending, "rule": "“%s”: *%s*, with **-%s**." % (_bold_text(en), form, ending),
+                 "audio": latin.replace("___", ending), "fmt": "F8"}]
 
     if code == "E3":
         chunks = [c.strip() for c in body.split(" / ")]
@@ -454,6 +474,8 @@ def resolve(ref, n=None):
     """(the raw item: a line or a model dict, its lesson number)."""
     bits = ref.split("/")
     doc = load()
+    if len(bits) == 2 and bits[1] == "intro":          # the "Today" screen at the start of a run
+        return {"intro": True}, (12 if bits[0] == "P" else int(bits[0]))
     if bits[0] == "P":
         return doc["placement"][int(bits[1])], 12
     L = doc["by_n"][int(bits[0])]
@@ -494,6 +516,89 @@ def item_code(ref):
 # Laying a lesson out
 # --------------------------------------------------------------------------
 
+# Why each part is there, said to the student once, when the part begins.
+PART_WHY = {
+    "A": "Words first: you can't read an ending on a word you don't know.",
+    "B1": "The job in English first, so you know what the Latin ending has to show.",
+    "B": "Today's new ending, one small step at a time: see it, hear it, use it.",
+    "C": "Endings that look alike. This is where mistakes happen, so you practice telling them apart.",
+    "D": "Older endings come back so you keep them. The ones you missed come first.",
+    "E": "The endings in whole sentences, the way you'll meet them in a story.",
+    "F": "{k} new questions, no help. {p} right on the first try opens the next lesson.",
+    "P": "No help, on purpose: it finds the first lesson you need, so you skip what you know.",
+}
+TAPS_WHY = ("Why so many taps? Each one is a decision you make every time you read Latin: find the "
+            "verb, find the subject, read each ending's job, put it together. Doing them one at a "
+            "time now is what makes reading fast later.")
+
+
+def part_why(L, part):
+    text = PART_WHY.get(part, "")
+    if part == "F" and L:
+        F = L.get("F") or {}
+        text = text.format(k=len(F.get("A") or []), p=pass_mark(L))
+    return ((L or {}).get("why") or {}).get(part) or text
+
+
+def step_why(st, n):
+    """One grey line under a step: why this step, in this order."""
+    p, f, kind = st.get("prompt", ""), st.get("fmt", ""), st["kind"]
+    if f == "E":
+        return "Find the job in English first; the Latin ending will show the same job."
+    if p.startswith("Tap the") and p.endswith("verb."):
+        return ("Start with the verb: -t means look for one subject, -nt more than one." if n >= 4
+                else "Start with the verb: it says what happens, and the subject has to fit it.")
+    if p == "Tap the subject.":
+        return "Then the subject: the word whose ending fits the verb."
+    if p == "What job does the highlighted word do?":
+        return ("Every other ending tells you that word's job." if f == "F6"
+                else "The ending tells you the job, wherever the word sits in the sentence.")
+    if p == "One, or more than one?":
+        return "The ending also tells you one or more than one, and the English changes with it."
+    if p == "Which is the translation?":
+        return "Now put the jobs together. The wrong choices mix up one job or one number."
+    if p in ("Which verb ending?", "Which ending does the verb take?"):
+        return "The verb has to match its subject: one, or more than one."
+    if f == "F4" or (kind == "type" and st.get("mode") == "ending"):
+        return "Latin shows the job with the ending. Read the English, then give the word that job's ending."
+    if f == "F7":
+        return "Hear the ending on its own first, so you can catch it inside a sentence."
+    if p == "What does it mean?":
+        return ""
+    if kind == "type":
+        return "Type it yourself: this shows you can do every step without buttons."
+    if f == "Q":
+        return "If you can answer this, you read the endings right."
+    return ""
+
+
+def intro(state):
+    """The "Today" screen: what this run is, and why each part is in it."""
+    n, mode = state["n"], state["mode"]
+    L = lesson(n) if mode != "placement" else None
+    names = dict(PART_NAMES, **((L or {}).get("names") or {}))
+    order, count = [], {}
+    for e in state["seq"]:
+        if e["p"] == "I" or e.get("k") or e.get("f"):
+            continue
+        if e["p"] not in count:
+            order.append(e["p"])
+            count[e["p"]] = 0
+        count[e["p"]] += 1
+    parts = [{"part": p, "name": names.get(p, ""), "why": part_why(L, p), "count": count[p]} for p in order]
+    if mode == "placement":
+        lead = "18 questions, about 5 minutes."
+    elif mode == "again":
+        lead = ("One more run at the examples and the look-alikes, then a new check. A second run is "
+                "normal: it's what this is for.")
+    elif mode == "check":
+        lead = "Just the check."
+    else:
+        lead = (L or {}).get("today") or ""
+    return {"title": "Placement check" if mode == "placement" else "Lesson %d: %s" % (n, L["title"]),
+            "lead": lead, "parts": parts, "taps": TAPS_WHY if mode in ("full", "again") else ""}
+
+
 PART_NAMES = {"A": "Words", "B1": "The job in English", "B": "New ending", "C": "Look-alikes",
               "D": "Review", "E": "Sentences", "F": "Lesson check", "P": "Placement"}
 
@@ -521,6 +626,8 @@ def part_a(L, rnd, missed_words=()):
     rnd.shuffle(seq)
     if missed_words:                                    # Lesson 12: missed words first
         seq.sort(key=lambda w: w not in missed_words)
+    if A.get("review_max"):
+        seq = seq[:len(words) + int(A["review_max"])]
     out = [{"r": "%d/A/w/%s" % (n, w), "p": "A"} for w in seq]
     out += _entries("%d/A/warmup" % n, A.get("warmup"), "A")
     return out
@@ -638,9 +745,9 @@ def placement_lesson(missed_indexes):
 
 def new_state(n, mode, student, run, check_set="A", missed=(), missed_words=()):
     if mode == "placement":
-        seq = build_placement()
+        seq = [{"r": "P/intro", "p": "I"}] + build_placement()
     else:
-        seq = build(n, mode, check_set, student, run, missed, missed_words)
+        seq = [{"r": "%d/intro" % n, "p": "I"}] + build(n, mode, check_set, student, run, missed, missed_words)
     return {"v": 1, "n": n, "mode": mode, "set": check_set, "run": run, "seq": seq, "pos": 0,
             "step": 0, "lat": 0, "score": [], "missed": [], "t": time.time(), "done": None}
 
@@ -691,7 +798,7 @@ def answer(state, value, latency_ms=None):
     if e is None:
         return state, {"result": "next", "event": None, "finished": True}
     st = steps[k]
-    if st["kind"] in ("model", "note", "reading", "correction"):
+    if st["kind"] in ("model", "note", "reading", "correction", "intro"):
         state["pos"] += 1
         state["step"] = 0
         return state, _after(state, {"result": "next", "event": None})
@@ -868,7 +975,14 @@ def problems():
         if isinstance(raw, str) and ref[0] != "P" and raw.split(" ", 1)[0][0] == "F":
             code, body, more, opts = _fields(raw)
             if code in ("F4", "F8E"):
-                continue
+                en, latin, ending = _context(body, more)
+                if "**" not in en or latin.count("___") != 1:
+                    out.append("%s: needs an English sentence with the target in **bold** and a Latin one with ___" % ref)
+                    continue
+                said = di.translate(latin.replace("___", ending))
+                if said != en.replace("**", ""):
+                    out.append("%s: the Latin says “%s”, not “%s”" % (ref, said, en.replace("**", "")))
+                body = latin.replace("___", ending)
             known = stems_taught(n)
             glossed = {w.strip().split("=")[0].strip() for w in (opts.get("gloss") or "").split(",") if w}
             for t in di.tokens(_plain(body.replace("__", "at"))):

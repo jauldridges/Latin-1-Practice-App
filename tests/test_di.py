@@ -250,6 +250,37 @@ class TestContent(unittest.TestCase):
                         self.assertEqual(di.word(stem + end)["kind"], "verb", (ref, stem + end))
         self.assertGreater(seen, 15)
 
+    def test_endings_are_built_inside_a_sentence(self):
+        # "of the gate - port___" on its own became a whole sentence, in English and Latin.
+        seen = 0
+        for ref in di_run.all_refs():
+            raw, _ = di_run.resolve(ref)
+            if isinstance(raw, str) and raw.split(" ", 1)[0] in ("F4", "F8E"):
+                seen += 1
+                st = di_run.steps_for(ref)[0]
+                self.assertIn("<strong>", st["show"]["html"], ref)
+                latin = st["show"]["html"].split('class="la">')[1]
+                self.assertGreaterEqual(len(latin.split()), 3, ref)
+        self.assertEqual(seen, 44)
+
+    def test_one_or_more_is_asked_in_a_sentence_after_lesson_4(self):
+        for ref in di_run.all_refs():
+            raw, n = di_run.resolve(ref)
+            if isinstance(raw, str) and raw.startswith("F3 ") and not ref.startswith("4/C/"):
+                self.assertIn("**", raw, ref)
+
+    def test_every_lesson_says_why(self):
+        for L in di_run.load()["lessons"]:
+            self.assertTrue(L.get("today"), L["n"])
+            info = di_run.intro(di_run.new_state(L["n"], "full", "x", 1))
+            self.assertTrue(all(p["why"] for p in info["parts"]), L["n"])
+            self.assertNotIn("new ending", " ".join(p["why"] for p in info["parts"] if L["n"] in (0, 5, 12)).lower())
+
+    def test_lesson_12_is_shorter(self):
+        st = di_run.new_state(12, "full", "x", 1)
+        self.assertEqual(sum(1 for e in st["seq"] if e["p"] == "A"), 10)
+        self.assertLess(len(st["seq"]), 85)
+
     def test_no_screen_says_mastery(self):
         for ref in di_run.all_refs():
             self.assertNotIn("master", json.dumps(di_run.steps_for(ref)).lower(), ref)
@@ -322,12 +353,12 @@ class TestRunner(unittest.TestCase):
         for e in state["seq"]:
             if e["p"] not in parts:
                 parts.append(e["p"])
-        self.assertEqual(parts, ["B", "C", "F"])
+        self.assertEqual(parts, ["I", "B", "C", "F"])          # I: the "Today" screen
         self.assertTrue(all("/F/B/" in e["r"] for e in state["seq"] if e["p"] == "F"))
 
     def test_the_check_alone(self):
         state = di_run.new_state(6, "check", "403217", 1)
-        self.assertEqual({e["p"] for e in state["seq"]}, {"F"})
+        self.assertEqual({e["p"] for e in state["seq"]}, {"I", "F"})
 
     def test_placement(self):
         state = di_run.new_state(0, "placement", "403217", 1)
@@ -494,6 +525,8 @@ class TestRoutes(unittest.TestCase):
         self.student.post("/di/start", data={"n": "0"})
         page = self.student.get("/di/lesson").get_data(as_text=True)
         self.assertIn("Lesson 0", page)
+        self.assertIn("Today, in order", page)
+        self.assertIn("Why so many taps?", page)
         st = self.answer_all(miss_check=2)
         self.assertFalse(st["done"]["ready"])
         page = self.student.get("/di/lesson").get_data(as_text=True)

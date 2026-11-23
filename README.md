@@ -664,6 +664,20 @@ mode**; the teacher can try it first in student mode while it is off.
   and the one-line rule for each correction. `di_run.py` builds and runs a
   lesson; `di_run.problems()` checks every screen, and its list shows at the
   top of the DI mode page if anything is wrong.
+- **Why, on screen.** Every run opens with a **Today** screen: the lesson's
+  one-sentence reason (`today:` in the YAML), each part in order with what it's
+  for and how many screens, and why there are so many taps. Each part's reason
+  shows again on its first screen, and every question has one grey line above
+  it saying why that step comes where it does (`di_run.step_why`). Lessons 0,
+  5 and 12 word some parts their own way (`why:`).
+- **In context.** Building an ending (F4, F8E) is always inside a sentence:
+  the English with the target in bold, the Latin with the word's stem and a
+  blank (*Nauta fāmam puell___ laudat.*). The content check fails if the
+  Latin, once filled in, doesn't translate to exactly that English. One / more
+  than one is asked in a sentence too, except Lesson 4's look-alikes, where
+  it's paired with picking the verb ending.
+- **Lesson 12** reviews ten words in Part A (missed ones first), not all 40
+  (`review_max`).
 - **Correction** is the same every time, with no red X and no "wrong": the
   model (the answer, one rule line, audio), the same item again, back up two
   items, and the missed item again 3–6 items later and in the next lesson's

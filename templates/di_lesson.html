@@ -5,9 +5,10 @@
 {# One screen of a DI lesson (di_run.py). Every answer is a tap except a typed
    check item; a wrong answer brings a plain model screen, never a red X. #}
 <div class="di-head">
-  <div class="small muted">{% if L %}Lesson {{ state.n }} · {% else %}Placement · {% endif %}{% if part != 'P' %}Part {{ part }} · {% endif %}{{ part_name }}</div>
+  <div class="small muted">{% if L %}Lesson {{ state.n }}{% else %}Placement{% endif %}{% if part == 'I' %} · Today{% else %} · {% if part != 'P' %}Part {{ part }} · {% endif %}{{ part_name }}{% endif %}</div>
   <div class="di-progress" aria-hidden="true"><span style="width:{{ (done_frac * 100) | round | int }}%"></span></div>
 </div>
+{% if part_why %}<div class="di-partwhy"><strong>{{ part_name }}.</strong> {{ part_why }}</div>{% endif %}
 {% if notice %}<div class="di-notice">{{ notice }}</div>{% endif %}
 
 <form method="post" action="{{ url_for('di_answer') }}" id="di-form" class="di-form" autocomplete="off">
@@ -25,7 +26,20 @@
   {% endif %}
 {% endmacro %}
 
-{% if st.kind == 'model' %}
+{% if st.kind == 'intro' %}
+  <h1 class="di-intro-title">{{ intro.title }}</h1>
+  {% if intro.lead %}<p class="di-intro-lead">{{ di_md(intro.lead) }}</p>{% endif %}
+  <p class="small muted">Today, in order:</p>
+  <ol class="di-plan">
+    {% for p in intro.parts %}
+    <li><strong>{{ p.name }}</strong> <span class="small muted">· {{ p.count }} screen{{ 's' if p.count != 1 }}</span>
+      <div class="small">{{ p.why }}</div></li>
+    {% endfor %}
+  </ol>
+  {% if intro.taps %}<p class="small muted di-taps">{{ intro.taps }}</p>{% endif %}
+  <button class="bigbtn" type="submit" name="v" value="next">Start</button>
+
+{% elif st.kind == 'model' %}
   <div class="di-model">
     {% if st.table %}
     <table class="di-table">
@@ -68,6 +82,7 @@
   <button class="bigbtn" type="submit" name="v" value="next">Next</button>
 
 {% elif st.kind == 'choice' %}
+  {% if why %}<p class="di-why">{{ why }}</p>{% endif %}
   <p class="di-prompt">{{ st.prompt }}</p>
   {% if st.show.echo %}
     <button type="button" class="bigbtn secondary di-listen" data-say="{{ st.show.echo }}" data-latin data-echo>🔊 Listen</button>
@@ -83,12 +98,14 @@
   </div>
 
 {% elif st.kind == 'tap' %}
+  {% if why %}<p class="di-why">{{ why }}</p>{% endif %}
   <p class="di-prompt">{{ st.prompt }}</p>
   <div class="di-show di-tapline {{ 'la' if not st.english }}">{{ tokens(st) }} {% if not st.english %}{{ say(st.audio) }}{% endif %}</div>
   {% if st.gloss %}<p class="small muted di-gloss">{{ st.gloss }}</p>{% endif %}
   {% if st.extra %}<div class="di-options">{% for x in st.extra %}<button class="di-option" type="submit" name="v" value="{{ x.v }}">{{ x.label }}</button>{% endfor %}</div>{% endif %}
 
 {% elif st.kind == 'type' %}
+  {% if why %}<p class="di-why">{{ why }}</p>{% endif %}
   <p class="di-prompt">{{ st.prompt }}</p>
   <div class="di-show la">{{ st.show.html | safe }} {{ say(st.audio) }}</div>
   <input class="di-input" type="text" name="v" autocapitalize="off" spellcheck="false" autofocus

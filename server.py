@@ -3760,8 +3760,13 @@ def _di_render(state, notice=None):
     part = e["p"]
     shown = sum(1 for x in state["seq"][:state["pos"]])
     names = dict(di_run.PART_NAMES, **((L or {}).get("names") or {}))
+    # Why: the part's reason on its first screen, and one line under each step.
+    first = next((i for i, x in enumerate(state["seq"]) if x["p"] == part), None)
+    part_why = di_run.part_why(L, part) if first == state["pos"] and k == 0 and part != "I" else ""
+    why = "" if st["kind"] in ("model", "note", "reading", "correction", "intro") else di_run.step_why(st, n)
     return render_template("di_lesson.html", state=state, e=e, st=st, k=k, nsteps=len(steps),
-                           L=L, part=part, part_name=names.get(part, ""),
+                           L=L, part=part, part_name=names.get(part, ""), part_why=part_why, why=why,
+                           intro=di_run.intro(state) if st["kind"] == "intro" else None,
                            done_frac=shown / float(max(1, len(state["seq"]))), notice=notice)
 
 

@@ -946,7 +946,7 @@ button.rw .rp { display: inline-block; text-decoration: none; }
 .di-show.la, .di-show .la, .di-tapline.la { font-style: italic; }
 .di-show p { margin: 4px 0; }
 .di-cue { font-style: normal; font-size: 18px; }
-.di-stem { font-size: 26px; }
+.di-stem { font-size: 22px; line-height: 1.35; }
 .di-gloss { margin-top: -8px; }
 .di-options { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 10px 0; }
 .di-options.di-two { grid-template-columns: 1fr 1fr; }
@@ -987,3 +987,15 @@ button.rw .rp { display: inline-block; text-decoration: none; }
 .di-locked { opacity: .55; }
 .di-current { border-color: var(--solid); border-width: 2px; }
 .di-read li { margin: 8px 0; }
+
+/* DI: why each part and each step is there */
+.di-why { color: var(--muted); font-size: 13px; line-height: 1.35; margin: 2px 0 4px; }
+.di-partwhy { background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+  border-radius: 10px; padding: 8px 12px; margin: 8px 0 12px; font-size: 15px; line-height: 1.4; }
+.di-intro-title { margin: 6px 0 4px; font-size: 22px; }
+.di-intro-lead { font-size: 17px; line-height: 1.45; margin: 4px 0 12px; }
+.di-plan { padding-left: 22px; margin: 4px 0 12px; }
+.di-plan li { margin: 0 0 10px; line-height: 1.35; }
+.di-taps { border-top: 1px solid var(--line); padding-top: 10px; }
+/* the sentence's final period sits against the last word's button, not after a gap */
+.di-end { margin-left: -6px; }
