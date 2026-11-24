@@ -1052,3 +1052,8 @@ button.rw .rp { display: inline-block; text-decoration: none; }
   .di-seg-track span { transition: none; }
 }
 @keyframes di-fade { 0%, 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
+
+/* A play button with no recording behind it stays hidden (the .minibtn rule
+   above would otherwise show it). Vocabulary and DI recording pages. */
+.recbtns [hidden] { display: none; }
+.di-recs .recword { line-height: 1.4; }

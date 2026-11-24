@@ -63,6 +63,24 @@ class TestExport(unittest.TestCase):
     def test_it_is_json(self):
         json.loads(backup.export_json(self.conn))
 
+    def test_the_streamed_backup_is_the_same_backup(self):
+        store_mod = __import__("store")
+        store_mod.save_word_audio(self.conn, "puella", "audio/wav", b"RIFF....WAVEfmt " + b"x" * 50)
+        store_mod.save_word_audio(self.conn, "di-abc", "audio/wav", b"RIFF....WAVEfmt " + b"y" * 50)
+        streamed = json.loads("".join(backup.export_stream(self.conn)))
+        whole = backup.export(self.conn)
+        self.assertEqual(sorted(streamed["tables"]), sorted(whole["tables"]))
+        for t, block in whole["tables"].items():            # same rows; the order may differ
+            self.assertEqual(streamed["tables"][t]["columns"], block["columns"])
+            self.assertEqual(sorted(map(json.dumps, streamed["tables"][t]["rows"])),
+                             sorted(map(json.dumps, block["rows"])), t)
+        self.assertEqual(streamed["counts"], whole["counts"])
+        self.assertEqual(streamed["counts"]["word_audio"], 2)
+        self.assertEqual(backup.counts(self.conn), whole["counts"])
+        # and it restores
+        dst = fresh()
+        self.assertEqual(backup.restore(dst, streamed)["word_audio"], 2)
+
     def test_counts_are_reported(self):
         counts = backup.export(self.conn)["counts"]
         self.assertEqual(counts["events"], 6)

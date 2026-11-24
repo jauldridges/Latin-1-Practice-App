@@ -31,7 +31,7 @@
   <input type="hidden" name="step" value="{{ state.step }}">
   <input type="hidden" name="latency_ms" id="latency_ms" value="">
 
-{% macro say(text, latin=true) %}{% if text %}<button type="button" class="di-say" data-say="{{ text }}"{% if latin %} data-latin{% endif %} aria-label="Listen">🔊</button>{% endif %}{% endmacro %}
+{% macro say(text, latin=true) %}{% if text %}<button type="button" class="di-say" data-say="{{ text }}" data-src="{{ di_say_src(text) }}"{% if latin %} data-latin{% endif %} aria-label="Listen">🔊</button>{% endif %}{% endmacro %}
 
 {% macro tokens(s, highlight=[]) %}
   {% if s.layout %}
@@ -66,7 +66,7 @@
     {% endif %}
     {{ st.html | safe }}
   </div>
-  {% if st.audio %}<button type="button" class="bigbtn secondary di-listen" data-say="{{ st.audio }}">🔊 Listen</button>{% endif %}
+  {% if st.audio %}<button type="button" class="bigbtn secondary di-listen" data-say="{{ st.audio }}" data-src="{{ di_say_src(st.audio) }}">🔊 Listen</button>{% endif %}
   <button class="bigbtn" type="submit" name="v" value="next">Next</button>
 
 {% elif st.kind == 'note' %}
@@ -76,7 +76,7 @@
 {% elif st.kind == 'reading' %}
   <h2 class="di-reading-title"><em class="la">{{ st.title }}</em></h2>
   <ol class="di-reading">{% for l in st.lines %}<li>{{ l | safe }}</li>{% endfor %}</ol>
-  <button type="button" class="bigbtn secondary di-listen" data-say="{{ st.audio }}" data-latin>🔊 Listen</button>
+  <button type="button" class="bigbtn secondary di-listen" data-say="{{ st.audio }}" data-src="{{ di_say_src(st.audio) }}" data-latin>🔊 Listen</button>
   <button class="bigbtn" type="submit" name="v" value="next">Next: one sentence at a time</button>
 
 {% elif st.kind == 'correction' %}
@@ -100,7 +100,7 @@
   {% if why %}<p class="di-why">{{ why }}</p>{% endif %}
   <p class="di-prompt">{{ st.prompt }}</p>
   {% if st.show.echo %}
-    <button type="button" class="bigbtn secondary di-listen" data-say="{{ st.show.echo }}" data-latin data-echo>🔊 Listen</button>
+    <button type="button" class="bigbtn secondary di-listen" data-say="{{ st.show.echo }}" data-src="{{ di_say_src(st.show.echo) }}" data-latin data-echo>🔊 Listen</button>
     <p class="di-fallback small muted" id="di-fallback" hidden>This device can't play the sound. Read it instead: <em class="la">{{ st.show.echo }}</em></p>
   {% elif st.show.html %}
     <div class="di-show {{ 'la' if st.show.latin }}">{{ st.show.html | safe }} {{ say(st.audio) }}</div>

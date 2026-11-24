@@ -4,7 +4,9 @@
 // item) to the answer goes in latency_ms; di_run.py brings a right but slow
 // one-tap answer back later in the lesson.
 //
-// Audio: the browser's own speech, no files. Latin is read in an Italian
+// Audio: the teacher's recording when there is one (data-src, recorded at
+// Teacher dashboard -> DI mode -> Record DI mode); otherwise the browser's
+// own speech. Latin is read in an Italian
 // voice (the closest the devices have), everything else in English; a model
 // screen's script marks its Latin *like this*. A device with no speech
 // shows the written form instead.
@@ -53,21 +55,36 @@
     });
     return true;
   }
+  // The teacher's own recording, when there is one (data-src); the
+  // computer voice otherwise.
+  var playing = null;
+  function play(b) {
+    var src = b.getAttribute('data-src');
+    if (!src) return false;
+    if (speech) window.speechSynthesis.cancel();
+    if (playing) { playing.pause(); }
+    playing = b._audio || (b._audio = new Audio(src));
+    playing.currentTime = 0;
+    var p = playing.play();
+    if (p && p.catch) p.catch(function () { say(b.getAttribute('data-say'), b.hasAttribute('data-latin')); });
+    return true;
+  }
   document.addEventListener('click', function (ev) {
     var b = ev.target.closest && ev.target.closest('[data-say]');
     if (!b) return;
     ev.preventDefault();
-    var ok = say(b.getAttribute('data-say'), b.hasAttribute('data-latin'));
+    var ok = play(b) || say(b.getAttribute('data-say'), b.hasAttribute('data-latin'));
     if (!ok) {
       var fb = document.getElementById('di-fallback');
       if (fb) fb.hidden = false;
     }
     if (b.hasAttribute('data-echo')) t0 = Date.now();
   });
-  if (!speech) {
+  var echo = document.querySelector('[data-echo]');
+  if (!speech && !(echo && echo.getAttribute('data-src'))) {
     var fb = document.getElementById('di-fallback');
     if (fb) fb.hidden = false;
-  } else {
+  } else if (speech) {
     window.speechSynthesis.getVoices();   // some browsers load voices lazily
   }
   var input = document.querySelector('.di-input');

@@ -1019,6 +1019,56 @@ def all_refs():
     return refs
 
 
+# --------------------------------------------------------------------------
+# Recordings: every clip a student can hear, so the teacher can record them
+# --------------------------------------------------------------------------
+
+def clip_key(text):
+    """A recording's key, from its exact text: change the text in the lesson
+    file and the old recording no longer plays (it would say the old thing)."""
+    return "di-" + hashlib.sha1(di.nfc(text.strip()).encode("utf-8")).hexdigest()[:20]
+
+
+def _audio_of(st):
+    if st["kind"] in ("model", "reading"):
+        return st.get("audio")
+    if st["kind"] in ("choice", "tap", "type"):
+        return st.get("audio") or (st.get("show") or {}).get("echo")
+    return None
+
+
+def clips():
+    """[{"key", "text", "kind": word|sentence|script|reading, "group", "uses"}],
+    in the order a student meets them: placement, then Lesson 0 to 12. Every
+    word a review could draw counts, not just one sample. Worked out once per
+    lesson file."""
+    global _CLIPS
+    if _CLIPS is not None and _CLIPS[0] is load():
+        return _CLIPS[1]
+    out, seen = [], {}
+    refs = all_refs() + ["%d/A/w/%s" % (LAST, w) for w in words_taught(LAST)]
+    for ref in refs:
+        group = "Placement" if ref.startswith("P/") else "Lesson %s" % ref.split("/")[0]
+        for st in steps_for(ref):
+            text = (_audio_of(st) or "").strip()
+            if not text:
+                continue
+            key = clip_key(text)
+            if key in seen:
+                seen[key]["uses"] += 1
+                continue
+            kind = {"model": "script", "reading": "reading"}.get(st["kind"])
+            if kind is None:
+                kind = "word" if len(text.split()) == 1 else "sentence"
+            seen[key] = {"key": key, "text": text, "kind": kind, "group": group, "uses": 1}
+            out.append(seen[key])
+    _CLIPS = (load(), out)
+    return out
+
+
+_CLIPS = None
+
+
 def problems():
     """What is wrong with the content, in plain words. Empty is fine."""
     out = []

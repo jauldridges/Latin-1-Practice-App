@@ -59,6 +59,55 @@ def export_json(conn):
     return json.dumps(export(conn), ensure_ascii=False, indent=1)
 
 
+# Tables whose rows are big (recordings): read one row at a time.
+ONE_ROW_AT_A_TIME = {"word_audio": "word_key"}
+
+
+def export_stream(conn):
+    """The same backup as export_json(), as pieces of text, so the whole
+    database is never in memory at once. The recordings (hundreds of DI
+    sentences, about 100 KB each) are read and written one by one; a 512 MB
+    server building a 60 MB backup in one piece could run out of memory."""
+    head = {"format": FORMAT, "taken_at": time.time(),
+            "taken_at_human": time.strftime("%Y-%m-%d %H:%M:%S"), "source": conn.target}
+    yield json.dumps(head, ensure_ascii=False)[:-1] + ', "tables": {'
+    counts = {}
+    first = True
+    for table in TABLES:
+        cols = sorted(conn.table_columns(table) - SKIP_COLUMNS.get(table, set()))
+        if not cols:
+            continue
+        yield ("" if first else ",") + "\n%s: {\"columns\": %s, \"rows\": [" % (
+            json.dumps(table), json.dumps(cols, ensure_ascii=False))
+        first = False
+        n = 0
+        key = ONE_ROW_AT_A_TIME.get(table)
+        if key:
+            keys = [r[key] for r in conn.execute("SELECT %s FROM %s ORDER BY %s" % (key, table, key)).fetchall()]
+            rows = (conn.execute("SELECT %s FROM %s WHERE %s=?" % (", ".join(cols), table, key), (k,)).fetchone()
+                    for k in keys)
+        else:
+            rows = iter(conn.execute("SELECT %s FROM %s" % (", ".join(cols), table)).fetchall())
+        for r in rows:
+            if r is None:                     # deleted while the backup ran
+                continue
+            d = dict(r)
+            yield ("," if n else "") + "\n" + json.dumps([d[c] for c in cols], ensure_ascii=False)
+            n += 1
+        counts[table] = n
+        yield "]}"
+    yield '}, "counts": %s}\n' % json.dumps(counts)
+
+
+def counts(conn):
+    """Rows per table, without reading them."""
+    out = {}
+    for table in TABLES:
+        if conn.table_columns(table):
+            out[table] = conn.execute("SELECT COUNT(*) AS n FROM %s" % table).fetchone()["n"]
+    return out
+
+
 def restore(conn, data, replace=False):
     """Load an export back in.
 
@@ -122,5 +171,5 @@ def purge_students(conn):
 
 def end_of_year(conn):
     """Export everything, then delete all student data. Returns (json, removed)."""
-    blob = export_json(conn)
+    blob = "".join(export_stream(conn))
     return blob, purge_students(conn)

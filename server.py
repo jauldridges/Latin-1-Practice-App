@@ -425,7 +425,7 @@ def _audio_versions():
 def say_url(latin):
     """The URL of the teacher's recording of this word, or None.
 
-    The version in the query string changes when she re-records, so a phone
+    The version in the query string changes when the teacher re-records, so a phone
     that cached the old take fetches the new one."""
     key = drill._key(latin or "")
     v = _audio_versions().get(key)
@@ -3855,8 +3855,87 @@ def teacher_di():
         return redirect(url_for("teacher_di"))
     roster = [r["student_id"] for r in store.roster(db, active_only=True)]
     rep = di_run.report(store.all_events(db), roster, week_start=goals.week_start(time.time()))
+    versions = store.word_audio_versions(db)
+    clip_keys = [c["key"] for c in di_run.clips()]
     return render_template("teacher_di.html", on=di_on(db), rep=rep,
+                           audio_done=sum(1 for k in clip_keys if k in versions), audio_total=len(clip_keys),
                            lessons=di_run.load()["lessons"], problems=di_run.problems())
+
+
+# -- DI recordings: the teacher's voice for every sentence, word and model screen.
+# Stored with the vocabulary recordings (word_audio), keyed by the clip's text
+# (di_run.clip_key). A clip with no recording falls back to the computer voice.
+
+DI_AUDIO_MAX_BYTES = 4 * 1024 * 1024          # a model screen can run 40 seconds
+DI_AUDIO_MAX_MS = {"word": 8000, "sentence": 15000, "script": 60000, "reading": 90000}
+
+
+@app.template_global()
+def di_say_src(text):
+    """The URL of the teacher's recording of this DI clip, or ""."""
+    if not text:
+        return ""
+    return say_url_for_key_cached(di_run.clip_key(text)) or ""
+
+
+def say_url_for_key_cached(key):
+    v = _audio_versions().get(key)
+    return url_for("word_audio", key=key, v=int(v)) if v is not None else None
+
+
+def _di_clip_keys():
+    if "di_clip_keys" not in g:
+        g.di_clip_keys = {c["key"] for c in di_run.clips()}
+    return g.di_clip_keys
+
+
+@app.route("/teacher/di/audio")
+def teacher_di_audio():
+    """Every clip in DI mode, lesson by lesson, with a Record button."""
+    versions = store.word_audio_versions(get_db())
+    groups = []
+    for c in di_run.clips():
+        if not groups or groups[-1]["label"] != c["group"]:
+            groups.append({"label": c["group"], "rows": []})
+        groups[-1]["rows"].append(dict(c, has=c["key"] in versions, max=DI_AUDIO_MAX_MS[c["kind"]]))
+    for grp in groups:
+        grp["done"] = sum(1 for r in grp["rows"] if r["has"])
+    total = sum(len(grp["rows"]) for grp in groups)
+    keys = {r["key"] for grp in groups for r in grp["rows"]}
+    unused = sorted(k for k in versions if k.startswith("di-") and k not in keys)
+    return render_template("teacher_di_audio.html", groups=groups, total=total,
+                           recorded=sum(grp["done"] for grp in groups), unused=len(unused))
+
+
+@app.route("/teacher/di/audio/save", methods=["POST"])
+def teacher_di_audio_save():
+    key = request.args.get("key", "")
+    if key not in _di_clip_keys():
+        abort(404)
+    data = request.get_data(cache=False)
+    if not data or len(data) > DI_AUDIO_MAX_BYTES or not (data[:4] == b"RIFF" and data[8:12] == b"WAVE"):
+        return Response("not a recording", status=400)
+    store.save_word_audio(get_db(), key, "audio/wav", data)
+    return {"ok": True, "url": say_url_for_key(key)}
+
+
+@app.route("/teacher/di/audio/delete", methods=["POST"])
+def teacher_di_audio_delete():
+    key = request.form.get("key", "")
+    if key in _di_clip_keys():
+        store.delete_word_audio(get_db(), key)
+    return redirect(url_for("teacher_di_audio") + "#c-" + key)
+
+
+@app.route("/teacher/di/audio/clear-unused", methods=["POST"])
+def teacher_di_audio_clear_unused():
+    """Recordings of text no lesson uses any more (the text was edited)."""
+    db = get_db()
+    keys = _di_clip_keys()
+    for k in store.word_audio_versions(db):
+        if k.startswith("di-") and k not in keys:
+            store.delete_word_audio(db, k)
+    return redirect(url_for("teacher_di_audio"))
 
 
 @app.route("/teacher/di/lesson/<int:n>")
@@ -4265,16 +4344,25 @@ def teacher_backup():
     rather than pg_dump so it restores into either database — a backup that
     only loads back into Render is a backup that depends on Render existing.
     """
-    blob = backup.export_json(get_db())
+    # Streamed piece by piece: the recordings alone are tens of megabytes. The
+    # stream outlives this request's connection, so it holds its own.
     name = "latin1-backup-%s.json" % time.strftime("%Y-%m-%d")
-    return Response(blob, mimetype="application/json",
+
+    def stream():
+        conn = store.connect(DB_PATH)
+        try:
+            for piece in backup.export_stream(conn):
+                yield piece
+        finally:
+            conn.close()
+    return Response(stream(), mimetype="application/json",
                     headers={"Content-Disposition": "attachment; filename=" + name})
 
 
 @app.route("/teacher/data")
 def teacher_data():
     db = get_db()
-    return render_template("teacher_data.html", counts=backup.export(db)["counts"],
+    return render_template("teacher_data.html", counts=backup.counts(db),
                            student_tables=backup.STUDENT_TABLES,
                            storage=db.target,
                            done=request.args.get("purged"),

@@ -218,9 +218,11 @@ servat, pugnat. Also in, cum, ē / ex, ā / ab, et, nōn.
 
 ## 9. Audio
 
-The browser's own speech, no recordings: an Italian voice for Latin, English for the rest. It cannot tell -a from
--ā, so listening items lean on word order and the verb, never on that vowel. Echo items have a text fallback for a
-device with no voice.
+**Changed:** the teacher records every clip (Teacher dashboard → DI mode → Record DI mode in your voice): 461 for
+this strand — 374 sentences, 73 words, 13 model screens read whole, and the Lesson 12 reading — listed in the order
+students meet them. A clip not yet recorded uses the browser's speech (an Italian voice for Latin, which cannot
+tell -a from -ā). Editing a sentence's text asks for a new recording. Echo items have a text fallback for a device
+with neither. A new strand adds its own clips to the same list.
 
 ---
 
@@ -329,8 +331,8 @@ So a plan stays buildable. Python / Flask, server-rendered pages, no build step,
   - adjectives (agreement with a noun of another declension: *nauta bonus*);
   - new sentence shapes: two clauses beyond *et*, infinitives, relative clauses, the passive, participles;
   - a "Your table" for the new strand (cheap once its cells are named).
-- **Current limits worth planning around:** answers are taps, plus typing only in checks; audio can't mark vowel
-  length; every sentence names its subject (no understood "he / she") — a verb strand would have to change that;
+- **Current limits worth planning around:** answers are taps, plus typing only in checks; every new sentence is a
+  new recording for the teacher (about 460 for this strand; the computer voice covers what isn't recorded yet); every sentence names its subject (no understood "he / she") — a verb strand would have to change that;
   each lesson is about 15 minutes and 40–80 screens.
 - **Fixed commitments:** no names (a student is an ID number); never "mastery" (solid / shaky / not yet in
   practice mode; Ready / Again in DI); nothing graded.

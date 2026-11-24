@@ -18,6 +18,9 @@
   {% endif %}
 </form>
 
+<p><a class="bigbtn secondary" href="{{ url_for('teacher_di_audio') }}">🎙 Record DI mode in your voice</a>
+  <span class="small muted">{{ audio_done }} of {{ audio_total }} recorded. Anything not recorded uses the computer voice.</span></p>
+
 {% if problems %}<div class="flags"><strong>Content problems</strong> (di/first-declension.yaml):
   <ul class="small">{% for p in problems %}<li>{{ p }}</li>{% endfor %}</ul></div>{% endif %}
 

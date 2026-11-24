@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}DI recordings — Latin I{% endblock %}
+{% block subtitle %}DI mode{% endblock %}
+{% block content %}
+<p class="small"><a href="{{ url_for('teacher_di') }}">← DI mode</a></p>
+<h1>Record DI mode</h1>
+<p class="small muted">Every sentence, word and model screen a student can hear in DI mode, in the order
+  they meet them. Press <strong>Record</strong>, read it, press <strong>Stop</strong>: it saves, plays back,
+  and the next Record button is ready. <strong>Enter</strong> starts and stops, so you can go down the list
+  without the mouse. Silence at either end is trimmed and the volume evened out.</p>
+<ul class="small muted">
+  <li>Say the long vowels long: that's what the computer voice can't do (<em class="la">puella</em> vs
+    <em class="la">puellā</em>).</li>
+  <li>A <strong>model screen</strong> is read whole, English and Latin together, the way you'd say it in
+    class. Read “___” as “blank,” and an ending like “-ārum” as just the ending.</li>
+  <li>Anything you haven't recorded yet uses the computer voice, so you can record a lesson at a time.
+    The placement check and Lessons 0–2 are the ones students meet first.</li>
+  <li>Re-record to replace a take; ✕ deletes one. If you change a sentence in a lesson, it needs a new
+    recording (the old one would say the old sentence).</li>
+</ul>
+
+<div class="audio-progress"><strong id="nrec">{{ recorded }}</strong> of {{ total }} recorded</div>
+<div id="recmsg" class="recmsg" aria-live="polite"></div>
+
+{% if unused %}
+<form method="post" action="{{ url_for('teacher_di_audio_clear_unused') }}" class="small flags"
+      onsubmit="return confirm('Delete {{ unused }} recording{{ 's' if unused != 1 }} no lesson uses any more?')">
+  {{ unused }} recording{{ 's' if unused != 1 }} of sentences no lesson uses any more (the text was changed).
+  <button class="minibtn" type="submit">Delete {{ 'them' if unused != 1 else 'it' }}</button>
+</form>
+{% endif %}
+
+{% set ns = namespace(opened=false) %}
+{% for grp in groups %}
+{% set open_it = not ns.opened and grp.done < grp.rows | length %}
+{% if open_it %}{% set ns.opened = true %}{% endif %}
+<details class="week" {{ 'open' if open_it }}>
+  <summary><span class="week-name">{{ grp.label }}</span>
+    <span class="small muted wkcount">{{ grp.done }} of {{ grp.rows | length }}</span></summary>
+  <ul class="recwords di-recs">
+    {% for r in grp.rows %}
+    <li id="c-{{ r.key }}" class="{{ 'has' if r.has }} di-rec-{{ r.kind }}" data-label="{{ r.text | truncate(40, True, '…') }}">
+      <span class="recword">
+        {% if r.kind == 'script' %}<span class="small muted">Model screen</span><br>{{ di_md(r.text | replace('___', '___ (blank)')) }}
+        {% elif r.kind == 'reading' %}<span class="small muted">The reading, whole</span><br><em class="la">{{ r.text }}</em>
+        {% else %}<em class="la">{{ r.text }}</em>{% endif %}
+      </span>
+      <span class="recbtns">
+        <button type="button" class="minibtn rec" data-key="{{ r.key }}" data-max="{{ r.max }}"
+                data-hint="{{ 'say the word' if r.kind == 'word' else 'read it' }}">● Record</button>
+        <button type="button" class="minibtn say" data-src="{{ di_say_src(r.text) }}"
+                {{ 'hidden' if not r.has }} aria-label="Play it">▶</button>
+        {% if r.has %}
+        <form method="post" action="{{ url_for('teacher_di_audio_delete') }}" class="inline"
+              onsubmit="return confirm('Delete this recording?')">
+          <input type="hidden" name="key" value="{{ r.key }}">
+          <button class="minibtn del" type="submit" aria-label="Delete it">✕</button>
+        </form>
+        {% endif %}
+      </span>
+    </li>
+    {% endfor %}
+  </ul>
+</details>
+{% endfor %}
+
+<script src="{{ url_for('static', filename='recorder.js') }}" data-save-url="{{ url_for('teacher_di_audio_save') }}"
+        data-rate="16000" data-max="15000"></script>
+{% endblock %}

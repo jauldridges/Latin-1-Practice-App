@@ -288,6 +288,19 @@ class TestContent(unittest.TestCase):
         self.assertEqual(sum(1 for e in st["seq"] if e["p"] == "A"), 10)
         self.assertLess(len(st["seq"]), 85)
 
+    def test_every_sound_is_on_the_recording_list(self):
+        keys = {c["key"] for c in di_run.clips()}
+        for ref in di_run.all_refs():
+            for st in di_run.steps_for(ref):
+                text = di_run._audio_of(st)
+                if text:
+                    self.assertIn(di_run.clip_key(text), keys, (ref, text))
+        # every word a capped review might draw, too
+        for w in di_run.words_taught(di_run.LAST):
+            for st in di_run.steps_for("12/A/w/%s" % w):
+                self.assertIn(di_run.clip_key(di_run._audio_of(st)), keys, w)
+        self.assertEqual(len(keys), len(di_run.clips()))
+
     def test_no_screen_says_mastery(self):
         for ref in di_run.all_refs():
             self.assertNotIn("master", json.dumps(di_run.steps_for(ref)).lower(), ref)
@@ -643,6 +656,61 @@ class TestRoutes(unittest.TestCase):
         page = self.student.get("/di").get_data(as_text=True)
         self.assertIn("Your table", page)
         self.assertIn("0 of 10 endings", page)
+
+    WAV = b"RIFF\x24\x00\x00\x00WAVEfmt " + b"\x00" * 200
+
+    def test_recording_page_is_the_teachers(self):
+        r = self.student.get("/teacher/di/audio")
+        self.assertIn("/login", r.headers.get("Location", ""))
+        key = di_run.clips()[0]["key"]
+        self.student.post("/teacher/di/audio/save?key=" + key, data=self.WAV)
+        self.assertEqual(store.word_audio_versions(self.db), {})
+        page = self.teacher.get("/teacher/di/audio").get_data(as_text=True)
+        self.assertIn('<strong id="nrec">0</strong> of %d recorded' % len(di_run.clips()), page)
+
+    def test_record_a_clip_and_students_hear_it(self):
+        self.turn_on()
+        self.student.post("/di/skip-placement")
+        self.student.post("/di/start", data={"n": "1"})          # locked: nothing starts
+        self.student.post("/di/start", data={"n": "0"})
+        st = self.state()
+        # walk to the first screen with audio
+        for _ in range(60):
+            e, steps, k = di_run.current(st)
+            text = di_run._audio_of(steps[k]) if steps[k]["kind"] != "intro" else None
+            if text:
+                break
+            self.student.post("/di/answer", data={"pos": st["pos"], "step": st["step"], "v": right_value(steps[k])})
+            st = self.state()
+        key = di_run.clip_key(text)
+        self.assertIn(key, {c["key"] for c in di_run.clips()})
+        self.assertNotIn("/audio/" + key, self.student.get("/di/lesson").get_data(as_text=True))
+        r = self.teacher.post("/teacher/di/audio/save?key=" + key, data=self.WAV)
+        self.assertEqual(r.status_code, 200)
+        page = self.student.get("/di/lesson").get_data(as_text=True)
+        self.assertIn("/audio/" + key, page)
+        url = page.split('data-src="')[1].split('"')[0].replace("&amp;", "&")
+        got = self.student.get(url)
+        self.assertEqual((got.status_code, got.data[:4]), (200, b"RIFF"))
+        # deleting it brings the computer voice back
+        self.teacher.post("/teacher/di/audio/delete", data={"key": key})
+        self.assertNotIn("/audio/" + key, self.student.get("/di/lesson").get_data(as_text=True))
+
+    def test_only_real_clips_and_real_recordings_are_saved(self):
+        key = di_run.clips()[5]["key"]
+        self.assertEqual(self.teacher.post("/teacher/di/audio/save?key=di-nothing", data=self.WAV).status_code, 404)
+        self.assertEqual(self.teacher.post("/teacher/di/audio/save?key=" + key, data=b"not a wav").status_code, 400)
+        self.assertEqual(store.word_audio_versions(self.db), {})
+
+    def test_recordings_of_old_text_can_be_cleared(self):
+        store.save_word_audio(self.db, "di-0123456789abcdef0123", "audio/wav", self.WAV)
+        key = di_run.clips()[3]["key"]
+        store.save_word_audio(self.db, key, "audio/wav", self.WAV)
+        store.save_word_audio(self.db, "puella", "audio/wav", self.WAV)          # a vocabulary word: kept
+        page = self.teacher.get("/teacher/di/audio").get_data(as_text=True)
+        self.assertIn("1 recording of sentences no lesson uses any more", page)
+        self.teacher.post("/teacher/di/audio/clear-unused")
+        self.assertEqual(set(store.word_audio_versions(self.db)), {key, "puella"})
 
     def test_a_stale_page_answers_nothing(self):
         self.turn_on()

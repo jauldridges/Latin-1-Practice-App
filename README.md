@@ -685,6 +685,18 @@ mode**; the teacher can try it first in student mode while it is off.
   fills a cell with each Ready; the Ready screen pops the new cell in with
   confetti and shows the longest streak. Reduced motion is respected
   (`di_run.table`, `di_run.parts_bar`, `static/di.js`).
+- **Recordings.** Teacher dashboard → DI mode → **Record DI mode in your
+  voice** (`/teacher/di/audio`) lists every clip a student can hear (461 now:
+  sentences, words, the model screens read whole, the Lesson 12 reading), in
+  the order students meet them, with the vocabulary page's recorder
+  (`static/recorder.js`, shared; DI records at 16 kHz to keep the database
+  small). A clip is keyed by its exact text (`di_run.clip_key`), so editing a
+  sentence asks for a new take; recordings of text no lesson uses can be
+  cleared from the page. Students hear the recording when there is one and the
+  computer voice otherwise. Recordings sit in `word_audio` with the vocabulary:
+  in the backup, kept by the year-end purge. The backup now streams out one
+  recording at a time (`backup.export_stream`) so the server never holds the
+  whole file in memory.
 - **Design doc.** `docs/di-mode-design.md` is the plan as built, for planning
   the rest of the course in a chat. Its Appendices B and C are generated:
   `python3 docs/di_design_appendix.py` after changing the lessons.
@@ -994,6 +1006,7 @@ same loudness. A word is ~30–50 KB. (It uses ScriptProcessorNode, which Chrome
 calls deprecated and still supports everywhere; AudioWorklet would need a
 separate script file for no gain here.)
 
+The recorder is `static/recorder.js`, shared with DI mode's recording page.
 Recordings live in the `word_audio` table as base64 text (the two databases
 disagree about binary columns, and backups are JSON), keyed like the drill keys
 words, so a recording follows its word. The table is in the backup and the
