@@ -461,7 +461,7 @@ def steps_for(ref, n=None):
         right, wrongs = more[0], more[1:]
         options = _shuffle([{"v": "r", "label": right, "sub": ""}] +
                            [{"v": "w%d" % i, "label": w, "sub": ""} for i, w in enumerate(wrongs)], key)
-        return [_choice(body, {"html": "", "latin": False}, options, "r", "**%s**" % right, fmt="F1")]
+        return [_choice(body, {"html": "", "latin": False}, options, "r", "**%s**" % right, fmt="Q")]
 
     raise ValueError("unknown item code %r in %s" % (code, ref))
 
