@@ -2,22 +2,30 @@
 {% block title %}Step by step — Latin I{% endblock %}
 {% block subtitle %}step by step{% endblock %}
 {% block content %}
+{% from "_di_table.html" import your_table %}
 {# Two outcomes at a lesson check, and nothing else: no score, no grade. #}
 <form method="post" action="{{ url_for('di_next') }}" class="di-result">
 {% if done.kind == 'placement' %}
   <h1>Start at Lesson {{ done.lesson }}</h1>
+  {% if done.lesson > 1 %}{{ your_table(tbl, "What you already know") }}{% endif %}
   <p>{% if done.lesson == 12 %}You knew every ending. Lesson 12 puts the whole table together, with a reading.
      {% elif done.lesson == 0 %}Lesson 0 starts with the jobs words do in a sentence, in English.
      {% else %}The lessons before it are open too, if you want to check them.{% endif %}</p>
   <button class="bigbtn" type="submit">Go to the lessons</button>
 {% elif done.ready %}
+  <div data-confetti></div>
   <h1 class="di-ready">Ready</h1>
   <p>{% if state.n < 12 %}Lesson {{ state.n + 1 }} is open.{% else %}That's the whole first declension.{% endif %}</p>
+  {% if best >= 3 %}<p class="small muted">Your longest run of right answers this time: <strong>{{ best }} in a row</strong>.</p>{% endif %}
+  {% if state.n > 0 %}{{ your_table(tbl, "Your table" if new_cells else ("The whole table" if state.n == 12 else "Your table: the same four endings, firmer now")) }}{% endif %}
   <button class="bigbtn" type="submit">Back to the lessons</button>
 {% else %}
   <h1 class="di-again">Again</h1>
-  <p>This lesson runs once more: the examples and the look-alikes, with a new check at the end.</p>
+  <p>This lesson runs once more: the examples and the look-alikes, with a new check at the end.
+    A second run is normal: it's what this is for.</p>
+  {% if best >= 3 %}<p class="small muted">Your longest run of right answers this time: <strong>{{ best }} in a row</strong>.</p>{% endif %}
   <button class="bigbtn" type="submit">Start again</button>
 {% endif %}
 </form>
+<script src="{{ url_for('static', filename='di.js') }}"></script>
 {% endblock %}

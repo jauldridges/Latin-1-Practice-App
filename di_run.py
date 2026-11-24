@@ -612,6 +612,9 @@ def _entries(prefix, items, part):
 
 
 def part_a(L, rnd, missed_words=()):
+    """New words, plus review words. Lessons 5 and 12 review every word so far,
+    capped at review_max: the student's missed words first, then a sample. New
+    words are never cut."""
     n = L["n"]
     A = L.get("A") or {}
     if isinstance(A, list):
@@ -622,12 +625,13 @@ def part_a(L, rnd, missed_words=()):
     review = list(A.get("review") or [])
     if A.get("review_all"):
         review = [w for w in words_taught(n - 1) if w not in words]
+    rnd.shuffle(review)
+    if missed_words:
+        review.sort(key=lambda w: w not in missed_words)
+    if A.get("review_max"):
+        review = review[:int(A["review_max"])]
     seq = words + review
     rnd.shuffle(seq)
-    if missed_words:                                    # Lesson 12: missed words first
-        seq.sort(key=lambda w: w not in missed_words)
-    if A.get("review_max"):
-        seq = seq[:len(words) + int(A["review_max"])]
     out = [{"r": "%d/A/w/%s" % (n, w), "p": "A"} for w in seq]
     out += _entries("%d/A/warmup" % n, A.get("warmup"), "A")
     return out
@@ -808,7 +812,8 @@ def answer(state, value, latency_ms=None):
     state["lat"] = state.get("lat", 0) + int(latency_ms or 0)
     if res == "right" and k + 1 < len(steps):
         state["step"] = k + 1
-        return state, {"result": "right", "event": None, "finished": False}
+        return state, {"result": "right", "event": None, "finished": False,
+                       "cheer": None if _is_check(e) else {"size": "step"}}
     # the item is over: right through every step, or missed at step k
     right = res == "right"
     first = not e.get("f")
@@ -840,10 +845,16 @@ def answer(state, value, latency_ms=None):
           and e.get("f") != "slow" and len(steps) == 1):
         seq.insert(min(pos + 5, _first_check(seq)), {"r": e["r"], "p": e["p"], "f": "slow"})
         event["slow"] = True
+    cheer = None
+    if not _is_check(e):                               # a check gives no help, and no cheer either
+        state["streak"] = state.get("streak", 0) + 1 if right else 0
+        state["best"] = max(state.get("best", 0), state["streak"])
+        if right:
+            cheer = {"size": "item", "streak": state["streak"]}
     state["pos"] = pos + 1
     state["step"] = 0
     state["lat"] = 0
-    return state, _after(state, {"result": "right" if right else "wrong", "event": event})
+    return state, _after(state, {"result": "right" if right else "wrong", "event": event, "cheer": cheer})
 
 
 def _first_check(seq):
@@ -869,6 +880,63 @@ def _after(state, outcome):
 # --------------------------------------------------------------------------
 # Progress, from the event log
 # --------------------------------------------------------------------------
+
+# --------------------------------------------------------------------------
+# What a student can see filling in: the ending table and the parts of a run
+# --------------------------------------------------------------------------
+
+# The cell of the table each lesson teaches: (row, column).
+LESSON_CELLS = {1: [("nom", "sg")], 2: [("acc", "sg")], 3: [("acc", "pl")], 4: [("nom", "pl")],
+                6: [("gen", "pl")], 7: [("gen", "sg")], 8: [("dat", "pl")], 9: [("dat", "sg")],
+                10: [("abl", "sg")], 11: [("abl", "pl")]}
+TABLE_ORDER = ["nom", "gen", "dat", "acc", "abl"]
+CHEERS = ["Yes!", "Right.", "Got it.", "Nice.", "That's it.", "Exactly."]
+
+
+def known_lessons(pr):
+    """Lessons whose cells count as known: passed, or placed past."""
+    return set(pr["ready"]) | set(range(0, pr["placed"] or 0))
+
+
+def table(pr, new=()):
+    """Rows for "Your table": each cell known (its ending), or not yet (None).
+    new: lessons whose cells just filled in, to animate."""
+    known = known_lessons(pr) | set(new)
+    have = {c for n in known for c in LESSON_CELLS.get(n, [])}
+    fresh = {c for n in new for c in LESSON_CELLS.get(n, [])}
+    rows = []
+    for r in TABLE_ORDER:
+        job, case, sg, pl = TABLE_ROWS[r]
+        rows.append({"job": job, "case": case,
+                     "sg": sg if (r, "sg") in have else None, "pl": pl if (r, "pl") in have else None,
+                     "sg_new": (r, "sg") in fresh, "pl_new": (r, "pl") in fresh})
+    return {"rows": rows, "filled": len(have), "of": 10}
+
+
+def parts_bar(state):
+    """The run's parts in order, each done / current / to come, with how far
+    into the current one the student is."""
+    seq, pos = state["seq"], state["pos"]
+    order, span = [], {}
+    for i, e in enumerate(seq):
+        if e["p"] == "I":
+            continue
+        if e["p"] not in span:
+            order.append(e["p"])
+            span[e["p"]] = [i, i]
+        span[e["p"]][1] = i
+    out = []
+    for p in order:
+        a, b = span[p]
+        if pos > b:
+            st, frac = "done", 1.0
+        elif pos >= a:
+            st, frac = "now", (pos - a) / float(b - a + 1)
+        else:
+            st, frac = "todo", 0.0
+        out.append({"part": p, "state": st, "frac": frac, "size": b - a + 1})
+    return out
+
 
 def di_events(events):
     return [e for e in events if e.get("context") == CONTEXT]

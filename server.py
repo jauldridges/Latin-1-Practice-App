@@ -3692,7 +3692,7 @@ def di_home():
     events = store.events_for_student(db, student)
     pr = di_run.progress(events)
     state = _di_state(db, student)
-    return render_template("di_home.html", pr=pr, state=state, student=student,
+    return render_template("di_home.html", pr=pr, state=state, student=student, tbl=di_run.table(pr),
                            title=di_run.load()["title"], off=not di_on(db))
 
 
@@ -3751,9 +3751,21 @@ def di_lesson():
 
 def _di_render(state, notice=None):
     e, steps, k = di_run.current(state)
+    cheer = session.pop("di_cheer", None)
     if e is None:
-        return render_template("di_result.html", state=state, done=state.get("done") or {},
-                               L=di_run.lesson(state["n"]))
+        done = state.get("done") or {}
+        pr = di_run.progress(store.events_for_student(get_db(), current_student()))
+        new = [state["n"]] if done.get("kind") == "check" and done.get("ready") else []
+        if done.get("kind") == "placement":
+            new = list(range(0, done["lesson"]))
+        return render_template("di_result.html", state=state, done=done, L=di_run.lesson(state["n"]),
+                               tbl=di_run.table(pr, new=new), new_cells=bool(set(new) & set(di_run.LESSON_CELLS)),
+                               best=state.get("best", 0))
+    if cheer:
+        cheer = dict(cheer, text=di_run.CHEERS[state["pos"] % len(di_run.CHEERS)])
+        streak = cheer.get("streak") or 0
+        cheer["streak_text"] = "%d in a row" % streak if streak >= 3 else ""
+        cheer["burst"] = streak >= 5 and streak % 5 == 0
     st = steps[k]
     n = state["n"]
     L = di_run.lesson(n) if state["mode"] != "placement" else None
@@ -3767,6 +3779,7 @@ def _di_render(state, notice=None):
     return render_template("di_lesson.html", state=state, e=e, st=st, k=k, nsteps=len(steps),
                            L=L, part=part, part_name=names.get(part, ""), part_why=part_why, why=why,
                            intro=di_run.intro(state) if st["kind"] == "intro" else None,
+                           cheer=cheer, bar=di_run.parts_bar(state),
                            done_frac=shown / float(max(1, len(state["seq"]))), notice=notice)
 
 
@@ -3806,6 +3819,8 @@ def di_answer():
                                "ready" if done["ready"] else "again", context=di_run.CONTEXT, version="v1")
         state["recorded"] = True
     _di_save(db, student, state)
+    if out.get("cheer"):
+        session["di_cheer"] = out["cheer"]
     if out["result"] == "close":
         return _di_render(state, notice="Close: check your spelling and try again.")
     return redirect(url_for("di_lesson"))

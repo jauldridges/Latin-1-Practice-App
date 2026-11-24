@@ -6,8 +6,23 @@
    check item; a wrong answer brings a plain model screen, never a red X. #}
 <div class="di-head">
   <div class="small muted">{% if L %}Lesson {{ state.n }}{% else %}Placement{% endif %}{% if part == 'I' %} · Today{% else %} · {% if part != 'P' %}Part {{ part }} · {% endif %}{{ part_name }}{% endif %}</div>
-  <div class="di-progress" aria-hidden="true"><span style="width:{{ (done_frac * 100) | round | int }}%"></span></div>
+  {% if bar %}
+  <div class="di-parts" aria-hidden="true">
+    {% for b in bar %}
+    <div class="di-seg di-seg-{{ b.state }}" style="flex-grow:{{ b.size }}">
+      <div class="di-seg-track"><span style="width:{{ (b.frac * 100) | round | int }}%"></span></div>
+      <div class="di-seg-label">{{ '✓' if b.state == 'done' else b.part }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
 </div>
+{% if cheer %}
+<div class="di-cheer di-cheer-{{ cheer.size }}" role="status" aria-live="polite"{% if cheer.burst %} data-burst{% endif %}>
+  <span class="di-cheer-mark">✓</span> <span class="di-cheer-text">{{ cheer.text }}</span>
+  {% if cheer.streak_text %}<span class="di-cheer-streak">{{ cheer.streak_text }}</span>{% endif %}
+</div>
+{% endif %}
 {% if part_why %}<div class="di-partwhy"><strong>{{ part_name }}.</strong> {{ part_why }}</div>{% endif %}
 {% if notice %}<div class="di-notice">{{ notice }}</div>{% endif %}
 

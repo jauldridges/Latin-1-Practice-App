@@ -105,7 +105,9 @@ uploaded by the teacher; fed by honest practice each day, runs away after
 tab) teaches the first declension in 13 lessons from my plan "DI Mode: First
 Declension Strand"; I switch it on at Teacher dashboard -> DI mode, which also
 shows who is where and reads out every lesson. Students see only Ready or
-Again. See README, "DI mode".
+Again. See README, "DI mode". `docs/di-mode-design.md` is the whole design as
+built; I'm planning the full DI course (more strands) in a chat from it, and
+will bring each strand's plan back here to build.
 
 **Waiting for you** (`/teacher/approve`) is the one place to approve
 everything new: laws, lessons, questions, teaching text, hint sentences,

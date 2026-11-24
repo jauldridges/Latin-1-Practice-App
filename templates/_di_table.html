@@ -1,0 +1,16 @@
+{# "Your table": the first-declension endings, each cell filled in when its
+   lesson is passed (or placed past). New cells pop in on the Ready screen. #}
+{% macro your_table(tbl, title="Your table") %}
+<div class="di-yours">
+  <div class="di-yours-head"><strong>{{ title }}</strong>
+    <span class="small muted">{{ tbl.filled }} of {{ tbl.of }} endings</span></div>
+  <table class="di-ytable">
+    <tr><th></th><th>One</th><th>More than one</th></tr>
+    {% for r in tbl.rows %}
+    <tr><th>{{ r.job }}<div class="small muted">{{ r.case }}</div></th>
+      <td class="{{ 'di-have' if r.sg else 'di-gap' }}{{ ' di-pop' if r.sg_new }}">{{ r.sg or '?' }}</td>
+      <td class="{{ 'di-have' if r.pl else 'di-gap' }}{{ ' di-pop' if r.pl_new }}">{{ r.pl or '?' }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endmacro %}

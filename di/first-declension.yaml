@@ -340,6 +340,7 @@ lessons:
   A:
     words: [patria, fāma, vīta, nōn]
     review_all: true
+    review_max: 8
   B:
     models:
       - text: "TABLE nom acc"

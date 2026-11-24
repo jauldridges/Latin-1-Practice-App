@@ -676,8 +676,18 @@ mode**; the teacher can try it first in student mode while it is off.
   Latin, once filled in, doesn't translate to exactly that English. One / more
   than one is asked in a sentence too, except Lesson 4's look-alikes, where
   it's paired with picking the verb ending.
-- **Lesson 12** reviews ten words in Part A (missed ones first), not all 40
-  (`review_max`).
+- **Lessons 5 and 12** review 8 and 10 words in Part A (missed ones first),
+  not every word so far (`review_max`); new words are never cut.
+- **Engagement.** A right answer outside a check gets a quick green check that
+  pops and fades, with the streak from three in a row and confetti every fifth;
+  a miss resets the streak silently. The progress bar is split into the run's
+  parts. **Your table** (the first-declension table, every cell "?" at first)
+  fills a cell with each Ready; the Ready screen pops the new cell in with
+  confetti and shows the longest streak. Reduced motion is respected
+  (`di_run.table`, `di_run.parts_bar`, `static/di.js`).
+- **Design doc.** `docs/di-mode-design.md` is the plan as built, for planning
+  the rest of the course in a chat. Its Appendices B and C are generated:
+  `python3 docs/di_design_appendix.py` after changing the lessons.
 - **Correction** is the same every time, with no red X and no "wrong": the
   model (the answer, one rule line, audio), the same item again, back up two
   items, and the missed item again 3–6 items later and in the next lesson's

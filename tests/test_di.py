@@ -276,6 +276,13 @@ class TestContent(unittest.TestCase):
             self.assertTrue(all(p["why"] for p in info["parts"]), L["n"])
             self.assertNotIn("new ending", " ".join(p["why"] for p in info["parts"] if L["n"] in (0, 5, 12)).lower())
 
+    def test_lesson_5_keeps_its_new_words_and_reviews_eight(self):
+        for run in range(1, 6):
+            st = di_run.new_state(5, "full", "x", run, missed_words={"stēlla"})
+            words = [e["r"].split("/")[-1] for e in st["seq"] if e["p"] == "A"]
+            self.assertEqual(len(words), 12)
+            self.assertTrue({"patria", "fāma", "vīta", "nōn", "stēlla"} <= set(words))
+
     def test_lesson_12_is_shorter(self):
         st = di_run.new_state(12, "full", "x", 1)
         self.assertEqual(sum(1 for e in st["seq"] if e["p"] == "A"), 10)
@@ -389,6 +396,67 @@ class TestRunner(unittest.TestCase):
     def test_the_state_is_small(self):
         state = di_run.new_state(12, "full", "403217", 1)
         self.assertLess(len(json.dumps(state)), 6000)
+
+
+class TestEngagement(unittest.TestCase):
+    def test_a_right_answer_cheers_and_counts_the_streak(self):
+        state = di_run.new_state(2, "full", "x", 1)
+        streaks = []
+        for _ in range(400):
+            e, steps, k = di_run.current(state)
+            if e is None or e["p"] == "F":
+                break
+            st = steps[k]
+            state, out = di_run.answer(state, right_value(st), 1000)
+            if st["kind"] in ("choice", "tap", "type"):
+                self.assertIsNotNone(out["cheer"])
+                if out["cheer"]["size"] == "item":
+                    streaks.append(out["cheer"]["streak"])
+        self.assertEqual(streaks, list(range(1, len(streaks) + 1)))
+        self.assertEqual(state["best"], len(streaks))
+
+    def test_a_miss_resets_the_streak_and_gets_no_cheer(self):
+        state = di_run.new_state(2, "full", "x", 1)
+        state["streak"] = state["best"] = 4
+        while True:
+            e, steps, k = di_run.current(state)
+            if steps[k]["kind"] == "choice":
+                break
+            di_run.answer(state, di_run.NEXT)
+        state, out = di_run.answer(state, wrong_value(steps[k]), 1000)
+        self.assertIsNone(out["cheer"])
+        self.assertEqual(state["streak"], 0)
+        self.assertEqual(state["best"], 4)
+
+    def test_the_check_gives_no_cheer(self):
+        state = di_run.new_state(3, "check", "x", 1)
+        di_run.answer(state, di_run.NEXT)                    # the Today screen
+        e, steps, k = di_run.current(state)
+        _, out = di_run.answer(state, right_value(steps[k]), 1000)
+        self.assertIsNone(out["cheer"])
+
+    def test_the_table_fills_in_lesson_by_lesson(self):
+        pr = {"ready": {0, 1, 2, 3}, "placed": 0}
+        t = di_run.table(pr)
+        self.assertEqual(t["filled"], 3)
+        rows = {r["job"]: r for r in t["rows"]}
+        self.assertEqual((rows["Subject"]["sg"], rows["Direct object"]["pl"]), ("-a", "-ās"))
+        self.assertIsNone(rows["Subject"]["pl"])
+        t = di_run.table(pr, new=[4])
+        self.assertTrue({r["job"]: r for r in t["rows"]}["Subject"]["pl_new"])
+        # placed at Lesson 6: Lessons 0-5 count as known
+        self.assertEqual(di_run.table({"ready": set(), "placed": 6})["filled"], 4)
+        everything = di_run.table({"ready": set(range(13)), "placed": 0})
+        self.assertEqual(everything["filled"], 10)
+        self.assertEqual(sum(len(c) for c in di_run.LESSON_CELLS.values()), 10)
+
+    def test_the_parts_bar(self):
+        st = di_run.new_state(7, "full", "x", 1)
+        self.assertEqual([b["state"] for b in di_run.parts_bar(st)], ["todo"] * 6)
+        st["pos"] = next(i for i, e in enumerate(st["seq"]) if e["p"] == "C")
+        bar = di_run.parts_bar(st)
+        self.assertEqual([b["part"] for b in bar], ["A", "B", "C", "D", "E", "F"])
+        self.assertEqual([b["state"] for b in bar], ["done", "done", "now", "todo", "todo", "todo"])
 
 
 class TestProgress(unittest.TestCase):
@@ -529,6 +597,7 @@ class TestRoutes(unittest.TestCase):
         self.assertIn("Why so many taps?", page)
         st = self.answer_all(miss_check=2)
         self.assertFalse(st["done"]["ready"])
+        self.assertGreater(st["best"], 5)
         page = self.student.get("/di/lesson").get_data(as_text=True)
         self.assertIn("Again", page)
         for word in ("mastery", "score", "/8", "wrong"):
@@ -539,7 +608,9 @@ class TestRoutes(unittest.TestCase):
         self.assertEqual(st["set"], "B")
         st = self.answer_all()
         self.assertTrue(st["done"]["ready"])
-        self.assertIn("Ready", self.student.get("/di/lesson").get_data(as_text=True))
+        page = self.student.get("/di/lesson").get_data(as_text=True)
+        self.assertIn("Ready", page)
+        self.assertIn("data-confetti", page)
         self.student.post("/di/next")
         self.assertIsNone(self.state())
         page = self.student.get("/di").get_data(as_text=True)
@@ -548,6 +619,30 @@ class TestRoutes(unittest.TestCase):
         checks = [e["result"] for e in events if e["item_id"] == "di:check:0"]
         self.assertEqual(checks, ["again", "ready"])
         self.assertTrue(all(e["context"] == "di" for e in events))
+
+    def test_a_right_answer_shows_a_cheer_once(self):
+        self.turn_on()
+        self.student.post("/di/skip-placement")
+        self.student.post("/di/start", data={"n": "0"})
+        st = self.state()
+        self.student.post("/di/answer", data={"pos": st["pos"], "step": st["step"], "v": "next"})  # Today
+        for _ in range(30):
+            st = self.state()
+            e, steps, k = di_run.current(st)
+            if steps[k]["kind"] in ("choice", "tap"):
+                break
+            self.student.post("/di/answer", data={"pos": st["pos"], "step": st["step"], "v": "next"})
+        self.student.post("/di/answer", data={"pos": st["pos"], "step": st["step"],
+                                              "v": right_value(steps[k]), "latency_ms": "900"})
+        self.assertIn('class="di-cheer', self.student.get("/di/lesson").get_data(as_text=True))
+        self.assertNotIn('class="di-cheer', self.student.get("/di/lesson").get_data(as_text=True))
+
+    def test_the_home_page_shows_the_table(self):
+        self.turn_on()
+        self.student.post("/di/skip-placement")
+        page = self.student.get("/di").get_data(as_text=True)
+        self.assertIn("Your table", page)
+        self.assertIn("0 of 10 endings", page)
 
     def test_a_stale_page_answers_nothing(self):
         self.turn_on()

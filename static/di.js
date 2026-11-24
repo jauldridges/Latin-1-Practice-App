@@ -72,4 +72,28 @@
   }
   var input = document.querySelector('.di-input');
   if (input) input.focus();
+
+  // Celebrations: confetti on a passed check and on every fifth right answer
+  // in a row. Nothing moves for a student who has asked for reduced motion.
+  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function confetti(n, top) {
+    var colors = ['#2f6f4f', '#e0a526', '#d9644a', '#4a7fd9', '#8a5ad9'];
+    for (var i = 0; i < n; i++) {
+      var c = document.createElement('span');
+      c.className = 'di-confetti';
+      var a = Math.random() * Math.PI * 2, d = 120 + Math.random() * 180;
+      c.style.background = colors[i % colors.length];
+      c.style.top = top;
+      c.style.setProperty('--x', Math.round(Math.cos(a) * d) + 'px');
+      c.style.setProperty('--y', Math.round(Math.sin(a) * d + 120) + 'px');
+      c.style.setProperty('--r', Math.round(Math.random() * 720 - 360) + 'deg');
+      c.style.animationDelay = Math.round(Math.random() * 120) + 'ms';
+      document.body.appendChild(c);
+      setTimeout(function (el) { return function () { el.remove(); }; }(c), 1700);
+    }
+  }
+  if (!still) {
+    if (document.querySelector('.di-cheer[data-burst]')) confetti(24, '42%');
+    if (document.querySelector('[data-confetti]')) confetti(60, '22%');
+  }
 })();

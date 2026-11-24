@@ -2,6 +2,7 @@
 {% block title %}Step by step — Latin I{% endblock %}
 {% block subtitle %}step by step{% endblock %}
 {% block content %}
+{% from "_di_table.html" import your_table %}
 <h1>{{ title }}</h1>
 {% if off %}<div class="flags small">Only you can see this: DI mode is off for students. Turn it on at
   Teacher dashboard → DI mode.</div>{% endif %}
@@ -33,6 +34,7 @@
     <button class="bigbtn secondary" type="submit">Skip it: start at Lesson 0</button></form>
 </div>
 {% else %}
+{{ your_table(tbl) }}
 {% if pr.finished %}<div class="card"><p><strong>You've finished the strand.</strong> Every first-declension ending, and the job each one does.</p></div>{% endif %}
 <ol class="di-lessons">
   {% for l in pr.lessons %}
